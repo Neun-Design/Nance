@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{ super() }}
+
+  <div id="edqms-chat-btn" title="Ask AI">💬</div>
+
+  <div id="edqms-chat-panel">
+    <div id="edqms-chat-header">
+      Ask AI
+      <button id="edqms-chat-close" aria-label="Close chat">✕</button>
+    </div>
+    <div id="edqms-chat-messages" role="log" aria-live="polite"></div>
+    <div id="edqms-chat-input-row">
+      <input
+        id="edqms-chat-input"
+        type="text"
+        placeholder="Ask about EDQMS…"
+        autocomplete="off"
+        aria-label="Chat input"
+      />
+      <button id="edqms-chat-send" aria-label="Send">Send</button>
+    </div>
+  </div>
+{% endblock %}
