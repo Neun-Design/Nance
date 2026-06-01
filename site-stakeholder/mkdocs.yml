@@ -1,0 +1,44 @@
+site_name: EDQMS
+site_description: Event Driven Quality Management System — ISO 9001:2015 aligned
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+
+nav:
+  - Home:
+    - Welcome: index.md
+    - How to use this site: how-to-use-this-site.md
+    - Project Status: project-status.md
+  - The Project:
+    - Intro: project/intro.md
+    - First Phase: project/first-phase.md
+    - Second Phase: project/second-phase.md
+    - Third Phase: project/third-phase.md
+    - Roadmap: project/roadmap.md
+  - Discovery:
+    - Intro: discovery/intro.md
+    - Assumptions: discovery/assumptions.md
+    - Workshop: discovery/workshop.md
+    - Problem Statement: discovery/problem-statement.md
+  - Prototyping:
+    - Intro: prototype/intro.md
+    - Grounding: prototype/grounding.md
+    - Data Model: prototype/data-model.md
+    - Prototype: prototype/prototype.md
+  - Validation:
+    - Intro: audit/intro.md
+    - End-to-End Case: audit/end-to-end-case.md
+    - MVP Assessment: audit/mvp-assessment.md
+  - Develop and Deploy:
+    - Intro: implementation/intro.md
+  - Q&A:
+    - Q&A: questions/index.md

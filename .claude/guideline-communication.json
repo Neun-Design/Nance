@@ -1,0 +1,54 @@
+{
+  "stakeholder": {
+    "goal": "Assess the business objectives associated with the project and define how the initiative is 
+    designed to address them. It needs to make it clear the Return On Effort.",
+    "role": "An individual with domain expertise who contributes to project development or holds decision‑making authority",
+    "reference": [
+      "https://openclassrooms.com/en/courses/7462561-write-the-technical-documentation-for-your-project/7640188-create-documentation-for-stakeholders",
+      "https://www.projectmanager.com/blog/stakeholder-communication-plan",
+      "https://www.linkedin.com/advice/3/what-best-way-involve-stakeholders-project-documentation-g0nge"
+    ]
+  },
+  "investor": {
+    "goal": "Return On Investiment",
+    "role": "",
+    "reference": [
+
+    ]
+  },
+  "developer": {
+    "goal": "",
+    "role": "",
+    "reference": [
+
+    ]
+  },
+  "user": {
+    "goal": "",
+    "role": "",
+    "reference": [
+
+    ]
+  },
+  "community": {
+    "goal": "",
+    "role": "",
+    "reference": [
+
+    ]
+  },
+  "partner": {
+    "goal": "",
+    "role": "",
+    "reference": [
+
+    ]
+  },
+  "customer": {
+    "goal": "",
+    "role": "",
+    "reference": [
+
+    ]
+  }
+}

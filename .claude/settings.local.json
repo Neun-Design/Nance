@@ -1,7 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(gh auth *)",
+      "Bash(ssh *)",
+      "Bash(python3 -m json.tool /Volumes/Projetos/EDQMS/sourceFiles/EDBPM_ER-Diagram.json)",
+      "Bash(mv /Volumes/Projetos/EDQMS/sourceFiles/EDBPM_ER-Diagram.json.tmp /Volumes/Projetos/EDQMS/sourceFiles/EDBPM_ER-Diagram.json)",
+      "mcp__claude_ai_Microsoft_365__sharepoint_search",
+      "mcp__claude_ai_Microsoft_365__sharepoint_folder_search",
+      "mcp__claude_ai_Microsoft_365__read_resource",
+      "mcp__claude_ai_Lucid__fetch",
+      "Bash(python3 *)",
+      "Read(//Users/rafaelbova/.config/nvim/**)",
+      "Read(//Users/rafaelbova/.config/nvim/lua/**)",
+      "Bash(nvim --headless -c \"checkhealth\" -c \"qa\")",
+      "Bash(nvim --headless -c \"qa\")"
     ]
   }
 }

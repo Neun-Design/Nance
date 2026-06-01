@@ -1,0 +1,23 @@
+{
+  "content-type": {
+    "goal": "Establish how the content is to be used in the creation of information assets and documentation.",
+    "contentTypeCategory": {
+      "context": "Supporting documentation used to enable the development of features and the creation of related materials, such as instructions.",
+      "instruction": "Guideline on how to develop a given subject or subject setup.",
+      "issue": "Improvement assessment detailed discription, nonconformuties.",
+      "insight": "Brainstorming about ideas and improvement opportunities to be considered in the projet.",
+      "meeting": "Transcripts from meetings and calls"
+    }
+  },
+  "subject": {
+    "goal": "Specify the intended use of the content.",
+    "subjectCategory": {
+      "overview": "understand and mapping of the project or problem",
+      "claude-code": "develop or update claude code features or settings",
+      "datamodel": "develop or update workflows and entity relationship data models",
+      "prototype": "Define the documentation for prototyping solutions based on Jake Knapp Srpint book",
+      "method": "Establish the approach for addressing the challenges identified in the project",
+      "concept": "The idea that drives the inovation or solution",
+      "project": "develop the informations and documentation needed to develop the solution for the problem raised."
+    }
+}
