@@ -74,7 +74,8 @@
 
   function init() {
     const { btn, panel, closeBtn, input, sendBtn } = getElements();
-    if (!btn) return;
+    if (!btn || btn.dataset.chatInit) return;
+    btn.dataset.chatInit = "1";
 
     btn.addEventListener("click", () => {
       panel.classList.toggle("open");
@@ -95,7 +96,11 @@
     });
   }
 
-  if (document.readyState === "loading") {
+  // MkDocs Material instant navigation replaces the DOM on each page visit
+  // without firing DOMContentLoaded, so we must re-init via document$.
+  if (typeof document$ !== "undefined") {
+    document$.subscribe(init);
+  } else if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
