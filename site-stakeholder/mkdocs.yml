@@ -22,22 +22,27 @@ theme:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: black
+      accent: purple
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
+
   features:
-    - navigation.sections
     - navigation.top
-    - toc.integrate
+    - navigation.expand
     - navigation.instant
     - navigation.path
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.indexes
     - toc.follow
+    - search.suggest
 
 markdown_extensions:
+  - admonition
   - toc:
-      permalink: false
+      permalink: true
   - tables
 
 extra_css:

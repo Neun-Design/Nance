@@ -8,7 +8,7 @@
 |  . |  How to use this site | - | A guideline on how the site was structured and how to read and interact with it |
 |  . |Project Status* |  | A dashboard for stakeholders to check project status |
 | The Project |  ./project | - | |
-|  . |  Intro | `overview` | what is the project, when it started and why, and whats the phases roadmap. |
+|  . |  Intro | `overview` `value-proposition`| what is the project, when it started and why, and whats the phases roadmap. |
 |  . |  First Phase | `overview` | First phase scope and purpose|
 |  . |  Second Phase | `overview` `project`| second phase scope and purpose|
 |  . |  Third Phase | `overview` |third phase scope and purpose|
@@ -16,15 +16,15 @@
 |  Discovery |  ./discovery | - | |
 |  . |  Intro | `method`  | Explain why and how the discovery process was designed and its purpose |
 |  . |  Assumptions |  `project` |Capture the customer’s view of the problem and how it was identified|
-|  . |  Workshop | `method` `project` `prototype` | Discover what the problem really was|
-|  . |  Problem Statement | `project`  `prototype`| using the assumption and the opportunities map to decide on the problem to solve |
+|  . |  Workshop | `method` `project` `prototype`  `value-proposition`| Discover what the problem really was|
+|  . |  Problem Statement | `project`  `prototype` `value-proposition`| using the assumption and the opportunities map to decide on the problem to solve |
 |  Prototyping |  ./prototype | - |  |
-|  . |  Intro |  `method` `prototype`  `prototype`  |what the use of a prototype for a project like this  |
-|  . |  Grounding | `concept` `prototype`  | ISO9001 relevance, Event Driven Architecture|
+|  . |  Intro |  `method` `prototype`  `value-proposition`  |what the use of a prototype for a project like this  |
+|  . |  Grounding | `concept` `prototype` `value-proposition` | ISO9001 relevance, Event Driven Architecture|
 |  . |  Data Model | `prototype` `datamodel`  | show the concise data model necessary to build the prototype |
 |  . |  Prototype | `prototype` `overview`  | How the prototype will be used and developed|
 |  Validation |  ./audit | - | |
-|  . |  Intro | `concept` `method` `project`| why it is important to validate a prototype (fail fast strategy) |
+|  . |  Intro | `concept` `method` `project` `value-proposition`| why it is important to validate a prototype (fail fast strategy) |
 |  . |  End-to-End Case | `project` `prototype` |Use a real case to apply the prototype in order to audit events|
 |  . |  MVP Assessment | `method` `project` `prototype`| How to tranform the prototype into a Minimal Vaible Product|
 |  Develop and Deploy |  ./implementation | - | |

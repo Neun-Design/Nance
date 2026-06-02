@@ -56,10 +56,18 @@ This is the solution being prototyped in Phase 2 and operationalised in Phase 3.
 
 ## Connection to Business Value
 
-The business case for solving this problem is anchored in three operational realities:
+The business case for solving this problem is anchored in two structural concerns that the discovery work surfaced directly from the Engineering Hub's operations.
 
-**Interchangeability** — As the hub grows and organisational structures evolve, it must be possible to identify divergences between quality management systems and absorb them without operational disruption. A procedure-based system makes that possible. An informal, person-dependent system does not.
+**Onboarding continuity** — As the hub grows and new engineers and managers join distributed teams, there is no structured system they can reference to understand how work is executed, who is responsible, and what requirements apply. Knowledge lives with individuals, not with the organisation. Every new hire is therefore a risk to operational continuity rather than a capacity addition.
 
-**Onboarding** — New managers and engineers need a documented system to reference from their first day. Without it, every new hire is a risk to operational continuity, not a capacity addition.
+**Strategy resilience** — When internal or external variables change — organisational restructuring, shifts in customer requirements, regulatory updates, new regional scope — there is no documented baseline to evaluate what must be adapted and what can be preserved. The absence of that baseline means the operation must improvise its response every time.
 
-**Governance** — A hub operating across multiple regions and time zones cannot be governed through informal coordination. Quality management must be embedded in the execution architecture — which is exactly what EDQMS is designed to provide.
+Both concerns point to the same structural absence: a governance architecture capable of connecting operational events to the decisions, procedures, and requirements that govern the correct response.
+
+Solving the problem defined above is what fills that absence. The three organisational outcomes that result are:
+
+| Outcome | What it means in practice |
+| :--- | :--- |
+| **Onboarding speed** | New hires have a documented system to reference from day one — reducing dependence on informal knowledge transfer and individual availability |
+| **Cross-regional consistency** | Any qualified engineer in any region can execute a procedure correctly, without relying on institutional memory held in a specific location |
+| **Governance at scale** | As the hub grows, quality controls scale with it — embedded in the execution architecture rather than layered on top as periodic audits |

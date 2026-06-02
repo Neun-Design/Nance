@@ -50,6 +50,24 @@ The prototype is hosted on **Microsoft SharePoint Lists** — a tool already in 
 
 The seven interconnected lists that form the prototype are accessible to the Northwind Energy team with appropriate sharing permissions. The full list of entities and access links is provided in the [Data Model](data-model.md) page.
 
+## Value at Stake
+
+The prototype is the mechanism through which the project answers a decisive question for stakeholders:
+
+> *"When something happens, will we know when to act, what is required, and how to execute it all?"*
+
+A prototype that answers this question — correctly, traceably, and within an ISO 9001:2015 framework — demonstrates that the methodology works and can be scaled to the full operation. A prototype that fails to answer it reveals the structural gaps before Phase 3 spending begins.
+
+This is the direct link between the prototype and the three organisational outcomes the project is designed to deliver:
+
+| Outcome | How the prototype tests it |
+| :--- | :--- |
+| **Onboarding speed** | Can a team member unfamiliar with a specific case type execute a procedure from the template alone? |
+| **Cross-regional consistency** | Does the template structure hold across different event types, business units, and regional interfaces? |
+| **Governance at scale** | Are the entity relationships and field definitions sufficient to support the quality traceability ISO 9001:2015 requires? |
+
+If the prototype passes these tests, the path to Phase 3 is clear. If it does not, the gaps are inexpensive to correct at this stage.
+
 ## What This Section Covers
 
 The pages in this Prototyping section explain:

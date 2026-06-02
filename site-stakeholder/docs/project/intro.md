@@ -23,7 +23,9 @@ From the outset, two gaps were identified:
 1. **Demand clarity** — Business units could not substantiate the engineering hours they had projected. The hub lacked a clear picture of the service scopes it would deliver.
 2. **Execution clarity** — Process maps described ideal future states but did not document how work should actually be done today. Managers and engineers could not connect daily tasks to requirements and objectives.
 
-These two gaps feed the same root cause: the absence of a structured, event-driven approach to quality operations.
+These two gaps feed the same root cause: the absence of a consistent, intelligible record of findings made and decisions taken. Without such a record there is no traceability of strategy. Successes cannot be replicated. Mistakes recur. Onboarding new team members becomes a slow, informal process that transfers risk rather than knowledge.
+
+This is not a minor operational gap — it is a **governance problem**. And it must be addressed at the start of an initiative, not retrofitted after the damage has compounded.
 
 ## Project Question
 
@@ -66,11 +68,20 @@ Each phase builds on the previous. Phase 1 produced the diagnosis. Phase 2 valid
 
 ## Return on Effort
 
-The value this project delivers is not theoretical. A quality management system built on structured, event-driven procedures directly reduces the cost of operational ambiguity:
+The value this project delivers is not theoretical. A quality management system built on structured, event-driven procedures directly reduces the cost of operational ambiguity. The three concrete organisational outcomes are:
 
-- **Reduced onboarding time** — new engineers and managers have a system to reference from day one, rather than learning informally from colleagues
-- **Cross-regional interoperability** — standardised procedures mean any engineer in any region can execute a task without depending on institutional memory held in a specific location
-- **Risk visibility** — events that surface process deviations are captured and traceable, not handled informally and forgotten
-- **Governance at scale** — as the hub grows, quality controls grow with it, rather than lagging behind headcount
+| Outcome | What it means in practice |
+| :--- | :--- |
+| **Onboarding speed** | New hires have a documented system to reference from day one — reducing dependence on informal knowledge transfer and individual availability |
+| **Cross-regional consistency** | Any qualified engineer in any region can execute a procedure correctly, without relying on institutional memory held in a specific location |
+| **Governance at scale** | As the hub grows, quality controls scale with it — embedded in the execution architecture rather than layered on top as periodic audits |
 
-These outcomes justify the investment in building the system correctly from the start, rather than retrofitting it after problems compound.
+These outcomes are the reason the investment in building the system correctly from the start — rather than accumulating informal processes that will later require expensive remediation — is justified.
+
+### Operations become both reactive and predictive
+
+A purely reactive operation responds to problems after they occur. A purely predictive one attempts to anticipate all scenarios in advance — which, in practice, produces process libraries that are never used.
+
+EDQMS enables a third mode: **structured reactivity**. When an operational event occurs, the system already knows which process applies, what requirements are in scope, and how to execute the response. Changes to internal structure or external conditions are handled not by rebuilding from scratch, but by updating the specific nodes — sources, requirements, constraints, payloads — that govern the affected operations.
+
+This makes the operation resilient to change without sacrificing the consistency that ISO 9001:2015 requires.
