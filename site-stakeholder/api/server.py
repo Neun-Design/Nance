@@ -10,26 +10,44 @@ from pydantic import BaseModel
 
 load_dotenv()
 
-SOURCES_DIR = Path(__file__).parent.parent.parent / "sourceFiles"
+_ROOT = Path(__file__).parent.parent.parent
+SITE_DOCS_DIR = _ROOT / "site-stakeholder" / "docs"
+SOURCES_DIR = _ROOT / "sourceFiles"
 
 
-def _load_knowledge_base() -> str:
+def _load_site_content() -> str:
     chunks = []
-    for md_file in sorted(SOURCES_DIR.glob("*.md")):
-        chunks.append(f"## {md_file.name}\n\n{md_file.read_text(encoding='utf-8')}")
+    for md_file in sorted(SITE_DOCS_DIR.rglob("*.md")):
+        rel = md_file.relative_to(SITE_DOCS_DIR)
+        chunks.append(f"### {rel}\n\n{md_file.read_text(encoding='utf-8')}")
     return "\n\n---\n\n".join(chunks)
 
 
-_KNOWLEDGE_BASE = _load_knowledge_base()
+def _load_reference_sources() -> str:
+    # top-level glob only — ignores the archive/ subfolder
+    chunks = []
+    for md_file in sorted(SOURCES_DIR.glob("*.md")):
+        chunks.append(f"### {md_file.name}\n\n{md_file.read_text(encoding='utf-8')}")
+    return "\n\n---\n\n".join(chunks)
+
+
+_SITE_CONTENT = _load_site_content()
+_REFERENCE_SOURCES = _load_reference_sources()
 
 _SYSTEM_PROMPT = f"""You are an expert assistant for EDQMS (Event Driven Quality Management System), \
 an ISO 9001:2015-aligned quality management framework built for Northwind Energy stakeholders. \
-Answer questions clearly and concisely using the project documentation provided below. \
+Answer questions clearly and concisely using the documentation provided below. \
+The stakeholder site content is your primary source. \
+Use the reference documents only to provide additional technical depth or to resolve gaps not covered by the site. \
 If a question falls outside the documentation, say so honestly and suggest the stakeholder contact the project team.
 
-<documentation>
-{_KNOWLEDGE_BASE}
-</documentation>"""
+<primary_source title="Stakeholder Site Content">
+{_SITE_CONTENT}
+</primary_source>
+
+<reference_sources title="Technical Reference Documents">
+{_REFERENCE_SOURCES}
+</reference_sources>"""
 
 app = FastAPI(title="EDQMS Chat API")
 
