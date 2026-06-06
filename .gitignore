@@ -15,5 +15,5 @@ dist/
 build/
 site-stakeholder/site/
 
-# Large media files (use Git LFS for these)
-*.mp4
+# Raw source media (not for deployment)
+sourceFiles/*.mp4
