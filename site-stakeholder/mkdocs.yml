@@ -1,4 +1,5 @@
-site_name: EDQMS
+site_name: Engineerign Hub Governance
+site_url: https://bovarafa.github.io/EDQMS/
 site_description: Event Driven Quality Management System — ISO 9001:2015 aligned
 docs_dir: docs
 
@@ -27,8 +28,14 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
+  icon:
+    previous: fontawesome/solid/angle-left
+    next: fontawesome/solid/angle-right
+    annotation: material/clock
 
   features:
+    - content.footnote.tooltips
+    - navigation.footer
     - navigation.top
     - navigation.expand
     - navigation.instant
@@ -40,7 +47,26 @@ theme:
     - search.suggest
 
 markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - footnotes
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
   - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
   - tables
@@ -55,13 +81,15 @@ nav:
   - Home:
     - Welcome: index.md
     - How to use this site: how-to-use-this-site.md
-    - Project Status: project-status.md
+    - Project Status: 
+      - Timeline: timeline.md
+      - Deliverables: deliverables.md
+      - Kanban: kanban.md
   - The Project:
     - Intro: project/intro.md
     - First Phase: project/first-phase.md
     - Second Phase: project/second-phase.md
     - Third Phase: project/third-phase.md
-    - Roadmap: project/roadmap.md
   - Discovery:
     - Intro: discovery/intro.md
     - Assumptions: discovery/assumptions.md
@@ -77,6 +105,6 @@ nav:
     - End-to-End Case: audit/end-to-end-case.md
     - MVP Assessment: audit/mvp-assessment.md
   - Develop and Deploy:
-    - Intro: implementation/intro.md
+    - Develop and Deploy: implementation/index.md
   - Q&A:
     - Q&A: questions/index.md

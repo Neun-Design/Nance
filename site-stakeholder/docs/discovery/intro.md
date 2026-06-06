@@ -18,25 +18,21 @@ The engagement began with a hypothesis from the Engineering Hub's leadership: th
 
 The Discovery process was designed to test that hypothesis — not to confirm it.
 
-## How the Discovery Was Structured
-
-The discovery methodology followed a structured, two-stage approach:
-
-### Stage 1: Contextual Analysis
+### Contextual Analysis
 
 Before evaluating processes, it was necessary to understand the operating environment. This meant examining:
 
-- The market context for power transformer repair across the relevant regions
+- The [commercial context](https://neundesign.sharepoint.com/:p:/s/Northwind-Offer/IQCHk2AX6whNQ4cssmEEzvGYAQRrOHVg4VDU2Z6Sq6UEb3g?e=K4ONfn) for power transformer repair across the relevant regions
 - The existing Quality Management System and how it applied to the new hub's scope
-- The risk and opportunity landscape that would shape process design
+- The [risk and opportunity](https://neundesign.sharepoint.com/:p:/s/Northwind-Offer/IQDEyeuwaRj-SahTWUp_XFigAQe8zKkDhdr-o1rjWm3nieI?e=UXhXQV) landscape that would shape process design
 
 This stage was guided by ISO 9001:2015 §4.1 (organisational context), §4.2 (interested party requirements), and §4.3 (QMS scope). The standard provided the analytical framework precisely because it requires organisations to look outward before designing inward.
 
-### Stage 2: Process Evaluation and Workshop
+### Process Evaluation and Workshop
 
 The second stage went inside the operations. It examined the existing offer process maps, the roles and competencies required, and — most critically — how the people doing the work understood what was expected of them.
 
-This stage culminated in a workshop that brought together stakeholders and actors to map improvement opportunities. The workshop did not deliver a solution. It delivered something more valuable: a clear, shared understanding of the real problem.
+This stage culminated in a workshop that brought together stakeholders and actors to map [improvement oppotunities](https://neundesign.sharepoint.com/:x:/s/Northwind-Offer/IQCbdMCQAfGESr1CDyV8pJuUAbQE4WtiOnaE-x8FtKQAFgA?e=lXVUBf). The workshop did not deliver a solution. It delivered something more valuable: a clear, shared understanding of the real problem.
 
 ## What the Discovery Revealed
 

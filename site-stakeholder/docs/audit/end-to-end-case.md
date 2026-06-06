@@ -10,15 +10,28 @@ The end-to-end case study is the practical core of the validation phase. It take
 
 ## Why a Real Case
 
-Two approaches were available for validating the prototype:
 
-**Hypothetical mapping** — defining procedures from scratch based on ideally described service scopes. This approach allows control over complexity but produces procedures that may not reflect how work is actually done.
+<div class="grid cards" markdown>
 
-**Real case mapping** — using an existing project as the source of procedure definitions. This approach is harder because the evidence is messier, but it provides a stronger validation signal. If the template can handle real case data, it can handle the variation it will encounter in production.
+- >   __Hypothetical mapping__
+
+    ---
+
+    >Defining procedures from scratch based on ideally described service scopes. This approach allows control over complexity but produces procedures that may not reflect how work is actually done.
+
+-   __Real case mapping__
+
+    ---
+
+    Using an existing project as the source of procedure definitions. This approach is harder because the evidence is messier, but it provides a stronger validation signal. If the template can handle real case data, it can handle the variation it will encounter in production.
+
+</div>
 
 The decision was made to use a real case, for a specific and important reason: domain experts produce better, more reliable procedure definitions when they work from concrete examples rather than abstract scenarios. A procedure developed by reference to a real project is more likely to be accurate, actionable, and replicable.
 
-There is also an operational benefit to this approach: once the procedures for a given case have been mapped through the prototype, the hub has working documentation for that case type — documentation that can be applied immediately to future projects with similar scope.
+!!! Note "Operational Benefit"
+
+    Once the procedures for a given case have been mapped through the prototype, the hub has working documentation for that case type — documentation that can be applied immediately to future projects with similar scope.
 
 ## The Selected Case: Livorno
 
@@ -30,28 +43,34 @@ The Livorno case involves six operational interfaces across four Northwind Energ
 
 | ID | Owner | Business Unit | Department |
 | :--- | :--- | :--- | :--- |
-| ITF-001 | Thomas | Nuremberg | Engineering |
-| ITF-002 | Joao | Charlotte | Engineering |
-| ITF-003 | Bicca | Linz | Engineering |
-| ITF-004 | — | Weiz | Engineering |
-| ITF-005 | — | Charlotte | Project Management |
-| ITF-006 | — | Linz | Project Management |
+| ITF-001 | - | Nuremberg | Factory Engineering |
+| ITF-002 | - | Global | Engineering |
+| ITF-003 | — | Weiz |  Factory Engineering |
+| ITF-004 | — | Charlotte |  Factory Engineering |
+| ITF-005 | — |Linz|  Factory Engineering |
+| ITF-006 | — | Charlotte | Project Management |
+| ITF-007 | — | Linz | Project Management |
 
 The inclusion of multiple locations and both Engineering and Project Management departments means the validation exercise will test how well the template handles inter-regional, cross-functional event flows — the operational condition that is most likely to surface gaps.
 
-## Events Selected for Validation
+## Audit Planning
 
 Not all events in the Offer Process boundary are being audited in this phase. The events were selected to ensure stakeholders have enough material to understand the real-world impact of the prototype on daily operations:
 
-| Event | Producer | Consumer | Estimated Audit Time |
+!!! Info "Producer vs Consumer Interfaces"
+
+    The interface that generates the event is referred to as the **Producer**, while the interface that processes or responds to the event is called the **Consumer**.
+
+| [Event](http://localhost:8000/prototype/prototype/#events){data-preview} | Producer | Consumer | Estimated Audit Time |
 | :--- | :--- | :--- | :--- |
-| Offer Calculation Requested | Charlotte (Project Mgmt) | Charlotte Engineering, Linz Engineering | 18 hours |
-| FIA Support Requested | Charlotte (Project Mgmt) | Charlotte Engineering, Linz Engineering | 28 hours |
-| Technical Data Requested | Linz, Charlotte | Nuremberg | 21 hours |
-| Technical Data Released | Nuremberg | Linz, Charlotte | 12 hours |
-| Offer Calculation Released | Charlotte, Linz | Linz, Charlotte | 18 hours |
+| Offer Calculation Requested |`ITF-006` `ITF-007`|`ITF-002`| 18 hours |
+| FIA Support Requested |`ITF-006` `ITF-007`|`ITF-002`| 28 hours |
+| Technical Data Requested |`ITF-002`|`ITF-001`| 21 hours |
+| Technical Data Released |`ITF-001`|`ITF-002`| 12 hours |
+| Offer Calculation Released |`ITF-002`|`ITF-003` `ITF-004`<br>`ITF-005` `ITF-006` `ITF-007`| 18 hours |
 
 Total estimated audit time: **97 hours**
+
 
 ## How the Audit Works
 

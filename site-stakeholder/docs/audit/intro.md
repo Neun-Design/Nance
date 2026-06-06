@@ -12,7 +12,7 @@ For a project like EDQMS, skipping or shortening this phase would be a significa
 
 ## Why Validation is Non-Negotiable
 
-The prototype was designed to be minimal by intent. Minimal means it is fast to build and fast to test — but it also means it makes assumptions about the template structure, the field definitions, the entity relationships, and the procedure-level detail that may not hold under all conditions.
+The [prototype](http://localhost:8000/prototype/prototype/#accessing-the-prototype){data-preview} was designed to be minimal by intent. Minimal means it is fast to build and fast to test — but it also means it makes assumptions about the template structure, the field definitions, the entity relationships, and the procedure-level detail that may not hold under all conditions.
 
 There are two ways those assumptions can be tested:
 

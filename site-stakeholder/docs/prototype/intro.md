@@ -10,7 +10,7 @@ A prototype is not a product. It is a structured experiment. Its purpose is to v
 
 For the EDQMS project, this distinction is particularly important. The problem being solved is methodological: can a single, structured template for Standard Operating Procedures capture the full complexity of the Engineering Hub's engineering events? That question cannot be answered by architecture alone. It can only be answered by applying the template to real operational data and observing what happens.
 
-## Why Prototyping is the Right Approach Here
+## Why Prototyping?
 
 Three characteristics of the EDQMS project make prototyping the correct strategy at this stage:
 
@@ -28,7 +28,7 @@ If the template has structural limitations — missing fields, ambiguous procedu
 
 The prototype is the investment that protects the larger investment.
 
-## What the Prototype Does Not Do
+## What the Prototype Does Not Cover
 
 The prototype is intentionally minimal. It does not:
 

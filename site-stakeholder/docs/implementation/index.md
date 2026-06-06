@@ -4,7 +4,11 @@ audience: stakeholder
 purpose: "Overview on how the next phase will work"
 ---
 
-# Develop and Deploy — Introduction
+# System Implementation
+
+!!! WARNING
+
+    This page will be updated upon the initiation of Phase 3, including a detailed description of its scope, execution methodology, and scheduled deliverables.
 
 Phase 3 is where the EDQMS project produces its lasting operational value. The discovery work identified the problem. The validation work confirmed the solution's viability and defined its requirements. Phase 3 builds and deploys that solution so the Engineering Hub can use it as a permanent part of its quality management practice.
 
@@ -35,21 +39,33 @@ This sequencing is deliberate. A Phase 3 proposal scoped before those deliverabl
 
 Based on the known MVP requirements and the scoped-out prototype capabilities, Phase 3 is expected to include work across four domains:
 
-### System Development
+<div class="grid cards" markdown>
 
-Building the production system — whether as an evolved SharePoint implementation, a purpose-built application, or a configured enterprise platform — according to the Target-State Solution Architecture specification.
+-   __System Development__
 
-### Integration
+    ---
 
-Connecting the EDQMS system to Northwind Energy's existing operational infrastructure. The specific integration points will be defined in Deliverable 005, but are likely to include the ERP system, identity management (for authentication), and any existing process management tooling.
+    Building the production system — whether as an evolved SharePoint implementation, a purpose-built application, or a configured enterprise platform — according to the Target-State Solution Architecture specification.
 
-### Organisational Deployment
+-   __Integration__
 
-Configuring the system for the hub's operational structure: defining roles, assigning ownership, populating the initial procedure library from the validated prototype outputs, and establishing the governance process for ongoing maintenance and improvement.
+    ---
 
-### Handover and Training
+    Connecting the EDQMS system to Northwind Energy's existing operational infrastructure. The specific integration points will be defined in Deliverable 005, but are likely to include the ERP system, identity management (for authentication), and any existing process management tooling.
 
-Ensuring the hub's quality management function can operate, maintain, and extend the system independently after the engagement is complete. This is the condition that makes the Phase 3 investment sustainable: a system that requires continuous external consulting to operate has not been successfully deployed.
+-   __Organisational Deployment__
+
+    ---
+
+    Configuring the system for the hub's operational structure: defining roles, assigning ownership, populating the initial procedure library from the validated prototype outputs, and establishing the governance process for ongoing maintenance and improvement.
+
+-   __Handover and Training__
+
+    ---
+
+    Ensuring the hub's quality management function can operate, maintain, and extend the system independently after the engagement is complete. This is the condition that makes the Phase 3 investment sustainable: a system that requires continuous external consulting to operate has not been successfully deployed.
+
+</div>
 
 ## The Condition for Starting Phase 3
 
