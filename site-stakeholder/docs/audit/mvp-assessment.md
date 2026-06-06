@@ -15,7 +15,7 @@ A Minimal Viable Product is not a reduced version of the full solution. It is th
 For the EDQMS project, an MVP must be able to:
 
 1. Be used by the engineering team in their daily work — not just demonstrated in a validation exercise
-2. Handle the full range of event types in the validated [process boundary](http://localhost:8000/prototype/prototype/#process-boundary){data-preview} without structural gaps
+2. Handle the full range of event types in the validated [process boundary](https://bovarafa.github.io/EDQMS/prototype/prototype/#process-boundary){data-preview} without structural gaps
 3. Enforce accountability through defined ownership at every level — event, process, activity, procedure
 4. Support basic reporting and management review without requiring manual extraction of data
 5. Be maintained and extended by the hub's quality management function without external dependency

@@ -70,11 +70,11 @@ To understand what has been completed, what is currently in progress, and what i
 
 The prototype tests whether the solution design is sound before committing the investment required to build the full system.
 
-The core question the prototype answers is: can a single, unified [SOP template](http://localhost:8000/prototype/data-model/#procedure){ data-preview } structure accommodate all the variations of engineering events in the hub's offer process? That question cannot be answered by design alone — it can only be answered by applying the template to real operational data.
+The core question the prototype answers is: can a single, unified [SOP template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){ data-preview } structure accommodate all the variations of engineering events in the hub's offer process? That question cannot be answered by design alone — it can only be answered by applying the template to real operational data.
 
 Building the full production system before that question is answered would risk discovering structural limitations only after a significant Phase 3 investment has been made, at which point corrections are far more expensive.
 
-The [prototype](http://localhost:8000/prototype/prototype/#accessing-the-prototype){ data-preview} is the investment that protects the larger investment.
+The [prototype](https://bovarafa.github.io/EDQMS/prototype/prototype/#accessing-the-prototype){ data-preview} is the investment that protects the larger investment.
 
 ---
 
@@ -85,7 +85,7 @@ Two deliverables will be produced:
 - **Prototype Implementation Assessment** — a comprehensive report identifying all structural improvements required to transition from prototype to MVP, derived from the non-conformity log generated during the validation exercise
 - **Target-State Solution Architecture** — a system architecture blueprint defining the structure, integrations, and capabilities required for the production implementation
 
-These two documents will define the scope, timeline, and investment for the final [Implementation Phase](http://localhost:8000/implementation/).
+These two documents will define the scope, timeline, and investment for the final [Implementation Phase](https://bovarafa.github.io/EDQMS/implementation/).
 
 ---
 
@@ -97,7 +97,7 @@ Specifically, this means:
 
 - The Broker role (the function responsible for connecting events to processes and defining the business rules that govern procedure activation) should be staffed internally, ideally by the Quality Manager or a designated process manager
 - The procedure library will require ongoing maintenance as processes evolve, new case types emerge, and the hub expands to new regions
-- New procedure definitions will follow the same template structure validated in [Phase 2](http://localhost:8000/project/second-phase/), ensuring consistency as the library grows
+- New procedure definitions will follow the same template structure validated in [Phase 2](https://bovarafa.github.io/EDQMS/project/second-phase/), ensuring consistency as the library grows
 
 The system is designed so that maintaining it is part of the quality management function — not an additional overhead.
 

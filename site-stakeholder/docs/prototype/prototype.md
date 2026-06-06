@@ -6,7 +6,7 @@ purpose: "How the prototype will be used and developed"
 
 # Prototype
 
-The prototype is the working instrument of Phase 2. It is not a finished system — it is a structured experiment built to answer a specific question: can a single [SOP template](http://localhost:8000/prototype/data-model/#procedure){ data-preview } accommodate all the variations of activity criteria that appear across the Engineering Hub's engineering processes?
+The prototype is the working instrument of Phase 2. It is not a finished system — it is a structured experiment built to answer a specific question: can a single [SOP template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){ data-preview } accommodate all the variations of activity criteria that appear across the Engineering Hub's engineering processes?
 
 ## Process Boundary
 
@@ -24,7 +24,7 @@ The following events, defined within the Offer Process boundary, will be availab
 
 !!! Note
     
-    During the [audit planning](http://localhost:8000/audit/end-to-end-case/#audit-planning) phase, the most relevant events from the list below will be selected. In some cases, auditing all events within a given boundary may introduce unnecessary noise or redundancy.
+    During the [audit planning](https://bovarafa.github.io/EDQMS/audit/end-to-end-case/#audit-planning) phase, the most relevant events from the list below will be selected. In some cases, auditing all events within a given boundary may introduce unnecessary noise or redundancy.
 
 | ID | Event | Description |
 | :--- | :--- | :--- |
@@ -76,7 +76,7 @@ Two strategies were considered for auditing the selected events:
 | **Track A: Project-Oriented** | Map procedures based on real projects currently in development or already delivered | Less time-consuming; uses validated real data | Requires multiple projects to cover all activity variations |
 | **Track B: Service Scope-Oriented** | Map procedures based on hypothetical service scopes, designing steps from scratch | Enables selection of the most relevant scopes; focuses on high-impact procedures | More time-consuming; steps must be defined from first principles |
 
-The chosen approach for this phase is documented in the [Case Study section](http://localhost:8000/audit/end-to-end-case/).
+The chosen approach for this phase is documented in the [Case Study section](https://bovarafa.github.io/EDQMS/audit/end-to-end-case/).
 
 ## Prototype Outputs
 

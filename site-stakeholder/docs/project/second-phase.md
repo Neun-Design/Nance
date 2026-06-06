@@ -12,7 +12,7 @@ The second phase of the EDQMS project is the current phase. It is executed under
 
 Phase 1 produced the diagnosis. Phase 2 tests the remedy against reality — before committing to a full implementation. This approach follows a "fail fast" strategy: it is far less costly to discover limitations in a controlled prototype context than after a production system has been built and deployed.
 
-The validation is conducted through an **end-to-end engineering process case study** — a real project from the hub's existing portfolio applied to the prototype's structured procedure [templates](http://localhost:8000/prototype/data-model/#prototype-access). If the prototype can absorb the complexity of a real case, it is ready to be refined into a Minimal Viable Product. If gaps are found, they are documented as non-conformities and addressed before the next phase.
+The validation is conducted through an **end-to-end engineering process case study** — a real project from the hub's existing portfolio applied to the prototype's structured procedure [templates](https://bovarafa.github.io/EDQMS/prototype/data-model/#prototype-access). If the prototype can absorb the complexity of a real case, it is ready to be refined into a Minimal Viable Product. If gaps are found, they are documented as non-conformities and addressed before the next phase.
 
 ## Objectives
 
@@ -28,7 +28,7 @@ Phase 2 has four objectives:
 | ID | Deliverable | Description | Duration |
 | :--- | :--- | :--- | :--- |
 | 001 | Strategic Execution Roadmap | An event-driven execution timeline for the end-to-end audit process | 1 week |
-| 002 | [Standard Operational Procedures Template](http://localhost:8000/prototype/data-model/#procedure){data-preview} | A structured set of Microsoft Lists for creating and validating SOPs | 3 weeks |
+| 002 | [Standard Operational Procedures Template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){data-preview} | A structured set of Microsoft Lists for creating and validating SOPs | 3 weeks |
 | 003 | Prototype Implementation Assessment | Report identifying all improvements needed to reach MVP | 1 week |
 | 005 | Target-State Solution Architecture | System architecture blueprint for the implementation of the MVP | 1 week |
 
