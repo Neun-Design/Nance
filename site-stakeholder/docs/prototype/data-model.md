@@ -22,7 +22,7 @@ config:
     layout: elk
     elk:
       mergeEdges: true
-      nodePlacementStrategy: LINEAR_SEGMENTS
+      nodePlacementStrategy: LINEAR_SEGMENTASK
 ---
 erDiagram
     Event ||--|{ Process : "TRIGGERS"

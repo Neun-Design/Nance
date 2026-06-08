@@ -14,7 +14,11 @@
       "Read(//Users/rafaelbova/.config/nvim/**)",
       "Read(//Users/rafaelbova/.config/nvim/lua/**)",
       "Bash(nvim --headless -c \"checkhealth\" -c \"qa\")",
-      "Bash(nvim --headless -c \"qa\")"
+      "Bash(nvim --headless -c \"qa\")",
+      "Bash(curl -s http://localhost:8001/api/chat -X POST -H 'Content-Type: application/json' -d '{\"messages\":[{\"role\":\"user\",\"content\":\"What is EDQMS and what phase is the project currently in?\"}]}')",
+      "Bash(curl -s http://localhost:8001/api/chat -X POST -H 'Content-Type: application/json' -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Can you explain the Broker pattern and how Payloads connect Events to Activities?\"}]}')",
+      "Bash(mkdocs build *)",
+      "Bash(curl -s \"https://api.github.com/repos/BOVArafa/EDQMS/actions/runs?branch=docs%2Fstakeholder&per_page=3\")"
     ]
   }
 }
