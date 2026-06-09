@@ -10,7 +10,7 @@ purpose: "General greetings for the stakeholder site and its purpose"
   <source src="assets/EDQMS__Governance_Gap.mp4" type="video/mp4">
 </video>
 
-This site is the stakeholder-facing documentation for the **EDQMS project** — an Event Driven Quality Management System being developed by Neun Design for Northwind Energy's Global Power Transformer Repair Engineering Hub.
+This site serves as the stakeholder‑facing documentation for the **EDQMS project**—an Event‑Driven Quality Management System developed by Neun Design for Northwind Energy. The initiative is designed to establish EDQMS as the **governance framework** for the Global Power Transformer Repair Engineering Hub, enabling structured, scalable, and traceable engineering operations.
 
 Whether you are a project sponsor, a process owner, an operations manager, or a decision-maker evaluating the progress of this initiative, this site gives you everything you need to understand what we are building, why it matters, and the current status of where we are in the roadmap.
 
