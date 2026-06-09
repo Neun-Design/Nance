@@ -12,7 +12,7 @@ purpose: "General greetings for the stakeholder site and its purpose"
 
 This site serves as the stakeholder‑facing documentation for the **EDQMS project**—an Event‑Driven Quality Management System developed by Neun Design for Northwind Energy. The initiative is designed to establish EDQMS as the **governance framework** for the Global Power Transformer Repair Engineering Hub, enabling structured, scalable, and traceable engineering operations.
 
-Whether you are a project sponsor, a process owner, an operations manager, or a decision-maker evaluating the progress of this initiative, this site gives you everything you need to understand what we are building, why it matters, and the current status of where we are in the roadmap.
+Whether you are a project sponsor, a process owner, an operations manager, or a engineer trying to figured it out what you supposed to do, this site gives you everything you need to understand what we are building, why it matters, and the current status of where we are in the roadmap.
 
 ## Why This Initiative Matters
 
