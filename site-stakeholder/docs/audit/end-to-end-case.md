@@ -61,13 +61,13 @@ Not all events in the Offer Process boundary are being audited in this phase. Th
 
     The interface that generates the event is referred to as the **Producer**, while the interface that processes or responds to the event is called the **Consumer**.
 
-| [Event](https://bovarafa.github.io/EDQMS/prototype/prototype/#events){data-preview} | Consumer |Producer| Estimated Audit Time |
+| [Event](https://bovarafa.github.io/EDQMS/prototype/prototype/#events){data-preview} | Producer |Consumer| Estimated Audit Time |
 | :--- | :--- | :--- | :--- |
 | Offer Calculation Requested |`ITF-006` `ITF-007`|`ITF-002`| 18 hours |
 | FIA Support Requested |`ITF-006` `ITF-007`|`ITF-002`| 28 hours |
 | Technical Data Requested |`ITF-002`|`ITF-001`| 21 hours |
 | Technical Data Released |`ITF-001`|`ITF-002`| 12 hours |
-| Offer Calculation Released |`ITF-002`|`ITF-003` `ITF-004`<br>`ITF-005` `ITF-006` `ITF-007`| 18 hours |
+| Offer Calculation Released |`ITF-002`|`ITF-004`<br>`ITF-005` `ITF-006` `ITF-007`| 18 hours |
 
 Total estimated audit time: **97 hours**
 
