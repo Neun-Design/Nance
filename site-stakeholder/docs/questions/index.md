@@ -37,7 +37,7 @@ EDQMS solves this by making every operational event the entry point to a traceab
 
 Let’s use the planner role as an example to illustrate a practical use case.
 
-Without the proposed framework, the planner would rely heavily on experienced designers to identify the correct processes and activities for each request, with limited visibility into role eligibility or execution time. This makes planning slow, inconsistent, and dependent on individual knowledge.
+Without the proposed **governance framework**, the planner would rely heavily on experienced designers to identify the correct processes and activities for each request, with limited visibility into role eligibility or execution time. This makes planning slow, inconsistent, and dependent on individual knowledge.
 
 With the implementation of EDQMS, the planner gains autonomy through structured and standardized data. Activities, procedures, and roles can be filtered using defined criteria—such as identifying which tasks can be performed by a specific role—while also providing visibility into execution effort. This reduces dependency on experts and enables more consistent planning decisions.
 
