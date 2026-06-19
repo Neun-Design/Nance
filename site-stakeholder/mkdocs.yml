@@ -84,6 +84,7 @@ nav:
     - Project Status: 
       - Timeline: timeline.md
       - Deliverables: deliverables.md
+      - Roadmap: roadmap.md
       - Kanban: kanban.md
   - The Project:
     - Intro: project/intro.md

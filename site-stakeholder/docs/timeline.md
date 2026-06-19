@@ -11,7 +11,7 @@ hide:
 
 timeline
         section PHASE I 
-          January : TASK-001<br>Market and Organization Context Briefing
+          January : TASK-001<br>Contextual Analysis
           Febuary : TASK-002<br>Quality Management System analysis
                   : TASK-003<br>Process Assessment
           March : TASK-004<br>Workshop
