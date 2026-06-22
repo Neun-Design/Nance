@@ -101,6 +101,7 @@ nav:
     - Grounding: prototype/grounding.md
     - Data Model: prototype/data-model.md
     - Prototype: prototype/prototype.md
+    - Power Apps Guide: prototype/power-apps-guide.md
   - Validation:
     - Intro: audit/intro.md
     - End-to-End Case: audit/end-to-end-case.md
