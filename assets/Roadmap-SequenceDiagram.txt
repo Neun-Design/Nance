@@ -58,11 +58,11 @@ activate PERD
 parallel 
 Issues->*SOP: Controls
 destroy Issues
-PERD->Neun:<position:right>Do current scopes reflect real **business logic** across\nproducts and services?
+PERD->Neun:<position:right>Do current scopes\nreflect real **business logic** across\nproducts and services?
 parallel off
 box over SOP: **USE CASE**\n\nThe **Engineering Manager** is responsible \nfor ensuring that critical process \n**activities** are standardized to the extent\n that any competent resource can **execute** \nthem with minimal dependency on mentorship\n or implicit knowledge transfer.
 group#fc9ab1 #transparent #e35d7c;2 GAP 02 - ISO9001:2015 Clause 8
-Neun->PERD:<position:right>The existing portfolio overview does not differentiate\nservice scopes based on product types, services or\noperational constraints.
+Neun->PERD:<position:right>The existing portfolio overview\ndoes not differentiate service \nscopes based on  product types, \nservices or operational constraints.
 end
 
 parallel off
@@ -77,7 +77,7 @@ parallel
 
 
 
-PERD->Neun:<position:right>Who are the clients, and what value does global engineering provide?
+PERD->Neun:<position:right>Who are the clients,  and what\nvalue does global engineering provide?
 parallel off
 group#81cffc #transparent #blue;2;dashed BUSINESS MODEL
 Neun->PERD:<position:left>**Customers:**\n- Service Business Units across multiple regions;\n- Factory operations in the United States and Europe.\n**Value:**\n- Access engineering resources on demand;\n- Reduces internal overhead by shifting workload\nto the global engineering hub;\n- More efficient allocation of engineering capacity.
