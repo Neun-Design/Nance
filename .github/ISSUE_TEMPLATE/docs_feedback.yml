@@ -1,0 +1,47 @@
+name: Documentation feedback
+description: Report an error, gap, or unclear section in the published docs.
+title: "docs: "
+labels: ["type: docs", "status: triage", "audience: stakeholder"]
+body:
+  - type: dropdown
+    id: site
+    attributes:
+      label: Which site?
+      options:
+        - Stakeholder site
+        - Developer site
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page or section
+      placeholder: "e.g. Risk Management / Event Engine"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Type of issue
+      options:
+        - Factual error
+        - Missing information
+        - Unclear / confusing
+        - Broken link
+        - Typo / formatting
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction (optional)

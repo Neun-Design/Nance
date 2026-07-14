@@ -1,0 +1,53 @@
+name: Design / prototype feedback
+description: Report a UI/UX issue or suggest an improvement to the interactive prototype.
+title: "design: "
+labels: ["type: design", "status: triage", "audience: stakeholder"]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      options:
+        - Overview
+        - Customers
+        - Operation
+        - Inventory
+        - Workload
+        - Control
+        - Talent
+    validations:
+      required: true
+
+  - type: input
+    id: tab
+    attributes:
+      label: Tab (if applicable)
+      placeholder: "e.g. Task Templates, Jobs, Tickets"
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Type of feedback
+      options:
+        - Data shown is incorrect or unexpected
+        - Filter does not work as expected
+        - Chart is hard to read or misleading
+        - Form / drawer behaviour issue
+        - Visual / layout problem
+        - Missing information
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue or suggestion
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot or recording (optional)
+      description: Paste an image or Loom link.

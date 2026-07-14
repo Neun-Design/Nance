@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a new capability for the prototype, docs, or data model.
+title: "feat: "
+labels: ["type: feature", "status: triage"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Prototype — new module or tab
+        - Prototype — new chart or filter
+        - Prototype — new form / interaction
+        - Documentation site
+        - Data model — new entity or relationship
+        - CI / workflow
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What is the user or stakeholder pain point this addresses?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe what you'd like. Wireframes, mockups, or references welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: iso
+    attributes:
+      label: ISO 9001:2015 relevance (optional)
+      description: If this relates to a specific clause (e.g. §6.1, §10.2), note it here.
