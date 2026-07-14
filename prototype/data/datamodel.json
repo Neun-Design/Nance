@@ -1,0 +1,2246 @@
+{
+  "modules": {
+    "Customers": {
+      "tables": {
+        "Factories": {
+          "visibility": "show",
+          "description": "Manufacturing site entity (ISO §4.1 organisational context) with business segment classification: LPT (Large Power Transformers), MT (Medium Transformers), or DT (Distribution Transformers).",
+          "attributes": [
+            {
+              "name": "factoryID",
+              "type": "PK",
+              "notes": "Auto-generated primary key"
+            },
+            {
+              "name": "factoryName",
+              "type": "string",
+              "notes": "Short code, e.g. \"PN\""
+            },
+            {
+              "name": "city",
+              "type": "string"
+            },
+            {
+              "name": "country",
+              "type": "string"
+            },
+            {
+              "name": "businessSegment",
+              "type": "enum: LPT/MT/DT"
+            },
+            {
+              "name": "region",
+              "type": "enum: EMEA/Americas/APAC",
+              "notes": "Geographical grouping"
+            },
+            {
+              "name": "isActive",
+              "type": "bool",
+              "notes": "Soft-delete flag"
+            },
+            {
+              "name": "forecasts",
+              "type": "rollup → Forecasts (via: factoryID)",
+              "notes": "All forecast records belonging to this factory"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "Count of Factories grouped by region",
+              "filters": [
+                "businessSegment",
+                "isActive"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "table",
+              "query": "All factories with computed columns: active forecast count, open ticket count, active project count, region",
+              "filters": [
+                "businessSegment",
+                "region",
+                "isActive"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Forecasts": {
+          "visibility": "show",
+          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Factory can project to global engineering its intended use of role resources for a given planning period.",
+          "attributes": [
+            {
+              "name": "forecastID",
+              "type": "PK",
+              "notes": "Auto-generated primary key"
+            },
+            {
+              "name": "factoryID",
+              "type": "FK → Factories (display: factoryName)",
+              "notes": "Factory submitting this forecast"
+            },
+            {
+              "name": "forecastPeriod",
+              "type": "enum: Annual/Quarter/Month",
+              "notes": "Granularity of the period"
+            },
+            {
+              "name": "forecastYear",
+              "type": "int",
+              "notes": "e.g., 2026"
+            },
+            {
+              "name": "forecastQuarter",
+              "type": "int",
+              "notes": "1–4; required when period = Quarter (nullable)"
+            },
+            {
+              "name": "forecastMonth",
+              "type": "int",
+              "notes": "1–12; required when period = Month (nullable)"
+            },
+            {
+              "name": "periodStart",
+              "type": "datetime",
+              "notes": "Depends on forecastPeriod condition (month/quarter/annual)"
+            },
+            {
+              "name": "periodFinish",
+              "type": "datetime",
+              "notes": "Depends on forecastPeriod condition (month/quarter/annual)"
+            },
+            {
+              "name": "status",
+              "type": "enum: Draft/Submitted/Approved/Archived"
+            },
+            {
+              "name": "createdBy",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "createdAt",
+              "type": "datetime"
+            },
+            {
+              "name": "forecastScopes",
+              "type": "rollup → Forecast Scopes (via: forecastID)",
+              "notes": "All child Forecast Scope records belonging to this forecast"
+            },
+            {
+              "name": "totalEstimatedHours",
+              "type": "computed: SUM(forecastScopes.estimatedHours)",
+              "notes": "Total demand projected across all scopes"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "line",
+              "rule": "totalEstimatedHours plotted by period (year + quarter), one series per factory",
+              "filters": [
+                "forecastPeriod",
+                "factoryID",
+                "forecastYear",
+                "status"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Forecast Scopes": {
+          "visibility": "show",
+          "description": "The atomic unit of a Forecast (ISO §6.1/§6.2). Specifies one Event × Product Scope combination; the Event determines the triggered Process and therefore the Tasks whose roles and execution times drive estimatedHours.",
+          "attributes": [
+            {
+              "name": "forecastScopeID",
+              "type": "PK",
+              "notes": "Auto-generated primary key"
+            },
+            {
+              "name": "forecastID",
+              "type": "FK → Forecasts (display: forecastID + period)",
+              "notes": "Parent forecast"
+            },
+            {
+              "name": "productScopeID",
+              "type": "FK → Product Scopes (display: scopeName + products)",
+              "notes": "Product × Scope combination"
+            },
+            {
+              "name": "eventID",
+              "type": "FK → Events (display: eventTitle)",
+              "notes": "Event that triggers the Process; determines the task list"
+            },
+            {
+              "name": "processID",
+              "type": "computed: Events → Trigger → Processes (display: processName)",
+              "notes": "Process triggered by the selected Event"
+            },
+            {
+              "name": "tasks",
+              "type": "rollup → Tasks (via: eventID + productScopeID)",
+              "notes": "Tasks matching this event and product scope"
+            },
+            {
+              "name": "roles",
+              "type": "computed: DISTINCT(tasks.roles)",
+              "notes": "Roles derived from Tasks in the triggered Process"
+            },
+            {
+              "name": "estimatedHours",
+              "type": "computed: SUM(tasks.executionTime)",
+              "notes": "Total execution hours across all Tasks"
+            },
+            {
+              "name": "region",
+              "type": "mirror: DISTINCT(\"Forecasts\".\"factoryID\" → \"Factories\".\"region\")",
+              "notes": "Region of the factory that owns the parent forecast (via forecastID → Factories.region). Used by Report-B."
+            },
+            {
+              "name": "notes",
+              "type": "text"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "stacked_bar",
+              "rule": "estimatedHours grouped by productScopeID (scope name), stacked by roles",
+              "filters": [
+                "forecastID",
+                "period",
+                "factory",
+                "businessSegment"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "bar",
+              "rule": "Count of Forecast Scopes grouped by region (from parent Forecast's factory: forecastID → Factories.region)",
+              "filters": [
+                "forecastPeriod",
+                "factory",
+                "businessSegment",
+                "eventID"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        }
+      }
+    },
+    "Operation": {
+      "tables": {
+        "Tasks": {
+          "visibility": "show",
+          "description": "A Task is the application of an action to a process activity (workflow). It serves only as an execution template; concrete Jobs are created from Tasks in the Workload module (where taskOwner, taskStatus, taskDueDate and projectID are set).",
+          "attributes": [
+            {
+              "name": "taskID",
+              "type": "PK",
+              "notes": "Auto-generated primary key"
+            },
+            {
+              "name": "eventID",
+              "type": "FK → Events (display: eventTitle)",
+              "notes": "Event that triggered this task"
+            },
+            {
+              "name": "processID",
+              "type": "computed: from eventID (display: processName)",
+              "notes": "Options are processes triggered by the selected event"
+            },
+            {
+              "name": "workflowID",
+              "type": "computed: from processID (display: workflowID)",
+              "notes": "Options filtered by matching processID"
+            },
+            {
+              "name": "activityID",
+              "type": "mirror: DISTINCT(\"Workflows\".\"activityName\")",
+              "notes": "Automatically inserted from selected workflowID"
+            },
+            {
+              "name": "actionID",
+              "type": "computed: lookup Actions via activityID (display: actionName)"
+            },
+            {
+              "name": "products",
+              "type": "computed: activityID → Payload → Products (display: productName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "scopes",
+              "type": "computed: activityID → Payload → Scopes (display: scopeName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "executionTime",
+              "type": "decimal",
+              "notes": "Planned execution time in hours; defaults to Activity.executionTime"
+            },
+            {
+              "name": "roles",
+              "type": "computed: taskID → Competence.roleID (display: roleName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "parentStepID",
+              "type": "rollup → Workflows (via: workflowID) (display: workflowName)"
+            },
+            {
+              "name": "constraintName",
+              "type": "rollup → Constraints (via: constrainTypeID)",
+              "notes": "Constraint items grouped by constrainTypeID"
+            },
+            {
+              "name": "taskInput",
+              "type": "rollup → Handouts",
+              "notes": "Input handouts"
+            },
+            {
+              "name": "taskOutput",
+              "type": "rollup → Handouts",
+              "notes": "Output handouts"
+            },
+            {
+              "name": "customerName",
+              "type": "rollup → Factories"
+            },
+            {
+              "name": "ticketID",
+              "type": "rollup → Tickets (via: taskID)"
+            },
+            {
+              "name": "taskName",
+              "type": "computed: CONCAT(actionName, activityName, processName)"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of Tasks grouped by processID",
+              "filters": [
+                "eventID",
+                "productName",
+                "scopeName"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "bar",
+              "rule": "Gap between task executionTime and job realExecutionTime, top 10 most critical, sorted ascending by gap",
+              "filters": [
+                "processName",
+                "roles",
+                "productName",
+                "scopeName"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Events": {
+          "visibility": "show",
+          "description": "An Event is an aggregator of processes; it is not executed itself but triggers a defined execution. Forecasts group which events and execution parameters (forecastScopes) they contain. Corrective-action and nonconformity linkage is deferred to a future module.",
+          "attributes": [
+            {
+              "name": "eventID",
+              "type": "PK",
+              "notes": "Auto-generated primary key"
+            },
+            {
+              "name": "eventTitle",
+              "type": "string",
+              "notes": "Dynamic — set at creation"
+            },
+            {
+              "name": "eventDescription",
+              "type": "text"
+            },
+            {
+              "name": "eventCreatedAt",
+              "type": "datetime"
+            },
+            {
+              "name": "sourceID",
+              "type": "FK → Sources (display: sourceName)",
+              "notes": "Origin context of the event (nullable). ISO §4.1. Enables Sources reports (events by category, source→event→risk chain)."
+            },
+            {
+              "name": "processes",
+              "type": "rollup → Processes (via: eventID)",
+              "notes": "Processes triggered by this event"
+            },
+            {
+              "name": "tasks",
+              "type": "rollup → Tasks (via: eventID)",
+              "notes": "Tasks existing for each process triggered by this event"
+            },
+            {
+              "name": "forecastScopes",
+              "type": "rollup → Forecast Scopes (via: eventID)",
+              "notes": "Forecast Scopes that use this event to estimate workload"
+            },
+            {
+              "name": "ticketID",
+              "type": "rollup → Tickets (via: eventID)",
+              "notes": "Open tickets for each event"
+            },
+            {
+              "name": "factoryName",
+              "type": "mirror: DISTINCT(\"Tickets\".\"customerName\")",
+              "notes": "From ticketID rollup"
+            },
+            {
+              "name": "productName",
+              "type": "mirror: DISTINCT(\"Tickets\".\"products\")",
+              "notes": "From ticketID rollup"
+            },
+            {
+              "name": "scopeName",
+              "type": "mirror: DISTINCT(\"Tickets\".\"scopes\")",
+              "notes": "From ticketID rollup"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Open ticket count (from ticketID rollup) grouped by eventName, per factory",
+              "filters": [
+                "factoryName",
+                "productName",
+                "scopeName"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Processes": {
+          "visibility": "show",
+          "description": "The Process table groups workflows. The user creates a process item that is later used to build the process steps (workflow) records.",
+          "attributes": [
+            {
+              "name": "processID",
+              "type": "PK"
+            },
+            {
+              "name": "processName",
+              "type": "string"
+            },
+            {
+              "name": "processSystemID",
+              "type": "string",
+              "notes": "Optional external registry system ID reference; not mandatory"
+            },
+            {
+              "name": "processOwner",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "processDescription",
+              "type": "text"
+            },
+            {
+              "name": "parentProcessID",
+              "type": "FK → Processes (display: processName)",
+              "notes": "Self-referential 'Sub-process of' (nullable)"
+            },
+            {
+              "name": "processStatus",
+              "type": "enum: Active/Draft/Deprecated"
+            },
+            {
+              "name": "targetExecutionTime",
+              "type": "rollup → Tasks",
+              "notes": "Average execution time across task groups sharing the same action + workflow combination"
+            },
+            {
+              "name": "processVersion",
+              "type": "string",
+              "notes": "e.g., \"v1.2\""
+            },
+            {
+              "name": "activities",
+              "type": "rollup → Activities (via: processID)",
+              "notes": "All Activities belonging to this Process"
+            },
+            {
+              "name": "tasks",
+              "type": "rollup → Tasks (via: processID)",
+              "notes": "All Tasks belonging to this Process"
+            },
+            {
+              "name": "productName",
+              "type": "mirror: DISTINCT(\"Tasks\".\"products\")",
+              "notes": "From tasks rollup, for report filtering"
+            },
+            {
+              "name": "scopeName",
+              "type": "mirror: DISTINCT(\"Tasks\".\"scopes\")",
+              "notes": "From tasks rollup, for report filtering"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of Tasks grouped by processName",
+              "filters": [
+                "productName",
+                "scopeName"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Activities": {
+          "visibility": "show",
+          "description": "Sub-step within a Process (ISO §4.4.1 / §7.1.6). Activities have no execution time, owner, status, start or end date — execution is defined in the Tasks list. roleID is derived from Tasks.",
+          "attributes": [
+            {
+              "name": "activityID",
+              "type": "PK"
+            },
+            {
+              "name": "activityName",
+              "type": "string"
+            },
+            {
+              "name": "processID",
+              "type": "FK → Processes (display: processName)",
+              "notes": "Parent process"
+            },
+            {
+              "name": "roleID",
+              "type": "computed: from tasks (display: roleName)",
+              "notes": "Role is defined at the task level"
+            },
+            {
+              "name": "procedureID",
+              "type": "attachment",
+              "notes": "Allows a link to the document plus a description that is the procedure ID (ISO §7.5)"
+            },
+            {
+              "name": "tasks",
+              "type": "rollup → Tasks (via: activityID)",
+              "notes": "All Tasks derived from this Activity"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Workflows": {
+          "visibility": "show",
+          "description": "Registry of the steps of each process. Through the relations of its records users understand how a process should be executed in terms of activities.",
+          "attributes": [
+            {
+              "name": "workflowID",
+              "type": "PK",
+              "notes": "Displayed as e.g., \"WF-002\""
+            },
+            {
+              "name": "workflowName",
+              "type": "computed: CONCAT(activityName, processName)",
+              "notes": "Not a user input"
+            },
+            {
+              "name": "processID",
+              "type": "FK → Processes (display: processName)"
+            },
+            {
+              "name": "activities",
+              "type": "rollup → Activities (via: processID) (display: activityName)",
+              "notes": "Single select, not multivalued"
+            },
+            {
+              "name": "parentStepID",
+              "type": "FK → Workflows",
+              "notes": "Self-referential step ordering (nullable)"
+            },
+            {
+              "name": "taskID",
+              "type": "rollup → Tasks",
+              "notes": "Tasks that use this workflow item"
+            },
+            {
+              "name": "inputs",
+              "type": "mirror: DISTINCT(\"Tasks\".\"taskInput\")",
+              "notes": "Determined by taskID"
+            },
+            {
+              "name": "outputs",
+              "type": "mirror: DISTINCT(\"Tasks\".\"taskOutput\")",
+              "notes": "Determined by taskID"
+            },
+            {
+              "name": "scopes",
+              "type": "mirror: DISTINCT(\"Tasks\".\"scopeID\")",
+              "notes": "Determined by taskID"
+            },
+            {
+              "name": "customer",
+              "type": "mirror: DISTINCT(\"Tasks\".\"customerName\")",
+              "notes": "Determined by taskID"
+            },
+            {
+              "name": "procedures",
+              "type": "mirror: DISTINCT(\"Tasks\".\"procedureName\")",
+              "notes": "Determined by taskID"
+            },
+            {
+              "name": "products",
+              "type": "mirror: DISTINCT(\"Tasks\".\"productName\")",
+              "notes": "Determined by taskID"
+            },
+            {
+              "name": "constraints",
+              "type": "mirror: DISTINCT(\"Tasks\".\"constraintName\")",
+              "notes": "Determined by taskID"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Actions": {
+          "visibility": "show",
+          "description": "An action defines the procedure to be performed to execute a given step (workflow) within a process.",
+          "attributes": [
+            {
+              "name": "actionID",
+              "type": "PK"
+            },
+            {
+              "name": "actionName",
+              "type": "string"
+            },
+            {
+              "name": "actionDescription",
+              "type": "text"
+            },
+            {
+              "name": "riskID",
+              "type": "FK → Risks (display: riskTitle)",
+              "notes": "Risk this action addresses (nullable). ISO §6.1.2(a) — direct risk→action traceability. Enables Risks/Requirements 'linked action count' reports."
+            },
+            {
+              "name": "applicationID",
+              "type": "FK → actionApplication (display: applicationName)",
+              "notes": "QMS process context classification (Risk Management/Control/Communication/Monitoring/Improvement)"
+            },
+            {
+              "name": "taskID",
+              "type": "rollup → Tasks (via: actionID)",
+              "notes": "Tasks that use this action"
+            },
+            {
+              "name": "activityID",
+              "type": "mirror: DISTINCT(\"Tasks\".\"activityName\")",
+              "notes": "From taskID rollup; allows filtering by activity"
+            },
+            {
+              "name": "workflowID",
+              "type": "mirror: DISTINCT(\"Tasks\".\"workflowID\")",
+              "notes": "From taskID rollup; allows filtering by workflow (activity + process)"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Constraints": {
+          "visibility": "show",
+          "description": "Regulatory, design, or operational constraint bounding available risk treatment options (ISO §4.3).",
+          "attributes": [
+            {
+              "name": "constrainID",
+              "type": "PK"
+            },
+            {
+              "name": "constrainName",
+              "type": "string"
+            },
+            {
+              "name": "constrainDescription",
+              "type": "text"
+            },
+            {
+              "name": "constrainTypeID",
+              "type": "FK → Constraint Types (display: constrainTypeName)",
+              "notes": "Operational / Design / Testing / Technical / Commercial"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "name": "regulatoryReference",
+              "type": "string",
+              "notes": "e.g., IEC standard code (nullable)"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Handouts": {
+          "visibility": "show",
+          "description": "Input or output document/deliverable exchanged between process steps (ISO §4.4.2(b) — retained documented information).",
+          "attributes": [
+            {
+              "name": "handoutID",
+              "type": "PK"
+            },
+            {
+              "name": "handoutName",
+              "type": "string"
+            },
+            {
+              "name": "handoutDescription",
+              "type": "text"
+            },
+            {
+              "name": "createdAt",
+              "type": "datetime"
+            },
+            {
+              "name": "channelID",
+              "type": "FK → Channels (display: channelName)",
+              "notes": "Delivery channel"
+            },
+            {
+              "name": "taskID",
+              "type": "rollup → Tasks",
+              "notes": "All tasks that have the constraint assigned to it"
+            },
+            {
+              "name": "Template",
+              "type": "attachment",
+              "notes": "Includes a field option to insert a title for the attachment"
+            },
+            {
+              "name": "type",
+              "type": "enum: data/file"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Channels": {
+          "visibility": "show",
+          "description": "Communication or delivery channel used in process steps, with assigned owner (ISO §7.4).",
+          "attributes": [
+            {
+              "name": "channelID",
+              "type": "PK"
+            },
+            {
+              "name": "channelName",
+              "type": "string",
+              "notes": "e.g., Portal, Salesforce, Outlook"
+            },
+            {
+              "name": "channelOwner",
+              "type": "text",
+              "notes": "Company or person responsible for managing the channel"
+            },
+            {
+              "name": "channelStatus",
+              "type": "enum: Active/Inactive"
+            },
+            {
+              "name": "handouts",
+              "type": "rollup → Handouts (via: channelID)",
+              "notes": "All Handouts delivered through this channel"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        }
+      }
+    },
+    "Inventory": {
+      "tables": {
+        "Product Scopes": {
+          "visibility": "show",
+          "description": "Combination of product and scope used for planning and forecasting execution demand (ISO §4.3 / §8.1).",
+          "attributes": [
+            {
+              "name": "productScopeID",
+              "type": "PK",
+              "notes": "Displayed as a group code, e.g. \"AA\""
+            },
+            {
+              "name": "productGroupID",
+              "type": "FK → Product Groups (display: groupCode)",
+              "notes": "e.g., \"AA\""
+            },
+            {
+              "name": "scopeID",
+              "type": "FK → Scopes (display: scopeName)"
+            },
+            {
+              "name": "products",
+              "type": "rollup → Products (via: productGroupID) (display: productName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "productClassID",
+              "type": "mirror: DISTINCT(\"Product Groups\".\"productClassID\")"
+            },
+            {
+              "name": "businessSegment",
+              "type": "mirror: DISTINCT(\"Product Groups\".\"businessSegment\")"
+            },
+            {
+              "name": "constraintName",
+              "type": "rollup → Constraints (via: constrainTypeID)",
+              "notes": "Constraint names grouped by constrainTypeID"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "name": "createdAt",
+              "type": "datetime"
+            },
+            {
+              "name": "forecastScopes",
+              "type": "rollup → Forecast Scopes (via: productScopeID)"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Scopes": {
+          "visibility": "show",
+          "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
+          "attributes": [
+            {
+              "name": "scopeID",
+              "type": "PK"
+            },
+            {
+              "name": "scopeName",
+              "type": "string",
+              "notes": "e.g., Uprating, Temperature Reduction, Redesign"
+            },
+            {
+              "name": "scopeOpportunity",
+              "type": "enum: lifetime Extension/Increase Capability/Dieletic Failure",
+              "notes": "Opportunity tags; multivalued"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Products": {
+          "visibility": "show",
+          "description": "Power transformer products and services tracked through quality and forecasting cycles (ISO §8.1).",
+          "attributes": [
+            {
+              "name": "productID",
+              "type": "PK"
+            },
+            {
+              "name": "productName",
+              "type": "string"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Product Class": {
+          "visibility": "show",
+          "description": "Technical classification of products by voltage rating and power rating ranges (ISO §8.1).",
+          "attributes": [
+            {
+              "name": "productClassID",
+              "type": "PK",
+              "notes": "Displayed as \"Class Name\" in UI"
+            },
+            {
+              "name": "voltageRate",
+              "type": "string"
+            },
+            {
+              "name": "powerRating",
+              "type": "string"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Product Groups": {
+          "visibility": "show",
+          "description": "Higher-level commercial grouping of product classes for planning (ISO §8.1).",
+          "attributes": [
+            {
+              "name": "productGroupID",
+              "type": "PK"
+            },
+            {
+              "name": "businessSegment",
+              "type": "enum: LPT/MT/DT"
+            },
+            {
+              "name": "products",
+              "type": "rollup → Products (via: productGroupID) (display: productName)",
+              "notes": "Single valued, not multivalued"
+            },
+            {
+              "name": "productClassID",
+              "type": "rollup → Product Class (display: CONCAT(voltageRate, powerRating))",
+              "notes": "multivalued"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        }
+      }
+    },
+    "Workload": {
+      "tables": {
+        "Tickets": {
+          "visibility": "show",
+          "description": "A Ticket is a project-linked work item capturing the execution context of a project's engineering process. It is the entry point for engineering jobs; Customers, Planners and Managers can create tickets (ISO §10.2).",
+          "attributes": [
+            {
+              "name": "ticketID",
+              "type": "PK"
+            },
+            {
+              "name": "projectID",
+              "type": "FK → Projects (display: projectID)"
+            },
+            {
+              "name": "customerName",
+              "type": "FK → Factories (display: factoryName)",
+              "notes": "Customer / requester factory"
+            },
+            {
+              "name": "eventID",
+              "type": "FK → Events (display: eventName)"
+            },
+            {
+              "name": "forecastScopeID",
+              "type": "rollup → Customers (via: customerName, eventID) (display: CONCAT(scopeName, businessSegment, productClassID, productName))",
+              "notes": "Forecast Scope this ticket contributes to"
+            },
+            {
+              "name": "processID",
+              "type": "mirror: DISTINCT(\"Forecast Scopes\".\"processID\")",
+              "notes": "Via forecastScopeID"
+            },
+            {
+              "name": "products",
+              "type": "mirror: DISTINCT(\"Forecast Scopes\".\"products\")",
+              "notes": "Via forecastScopeID"
+            },
+            {
+              "name": "scopes",
+              "type": "mirror: DISTINCT(\"Forecast Scopes\".\"scopes\")",
+              "notes": "Via forecastScopeID"
+            },
+            {
+              "name": "constraintName",
+              "type": "mirror: DISTINCT(\"Forecast Scopes\".\"constraintName\")",
+              "notes": "Via forecastScopeID"
+            },
+            {
+              "name": "taskID",
+              "type": "rollup → Tasks (via: scopeID, productName, customerName)"
+            },
+            {
+              "name": "ticketOwner",
+              "type": "FK → People (display: userName)",
+              "notes": "Assigned owner"
+            },
+            {
+              "name": "ticketStatus",
+              "type": "enum: Open/InProgress/Resolved/Escalated/Closed"
+            },
+            {
+              "name": "targetDate",
+              "type": "datetime",
+              "notes": "When the ticket should be resolved"
+            },
+            {
+              "name": "ticketCreatedAt",
+              "type": "datetime"
+            },
+            {
+              "name": "ticketClosedAt",
+              "type": "datetime",
+              "notes": "nullable"
+            },
+            {
+              "name": "resolutionTime",
+              "type": "datetime",
+              "notes": "Planned delivery date of the ticket"
+            },
+            {
+              "name": "isEscalated",
+              "type": "bool"
+            },
+            {
+              "name": "escalatedToEventID",
+              "type": "FK → Events",
+              "notes": "nullable"
+            },
+            {
+              "name": "jobs",
+              "type": "rollup → Jobs (via: ticketID)",
+              "notes": "All Jobs associated with this ticket"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of Tickets grouped by customerName",
+              "filters": [
+                "ticketStatus",
+                "processID",
+                "period"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "donut",
+              "rule": "Count of tickets grouped by scopeName",
+              "filters": [
+                "customerName",
+                "period",
+                "constraintName"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Projects": {
+          "visibility": "show",
+          "description": "Engineering project with customer/factory, owner and status. Groups tickets and provides estimated vs. executed time roll-ups (ISO §8.3 / §8.4).",
+          "attributes": [
+            {
+              "name": "projectID",
+              "type": "PK",
+              "notes": "Displayed as project number, e.g. \"0034\""
+            },
+            {
+              "name": "projectName",
+              "type": "string",
+              "notes": "Name of the project"
+            },
+            {
+              "name": "clientName",
+              "type": "string",
+              "notes": "Name of the final/external client"
+            },
+            {
+              "name": "customerName",
+              "type": "FK → Factories (display: factoryName)",
+              "notes": "Customer name or factory"
+            },
+            {
+              "name": "products",
+              "type": "rollup → Products (via: Tickets) (display: productName)",
+              "notes": "Products linked through tickets; multivalued"
+            },
+            {
+              "name": "projectOwner",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "projectStatus",
+              "type": "enum: In Progress/Planning/On Hold/Closed"
+            },
+            {
+              "name": "ticketID",
+              "type": "rollup → Tickets (via: projectID)",
+              "notes": "All tickets belonging to this project"
+            },
+            {
+              "name": "jobID",
+              "type": "mirror: DISTINCT(\"Tickets\".\"jobs\")",
+              "notes": "Via projectID"
+            },
+            {
+              "name": "estimatedTime",
+              "type": "computed: SUM(Tasks.estimatedTime grouped by ticketID)",
+              "notes": "From Tickets via ticketID"
+            },
+            {
+              "name": "executionTime",
+              "type": "computed: SUM(Jobs.realExecutionTime grouped by ticketID)",
+              "notes": "From Jobs via ticketID"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Estimated (tasks) vs real (jobs) execution time per project",
+              "filters": [
+                "customerName",
+                "projectStatus"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Jobs": {
+          "visibility": "show",
+          "description": "A Job is a concrete execution record assigning a person/role to a Ticket to perform a piece of work, tracking planned and actual dates, dependencies and status. Jobs are the primary source of actual usage data for the Control module (ISO §7.1.2).",
+          "attributes": [
+            {
+              "name": "jobID",
+              "type": "PK"
+            },
+            {
+              "name": "jobName",
+              "type": "string",
+              "notes": "e.g., \"Offer Design\", \"Mechanical Layout\""
+            },
+            {
+              "name": "ticketID",
+              "type": "FK → Tickets (display: ticketID)",
+              "notes": "Ticket this job belongs to"
+            },
+            {
+              "name": "taskID",
+              "type": "rollup → Tasks (via: ticketID)",
+              "notes": "Task selected as execution template"
+            },
+            {
+              "name": "userID",
+              "type": "FK → People (display: userName)",
+              "notes": "Filtered by the roleID of the selected task template"
+            },
+            {
+              "name": "roleID",
+              "type": "mirror: DISTINCT(\"People\".\"roleID\")",
+              "notes": "From userID"
+            },
+            {
+              "name": "projectName",
+              "type": "string",
+              "notes": "Name of the project"
+            },
+            {
+              "name": "startDate",
+              "type": "datetime",
+              "notes": "Planned start date"
+            },
+            {
+              "name": "endDate",
+              "type": "datetime",
+              "notes": "Planned end date"
+            },
+            {
+              "name": "realStartDate",
+              "type": "datetime",
+              "notes": "Actual start date"
+            },
+            {
+              "name": "realEndDate",
+              "type": "datetime",
+              "notes": "Actual end date"
+            },
+            {
+              "name": "realExecutionTime",
+              "type": "computed: realEndDate − realStartDate",
+              "notes": "Actual hours spent"
+            },
+            {
+              "name": "predecesorJob",
+              "type": "rollup → Jobs (via: jobID) (display: CONCAT(projectName, jobName))",
+              "notes": "Dependency job for sequencing"
+            },
+            {
+              "name": "customerName",
+              "type": "computed: from projectID related to ticketID"
+            },
+            {
+              "name": "squadName",
+              "type": "computed: from People (squad) related to userID"
+            },
+            {
+              "name": "jobStatus",
+              "type": "enum: Queued/Active/Done/Stoped"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "line",
+              "rule": "Count of Jobs reaching jobStatus = Done plotted by week",
+              "filters": [
+                "roleID",
+                "period"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "bar",
+              "rule": "SUM(executionTime) grouped by roleID",
+              "filters": [
+                "jobStatus",
+                "ticketID",
+                "period"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        }
+      }
+    },
+    "Control": {
+      "tables": {
+        "Capacity": {
+          "visibility": "show",
+          "description": "Query view (Control module) — no new-item form. Aggregates role/department capacity against allocation over a planning period (ISO §7.1.2 / §6.2).",
+          "attributes": [
+            {
+              "name": "capacityID",
+              "type": "PK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK → Departments (display: departmentName)"
+            },
+            {
+              "name": "roleID",
+              "type": "FK → Roles (display: roleName)"
+            },
+            {
+              "name": "functionName",
+              "type": "mirror: DISTINCT(\"Roles\".\"functionID\" → \"Functions\".\"functionName\")",
+              "notes": "Function of the role (via roleID → Roles.functionID). Used by Report-A/B filters."
+            },
+            {
+              "name": "periodType",
+              "type": "enum: Annual/Quarter/Month"
+            },
+            {
+              "name": "periodYear",
+              "type": "int"
+            },
+            {
+              "name": "periodQuarter",
+              "type": "int",
+              "notes": "nullable"
+            },
+            {
+              "name": "periodMonth",
+              "type": "int",
+              "notes": "nullable"
+            },
+            {
+              "name": "periodStart",
+              "type": "datetime",
+              "notes": "Start month/year of report analysis"
+            },
+            {
+              "name": "periodFinish",
+              "type": "datetime",
+              "notes": "End month/year of report analysis"
+            },
+            {
+              "name": "availableHours",
+              "type": "decimal",
+              "notes": "Total available hours for the selected roleID in the selected period"
+            },
+            {
+              "name": "allocatedHours",
+              "type": "computed: executionTime of Tasks linked to forecastScopes of each forecastID within a period"
+            },
+            {
+              "name": "utilization",
+              "type": "computed: (allocatedHours / availableHours) × 100",
+              "notes": "Displayed as %"
+            },
+            {
+              "name": "locationID",
+              "type": "FK → Locations (display: locationName)"
+            },
+            {
+              "name": "factoryID",
+              "type": "FK → Factories (display: factoryName)"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "availableHours vs. allocatedHours side by side grouped by roleName",
+              "filters": [
+                "periodStart",
+                "eventTitle",
+                "periodFinish",
+                "factoryID",
+                "roleID",
+                "functionName"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "bar",
+              "rule": "utilization % grouped by functionName",
+              "filters": [
+                "period",
+                "factoryID",
+                "roleID",
+                "functionName"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Usage": {
+          "visibility": "show",
+          "description": "Query view (Control module) — no new-item form. Tracks actual resource consumption from Jobs against planned Forecast Scope hours (ISO §9.1).",
+          "attributes": [
+            {
+              "name": "usageID",
+              "type": "PK"
+            },
+            {
+              "name": "regionID",
+              "type": "FK → Regions (display: regionName)"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK → Departments (display: departmentName)"
+            },
+            {
+              "name": "functionName",
+              "type": "mirror: DISTINCT(\"Jobs\".\"userID\" → \"People\".\"functionID\" → \"Functions\".\"functionName\")",
+              "notes": "Function of the people whose Jobs feed this usage row. Used by Report-A/B filters and series."
+            },
+            {
+              "name": "customerName",
+              "type": "mirror: DISTINCT(\"Jobs\".\"customerName\")",
+              "notes": "Customer factory of the Jobs feeding this usage row. Used by Report-A/B filters."
+            },
+            {
+              "name": "squadName",
+              "type": "mirror: DISTINCT(\"Jobs\".\"squadName\")",
+              "notes": "Squad of the people whose Jobs feed this usage row. Used by Report-A/B filters."
+            },
+            {
+              "name": "periodType",
+              "type": "enum: Annual/Quarter/Month"
+            },
+            {
+              "name": "periodYear",
+              "type": "int"
+            },
+            {
+              "name": "periodMonth",
+              "type": "int"
+            },
+            {
+              "name": "usedHours",
+              "type": "decimal",
+              "notes": "Actual hours consumed (from Jobs.executionTime)"
+            },
+            {
+              "name": "plannedHours",
+              "type": "decimal",
+              "notes": "From Forecast Scopes estimatedHours"
+            },
+            {
+              "name": "variance",
+              "type": "computed: usedHours − plannedHours",
+              "notes": "Positive = over-plan, negative = under-plan"
+            },
+            {
+              "name": "reportedAt",
+              "type": "datetime"
+            },
+            {
+              "name": "reportedBy",
+              "type": "FK → People (display: userName)"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "line",
+              "rule": "usedHours plotted by period, one series per functionName",
+              "filters": [
+                "customerName",
+                "functionName",
+                "period",
+                "squadName"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "heatmap",
+              "rule": "Heatmap of the most-used roleName by number of allocated jobs",
+              "filters": [
+                "customerName",
+                "functionName",
+                "period",
+                "squadName"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Productivity": {
+          "visibility": "show",
+          "description": "Query view (Control module) — no new-item form. Efficiency KPIs comparing output vs. target per team (ISO §9.1.1).",
+          "attributes": [
+            {
+              "name": "productivityID",
+              "type": "PK"
+            },
+            {
+              "name": "teamID",
+              "type": "FK → Departments (display: departmentName)",
+              "notes": "Displayed as \"Team\" in the UI"
+            },
+            {
+              "name": "periodType",
+              "type": "enum: Annual/Quarter/Month"
+            },
+            {
+              "name": "periodYear",
+              "type": "int"
+            },
+            {
+              "name": "periodMonth",
+              "type": "int"
+            },
+            {
+              "name": "output",
+              "type": "decimal",
+              "notes": "Actual deliverables or hours produced"
+            },
+            {
+              "name": "target",
+              "type": "decimal",
+              "notes": "Planned target for the period"
+            },
+            {
+              "name": "efficiency",
+              "type": "computed: (output / target) × 100",
+              "notes": "Displayed as %"
+            },
+            {
+              "name": "factoryID",
+              "type": "FK → Factories (display: factoryName)"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "Count of teams grouped by efficiency bucket (<80% / 80–100% / >100%)",
+              "filters": [
+                "funtionID",
+                "factoryID",
+                "period"
+              ]
+            },
+            "Report-B": null,
+            "Report-C": {
+              "graph_type": "bar",
+              "rule": "Quantity of Tasks that could be done by less experienced resources (by levelRank)",
+              "filters": [
+                "processName"
+              ]
+            },
+            "Report-D": {
+              "graph_type": "line",
+              "rule": "Marginal productivity gain of the chosen process or event when adding an extra quantity of a given roleName",
+              "filters": [
+                "processName",
+                "eventName",
+                "roleName",
+                "roleExtraQuantity"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        }
+      }
+    },
+    "Talent": {
+      "tables": {
+        "Squads": {
+          "visibility": "show",
+          "description": "Squads group People so that a manager can simulate forecastScopes by squad.",
+          "attributes": [
+            {
+              "name": "squadID",
+              "type": "PK",
+              "notes": "Auto-generated"
+            },
+            {
+              "name": "squadName",
+              "type": "string"
+            },
+            {
+              "name": "squadType",
+              "type": "enum: outsource/internal"
+            },
+            {
+              "name": "managerName",
+              "type": "string"
+            },
+            {
+              "name": "managerEmail",
+              "type": "string"
+            },
+            {
+              "name": "people",
+              "type": "rollup → People (via: squadID)",
+              "notes": "People belonging to this squad"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Roles": {
+          "visibility": "show",
+          "description": "Organisational role with function, skill level and required education (ISO §5.3). Resolves all *Owner foreign keys in the model.",
+          "attributes": [
+            {
+              "name": "roleID",
+              "type": "PK"
+            },
+            {
+              "name": "roleName",
+              "type": "string",
+              "notes": "e.g., \"Planner\", \"Design Engineer\""
+            },
+            {
+              "name": "functionID",
+              "type": "FK → Functions (display: functionName)",
+              "notes": "Functional area this role belongs to"
+            },
+            {
+              "name": "skillLevelID",
+              "type": "FK → Skill Levels (display: levelName)",
+              "notes": "Required proficiency level"
+            },
+            {
+              "name": "graduationID",
+              "type": "FK → Graduation (display: graduationName)",
+              "notes": "Required educational background"
+            },
+            {
+              "name": "quantity",
+              "type": "int",
+              "notes": "Number of headcount allocated to this role"
+            },
+            {
+              "name": "overheadCost",
+              "type": "computed: AVG(People.personalCost via roleID)"
+            },
+            {
+              "name": "taskName",
+              "type": "rollup → Tasks (via: roleID)"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "name": "people",
+              "type": "rollup → People (via: roleID)",
+              "notes": "People currently holding this role"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "Sum of quantity grouped by functionID (headcount distribution by function)",
+              "filters": [
+                "functionID",
+                "skillLevelID",
+                "isActive"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "donut",
+              "rule": "Count of tasks grouped by roleName where headCount > 0",
+              "filters": [
+                "levelName"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Skill Levels": {
+          "visibility": "show",
+          "description": "Proficiency level descriptor for a competence or function (ISO §7.2).",
+          "attributes": [
+            {
+              "name": "skillLevelID",
+              "type": "PK"
+            },
+            {
+              "name": "levelName",
+              "type": "string",
+              "notes": "e.g., Junior / Senior / Expert"
+            },
+            {
+              "name": "levelDescription",
+              "type": "text",
+              "notes": "e.g., \"0–3 years of experience\""
+            },
+            {
+              "name": "levelRank",
+              "type": "int",
+              "notes": "1 to 5; ordering key (1 = lowest)"
+            },
+            {
+              "name": "roles",
+              "type": "rollup → Roles (via: skillLevelID)"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "SUM(Roles.quantity) grouped by levelName",
+              "filters": [
+                "functionID"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Functions": {
+          "visibility": "show",
+          "description": "Job function defining the functional scope of work a role performs (ISO §7.2).",
+          "attributes": [
+            {
+              "name": "functionID",
+              "type": "PK"
+            },
+            {
+              "name": "functionName",
+              "type": "string",
+              "notes": "e.g., Electrical Design, Mechanical Design, Analyst"
+            },
+            {
+              "name": "roles",
+              "type": "rollup → Roles (via: functionID) (display: roleName)",
+              "notes": "multivalued"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "SUM(Roles.quantity) grouped by functionName",
+              "filters": []
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Graduation": {
+          "visibility": "show",
+          "description": "Qualification or education level required or held by a resource (ISO §7.2).",
+          "attributes": [
+            {
+              "name": "graduationID",
+              "type": "PK"
+            },
+            {
+              "name": "graduationName",
+              "type": "string",
+              "notes": "e.g., Electrical Engineering, Mechanical Engineering"
+            },
+            {
+              "name": "field",
+              "type": "string",
+              "notes": "e.g., Engineering, Technical"
+            },
+            {
+              "name": "roles",
+              "type": "rollup → Roles (via: graduationID)"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "SUM(Roles.quantity) grouped by field",
+              "filters": []
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Competence": {
+          "visibility": "show",
+          "description": "Competence profile mapping skills to roles, scopes and products (ISO §7.2), derived largely from the Tasks a role performs.",
+          "attributes": [
+            {
+              "name": "competenceID",
+              "type": "PK"
+            },
+            {
+              "name": "roleID",
+              "type": "FK → Roles (display: roleName)"
+            },
+            {
+              "name": "skillLevelID",
+              "type": "FK → Skill Levels (display: levelName)",
+              "notes": "Required proficiency"
+            },
+            {
+              "name": "isRequired",
+              "type": "bool",
+              "notes": "Whether this competence is mandatory"
+            },
+            {
+              "name": "taskID",
+              "type": "rollup → Tasks (via: roleID) (display: taskName)"
+            },
+            {
+              "name": "actionID",
+              "type": "mirror: DISTINCT(\"Tasks\".\"actionName\")",
+              "notes": "Via taskID"
+            },
+            {
+              "name": "activityID",
+              "type": "mirror: DISTINCT(\"Tasks\".\"activityName\")",
+              "notes": "Via taskID"
+            },
+            {
+              "name": "scopeID",
+              "type": "rollup → Tasks (via: taskID) (display: scopeName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "productID",
+              "type": "rollup → Tasks (via: taskID) (display: productName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "constrainID",
+              "type": "rollup → Tasks (via: taskID) (display: constraintName)",
+              "notes": "multivalued"
+            },
+            {
+              "name": "competenceName",
+              "type": "computed: CONCAT(activityName,'-',actionName,'for',[scopeName],'of',[productName],'applied to',[{constrainTypeName: constraintName}])"
+            },
+            {
+              "name": "resources",
+              "type": "computed: list of channelName of every input and output from Tasks via taskID"
+            },
+            {
+              "name": "isCertified",
+              "type": "computed: Onboarding via competenceID"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "heatmap",
+              "rule": "Matrix of Role (rows) × Scope (columns); cell = % of required competences that are isCertified",
+              "filters": [
+                "scopeID",
+                "productID",
+                "roleID"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "People": {
+          "visibility": "show",
+          "description": "Individual users and team members (ISO §5.3 / §7.1.2). All *Owner foreign keys across the model resolve to a Person.",
+          "attributes": [
+            {
+              "name": "userID",
+              "type": "PK"
+            },
+            {
+              "name": "userName",
+              "type": "string"
+            },
+            {
+              "name": "userEmail",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "FK → Factories (display: factoryName)"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "name": "hireDate",
+              "type": "date",
+              "notes": "nullable"
+            },
+            {
+              "name": "functionID",
+              "type": "FK → Functions (display: functionName)"
+            },
+            {
+              "name": "roleID",
+              "type": "FK → Roles (display: roleName)",
+              "notes": "Role held by this person. Resolves Roles.people rollup, Roles.overheadCost, and the Jobs assignee-by-role filter. Consistent with functionID (role's function)."
+            },
+            {
+              "name": "personalCost",
+              "type": "decimal"
+            },
+            {
+              "name": "squadID",
+              "type": "FK → Squads (display: squadName)"
+            },
+            {
+              "name": "onboardID",
+              "type": "computed: Onboarding via userID"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of active People grouped by functionID",
+              "filters": [
+                "departmentID",
+                "locationID",
+                "isActive"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": [],
+          "cards": []
+        },
+        "Onboarding": {
+          "visibility": "show",
+          "description": "Tracks a person's certification progress against the competences derived from their function and roles (ISO §7.2).",
+          "attributes": [
+            {
+              "name": "onboardID",
+              "type": "PK",
+              "notes": "Auto-generated primary key"
+            },
+            {
+              "name": "userID",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "functionID",
+              "type": "computed: People via userID"
+            },
+            {
+              "name": "roleID",
+              "type": "rollup → Roles (via: functionID) (display: roleName)"
+            },
+            {
+              "name": "competenceID",
+              "type": "rollup → Competence (via: roleID) (display: competenceName)"
+            },
+            {
+              "name": "isCertified",
+              "type": "bool"
+            },
+            {
+              "name": "scopeName",
+              "type": "computed: Competence via roleID"
+            },
+            {
+              "name": "productName",
+              "type": "computed: Competence via roleID"
+            },
+            {
+              "name": "resources",
+              "type": "computed: Competence via roleID"
+            },
+            {
+              "name": "constraintName",
+              "type": "computed: Competence via roleID (display: FOREACH([{constrainTypeName: constraintName}]))"
+            },
+            {
+              "name": "certifications",
+              "type": "string"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        }
+      }
+    },
+    "Quality": {
+      "tables": {
+        "Risks": {
+          "visibility": "show",
+          "description": "Risk and opportunity register with severity/likelihood assessment and RPN (ISO §6.1.1).",
+          "attributes": [
+            {
+              "name": "riskID",
+              "type": "PK"
+            },
+            {
+              "name": "riskTitle",
+              "type": "string"
+            },
+            {
+              "name": "riskDescription",
+              "type": "text"
+            },
+            {
+              "name": "riskCategory",
+              "type": "enum: Threat/Opportunity"
+            },
+            {
+              "name": "riskSeverity",
+              "type": "int",
+              "notes": "1–5 impact rating"
+            },
+            {
+              "name": "riskLikelihood",
+              "type": "int",
+              "notes": "1–5 probability rating"
+            },
+            {
+              "name": "riskPriorityNumber",
+              "type": "computed: riskSeverity × riskLikelihood",
+              "notes": "Cochran RPN"
+            },
+            {
+              "name": "riskOwner",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "riskStatus",
+              "type": "enum: Open/UnderTreatment/Closed/Accepted"
+            },
+            {
+              "name": "riskCreatedAt",
+              "type": "datetime"
+            },
+            {
+              "name": "riskReviewedAt",
+              "type": "datetime",
+              "notes": "Date of last RPN re-assessment (nullable)"
+            },
+            {
+              "name": "eventID",
+              "type": "FK → Events (display: eventTitle)",
+              "notes": "Triggering event (nullable)"
+            },
+            {
+              "name": "requirementID",
+              "type": "FK → Requirements (display: requirementName)",
+              "notes": "Associated interested-party requirement (nullable)"
+            },
+            {
+              "name": "actions",
+              "type": "rollup → Actions (via: riskID)",
+              "notes": "Actions addressing this risk"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "scatter",
+              "rule": "X-axis = riskLikelihood, Y-axis = riskSeverity, bubble size = riskPriorityNumber, colour = riskCategory; quadrant lines at 3/3",
+              "filters": [
+                "riskCategory",
+                "riskStatus",
+                "owner",
+                "period"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "table",
+              "query": "Risks where riskStatus IN (Open, UnderTreatment); columns: title, category, severity, likelihood, RPN, owner, status, linked action count, last reviewed",
+              "filters": [
+                "riskCategory",
+                "riskStatus",
+                "owner"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Sources": {
+          "visibility": "show",
+          "description": "External and internal issue sources feeding events and requirements (ISO §4.1).",
+          "attributes": [
+            {
+              "name": "sourceID",
+              "type": "PK"
+            },
+            {
+              "name": "sourceName",
+              "type": "string"
+            },
+            {
+              "name": "sourceCategoryID",
+              "type": "FK → Source Categories (display: sourceCategoryName)"
+            },
+            {
+              "name": "sourceOwner",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "sourceDescription",
+              "type": "text"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "name": "events",
+              "type": "rollup → Events (via: sourceID)",
+              "notes": "Events linked to this source"
+            },
+            {
+              "name": "requirements",
+              "type": "rollup → Requirements (via: sourceID)",
+              "notes": "Requirements that originate from this source"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of Events grouped by sourceCategoryID",
+              "filters": [
+                "sourceCategoryID",
+                "period",
+                "isActive"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "table",
+              "query": "Sources with event count, risk count, open risk count; traceable chain from source to event to risk",
+              "filters": [
+                "sourceCategoryID",
+                "isActive"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "Source Categories": {
+          "visibility": "show",
+          "description": "Lookup classification of issue sources (internal, customer, regulatory, etc.). Used as a filter dimension in Sources and Events reports (ISO §4.1).",
+          "attributes": [
+            {
+              "name": "sourceCategoryID",
+              "type": "PK"
+            },
+            {
+              "name": "sourceCategoryName",
+              "type": "string",
+              "notes": "e.g., Customer, Regulatory, Internal"
+            },
+            {
+              "name": "sourceCategoryDescription",
+              "type": "text"
+            },
+            {
+              "name": "sources",
+              "type": "rollup → Sources (via: sourceCategoryID)"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Requirements": {
+          "visibility": "show",
+          "description": "Needs and expectations of interested parties mapped to sources, products and risks (ISO §4.2).",
+          "attributes": [
+            {
+              "name": "requirementID",
+              "type": "PK"
+            },
+            {
+              "name": "requirementName",
+              "type": "string"
+            },
+            {
+              "name": "requirementDescription",
+              "type": "text"
+            },
+            {
+              "name": "sourceID",
+              "type": "FK → Sources (display: sourceName)",
+              "notes": "Originating interested party"
+            },
+            {
+              "name": "requirementType",
+              "type": "enum: Customer/Statutory/Regulatory/Internal"
+            },
+            {
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "name": "productID",
+              "type": "FK → Products (display: productName)",
+              "notes": "Product the requirement applies to (nullable)"
+            },
+            {
+              "name": "risks",
+              "type": "rollup → Risks (via: requirementID)",
+              "notes": "Risks associated with this requirement"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "Count of Requirements grouped by requirementType",
+              "filters": [
+                "sourceID",
+                "isActive",
+                "productID"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "table",
+              "query": "Requirements joined with Risks; columns: requirement name, type, source, linked risk count, open risk count, highest RPN",
+              "filters": [
+                "requirementType",
+                "sourceID",
+                "isActive"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        },
+        "actionApplication": {
+          "visibility": "show",
+          "description": "Lookup table classifying quality management actions (Risk Management, Control, Communication, Monitoring, Improvement). Used as a filter dimension in Actions reports (ISO §6.1.2(b)).",
+          "attributes": [
+            {
+              "name": "applicationID",
+              "type": "PK"
+            },
+            {
+              "name": "applicationName",
+              "type": "enum: Risk Management/Control/Communication/Monitoring/Improvement"
+            },
+            {
+              "name": "applicationDescription",
+              "type": "text"
+            },
+            {
+              "name": "isoClause",
+              "type": "string",
+              "notes": "e.g., \"6.1.2\", \"8\", \"7.4\", \"9.1\", \"10\""
+            },
+            {
+              "name": "actions",
+              "type": "rollup → Actions (via: applicationID)"
+            }
+          ],
+          "reports": null,
+          "form": [],
+          "cards": []
+        },
+        "Event Log": {
+          "visibility": "show",
+          "description": "Audit trail of event state changes for traceability (ISO §9.1.1 / §10.2).",
+          "attributes": [
+            {
+              "name": "logID",
+              "type": "PK"
+            },
+            {
+              "name": "eventID",
+              "type": "FK → Events (display: eventTitle)"
+            },
+            {
+              "name": "previousStatus",
+              "type": "string",
+              "notes": "Status before change"
+            },
+            {
+              "name": "newStatus",
+              "type": "string",
+              "notes": "Status after change"
+            },
+            {
+              "name": "changedAt",
+              "type": "datetime"
+            },
+            {
+              "name": "changedBy",
+              "type": "FK → People (display: userName)"
+            },
+            {
+              "name": "changeNote",
+              "type": "text",
+              "notes": "nullable"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of resolved Events grouped by resolution time buckets (<1h / 1–8h / 8–24h / 1–7d / >7d)",
+              "filters": [
+                "period",
+                "owner",
+                "priority"
+              ]
+            },
+            "Report-B": {
+              "graph_type": "table",
+              "query": "Full state-change history for a selected event; columns: previous status, new status, changed by, changed at, note",
+              "filters": [
+                "eventID",
+                "changedBy",
+                "period"
+              ]
+            }
+          },
+          "form": [],
+          "cards": []
+        }
+      }
+    }
+  }
+}
