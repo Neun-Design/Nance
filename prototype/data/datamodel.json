@@ -64,7 +64,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Forecasts": {
           "visibility": "show",
@@ -147,7 +148,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Forecast Scopes": {
           "visibility": "show",
@@ -226,7 +228,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     },
@@ -339,7 +342,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Events": {
           "visibility": "show",
@@ -417,7 +421,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Processes": {
           "visibility": "show",
@@ -496,7 +501,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Activities": {
           "visibility": "show",
@@ -533,7 +539,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Workflows": {
           "visibility": "show",
@@ -606,7 +613,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Actions": {
           "visibility": "show",
@@ -652,7 +660,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Constraints": {
           "visibility": "show",
@@ -687,7 +696,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Handouts": {
           "visibility": "show",
@@ -731,7 +741,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Channels": {
           "visibility": "show",
@@ -763,7 +774,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     },
@@ -820,7 +832,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Scopes": {
           "visibility": "show",
@@ -847,7 +860,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Products": {
           "visibility": "show",
@@ -868,7 +882,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Product Class": {
           "visibility": "show",
@@ -890,7 +905,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Product Groups": {
           "visibility": "show",
@@ -921,7 +937,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     },
@@ -1041,7 +1058,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Projects": {
           "visibility": "show",
@@ -1113,7 +1131,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Jobs": {
           "visibility": "show",
@@ -1216,7 +1235,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     },
@@ -1319,7 +1339,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Usage": {
           "visibility": "show",
@@ -1411,7 +1432,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Productivity": {
           "visibility": "show",
@@ -1488,7 +1510,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     },
@@ -1527,7 +1550,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Roles": {
           "visibility": "show",
@@ -1599,7 +1623,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Skill Levels": {
           "visibility": "show",
@@ -1640,7 +1665,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Functions": {
           "visibility": "show",
@@ -1670,7 +1696,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Graduation": {
           "visibility": "show",
@@ -1704,7 +1731,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Competence": {
           "visibility": "show",
@@ -1783,7 +1811,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "People": {
           "visibility": "show",
@@ -1849,7 +1878,8 @@
             "Report-B": null
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Onboarding": {
           "visibility": "show",
@@ -1903,7 +1933,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     },
@@ -1999,7 +2030,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Sources": {
           "visibility": "show",
@@ -2060,7 +2092,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Source Categories": {
           "visibility": "show",
@@ -2086,7 +2119,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Requirements": {
           "visibility": "show",
@@ -2149,7 +2183,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "actionApplication": {
           "visibility": "show",
@@ -2179,7 +2214,8 @@
           ],
           "reports": null,
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         },
         "Event Log": {
           "visibility": "show",
@@ -2238,7 +2274,8 @@
             }
           },
           "form": [],
-          "cards": []
+          "cards": [],
+          "table-filters": []
         }
       }
     }
