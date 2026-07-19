@@ -77,6 +77,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "factoryOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -294,6 +303,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "forecastOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -541,6 +559,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "forecastScopeOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -850,6 +877,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "taskOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -1120,6 +1156,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "eventOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -1427,6 +1472,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "activityOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -1590,6 +1644,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "workflowOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -1698,6 +1761,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "actionOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -1789,6 +1861,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "constraintOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -1928,6 +2009,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "handoutOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -2193,6 +2283,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "productScopeOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -2302,6 +2401,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "scopeOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -2367,6 +2475,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "productOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -2415,6 +2532,15 @@
               "table-display": false,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "productClassOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -2472,6 +2598,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "productGroupOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -3138,6 +3273,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "jobOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -3423,6 +3567,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "capacityOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -3646,6 +3799,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "performanceOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -3800,6 +3962,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "squadOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -3914,6 +4085,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "roleOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -4037,6 +4217,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "skillLevelOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -4138,6 +4327,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "functionOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -4233,6 +4431,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "graduationOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -4377,6 +4584,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "personOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": {
@@ -4565,6 +4781,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "onboardingOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -4737,6 +4962,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "competenceOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
