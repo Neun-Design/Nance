@@ -36,6 +36,17 @@ const procName = (pid) => lookup('Processes', pid, 'processName') || pid;
 const factName = (fid) => lookup('Factories', fid, 'factoryName') || fid;
 const jobProc = (j) => { const t = getById('Tickets', j.ticketID); return t ? t.processID : null; };
 
+// panel-level radio controls per report (rendered by reports.js)
+export const REPORT_RADIOS = {
+  'Capacity::Report-A': {
+    stateKey: 'radio',
+    options: [
+      { value: 'all', label: 'All forecasts' },
+      { value: 'nodraft', label: 'Exclude Draft' },
+    ],
+  },
+};
+
 // ---------- REPORT QUERIES ----------
 export const REPORT_QUERIES = {
   'Factories::Report-A': (rows) =>
@@ -94,13 +105,23 @@ export const REPORT_QUERIES = {
     bar('Real Execution Hours by Role', groupAgg(rows, 'roleID', 'realExecutionTime'),
       (k) => lookup('Roles', k, 'roleName') || k),
 
-  'Capacity::Report-A': (rows) => {
+  // radio (PROTOTYPE_REVIEW Control §Capacity): exclude Draft forecasts — the
+  // allocated hours of each factory scale by its non-Draft share of forecast quota
+  'Capacity::Report-A': (rows, state = {}) => {
     const avail = groupAgg(rows, 'factoryID', 'availableHours');
     const alloc = groupAgg(rows, 'factoryID', 'allocatedHours');
     const cats = [...avail.keys()];
-    return dual('Available vs Allocated Hours by Factory', cats.map(factName),
+    let share = () => 1;
+    if (state.radio === 'nodraft') {
+      const fcs = getEntity('Forecasts');
+      const all = groupAgg(fcs, 'factoryID', 'weeklyUsageQuota');
+      const nod = groupAgg(fcs.filter((f) => f.status !== 'Draft'), 'factoryID', 'weeklyUsageQuota');
+      share = (fid) => { const a = all.get(fid) || 0; return a ? (nod.get(fid) || 0) / a : 1; };
+    }
+    const title = 'Available vs Allocated Hours by Factory' + (state.radio === 'nodraft' ? ' (excl. Draft forecasts)' : '');
+    return dual(title, cats.map(factName),
       'Available', cats.map((c) => Math.round(avail.get(c) || 0)),
-      'Allocated', cats.map((c) => Math.round(alloc.get(c) || 0)));
+      'Allocated', cats.map((c) => Math.round((alloc.get(c) || 0) * share(c))));
   },
 
   'Performance::Report-A': (rows) => {

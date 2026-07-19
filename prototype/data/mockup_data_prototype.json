@@ -19936,6 +19936,7 @@
    {
     "competenceID": "CMP01",
     "functionID": "F1",
+    "scopeID": "A.1",
     "roleID": "R01",
     "skillLevelID": "SL1",
     "actionID": "AC01",
@@ -19947,6 +19948,7 @@
    {
     "competenceID": "CMP02",
     "functionID": "F2",
+    "scopeID": "A.2",
     "roleID": "R02",
     "skillLevelID": "SL2",
     "actionID": "AC02",
@@ -19958,6 +19960,7 @@
    {
     "competenceID": "CMP03",
     "functionID": "F3",
+    "scopeID": "A.3",
     "roleID": "R03",
     "skillLevelID": "SL1",
     "actionID": "AC03",
@@ -19969,6 +19972,7 @@
    {
     "competenceID": "CMP04",
     "functionID": "F4",
+    "scopeID": "A.4",
     "roleID": "R04",
     "skillLevelID": "SL2",
     "actionID": "AC04",
@@ -19980,6 +19984,7 @@
    {
     "competenceID": "CMP05",
     "functionID": "F5",
+    "scopeID": "B",
     "roleID": "R04",
     "skillLevelID": "SL2",
     "actionID": "AC05",
@@ -19991,6 +19996,7 @@
    {
     "competenceID": "CMP06",
     "functionID": "F1",
+    "scopeID": "C",
     "roleID": "R05",
     "skillLevelID": "SL3",
     "actionID": "AC06",
@@ -20002,6 +20008,7 @@
    {
     "competenceID": "CMP07",
     "functionID": "F2",
+    "scopeID": "D",
     "roleID": "R06",
     "skillLevelID": "SL2",
     "actionID": "AC07",
@@ -20013,6 +20020,7 @@
    {
     "competenceID": "CMP08",
     "functionID": "F3",
+    "scopeID": "E",
     "roleID": "R07",
     "skillLevelID": "SL3",
     "actionID": "AC01",
@@ -20024,6 +20032,7 @@
    {
     "competenceID": "CMP09",
     "functionID": "F4",
+    "scopeID": "F",
     "roleID": "R07",
     "skillLevelID": "SL3",
     "actionID": "AC02",
@@ -20035,6 +20044,7 @@
    {
     "competenceID": "CMP10",
     "functionID": "F5",
+    "scopeID": "G",
     "roleID": "R09",
     "skillLevelID": "SL2",
     "actionID": "AC03",
@@ -20046,6 +20056,7 @@
    {
     "competenceID": "CMP11",
     "functionID": "F1",
+    "scopeID": "A.1",
     "roleID": "R02",
     "skillLevelID": "SL2",
     "actionID": "AC04",
@@ -20057,6 +20068,7 @@
    {
     "competenceID": "CMP12",
     "functionID": "F2",
+    "scopeID": "A.2",
     "roleID": "R04",
     "skillLevelID": "SL2",
     "actionID": "AC05",

@@ -35,6 +35,9 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
     rows = sharedDomainJoin(parentTable, parentRow, childTable);
   }
   rows = rows || [];
+  if (opts.only) {
+    rows = rows.filter((r) => opts.only.values.includes(String(r[opts.only.field])));
+  }
   if (opts.orderBy) {
     rows = [...rows].sort((a, b) => String(a[opts.orderBy] ?? '')
       .localeCompare(String(b[opts.orderBy] ?? ''), undefined, { numeric: true }));

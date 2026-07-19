@@ -6,7 +6,7 @@
 import { getEntity, getById } from './data.js';
 import { getCatalog, resolveTable, humanize, parseRule } from './model.js';
 import { renderChart } from './charts.js';
-import { REPORT_QUERIES } from './queries.js';
+import { REPORT_QUERIES, REPORT_RADIOS } from './queries.js';
 import { escapeHtml } from './table.js';
 
 export function reportSpecs(tableName) {
@@ -33,10 +33,10 @@ export function renderReports(container, tableName, opts = {}) {
   return charts;
 }
 
-function runQuery(entry, rows) {
+function runQuery(entry, rows, state) {
   const q = REPORT_QUERIES[`${entry.table}::${entry.key}`];
   if (!q) return null;
-  return q(rows);
+  return q(rows, state);
 }
 
 export function renderReportPanel(grid, entry, opts = {}) {
@@ -68,7 +68,7 @@ export function renderReportPanel(grid, entry, opts = {}) {
     if (chart) { try { chart.dispose(); } catch (_) {} }
     host.innerHTML = '';
     const rows = applyFilters(entry.table, getEntity(entry.table), state);
-    const spec = runQuery(entry, rows);
+    const spec = runQuery(entry, rows, state);
     if (!spec) {
       host.innerHTML = `<div class="empty-note">No query implemented for ${escapeHtml(entry.key)}</div>`;
       return;
@@ -76,6 +76,28 @@ export function renderReportPanel(grid, entry, opts = {}) {
     h3.textContent = spec.title || entry.key;
     chart = renderChart(host, spec, spec.__pre || rows);
   };
+
+  // panel-level radio (e.g. Capacity Report-A: exclude Draft forecasts)
+  const radio = REPORT_RADIOS[`${entry.table}::${entry.key}`];
+  if (radio) {
+    const wrap = document.createElement('div');
+    wrap.className = 'report-radio';
+    radio.options.forEach((o, i) => {
+      const lbl = document.createElement('label');
+      const inp = document.createElement('input');
+      inp.type = 'radio';
+      inp.name = `radio-${entry.table}-${entry.key}`;
+      inp.value = o.value;
+      inp.checked = i === 0;
+      inp.disabled = opts.filtersEnabled === false;
+      inp.addEventListener('change', () => { state[radio.stateKey] = inp.value; draw(); });
+      const txt = document.createElement('span');
+      txt.textContent = o.label;
+      lbl.append(inp, txt);
+      wrap.appendChild(lbl);
+    });
+    btnWrap.appendChild(wrap);
+  }
 
   // per-report filter drawer (wireframe pattern; Reset inside)
   const filterFields = entry.spec.filters && entry.spec.filters.fields;

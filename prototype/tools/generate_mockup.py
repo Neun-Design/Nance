@@ -414,6 +414,7 @@ new['Onboarding'] = [
 new['Competence'] = [
     {'competenceID': c['competenceID'],
      'functionID': pick([f['functionID'] for f in FUNCTIONS], i),
+     'scopeID': c.get('scopeID') or pick(SCOPE_IDS, i),
      'roleID': c['roleID'], 'skillLevelID': c['skillLevelID'],
      'actionID': pick(ACTION_IDS, i), 'activityID': pick(ACT_IDS, i),
      'competenceName': f"Competence {c['competenceID']}",
