@@ -7,6 +7,8 @@ import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns
 import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
 import { buildFilterBar } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
+import { renderCards } from './cards.js';
+import { renderReports } from './reports.js';
 import { renderOverview } from './overview.js';
 import { openForm, supportsEdit } from './forms.js';
 import { parseHash, go, onRoute } from './router.js';
@@ -208,6 +210,9 @@ function renderBodyOnly() {
   const countEl = document.getElementById('tab-count');
   if (countEl) countEl.textContent = `${rows.length} of ${all.length} records`;
 
+  // KPI cards above the table (datamodel cards spec)
+  renderCards(body, cfg.entity);
+
   const tablePanel = panel(`${cfg.tab} — records`);
   const controls = document.createElement('div');
   controls.className = 'tbl-controls';
@@ -256,6 +261,9 @@ function renderBodyOnly() {
     },
   });
   body.appendChild(tablePanel.wrap);
+
+  // report chart panels below the table (datamodel reports spec)
+  liveCharts = renderReports(body, cfg.entity);
 }
 
 function rowMatchesSearch(r, cfg, term) {
