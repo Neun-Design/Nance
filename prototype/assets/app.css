@@ -330,3 +330,13 @@ select.form-input[multiple] { padding: 0; }
 .filter-drawer .filter-bar { flex-direction: column; align-items: stretch; }
 .filter-drawer .filter-field { width: 100%; }
 .filter-drawer .filter-field select, .filter-drawer .filter-field input { width: 100%; }
+
+/* ---------- Overview details buttons ---------- */
+.details-btn {
+  height: 26px; padding: 0 var(--se-space-4); border: 1px solid var(--se-action-secondary-border);
+  border-radius: var(--se-radius-1); background: var(--se-base-1); color: var(--se-action-secondary-text);
+  font-size: var(--se-font-size-caption); font-weight: 600; white-space: nowrap;
+}
+.details-btn:hover { background: var(--se-action-secondary-hover); }
+.kpi { position: relative; }
+.kpi-details { position: absolute; top: var(--se-space-4); right: var(--se-space-4); }
