@@ -82,6 +82,24 @@ export function addRecord(name, record) {
   return record;
 }
 
+// Remove records by primary key (in-memory only). Returns the number removed.
+export function removeRecords(name, ids) {
+  const meta = ENTITY_META[name];
+  if (!meta || !store.entities[name]) return 0;
+  const idSet = new Set(ids);
+  const before = store.entities[name].length;
+  store.entities[name] = store.entities[name].filter(r => !idSet.has(r[meta.pk]));
+  ids.forEach(id => store.index[name].delete(id));
+  return before - store.entities[name].length;
+}
+
+// Patch an existing record in place (keeps identity so index stays valid).
+export function updateRecord(name, id, patch) {
+  const rec = getById(name, id);
+  if (rec) Object.assign(rec, patch);
+  return rec;
+}
+
 // Look up a field on a related record by id, e.g. lookup('Roles', 'R04', 'roleName').
 export function lookup(name, id, field) {
   const rec = getById(name, id);

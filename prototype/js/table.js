@@ -1,7 +1,10 @@
 // table.js — generic data table: sort, mirror-field styling, status pills,
-// and collapsible rollup child rows (default collapsed) per the global UI rules.
+// collapsible rollup child rows, row selection, pagination (dashboard-01 style),
+// hideable columns and a summation row over all numerical columns.
 
 import { getEntity, lookup } from './data.js';
+
+const PAGE_SIZES = [10, 25, 50, 100];
 
 // col: { key, label, lookup:[entity,field], accessor, mirror, num, pill }
 function resolveVal(col, r) {
@@ -20,26 +23,30 @@ function cellHtml(col, r) {
   return escapeHtml(v ?? '');
 }
 
-function tdClass(col) {
-  const c = [];
-  if (col.mirror) c.push('mirror');
-  if (col.num) c.push('num');
-  return c.length ? ` class="${c.join(' ')}"` : '';
-}
-
-// opts: { columns, rows, pk, rollups }
+// opts: { columns, rows, pk, rollups, selectable, onSelectionChange }
+// Returns an API: { getSelected, clearSelection, setColumnHidden, isColumnHidden, redraw }
 export function renderTable(container, opts) {
-  const { columns, rows, pk, rollups = [] } = opts;
+  const { columns, rows, pk, rollups = [], selectable = false, onSelectionChange } = opts;
   const hasRollups = rollups.length > 0;
   let sortKey = null, sortDir = 1;
+  let page = 0, pageSize = PAGE_SIZES[0];
+  const selected = new Set();       // pk values
+  const hidden = new Set();         // column ids (key || label)
 
   const wrap = document.createElement('div');
   wrap.className = 'tbl-wrap';
   container.appendChild(wrap);
 
+  const colId = (col) => col.key || col.label;
+  const visibleColumns = () => columns.filter(c => !hidden.has(colId(c)));
+
+  function notifySelection() {
+    if (onSelectionChange) onSelectionChange([...selected]);
+  }
+
   function sortedRows() {
     if (!sortKey) return rows;
-    const col = columns.find(c => (c.key || c.label) === sortKey);
+    const col = columns.find(c => colId(c) === sortKey);
     if (!col) return rows;
     return [...rows].sort((a, b) => {
       const va = resolveVal(col, a), vb = resolveVal(col, b);
@@ -50,23 +57,43 @@ export function renderTable(container, opts) {
   }
 
   function draw() {
+    wrap.innerHTML = '';
     const data = sortedRows();
+    const cols = visibleColumns();
+    const pageCount = Math.max(1, Math.ceil(data.length / pageSize));
+    if (page >= pageCount) page = pageCount - 1;
+    const pageRows = data.slice(page * pageSize, (page + 1) * pageSize);
+    const leadCols = (selectable ? 1 : 0) + (hasRollups ? 1 : 0);
+
     const tbl = document.createElement('table');
     tbl.className = 'dt';
 
     // header
     const thead = document.createElement('thead');
     const htr = document.createElement('tr');
+    if (selectable) {
+      const th = el('th', '', { style: 'width:32px', class: 'sel-cell' });
+      const all = document.createElement('input');
+      all.type = 'checkbox';
+      all.checked = pageRows.length > 0 && pageRows.every(r => selected.has(r[pk]));
+      all.indeterminate = !all.checked && pageRows.some(r => selected.has(r[pk]));
+      all.addEventListener('change', () => {
+        pageRows.forEach(r => all.checked ? selected.add(r[pk]) : selected.delete(r[pk]));
+        notifySelection(); draw();
+      });
+      th.appendChild(all);
+      htr.appendChild(th);
+    }
     if (hasRollups) htr.appendChild(el('th', '', { style: 'width:28px' }));
-    for (const col of columns) {
-      const id = col.key || col.label;
+    for (const col of cols) {
+      const id = colId(col);
       const ind = sortKey === id ? `<span class="sort-ind">${sortDir > 0 ? '▲' : '▼'}</span>` : '';
-      const th = el('th', (col.label || col.key) + ind, col.mirror ? { class: 'mirror' } : {});
-      th.innerHTML = (col.label || col.key) + ind;
+      const th = document.createElement('th');
+      th.innerHTML = escapeHtml(col.label || col.key) + ind;
       if (col.mirror) th.classList.add('mirror');
       th.addEventListener('click', () => {
         if (sortKey === id) sortDir *= -1; else { sortKey = id; sortDir = 1; }
-        wrap.innerHTML = ''; draw();
+        draw();
       });
       htr.appendChild(th);
     }
@@ -77,14 +104,27 @@ export function renderTable(container, opts) {
     if (!data.length) {
       const tr = document.createElement('tr');
       const td = el('td', 'No records match the current filters.', { class: 'empty-note' });
-      td.colSpan = columns.length + (hasRollups ? 1 : 0);
-      td.className = 'empty-note';
+      td.colSpan = cols.length + leadCols;
       tr.appendChild(td); tbody.appendChild(tr);
     }
-    for (const r of data) {
+    for (const r of pageRows) {
       const tr = document.createElement('tr');
-      if (hasRollups) tr.appendChild(rollupToggleCell(r, tbody, tr));
-      for (const col of columns) {
+      if (selected.has(r[pk])) tr.classList.add('row-selected');
+      if (selectable) {
+        const td = el('td', '', { class: 'sel-cell' });
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = selected.has(r[pk]);
+        cb.addEventListener('change', () => {
+          cb.checked ? selected.add(r[pk]) : selected.delete(r[pk]);
+          tr.classList.toggle('row-selected', cb.checked);
+          notifySelection(); drawFooterOnly();
+        });
+        td.appendChild(cb);
+        tr.appendChild(td);
+      }
+      if (hasRollups) tr.appendChild(rollupToggleCell(r, tr, cols.length + leadCols));
+      for (const col of cols) {
         const td = document.createElement('td');
         if (col.mirror) td.classList.add('mirror');
         if (col.num) td.classList.add('num');
@@ -94,10 +134,87 @@ export function renderTable(container, opts) {
       tbody.appendChild(tr);
     }
     tbl.appendChild(tbody);
+
+    // summation row — SUM of every numerical column over ALL filtered rows
+    const numCols = cols.filter(c => c.num);
+    if (numCols.length && data.length) {
+      const tfoot = document.createElement('tfoot');
+      const tr = document.createElement('tr');
+      tr.className = 'sum-row';
+      for (let i = 0; i < leadCols; i++) tr.appendChild(el('td'));
+      cols.forEach((col, i) => {
+        const td = document.createElement('td');
+        if (i === 0 && !col.num) td.textContent = `Σ Total (${data.length} rows)`;
+        if (col.num) {
+          td.classList.add('num');
+          const sum = data.reduce((s, r) => {
+            const v = resolveVal(col, r);
+            return typeof v === 'number' && !isNaN(v) ? s + v : s;
+          }, 0);
+          td.textContent = formatNum(sum);
+        }
+        tr.appendChild(td);
+      });
+      tfoot.appendChild(tr); tbl.appendChild(tfoot);
+    }
+
     wrap.appendChild(tbl);
+    wrap.appendChild(buildFooter(data.length, pageCount));
   }
 
-  function rollupToggleCell(r, tbody, parentTr) {
+  // pagination + selection footer, dashboard-01 style
+  function buildFooter(total, pageCount) {
+    const foot = document.createElement('div');
+    foot.className = 'tbl-foot';
+
+    const selInfo = document.createElement('span');
+    selInfo.className = 'tbl-selinfo';
+    selInfo.textContent = selectable ? `${selected.size} of ${total} row(s) selected` : '';
+    foot.appendChild(selInfo);
+
+    const spacer = document.createElement('div');
+    spacer.className = 'filter-spacer';
+    foot.appendChild(spacer);
+
+    const rpp = document.createElement('label');
+    rpp.className = 'tbl-rpp';
+    rpp.textContent = 'Rows per page ';
+    const sel = document.createElement('select');
+    PAGE_SIZES.forEach(n => {
+      const o = document.createElement('option');
+      o.value = n; o.textContent = n; if (n === pageSize) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', () => { pageSize = Number(sel.value); page = 0; draw(); });
+    rpp.appendChild(sel);
+    foot.appendChild(rpp);
+
+    const info = document.createElement('span');
+    info.className = 'tbl-pageinfo';
+    info.textContent = `Page ${Math.min(page + 1, pageCount)} of ${pageCount}`;
+    foot.appendChild(info);
+
+    const prev = pagerBtn('‹', page === 0, () => { page -= 1; draw(); });
+    const next = pagerBtn('›', page >= pageCount - 1, () => { page += 1; draw(); });
+    foot.append(prev, next);
+    return foot;
+  }
+
+  function drawFooterOnly() {
+    const info = wrap.querySelector('.tbl-selinfo');
+    if (info) info.textContent = `${selected.size} of ${sortedRows().length} row(s) selected`;
+  }
+
+  function pagerBtn(txt, disabled, onClick) {
+    const b = document.createElement('button');
+    b.className = 'tbl-pager';
+    b.textContent = txt;
+    b.disabled = disabled;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function rollupToggleCell(r, parentTr, span) {
     const td = document.createElement('td');
     const total = rollups.reduce((s, rl) => s + childrenOf(rl, r).length, 0);
     if (!total) return td;
@@ -109,7 +226,7 @@ export function renderTable(container, opts) {
       open = !open;
       btn.classList.toggle('open', open);
       if (open) {
-        detailTr = buildDetailRow(r);
+        detailTr = buildDetailRow(r, span);
         parentTr.after(detailTr);
       } else if (detailTr) { detailTr.remove(); detailTr = null; }
     });
@@ -117,15 +234,15 @@ export function renderTable(container, opts) {
     return td;
   }
 
-  function buildDetailRow(r) {
+  function buildDetailRow(r, span) {
     const tr = document.createElement('tr');
     tr.className = 'rollup-row';
     const td = document.createElement('td');
-    td.colSpan = columns.length + 1;
+    td.colSpan = span;
     for (const rl of rollups) {
       const kids = childrenOf(rl, r);
       const h = document.createElement('div');
-      h.innerHTML = `<div style="font-weight:600;margin:6px 0;">${rl.label} <span class="count-badge">${kids.length}</span></div>`;
+      h.innerHTML = `<div style="font-weight:600;margin:6px 0;">${escapeHtml(rl.label)} <span class="count-badge">${kids.length}</span></div>`;
       td.appendChild(h);
       if (kids.length) {
         const mini = document.createElement('table'); mini.className = 'dt';
@@ -154,9 +271,20 @@ export function renderTable(container, opts) {
   }
 
   draw();
+
+  return {
+    getSelected: () => [...selected],
+    clearSelection: () => { selected.clear(); notifySelection(); draw(); },
+    setColumnHidden: (id, hide) => { hide ? hidden.add(id) : hidden.delete(id); draw(); },
+    isColumnHidden: (id) => hidden.has(id),
+    redraw: draw,
+  };
 }
 
 // ---- tiny helpers ----
+function formatNum(n) {
+  return Number.isInteger(n) ? n.toLocaleString() : n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+}
 function el(tag, text, attrs = {}) {
   const e = document.createElement(tag);
   if (text) e.textContent = text;

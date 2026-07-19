@@ -1,13 +1,13 @@
 // app.js — bootstrap: load data, build navigation, render the active tab.
 
-import { loadData, getEntity } from './data.js';
+import { loadData, getEntity, getById, removeRecords } from './data.js';
 import { enrichAll } from './compute.js';
 import { REGISTRY } from './registry.js';
 import { buildFilterBar } from './filters.js';
 import { renderTable } from './table.js';
 import { renderChart } from './charts.js';
 import { renderOverview } from './overview.js';
-import { openForm } from './forms.js';
+import { openForm, supportsEdit } from './forms.js';
 import { parseHash, go, onRoute } from './router.js';
 
 const sidebarEl = document.getElementById('sidebar');
@@ -96,6 +96,8 @@ function render() {
   renderTabShell(currentCfg);
 }
 
+let filterDrawer = null;
+
 function renderTabShell(cfg) {
   tabViewEl.innerHTML = '';
   const rows = getEntity(cfg.entity);
@@ -108,12 +110,9 @@ function renderTabShell(cfg) {
     (cfg.subtitle ? `<p class="tab-subtitle">${cfg.subtitle}</p>` : '');
   tabViewEl.appendChild(head);
 
-  // filter bar
-  const filterHost = document.createElement('div');
-  tabViewEl.appendChild(filterHost);
-  currentFilter = (cfg.filters && cfg.filters.length)
-    ? buildFilterBar(filterHost, cfg.filters, rows, renderBodyOnly)
-    : { apply: (l) => l };
+  // filters live in a right-side drawer (wireframe pattern); Reset stays inside it
+  filterDrawer = (cfg.filters && cfg.filters.length) ? buildFilterDrawer(cfg, rows) : null;
+  currentFilter = filterDrawer ? filterDrawer.filter : { apply: (l) => l };
 
   // body host (table + charts)
   const body = document.createElement('div');
@@ -122,11 +121,37 @@ function renderTabShell(cfg) {
   renderBodyOnly();
 }
 
+function buildFilterDrawer(cfg, rows) {
+  const overlay = document.createElement('div');
+  overlay.className = 'drawer-overlay';
+  const shell = document.createElement('div'); shell.className = 'drawer-stack';
+  const panel = document.createElement('div'); panel.className = 'drawer filter-drawer';
+  shell.appendChild(panel); overlay.appendChild(shell);
+
+  const head = document.createElement('div'); head.className = 'drawer-head';
+  const title = document.createElement('div');
+  title.innerHTML = `<div class="drawer-title">Filters — ${cfg.tab}</div>
+    <div class="drawer-sub">Combined with AND; Reset clears every filter</div>`;
+  const x = document.createElement('button'); x.className = 'drawer-x'; x.textContent = '✕';
+  head.append(title, x);
+
+  const bodyHost = document.createElement('div'); bodyHost.className = 'drawer-body';
+  panel.append(head, bodyHost);
+  const filter = buildFilterBar(bodyHost, cfg.filters, rows, renderBodyOnly);
+
+  const close = () => overlay.classList.remove('open');
+  x.addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  tabViewEl.appendChild(overlay);
+  return { filter, open: () => overlay.classList.add('open') };
+}
+
 function renderBodyOnly() {
   if (active.module === -1 || !currentCfg) return;
   const body = document.getElementById('tab-body');
   if (!body) return;
   disposeCharts();
+  if (openPopover) { openPopover.remove(); openPopover = null; }
   body.innerHTML = '';
 
   const cfg = currentCfg;
@@ -140,15 +165,58 @@ function renderBodyOnly() {
 
   // entity table panel (Rule 1 — always present)
   const tablePanel = panel(`${cfg.tab} — records`);
+  const controls = document.createElement('div');
+  controls.className = 'tbl-controls';
+  tablePanel.head.appendChild(controls);
+
+  // Edit — enabled only when exactly one row is selected
+  let editBtn = null, delBtn = null, tableApi = null;
+  if (!cfg.readonly) {
+    editBtn = ctrlBtn('Edit', true, () => {
+      const ids = tableApi.getSelected();
+      if (ids.length !== 1) return;
+      openForm(cfg, renderBodyOnly, getById(cfg.entity, ids[0]));
+    });
+    if (!supportsEdit(cfg.entity)) editBtn.title = 'Editing uses the stepped form — not available for this entity in the prototype';
+    // Delete — enabled when one or more rows are selected
+    delBtn = ctrlBtn('Delete', true, () => {
+      const ids = tableApi.getSelected();
+      if (!ids.length) return;
+      if (!window.confirm(`Delete ${ids.length} record(s) from ${cfg.tab}? (in-memory only)`)) return;
+      removeRecords(cfg.entity, ids);
+      enrichAll();
+      renderBodyOnly();
+    });
+    delBtn.classList.add('btn-danger');
+    controls.append(editBtn, delBtn);
+  }
+
+  // Customize Columns — checkbox popover per wireframe
+  const custBtn = ctrlBtn('Customize Columns', false, () => toggleColsPopover(custBtn, cfg, () => tableApi));
+  controls.appendChild(custBtn);
+
+  // Filters — opens the right-side drawer; disabled when the tab defines none
+  const fltBtn = ctrlBtn('Filters', !filterDrawer, () => filterDrawer && filterDrawer.open());
+  if (!filterDrawer) fltBtn.title = 'No filters defined for this table';
+  controls.appendChild(fltBtn);
+
   // "New Item" — every editable tab (Rule 4: not the read-only Control tabs)
   if (!cfg.readonly) {
     const addBtn = document.createElement('button');
     addBtn.className = 'btn-primary';
     addBtn.innerHTML = '<span>+</span> New Item';
     addBtn.addEventListener('click', () => openForm(cfg, renderBodyOnly));
-    tablePanel.head.appendChild(addBtn);
+    controls.appendChild(addBtn);
   }
-  renderTable(tablePanel.body, { columns: cfg.columns, rows, pk: cfg.pk, rollups: cfg.rollups || [] });
+
+  tableApi = renderTable(tablePanel.body, {
+    columns: cfg.columns, rows, pk: cfg.pk, rollups: cfg.rollups || [],
+    selectable: !cfg.readonly,
+    onSelectionChange: (ids) => {
+      if (editBtn) editBtn.disabled = ids.length !== 1 || !supportsEdit(cfg.entity);
+      if (delBtn) delBtn.disabled = ids.length === 0;
+    },
+  });
   body.appendChild(tablePanel.wrap);
 
   // charts panel
@@ -176,6 +244,49 @@ function rowMatchesSearch(r, cfg, term) {
     if (col.lookup) return String(r[col.key] ?? '').toLowerCase().includes(term); // cheap: match id
     return String(v ?? '').toLowerCase().includes(term);
   });
+}
+
+function ctrlBtn(label, disabled, onClick) {
+  const b = document.createElement('button');
+  b.className = 'btn-secondary';
+  b.textContent = label;
+  b.disabled = disabled;
+  b.addEventListener('click', onClick);
+  return b;
+}
+
+let openPopover = null;
+function toggleColsPopover(anchor, cfg, getApi) {
+  if (openPopover) { openPopover.remove(); openPopover = null; return; }
+  const api = getApi();
+  const pop = document.createElement('div');
+  pop.className = 'cols-pop';
+  const note = document.createElement('div');
+  note.className = 'cols-pop-title';
+  note.textContent = 'Toggle columns';
+  pop.appendChild(note);
+  for (const col of cfg.columns) {
+    const id = col.key || col.label;
+    const row = document.createElement('label');
+    row.className = 'cols-pop-row';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !api.isColumnHidden(id);
+    cb.addEventListener('change', () => api.setColumnHidden(id, !cb.checked));
+    const txt = document.createElement('span');
+    txt.textContent = col.label || col.key;
+    row.append(cb, txt);
+    pop.appendChild(row);
+  }
+  anchor.parentElement.appendChild(pop);
+  openPopover = pop;
+  const onDocClick = (e) => {
+    if (!pop.contains(e.target) && e.target !== anchor) {
+      pop.remove(); openPopover = null;
+      document.removeEventListener('click', onDocClick, true);
+    }
+  };
+  document.addEventListener('click', onDocClick, true);
 }
 
 function panel(title) {
