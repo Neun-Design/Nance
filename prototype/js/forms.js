@@ -6,7 +6,7 @@
 
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
-import { getCatalog, resolveTable, columnsFor, childKeyFor } from './model.js';
+import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -153,13 +153,18 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     }
 
     const skip = new Set([pk, link ? link.field : null]);
-    for (const f of getBaseFields(entity)) {
-      if (skip.has(f)) continue;
-      const c = classify(entity, f);
-      const { node, get } = buildControl(entity, f, c);
-      if (record) setControlValue(node, c, record[f]);
-      ctx.controls[f] = get;
-      form.appendChild(fieldRow(humanize(f), node, hintFor(c)));
+    const spec = getCatalog(entity)?.form;
+    if (spec && spec.fields && typeof spec.fields === 'object') {
+      buildSpecFields(entity, spec, form, ctx, skip, record);
+    } else {
+      for (const f of getBaseFields(entity)) {
+        if (skip.has(f)) continue;
+        const c = classify(entity, f);
+        const { node, get } = buildControl(entity, f, c);
+        if (record) setControlValue(node, c, record[f]);
+        ctx.controls[f] = get;
+        form.appendChild(fieldRow(humanize(f), node, hintFor(c)));
+      }
     }
 
     // mirror / auto-calculated fields (read-only, so the client sees what's derived)
@@ -170,7 +175,13 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     }
 
     // rollups → "New <child>" buttons that push a nested form linked to this record
-    const rollups = rollupsForEntity(entity);
+    // (table-level subitems + any form-level subitem-tables from the spec)
+    const rollups = [...rollupsForEntity(entity)];
+    for (const child of (ctx.formSubitems || [])) {
+      if (rollups.some(rl => rl.childEntity === child)) continue;
+      const key = childKeyFor(child, entity);
+      if (key) rollups.push({ label: child, childEntity: child, childKey: key, columns: columnsFor(child, 'sub') });
+    }
     if (rollups.length) {
       form.appendChild(sectionNote('Related records'));
       for (const rl of rollups) {
@@ -287,8 +298,166 @@ function setControlValue(node, c, v) {
 }
 
 // Bespoke stepped forms were retired with the registry; the datamodel
-// form spec (P6-E) declares cascading behaviour via check/field-rule.
+// form spec declares cascading behaviour via check/field-rule.
 const CUSTOM_FORMS = {};
+
+// ============ Spec-driven form builder (DATAMODEL_GUIDE §6) ============
+// steps: named sections ordered by step-order; fields: field-type mapped to
+// vanilla controls; check "<Label> IS NOT NULL" gates a field on another;
+// field-rule handles "filtered by <X> selected", "Allow multiple values" /
+// "Multivalued field", "SelectLabel = <field>" (optgroups) and "enum: A, B".
+
+function firstTypeKey(ft) {
+  if (Array.isArray(ft)) ft = ft.find((x) => x && typeof x === 'object') || {};
+  if (ft && typeof ft === 'object') return (Object.keys(ft)[0] || 'input').toLowerCase();
+  return 'input';
+}
+
+function specOptions(entity, attrName, ruleText) {
+  const cat = getCatalog(entity);
+  const a = cat && cat.byName[attrName];
+  const r = a && parseRule(a.rule);
+  if (ruleText) {
+    const em = String(ruleText).match(/enum:\s*(.+)$/);
+    if (em) return { options: em[1].split(',').map((s) => ({ value: s.trim(), label: s.trim() })), target: null };
+  }
+  if (r && r.kind === 'enum') return { options: r.values.map((v) => ({ value: v, label: v })), target: null };
+  if (r && r.kind === 'fk') {
+    const target = resolveTable(r.target);
+    if (target) return { options: fkOptions(target), target };
+  }
+  const t = attrName && resolveTable(attrName);
+  if (t) return { options: fkOptions(t), target: t };
+  return { options: distinct(entity, attrName).map((v) => ({ value: v, label: String(v) })), target: null };
+}
+
+function fillOptions(sel, options, groupField, target, placeholder) {
+  sel.innerHTML = '';
+  const ph = document.createElement('option');
+  ph.value = ''; ph.textContent = placeholder || '— select —';
+  sel.appendChild(ph);
+  if (groupField && target) {
+    const groups = new Map();
+    for (const o of options) {
+      const rec = getById(target, o.value);
+      const g = rec ? (rec[groupField] ?? '') : '';
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(o);
+    }
+    for (const [g, list] of [...groups.entries()].sort((a, b) => String(a[0]).localeCompare(String(b[0])))) {
+      const og = document.createElement('optgroup'); og.label = String(g || '—');
+      list.forEach((o) => { const el = document.createElement('option'); el.value = o.value; el.textContent = o.label; og.appendChild(el); });
+      sel.appendChild(og);
+    }
+  } else {
+    options.forEach((o) => { const el = document.createElement('option'); el.value = o.value; el.textContent = o.label; sel.appendChild(el); });
+  }
+}
+
+function buildSpecFields(entity, spec, form, ctx, skip, record) {
+  // ---- steps ordered by step-order ----
+  const steps = [];
+  if (spec.steps && typeof spec.steps === 'object') {
+    for (const [title, s] of Object.entries(spec.steps)) {
+      steps.push({ title, order: (s && s['step-order']) || 99, description: s && s['step-description'] });
+    }
+    steps.sort((a, b) => a.order - b.order);
+  }
+  const stepHosts = {};
+  for (const st of steps) {
+    form.appendChild(sectionNote(st.title + (st.description ? ` — ${st.description}` : '')));
+    const host = document.createElement('div');
+    form.appendChild(host);
+    stepHosts[st.title] = host;
+  }
+  const defaultHost = document.createElement('div');
+  form.appendChild(defaultHost);
+
+  const byLabel = {};   // field label -> { node, get, refilter }
+  const entries = Object.entries(spec.fields).filter(([, fv]) => fv && typeof fv === 'object');
+
+  for (const [label, fv] of entries) {
+    const attrName = fv.attribute;
+    if (attrName && skip.has(attrName)) continue;
+    const typeKey = firstTypeKey(fv['field-type']);
+    const ruleText = Array.isArray(fv['field-rule']) ? fv['field-rule'].join('; ') : (fv['field-rule'] || '');
+    const multi = /allow multiple|multivalued/i.test(ruleText);
+    const groupM = String(ruleText).match(/SelectLabel\s*=\s*([A-Za-z.]+)/);
+    const groupField = groupM ? groupM[1].split('.').pop() : null;
+
+    let node, get;
+    if (['select', 'selectgroups', 'combobox', 'comboboxgroups', 'radio'].includes(typeKey)) {
+      const { options, target } = specOptions(entity, attrName, ruleText);
+      node = document.createElement('select'); node.className = 'form-input';
+      if (multi) { node.multiple = true; node.size = Math.min(5, options.length || 1); }
+      fillOptions(node, options, groupField, target, multi ? null : undefined);
+      get = multi ? () => [...node.selectedOptions].map((o) => o.value).filter(Boolean)
+                  : () => node.value;
+      // cascade: "filtered by the <X> selected"
+      const filtM = ruleText.match(/filtered by (?:the )?([A-Za-z ]+?)(?: selected| field|$)/i);
+      if (filtM && target) {
+        const depName = filtM[1].trim().toLowerCase();
+        node._refilter = () => {
+          const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase().includes(depName) || depName.includes(l.toLowerCase()));
+          if (!dep) return;
+          const depVal = dep[1].get();
+          const depAttr = spec.fields[dep[0]] && spec.fields[dep[0]].attribute;
+          const depTarget = depAttr ? specOptions(entity, depAttr, '').target : null;
+          let opts = specOptions(entity, attrName, ruleText).options;
+          if (depVal && depTarget) {
+            const key = childKeyFor(target, depTarget);
+            if (key) opts = opts.filter((o) => { const rec = getById(target, o.value); return rec && (Array.isArray(rec[key]) ? rec[key].includes(depVal) : rec[key] === depVal); });
+          }
+          fillOptions(node, opts, groupField, target);
+        };
+      }
+    } else if (typeKey === 'switch') {
+      node = document.createElement('input'); node.type = 'checkbox'; node.className = 'form-switch';
+      get = () => node.checked;
+    } else if (typeKey === 'date' || typeKey === 'date picker') {
+      node = mkInput('date'); get = () => node.value;
+    } else if (typeKey === 'month') {
+      node = mkInput('month'); get = () => node.value;
+    } else if (typeKey === 'field') {
+      node = document.createElement('textarea'); node.className = 'form-input'; node.rows = 3;
+      get = () => node.value;
+    } else {
+      const a = getCatalog(entity)?.byName[attrName];
+      node = mkInput(a && ['INT', 'DECIMAL'].includes(a.type) ? 'number' : 'text');
+      get = () => (node.type === 'number' ? (node.value === '' ? null : Number(node.value)) : node.value);
+    }
+
+    if (record && attrName) setControlValue(node, { type: node.multiple ? 'multiselect' : 'text' }, record[attrName]);
+    if (attrName) ctx.controls[attrName] = get;
+    byLabel[label] = { node, get };
+
+    const host = stepHosts[fv.step] || defaultHost;
+    host.appendChild(fieldRow(label, node, (fv.tooltip || '').trim()));
+  }
+
+  // ---- check conditions: "<Label> IS NOT NULL" gates this field ----
+  for (const [label, fv] of entries) {
+    const chk = fv.check && String(fv.check).match(/^(.+?)\s+IS NOT NULL$/i);
+    if (!chk || !byLabel[label]) continue;
+    const depLabel = chk[1].trim().toLowerCase();
+    const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depLabel
+      || l.toLowerCase().includes(depLabel) || depLabel.includes(l.toLowerCase()));
+    if (!dep) continue;
+    const target = byLabel[label].node;
+    const update = () => {
+      const has = !!dep[1].get() && String(dep[1].get()).length > 0;
+      target.disabled = !has;
+      if (has && target._refilter) target._refilter();
+    };
+    dep[1].node.addEventListener('change', update);
+    dep[1].node.addEventListener('input', update);
+    update();
+  }
+
+  // ---- form-level subitem-tables: extra "New <child>" launchers ----
+  const extra = Array.isArray(spec['subitem-tables']) ? spec['subitem-tables'] : [];
+  ctx.formSubitems = extra.map((e) => resolveTable(String(e).split(':')[0])).filter(Boolean);
+}
 
 // ================= DOM helpers =================
 function fieldRow(label, control, hint) {
