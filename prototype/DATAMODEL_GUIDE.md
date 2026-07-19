@@ -267,8 +267,8 @@ Rules (from PROTOTYPE_REVIEW.md):
 3. Items without the parameter (or `null`) stay module-only.
 
 Current `true` inventory — cards: Tickets `Card 1-1`, Capacity `Card 1-1`, Performance
-`card 1-2`; reports: Forecasts A, Forecast Scopes B, Tasks B, Jobs A, Capacity A,
-Performance A.
+`Card 1-2`, Skill Levels `Card 1-1`; reports: Forecasts A, Forecast Scopes B, Tasks B,
+Jobs A, Capacity A, Performance A, Roles A.
 
 ---
 
@@ -319,14 +319,15 @@ one expanded row (the Events dashboard's Tasks + Tickets grouping is the referen
 
 ## 10. Known data quirks (fix upstream, don't code around silently)
 
+> Resolved 2026-07-19 (`data/fix-datamodel-quirks`): stray `overview-display` keys
+> (Roles.reports, Skill Levels.cards) relocated into their Report/Card entries; slot-key
+> and `card-component` casing normalized; `enum: LPT/MT/DT` → `LPT/MPT/DT`;
+> `decimal` → `DECIMAL`. Remaining by design:
+
 | Quirk | Location | Correct interpretation |
 |---|---|---|
-| `reports` contains a stray top-level `"overview-display"` key beside `Report-A` | `Talent.Roles` | It belongs *inside* Report-A; treat it as Report-A's flag and fix the JSON. |
-| Slot-key casing varies (`Card 1-1` vs `card 1-1`) | Performance, Skill Levels | Match case-insensitively. |
-| `card-component` casing varies (`shadcn-card` / `shadcn-Card`) | several | Same component. |
-| Factories `businessSegment` rule says `enum: LPT/MT/DT` but mockup data uses `MPT` | Factories vs mockup | `MT` ≙ `MPT`; align the enum to `LPT/MPT/DT`. |
 | `form` sometimes holds prose placeholders (`["see #wireframe"]`, `["keep the way it is in the #wireframe"]`) | Products, Product Class, Squads | Follow the wireframe until a structured form spec lands. |
-| `type` casing varies (`DECIMAL`/`decimal`) | Forecast Scopes | Same type. |
+| Lowercase table names in `subitem-tables` (`"tickets"`, `"people"`) | several | Match case-insensitively (§9). |
 
 ---
 
