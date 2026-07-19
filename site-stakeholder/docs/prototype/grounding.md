@@ -8,14 +8,14 @@ purpose: "ISO 9001 relevance, Event Driven Architecture"
 
 The EDQMS prototype is not built on intuition or convention. It is grounded in three converging principles — one from quality management theory, one from information architecture, and one from organisational knowledge practice. Understanding these foundations explains why the system is designed the way it is, and why that design is the right fit for the Engineering Hub's challenge.
 
-## ISO 9001:2015: The Quality Framework
+## The Quality Framework
 
 ISO 9001:2015 is the current edition of the most widely adopted quality management standard in the world. Three of its most significant updates in the 2015 revision directly shape the EDQMS architecture.
 
 ### Risk-Based Thinking (§6.1)
 
 > *"Risk management could be the single most significant addition to ISO 9001:2015. It requires a complete change of focus in implementing a quality management system. Instead of just mindlessly implementing the 'shalls' of the standard, the organisation has to identify and control its unique risks and opportunities."*
-> — Cochran, C. (2015). ISO 9001:2015 in Plain English.
+> — Cochran (2015)
 
 In ISO 9001:2015, risk encompasses both threats and opportunities. Every business requirement — from a customer specification to a regulatory constraint — may constitute a risk, an opportunity, or both. Activities in the EDQMS are designed with reference to the risks and opportunities associated with the processes they belong to. This means that when a procedure is defined, the team explicitly identifies what can go wrong and what can be exploited — and designs the procedure's quality gates accordingly.
 

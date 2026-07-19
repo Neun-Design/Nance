@@ -10,7 +10,10 @@ In January 2026, Northwind Energy engaged Neun Design to support the establishme
 
 What started as a process-mapping exercise evolved, through discovery, into something more fundamental: the design and validation of a quality management methodology capable of answering one decisive question across all operations:
 
-> *"When something happens, will we know when to act, what is required, and how to execute it all?"*
+!!! Question "Business Problem"
+    
+    When something happens, will we know when to act, what is required, and how to execute it all?
+
 
 That question — and the system being built to answer it — is what this project is about.
 
@@ -27,61 +30,53 @@ These two gaps feed the same root cause: the absence of a consistent, intelligib
 
 This is not a minor operational gap — it is a **governance problem**. And it must be addressed at the start of an initiative, not retrofitted after the damage has compounded.
 
-## Project Question
+## Project Development
 
-The workshop conducted during Phase 1 distilled the operational challenge into a single question:
-
-> *"When something happens, will we know when to act, what is required, and how to execute it all?"*
-
-This is not a staffing question. It is a knowledge and execution architecture question. The EDQMS project is the structured answer.
-
-## The Three Phases
-
-```mermaid
-gantt
-    title EDQMS Project Phases
-    dateFormat YYYY-MM
-    axisFormat %b %Y
-
-    section Phase 1 — Discovery
-    Contextual Analysis & Control     :done, p1a, 2026-01, 2026-02
-    Process Evaluation & Role Def.    :done, p1b, 2026-02, 2026-03
-
-    section Phase 2 — Validation
-    Strategic Execution Roadmap       :done, p2a, 2026-03, 2026-04
-    SOP Prototype (Deliverable 002)   :active, p2b, 2026-04, 2026-05
-    Prototype Implementation Assess.  :p2c, 2026-05, 2026-06
-    Target-State Solution Arch.       :p2d, 2026-06, 2026-07
-
-    section Phase 3 — Development & Implementation
-    Solution Design & Build           :p3a, 2026-07, 2026-09
-    Deployment & Handover             :p3b, 2026-09, 2026-11
-```
 
 | Phase | Name | Status | Purpose |
 | :--- | :--- | :--- | :--- |
 | 1 | Discovery | Completed | Map the current state, identify gaps, define the project question |
-| 2 | Validation | In progress | Build and validate the SOP prototype against a real case study |
-| 3 | Development and Implementation | Planned | Transform the validated prototype into a deployable system |
+| 2 | Validation | In progress | Build and validate the EDQMS prototype against a real case study |
+| 3 | Development and Implementation | Planned | Transform the validated prototype into a deployable Minimal Viable Product |
 
 Each phase builds on the previous. Phase 1 produced the diagnosis. Phase 2 validates the remedy. Phase 3 delivers it at scale.
 
 ## Return on Effort
 
-The value this project delivers is not theoretical. A quality management system built on structured, event-driven procedures directly reduces the cost of operational ambiguity. The three concrete organisational outcomes are:
+The value this project delivers is not theoretical. A quality management system built on structured, event-driven procedures directly reduces the cost of operational ambiguity. The four concrete organisational outcomes are:
 
-| Outcome | What it means in practice |
-| :--- | :--- |
-| **Onboarding speed** | New hires have a documented system to reference from day one — reducing dependence on informal knowledge transfer and individual availability |
-| **Cross-regional consistency** | Any qualified engineer in any region can execute a procedure correctly, without relying on institutional memory held in a specific location |
-| **Governance at scale** | As the hub grows, quality controls scale with it — embedded in the execution architecture rather than layered on top as periodic audits |
+<div class="grid cards" markdown>
+
+- __Onboarding Speed__
+
+    ---
+
+     New hires have a documented system to reference from day one — reducing dependence on informal knowledge transfer and individual availability 
+
+-   __Cross-regional consistency__
+
+    ---
+
+    Any qualified engineer in any region can execute a procedure correctly, without relying on institutional memory held in a specific location 
+
+-   __Governance at scale__
+
+    ---
+
+    As the hub grows, quality controls scale with it — embedded in the execution architecture rather than layered on top as periodic audits 
+
+-   __AI Readiness__
+
+    ---
+    Times have changed—documentation is no longer created solely for human consumption. It must also be structured for use by large language models. The EDQMS strategy is designed to enable this shift.
+</div>
 
 These outcomes are the reason the investment in building the system correctly from the start — rather than accumulating informal processes that will later require expensive remediation — is justified.
 
-### Operations become both reactive and predictive
+## Value Proposition
 
-A purely reactive operation responds to problems after they occur. A purely predictive one attempts to anticipate all scenarios in advance — which, in practice, produces process libraries that are never used.
+EDQMS replaces the fundamental assumption of conventional quality management — that quality is enforced through periodic audits scheduled on a calendar — with a different premise: that quality is embedded in the event stream of daily operations. Every time something happens in the business — a customer request, a supplier deviation, a regulatory change, a new scope — the system already knows what is required, who is responsible, and how to execute. This is not an incremental improvement over a traditional QMS. It is a structural shift: from quality as a control layer applied on top of operations, to quality as an architectural property of the operations themselves. The practical consequence is that the organisation stops relying on institutional memory held by specific individuals and starts relying on a structured, auditable record of what was decided, why, and by whom — one that scales across regions, survives team changes, and is already structured for use by AI systems. That is what makes EDQMS a governance system, not merely a documentation exercise.
 
-EDQMS enables a third mode: **structured reactivity**. When an operational event occurs, the system already knows which process applies, what requirements are in scope, and how to execute the response. Changes to internal structure or external conditions are handled not by rebuilding from scratch, but by updating the specific nodes — sources, requirements, constraints, payloads — that govern the affected operations.
+!!! Note "The MVP Approach"
 
-This makes the operation resilient to change without sacrificing the consistency that ISO 9001:2015 requires.
+    At this stage, it may seem that the project will take a long time to be fully developed and implemented. However, the purpose of validating a prototype is precisely to avoid that. By working with a prototype, we can identify which features and value drivers are truly critical to the operation. This allows us to define a Minimum Viable Product (MVP) that addresses the most essential objectives first, enabling early implementation and faster value delivery. From there, additional capabilities and more advanced features can be developed iteratively as the project evolves.

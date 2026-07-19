@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: EDQMS Data Model
+    url: https://lucid.app/lucidchart/090097f0-5c82-40ac-999b-ff1c96ba5c94
+    about: View the ER-UML diagram (EDQMS ER-UML tab) before raising a data model issue.

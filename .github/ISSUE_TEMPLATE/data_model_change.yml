@@ -1,0 +1,53 @@
+name: Data model change
+description: Propose a change to the ER diagram, entity attributes, or relationships.
+title: "data: "
+labels: ["type: data-model", "status: triage", "audience: dev"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Review the current ER-UML diagram before submitting:
+        https://lucid.app/lucidchart/090097f0-5c82-40ac-999b-ff1c96ba5c94 (tab: EDQMS ER-UML)
+
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Type of change
+      options:
+        - New entity
+        - New relationship
+        - Modify attribute (add / rename / remove)
+        - Remove entity or relationship
+        - Cardinality correction
+    validations:
+      required: true
+
+  - type: input
+    id: entity
+    attributes:
+      label: Affected entity / entities
+      placeholder: "e.g. Event, Payload, Risk"
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this change needed? Include ISO 9001:2015 clause if applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the new entity, attribute, or relationship in plain English.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Downstream impact
+      description: Which mockup data fields, prototype tabs, or source documents will need updating?

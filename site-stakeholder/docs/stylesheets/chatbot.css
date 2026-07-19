@@ -95,8 +95,12 @@
   padding: 0.55rem 0.8rem;
   border-radius: 10px;
   line-height: 1.5;
-  white-space: pre-wrap;
   word-break: break-word;
+}
+
+.edqms-msg.user,
+.edqms-msg.error {
+  white-space: pre-wrap;
 }
 
 .edqms-msg.user {
@@ -112,6 +116,22 @@
   color: var(--md-default-fg-color, #1a1a1a);
   border-bottom-left-radius: 3px;
 }
+
+.edqms-msg.assistant p        { margin: 0.25rem 0; }
+.edqms-msg.assistant p:first-child { margin-top: 0; }
+.edqms-msg.assistant p:last-child  { margin-bottom: 0; }
+.edqms-msg.assistant ul,
+.edqms-msg.assistant ol       { margin: 0.25rem 0; padding-left: 1.25rem; }
+.edqms-msg.assistant li       { margin: 0.1rem 0; }
+.edqms-msg.assistant code     { background: rgba(0,0,0,0.08); padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace; font-size: 0.85em; }
+.edqms-msg.assistant pre      { background: rgba(0,0,0,0.08); padding: 0.5rem 0.65rem; border-radius: 4px; overflow-x: auto; margin: 0.3rem 0; }
+.edqms-msg.assistant pre code { background: none; padding: 0; }
+.edqms-msg.assistant h1,
+.edqms-msg.assistant h2,
+.edqms-msg.assistant h3       { font-size: 1em; font-weight: 700; margin: 0.5rem 0 0.15rem; }
+.edqms-msg.assistant strong   { font-weight: 700; }
+.edqms-msg.assistant em       { font-style: italic; }
+.edqms-msg.assistant a        { color: var(--md-primary-fg-color); text-decoration: underline; }
 
 .edqms-msg.thinking {
   align-self: flex-start;

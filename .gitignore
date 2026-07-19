@@ -13,3 +13,7 @@ npm-debug.log*
 # Build output
 dist/
 build/
+site-stakeholder/site/
+
+# Raw source media (not for deployment)
+sourceFiles/*.mp4

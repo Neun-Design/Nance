@@ -1,0 +1,59 @@
+name: Bug report
+description: Something is broken in the prototype or CI pipeline.
+title: "fix: "
+labels: ["type: bug", "status: triage", "audience: dev"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before opening:** check that you can reproduce the issue by running
+        `python3 -m http.server 8080` inside `prototype/` and opening `http://localhost:8080`.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Prototype — UI / rendering
+        - Prototype — data / charts
+        - Prototype — forms / drawer
+        - CI / GitHub Actions
+        - Documentation site
+        - Data model
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module (if prototype)
+      options:
+        - Overview
+        - Customers
+        - Operation
+        - Inventory
+        - Workload
+        - Control
+        - Talent
+        - N/A
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug. Include exact steps to reproduce.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Browser / environment
+      placeholder: "Chrome 136, macOS 15 / Safari 18 / etc."

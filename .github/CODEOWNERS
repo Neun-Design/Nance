@@ -1,0 +1,16 @@
+# Global fallback — Rafael approves everything by default
+*                          @rafabova
+
+# Prototype (JavaScript / HTML / CSS)
+prototype/                 @rafabova
+
+# Source files and data model
+sourceFiles/               @rafabova
+
+# Stakeholder and developer documentation
+site-stakeholder/          @rafabova
+site-developer/            @rafabova
+docs/                      @rafabova
+
+# CI / GitHub config — lead dev only
+.github/                   @rafabova

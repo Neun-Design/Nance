@@ -4,21 +4,21 @@ audience: stakeholder
 purpose: "Second phase scope and purpose"
 ---
 
-# Phase 2 — Validation
+# Validation
 
-The second phase of the EDQMS project is the current phase. It is executed under proposal **PRP-C-0017**, approved by Northwind Energy following the completion of Phase 1. Its purpose is to validate the Standard Operating Procedure (SOP) prototype developed during the discovery work by applying it to a real engineering case.
+The second phase of the EDQMS project is the current phase. It is executed under proposal [**PRP-C-0017**](https://neundesign-my.sharepoint.com/:w:/r/personal/bova_neun-design_com_br/Documents/Comercial/Northwind/Proposals/Proposal_PRP-C-0017_rev0.docx?d=w7429e4f979d64aea912580e67886d9ee&csf=1&web=1&e=dFefZ8), approved by Northwind Energy following the completion of Phase 1. Its purpose is to develop and validate the EDQMS prototype by applying it to a [real engineering case](../audit/end-to-end-case.md).
 
 ## The Strategic Logic of Validation
 
 Phase 1 produced the diagnosis. Phase 2 tests the remedy against reality — before committing to a full implementation. This approach follows a "fail fast" strategy: it is far less costly to discover limitations in a controlled prototype context than after a production system has been built and deployed.
 
-The validation is conducted through an **end-to-end engineering process case study** — a real project from the hub's existing portfolio applied to the prototype's structured procedure templates. If the prototype can absorb the complexity of a real case, it is ready to be refined into a Minimal Viable Product. If gaps are found, they are documented as non-conformities and addressed before the next phase.
+The validation is conducted through an **end-to-end engineering process case study** — a real project from the hub's existing portfolio applied to the prototype's structured procedure [templates](https://bovarafa.github.io/EDQMS/prototype/data-model/#prototype-access). If the prototype can absorb the complexity of a real case, it is ready to be refined into a Minimal Viable Product. If gaps are found, they are documented as non-conformities and addressed before the next phase.
 
 ## Objectives
 
 Phase 2 has four objectives:
 
-1. **Validate the SOP prototype** — confirm that a single, unified template structure can accommodate all variations of activity criteria across different engineering case types
+1. **Validate the EDQMS prototype** — confirm that a single, unified template structure can accommodate all variations of activity criteria across different engineering case types.
 2. **Identify improvement opportunities** — document any gaps, limitations, or missing features discovered during the end-to-end validation
 3. **Define the implementation approach** — design the target-state solution that will carry the validated prototype into production
 4. **Establish the path to MVP** — determine what is required to transition from prototype to a Minimal Viable Product ready for operational use
@@ -28,7 +28,7 @@ Phase 2 has four objectives:
 | ID | Deliverable | Description | Duration |
 | :--- | :--- | :--- | :--- |
 | 001 | Strategic Execution Roadmap | An event-driven execution timeline for the end-to-end audit process | 1 week |
-| 002 | Standard Operational Procedures Template | A structured set of Microsoft Lists for creating and validating SOPs | 3 weeks |
+| 002 | [Standard Operational Procedures Template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){data-preview} | A structured set of Microsoft Lists for creating and validating SOPs | 3 weeks |
 | 003 | Prototype Implementation Assessment | Report identifying all improvements needed to reach MVP | 1 week |
 | 005 | Target-State Solution Architecture | System architecture blueprint for the implementation of the MVP | 1 week |
 
@@ -51,17 +51,6 @@ During the validation, any procedure that presents execution problems generates 
 | Impact | Severity classification: Critical, Major, or Minor |
 
 Separate non-conformity records are created for problems of different severity levels — a critical and a minor issue in the same procedure are not conflated into a single record.
-
-## Investment
-
-| Billing ID | Deliverable | Cost |
-| :--- | :--- | :--- |
-| A | 001 — Strategic Execution Roadmap | €2,450.00 |
-| B | 002 — Standard Operational Procedures Template | €7,350.00 |
-| C | 003 — Prototype Implementation Assessment | €2,450.00 |
-| D | 005 — Target-State Solution Architecture | €2,450.00 |
-
-Rate: €70.00/hour at 35 hours/week capacity. Travel and accommodation expenses are invoiced separately.
 
 ## What Success Looks Like
 

@@ -1,0 +1,27 @@
+name: Deploy Prototype to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "prototype/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy prototype to gh-pages-prototype
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: prototype
+          publish_branch: gh-pages-prototype
+          destination_dir: prototype
+          commit_message: "deploy: prototype from ${{ github.sha }}"

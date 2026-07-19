@@ -1,0 +1,55 @@
+name: Validate PR
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name and PR title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            const title  = context.payload.pull_request.title;
+
+            const branchOk = /^(feat|fix|docs|design|data|chore)\/[a-z0-9-]+(\/[a-z0-9-]+)?$/.test(branch);
+            const titleOk  = /^(feat|fix|docs|design|data|chore|refactor|test|ci|style|perf|revert)(\([a-z0-9-]+\))?: .+/.test(title);
+
+            const errors = [];
+            if (!branchOk) errors.push(
+              `**Branch name \`${branch}\` is invalid.**\n` +
+              'Expected pattern: `<type>/<scope>/<slug>` — e.g. `feat/prototype/add-quality-module`\n' +
+              'Allowed types: `feat` `fix` `docs` `design` `data` `chore`'
+            );
+            if (!titleOk) errors.push(
+              `**PR title \`${title}\` does not follow Conventional Commits.**\n` +
+              'Expected: `type(scope): short description` — e.g. `feat(prototype): add quality module`\n' +
+              'Allowed types: `feat` `fix` `docs` `design` `data` `chore` `refactor` `test` `ci` `style` `perf` `revert`'
+            );
+
+            if (errors.length) {
+              const body = [
+                '## PR Validation — action required',
+                '',
+                ...errors.map(e => `- ${e}`),
+                '',
+                'Fix the branch name or PR title and re-push to clear this check.',
+              ].join('\n');
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body,
+              });
+
+              core.setFailed('PR validation failed — see comment for details.');
+            }

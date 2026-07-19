@@ -4,7 +4,7 @@ audience: stakeholder
 purpose: "List of questions for users to read after following the reading guideline"
 ---
 
-# Q&A
+# Questions and Answers
 
 This page answers the questions most commonly asked by stakeholders at different stages of involvement with the EDQMS project. If you have followed the Managers reading track on the [How to use this site](../how-to-use-this-site.md) page, these answers give you the context needed to participate in project governance discussions without reading the full documentation.
 
@@ -16,7 +16,10 @@ The project began in January 2026, when Northwind Energy engaged Neun Design to 
 
 During the discovery work, a more fundamental problem surfaced: the hub's teams could not reliably answer, for any given operational event, what they should do, what was required of them, and how to execute it. That finding reframed the entire engagement.
 
-The project will be complete when the hub has a fully operational, ISO 9001:2015 aligned quality management system embedded in its daily engineering workflows — one that can be maintained and extended by the hub's own team without external dependency. That is the outcome of Phase 3.
+The project will be complete when the hub has a fully operational, ISO 9001:2015 ***aligned*** [^1] quality management system embedded in its daily engineering workflows — one that can be maintained and extended by the hub's own team without external dependency. That is the outcome of Phase 3.
+
+[^1]: 
+    This project does not aim to implement ISO 9001 directly. Instead, it uses the standard as a foundational reference for developing a management system, ensuring that, when certification becomes necessary, the path to compliance is significantly simplified.
 
 ---
 
@@ -24,12 +27,23 @@ The project will be complete when the hub has a fully operational, ISO 9001:2015
 
 The core problem is an execution architecture gap. The hub has engineering processes defined at a high level, but those processes are not connected to the specific events that trigger them or to the detailed procedures that tell team members exactly what to do.
 
-The result is that knowledge is held individually — in the heads of experienced engineers — rather than documented in a shared, structured system. When something happens in the operation, the response depends on who happens to be available and what they remember, rather than on a defined, auditable procedure.
+The result is that knowledge is or, most certainly, will be held individually — in the heads of experienced engineers — rather than documented in a shared, structured system. When something happens in the operation, the response depends on who happens to be available and what they remember, rather than on a defined, auditable procedure.
 
 EDQMS solves this by making every operational event the entry point to a traceable chain: event triggers process, process requires activities, activities are executed through documented procedures.
 
 ---
 
+## How does EDQMS improve engineering operation in practice?
+
+Let’s use the planner role as an example to illustrate a practical use case.
+
+Without the proposed **governance framework**, the planner would rely heavily on experienced designers to identify the correct processes and activities for each request, with limited visibility into role eligibility or execution time. This makes planning slow, inconsistent, and dependent on individual knowledge.
+
+With the implementation of EDQMS, the planner gains autonomy through structured and standardized data. Activities, procedures, and roles can be filtered using defined criteria—such as identifying which tasks can be performed by a specific role—while also providing visibility into execution effort. This reduces dependency on experts and enables more consistent planning decisions.
+
+As a result, the organization benefits from faster response times, clearer communication with stakeholders, and the ability to create reusable execution templates, making the overall engineering process more scalable and efficient.
+
+---
 ## How can I explain the value of this project to someone who has not been involved?
 
 Frame it in terms of three operational risks that a system like EDQMS directly reduces:
@@ -44,37 +58,22 @@ Frame it in terms of three operational risks that a system like EDQMS directly r
 
 ## Why does this feel like a Quality Department project?
 
-Because it is — by design. ISO 9001:2015 is the framework being used to structure the procedures, and quality management principles (risk-based thinking, the process approach, knowledge management) are the architectural foundations.
+Because the underlying problem is, at its core, a governance problem.
 
-But this is not a traditional quality programme. Traditional QMS implementations are often managed alongside operations — a parallel bureaucratic system that generates documentation for audits but does not change how work is actually done.
+ISO 9001:2015 is the framework being used to structure that governance. It provides the architectural reference: risk-based thinking, process decomposition, knowledge management, and accountability at every operational node. But the standard is the means, not the objective.
 
-EDQMS is different. The quality management layer is embedded in the execution architecture. When an engineer responds to an event, they are using the quality management system — not filing a form for it afterward. The goal is that quality management and operational execution become the same thing.
+The objective is governance at organisational scale — the ability to onboard new engineers without losing execution fidelity, to maintain cross-regional consistency without relying on institutional memory, and to adapt operations to internal or external change without rebuilding from scratch. That set of outcomes would be necessary even if ISO certification were never on the agenda.
 
----
+Traditional quality programmes treat ISO 9001 as the primary goal. They produce documentation for audits, layer compliance checks on top of existing operations, and create a parallel structure that does not change how work is actually done.
 
-## Where are we with the project right now?
-
-Phase 1 (Discovery) is complete. Phase 2 (Validation) is currently underway.
-
-In Phase 2, the SOP prototype is being validated through an end-to-end case study using the Livorno project. The validation team is registering procedures for five selected engineering events within the Offer Process boundary. Any structural gaps found in the prototype template are being documented as non-conformity items.
-
-After the validation is complete, the findings will feed into two deliverables: the Prototype Implementation Assessment (what needs to change to reach MVP) and the Target-State Solution Architecture (how the production system should be built). These two deliverables will define the scope and investment for Phase 3.
-
-For the most current status, see the [Project Status](../project-status.md) page.
+EDQMS inverts that logic. Governance is built into the execution architecture. When an engineer responds to an operational event, they are not consulting the quality management system — they are using it. ISO 9001 alignment is a consequence of a well-designed governance structure, not its cause.
 
 ---
 
-## What is ISO 9001:2015 and why is it relevant here?
+## Can I use this site to track project progress?
+Yes.
 
-ISO 9001:2015 is the current version of the world's most widely adopted quality management standard. It defines the requirements an organisation's quality management system must meet to demonstrate its ability to consistently deliver products and services that meet customer and regulatory requirements.
-
-The 2015 version made three significant changes that are directly relevant to the EDQMS approach:
-
-1. **Risk-based thinking** — quality management must proactively identify and address both threats and opportunities, not just react to problems after they occur
-2. **Deeper process approach** — organisations must document processes at a level of detail that makes them measurable, automatable, and improvable — not just describable
-3. **Knowledge management** — organisations must formally manage the knowledge required to operate their processes, treating tacit knowledge held by individuals as an operational risk
-
-EDQMS is grounded in all three of these principles. Using ISO 9001:2015 as the framework also means the procedures developed for the hub can be integrated into Northwind Energy's existing quality management system rather than creating a parallel structure.
+To understand what has been completed, what is currently in progress, and what is planned next, please refer to the [Project Status](../project-status.md) page.
 
 ---
 
@@ -82,11 +81,11 @@ EDQMS is grounded in all three of these principles. Using ISO 9001:2015 as the f
 
 The prototype tests whether the solution design is sound before committing the investment required to build the full system.
 
-The core question the prototype answers is: can a single, unified SOP template structure accommodate all the variations of engineering events in the hub's offer process? That question cannot be answered by design alone — it can only be answered by applying the template to real operational data.
+The core question the prototype answers is: can a single, unified [SOP template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){ data-preview } structure accommodate all the variations of engineering events in the hub's offer process? That question cannot be answered by design alone — it can only be answered by applying the template to real operational data.
 
 Building the full production system before that question is answered would risk discovering structural limitations only after a significant Phase 3 investment has been made, at which point corrections are far more expensive.
 
-The prototype is the investment that protects the larger investment.
+The [prototype](https://bovarafa.github.io/EDQMS/prototype/prototype/#accessing-the-prototype){ data-preview} is the investment that protects the larger investment.
 
 ---
 
@@ -97,35 +96,21 @@ Two deliverables will be produced:
 - **Prototype Implementation Assessment** — a comprehensive report identifying all structural improvements required to transition from prototype to MVP, derived from the non-conformity log generated during the validation exercise
 - **Target-State Solution Architecture** — a system architecture blueprint defining the structure, integrations, and capabilities required for the production implementation
 
-These two documents will define the scope, timeline, and investment for Phase 3. A formal Phase 3 proposal will be submitted for approval after these deliverables are accepted.
+These two documents will define the scope, timeline, and investment for the final [Implementation Phase](https://bovarafa.github.io/EDQMS/implementation/).
 
 ---
 
-## What will it take to maintain this system after Phase 3?
+## What will it take to manage this system after Implementation?
 
-The handover design for Phase 3 is that the hub's quality management function — supported by the Quality Manager or an equivalent role — can operate, maintain, and extend the system without ongoing external dependency.
+The handover design for Implementation is that the hub's quality management function — supported by the [Quality Manager](https://neundesign.sharepoint.com/:b:/r/sites/Northwind-Offer/Documentos%20Compartilhados/BPM/Deliverables/Recruitment/recruitment-quality-manager.pdf?csf=1&web=1&e=V2s0uT) or an equivalent role — can operate, maintain, and extend the system without ongoing external dependency.
 
 Specifically, this means:
 
 - The Broker role (the function responsible for connecting events to processes and defining the business rules that govern procedure activation) should be staffed internally, ideally by the Quality Manager or a designated process manager
 - The procedure library will require ongoing maintenance as processes evolve, new case types emerge, and the hub expands to new regions
-- New procedure definitions will follow the same template structure validated in Phase 2, ensuring consistency as the library grows
+- New procedure definitions will follow the same template structure validated in [Phase 2](https://bovarafa.github.io/EDQMS/project/second-phase/), ensuring consistency as the library grows
 
 The system is designed so that maintaining it is part of the quality management function — not an additional overhead.
-
----
-
-## What is the total investment for the full project?
-
-| Phase | Proposal | Consulting Investment |
-| :--- | :--- | :--- |
-| Phase 1 — Discovery | PRP-C-0016 | €17,318.00 |
-| Phase 2 — Validation | PRP-C-0017 | €14,700.00 |
-| Phase 3 — Development and Implementation | To be defined | TBD after Phase 2 deliverables |
-
-Travel and accommodation expenses for all phases are invoiced separately as reimbursement items.
-
-Phase 3 investment will be defined after the Prototype Implementation Assessment and Target-State Solution Architecture are completed and approved.
 
 ---
 
@@ -137,6 +122,6 @@ Three conditions represent the primary execution risks:
 
 2. **Scope creep during validation** — the prototype is intentionally minimal. Attempting to add production-level features (automation, integrations, access control) before the template structure is validated would undermine the purpose of the validation phase.
 
-3. **Unclear ownership at Phase 3** — for Phase 3 to produce a sustainable system, the client organisation must designate clear ownership of the EDQMS function before deployment begins. A system deployed without an internal owner is a system that will gradually become unused.
+3. **Unclear ownership at Implementation Phase** — for Phase 3 to produce a sustainable system, the client organisation must designate clear ownership of the EDQMS function before deployment begins. A system deployed without an internal owner is a system that will gradually become unused.
 
 All three risks are manageable with appropriate governance and scheduling discipline.

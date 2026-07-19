@@ -4,7 +4,11 @@ audience: stakeholder
 purpose: "Third phase scope and purpose"
 ---
 
-# Phase 3 — Development and Implementation
+# Development and Implementation
+
+!!! Warning "Digital Enrollment"
+
+    Successful delivery of this phase depends on aligned planning and execution with the Digital organization.
 
 Phase 3 is the deployment phase of the EDQMS project. It begins after the completion of Phase 2's Prototype Implementation Assessment (Deliverable 003) and the Target-State Solution Architecture (Deliverable 005), which together define exactly what needs to be built and how.
 

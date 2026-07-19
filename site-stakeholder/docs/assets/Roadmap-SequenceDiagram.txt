@@ -1,0 +1,124 @@
+title  
+participantgroup #cfe0ff **Phase I: Discovery**
+actor Stakeholders
+actor Workshop
+database "**Deliverable 002:**\nImprovement Opportunitues\nAssessment" as OP
+actor Neun
+database "**Deliverable 001:**\nProduct Scopes" as PS
+rparticipant "**TASK-001**\nOrganizational Analysis" as CA
+rparticipant "**TASK-002**\nOperational & Business\nAssessment" as PERD
+
+end
+
+Stakeholders->Neun:<position:left>Could you support us in <background:#yellow>**Auditing**</background>\nour global engineering hub operation\nto map potential <background:#fc9ab1>**Gaps**?</background>
+Neun->Stakeholders:<position:right>Which key problems or challenges\nare you aiming to solve?
+group#81cffc #transparent #blue;2 PROJECT GOAL
+Stakeholders->Neun:<position:left>Assess whether the current strategy is\nfit to sustain operational performance
+end
+Neun->*CA: Starts
+activate CA
+Neun->Stakeholders:<position:right>Why an engineering hub is necessary?
+Stakeholders->Neun:<position:left>Limited resources in local engineering create\nongoing conflicts between fulfilling current\norders and generating new offers.
+Neun-->CA: Problem Statement
+Neun->Stakeholders:<position:right>What would be the optimal\nsolution for the problem?
+group#lightgreen #transparent #39b839;2 PROJECT OUTCOME
+Stakeholders->CA:<position:left>Establish a **standardized**, efficient global \nengineering ecosystem that maximizes **talent\nutilization** and removes regional bottlenecks\nby balancing offer and order related **workloads**.
+end
+Neun->Stakeholders:<position:right>Market and Organization Context Assessment
+Stakeholders-->CA:<position:left>Portfolio Overview
+Neun->Stakeholders:<position:right>Quality Management Assessment
+group#fc9ab1 #transparent #e35d7c;2 GAP 01 - ISO9001:2015 Clause 6
+Stakeholders->Neun:<position:left>NO specific quality manual or policy\nfor global enginnering
+end
+note over Neun #fc9ab1 #black;1: To achieve the <background:#81cffc> **Project Goal </background>**, a minimum\n**nonconformity** system is required to support\neffective action by future quality/engineering managers
+Neun->CA:<align:center>Minimal Quality System **requiered**
+
+
+
+participantgroup #fdffcf **Phase II: Prototyping**
+database "**Prototype 004:**\nConstraints" as Constrains
+database "**Prototype 004:**\nEvents" as Events
+database "**Prototype 004:**\nRoles" as Roles
+database "**Prototype 002:**\nStandard Operational\nProcedures" as SOP
+
+database "**Prototype 001:**\nIssues Record" as Issues
+end
+
+style mvpmessage #white #pink;2
+deactivate CA
+
+CA-#orange:2>*Issues:<position:left>**REQUIRES**
+destroy CA
+
+parallel 
+box over Issues: **USE CASE**\n\nThe **Operations Manager** needs\nvisibility  into **issues**—including\nrisks and  opportunities—across all \nprocesses to maintain a clear view of \n**end‑to‑end** operational health.
+Neun->*PERD: Starts
+parallel off
+activate PERD
+parallel 
+Issues->*SOP: Controls
+destroy Issues
+PERD->Neun:<position:right>Do current scopes\nreflect real **business logic** across\nproducts and services?
+parallel off
+box over SOP: **USE CASE**\n\nThe **Engineering Manager** is responsible \nfor ensuring that critical process \n**activities** are standardized to the extent\n that any competent resource can **execute** \nthem with minimal dependency on mentorship\n or implicit knowledge transfer.
+group#fc9ab1 #transparent #e35d7c;2 GAP 02 - ISO9001:2015 Clause 8
+Neun->PERD:<position:right>The existing portfolio overview\ndoes not differentiate service \nscopes based on  product types, \nservices or operational constraints.
+end
+
+parallel off
+PERD->*PS:Creates
+parallel 
+PS-#orange:2>*Constrains:<position:left>**GENERATE
+destroy PS
+box over Constrains:**USE CASE**\n\nThe **Project Manager** is responsible for\nassessing applicable product and service\nscope **constraints** prior to submitting\nrequests to engineering, ensuring alignment\nwith defined limitations.
+destroysilent Constrains
+parallel off
+parallel 
+
+
+
+PERD->Neun:<position:right>Who are the clients,  and what\nvalue does global engineering provide?
+parallel off
+group#81cffc #transparent #blue;2;dashed BUSINESS MODEL
+Neun->PERD:<position:left>**Customers:**\n- Service Business Units across multiple regions;\n- Factory operations in the United States and Europe.\n**Value:**\n- Access engineering resources on demand;\n- Reduces internal overhead by shifting workload\nto the global engineering hub;\n- More efficient allocation of engineering capacity.
+end
+Neun->Stakeholders:<position:left>Does business model reflects customers expectations?
+
+Stakeholders->*Workshop: Organizes
+activate Workshop
+Workshop<-Neun:<position:right>How Stakeholders expect\nthe business model to run?
+Workshop-->Stakeholders:<position:right>Event Storming
+group#fc9ab1 #transparent #e35d7c;2 GAP 03 - ISO9001:2015 Clauses 7.1.6 and 8.1
+Stakeholders->Workshop:<position:left>No clear understanding on HOW\nto responde to a given event
+end
+note over Workshop #fc9ab1 #black;1: Most of the times Stakeholders failed to answer:\nWhen an **Event** happens, do we know **What**  to do and\n**How** to do it?
+Workshop-#orange:2>*Events:<position:left>**REQUIRES**
+parallel 
+box over Events:**USE CASE**\n\nA **Quality Manager** needs to plan an audit\nprocess and, for this purpose, filters the\nlist of **events** based on operational relevance\nto identify which **processes**—triggered by the\nmost critical events—have the highest number\nof associated nonconformities.
+destroysilent Events
+
+Neun->Workshop:<position:right>What must be improved to \nimplement the business model?
+parallel off
+Workshop->*OP: Developes
+deactivate Workshop
+parallel 
+OP-#orange:2>SOP:<position:left>**APPLY TO**
+note right of SOP: **Quality Gates** designed to \nevaluate SOPs and define\ncriteria for **issue** identification\nand registration
+parallel off
+destroy OP
+destroysilent SOP
+
+
+
+PERD->Neun:<position:right>Map of Roles and Competences
+group#fc9ab1 #transparent #e35d7c;2 GAP 04 - ISO9001:2015 Clause 7.2 
+Neun->PERD:<position:left>Current or Future State Operations DOES NOT foresee:\n- Necessary competence of Roles\n- Tasks/Activities X Competence Matrix
+end
+deactivate PERD
+PERD-#orange:2>*Roles:<position:left>**REQUIRES**
+destroy PERD
+box over Roles: **Human Resources** must be able to\ndefine the appropriate **role definitions**\nand **competency profiles** of a resource\nbased on the **activities** they are expected\nto perform.
+destroysilent Roles
+
+
+

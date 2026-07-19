@@ -1,0 +1,45 @@
+name: Deploy Stakeholder Docs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - docs/stakeholder
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-mkdocs-material
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install MkDocs and Material theme
+        run: pip install "mkdocs>=1.6" "mkdocs-material>=9.6"
+
+      - name: Build MkDocs site
+        working-directory: site-stakeholder
+        run: mkdocs build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site-stakeholder/site
+          publish_branch: gh-pages
+          commit_message: "docs: deploy stakeholder site from ${{ github.sha }}"

@@ -6,9 +6,9 @@ purpose: "How the prototype will be used and developed"
 
 # Prototype
 
-The prototype is the working instrument of Phase 2. It is not a finished system — it is a structured experiment built to answer a specific question: can a single SOP template accommodate all the variations of activity criteria that appear across the Engineering Hub's engineering processes?
+The prototype is the working instrument of Phase 2. It is not a finished system — it is a structured experiment built to answer a specific question: can a single [SOP template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){ data-preview } accommodate all the variations of activity criteria that appear across the Engineering Hub's engineering processes?
 
-## The Process Boundary Chosen for Validation
+## Process Boundary
 
 The validation requires a defined scope. Not all engineering processes can be audited simultaneously within a single phase — that would defeat the purpose of prototyping. A specific **process boundary** was selected: the **Offer Process**.
 
@@ -18,9 +18,13 @@ The Offer Process governs the set of engineering events related to offer calcula
 - It has sufficient complexity to expose multiple interfaces between different regions and business units
 - The events within it span the full range of interaction types the hub manages — from initial opportunity requests to offer approvals and rejections
 
-## The Events Being Validated
+### Events
 
-The following events, defined within the Offer Process boundary, are being audited through the prototype:
+The following events, defined within the Offer Process boundary, will be available for audit through the prototype:
+
+!!! Note
+    
+    During the [audit planning](https://bovarafa.github.io/EDQMS/audit/end-to-end-case/#audit-planning) phase, the most relevant events from the list below will be selected. In some cases, auditing all events within a given boundary may introduce unnecessary noise or redundancy.
 
 | ID | Event | Description |
 | :--- | :--- | :--- |
@@ -38,23 +42,32 @@ The following events, defined within the Offer Process boundary, are being audit
 | EVT013 | Inspection Scope Released | Inspections and tests necessary to develop technical scope, project, and studies |
 | EVT014 | Inspection Report Released | Field service engineering develops report according to scope |
 
-## How the Prototype is Used
 
-The validation proceeds in three steps for each event in scope:
+## Prototype Application
 
-### Step 1: Transfer existing process diagrams to structured lists
+<div class="grid cards" markdown>
 
-Process information currently held in PDF diagrams is transferred into the prototype's Process and Activity lists with full metadata — owner, description, inputs, outputs, sequence. This step tests whether the template's fields are sufficient to capture the information that already exists.
+-    __STEP #1 > Transfer existing process diagrams to structured lists__
 
-### Step 2: Register activities and verify applicability
+    ---
 
-Activities within each process are registered in the Activity list. For each activity, the team verifies whether the template structure matches the operational reality of how the activity is actually executed.
+    Process information currently held in PDF diagrams is transferred into the prototype's [Process List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JACul9NMrWSmSaZcHcxSNXeNAXI5GDgVYTglBMfMKFz-Fq4?e=eDMFjt) with full metadata — owner, description, inputs, outputs, sequence. This step tests whether the template's fields are sufficient to capture the information that already exists.
 
-### Step 3: Develop and register procedures
+-    __STEP #2 > Register activities and verify applicability__
 
-This is the core validation step. For each activity, the team develops a Procedure — documenting the specific steps, responsible roles, required tools, applicable constraints, and expected outputs. Any execution problem encountered is logged as a non-conformity item. Problems that cannot be resolved within the current template structure become documented improvement requirements for the MVP.
+    ---
 
-## The Two Validation Approaches
+    Activities within each process are registered in the [Activity List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JACI7rapl98QToi1CY1Mv5vRAXXRTOmOuBoOzwkORbeZh6o?e=djq5uT). For each activity, the team verifies whether the template structure matches the operational reality of how the activity is actually executed.
+
+-    __STEP #3 > Develop and register procedures__
+
+    ---
+
+    This is the core validation step. For each activity, the team develops a [Procedure](https://neundesign-my.sharepoint.com/:l:/r/personal/bova_neun-design_com_br/Lists/Engineering%20SOPs?e=SHVM6f) — documenting the specific steps, responsible roles, required tools, applicable constraints, and expected outputs. Any execution problem encountered is logged as a non-conformity item. Problems that cannot be resolved within the current template structure become documented improvement requirements for the MVP.
+
+</div>
+
+## Validation Approaches
 
 Two strategies were considered for auditing the selected events:
 
@@ -63,9 +76,9 @@ Two strategies were considered for auditing the selected events:
 | **Track A: Project-Oriented** | Map procedures based on real projects currently in development or already delivered | Less time-consuming; uses validated real data | Requires multiple projects to cover all activity variations |
 | **Track B: Service Scope-Oriented** | Map procedures based on hypothetical service scopes, designing steps from scratch | Enables selection of the most relevant scopes; focuses on high-impact procedures | More time-consuming; steps must be defined from first principles |
 
-The chosen approach for this phase is documented in the Case Study section.
+The chosen approach for this phase is documented in the [Case Study section](https://bovarafa.github.io/EDQMS/audit/end-to-end-case/).
 
-## What the Prototype Produces
+## Prototype Outputs
 
 At the end of the validation exercise, the prototype produces three outputs that feed directly into the Phase 2 deliverables:
 
@@ -74,3 +87,30 @@ At the end of the validation exercise, the prototype produces three outputs that
 3. **An improvement requirement list** — derived from the non-conformity log, specifying every structural change, field addition, or relationship modification needed to transition from prototype to MVP
 
 These three outputs are the inputs to the Prototype Implementation Assessment (Deliverable 003) and the Target-State Solution Architecture (Deliverable 005).
+
+
+### Accessing the prototype
+
+The prototype is hosted on Microsoft SharePoint. All seven lists are accessible to the Northwind Energy team via the links below. Access credentials should be requested from the Neun Design project team if not already provisioned.
+
+| Entity | SharePoint List |
+| :--- | :--- |
+| Event | [Event List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JADX-ZYffFWlRIkb4dKSSKkDAS5nW6aGDKdHvVzvvtO_al0?e=bo5Y2e) |
+| Process | [Process List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JACI7rapl98QToi1CY1Mv5vRAWK84A2DF8c1s_EBeHnSIA4?e=yfd74u) |
+| Activity | [Activity List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JACI7rapl98QToi1CY1Mv5vRAWK84A2DF8c1s_EBeHnSIA4?e=dzjw1v) |
+| Actions | [Actions List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JAA4MvW114jGRpj1SuD344sxAZAgi_bq9kiAQv5A49KUif0?e=4eLn00) |
+| Handouts | [Handouts List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JADxdUgQAQW1SqfRiyW4cS79AYjcPevcLVpDtNl6aoBgDnk?e=x5AQIQ) |
+| Constraints | [Constraints List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JAArCR49W2rIRIYfTvWLdwppAQNdS1RlNseUsT3FsMjqbv0?e=cgOc1C) |
+| Procedures | [Procedures List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JADX-ZYffFWlRIkb4dKSSKkDAQnnTc27XfiYhtrPo1_MFO8?e=IkhAKm) |
+
+## Out of Scope
+
+The following capabilities are out of scope for the prototype and will be addressed in Phase 3:
+
+- User authentication and role-based access control
+- Automated workflow triggers (Power Automate or equivalent)
+- Integration with Northwind Energy's SAP or internal ERP systems
+- Formal nonconformity tracking (ISO 9001:2015 §10.2)
+- Documented Information lifecycle management (ISO 9001:2015 §7.5)
+
+These items will be specified in Deliverable 003 (Prototype Implementation Assessment) and Deliverable 005 (Target-State Solution Architecture).

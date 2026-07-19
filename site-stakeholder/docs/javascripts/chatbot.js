@@ -20,10 +20,33 @@
     const { msgContainer } = getElements();
     const div = document.createElement("div");
     div.className = `edqms-msg ${role}`;
-    div.textContent = text;
+    if (role === "assistant" && typeof marked !== "undefined" && typeof DOMPurify !== "undefined") {
+      div.innerHTML = DOMPurify.sanitize(marked.parse(text));
+    } else {
+      div.textContent = text;
+    }
     msgContainer.appendChild(div);
     msgContainer.scrollTop = msgContainer.scrollHeight;
     return div;
+  }
+
+  function watchFooter() {
+    const btn = document.getElementById("edqms-chat-btn");
+    const panel = document.getElementById("edqms-chat-panel");
+    const footer = document.querySelector(".md-footer");
+    if (!btn || !footer) return;
+
+    const adjust = () => {
+      const rect = footer.getBoundingClientRect();
+      const overlap = Math.max(0, window.innerHeight - rect.top);
+      const extra = overlap > 0 ? overlap + 8 : 0;
+      btn.style.bottom = `calc(1.5rem + ${extra}px)`;
+      panel.style.bottom = `calc(5rem + ${extra}px)`;
+    };
+
+    window.addEventListener("scroll", adjust, { passive: true });
+    window.addEventListener("resize", adjust, { passive: true });
+    adjust();
   }
 
   async function sendMessage() {
@@ -94,6 +117,8 @@
         sendMessage();
       }
     });
+
+    watchFooter();
   }
 
   // MkDocs Material instant navigation replaces the DOM on each page visit

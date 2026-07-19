@@ -4,24 +4,65 @@ audience: stakeholder
 purpose: "Show the concise data model necessary to build the prototype"
 ---
 
-# Data Model
+# Prototype Structure
+The EDQMS prototype is built on a deliberately simplified data model. Its purpose is not to validate the full EDQMS system architecture — it is to validate whether the **SOP template structure** can handle the complexity of the Engineering Hub's events. Every entity in the model exists because removing it would leave part of the project question unanswered.
 
-The EDQMS prototype is built on a deliberately simplified data model. Its purpose is not to validate the full EDQMS system architecture — it is to validate whether the **SOP template structure** can handle the complexity of the Engineering Hub's engineering events. Every entity in the model exists because removing it would leave part of the project question unanswered.
+!!! Info "Definition"
 
-## The Seven Entities
+    A **data model** defines what information exists, how it is structured, and how different pieces of information are connected.
 
-The prototype consists of seven interconnected entities, implemented as Microsoft SharePoint Lists. Together, they form a complete, traceable quality chain from the operational trigger to the documented output.
 
+## Data Model
+
+The prototype consists of seven operational entities (bright purple) and seven structural entities (translucent purple), implemented as Microsoft SharePoint Lists. Together, they form a complete, traceable quality chain from the operational trigger to the documented output.
+
+```mermaid
+---
+config:
+    layout: elk
+    elk:
+      mergeEdges: true
+      nodePlacementStrategy: LINEAR_SEGMENTASK
+---
+erDiagram
+    Event ||--|{ Process : "TRIGGERS"
+    Process ||--|{ Activity : "REQUIRES"
+    Activity ||--|| Procedure : "HAS"
+    Activity ||--o{ Channel : "HAS"
+    Activity ||--o{ Interface : "HAS"
+    Procedure ||--o{ Action : "HAS"
+    Procedure ||--o{ Handout : "HAS"
+    Procedure ||--o{ Role : "HAS"
+    Procedure ||--o{ Operation : "REQUIRES"
+    Procedure }o--o{ Scope : "APPLY TO"
+    Procedure }o--o{ Region : "APPLY TO"
+    Procedure }o--o{ Product : "APPLY TO"
+    Scope ||--o{ Constrain : "APPLY TO"
+    Handout }o--|| Interface : "MANAGED BY"
+    Handout }o--|| Channel : "MANAGED THROUGH"
+    Constrain }o--|| Region : "APPLY TO"
+    Constrain }o--|| Product : "APPLY TO"
+    Constrain }o--|| Operation : "APPLY TO"
+    style Event fill:#c94ba3,stroke:#333,stroke-width:4px
+    style Process fill:#c94ba3,stroke:#333,stroke-width:4px
+    style Activity fill:#c94ba3,stroke:#333,stroke-width:4px
+    style Procedure fill:#c94ba3,stroke:#333,stroke-width:4px
+    style Handout fill:#c94ba3,stroke:#333,stroke-width:4px
+    style Action fill:#c94ba3,stroke:#333,stroke-width:4px
+    style Constrain fill:#c94ba3,stroke:#333,stroke-width:4px
 ```
-Event
-  └── TRIGGERS → Process
-                    └── REQUIRES → Activity
-                                     └── HAS → Procedure
-                                                  ├── APPLY TO → Scope / Region / Product
-                                                  ├── APPLY TO → Constrains
-                                                  ├── HAS → Actions
-                                                  └── HAS → Handouts
-```
+
+!!! Abstract "Entity Relation Diagram"
+
+    An ERD shows what information exists and how different pieces of information relate to each other. In the end, a entity is nothing but a table (or a MS List) stored in some database. The diagram shows the relation between each table.
+    
+    ??? Note "Operationl vs Structure Entities"
+
+        In the diagram above, a total of 14 entities are defined, each supported by a corresponding Microsoft List that must be populated.
+        The entities highlighted in bright purple represent what we refer to as **operational entities**. These entities require continuous data entry and maintenance because each record is created on a case-by-case basis, reflecting specific occurrences within the workflow. In other words, they capture the dynamic, execution-level aspects of the business and correspond to transactional data.
+        The remaining entities, shown in translucent purple, are classified as **structural entities**. These are created once and maintained with relatively low frequency. They provide the foundational structure of the system—such as classifications, rules, and standard definitions—and are typically used as reference data to ensure consistency and governance across operational activities.
+
+
 
 This chain answers all three dimensions of the project question simultaneously:
 
@@ -29,7 +70,7 @@ This chain answers all three dimensions of the project question simultaneously:
 - **"What is required"** — the Process, Activity, and Constraints define the requirements
 - **"How to execute it"** — the Procedure, Actions, and Handouts define the execution method and its expected outputs
 
-## Entity Reference
+## Operational Entities
 
 ### Event
 
@@ -62,6 +103,10 @@ This chain answers all three dimensions of the project question simultaneously:
 ---
 
 ### Procedure
+
+!!! Danger "System Anchor"
+
+    The Standard Operating Procedure (SOP) is the central entity that integrates all other elements of the data model. It acts as the point where structural data is combined into a coherent and executable definition of how work should be performed. Because of this central role, validating the SOP template effectively means validating the entire EDQMS structure.
 
 **What it represents:** The documented method for executing a specific Activity. It answers: *how exactly should this Activity be carried out?* It captures steps, responsible roles, required tools, applicable constraints, and expected outputs.
 
@@ -99,30 +144,3 @@ This chain answers all three dimensions of the project question simultaneously:
 
 **ISO 9001:2015 reference:** §4.4.2(b) — retained documented information as evidence of conformity.
 
----
-
-## Prototype Access
-
-The prototype is hosted on Microsoft SharePoint. All seven lists are accessible to the Northwind Energy team via the links below. Access credentials should be requested from the Neun Design project team if not already provisioned.
-
-| Entity | SharePoint List |
-| :--- | :--- |
-| Event | [Event List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JADX-ZYffFWlRIkb4dKSSKkDAS5nW6aGDKdHvVzvvtO_al0?e=bo5Y2e) |
-| Process | [Process List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JACI7rapl98QToi1CY1Mv5vRAWK84A2DF8c1s_EBeHnSIA4?e=yfd74u) |
-| Activity | [Activity List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JACI7rapl98QToi1CY1Mv5vRAWK84A2DF8c1s_EBeHnSIA4?e=dzjw1v) |
-| Actions | [Actions List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JAA4MvW114jGRpj1SuD344sxAZAgi_bq9kiAQv5A49KUif0?e=4eLn00) |
-| Handouts | [Handouts List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JADxdUgQAQW1SqfRiyW4cS79AYjcPevcLVpDtNl6aoBgDnk?e=x5AQIQ) |
-| Constraints | [Constraints List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JAArCR49W2rIRIYfTvWLdwppAQNdS1RlNseUsT3FsMjqbv0?e=cgOc1C) |
-| Procedures | [Procedures List](https://neundesign-my.sharepoint.com/:l:/g/personal/bova_neun-design_com_br/JADX-ZYffFWlRIkb4dKSSKkDAQnnTc27XfiYhtrPo1_MFO8?e=IkhAKm) |
-
-## What the Prototype Does Not Include
-
-The following capabilities are out of scope for the prototype and will be addressed in Phase 3:
-
-- User authentication and role-based access control
-- Automated workflow triggers (Power Automate or equivalent)
-- Integration with Northwind Energy's SAP or internal ERP systems
-- Formal nonconformity tracking (ISO 9001:2015 §10.2)
-- Documented Information lifecycle management (ISO 9001:2015 §7.5)
-
-These items will be specified in Deliverable 003 (Prototype Implementation Assessment) and Deliverable 005 (Target-State Solution Architecture).
