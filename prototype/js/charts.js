@@ -107,6 +107,20 @@ function buildLine(spec, rows) {
   return o;
 }
 
+// precomputed grouped/stacked bars: spec { cats, series: [{name, data}], stacked }
+function buildMultiBar(spec) {
+  const o = baseOption(spec.title);
+  o.tooltip.trigger = 'axis'; o.tooltip.axisPointer = { type: 'shadow' };
+  o.legend = { bottom: 0, textStyle: { color: AXIS, fontFamily: FONT } };
+  o.xAxis = catAxis({ data: spec.cats, axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: spec.cats.length > 6 ? 30 : 0 } });
+  o.yAxis = valAxis();
+  o.series = spec.series.map(s => ({
+    name: s.name, type: 'bar', data: s.data, barMaxWidth: 26,
+    ...(spec.stacked ? { stack: 'total' } : {}),
+  }));
+  return o;
+}
+
 // ---------------- special builders (named) ----------------
 const SPECIALS = {
   // Capacity: available vs allocated hours by role
@@ -213,6 +227,7 @@ export function renderChart(container, spec, rows) {
   const chart = echarts.init(el, null, { renderer: 'canvas' });
   let option;
   if (spec.type === 'special') option = SPECIALS[spec.builder](rows);
+  else if (spec.type === 'multibar') option = buildMultiBar(spec);
   else if (spec.type === 'donut') option = buildDonut(spec, rows);
   else if (spec.type === 'line') option = buildLine(spec, rows);
   else option = buildBar(spec, rows);

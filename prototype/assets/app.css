@@ -366,3 +366,14 @@ select.form-input[multiple] { padding: 0; }
   margin: 0; font-size: var(--se-font-size-caption); color: var(--se-text-secondary); text-align: center;
 }
 .avatar { cursor: pointer; }
+
+/* ---------- engine cards: trend arrows + detail lists ---------- */
+.kpi-trend { font-size: var(--se-font-size-body); font-weight: 700; margin-right: var(--se-space-2); }
+.trend-up { color: var(--se-text-success); }
+.trend-down { color: var(--se-text-danger); }
+.kpi-list {
+  margin: var(--se-space-3) 0 0; padding-left: var(--se-space-5);
+  font-size: var(--se-font-size-caption); color: var(--se-text-secondary);
+}
+.kpi-list li { margin: 2px 0; }
+.report-card .panel-head .tbl-controls { gap: var(--se-space-2); }
