@@ -85,9 +85,9 @@ function withAccessors(entity, cols) {
 function mapSubitem(si, parentEntity) {
   const child = resolveTable(si.table);
   if (!child) return null;
-  const opts = { viaThrough: si.viaThrough ? { ...si.viaThrough } : null, orderBy: si.orderBy };
+  const opts = { viaThrough: si.viaThrough ? { ...si.viaThrough } : null, orderBy: si.orderBy, only: si.only };
   const rl = {
-    label: child,
+    label: si.only ? `${child} (${si.only.values.join('/')})` : child,
     childEntity: child,
     columns: withAccessors(child, columnsFor(child, 'sub')),
     orderBy: si.orderBy,

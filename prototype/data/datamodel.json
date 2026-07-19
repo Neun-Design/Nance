@@ -640,7 +640,7 @@
                 "field-type": {
                   "SelectGroups": "shadcn-select"
                 },
-                "attribute": "constraintID",
+                "attribute": "constraintName",
                 "tooltip": null,
                 "step": null,
                 "check": "Product Group IS NOT NULL",
@@ -1693,7 +1693,7 @@
                 "field-type": {
                   "input": "shadcn-input"
                 },
-                "attribute": "identationID",
+                "attribute": "indentationID",
                 "tooltip": "Determines the selection priority among eligible resources with the same role. Lower ranks are prioritized over higher ranks to optimize resource allocation and operational costs.",
                 "step": null,
                 "check": "Parent Step IS NOT NULL",
@@ -1780,7 +1780,7 @@
                 "field-type": {
                   "input": "shadcn-input"
                 },
-                "attribute": "activityName",
+                "attribute": "actionName",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -2930,7 +2930,10 @@
               "card-tooltip": "Count of tickets created in the past 5 days"
             }
           },
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Jobs: only jobStatus=Active|Queued"
+          ]
         },
         "Projects": {
           "visibility": "show",
@@ -4457,7 +4460,7 @@
                 "field-type": {
                   "input": "shadcn-input"
                 },
-                "attribute": "functionName",
+                "attribute": "graduationTitle",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -4467,7 +4470,7 @@
                 "field-type": {
                   "input": "shadcn-input"
                 },
-                "attribute": "functiondescription",
+                "attribute": "field",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -4634,7 +4637,7 @@
                 "field-type": {
                   "selectGroups": "shadcn-select"
                 },
-                "attribute": "taskID",
+                "attribute": "location",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -4919,15 +4922,6 @@
               "constraints": null
             },
             {
-              "name": "scopeID",
-              "type": "rollup",
-              "rule": "rollup → Tasks (via: taskID) (display: scopeName)",
-              "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "productGroupID",
               "type": "rollup",
               "rule": "rollup → Tasks (via: taskID) (display: productGroupName)",
@@ -4970,6 +4964,15 @@
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
               "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "scopeID",
+              "type": "INT",
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "FK"
             }
           ],
@@ -5021,7 +5024,7 @@
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "constraintID",
+                "attribute": null,
                 "tooltip": null,
                 "step": null,
                 "check": "Task IS NOT NULL",

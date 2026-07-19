@@ -35,16 +35,19 @@ export function parseRule(rule) {
 // ---- subitem-tables entry parsing (guide §9) ----
 // "Forecast Scopes" | "Workflows: ordered by indentationID"
 // "Actions: rollup via Tasks.activityID" | "Product Scopes -> Competence"
+// "Jobs: only jobStatus=Active|Queued" (status-filtered children)
 export function parseSubitem(entry) {
   const chain = entry.split('->').map((s) => s.trim());
   const parseOne = (txt) => {
     const [namePart, directive] = txt.split(':').map((s) => s.trim());
-    const out = { table: namePart, orderBy: null, viaThrough: null };
+    const out = { table: namePart, orderBy: null, viaThrough: null, only: null };
     if (directive) {
       let m = directive.match(/ordered by\s+([A-Za-z]+)/i);
       if (m) out.orderBy = m[1];
       m = directive.match(/rollup via\s+([A-Za-z]+)\.([A-Za-z]+)/i);
       if (m) out.viaThrough = { table: m[1], field: m[2] };
+      m = directive.match(/only\s+([A-Za-z]+)\s*=\s*(.+)/i);
+      if (m) out.only = { field: m[1], values: m[2].split('|').map((s) => s.trim()) };
     }
     return out;
   };
