@@ -1,42 +1,19 @@
 // data.js — load the mockup dataset, flatten entities, build id indexes and lookup helpers.
+// Entity metadata (pk + label) is derived from the datamodel via initMeta(catalog).
 
 const DATA_URL = 'data/mockup_data_prototype.json';
 
-// Primary key + human label field per entity. Label is used for FK lookups & rollup titles.
-export const ENTITY_META = {
-  Factories:        { pk: 'factoryID',       label: 'factoryName' },
-  Forecasts:        { pk: 'forecastID',      label: 'forecastID' },
-  'Forecast Scopes':{ pk: 'forecastScopeID', label: 'forecastScopeID' },
-  Tasks:            { pk: 'taskID',          label: 'taskName' },
-  Events:           { pk: 'eventID',         label: 'eventTitle' },
-  Processes:        { pk: 'processID',       label: 'processName' },
-  Activities:       { pk: 'activityID',      label: 'activityName' },
-  Workflows:        { pk: 'workflowID',      label: 'workflowID' },
-  Actions:          { pk: 'actionID',        label: 'actionName' },
-  'Constraint Types':{ pk: 'constrainTypeID',label: 'constrainTypeName' },
-  Constraints:      { pk: 'constrainID',     label: 'constrainName' },
-  Handouts:         { pk: 'handoutID',       label: 'handoutName' },
-  Channels:         { pk: 'channelID',       label: 'channelName' },
-  'Product Scopes': { pk: 'productScopeID',  label: 'productScopeID' },
-  Scopes:           { pk: 'scopeID',         label: 'scopeName' },
-  Products:         { pk: 'productID',       label: 'productName' },
-  'Product Class':  { pk: 'productClassID',  label: 'productClassID' },
-  'Product Groups': { pk: 'productGroupID',  label: 'productGroupID' },
-  Tickets:          { pk: 'ticketID',        label: 'ticketID' },
-  Projects:         { pk: 'projectID',       label: 'projectName' },
-  Jobs:             { pk: 'jobID',           label: 'jobName' },
-  Capacity:         { pk: 'capacityID',      label: 'capacityID' },
-  Usage:            { pk: 'usageID',         label: 'usageID' },
-  Productivity:     { pk: 'productivityID',  label: 'teamName' },
-  Squads:           { pk: 'squadID',         label: 'squadName' },
-  Roles:            { pk: 'roleID',          label: 'roleName' },
-  'Skill Levels':   { pk: 'skillLevelID',    label: 'levelName' },
-  Functions:        { pk: 'functionID',      label: 'functionName' },
-  Graduation:       { pk: 'graduationID',    label: 'graduationName' },
-  Competence:       { pk: 'competenceID',    label: 'competenceID' },
-  People:           { pk: 'userID',          label: 'userName' },
-  Onboarding:       { pk: 'onboardID',       label: 'onboardID' },
-};
+// pk + human label field per entity, populated from the datamodel catalogue.
+export const ENTITY_META = {};
+
+export function initMeta(catalog) {
+  for (const [tname, cat] of Object.entries(catalog)) {
+    ENTITY_META[tname] = { pk: cat.pk, label: cat.label };
+  }
+  // FK_MAP: a field named like another entity's PK references that entity
+  for (const k of Object.keys(FK_MAP)) delete FK_MAP[k];
+  for (const [name, m] of Object.entries(ENTITY_META)) FK_MAP[m.pk] = name;
+}
 
 const store = {
   raw: null,
@@ -46,9 +23,7 @@ const store = {
 };
 
 // Reverse map: a field named like another entity's PK is a foreign key to that entity.
-export const FK_MAP = Object.fromEntries(
-  Object.entries(ENTITY_META).map(([name, m]) => [m.pk, name])
-);
+export const FK_MAP = {};
 
 export async function loadData() {
   const res = await fetch(DATA_URL);

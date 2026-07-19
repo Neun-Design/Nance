@@ -4,14 +4,15 @@
 
 import { getEntity } from './data.js';
 import { renderChart } from './charts.js';
-import { REGISTRY } from './registry.js';
+import { getModules } from './model.js';
 import { go } from './router.js';
 
 // Resolve the (module, tab) route that owns an entity's dashboard.
 function routeFor(entity) {
-  for (let mi = 0; mi < REGISTRY.length; mi++) {
-    const ti = REGISTRY[mi].tabs.findIndex(t => t.entity === entity);
-    if (ti !== -1) return { mi, ti, label: `${REGISTRY[mi].name} › ${REGISTRY[mi].tabs[ti].tab}` };
+  const mods = getModules();
+  for (let mi = 0; mi < mods.length; mi++) {
+    const ti = mods[mi].tables.indexOf(entity);
+    if (ti !== -1) return { mi, ti, label: `${mods[mi].name} › ${entity}` };
   }
   return null;
 }

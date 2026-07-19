@@ -6,7 +6,7 @@
 
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
-import { REGISTRY } from './registry.js';
+import { getCatalog, resolveTable, columnsFor, childKeyFor } from './model.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -30,11 +30,22 @@ const humanize = (f) => f.replace(/IDs$/, 's').replace(/ID$/, '')
 const singularTitle = (tab) => tab.replace(/ies$/, 'y').replace(/s$/, '');
 
 // tab config for an entity (to reuse its columns/mirror + rollups in nested forms)
+// Interim engine bridge: rollups come from the datamodel's subitem-tables;
+// the full form spec (steps/fields/check/field-rule) lands in P6-E.
 const cfgForEntity = (entity) => {
-  for (const mod of REGISTRY) for (const t of mod.tabs) if (t.entity === entity) return t;
-  return null;
+  const cat = getCatalog(entity);
+  return cat ? { tab: entity, entity, columns: [] } : null;
 };
-const rollupsForEntity = (entity) => (cfgForEntity(entity)?.rollups) || [];
+const rollupsForEntity = (entity) => {
+  const cat = getCatalog(entity);
+  if (!cat) return [];
+  return cat.subitems.map(si => {
+    const child = resolveTable(si.table);
+    const key = child && childKeyFor(child, entity);
+    if (!child || !key) return null; // via-through chains can't be linked from a form
+    return { label: child, childEntity: child, childKey: key, columns: columnsFor(child, 'sub') };
+  }).filter(Boolean);
+};
 
 function sampleOf(entity, field) {
   for (const r of getEntity(entity)) if (r[field] != null && r[field] !== '') return r[field];
@@ -275,188 +286,9 @@ function setControlValue(node, c, v) {
   node.value = String(v);
 }
 
-// ================= Bespoke stepped / cascading forms =================
-// Each returns a collect() -> record fields. mk*/fieldRow/roInput/sectionNote are hoisted.
-
-const CUSTOM_FORMS = { Jobs: buildJobForm, Tasks: buildTaskForm };
-
-function addOpt(sel, value, label) { const o = document.createElement('option'); o.value = value; o.textContent = label; sel.appendChild(o); }
-function fillSelect(sel, options, thing, parent, emptyMsg) {
-  sel.innerHTML = '';
-  if (!options.length) { addOpt(sel, '', emptyMsg || `No ${thing} for selected ${parent}`); sel.disabled = true; return; }
-  addOpt(sel, '', `— select ${thing} —`);
-  options.forEach(o => addOpt(sel, o.value, o.label));
-  sel.disabled = false;
-}
-
-// -------- Jobs: 4-step planning wizard (task → schedule → assign → dependencies) --------
-function buildJobForm(form, ctx) {
-  // Step 1 — Select template
-  form.appendChild(sectionNote('Step 1 — Select template'));
-  const taskSel = mkSelect([{ value: '', label: '— select task template —' },
-    ...getEntity('Tasks').map(t => ({ value: t.taskID, label: t.taskName || t.taskID }))]);
-  form.appendChild(fieldRow('Task Template', taskSel, 'The job executes this task'));
-  const ticketSel = mkSelect([{ value: '', label: '— select ticket —' },
-    ...getEntity('Tickets').map(t => ({ value: t.ticketID, label: `${t.ticketID} — ${lookup('Events', t.eventID, 'eventTitle')}` }))]);
-  form.appendChild(fieldRow('Ticket', ticketSel, 'Work item this job belongs to'));
-  const jobNameRO = roInput('— from template —');
-  form.appendChild(fieldRow('Job Name (auto)', jobNameRO, 'Defaults to the activity name'));
-
-  // Step 2 — Schedule
-  form.appendChild(sectionNote('Step 2 — Schedule'));
-  const startInp = mkInput('date'); form.appendChild(fieldRow('Planned Start Date', startInp));
-  const endInp = mkInput('date'); form.appendChild(fieldRow('Planned End Date', endInp));
-
-  // Step 3 — Assign (assignee filtered to the task's role; role/squad auto-fill)
-  form.appendChild(sectionNote('Step 3 — Assign'));
-  const userSel = mkSelect([{ value: '', label: '— select task template first —' }]); userSel.disabled = true;
-  form.appendChild(fieldRow('Assignee', userSel, 'Only people whose role matches the task'));
-  const roleRO = roInput('—'); form.appendChild(fieldRow('Role', roleRO, 'Auto from assignee'));
-  const squadRO = roInput('—'); form.appendChild(fieldRow('Squad', squadRO, 'Auto from assignee'));
-
-  // Step 4 — Dependencies (optional)
-  form.appendChild(sectionNote('Step 4 — Dependencies (optional)'));
-  const predSel = mkSelect([{ value: '', label: '— none —' },
-    ...getEntity('Jobs').map(j => ({ value: j.jobID, label: `${j.projectName || '—'} — ${j.jobName || j.jobID}` }))]);
-  form.appendChild(fieldRow('Predecessor Job', predSel));
-  const depSel = mkSelect([{ value: '', label: '— none —' },
-    ...['Start-to-Start', 'Start-to-Finish', 'Finish-to-Finish', 'Finish-to-Start'].map(x => ({ value: x, label: x }))]);
-  form.appendChild(fieldRow('Dependency Type', depSel));
-
-  // Execution & status
-  form.appendChild(sectionNote('Execution & status'));
-  const rStart = mkInput('date'); form.appendChild(fieldRow('Actual Start Date', rStart));
-  const rEnd = mkInput('date'); form.appendChild(fieldRow('Actual End Date', rEnd));
-  const rExecRO = roInput('—'); form.appendChild(fieldRow('Real Execution Time (h)', rExecRO, 'Actual end − start'));
-  const statusSel = mkSelect(['Queued', 'Active', 'Done', 'Stoped'].map(s => ({ value: s, label: s === 'Stoped' ? 'Stopped' : s })));
-  form.appendChild(fieldRow('Status', statusSel));
-
-  function onTask() {
-    const t = getById('Tasks', taskSel.value);
-    jobNameRO.value = t ? (t.activityName || t.taskName) : '— from template —';
-    const roleId = t ? t.roleID : null;
-    const people = roleId ? getEntity('People').filter(p => p.roleID === roleId) : [];
-    if (!roleId) fillSelect(userSel, [], 'assignee', 'task', '— select task template first —');
-    else fillSelect(userSel, people.map(p => ({ value: p.userID, label: p.userName })), 'assignee', 'role',
-      `No people with role ${lookup('Roles', roleId, 'roleName')}`);
-    roleRO.value = roleId ? lookup('Roles', roleId, 'roleName') : '—';
-    squadRO.value = '—';
-  }
-  function onUser() {
-    const p = getById('People', userSel.value);
-    if (!p) return;
-    roleRO.value = lookup('Roles', p.roleID, 'roleName');
-    squadRO.value = lookup('Squads', p.squadID, 'squadName') || '—';
-  }
-  function onActuals() {
-    if (rStart.value && rEnd.value) {
-      const h = Math.round((new Date(rEnd.value) - new Date(rStart.value)) / 3600000);
-      rExecRO.value = isNaN(h) ? '—' : String(h);
-    } else rExecRO.value = '—';
-  }
-  taskSel.addEventListener('change', onTask);
-  userSel.addEventListener('change', onUser);
-  rStart.addEventListener('change', onActuals);
-  rEnd.addEventListener('change', onActuals);
-
-  return () => {
-    const t = getById('Tasks', taskSel.value);
-    const tk = getById('Tickets', ticketSel.value);
-    return {
-      jobName: t ? (t.activityName || t.taskName) : '',
-      taskID: taskSel.value, ticketID: ticketSel.value, userID: userSel.value,
-      projectName: tk ? lookup('Projects', tk.projectID, 'projectName') : '',
-      startDate: startInp.value, endDate: endInp.value,
-      realStartDate: rStart.value, realEndDate: rEnd.value,
-      realExecutionTime: (rExecRO.value && rExecRO.value !== '—') ? Number(rExecRO.value) : null,
-      predecesorJob: predSel.value, dependencyType: depSel.value,
-      jobStatus: statusSel.value || 'Queued',
-    };
-  };
-}
-
-// -------- Task Templates: Event → Process → Workflow → Activity cascade --------
-function buildTaskForm(form, ctx, link) {
-  form.appendChild(sectionNote('Cascading selection'));
-  const eventSel = mkSelect([{ value: '', label: '— select event —' },
-    ...getEntity('Events').map(e => ({ value: e.eventID, label: e.eventTitle }))]);
-  form.appendChild(fieldRow('1 · Event', eventSel, 'Trigger for the task'));
-  const procSel = mkSelect([{ value: '', label: '— select event first —' }]); procSel.disabled = true;
-  form.appendChild(fieldRow('2 · Process', procSel, 'Processes triggered by the event'));
-  const wfSel = mkSelect([{ value: '', label: '— select process first —' }]); wfSel.disabled = true;
-  form.appendChild(fieldRow('3 · Workflow Step', wfSel, 'Steps within the process'));
-  const actRO = roInput('—'); form.appendChild(fieldRow('4 · Activity (auto)', actRO, 'Set from the workflow step'));
-
-  form.appendChild(sectionNote('Auto-populated'));
-  const taskNameRO = roInput('—'); form.appendChild(fieldRow('Task Name', taskNameRO, 'action — activity — process'));
-  const roleRO = roInput('—'); form.appendChild(fieldRow('Role', roleRO, 'From the activity'));
-
-  form.appendChild(sectionNote('Work details'));
-  const execInp = mkInput('number'); form.appendChild(fieldRow('Execution Time (h)', execInp));
-  const psSel = mkSelect([{ value: '', label: '— select —' },
-    ...getEntity('Product Scopes').map(ps => ({ value: ps.productScopeID, label: ps.productScopeName || ps.productScopeID }))]);
-  form.appendChild(fieldRow('Product Scope', psSel, 'FK → Product Scopes'));
-  const inSel = mkSelect([{ value: '', label: '— none —' }, ...getEntity('Handouts').map(h => ({ value: h.handoutID, label: h.handoutName }))]);
-  form.appendChild(fieldRow('Input Handout', inSel));
-  const outSel = mkSelect([{ value: '', label: '— none —' }, ...getEntity('Handouts').map(h => ({ value: h.handoutID, label: h.handoutName }))]);
-  form.appendChild(fieldRow('Output Handout', outSel));
-  const consSel = mkSelect(getEntity('Constraints').map(c => ({ value: c.constrainID, label: c.constrainName })), true);
-  consSel.size = Math.min(5, consSel.options.length || 1);
-  form.appendChild(fieldRow('Constraints', consSel, 'Multiple → Constraints'));
-
-  let selAction = null;
-  const activityIdFromWf = () => { const wf = getById('Workflows', wfSel.value); return wf ? wf.activities : ''; };
-  function updateComputed() {
-    const proc = getById('Processes', procSel.value);
-    const act = getById('Activities', activityIdFromWf());
-    const parts = [selAction ? lookup('Actions', selAction, 'actionName') : '',
-      act ? act.activityName : '', proc ? proc.processName : ''].filter(Boolean);
-    taskNameRO.value = parts.length ? parts.join(' — ') : '—';
-    roleRO.value = act ? (lookup('Roles', act.roleID, 'roleName') || '—') : '—';
-  }
-  function onEvent() {
-    const pids = [...new Set(getEntity('Tasks').filter(t => t.eventID === eventSel.value).map(t => t.processID))];
-    fillSelect(procSel, pids.map(id => ({ value: id, label: lookup('Processes', id, 'processName') })), 'process', 'event');
-    fillSelect(wfSel, [], 'workflow', 'process'); actRO.value = '—'; selAction = null; updateComputed();
-  }
-  function onProc() {
-    const wfs = getEntity('Workflows').filter(w => w.processID === procSel.value);
-    fillSelect(wfSel, wfs.map(w => ({ value: w.workflowID, label: `${w.workflowID} · ${lookup('Activities', w.activities, 'activityName')}` })), 'workflow', 'process');
-    actRO.value = '—'; selAction = null; updateComputed();
-  }
-  function onWf() {
-    const aid = activityIdFromWf();
-    const act = getById('Activities', aid);
-    actRO.value = act ? act.activityName : '—';
-    const actions = getEntity('Actions').filter(a => a.activityID === aid);
-    selAction = actions.length ? actions[0].actionID : null;
-    updateComputed();
-  }
-  eventSel.addEventListener('change', onEvent);
-  procSel.addEventListener('change', onProc);
-  wfSel.addEventListener('change', onWf);
-
-  // Nested creation (e.g. from a Process/Event rollup): preselect + lock the linked level.
-  if (link && link.field === 'eventID') { eventSel.value = link.value; onEvent(); eventSel.disabled = true; }
-  if (link && link.field === 'processID') {
-    const ev = getEntity('Tasks').find(t => t.processID === link.value);
-    if (ev) { eventSel.value = ev.eventID; onEvent(); eventSel.disabled = true; }
-    procSel.value = link.value; onProc(); procSel.disabled = true;
-  }
-
-  return () => {
-    const wf = getById('Workflows', wfSel.value);
-    const act = getById('Activities', activityIdFromWf());
-    return {
-      eventID: eventSel.value, processID: procSel.value, activityID: activityIdFromWf(),
-      actionID: selAction || '', roleID: act ? act.roleID : '',
-      parentStepID: wf ? wf.workflowID : '',
-      productScopeID: psSel.value, executionTime: execInp.value === '' ? null : Number(execInp.value),
-      taskInputID: inSel.value, taskOutputID: outSel.value,
-      constrainIDs: [...consSel.selectedOptions].map(o => o.value), customerName: '',
-    };
-  };
-}
+// Bespoke stepped forms were retired with the registry; the datamodel
+// form spec (P6-E) declares cascading behaviour via check/field-rule.
+const CUSTOM_FORMS = {};
 
 // ================= DOM helpers =================
 function fieldRow(label, control, hint) {
