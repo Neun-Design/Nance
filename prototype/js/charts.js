@@ -24,7 +24,8 @@ function baseOption(title) {
     color: PALETTE,
     textStyle: baseText,
     title: title ? { text: title, left: 0, top: 4, textStyle: { fontSize: 14, fontWeight: 600, color: cssVar('--se-text-primary'), fontFamily: FONT } } : undefined,
-    tooltip: { trigger: 'item', confine: true },
+    // richText renders tooltips on canvas — category values can't inject HTML
+    tooltip: { trigger: 'item', confine: true, renderMode: 'richText' },
     grid: baseGrid,
   };
 }

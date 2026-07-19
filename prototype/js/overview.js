@@ -101,7 +101,9 @@ export function renderOverview(container) {
 function kpi(label, value, sub, entity) {
   const d = document.createElement('div');
   d.className = 'kpi';
-  d.innerHTML = `<div class="kpi-label">${label}</div><div class="kpi-value">${value}</div><div class="kpi-sub">${sub}</div>`;
+  for (const [cls, txt] of [['kpi-label', label], ['kpi-value', value], ['kpi-sub', sub]]) {
+    const e = document.createElement('div'); e.className = cls; e.textContent = txt; d.appendChild(e);
+  }
   const db = detailsBtn(entity);
   if (db) { db.classList.add('kpi-details'); d.appendChild(db); }
   return d;

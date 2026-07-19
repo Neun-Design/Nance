@@ -169,7 +169,8 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
         const badge = document.createElement('span'); badge.className = 'count-badge';
         const btn = document.createElement('button');
         btn.type = 'button'; btn.className = 'btn-secondary';
-        btn.innerHTML = `<span>+</span> New ${singularTitle(rl.label)}`;
+        const plus = document.createElement('span'); plus.textContent = '+';
+        btn.append(plus, ` New ${singularTitle(rl.label)}`);
         btn.addEventListener('click', () => pushForm(childCfg, rl.childEntity, {
           field: rl.childKey, value: newId, parentEntity: entity, parentTab: cfg ? cfg.tab : entity,
         }));
@@ -197,9 +198,13 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 
     // active form body
     const ctx = stack[activeIdx];
-    head.innerHTML = `<div><div class="drawer-title">${ctx.title}</div>
-      <div class="drawer-sub">Demo form — saved to this session only, resets on reload</div></div>`;
-    const x = document.createElement('button'); x.className = 'drawer-x'; x.innerHTML = '✕';
+    head.innerHTML = '';
+    const hd = document.createElement('div');
+    const ht = document.createElement('div'); ht.className = 'drawer-title'; ht.textContent = ctx.title;
+    const hs = document.createElement('div'); hs.className = 'drawer-sub';
+    hs.textContent = 'Demo form — saved to this session only, resets on reload';
+    hd.append(ht, hs); head.appendChild(hd);
+    const x = document.createElement('button'); x.className = 'drawer-x'; x.textContent = '✕';
     x.addEventListener('click', closeAll); head.appendChild(x);
 
     bodyHost.innerHTML = ''; bodyHost.appendChild(ctx.body);
