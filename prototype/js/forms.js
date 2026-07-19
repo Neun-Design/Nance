@@ -4,7 +4,7 @@
 // (childKey = parent's generated PK). Saving a child pops back; saving the root closes.
 // Records are added in-memory (non-persistent, resets on reload).
 
-import { getEntity, getById, getBaseFields, addRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
+import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
 import { REGISTRY } from './registry.js';
 
@@ -78,8 +78,12 @@ function genId(entity) {
   return ok ? prefix + String(max + 1).padStart(width, '0') : `${entity.slice(0, 3).toUpperCase()}-${ids.length + 1}`;
 }
 
+// Custom stepped forms can't be prefilled generically; Edit is limited to generic forms.
+export const supportsEdit = (entity) => !CUSTOM_FORMS[entity];
+
 // ================= Drawer stack =================
-export function openForm(rootCfg, onSaved) {
+// editRecord (optional): open the root form prefilled and save via update instead of insert.
+export function openForm(rootCfg, onSaved, editRecord = null) {
   const stack = [];       // array of form contexts
   let activeIdx = 0;
 
@@ -101,25 +105,27 @@ export function openForm(rootCfg, onSaved) {
   const closeAll = () => { overlay.classList.remove('open'); setTimeout(() => overlay.remove(), 180); };
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAll(); });
 
-  function pushForm(cfg, entity, link) {
-    const ctx = buildFormCtx(cfg, entity, link);
+  function pushForm(cfg, entity, link, record) {
+    const ctx = buildFormCtx(cfg, entity, link, record);
     stack.push(ctx);
     activeIdx = stack.length - 1;
     render();
   }
 
   // Build a form context (its body DOM is kept alive so inputs persist across spine switches).
-  function buildFormCtx(cfg, entity, link) {
+  function buildFormCtx(cfg, entity, link, record = null) {
     const pk = ENTITY_META[entity].pk;
-    const newId = genId(entity);
-    const ctx = { cfg, entity, pk, newId, link, controls: {}, badges: [], title: 'New ' + singularTitle(cfg ? cfg.tab : entity), spine: singularTitle(cfg ? cfg.tab : entity) };
+    const newId = record ? record[pk] : genId(entity);
+    const verb = record ? 'Edit ' : 'New ';
+    const ctx = { cfg, entity, pk, newId, link, editing: !!record, controls: {}, badges: [], title: verb + singularTitle(cfg ? cfg.tab : entity), spine: singularTitle(cfg ? cfg.tab : entity) };
 
     const body = document.createElement('div');
     const form = document.createElement('form'); form.className = 'stack-form';
     body.appendChild(form);
 
-    // auto PK
-    form.appendChild(fieldRow(humanize(pk) + ' (auto)', roInput(newId), 'Primary key — generated automatically'));
+    // PK — generated for new records, locked for edits
+    form.appendChild(fieldRow(humanize(pk) + (record ? '' : ' (auto)'), roInput(newId),
+      record ? 'Primary key — read-only' : 'Primary key — generated automatically'));
 
     // Bespoke stepped/cascading forms (Jobs, Task Templates) own the whole field area.
     if (CUSTOM_FORMS[entity]) {
@@ -140,6 +146,7 @@ export function openForm(rootCfg, onSaved) {
       if (skip.has(f)) continue;
       const c = classify(entity, f);
       const { node, get } = buildControl(entity, f, c);
+      if (record) setControlValue(node, c, record[f]);
       ctx.controls[f] = get;
       form.appendChild(fieldRow(humanize(f), node, hintFor(c)));
     }
@@ -218,9 +225,10 @@ export function openForm(rootCfg, onSaved) {
     if (ctx.collect) Object.assign(rec, ctx.collect());
     else for (const [f, get] of Object.entries(ctx.controls)) rec[f] = get();
     if (ctx.link) rec[ctx.link.field] = ctx.link.value; // link wins over any cascade choice
-    addRecord(ctx.entity, rec);
+    if (ctx.editing) updateRecord(ctx.entity, ctx.newId, rec);
+    else addRecord(ctx.entity, rec);
     enrichAll();
-    toast(`Added ${ctx.newId} to ${ctx.cfg ? ctx.cfg.tab : ctx.entity}`);
+    toast(`${ctx.editing ? 'Updated' : 'Added'} ${ctx.newId} ${ctx.editing ? 'in' : 'to'} ${ctx.cfg ? ctx.cfg.tab : ctx.entity}`);
     if (activeIdx > 0) {
       stack.splice(activeIdx, 1); activeIdx -= 1; render();   // pop back to parent
     } else {
@@ -228,7 +236,7 @@ export function openForm(rootCfg, onSaved) {
     }
   }
 
-  pushForm(rootCfg, rootCfg.entity, null);
+  pushForm(rootCfg, rootCfg.entity, null, editRecord);
   document.body.appendChild(overlay);
   requestAnimationFrame(() => overlay.classList.add('open'));
 }
@@ -248,6 +256,18 @@ function hintFor(c) {
   if (c.type === 'fk') return `Foreign key → ${c.ref}`;
   if (c.type === 'multiselect') return `Multiple → ${c.ref}`;
   return '';
+}
+// Prefill a control built by buildControl with an existing record's value (edit mode).
+function setControlValue(node, c, v) {
+  if (v == null) return;
+  if (c.type === 'bool') { node.value = String(v); return; }
+  if (c.type === 'multiselect') {
+    const vals = new Set((Array.isArray(v) ? v : [v]).map(String));
+    [...node.options].forEach(o => { o.selected = vals.has(o.value); });
+    return;
+  }
+  if (c.type === 'tags') { node.value = Array.isArray(v) ? v.join(',') : String(v); return; }
+  node.value = String(v);
 }
 
 // ================= Bespoke stepped / cascading forms =================
