@@ -4,7 +4,7 @@ import { loadData, getEntity, getById, removeRecords } from './data.js';
 import { enrichAll } from './compute.js';
 import { REGISTRY } from './registry.js';
 import { buildFilterBar } from './filters.js';
-import { renderTable } from './table.js';
+import { renderTable, escapeHtml } from './table.js';
 import { renderChart } from './charts.js';
 import { renderOverview } from './overview.js';
 import { openForm, supportsEdit } from './forms.js';
@@ -29,7 +29,7 @@ async function main() {
     await loadData();
     enrichAll();
   } catch (e) {
-    tabViewEl.innerHTML = `<div class="empty-note">Could not load data: ${e.message}<br>Serve this folder over http (e.g. <code>python3 -m http.server</code>).</div>`;
+    tabViewEl.innerHTML = `<div class="empty-note">Could not load data: ${escapeHtml(e.message)}<br>Serve this folder over http (e.g. <code>python3 -m http.server</code>).</div>`;
     return;
   }
   buildSidebar();
@@ -51,7 +51,9 @@ function buildSidebar() {
 function navItem(icon, text, onClick, isActive) {
   const d = document.createElement('div');
   d.className = 'nav-item' + (isActive ? ' active' : '');
-  d.innerHTML = `<span class="nav-ico">${icon}</span><span>${text}</span>`;
+  const ico = document.createElement('span'); ico.className = 'nav-ico'; ico.textContent = icon;
+  const lbl = document.createElement('span'); lbl.textContent = text;
+  d.append(ico, lbl);
   d.addEventListener('click', onClick);
   return d;
 }
@@ -108,9 +110,9 @@ function renderTabShell(cfg) {
   // header
   const head = document.createElement('div');
   const flag = cfg.readonly ? ' <span class="readonly-flag">READ-ONLY</span>' : '';
-  head.innerHTML = `<div class="tab-title-row"><h2 class="tab-title">${cfg.tab}</h2>` +
+  head.innerHTML = `<div class="tab-title-row"><h2 class="tab-title">${escapeHtml(cfg.tab)}</h2>` +
     `<span class="tab-count" id="tab-count"></span>${flag}</div>` +
-    (cfg.subtitle ? `<p class="tab-subtitle">${cfg.subtitle}</p>` : '');
+    (cfg.subtitle ? `<p class="tab-subtitle">${escapeHtml(cfg.subtitle)}</p>` : '');
   tabViewEl.appendChild(head);
 
   // filters live in a right-side drawer (wireframe pattern); Reset stays inside it
@@ -133,7 +135,7 @@ function buildFilterDrawer(cfg, rows) {
 
   const head = document.createElement('div'); head.className = 'drawer-head';
   const title = document.createElement('div');
-  title.innerHTML = `<div class="drawer-title">Filters — ${cfg.tab}</div>
+  title.innerHTML = `<div class="drawer-title">Filters — ${escapeHtml(cfg.tab)}</div>
     <div class="drawer-sub">Combined with AND; Reset clears every filter</div>`;
   const x = document.createElement('button'); x.className = 'drawer-x'; x.textContent = '✕';
   head.append(title, x);
@@ -297,7 +299,7 @@ function panel(title) {
   wrap.className = 'panel';
   const head = document.createElement('div');
   head.className = 'panel-head';
-  head.innerHTML = title ? `<h3>${title}</h3>` : '';
+  if (title) { const h = document.createElement('h3'); h.textContent = title; head.appendChild(h); }
   wrap.appendChild(head);
   const body = document.createElement('div');
   body.className = 'panel-body';
