@@ -81,26 +81,90 @@
           ],
           "reports": {
             "Report-A": {
-              "graph_type": "donut",
-              "rule": "Count of Factories grouped by region",
-              "filters": [
-                "businessSegment",
-                "isActive"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "table",
-              "query": "All factories with computed columns: active forecast count, open ticket count, active project count, region",
-              "filters": [
-                "businessSegment",
-                "region",
-                "isActive"
-              ]
+              "graph_type": "bar chart",
+              "rule": "Forecast Count by FactoryName",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "scopeName": {
+                    "field-type": {
+                      "basic": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "computed -> Scopes (via: forecasts), (display: scopeName):  Multivalued field"
+                  }
+                }
+              }
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "factoryName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "City": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "city",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Country": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "country",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Segment": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "businessSegment",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Region": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "region",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": null
         },
         "Forecasts": {
           "visibility": "show",
@@ -118,7 +182,7 @@
             {
               "name": "factoryID",
               "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
+              "rule": "FK → Factories (display: CONCAT(factoryName,'-',city)",
               "notes": "Factory submitting this forecast",
               "table-display": true,
               "subitem-display": true,
@@ -134,46 +198,54 @@
               "constraints": null
             },
             {
-              "name": "forecastYear",
-              "type": "INT",
-              "rule": null,
-              "notes": "e.g., 2026",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "forecastQuarter",
-              "type": "INT",
-              "rule": null,
-              "notes": "1–4; required when period = Quarter (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "forecastMonth",
-              "type": "INT",
-              "rule": null,
-              "notes": "1–12; required when period = Month (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
               "name": "periodStart",
               "type": "DATETIME",
               "rule": null,
               "notes": "Depends on forecastPeriod condition (month/quarter/annual)",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
               "name": "periodFinish",
               "type": "DATETIME",
-              "rule": null,
-              "notes": "Depends on forecastPeriod condition (month/quarter/annual)",
+              "rule": "computed: add periodType month quantity to startDate to find periodFinish ",
+              "notes": [
+                "if periodType = annual and periodStart = Mar/2026, than periodFinish = Mar/2027",
+                "if periodType = quarter and periodStart = Mar/2026, than periodFinish = Jun/2026",
+                "if periodType = month and periodStart = Mar/2026, than periodFinish = Mar/2026"
+              ],
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "periodBusinessDays",
+              "type": "INT",
+              "rule": "computed: business days between periodStart and periodFinish. Apply USA business days calendar for this prototype",
+              "notes": [
+                "if periodType = annual and periodStart = Mar/2026, than periodBusinessDays=254",
+                "if periodType = quarter and periodStart = Mar/2026, than periodBusinessDays=85",
+                "if periodType = month and periodStart = Mar/2026, than periodBusinessDays=22"
+              ],
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "periodFrame",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT('from ',periodStart,' to ',periodFinish",
+              "notes": "IF periodType='month', than periodFrame=periodStart",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "weeklyUsageQuota",
+              "type": "INT",
+              "rule": "computed: distribute the period totalEstimatedHours in weeks",
+              "notes": "IF periodType='month', than periodFrame=periodStart",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -181,7 +253,7 @@
             {
               "name": "status",
               "type": "ENUM",
-              "rule": "enum: Draft/Submitted/Approved/Archived",
+              "rule": "enum: Draft/Submitted/Approved/Archived/",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -226,20 +298,101 @@
           ],
           "reports": {
             "Report-A": {
-              "graph_type": "line",
-              "rule": "totalEstimatedHours plotted by period (year + quarter), one series per factory",
-              "filters": [
-                "forecastPeriod",
-                "factoryID",
-                "forecastYear",
-                "status"
-              ]
-            },
-            "Report-B": null
+              "overview-display": true,
+              "graph_type": "bar chart - multiple",
+              "rule": "inserir um report para mostrar o monthly rate entre horas budgetadas de acordo com os forecast (usageQuota) VS tiketExecutionTime dos Tickets",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "scopeName": {
+                    "field-type": {
+                      "basic": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "computed -> Scopes (via: eventTitle.field), (display: scopeName):  Multivalued field"
+                  },
+                  "eventTitle": {
+                    "field-type": {
+                      "combobox": "shadcn-comboboxGroups"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Events (display: eventName): Multivalued field"
+                  },
+                  "factoryName": {
+                    "field-type": {
+                      "combobox": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                  }
+                }
+              }
+            }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Factory": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "factoryID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = Factories.region"
+              },
+              "Forecast Period": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "forecastPeriod",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Period Start": {
+                "field-type": {
+                  "month": "html"
+                },
+                "attribute": "periodStart",
+                "tooltip": null,
+                "step": null,
+                "check": "Forecast Period IS NOT NULL",
+                "field-rule": null
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "status",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "Forecast Scopes"
+          ]
         },
         "Forecast Scopes": {
           "visibility": "show",
@@ -255,22 +408,58 @@
               "constraints": "PK"
             },
             {
+              "name": "forecastScopeRegistry",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Business unit registry number",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "forecastID",
               "type": "INT",
-              "rule": "FK → Forecasts (display: forecastID + period)",
+              "rule": "FK → Forecasts (display: CONCAT(factoryName,'-',city,' | ', period))",
               "notes": "Parent forecast",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
             },
             {
-              "name": "productScopeID",
+              "name": "scopeID",
               "type": "INT",
-              "rule": "FK → Product Scopes (display: scopeName + products)",
-              "notes": "Product × Scope combination",
-              "table-display": true,
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "INT",
+              "rule": "rollup → Product Scopes (via: scopeID); display: productGroupName",
+              "notes": "filtered by",
+              "table-display": false,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "constraintName",
+              "type": "rollup",
+              "rule": "rollup → Product Scopes (via: productGroupID)",
+              "notes": "Constraint names grouped by constrainTypeID (multivalued)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "productScopeID",
+              "type": "INT",
+              "rule": "computed: filtrar os productScopeID da tabela product Scopes atraves das entradas de constraintName, productGroupID e scopeID",
+              "notes": "display: productScopeName + scopeName",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "eventID",
@@ -300,12 +489,12 @@
               "constraints": null
             },
             {
-              "name": "roles",
+              "name": "functionName",
               "type": "VARCHAR",
-              "rule": "computed: DISTINCT(tasks.roles)",
+              "rule": "computed: DISTINCT(tasks.functionName)",
               "notes": "Roles derived from Tasks in the triggered Process",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -322,6 +511,24 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Forecasts\".\"factoryID\" → \"Factories\".\"region\")",
               "notes": "Region of the factory that owns the parent forecast (via forecastID → Factories.region). Used by Report-B.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "forecastScopeQuantity",
+              "type": "INT",
+              "rule": null,
+              "notes": "amount of forecast scope to be used to calculate estimatedHours",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "consumption",
+              "type": "INT",
+              "rule": "computed: every time an forecastScopeID is added to a Ticket this column should be subtract by 1",
+              "notes": "DEFAULT = forecastScopeQuantity",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -332,7 +539,7 @@
               "rule": null,
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             }
           ],
@@ -341,26 +548,111 @@
               "graph_type": "stacked_bar",
               "rule": "estimatedHours grouped by productScopeID (scope name), stacked by roles",
               "filters": [
-                "forecastID",
-                "period",
-                "factory",
-                "businessSegment"
+                "forecastID (default = ALL)",
+                "period (default = last six months)",
+                "factory (default = ALL)",
+                "businessSegment (default = ALL)"
               ]
             },
             "Report-B": {
-              "graph_type": "bar",
-              "rule": "Count of Forecast Scopes grouped by region (from parent Forecast's factory: forecastID → Factories.region)",
+              "overview-display": true,
+              "graph_type": "stacked_bar",
+              "rule": "estimatedHours grouped by productScopeID (scope name), stacked by roles",
               "filters": [
-                "forecastPeriod",
-                "factory",
-                "businessSegment",
-                "eventID"
+                "forecastID (default = ALL)",
+                "period (default = last six months)",
+                "factory (default = ALL)",
+                "businessSegment (default = ALL)"
               ]
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Request ID": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "forecastScopeRegistry",
+                "tooltip": "Business Unit system identification for the request",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Forecast": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "forecastID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = Forecasts.factoryName"
+              },
+              "Scope": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "scopeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Product Group": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "productGroupID",
+                "tooltip": null,
+                "step": null,
+                "check": "Scope IS NOT NULL",
+                "field-rule": "filtered by Scope selected"
+              },
+              "Constraints": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "constraintID",
+                "tooltip": null,
+                "step": null,
+                "check": "Product Group IS NOT NULL",
+                "field-rule": "SelectLabel = constrainTypeName"
+              },
+              "Product Scope": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": null,
+                "step": null,
+                "check": "Constraints IS NOT NULL",
+                "field-rule": null
+              },
+              "Notes": {
+                "field-type": {
+                  "Field": "shadcn-Textarea"
+                },
+                "attribute": "notes",
+                "tooltip": null,
+                "step": null,
+                "check": "Product Scope IS NOT NULL",
+                "field-rule": null
+              },
+              "Quantity": {
+                "field-type": {
+                  "Input": "shadcn-Input"
+                },
+                "attribute": "forecastScopeQuantity",
+                "tooltip": null,
+                "step": null,
+                "check": "Product Scope IS NOT NULL",
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true
         }
       }
     },
@@ -375,8 +667,8 @@
               "type": "INT",
               "rule": null,
               "notes": "Auto-generated primary key",
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
@@ -391,7 +683,7 @@
             {
               "name": "processID",
               "type": "VARCHAR",
-              "rule": "computed: from eventID (display: processName)",
+              "rule": "rollup: from eventID (display: processName)",
               "notes": "Options are processes triggered by the selected event",
               "table-display": true,
               "subitem-display": true,
@@ -400,17 +692,8 @@
             {
               "name": "workflowID",
               "type": "VARCHAR",
-              "rule": "computed: from processID (display: workflowID)",
+              "rule": "rollup: Workflows (via: processID; display: activityName)",
               "notes": "Options filtered by matching processID",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "activityID",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Workflows\".\"activityName\")",
-              "notes": "Automatically inserted from selected workflowID",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -425,18 +708,45 @@
               "constraints": null
             },
             {
+              "name": "constraintName",
+              "type": "rollup",
+              "rule": "rollup → Constraints (via: constrainTypeID)",
+              "notes": "Constraint items grouped by constrainTypeID; Multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productScopeID",
+              "type": "rollup",
+              "rule": "rollup -> Product Scopes via: constraintName (display: productGroupName)",
+              "notes": ";multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "products",
               "type": "VARCHAR",
-              "rule": "computed: activityID → Payload → Products (display: productName)",
+              "rule": "mirror -> via:productScopeID; display: productName",
               "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
               "name": "scopes",
               "type": "VARCHAR",
               "rule": "computed: activityID → Payload → Scopes (display: scopeName)",
+              "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "functionID",
+              "type": "VARCHAR",
+              "rule": "FK -> Functions (display: functionName)",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
@@ -446,9 +756,18 @@
               "name": "executionTime",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Planned execution time in hours; defaults to Activity.executionTime",
+              "notes": "Estimated execution time in hours",
               "table-display": true,
               "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "competenceID",
+              "type": "VARCHAR",
+              "rule": "rollup -> Competence via: taskID -> functionID (display: competenceName)",
+              "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -456,24 +775,15 @@
               "type": "VARCHAR",
               "rule": "computed: taskID → Competence.roleID (display: roleName)",
               "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "parentStepID",
-              "type": "rollup",
-              "rule": "rollup → Workflows (via: workflowID) (display: workflowName)",
-              "notes": null,
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "constraintName",
+              "name": "parentStepID",
               "type": "rollup",
-              "rule": "rollup → Constraints (via: constrainTypeID)",
-              "notes": "Constraint items grouped by constrainTypeID",
+              "rule": "rollup → Workflows (via: workflowID) (display: actionName)",
+              "notes": null,
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -481,26 +791,44 @@
             {
               "name": "taskInput",
               "type": "rollup",
-              "rule": "rollup → Handouts",
-              "notes": "Input handouts",
-              "table-display": false,
+              "rule": "rollup → Handouts (display: handoutName + channelName",
+              "notes": "Multivalued",
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
             {
               "name": "taskOutput",
               "type": "rollup",
-              "rule": "rollup → Handouts",
-              "notes": "Output handouts",
-              "table-display": false,
+              "rule": "rollup → Handouts (display: handoutName + channelName",
+              "notes": "Multivalued",
+              "table-display": true,
               "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "procedureName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "procedureURL",
+              "type": "LINK",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": null
             },
             {
               "name": "customerName",
               "type": "rollup",
               "rule": "rollup → Factories",
-              "notes": null,
+              "notes": "atributo associativo sempre que uma task for adicionada em um Job ou Ticket",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -519,8 +847,8 @@
               "type": "VARCHAR",
               "rule": "computed: CONCAT(actionName, activityName, processName)",
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             }
           ],
@@ -528,26 +856,158 @@
             "Report-A": {
               "graph_type": "bar",
               "rule": "Count of Tasks grouped by processID",
-              "filters": [
-                "eventID",
-                "productName",
-                "scopeName"
-              ]
+              "filters": null
             },
             "Report-B": {
+              "overview-display": true,
               "graph_type": "bar",
-              "rule": "Gap between task executionTime and job realExecutionTime, top 10 most critical, sorted ascending by gap",
-              "filters": [
-                "processName",
-                "roles",
-                "productName",
-                "scopeName"
-              ]
+              "rule": "Count of Tasks grouped by functionName",
+              "filters": null
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Event": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "eventID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Process": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "processID",
+                "tooltip": null,
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": "The process options will be filtered by the event selected"
+              },
+              "Activity": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "workflowID",
+                "tooltip": null,
+                "step": null,
+                "check": "Process IS NOT NULL",
+                "field-rule": "The Activity options will be filtered by the process selected"
+              },
+              "Action": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "actionID",
+                "tooltip": null,
+                "step": null,
+                "check": "Activity IS NOT NULL",
+                "field-rule": null
+              },
+              "Constraints": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "constraintName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = constrainTypeName"
+              },
+              "Product Scope": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": null,
+                "step": null,
+                "check": "Constraints IS NOT NULL",
+                "field-rule": "SelectLabel = constrainTypeName"
+              },
+              "Inputs": {
+                "field-type": {
+                  "ComboboxGroups": "shadcn-combobox"
+                },
+                "attribute": "taskInput",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Outputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "taskOutput",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Function": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "functionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Execution Time": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "executionTime",
+                "tooltip": "Estimated time required to complete the task",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Procedure ID": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "procedureName",
+                "tooltip": "Registry Number or unique identification for the procedure",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Procedure URL": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "procedureURL",
+                "tooltip": "Link to access the procedure documentation",
+                "step": null,
+                "check": "Procedure ID IS NOT NULL",
+                "field-rule": null
+              }
+            }
+          },
+          "cards": [
+            {
+              "Card 1-1": {
+                "title": "Recurrent tasks acrros Processes",
+                "card-rules": {
+                  "main-data": "Top 3 tasks that appears in multiple processes",
+                  "trend-data": null,
+                  "detail-data": "this card must be a list with two columns: taskID | process count"
+                },
+                "card-component": "shadcn-card",
+                "card-tooltip": "Most recurring tasks across the process landscape, indicating key operational dependencies."
+              }
+            }
+          ],
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Scopes -> Competence"
+          ]
         },
         "Events": {
           "visibility": "show",
@@ -590,19 +1050,10 @@
               "constraints": null
             },
             {
-              "name": "sourceID",
-              "type": "INT",
-              "rule": "FK → Sources (display: sourceName)",
-              "notes": "Origin context of the event (nullable). ISO §4.1. Enables Sources reports (events by category, source→event→risk chain).",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "processes",
+              "name": "processID",
               "type": "rollup",
-              "rule": "rollup → Processes (via: eventID)",
-              "notes": "Processes triggered by this event",
+              "rule": "rollup → Processes (via: eventID) display: processName",
+              "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -612,6 +1063,15 @@
               "type": "rollup",
               "rule": "rollup → Tasks (via: eventID)",
               "notes": "Tasks existing for each process triggered by this event",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "executionTime",
+              "type": "rollup",
+              "rule": "computed: SUM of tasks executionTime",
+              "notes": null,
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -665,18 +1125,45 @@
           "reports": {
             "Report-A": {
               "graph_type": "bar",
-              "rule": "Open ticket count (from ticketID rollup) grouped by eventName, per factory",
-              "filters": [
-                "factoryName",
-                "productName",
-                "scopeName"
-              ]
+              "rule": "Total executionTime per Event",
+              "filters": null
             },
-            "Report-B": null
+            "Report-B": {
+              "graph_type": "bar",
+              "rule": "Tasks count by Events",
+              "filters": null
+            }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Event": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "eventTitle",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "eventDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "Processes"
+          ]
         },
         "Processes": {
           "visibility": "show",
@@ -692,6 +1179,15 @@
               "constraints": "PK"
             },
             {
+              "name": "processSystemID",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Optional external registry system ID reference; not mandatory",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "processName",
               "type": "VARCHAR",
               "rule": null,
@@ -701,17 +1197,17 @@
               "constraints": null
             },
             {
-              "name": "processSystemID",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "Optional external registry system ID reference; not mandatory",
+              "name": "eventID",
+              "type": "INT",
+              "rule": "FK → Events (display: eventTitle)",
+              "notes": "Event that triggered this Process",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "processOwner",
-              "type": "INT",
+              "type": "email",
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
@@ -811,9 +1307,86 @@
             },
             "Report-B": null
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Registry Number": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "processSystemID",
+                "tooltip": "Business Unit register number",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Process Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "processName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "processDescription",
+                "tooltip": "Give a description for the process",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Event": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "eventID",
+                "tooltip": "The event that triggers the process",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Owner": {
+                "field-type": {
+                  "input": "shadcn-input-email"
+                },
+                "attribute": "processOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "processStatus",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Process Version": {
+                "field-type": {
+                  "input": "shadcn-input-email"
+                },
+                "attribute": "processVersion",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "Workflows: ordered by identationID"
+          ]
         },
         "Activities": {
           "visibility": "show",
@@ -838,46 +1411,55 @@
               "constraints": null
             },
             {
-              "name": "processID",
-              "type": "INT",
-              "rule": "FK → Processes (display: processName)",
-              "notes": "Parent process",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "roleID",
-              "type": "VARCHAR",
-              "rule": "computed: from tasks (display: roleName)",
-              "notes": "Role is defined at the task level",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "procedureID",
-              "type": "BLOB",
+              "name": "activityDescription",
+              "type": "TEXT",
               "rule": null,
-              "notes": "Allows a link to the document plus a description that is the procedure ID (ISO §7.5)",
+              "notes": "nullable",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
             },
             {
-              "name": "tasks",
+              "name": "actionID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: activityID)",
-              "notes": "All Tasks derived from this Activity",
+              "rule": "rollup → Tasks (via: activityID; display: actionName)",
+              "notes": "All actions derived from this Activity",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Activity Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "activityName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "activityDescription",
+                "tooltip": "Give a description for the Activity",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "Actions: rollup via Tasks.activityID"
+          ]
         },
         "Workflows": {
           "visibility": "show",
@@ -888,8 +1470,8 @@
               "type": "INT",
               "rule": null,
               "notes": "Displayed as e.g., \"WF-002\"",
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
@@ -897,7 +1479,7 @@
               "type": "VARCHAR",
               "rule": "computed: CONCAT(activityName, processName)",
               "notes": "Not a user input",
-              "table-display": true,
+              "table-display": false,
               "subitem-display": true,
               "constraints": null
             },
@@ -907,15 +1489,15 @@
               "rule": "FK → Processes (display: processName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "activities",
+              "name": "activityID",
               "type": "rollup",
               "rule": "rollup → Activities (via: processID) (display: activityName)",
               "notes": "Single select, not multivalued",
-              "table-display": false,
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
@@ -927,6 +1509,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "indentationID",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "(nullable)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "taskID",
@@ -978,8 +1569,8 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"procedureName\")",
               "notes": "Determined by taskID",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1002,9 +1593,53 @@
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Process": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "processID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Activity": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "activityID",
+                "tooltip": null,
+                "step": null,
+                "check": "Process IS NOT NULL",
+                "field-rule": null
+              },
+              "Parent Step": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "parentStepID",
+                "tooltip": "Previous step that provides the inputs required for this step",
+                "step": null,
+                "check": "Activity IS NOT NULL",
+                "field-rule": null
+              },
+              "Identation": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "identationID",
+                "tooltip": "Determines the selection priority among eligible resources with the same role. Lower ranks are prioritized over higher ranks to optimize resource allocation and operational costs.",
+                "step": null,
+                "check": "Parent Step IS NOT NULL",
+                "field-rule": null
+              }
+            }
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Actions": {
           "visibility": "show",
@@ -1038,24 +1673,6 @@
               "constraints": null
             },
             {
-              "name": "riskID",
-              "type": "INT",
-              "rule": "FK → Risks (display: riskTitle)",
-              "notes": "Risk this action addresses (nullable). ISO §6.1.2(a) — direct risk→action traceability. Enables Risks/Requirements 'linked action count' reports.",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "applicationID",
-              "type": "INT",
-              "rule": "FK → actionApplication (display: applicationName)",
-              "notes": "QMS process context classification (Risk Management/Control/Communication/Monitoring/Improvement)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
               "name": "taskID",
               "type": "rollup",
               "rule": "rollup → Tasks (via: actionID)",
@@ -1069,8 +1686,8 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"activityName\")",
               "notes": "From taskID rollup; allows filtering by activity",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1079,14 +1696,41 @@
               "rule": "mirror: DISTINCT(\"Tasks\".\"workflowID\")",
               "notes": "From taskID rollup; allows filtering by workflow (activity + process)",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Action Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "activityName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "actionDescription",
+                "tooltip": null,
+                "step": null,
+                "check": "Action Name IS NOT NULL",
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "Activities: via taskID"
+            ]
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Constraints": {
           "visibility": "show",
@@ -1102,7 +1746,7 @@
               "constraints": "PK"
             },
             {
-              "name": "constrainName",
+              "name": "constraintName",
               "type": "VARCHAR",
               "rule": null,
               "notes": null,
@@ -1122,8 +1766,8 @@
             {
               "name": "constrainTypeID",
               "type": "INT",
-              "rule": "FK → Constraint Types (display: constrainTypeName)",
-              "notes": "Operational / Design / Testing / Technical / Commercial",
+              "rule": "enum: Operational / Design / Testing / Technical / Commercial",
+              "notes": null,
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -1148,9 +1792,66 @@
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "constraintName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "constrainDescription",
+                "tooltip": null,
+                "step": null,
+                "check": "Action Name IS NOT NULL",
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "constrainTypeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Activate": {
+                "field-type": {
+                  "switch": "shadcn-switch"
+                },
+                "attribute": "isActive",
+                "tooltip": "Make this constraint available to be applied accross the operation",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Regulatory Reference": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "regulatoryReference",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "Product Scopes"
+            ]
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Handouts": {
           "visibility": "show",
@@ -1178,9 +1879,9 @@
               "name": "handoutDescription",
               "type": "TEXT",
               "rule": null,
-              "notes": null,
+              "notes": "nullable",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1188,8 +1889,8 @@
               "type": "DATETIME",
               "rule": null,
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1211,28 +1912,82 @@
               "constraints": null
             },
             {
-              "name": "Template",
-              "type": "BLOB",
+              "name": "templateName",
+              "type": "VARCHAR",
               "rule": null,
-              "notes": "Includes a field option to insert a title for the attachment",
+              "notes": "nullable",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "type",
-              "type": "ENUM",
-              "rule": "enum: data/file",
-              "notes": null,
+              "name": "templateURL",
+              "type": "LINK",
+              "rule": null,
+              "notes": "nullable",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "handoutName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "handoutDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Channel": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "channelID",
+                "tooltip": "Tool, app or system used to store or manage the handout",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Template ID": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "templateName",
+                "tooltip": "Unique Identifier for the template",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Template URL": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "templateURL",
+                "tooltip": "Acess Link for the template",
+                "step": null,
+                "check": "Template ID IS NOT NULL",
+                "field-rule": null
+              }
+            }
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Channels": {
           "visibility": "show",
@@ -1258,11 +2013,11 @@
             },
             {
               "name": "channelOwner",
-              "type": "TEXT",
+              "type": "email",
               "rule": null,
               "notes": "Company or person responsible for managing the channel",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1285,9 +2040,43 @@
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "channelName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Owner": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "channelOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "channelStatus",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "enum: Active, Inactive"
+              }
+            }
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         }
       }
     },
@@ -1307,12 +2096,21 @@
               "constraints": "PK"
             },
             {
+              "name": "productScopeRegistry",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "nullable",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "productGroupID",
               "type": "INT",
-              "rule": "FK → Product Groups (display: groupCode)",
+              "rule": "FK → Product Groups (display: productGroupName)",
               "notes": "e.g., \"AA\"",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -1321,8 +2119,17 @@
               "rule": "FK → Scopes (display: scopeName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "productScopeName",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT(productGroupName from productGroupID,'-',scopeName from scopeID)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "products",
@@ -1338,8 +2145,8 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Product Groups\".\"productClassID\")",
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1356,8 +2163,8 @@
               "type": "rollup",
               "rule": "rollup → Constraints (via: constrainTypeID)",
               "notes": "Constraint names grouped by constrainTypeID",
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -1366,7 +2173,7 @@
               "rule": null,
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1374,8 +2181,8 @@
               "type": "DATETIME",
               "rule": null,
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1389,9 +2196,63 @@
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Product Group": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "productGroupID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegment"
+              },
+              "Registry ID": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "productScopeRegistry",
+                "tooltip": "businee unit unique ID",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Scope": {
+                "field-type": {
+                  "ComboboxGroups": "shadcn-combobox"
+                },
+                "attribute": "scopeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = Opportunity"
+              },
+              "Constraints": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "constraintName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Active": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isActive",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "enum: Active, Inactive"
+              }
+            }
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Scopes": {
           "visibility": "show",
@@ -1405,6 +2266,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "PK"
+            },
+            {
+              "name": "scopeCodeID",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "nullable",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "scopeName",
@@ -1425,19 +2295,56 @@
               "constraints": null
             },
             {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
+              "name": "productScopeID",
+              "type": "rollup",
+              "rule": "computed: list productScopeID from Product Scopes where scopeID matches",
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Code": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "scopeCodeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "scopeName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Opportunity": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "scopeOpportunity",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "Product Scopes"
+            ]
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Products": {
           "visibility": "show",
@@ -1448,8 +2355,8 @@
               "type": "INT",
               "rule": null,
               "notes": null,
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
@@ -1460,21 +2367,14 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
-            },
-            {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": [
+            "see #wireframe"
+          ],
+          "cards": null,
+          "table-filters": true
         },
         "Product Class": {
           "visibility": "show",
@@ -1495,7 +2395,7 @@
               "rule": null,
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1504,12 +2404,23 @@
               "rule": null,
               "notes": null,
               "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productClassName",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT(voltageRate,'kV - ', powerRating, 'MVA')",
+              "notes": null,
+              "table-display": false,
               "subitem-display": true,
               "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
+          "form": [
+            "see #wireframe"
+          ],
           "cards": [],
           "table-filters": []
         },
@@ -1527,6 +2438,15 @@
               "constraints": "PK"
             },
             {
+              "name": "productGroupName",
+              "type": "INT",
+              "rule": "computed: CONCAT(productName from productID,'-',productClassName from productClassID)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "businessSegment",
               "type": "ENUM",
               "rule": "enum: LPT/MT/DT",
@@ -1536,37 +2456,62 @@
               "constraints": null
             },
             {
-              "name": "products",
-              "type": "rollup",
-              "rule": "rollup → Products (via: productGroupID) (display: productName)",
+              "name": "productID",
+              "type": "VARCHAR",
+              "rule": "FK -> Product (display: productName)",
               "notes": "Single valued, not multivalued",
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": null
             },
             {
               "name": "productClassID",
               "type": "rollup",
-              "rule": "rollup → Product Class (display: CONCAT(voltageRate, powerRating))",
+              "rule": "rollup → Product Class (display: productClassName)",
               "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
               "table-display": true,
               "subitem-display": true,
               "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Business Segment": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessSegment",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Product": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Product Class": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productClassID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         }
       }
     },
@@ -1581,14 +2526,14 @@
               "type": "INT",
               "rule": null,
               "notes": null,
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
               "name": "projectID",
               "type": "INT",
-              "rule": "FK → Projects (display: projectID)",
+              "rule": "FK → Projects (display: projectRegistryID)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -1597,10 +2542,10 @@
             {
               "name": "customerName",
               "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
+              "rule": "FK → Factories (display: CONCAT(factoryName + city)",
               "notes": "Customer / requester factory",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -1615,9 +2560,18 @@
             {
               "name": "forecastScopeID",
               "type": "rollup",
-              "rule": "rollup → Customers (via: customerName, eventID) (display: CONCAT(scopeName, businessSegment, productClassID, productName))",
+              "rule": "rollup → Forecast Scopes (via: customerName, eventID) (display: productScopeName))",
               "notes": "Forecast Scope this ticket contributes to",
-              "table-display": false,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "ticketDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
@@ -1627,7 +2581,7 @@
               "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"processID\")",
               "notes": "Via forecastScopeID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1636,7 +2590,7 @@
               "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"products\")",
               "notes": "Via forecastScopeID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1645,7 +2599,7 @@
               "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"scopes\")",
               "notes": "Via forecastScopeID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1654,7 +2608,7 @@
               "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"constraintName\")",
               "notes": "Via forecastScopeID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1667,12 +2621,21 @@
               "constraints": null
             },
             {
-              "name": "ticketOwner",
+              "name": "ticketExecutionTime",
               "type": "INT",
-              "rule": "FK → People (display: userName)",
-              "notes": "Assigned owner",
+              "rule": "computed: from taskID executionTime",
+              "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "ticketOwner",
+              "type": "VARCHAR",
+              "rule": "user input",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -1698,8 +2661,8 @@
               "type": "DATETIME",
               "rule": null,
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1707,36 +2670,9 @@
               "type": "DATETIME",
               "rule": null,
               "notes": "nullable",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "resolutionTime",
-              "type": "DATETIME",
-              "rule": null,
-              "notes": "Planned delivery date of the ticket",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "isEscalated",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "escalatedToEventID",
-              "type": "INT",
-              "rule": "FK → Events",
-              "notes": "nullable",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
             },
             {
               "name": "jobs",
@@ -1768,9 +2704,98 @@
               ]
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Customer": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "customerName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = country"
+              },
+              "Project": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "projectID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = clientName"
+              },
+              "Event": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "eventID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Forecast Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "forecastScopeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Details": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "ticketDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Target Date": {
+                "field-type": {
+                  "date": "shadcn-date picker"
+                },
+                "attribute": "targetDate",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "ticketStatus",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "Jobs"
+            ]
+          },
+          "cards": {
+            "Card 1-1": {
+              "overview-display": true,
+              "title": "Tickets opened in the last 5 days",
+              "card-rules": {
+                "main-data": "Show the total count of tickets created in the past five days",
+                "trend-data": "how much ticket creation has changed during the last month",
+                "detail-data": "total of tickets created in the current month"
+              },
+              "card-component": "shadcn-Card",
+              "card-tooltip": "Count of tickets created in the past 5 days"
+            }
+          },
+          "table-filters": true
         },
         "Projects": {
           "visibility": "show",
@@ -1783,6 +2808,15 @@
               "notes": "Displayed as project number, e.g. \"0034\"",
               "table-display": false,
               "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "projectRegistryID",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "user input",
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
@@ -1879,17 +2913,83 @@
           "reports": {
             "Report-A": {
               "graph_type": "bar",
-              "rule": "Estimated (tasks) vs real (jobs) execution time per project",
+              "rule": "Estimated (tasks) vs real (jobs) execution time per Closed Projects",
               "filters": [
                 "customerName",
                 "projectStatus"
               ]
-            },
-            "Report-B": null
+            }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Registry ID": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "projectRegistryID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "projectName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Client": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "clientName",
+                "tooltip": "Final Northwind Energy Client",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Customer": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "customerName",
+                "tooltip": "Internal Client-Factory",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = country"
+              },
+              "Owner": {
+                "field-type": {
+                  "SelectGroups": "shadcn-select"
+                },
+                "attribute": "projectOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = function"
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "projectStatus",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "tickets"
+          ]
         },
         "Jobs": {
           "visibility": "show",
@@ -1905,30 +3005,30 @@
               "constraints": "PK"
             },
             {
-              "name": "jobName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., \"Offer Design\", \"Mechanical Layout\"",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
               "name": "ticketID",
               "type": "INT",
               "rule": "FK → Tickets (display: ticketID)",
               "notes": "Ticket this job belongs to",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
               "name": "taskID",
-              "type": "rollup",
-              "rule": "rollup → Tasks (via: ticketID)",
+              "type": "computed",
+              "rule": "computed → Forecast Scopes (via: Tickets.tickedID.eventID)",
               "notes": "Task selected as execution template",
-              "table-display": false,
+              "table-display": true,
               "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "jobName",
+              "type": "VARCHAR",
+              "rule": "computed: via taskID display taskName",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -1952,14 +3052,14 @@
             {
               "name": "projectName",
               "type": "VARCHAR",
-              "rule": null,
-              "notes": "Name of the project",
+              "rule": "mirror: from Project via ticketID",
+              "notes": "From ticket ID",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
             },
             {
-              "name": "startDate",
+              "name": "deliveryDate",
               "type": "DATETIME",
               "rule": null,
               "notes": "Planned start date",
@@ -1968,10 +3068,19 @@
               "constraints": null
             },
             {
-              "name": "endDate",
+              "name": "startDate",
               "type": "DATETIME",
-              "rule": null,
+              "rule": "computed: use taskID.estimatedTime to calculate the start date",
               "notes": "Planned end date",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "plannedExecutionTime",
+              "type": "DECIMAL",
+              "rule": "computed: equals taskID.estimatedTime",
+              "notes": "The template execution",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -1982,7 +3091,7 @@
               "rule": null,
               "notes": "Actual start date",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1991,24 +3100,15 @@
               "rule": null,
               "notes": "Actual end date",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
               "name": "realExecutionTime",
               "type": "DECIMAL",
               "rule": "computed: realEndDate − realStartDate",
-              "notes": "Actual hours spent",
+              "notes": "Actual hours spent to complete de job",
               "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "predecesorJob",
-              "type": "rollup",
-              "rule": "rollup → Jobs (via: jobID) (display: CONCAT(projectName, jobName))",
-              "notes": "Dependency job for sequencing",
-              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -2027,7 +3127,7 @@
               "rule": "computed: from People (squad) related to userID",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2042,26 +3142,153 @@
           ],
           "reports": {
             "Report-A": {
-              "graph_type": "line",
-              "rule": "Count of Jobs reaching jobStatus = Done plotted by week",
-              "filters": [
-                "roleID",
-                "period"
-              ]
+              "overview-display": true,
+              "graph_type": "bar chart - multiple",
+              "rule": "plannedExecutionTime vs. realExecutionTime side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "scopeName": {
+                    "field-type": {
+                      "basic": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "computed -> Scopes (via: eventTitle.field), (display: scopeName):  Multivalued field"
+                  },
+                  "eventTitle": {
+                    "field-type": {
+                      "combobox": "shadcn-comboboxGroups"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Events (display: eventName): Multivalued field"
+                  },
+                  "factoryName": {
+                    "field-type": {
+                      "combobox": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                  }
+                }
+              }
             },
             "Report-B": {
               "graph_type": "bar",
-              "rule": "SUM(executionTime) grouped by roleID",
+              "rule": "SUM(realExecutionTime) grouped by roleName",
               "filters": [
-                "jobStatus",
-                "ticketID",
-                "period"
+                "jobStatus (default = all)",
+                "ticketID (default = all)",
+                "period (default = last 6 months)"
               ]
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Project": {
+                "field-type": {
+                  "combobox": "shadcn-comboboxGroups"
+                },
+                "attribute": "projectName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = clientName"
+              },
+              "Ticket": {
+                "field-type": {
+                  "combobox": "shadcn-comboboxGroups"
+                },
+                "attribute": "ticketID",
+                "tooltip": null,
+                "step": null,
+                "check": "Project IS NOT NULL",
+                "field-rule": [
+                  "SelectLabel = clientName",
+                  "display results filtered by the project selected from the tickets table"
+                ]
+              },
+              "Task": {
+                "field-type": {
+                  "combobox": "shadcn-comboboxGroups"
+                },
+                "attribute": "taskID",
+                "tooltip": null,
+                "step": null,
+                "check": "Ticket IS NOT NULL",
+                "field-rule": [
+                  "display results filtered by the ticketID"
+                ]
+              },
+              "Responsible": {
+                "field-type": {
+                  "combobox": "shadcn-comboboxGroups"
+                },
+                "attribute": "roleID",
+                "tooltip": null,
+                "step": null,
+                "check": "Task IS NOT NULL",
+                "field-rule": []
+              },
+              "Delivery Date": {
+                "field-type": {
+                  "date picker": "shadcn-date picker"
+                },
+                "attribute": "deliveryDate",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": []
+              },
+              "Real Start Date": {
+                "field-type": {
+                  "date picker": "shadcn-date picker"
+                },
+                "attribute": "realStartDate",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": []
+              },
+              "Real Finish Date": {
+                "field-type": {
+                  "date picker": "shadcn-date picker"
+                },
+                "attribute": "realEndDate",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": []
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "jobStatus",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": []
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": []
         }
       }
     },
@@ -2172,7 +3399,7 @@
             },
             {
               "name": "allocatedHours",
-              "type": "VARCHAR",
+              "type": "decimal",
               "rule": "computed: executionTime of Tasks linked to forecastScopes of each forecastID within a period",
               "notes": null,
               "table-display": true,
@@ -2182,20 +3409,11 @@
             {
               "name": "utilization",
               "type": "DECIMAL",
-              "rule": "computed: (allocatedHours / availableHours) × 100",
+              "rule": "computed: (estimatedHours / availableHours) × 100",
               "notes": "Displayed as %",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
-            },
-            {
-              "name": "locationID",
-              "type": "INT",
-              "rule": "FK → Locations (display: locationName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
             },
             {
               "name": "factoryID",
@@ -2209,33 +3427,79 @@
           ],
           "reports": {
             "Report-A": {
-              "graph_type": "bar",
-              "rule": "availableHours vs. allocatedHours side by side grouped by roleName",
-              "filters": [
-                "periodStart",
-                "eventTitle",
-                "periodFinish",
-                "factoryID",
-                "roleID",
-                "functionName"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "bar",
-              "rule": "utilization % grouped by functionName",
-              "filters": [
-                "period",
-                "factoryID",
-                "roleID",
-                "functionName"
-              ]
+              "overview-display": true,
+              "graph_type": "bar chart - multiple",
+              "rule": "availableHours vs. allocatedHours side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "scopeName": {
+                    "field-type": {
+                      "basic": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "computed -> Scopes (via: eventTitle.field), (display: scopeName):  Multivalued field"
+                  },
+                  "eventTitle": {
+                    "field-type": {
+                      "combobox": "shadcn-comboboxGroups"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Events (display: eventName): Multivalued field"
+                  },
+                  "factoryName": {
+                    "field-type": {
+                      "combobox": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                  }
+                }
+              }
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "cards": {
+            "Card 1-1": {
+              "overview-display": true,
+              "title": "Capacity Utilization",
+              "card-rules": {
+                "main-data": "Show the total `utilization` amount",
+                "trend-data": "how much the utilization has changed during the last 3 months",
+                "detail-data": "allocatedHours / availableHours "
+              },
+              "card-component": "shadcn-Card",
+              "card-tooltip": "Percentage alignment between customer‑forecasted hours and planned engineering workload."
+            },
+            "Card 1-2": {
+              "title": "Most Overestimated Customer",
+              "card-rules": {
+                "main-data": "factoryName with the biggest utilization gap",
+                "trend-data": null,
+                "detail-data": "factoryName utilization gap vs the medium utilization gap"
+              },
+              "card-component": "shadcn-Card",
+              "card-tooltip": "Cliente que menos utilizou dos product scopes previstos em seus forecasts"
+            }
+          },
+          "table-filters": null,
+          "subitem-tables": null,
+          "form": []
         },
-        "Usage": {
+        "Performance": {
           "visibility": "show",
           "description": "Query view (Control module) — no new-item form. Tracks actual resource consumption from Jobs against planned Forecast Scope hours (ISO §9.1).",
           "attributes": [
@@ -2261,6 +3525,15 @@
               "name": "departmentID",
               "type": "INT",
               "rule": "FK → Departments (display: departmentName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "ticketID",
+              "type": "INT",
+              "rule": "FK → Tickets",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -2321,30 +3594,39 @@
               "constraints": null
             },
             {
-              "name": "usedHours",
+              "name": "plannedHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Actual hours consumed (from Jobs.executionTime)",
+              "notes": "Planned Execution Time (from Jobs.plannedExecutionTime)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
             },
             {
-              "name": "plannedHours",
+              "name": "realExecutionTime",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "From Forecast Scopes estimatedHours",
+              "notes": "Actual hours consumed (from Jobs.realExecutionTime)",
               "table-display": true,
               "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "efficiency",
+              "type": "DECIMAL",
+              "rule": "computed: ((plannedHours/realExecutionTime)-1)*100",
+              "notes": "Value in %",
+              "table-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
               "name": "variance",
               "type": "DECIMAL",
-              "rule": "computed: usedHours − plannedHours",
-              "notes": "Positive = over-plan, negative = under-plan",
+              "rule": "computed: variance of realExecutionTime per job",
+              "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2368,148 +3650,94 @@
           ],
           "reports": {
             "Report-A": {
-              "graph_type": "line",
-              "rule": "usedHours plotted by period, one series per functionName",
-              "filters": [
-                "customerName",
-                "functionName",
-                "period",
-                "squadName"
-              ]
+              "overview-display": true,
+              "graph_type": "bar chart - multiple",
+              "rule": "plannedHours vs. realExecutionTime side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "scopeName": {
+                    "field-type": {
+                      "basic": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "computed -> Scopes (via: eventTitle.field), (display: scopeName):  Multivalued field"
+                  },
+                  "eventTitle": {
+                    "field-type": {
+                      "combobox": "shadcn-comboboxGroups"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Events (display: eventName): Multivalued field"
+                  }
+                }
+              }
             },
             "Report-B": {
-              "graph_type": "heatmap",
-              "rule": "Heatmap of the most-used roleName by number of allocated jobs",
-              "filters": [
-                "customerName",
-                "functionName",
-                "period",
-                "squadName"
-              ]
+              "graph_type": "bar chart",
+              "rule": "variance by processName. Y = variance, X = processName",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "productScopeID": {
+                    "field-type": {
+                      "basic": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "computed -> Product Scopes (via: ticketID), (display: productScopeName):  Multivalued field"
+                  }
+                }
+              }
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "Productivity": {
-          "visibility": "show",
-          "description": "Query view (Control module) — no new-item form. Efficiency KPIs comparing output vs. target per team (ISO §9.1.1).",
-          "attributes": [
-            {
-              "name": "productivityID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
+          "form": null,
+          "cards": {
+            "card 1-1": {
+              "title": "Standard Deviation Bottleneck",
+              "card-rules": {
+                "main-data": "highest jobs realExecutionTime standad deviation in hours grouped by processID",
+                "trend-data": null,
+                "detail-data": "processName - jobs median realExecutionTime in hours X jobs realExecutionTime variance"
+              },
+              "card-component": "shadcn-card",
+              "card-tooltip": "Process with the highest job execution standard variation levels."
             },
-            {
-              "name": "teamID",
-              "type": "INT",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": "Displayed as \"Team\" in the UI",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "periodType",
-              "type": "ENUM",
-              "rule": "enum: Annual/Quarter/Month",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "periodYear",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "periodMonth",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "output",
-              "type": "DECIMAL",
-              "rule": null,
-              "notes": "Actual deliverables or hours produced",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "target",
-              "type": "DECIMAL",
-              "rule": null,
-              "notes": "Planned target for the period",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "efficiency",
-              "type": "DECIMAL",
-              "rule": "computed: (output / target) × 100",
-              "notes": "Displayed as %",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "factoryID",
-              "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "donut",
-              "rule": "Count of teams grouped by efficiency bucket (<80% / 80–100% / >100%)",
-              "filters": [
-                "funtionID",
-                "factoryID",
-                "period"
-              ]
-            },
-            "Report-B": null,
-            "Report-C": {
-              "graph_type": "bar",
-              "rule": "Quantity of Tasks that could be done by less experienced resources (by levelRank)",
-              "filters": [
-                "processName"
-              ]
-            },
-            "Report-D": {
-              "graph_type": "line",
-              "rule": "Marginal productivity gain of the chosen process or event when adding an extra quantity of a given roleName",
-              "filters": [
-                "processName",
-                "eventName",
-                "roleName",
-                "roleExtraQuantity"
-              ]
+            "card 1-2": {
+              "overview-display": true,
+              "title": "Job Execution Performance",
+              "card-rules": {
+                "main-data": "((plannedHours/realExecutionTime)-1)*100 for all jobs",
+                "trend-data": "trend for the past 3 months",
+                "detail-data": "total plannedHours / total realExecutionTime in hours"
+              },
+              "card-component": "shadcn-card",
+              "card-tooltip": "Rate of jobs execution against planned hours."
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "table-filters": null,
+          "subitem-tables": null
         }
       }
     },
@@ -2575,9 +3803,14 @@
             }
           ],
           "reports": null,
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": [
+            "keep the way it is in the #wireframe"
+          ],
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "people"
+          ]
         },
         "Roles": {
           "visibility": "show",
@@ -2631,25 +3864,25 @@
             {
               "name": "quantity",
               "type": "INT",
-              "rule": null,
+              "rule": "computed",
               "notes": "Number of headcount allocated to this role",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
             },
             {
-              "name": "overheadCost",
-              "type": "DECIMAL",
-              "rule": "computed: AVG(People.personalCost via roleID)",
+              "name": "competenceID",
+              "type": "rollup",
+              "rule": "rollup → Competence (via: roleID) display: competenceName",
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
               "name": "taskName",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: roleID)",
+              "rule": "mirror → taskName from competenceID column",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -2672,29 +3905,89 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "squadID",
+              "type": "VARCHAR",
+              "rule": "rollup → People (via: roleID)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             }
           ],
           "reports": {
+            "overview-display": true,
             "Report-A": {
               "graph_type": "donut",
               "rule": "Sum of quantity grouped by functionID (headcount distribution by function)",
               "filters": [
-                "functionID",
-                "skillLevelID",
-                "isActive"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "donut",
-              "rule": "Count of tasks grouped by roleName where headCount > 0",
-              "filters": [
-                "levelName"
+                "functionID (default: ALL)",
+                "skillLevelID (default: ALL)",
+                "isActive (default: true)"
               ]
             }
           },
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Role Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "roleName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Function": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "functionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Skill Level": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "skillLevelID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Graduation": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "graduationID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Active": {
+                "field-type": {
+                  "radio": "shadcn-radio button"
+                },
+                "attribute": "isActive",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "competence"
+            ]
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Skill Levels": {
           "visibility": "show",
@@ -2748,17 +4041,63 @@
           ],
           "reports": {
             "Report-A": {
-              "graph_type": "bar",
+              "graph_type": "pizza",
               "rule": "SUM(Roles.quantity) grouped by levelName",
               "filters": [
-                "functionID"
+                "functionID (default: ALL)"
               ]
             },
             "Report-B": null
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Level Title": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "levelName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "levelDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Rank": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "levelRank",
+                "tooltip": "Determines the selection priority among eligible resources with the same role. Lower ranks are prioritized over higher ranks to optimize resource allocation and operational costs.",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": {
+            "overview-display": true,
+            "card 1-1": {
+              "title": "highest headcount",
+              "card-rules": {
+                "main-data": "Skill level with the highest headcount ",
+                "trend-data": null,
+                "detail-data": "levelName"
+              },
+              "card-component": "shadcn-card",
+              "card-tooltip": "Process with the highest job execution standard variation levels."
+            }
+          },
+          "table-filters": true
         },
         "Functions": {
           "visibility": "show",
@@ -2769,7 +4108,7 @@
               "type": "INT",
               "rule": null,
               "notes": null,
-              "table-display": false,
+              "table-display": true,
               "subitem-display": false,
               "constraints": "PK"
             },
@@ -2780,6 +4119,15 @@
               "notes": "e.g., Electrical Design, Mechanical Design, Analyst",
               "table-display": true,
               "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "functionDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2800,9 +4148,33 @@
             },
             "Report-B": null
           },
-          "form": [],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Title": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "functionName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "functionDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
           "cards": [],
-          "table-filters": []
+          "table-filters": true
         },
         "Graduation": {
           "visibility": "show",
@@ -2818,7 +4190,7 @@
               "constraints": "PK"
             },
             {
-              "name": "graduationName",
+              "name": "graduationTitle",
               "type": "VARCHAR",
               "rule": null,
               "notes": "e.g., Electrical Engineering, Mechanical Engineering",
@@ -2831,6 +4203,24 @@
               "type": "VARCHAR",
               "rule": null,
               "notes": "e.g., Engineering, Technical",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "institutionName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "nullable",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "graduationName",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT(graduationTitle + institutionName)",
+              "notes": null,
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -2853,9 +4243,388 @@
             },
             "Report-B": null
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
+          "form": {
+            "steps": null,
+            "fields": {
+              "Title": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "functionName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Field": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "functiondescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Institution": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "institutionName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "people"
+          ]
+        },
+        "People": {
+          "visibility": "show",
+          "description": "Individual users and team members (ISO §5.3 / §7.1.2). All *Owner foreign keys across the model resolve to a Person.",
+          "attributes": [
+            {
+              "name": "userID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "userName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "userEmail",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "location",
+              "type": "INT",
+              "rule": "FK → Factories (display: factoryName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "isActive",
+              "type": "BOOLEAN",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "hireDate",
+              "type": "DATE",
+              "rule": null,
+              "notes": "nullable",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "functionID",
+              "type": "INT",
+              "rule": "FK → Functions (display: functionName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "roleID",
+              "type": "rollup",
+              "rule": "rollup → Roles via: functionID (display: roleName)",
+              "notes": "Role held by this person. Resolves Roles.people rollup, Roles.overheadCost, and the Jobs assignee-by-role filter. Consistent with functionID (role's function).",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "squadID",
+              "type": "INT",
+              "rule": "FK → Squads (display: squadName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "onboardID",
+              "type": "VARCHAR",
+              "rule": "computed: Onboarding via userID",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Count of active People grouped by functionID",
+              "filters": [
+                "departmentID",
+                "locationID",
+                "isActive"
+              ]
+            },
+            "Report-B": null
+          },
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "userName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Email": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "userEmail",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Location": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "taskID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = country"
+              },
+              "Active": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isActive",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Hire Date": {
+                "field-type": {
+                  "date picker": "shadcn-date"
+                },
+                "attribute": "hireDate",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Function": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "functionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Role": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "roleID",
+                "tooltip": null,
+                "step": null,
+                "check": "Function IS NOT NULL",
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "Onboarding"
+          ]
+        },
+        "Onboarding": {
+          "visibility": "show",
+          "description": "Tracks a person's certification progress against the competences derived from their function and roles (ISO §7.2).",
+          "attributes": [
+            {
+              "name": "onboardID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "userID",
+              "type": "INT",
+              "rule": "FK → People (display: userName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "functionID",
+              "type": "VARCHAR",
+              "rule": "computed: People via userID",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "roleID",
+              "type": "rollup",
+              "rule": "rollup → Roles (via: functionID) (display: roleName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "competenceID",
+              "type": "rollup",
+              "rule": "rollup → Competence (via: roleID) (display: competenceName)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "isCertified",
+              "type": "BOOLEAN",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "scopeName",
+              "type": "VARCHAR",
+              "rule": "computed: Competence via roleID",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productName",
+              "type": "VARCHAR",
+              "rule": "computed: Competence via roleID",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "resources",
+              "type": "VARCHAR",
+              "rule": "computed: Competence via roleID",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "constraintName",
+              "type": "VARCHAR",
+              "rule": "computed: Competence via roleID (display: FOREACH([{constrainTypeName: constraintName}]))",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "User": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "userID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Function": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "functionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Role": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "roleID",
+                "tooltip": null,
+                "step": null,
+                "check": "Function IS NOT NULL",
+                "field-rule": null
+              },
+              "Competence": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "competenceID",
+                "tooltip": null,
+                "step": null,
+                "check": "Role IS NOT NULL",
+                "field-rule": null
+              },
+              "Certified": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isCertified",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true
         },
         "Competence": {
           "visibility": "show",
@@ -2871,13 +4640,22 @@
               "constraints": "PK"
             },
             {
-              "name": "roleID",
+              "name": "functionID",
               "type": "INT",
-              "rule": "FK → Roles (display: roleName)",
+              "rule": "FK → Function (display: functionName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "roleID",
+              "type": "INT",
+              "rule": "rollup → Roles via:functionID (display: roleName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "skillLevelID",
@@ -2887,15 +4665,6 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
-            },
-            {
-              "name": "isRequired",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": "Whether this competence is mandatory",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
             },
             {
               "name": "taskID",
@@ -2934,9 +4703,9 @@
               "constraints": null
             },
             {
-              "name": "productID",
+              "name": "productGroupID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: taskID) (display: productName)",
+              "rule": "rollup → Tasks (via: taskID) (display: productGroupName)",
               "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
@@ -2968,813 +4737,64 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
-            },
-            {
-              "name": "isCertified",
-              "type": "VARCHAR",
-              "rule": "computed: Onboarding via competenceID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "heatmap",
-              "rule": "Matrix of Role (rows) × Scope (columns); cell = % of required competences that are isCertified",
-              "filters": [
-                "scopeID",
-                "productID",
-                "roleID"
-              ]
-            },
-            "Report-B": null
-          },
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "People": {
-          "visibility": "show",
-          "description": "Individual users and team members (ISO §5.3 / §7.1.2). All *Owner foreign keys across the model resolve to a Person.",
-          "attributes": [
-            {
-              "name": "userID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "userName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "userEmail",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "location",
-              "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "hireDate",
-              "type": "DATE",
-              "rule": null,
-              "notes": "nullable",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "functionID",
-              "type": "INT",
-              "rule": "FK → Functions (display: functionName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "roleID",
-              "type": "INT",
-              "rule": "FK → Roles (display: roleName)",
-              "notes": "Role held by this person. Resolves Roles.people rollup, Roles.overheadCost, and the Jobs assignee-by-role filter. Consistent with functionID (role's function).",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "personalCost",
-              "type": "DECIMAL",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "squadID",
-              "type": "INT",
-              "rule": "FK → Squads (display: squadName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "onboardID",
-              "type": "VARCHAR",
-              "rule": "computed: Onboarding via userID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "bar",
-              "rule": "Count of active People grouped by functionID",
-              "filters": [
-                "departmentID",
-                "locationID",
-                "isActive"
-              ]
-            },
-            "Report-B": null
-          },
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "Onboarding": {
-          "visibility": "show",
-          "description": "Tracks a person's certification progress against the competences derived from their function and roles (ISO §7.2).",
-          "attributes": [
-            {
-              "name": "onboardID",
-              "type": "INT",
-              "rule": null,
-              "notes": "Auto-generated primary key",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "userID",
-              "type": "INT",
-              "rule": "FK → People (display: userName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "functionID",
-              "type": "VARCHAR",
-              "rule": "computed: People via userID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "roleID",
-              "type": "rollup",
-              "rule": "rollup → Roles (via: functionID) (display: roleName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "competenceID",
-              "type": "rollup",
-              "rule": "rollup → Competence (via: roleID) (display: competenceName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "isCertified",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "scopeName",
-              "type": "VARCHAR",
-              "rule": "computed: Competence via roleID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "productName",
-              "type": "VARCHAR",
-              "rule": "computed: Competence via roleID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "resources",
-              "type": "VARCHAR",
-              "rule": "computed: Competence via roleID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "constraintName",
-              "type": "VARCHAR",
-              "rule": "computed: Competence via roleID (display: FOREACH([{constrainTypeName: constraintName}]))",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "certifications",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
             }
           ],
           "reports": null,
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        }
-      }
-    },
-    "Quality": {
-      "tables": {
-        "Risks": {
-          "visibility": "show",
-          "description": "Risk and opportunity register with severity/likelihood assessment and RPN (ISO §6.1.1).",
-          "attributes": [
-            {
-              "name": "riskID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "riskTitle",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskCategory",
-              "type": "ENUM",
-              "rule": "enum: Threat/Opportunity",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskSeverity",
-              "type": "INT",
-              "rule": null,
-              "notes": "1–5 impact rating",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskLikelihood",
-              "type": "INT",
-              "rule": null,
-              "notes": "1–5 probability rating",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskPriorityNumber",
-              "type": "DECIMAL",
-              "rule": "computed: riskSeverity × riskLikelihood",
-              "notes": "Cochran RPN",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskOwner",
-              "type": "INT",
-              "rule": "FK → People (display: userName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "riskStatus",
-              "type": "ENUM",
-              "rule": "enum: Open/UnderTreatment/Closed/Accepted",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskCreatedAt",
-              "type": "DATETIME",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "riskReviewedAt",
-              "type": "DATETIME",
-              "rule": null,
-              "notes": "Date of last RPN re-assessment (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "eventID",
-              "type": "INT",
-              "rule": "FK → Events (display: eventTitle)",
-              "notes": "Triggering event (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "requirementID",
-              "type": "INT",
-              "rule": "FK → Requirements (display: requirementName)",
-              "notes": "Associated interested-party requirement (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "actions",
-              "type": "rollup",
-              "rule": "rollup → Actions (via: riskID)",
-              "notes": "Actions addressing this risk",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "scatter",
-              "rule": "X-axis = riskLikelihood, Y-axis = riskSeverity, bubble size = riskPriorityNumber, colour = riskCategory; quadrant lines at 3/3",
-              "filters": [
-                "riskCategory",
-                "riskStatus",
-                "owner",
-                "period"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "table",
-              "query": "Risks where riskStatus IN (Open, UnderTreatment); columns: title, category, severity, likelihood, RPN, owner, status, linked action count, last reviewed",
-              "filters": [
-                "riskCategory",
-                "riskStatus",
-                "owner"
-              ]
+          "form": {
+            "steps": null,
+            "fields": {
+              "Function": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "functionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Role": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "roleID",
+                "tooltip": null,
+                "step": null,
+                "check": "Function IS NOT NULL",
+                "field-rule": null
+              },
+              "Task": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "taskID",
+                "tooltip": null,
+                "step": null,
+                "check": "Role IS NOT NULL",
+                "field-rule": null
+              },
+              "Sill Level": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "skillLevelID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Constraint": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "constraintID",
+                "tooltip": null,
+                "step": null,
+                "check": "Task IS NOT NULL",
+                "field-rule": null
+              }
             }
           },
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "Sources": {
-          "visibility": "show",
-          "description": "External and internal issue sources feeding events and requirements (ISO §4.1).",
-          "attributes": [
-            {
-              "name": "sourceID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "sourceName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "sourceCategoryID",
-              "type": "INT",
-              "rule": "FK → Source Categories (display: sourceCategoryName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "sourceOwner",
-              "type": "INT",
-              "rule": "FK → People (display: userName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "sourceDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "events",
-              "type": "rollup",
-              "rule": "rollup → Events (via: sourceID)",
-              "notes": "Events linked to this source",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "requirements",
-              "type": "rollup",
-              "rule": "rollup → Requirements (via: sourceID)",
-              "notes": "Requirements that originate from this source",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "bar",
-              "rule": "Count of Events grouped by sourceCategoryID",
-              "filters": [
-                "sourceCategoryID",
-                "period",
-                "isActive"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "table",
-              "query": "Sources with event count, risk count, open risk count; traceable chain from source to event to risk",
-              "filters": [
-                "sourceCategoryID",
-                "isActive"
-              ]
-            }
-          },
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "Source Categories": {
-          "visibility": "show",
-          "description": "Lookup classification of issue sources (internal, customer, regulatory, etc.). Used as a filter dimension in Sources and Events reports (ISO §4.1).",
-          "attributes": [
-            {
-              "name": "sourceCategoryID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "sourceCategoryName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., Customer, Regulatory, Internal",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "sourceCategoryDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "sources",
-              "type": "rollup",
-              "rule": "rollup → Sources (via: sourceCategoryID)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            }
-          ],
-          "reports": null,
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "Requirements": {
-          "visibility": "show",
-          "description": "Needs and expectations of interested parties mapped to sources, products and risks (ISO §4.2).",
-          "attributes": [
-            {
-              "name": "requirementID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "requirementName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "requirementDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "sourceID",
-              "type": "INT",
-              "rule": "FK → Sources (display: sourceName)",
-              "notes": "Originating interested party",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "requirementType",
-              "type": "ENUM",
-              "rule": "enum: Customer/Statutory/Regulatory/Internal",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "productID",
-              "type": "INT",
-              "rule": "FK → Products (display: productName)",
-              "notes": "Product the requirement applies to (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "risks",
-              "type": "rollup",
-              "rule": "rollup → Risks (via: requirementID)",
-              "notes": "Risks associated with this requirement",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "donut",
-              "rule": "Count of Requirements grouped by requirementType",
-              "filters": [
-                "sourceID",
-                "isActive",
-                "productID"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "table",
-              "query": "Requirements joined with Risks; columns: requirement name, type, source, linked risk count, open risk count, highest RPN",
-              "filters": [
-                "requirementType",
-                "sourceID",
-                "isActive"
-              ]
-            }
-          },
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "actionApplication": {
-          "visibility": "show",
-          "description": "Lookup table classifying quality management actions (Risk Management, Control, Communication, Monitoring, Improvement). Used as a filter dimension in Actions reports (ISO §6.1.2(b)).",
-          "attributes": [
-            {
-              "name": "applicationID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "applicationName",
-              "type": "ENUM",
-              "rule": "enum: Risk Management/Control/Communication/Monitoring/Improvement",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "applicationDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "isoClause",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., \"6.1.2\", \"8\", \"7.4\", \"9.1\", \"10\"",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "actions",
-              "type": "rollup",
-              "rule": "rollup → Actions (via: applicationID)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            }
-          ],
-          "reports": null,
-          "form": [],
-          "cards": [],
-          "table-filters": []
-        },
-        "Event Log": {
-          "visibility": "show",
-          "description": "Audit trail of event state changes for traceability (ISO §9.1.1 / §10.2).",
-          "attributes": [
-            {
-              "name": "logID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "eventID",
-              "type": "INT",
-              "rule": "FK → Events (display: eventTitle)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "previousStatus",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "Status before change",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "newStatus",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "Status after change",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "changedAt",
-              "type": "DATETIME",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "changedBy",
-              "type": "INT",
-              "rule": "FK → People (display: userName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "changeNote",
-              "type": "TEXT",
-              "rule": null,
-              "notes": "nullable",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "bar",
-              "rule": "Count of resolved Events grouped by resolution time buckets (<1h / 1–8h / 8–24h / 1–7d / >7d)",
-              "filters": [
-                "period",
-                "owner",
-                "priority"
-              ]
-            },
-            "Report-B": {
-              "graph_type": "table",
-              "query": "Full state-change history for a selected event; columns: previous status, new status, changed by, changed at, note",
-              "filters": [
-                "eventID",
-                "changedBy",
-                "period"
-              ]
-            }
-          },
-          "form": [],
           "cards": [],
           "table-filters": []
         }
