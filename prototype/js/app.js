@@ -9,6 +9,7 @@ import { renderChart } from './charts.js';
 import { renderOverview } from './overview.js';
 import { openForm, supportsEdit } from './forms.js';
 import { parseHash, go, onRoute } from './router.js';
+import { requireLogin, logout } from './login.js';
 
 const sidebarEl = document.getElementById('sidebar');
 const tabScrollEl = document.getElementById('tab-scroll');
@@ -21,6 +22,8 @@ let liveCharts = [];
 
 // Overview is a synthetic module at index -1 handled specially.
 async function main() {
+  await requireLogin();
+  document.getElementById('avatar').addEventListener('click', logout);
   tabViewEl.innerHTML = '<div class="loading">Loading dataset…</div>';
   try {
     await loadData();

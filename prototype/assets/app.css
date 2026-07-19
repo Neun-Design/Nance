@@ -24,7 +24,7 @@ button { font-family: inherit; cursor: pointer; }
 .brand { display: flex; align-items: center; gap: var(--se-space-5); }
 .brand-mark {
   width: 32px; height: 32px; border-radius: var(--se-radius-1); background: var(--se-ui-0);
-  color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  color: var(--se-text-inverse); font-weight: 700; display: flex; align-items: center; justify-content: center;
   letter-spacing: .5px;
 }
 .brand-title { font-size: var(--se-font-size-h4); font-weight: var(--se-weight-h4); letter-spacing: .6px; }
@@ -340,3 +340,29 @@ select.form-input[multiple] { padding: 0; }
 .details-btn:hover { background: var(--se-action-secondary-hover); }
 .kpi { position: relative; }
 .kpi-details { position: absolute; top: var(--se-space-4); right: var(--se-space-4); }
+
+/* ---------- Login screen (login-01 layout) ---------- */
+.login-screen {
+  position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  background: var(--se-base-0); opacity: 1; transition: opacity .18s ease;
+}
+.login-screen.login-out { opacity: 0; }
+.login-card {
+  width: 360px; max-width: 90vw; background: var(--se-base-1);
+  border: 1px solid var(--se-ui-4); border-radius: var(--se-radius-2);
+  box-shadow: var(--se-elevation-4); padding: var(--se-space-8);
+  display: flex; flex-direction: column; gap: var(--se-space-5); align-items: center;
+}
+.login-title {
+  margin: 0; font-size: var(--se-font-size-h3); font-weight: var(--se-weight-h3);
+  color: var(--se-text-primary);
+}
+.login-sub { margin: 0; font-size: var(--se-font-size-caption); color: var(--se-text-secondary); }
+.login-form { width: 100%; display: flex; flex-direction: column; gap: var(--se-space-5); }
+.login-form .form-input { width: 100%; }
+.login-submit { width: 100%; justify-content: center; }
+.login-error { min-height: 18px; font-size: var(--se-font-size-caption); color: var(--se-text-danger); }
+.login-note {
+  margin: 0; font-size: var(--se-font-size-caption); color: var(--se-text-secondary); text-align: center;
+}
+.avatar { cursor: pointer; }
