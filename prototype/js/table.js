@@ -23,7 +23,8 @@ function cellHtml(col, r) {
   return escapeHtml(v ?? '');
 }
 
-// opts: { columns, rows, pk, rollups, selectable, onSelectionChange }
+// opts: { columns, rows, pk, rollups, selectable, onSelectionChange, initialHidden }
+// rollup rl: { label, childEntity, childKey?, resolve?(row), columns, orderBy?, nested? }
 // Returns an API: { getSelected, clearSelection, setColumnHidden, isColumnHidden, redraw }
 export function renderTable(container, opts) {
   const { columns, rows, pk, rollups = [], selectable = false, onSelectionChange } = opts;
@@ -31,7 +32,7 @@ export function renderTable(container, opts) {
   let sortKey = null, sortDir = 1;
   let page = 0, pageSize = PAGE_SIZES[0];
   const selected = new Set();       // pk values
-  const hidden = new Set();         // column ids (key || label)
+  const hidden = new Set(opts.initialHidden || []);   // column ids (key || label)
 
   const wrap = document.createElement('div');
   wrap.className = 'tbl-wrap';
@@ -239,35 +240,63 @@ export function renderTable(container, opts) {
     tr.className = 'rollup-row';
     const td = document.createElement('td');
     td.colSpan = span;
-    for (const rl of rollups) {
-      const kids = childrenOf(rl, r);
-      const h = document.createElement('div');
-      h.innerHTML = `<div style="font-weight:600;margin:6px 0;">${escapeHtml(rl.label)} <span class="count-badge">${kids.length}</span></div>`;
-      td.appendChild(h);
-      if (kids.length) {
-        const mini = document.createElement('table'); mini.className = 'dt';
-        const thead = document.createElement('thead'); const htr = document.createElement('tr');
-        rl.columns.forEach(c => htr.appendChild(el('th', c.label || c.key)));
-        thead.appendChild(htr); mini.appendChild(thead);
-        const tb = document.createElement('tbody');
-        kids.forEach(k => {
-          const ktr = document.createElement('tr');
-          rl.columns.forEach(c => { const ktd = document.createElement('td'); ktd.innerHTML = cellHtml(c, k); ktr.appendChild(ktd); });
-          tb.appendChild(ktr);
-        });
-        mini.appendChild(tb); td.appendChild(mini);
-      }
-    }
+    for (const rl of rollups) renderGroup(td, rl, childrenOf(rl, r));
     tr.appendChild(td);
     return tr;
   }
 
-  function childrenOf(rl, r) {
-    return getEntity(rl.childEntity).filter(c => {
-      const fk = c[rl.childKey];
-      if (Array.isArray(fk)) return fk.includes(r[pk]);
-      return fk === r[pk];
+  function renderGroup(host, rl, kids, depth = 0) {
+    const h = document.createElement('div');
+    if (depth) h.style.marginLeft = `${depth * 18}px`;
+    h.innerHTML = `<div style="font-weight:600;margin:6px 0;">${escapeHtml(rl.label)} <span class="count-badge">${kids.length}</span></div>`;
+    host.appendChild(h);
+    if (!kids.length) return;
+    const mini = document.createElement('table'); mini.className = 'dt';
+    if (depth) mini.style.marginLeft = `${depth * 18}px`;
+    const thead = document.createElement('thead'); const htr = document.createElement('tr');
+    rl.columns.forEach(c => htr.appendChild(el('th', c.label || c.key)));
+    thead.appendChild(htr); mini.appendChild(thead);
+    const tb = document.createElement('tbody');
+    kids.forEach(k => {
+      const ktr = document.createElement('tr');
+      rl.columns.forEach(c => { const ktd = document.createElement('td'); ktd.innerHTML = cellHtml(c, k); ktr.appendChild(ktd); });
+      tb.appendChild(ktr);
     });
+    mini.appendChild(tb); host.appendChild(mini);
+    // nested subitem table (guide §9, "A -> B"): grouped under each child row
+    if (rl.nested) {
+      kids.forEach(k => {
+        const nkids = childrenOfRow(rl.nested, k, rl.childEntity);
+        if (nkids.length) renderGroup(host, { ...rl.nested, label: `${labelOf(k, rl)} › ${rl.nested.label}` }, nkids, depth + 1);
+      });
+    }
+  }
+
+  function labelOf(row, rl) {
+    const c = rl.columns && rl.columns[0];
+    return c ? String(resolveVal(c, row) ?? '') : '';
+  }
+
+  function childrenOf(rl, r) {
+    return childrenOfRow(rl, r, null);
+  }
+
+  function childrenOfRow(rl, r, parentEntityOverride) {
+    let kids;
+    if (rl.resolve) {
+      kids = rl.resolve(r, parentEntityOverride) || [];
+    } else {
+      kids = getEntity(rl.childEntity).filter(c => {
+        const fk = c[rl.childKey];
+        if (Array.isArray(fk)) return fk.includes(r[pk]);
+        return fk === r[pk];
+      });
+    }
+    if (rl.orderBy) {
+      kids = [...kids].sort((a, b) => String(a[rl.orderBy] ?? '')
+        .localeCompare(String(b[rl.orderBy] ?? ''), undefined, { numeric: true }));
+    }
+    return kids;
   }
 
   draw();
