@@ -135,6 +135,34 @@ function subitemsOf(table, r = row(table)) {
   else fail(`Product Scopes→Scopes: ${pss.kids.length} kids`);
 }
 
+console.log('== module graph: every named import has a matching export ==');
+// browsers fail the WHOLE import graph on one bad binding (blank app), and
+// DOM-touching modules (charts.js) never load under node — so cross-check
+// bindings statically.
+{
+  const files = fs.readdirSync('js').filter((f) => f.endsWith('.js'));
+  const exportsBy = {};
+  const importRefs = [];
+  for (const f of files) {
+    const src = fs.readFileSync(`js/${f}`, 'utf8');
+    const names = new Set();
+    for (const m of src.matchAll(/export\s+(?:async\s+)?(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)/g)) names.add(m[1]);
+    for (const m of src.matchAll(/export\s*\{([^}]*)\}/g)) {
+      m[1].split(',').forEach((p) => { p = p.trim(); if (p) names.add(p.split(/\s+as\s+/).pop().trim()); });
+    }
+    exportsBy[f] = names;
+    for (const m of src.matchAll(/import\s*\{([^}]*)\}\s*from\s*'\.\/([\w.]+)'/g)) {
+      m[1].split(',').forEach((p) => {
+        p = p.trim();
+        if (p) importRefs.push({ from: f, name: p.split(/\s+as\s+/)[0].trim(), src: m[2] });
+      });
+    }
+  }
+  const broken = importRefs.filter((i) => !(exportsBy[i.src] || new Set()).has(i.name));
+  if (broken.length) broken.forEach((i) => fail(`${i.from} imports { ${i.name} } from ${i.src} — not exported`));
+  else ok(`${importRefs.length} import bindings verified across ${files.length} modules`);
+}
+
 console.log('== smoke: every displayed column resolves without throwing ==');
 let cells = 0;
 for (const [tname, cat] of Object.entries(catalog)) {
