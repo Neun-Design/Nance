@@ -235,23 +235,3 @@ function toColumn(a) {
   return col;
 }
 
-// filter specs for buildFilterBar: ENUMs + FK selects + one text search
-export function filterSpecsFor(tableName) {
-  const cat = catalog[tableName];
-  if (!cat || !cat.tableFilters) return [];
-  const specs = [];
-  for (const a of cat.stored) {
-    if (specs.length >= 4) break;
-    const r = parseRule(a.rule);
-    if (a.type === 'ENUM') {
-      specs.push({ field: a.name, label: humanize(a.name), type: 'select' });
-    } else if (r && r.kind === 'fk' && resolveTable(r.target)) {
-      specs.push({ field: a.name, label: humanize(a.name), type: 'select' });
-    }
-  }
-  const txt = cat.stored.find((a) => a.type === 'VARCHAR' && a.name !== cat.pk);
-  if (txt && specs.length < 4) {
-    specs.push({ field: txt.name, label: humanize(txt.name), type: 'search' });
-  }
-  return specs;
-}

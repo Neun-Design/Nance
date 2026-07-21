@@ -3,9 +3,9 @@
 // via model.js (DATAMODEL_GUIDE.md is the contract).
 
 import { loadData, getEntity, getById, removeRecords, initMeta } from './data.js';
-import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, filterSpecsFor } from './model.js';
+import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns } from './model.js';
 import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
-import { buildFilterBar } from './filters.js';
+import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
 import { renderReports } from './reports.js';
@@ -128,11 +128,7 @@ function engineCfg(tableName) {
     subtitle: cat.description,
     columns: cols,
     initialHidden: defaultHidden,
-    filters: filterSpecsFor(tableName).map(spec => {
-      const c = withAccessors(tableName, [allColumns(tableName).find(x => x.key === spec.field)])[0];
-      if (c && c.fk) spec.labelFn = (v) => fkDisplay(c.fk, v);
-      return spec;
-    }),
+    tableFilters: cat.tableFilters,
     rollups: cat.subitems.map(si => mapSubitem(si, tableName)).filter(Boolean),
     readonly: false,
   };
@@ -180,7 +176,7 @@ function renderTabShell(cfg) {
     (cfg.subtitle ? `<p class="tab-subtitle">${escapeHtml(cfg.subtitle)}</p>` : '');
   tabViewEl.appendChild(head);
 
-  filterDrawer = (cfg.filters && cfg.filters.length) ? buildFilterDrawer(cfg, rows) : null;
+  filterDrawer = cfg.tableFilters ? buildFilterDrawer(cfg, rows) : null;
   currentFilter = filterDrawer ? filterDrawer.filter : { apply: (l) => l };
 
   const body = document.createElement('div');
@@ -189,6 +185,9 @@ function renderTabShell(cfg) {
   renderBodyOnly();
 }
 
+// Microsoft Lists-style filter drawer (wireframe parity): checkbox sections
+// per visible column, live match count, Clear all / Done footer. Only the
+// table reads the resulting predicate — reports and cards stay unfiltered.
 function buildFilterDrawer(cfg, rows) {
   const overlay = document.createElement('div');
   overlay.className = 'drawer-overlay';
@@ -198,17 +197,38 @@ function buildFilterDrawer(cfg, rows) {
 
   const head = document.createElement('div'); head.className = 'drawer-head';
   const title = document.createElement('div');
-  title.innerHTML = `<div class="drawer-title">Filters — ${escapeHtml(cfg.tab)}</div>
-    <div class="drawer-sub">Combined with AND; Reset clears every filter</div>`;
+  title.innerHTML = `<div class="drawer-title">Filters</div>
+    <div class="drawer-sub">${escapeHtml(cfg.tab)} — checks OR within a column, AND across columns</div>`;
   const x = document.createElement('button'); x.className = 'drawer-x'; x.textContent = '✕';
   head.append(title, x);
 
+  const countBar = document.createElement('div');
+  countBar.className = 'filter-count';
+
   const bodyHost = document.createElement('div'); bodyHost.className = 'drawer-body';
-  panelEl.append(head, bodyHost);
-  const filter = buildFilterBar(bodyHost, cfg.filters, rows, renderBodyOnly);
+  const foot = document.createElement('div'); foot.className = 'drawer-foot';
+  panelEl.append(head, countBar, bodyHost, foot);
+
+  const visibleCols = cfg.columns.filter(c => !cfg.initialHidden.includes(c.key));
+  const filter = buildColumnFilters(bodyHost, visibleCols, rows, () => {
+    renderBodyOnly();
+    updateCount();
+  });
+  const updateCount = () => {
+    countBar.textContent = `${filter.apply(rows).length} of ${rows.length} records match`;
+  };
+  updateCount();
+
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'btn-secondary'; clearBtn.textContent = 'Clear all';
+  clearBtn.addEventListener('click', () => filter.clear());
+  const doneBtn = document.createElement('button');
+  doneBtn.className = 'btn-primary'; doneBtn.textContent = 'Done';
+  foot.append(clearBtn, doneBtn);
 
   const close = () => overlay.classList.remove('open');
   x.addEventListener('click', close);
+  doneBtn.addEventListener('click', close);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
   tabViewEl.appendChild(overlay);
   return { filter, open: () => overlay.classList.add('open') };
