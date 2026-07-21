@@ -1953,7 +1953,10 @@
             ]
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Scopes"
+          ]
         },
         "Handouts": {
           "visibility": "show",
@@ -2374,7 +2377,7 @@
           "cards": [],
           "table-filters": true,
           "subitem-tables": [
-            "Scopes (via: scopesID)"
+            "Scopes (via: scopeID)"
           ]
         },
         "Scopes": {
@@ -4185,7 +4188,10 @@
             ]
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Competence"
+          ]
         },
         "Skill Levels": {
           "visibility": "show",
@@ -4252,7 +4258,7 @@
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
               "subitem-display": true,
-              "constraints": null 
+              "constraints": null
             }
           ],
           "reports": {
