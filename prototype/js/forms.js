@@ -193,12 +193,19 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
   const closeAll = () => { overlay.classList.remove('open'); setTimeout(() => overlay.remove(), 180); };
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAll(); });
 
-  function pushForm(cfg, entity, link, record) {
+  function pushForm(cfg, entity, link, record, opts = {}) {
     const ctx = buildFormCtx(cfg, entity, link, record);
+    ctx.onSavedCb = opts.onSaved || null;
     stack.push(ctx);
     activeIdx = stack.length - 1;
     render();
   }
+
+  // "+ create new item" on a rollup select (wireframe drawer parity):
+  // pushes a nested form for the select's target table; on save the select
+  // refreshes its options and picks the new record.
+  const addNewFor = (target, onSaved) =>
+    pushForm(cfgForEntity(target), target, null, null, { onSaved });
 
   // Build a form context (its body DOM is kept alive so inputs persist across spine switches).
   function buildFormCtx(cfg, entity, link, record = null) {
@@ -232,7 +239,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     const skip = new Set([pk, link ? link.field : null]);
     const spec = getCatalog(entity)?.form;
     if (spec && spec.fields && typeof spec.fields === 'object') {
-      buildSpecFields(entity, spec, form, ctx, skip, record);
+      buildSpecFields(entity, spec, form, ctx, skip, record, addNewFor);
     } else {
       for (const f of getBaseFields(entity)) {
         if (skip.has(f)) continue;
@@ -240,7 +247,14 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
         const { node, get } = buildControl(entity, f, c);
         if (record) setControlValue(node, c, record[f]);
         ctx.controls[f] = get;
-        form.appendChild(fieldRow(humanize(f), node, hintFor(c)));
+        let control = node;
+        if (c.ref) {
+          control = withAddNew(node, c.ref, addNewFor, (newId) => {
+            const { options } = optionsForAttr(entity, f);
+            refillSelect(node, options || fkOptions(c.ref), c.ref, newId);
+          });
+        }
+        form.appendChild(fieldRow(humanize(f), control, hintFor(c)));
       }
     }
 
@@ -332,6 +346,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     if (ctx.editing) updateRecord(ctx.entity, ctx.newId, rec);
     else addRecord(ctx.entity, rec);
     enrichAll();
+    if (ctx.onSavedCb) ctx.onSavedCb(ctx.newId);
     toast(`${ctx.editing ? 'Updated' : 'Added'} ${ctx.newId} ${ctx.editing ? 'in' : 'to'} ${ctx.cfg ? ctx.cfg.tab : ctx.entity}`);
     if (activeIdx > 0) {
       stack.splice(activeIdx, 1); activeIdx -= 1; render();   // pop back to parent
@@ -361,6 +376,36 @@ function hintFor(c) {
   if (c.type === 'multiselect') return `Multiple → ${c.ref}`;
   return '';
 }
+// select + a "+" button that opens a nested form for the select's target table
+function withAddNew(node, target, addNew, refresh) {
+  const wrap = document.createElement('div');
+  wrap.className = 'select-add';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'btn-secondary select-add-btn';
+  btn.title = `Create a new ${singularTitle(target)}`;
+  btn.textContent = '+';
+  btn.addEventListener('click', () => addNew(target, refresh));
+  wrap.append(node, btn);
+  return wrap;
+}
+
+// rebuild a select's option list and pick the freshly created record —
+// by id, or by its label for name-valued selects
+function refillSelect(node, options, target, newId) {
+  const keep = node.multiple
+    ? new Set([...node.selectedOptions].map((o) => o.value)) : new Set([node.value]);
+  node.innerHTML = '';
+  if (!node.multiple) node.appendChild(new Option('— select —', ''));
+  (options || []).forEach((o) => node.appendChild(new Option(o.label, o.value)));
+  const tCat = getCatalog(target);
+  const rec = getById(target, newId);
+  const wanted = new Set([String(newId), rec && tCat ? String(rec[tCat.label] ?? '') : '']);
+  [...node.options].forEach((o) => {
+    if (wanted.has(o.value) || keep.has(o.value)) o.selected = true;
+  });
+}
+
 // Prefill a control built by buildControl with an existing record's value (edit mode).
 function setControlValue(node, c, v) {
   if (v == null) return;
@@ -424,7 +469,7 @@ function fillOptions(sel, options, groupField, target, placeholder) {
   }
 }
 
-function buildSpecFields(entity, spec, form, ctx, skip, record) {
+function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
   // ---- steps ordered by step-order ----
   const steps = [];
   if (spec.steps && typeof spec.steps === 'object') {
@@ -501,8 +546,20 @@ function buildSpecFields(entity, spec, form, ctx, skip, record) {
     if (attrName) ctx.controls[attrName] = get;
     byLabel[label] = { node, get };
 
+    // wireframe drawer parity: every rollup select can create its target item
+    let control = node;
+    if (addNew && node.tagName === 'SELECT') {
+      const { target } = specOptions(entity, attrName, ruleText);
+      if (target) {
+        control = withAddNew(node, target, addNew, (newId) => {
+          const fresh = specOptions(entity, attrName, ruleText);
+          refillSelect(node, fresh.options, target, newId);
+        });
+      }
+    }
+
     const host = stepHosts[fv.step] || defaultHost;
-    host.appendChild(fieldRow(label, node, (fv.tooltip || '').trim()));
+    host.appendChild(fieldRow(label, control, (fv.tooltip || '').trim()));
   }
 
   // ---- check conditions: "<Label> IS NOT NULL" gates this field ----

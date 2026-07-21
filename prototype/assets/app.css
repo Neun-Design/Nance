@@ -268,6 +268,10 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .form-input:focus { border-color: var(--se-ui-0); }
 select.form-input[multiple] { padding: 0; }
 .form-ro { background: var(--se-base-4); font-style: italic; color: var(--se-text-secondary); }
+/* rollup select + "create new item" button (wireframe drawer parity) */
+.select-add { display: flex; align-items: flex-start; gap: var(--se-space-3); }
+.select-add .form-input { flex: 1; min-width: 0; }
+.select-add-btn { width: 34px; min-height: 34px; padding: 0; font-size: 16px; line-height: 1; flex: none; }
 .form-hint { font-size: 11px; color: var(--se-text-disabled); }
 .form-auto-note {
   margin: var(--se-space-6) 0 var(--se-space-5); padding-top: var(--se-space-5);
