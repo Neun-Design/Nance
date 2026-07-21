@@ -30,8 +30,14 @@ function baseOption(title) {
   };
 }
 
+// category labels truncate (full value stays in the tooltip) — scope names
+// run to 70+ chars and untruncated they consume the whole plot area,
+// leaving no room for the bars (prototype v1 review, Forecast Scopes)
+const catLabel = (extra = {}) => ({
+  color: AXIS, fontFamily: FONT, overflow: 'truncate', width: 110, ...extra,
+});
 const catAxis = (extra = {}) => ({
-  type: 'category', axisLabel: { color: AXIS, fontFamily: FONT },
+  type: 'category', axisLabel: catLabel(),
   axisLine: { lineStyle: { color: GRID } }, axisTick: { show: false }, ...extra,
 });
 const valAxis = (extra = {}) => ({
@@ -58,7 +64,7 @@ function buildBar(spec, rows) {
     o.xAxis = valAxis(); o.yAxis = catAxis({ data: cats.slice().reverse() });
     o.series = [{ type: 'bar', data: vals.slice().reverse(), barMaxWidth: 22 }];
   } else {
-    o.xAxis = catAxis({ data: cats, axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: cats.length > 6 ? 30 : 0 } });
+    o.xAxis = catAxis({ data: cats, axisLabel: catLabel({ interval: 0, rotate: cats.length > 6 ? 30 : 0 }) });
     o.yAxis = valAxis();
     o.series = [{ type: 'bar', data: vals, barMaxWidth: 40 }];
   }
@@ -112,7 +118,7 @@ function buildMultiBar(spec) {
   const o = baseOption(spec.title);
   o.tooltip.trigger = 'axis'; o.tooltip.axisPointer = { type: 'shadow' };
   o.legend = { bottom: 0, textStyle: { color: AXIS, fontFamily: FONT } };
-  o.xAxis = catAxis({ data: spec.cats, axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: spec.cats.length > 6 ? 30 : 0 } });
+  o.xAxis = catAxis({ data: spec.cats, axisLabel: catLabel({ interval: 0, rotate: spec.cats.length > 6 ? 30 : 0 }) });
   o.yAxis = valAxis();
   o.series = spec.series.map(s => ({
     name: s.name, type: 'bar', data: s.data, barMaxWidth: 26,
@@ -129,7 +135,7 @@ const SPECIALS = {
     const o = baseOption('Available vs Allocated Hours by Role');
     o.tooltip.trigger = 'axis'; o.tooltip.axisPointer = { type: 'shadow' };
     o.legend = { bottom: 0, textStyle: { color: AXIS, fontFamily: FONT } };
-    o.xAxis = catAxis({ data: roles, axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: 30 } });
+    o.xAxis = catAxis({ data: roles, axisLabel: catLabel({ interval: 0, rotate: 30 }) });
     o.yAxis = valAxis();
     o.series = [
       { name: 'Available', type: 'bar', data: rows.map(r => r.availableHours), barMaxWidth: 18 },
@@ -141,7 +147,7 @@ const SPECIALS = {
   capacityUtil(rows) {
     const o = baseOption('Utilisation % by Role');
     o.tooltip.trigger = 'axis'; o.tooltip.axisPointer = { type: 'shadow' };
-    o.xAxis = catAxis({ data: rows.map(r => r.roleName), axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: 30 } });
+    o.xAxis = catAxis({ data: rows.map(r => r.roleName), axisLabel: catLabel({ interval: 0, rotate: 30 }) });
     o.yAxis = valAxis({ axisLabel: { formatter: '{value}%', color: AXIS, fontFamily: FONT } });
     o.series = [{ type: 'bar', data: rows.map(r => r.utilization), barMaxWidth: 30 }];
     return o;
@@ -187,7 +193,7 @@ const SPECIALS = {
     const o = baseOption('Output vs Target by Team');
     o.tooltip.trigger = 'axis'; o.tooltip.axisPointer = { type: 'shadow' };
     o.legend = { bottom: 0, textStyle: { color: AXIS, fontFamily: FONT } };
-    o.xAxis = catAxis({ data: rows.map(r => r.teamName), axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: 20 } });
+    o.xAxis = catAxis({ data: rows.map(r => r.teamName), axisLabel: catLabel({ interval: 0, rotate: 20 }) });
     o.yAxis = valAxis();
     o.series = [
       { name: 'Output', type: 'bar', data: rows.map(r => r.output), barMaxWidth: 18 },
@@ -208,7 +214,7 @@ const SPECIALS = {
     const o = baseOption('Estimated vs Actual Hours by Project');
     o.tooltip.trigger = 'axis'; o.tooltip.axisPointer = { type: 'shadow' };
     o.legend = { bottom: 0, textStyle: { color: AXIS, fontFamily: FONT } };
-    o.xAxis = catAxis({ data: projs, axisLabel: { color: AXIS, fontFamily: FONT, interval: 0, rotate: 25 } });
+    o.xAxis = catAxis({ data: projs, axisLabel: catLabel({ interval: 0, rotate: 25 }) });
     o.yAxis = valAxis();
     o.series = [
       { name: 'Estimated', type: 'bar', data: projs.map(p => byProj.get(p).plan), barMaxWidth: 18 },
@@ -219,18 +225,51 @@ const SPECIALS = {
 };
 
 // ---------------- public API ----------------
+// Returns a { resize, dispose } handle. The ECharts instance is created only
+// once the host has a real size (initialising against a 0×0 box freezes the
+// canvas at the wrong dimensions), tracks host resizes via ResizeObserver,
+// and re-initialises when the window moves to a screen with a different
+// devicePixelRatio — both halves of the review's "reports render too small
+// or too big until I move the browser to another screen".
 export function renderChart(container, spec, rows) {
   if (spec.rowFilter) rows = rows.filter(spec.rowFilter);
   const el = document.createElement('div');
   el.style.width = '100%'; el.style.height = '100%';
   container.appendChild(el);
-  const chart = echarts.init(el, null, { renderer: 'canvas' });
+
   let option;
   if (spec.type === 'special') option = SPECIALS[spec.builder](rows);
   else if (spec.type === 'multibar') option = buildMultiBar(spec);
   else if (spec.type === 'donut') option = buildDonut(spec, rows);
   else if (spec.type === 'line') option = buildLine(spec, rows);
   else option = buildBar(spec, rows);
-  chart.setOption(option);
-  return chart;
+
+  let chart = null, mq = null;
+  const init = () => {
+    if (chart) { try { chart.dispose(); } catch (_) { /* already gone */ } }
+    chart = echarts.init(el, null, { renderer: 'canvas', devicePixelRatio: window.devicePixelRatio || 1 });
+    chart.setOption(option);
+  };
+  const onDprChange = () => { init(); watchDpr(); };
+  const watchDpr = () => {
+    if (mq) mq.removeEventListener('change', onDprChange);
+    mq = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`);
+    mq.addEventListener('change', onDprChange);
+  };
+  const ro = new ResizeObserver(() => {
+    if (!el.clientWidth || !el.clientHeight) return;
+    if (chart) chart.resize(); else init();
+  });
+  ro.observe(el);
+  if (el.clientWidth && el.clientHeight) init();
+  watchDpr();
+
+  return {
+    resize: () => chart && chart.resize(),
+    dispose: () => {
+      ro.disconnect();
+      if (mq) mq.removeEventListener('change', onDprChange);
+      if (chart) { try { chart.dispose(); } catch (_) { /* already gone */ } chart = null; }
+    },
+  };
 }
