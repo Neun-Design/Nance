@@ -5,11 +5,13 @@
 > filter and subitem list must be **derived from this file** — a screen is correct only if
 > it can be traced back to a parameter documented here.
 >
-> **Current gap.** The running prototype still draws its screens from a hand-coded
-> `js/registry.js`. This guide is the contract for closing that gap: any renderer (or
-> manual registry update) must interpret the parameters exactly as described below.
-> Companion documents: `PROTOTYPE_REVIEW.md` (change backlog) and the `#wireframe`
-> reference for interaction patterns.
+> **Status.** The datamodel engine (`js/model.js` + `js/resolve.js`) now derives every
+> screen from this file at runtime; the hand-coded registry is retired. Any change to
+> the engine (or to this file) must keep `tools/test_resolve.mjs` and
+> `tools/test_queries.mjs` green — they assert the behaviours documented below against
+> the mockup dataset. Companion documents: `PROTOTYPE_REVIEW.md` /
+> `prototype_v1-review.md` (change backlogs) and the `#wireframe` reference
+> (`sourceFiles/developer/standalone_wireframe.html`) for interaction patterns.
 
 ---
 
@@ -95,11 +97,36 @@ A mini-DSL declaring where values come from. Grammar patterns in use:
 
 | Pattern | Meaning |
 |---|---|
-| `FK → <Table> (display: <field>)` | Foreign key. Store the target PK, **display the named field** (never the raw ID) in tables, subitems, and selects. |
-| `rollup → <Table> (via: <fkField>)` | Collect all child rows of `<Table>` whose `<fkField>` points at this record. |
+| `FK → <Table> (display: <field>)` | Foreign key. Store the target PK, **display the named field** (never the raw ID) in tables, subitems, and selects. `display: CONCAT(a,'-',b)` composes several fields (Forecasts FACTORY = `factoryName-city`). |
+| `rollup → <Table> (via: <field>)` | Collect the related rows of `<Table>` — see the join ladder below. |
+| `mirror: <source>` | Value mirrored from related records, e.g. `mirror: DISTINCT("Tasks"."actionName")` or `mirror: Competence (via: competenceID) (display: roleName)`. |
 | `computed: <expression>` | Calculated value, e.g. `computed: SUM(forecastScopes.estimatedHours)`. |
 | `computed → <Table> (via: <path.chain>)` | Calculated by walking a relationship path (dots = hops through FKs). |
 | `enum: A/B/C` | The closed value list for an `ENUM` type. |
+
+**Tolerant parsing.** The rules are hand-written prose in many spellings; the parser
+(`model.js parseRule`) extracts *kind / target / via / display* rather than demanding
+one canonical shape. `->` and `→` are equivalent, `via:`/`display:` may appear with or
+without parentheses, `DISTINCT("T"."f")` names both target and display, and unparseable
+prose degrades gracefully (the stored value is shown).
+
+**Display resolution.** Reference and derived cells always show display **names**,
+never raw ids:
+
+1. A **stored** id (or id array) resolves against the rule target, else against the
+   table whose PK shares the attribute name (`processID` → Processes). Values that
+   match no record pass through unchanged (they are already names).
+2. A **derived** cell resolves its child rows, then shows the distinct display values —
+   using the rule's `display:` field, or the attribute's own name when the child can
+   answer it (`constraintName`). Rollups with no display field render as a **count**.
+3. Child rows resolve through a join ladder, tried in order: declared through-path
+   (`rollup via Tasks.activityID`) → declared `via:` field (child FK, else shared-field
+   join) → direct child FK → shared-domain join → **two-hop join** through an
+   intermediate table (Tasks → Workflows.constraints → Constraints) → **reverse derived
+   join** (invert a rollup declared on the child).
+4. Every join candidate is **data-validated**: the two sides must actually share values
+   in `mockup_data_prototype.json`, so catalogue/dataset drift (§10) cannot produce
+   silent empty joins.
 
 ### 3.4 `notes`
 Free-text intent for developers ("Total demand projected across all scopes"). Use it for
@@ -241,10 +268,16 @@ their `step` parameter. `steps: null` ⇒ single flat form.
 | `check` | **Enable/visibility condition** in prose — the field is disabled (or hidden) until the condition holds, e.g. `"Scope IS NOT NULL"`, `"Disable this field until the Ticket field has been selected"`. This is how cascading forms are declared. |
 | `field-rule` | **Data behaviour**: how to populate/filter/derive the field's options or value — e.g. `"filtered by Scope selected"` (cascade), `rollup -> …` chains, `FK -> Events (display: eventName): Multivalued field`. `Multivalued field` ⇒ multi-select. |
 
-**Selection fields that reference another table** (`select` / `combobox` /
-multi-selection / search types whose `attribute` is an FK) must offer an
-**"add new '\<field-name\>'" button** that pushes a nested drawer tab for creating the
-referenced record inline (wireframe pattern; already implemented as the drawer spine).
+**Select options** derive from the bound attribute's rule (§3.3): labels are display
+names (never ids), values are what the parent rows actually store — the target PK, or
+the name itself for label-named attributes stored as names (`constraintName`). An
+attribute whose `notes` contain `multivalued` renders as a multi-select even without a
+`field-rule` marker.
+
+**Selection fields that reference another table** offer a **"+" (create new item)
+button** beside the select: it pushes a nested drawer tab for the referenced table onto
+the spine; on save the select refreshes its options and picks the new record
+(wireframe pattern — implemented for every rollup select, spec-driven and generic).
 
 ### 6.3 `form.subitem-tables`
 Related child tables to expose **inside the form** as "New \<child\>" sections (e.g. the
@@ -274,17 +307,22 @@ Jobs A, Capacity A, Performance A, Roles A.
 
 ## 8. `table-filters` — the table's Filters button
 
-Declared per table; interacts with the table **Filters** control (right-side drawer,
-Reset inside — wireframe pattern):
+Declared per table; drives the table **Filters** control — a **Microsoft Lists-style
+right-side drawer** (wireframe pattern): one collapsible section per *visible* column,
+each a checkbox list of the column's distinct display values with counts. Checks OR
+together within a column and AND across columns; a live "N of M records match" bar and
+a **Clear all** / **Done** footer complete the drawer. Values resolve through the
+column accessor, so FK columns filter by display name.
 
 | Value | Meaning |
 |---|---|
-| `true` | Filters enabled. Filterable columns follow from the attributes (ENUM/FK/date columns are the natural filter set). |
+| `true` | Filters enabled — sections are derived automatically from the visible columns (2–25 distinct values). |
 | `[]` (empty list) | Reserved for an explicit filter list; empty today ⇒ treat as **disabled** until populated (Product Class, Competence). |
 | `null` | No table filters (Capacity, Performance — their filtering lives on the *reports*, §5). Button disabled. |
 
-> Note: report-level filters (§5) are configured independently and are **not** governed
-> by this key.
+> Note: the table filter predicate applies to the **table rows only**. Report and card
+> queries pull their own rows and are never affected by it; report-level filters (§5)
+> are configured independently.
 
 ---
 
@@ -305,15 +343,19 @@ that row (matched through the FK/rollup relationship between the two entities).
 
 | Syntax | Meaning | Example |
 |---|---|---|
-| `"Forecast Scopes"` | Plain child table, joined via the obvious FK. | Forecasts → their Forecast Scopes |
+| `"Forecast Scopes"` | Plain child table, joined via the obvious FK (or the §3.3 join ladder when no direct FK exists — incl. the reverse derived join: Constraints → Product Scopes). | Forecasts → their Forecast Scopes |
 | `"Workflows: ordered by identationID"` | `:` suffix adds a **directive** — here a sort order (WBS-style `1, 2, 2.1, 2.2…`). | Processes → Workflows |
 | `"Actions: rollup via Tasks.activityID"` | Directive declaring the **join path** when it isn't a direct FK (Actions relate to Activities through Tasks). | Activities → Actions |
+| `"Jobs: only jobStatus=Active\|Queued"` | **Status-filtered children** — only rows whose field matches one of the `\|`-separated values. | Tickets → Jobs |
+| `"Forecasts: display status=Approved only"` | Same filter, review spelling. | Factories → Approved Forecasts |
+| `"Scopes (via: scopeID)"` | The join field named inline (parenthetical directive). | Product Scopes → Scopes |
+| `"Handouts (grouped by inputs)"` | Children named by a **through-table field** (Tasks → Workflows.inputs → Handouts). Each group renders as its **own labelled list** — declaring both `inputs` and `outputs` yields "Handouts - Inputs" and "Handouts - Outputs" under one expanded row. | Tasks → Handouts |
 | `"Product Scopes -> Competence"` | **Nesting**: the subitem table has its own subitem table — Product Scopes rows expand again into Competence. Arbitrary depth follows the same rules recursively. | Tasks → Product Scopes → Competence |
-| `[]` | Explicitly no subitems (Jobs). Same effect as omitting the key. |
-| Lowercase names (`"tickets"`, `"people"`, `"competence"`) | Match tables **case-insensitively**. |
+| `[]` | Explicitly no subitems. Same effect as omitting the key. |
+| Lowercase names (`"tickets"`, `"people"`, `"competence"`) | Match tables **case-insensitively** (fuzzy singular/plural too: `"Onboards"` → Onboarding). |
 
 Grouped subitems: a list with multiple entries renders **multiple child groups** under
-one expanded row (the Events dashboard's Tasks + Tickets grouping is the reference).
+one expanded row (Tasks' Handouts Inputs/Outputs pair is the reference).
 
 ---
 
@@ -328,6 +370,8 @@ one expanded row (the Events dashboard's Tasks + Tickets grouping is the referen
 |---|---|---|
 | `form` sometimes holds prose placeholders (`["see #wireframe"]`, `["keep the way it is in the #wireframe"]`) | Products, Product Class, Squads | Follow the wireframe until a structured form spec lands. |
 | Lowercase table names in `subitem-tables` (`"tickets"`, `"people"`) | several | Match case-insensitively (§9). |
+| Catalogue field names drift from the dataset (`Workflows.constrains` vs data `constraints`) | Workflows | Joins are discovered over the **union** of catalogue and data fields and are data-validated (§3.3), so the drift is harmless at render time — still fix upstream when touching the datamodel. |
+| `Constrain`/`constraint` naming is mixed across entities (`constrainID`, `constrainTypeID`, `constraintName`) | Constraints and its references | The fuzzy table resolver and pk-name domain handle both spellings; keep new attributes on the `constraint*` spelling. |
 
 ---
 
@@ -341,9 +385,9 @@ one expanded row (the Events dashboard's Tasks + Tickets grouping is the referen
 | Data table columns | `attributes` → `table-display`, `type` (alignment/pills/Σ), `rule` (FK display fields) |
 | Customize Columns popover | all `attributes` (checked = `table-display: true`) |
 | Σ summation row | `attributes` with numeric `type` |
-| Filters button + drawer | `table-filters` |
+| Filters button + drawer | `table-filters` + visible columns (§8, Microsoft Lists style) |
 | Row dropdown / child tables | `subitem-tables` + child's `subitem-display` attributes |
-| New Item / Edit drawer | `form.steps`, `form.fields` (`field-type`, `attribute`, `check`, `field-rule`), `form.subitem-tables` |
+| New Item / Edit drawer | `form.steps`, `form.fields` (`field-type`, `attribute`, `check`, `field-rule`), `form.subitem-tables`, attribute `notes: multivalued`, "+" create-new on rollup selects |
 | Charts | `reports` (`graph_type`, `rule`) |
 | Per-report filter drawers | `reports.*.filters.fields` (+ `default`) |
 | Overview dashboard | every card/report with `overview-display: true`, + Details buttons |
