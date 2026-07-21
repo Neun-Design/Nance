@@ -349,8 +349,33 @@ select.form-input[multiple] { padding: 0; }
 /* filter drawer: closed overlay must not block the page; stack fields vertically */
 .drawer-overlay { pointer-events: none; }
 .drawer-overlay.open { pointer-events: auto; }
+.filter-drawer { width: 400px; }
 .filter-drawer .filter-bar { flex-direction: column; align-items: stretch; }
 .filter-drawer .filter-field { width: 100%; }
+
+/* Microsoft Lists-style column filter sections (wireframe parity) */
+.filter-count {
+  flex: none; padding: 12px 28px; border-bottom: 1px solid var(--se-ui-4);
+  font-size: 13px; color: var(--se-text-secondary);
+}
+.cfltr-section { padding: 14px 0; border-bottom: 1px solid var(--se-ui-4); }
+.cfltr-head {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  background: transparent; border: none; padding: 4px 0;
+  font-family: inherit; font-size: 14px; font-weight: 700; color: var(--se-text-primary);
+}
+.cfltr-chev { color: var(--se-text-secondary); display: inline-flex; transition: transform .12s ease; }
+.cfltr-chev.open { transform: rotate(180deg); }
+.cfltr-values { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+.cfltr-row {
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+  font-size: 14px; color: var(--se-text-primary);
+  padding: 7px 8px; margin: 0 -8px; border-radius: var(--se-radius-1);
+}
+.cfltr-row:hover { background: var(--se-base-1-hover); }
+.cfltr-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--se-ui-0); }
+.cfltr-row span:nth-child(2) { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cfltr-count { font-size: var(--se-font-size-caption); color: var(--se-text-secondary); }
 .filter-drawer .filter-field select, .filter-drawer .filter-field input { width: 100%; }
 
 /* ---------- Overview details buttons ---------- */

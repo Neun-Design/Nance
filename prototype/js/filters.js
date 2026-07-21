@@ -1,86 +1,118 @@
-// filters.js — build a filter bar from specs; hold state; expose a predicate.
-// Filter types: 'select' (distinct values, optionally via a value fn/label), 'search' (free text).
+// filters.js — Microsoft Lists-style column filters (standalone wireframe
+// parity, prototype v1 review). One collapsible section per visible column,
+// each a checkbox list of the column's distinct display values: checks
+// within a section OR together, sections AND together. The predicate applies
+// to the TABLE rows only — report and card queries pull their own rows, so
+// table filters never influence them.
 
-import { getEntity } from './data.js';
+const MAX_SECTIONS = 8;      // most-useful columns first, keep the drawer scannable
+const MAX_VALUES = 25;       // columns with more distinct values aren't filterable
+const AUTO_EXPAND_VALUES = 8;
 
-// spec: { field, label, type:'select'|'search', valueFn?, labelFn?, source? }
-// source: entityName to draw distinct values from (defaults to the tab rows passed in)
-export function buildFilterBar(container, specs, rows, onChange) {
-  const state = {};          // field -> selected value ('' = all)
-  const bar = document.createElement('div');
-  bar.className = 'filter-bar';
+// columns: engine columns ({ key, label, accessor? }); rows: the tab's records
+// Returns { apply(list), clear(), hasSections }
+export function buildColumnFilters(container, columns, rows, onChange) {
+  const state = new Map(); // column key -> Set(selected display values)
+  const resolve = (col, r) => {
+    const v = col.accessor ? col.accessor(r) : r[col.key];
+    return v == null || v === '' ? '—' : String(v);
+  };
 
-  for (const spec of specs) {
-    const wrap = document.createElement('div');
-    wrap.className = 'filter-field';
-    const id = `flt-${spec.field}`;
-    const lbl = document.createElement('label');
-    lbl.textContent = spec.label || spec.field;
-    lbl.htmlFor = id;
-    wrap.appendChild(lbl);
-
-    if (spec.type === 'search') {
-      const inp = document.createElement('input');
-      inp.type = 'search'; inp.id = id; inp.placeholder = 'Contains…';
-      inp.addEventListener('input', () => { state[spec.field] = inp.value.trim().toLowerCase(); onChange(); });
-      wrap.appendChild(inp);
-    } else {
-      const sel = document.createElement('select');
-      sel.id = id;
-      const srcRows = spec.source ? getEntity(spec.source) : rows;
-      const vals = distinctValues(srcRows, spec);
-      const optAll = document.createElement('option');
-      optAll.value = ''; optAll.textContent = 'All';
-      sel.appendChild(optAll);
-      for (const v of vals) {
-        const o = document.createElement('option');
-        o.value = String(v.value); o.textContent = v.label;
-        sel.appendChild(o);
-      }
-      sel.addEventListener('change', () => { state[spec.field] = sel.value; onChange(); });
-      wrap.appendChild(sel);
+  const sections = [];
+  for (const col of columns) {
+    const counts = new Map();
+    for (const r of rows) {
+      const v = resolve(col, r);
+      counts.set(v, (counts.get(v) || 0) + 1);
     }
-    bar.appendChild(wrap);
+    if (counts.size < 2 || counts.size > MAX_VALUES) continue;
+    sections.push({
+      col,
+      values: [...counts.entries()]
+        .sort((a, b) => String(a[0]).localeCompare(String(b[0]), undefined, { numeric: true })),
+    });
+    if (sections.length >= MAX_SECTIONS) break;
   }
 
-  const spacer = document.createElement('div'); spacer.className = 'filter-spacer'; bar.appendChild(spacer);
-  const reset = document.createElement('button');
-  reset.className = 'filter-reset'; reset.textContent = 'Reset filters';
-  reset.addEventListener('click', () => {
-    for (const k of Object.keys(state)) state[k] = '';
-    bar.querySelectorAll('select').forEach(s => s.value = '');
-    bar.querySelectorAll('input[type=search]').forEach(i => i.value = '');
-    onChange();
-  });
-  bar.appendChild(reset);
-  container.appendChild(bar);
+  const host = document.createElement('div');
+  host.className = 'cfltr';
+  container.appendChild(host);
 
-  // predicate combining every active filter (AND)
-  function predicate(specsRef) {
-    return (r) => {
-      for (const spec of specsRef) {
-        const sel = state[spec.field];
-        if (!sel) continue;
-        const raw = spec.valueFn ? spec.valueFn(r) : r[spec.field];
-        if (spec.type === 'search') {
-          if (!String(raw ?? '').toLowerCase().includes(sel)) return false;
-        } else if (String(raw) !== sel) return false;
-      }
-      return true;
+  const checkboxes = []; // { input, key, value }
+  for (const sec of sections) {
+    const box = document.createElement('div');
+    box.className = 'cfltr-section';
+
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'cfltr-head';
+    const name = document.createElement('span');
+    name.textContent = sec.col.label || sec.col.key;
+    const chev = document.createElement('span');
+    chev.className = 'cfltr-chev';
+    chev.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+    head.append(name, chev);
+    box.appendChild(head);
+
+    const list = document.createElement('div');
+    list.className = 'cfltr-values';
+    let open = sec.values.length <= AUTO_EXPAND_VALUES;
+    const sync = () => {
+      list.style.display = open ? '' : 'none';
+      chev.classList.toggle('open', open);
     };
+    head.addEventListener('click', () => { open = !open; sync(); });
+    sync();
+
+    for (const [value, count] of sec.values) {
+      const row = document.createElement('label');
+      row.className = 'cfltr-row';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.addEventListener('change', () => {
+        if (!state.has(sec.col.key)) state.set(sec.col.key, new Set());
+        const set = state.get(sec.col.key);
+        cb.checked ? set.add(value) : set.delete(value);
+        if (!set.size) state.delete(sec.col.key);
+        onChange();
+      });
+      const lbl = document.createElement('span');
+      lbl.textContent = value;
+      const n = document.createElement('span');
+      n.className = 'cfltr-count';
+      n.textContent = count;
+      row.append(cb, lbl, n);
+      list.appendChild(row);
+      checkboxes.push({ input: cb });
+    }
+    box.appendChild(list);
+    host.appendChild(box);
   }
 
-  return { apply: (list) => list.filter(predicate(specs)), state };
-}
-
-function distinctValues(rows, spec) {
-  const seen = new Map();
-  for (const r of rows) {
-    const v = spec.valueFn ? spec.valueFn(r) : r[spec.field];
-    if (v == null || v === '') continue;
-    if (!seen.has(v)) seen.set(v, spec.labelFn ? spec.labelFn(v) : v);
+  if (!sections.length) {
+    const note = document.createElement('div');
+    note.className = 'empty-note';
+    note.textContent = 'No filterable columns on this table.';
+    host.appendChild(note);
   }
-  return [...seen.entries()]
-    .map(([value, label]) => ({ value, label }))
-    .sort((a, b) => String(a.label).localeCompare(String(b.label), undefined, { numeric: true }));
+
+  const byKey = new Map(sections.map((s) => [s.col.key, s.col]));
+  const predicate = (r) => {
+    for (const [key, set] of state) {
+      const col = byKey.get(key);
+      if (!col || !set.size) continue;
+      if (!set.has(resolve(col, r))) return false;
+    }
+    return true;
+  };
+
+  return {
+    apply: (list) => list.filter(predicate),
+    clear: () => {
+      state.clear();
+      checkboxes.forEach((c) => { c.input.checked = false; });
+      onChange();
+    },
+    hasSections: sections.length > 0,
+  };
 }
