@@ -23,6 +23,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: prototype
           publish_branch: gh-pages
-          destination_dir: prototype
+          destination_dir: app
           keep_files: true
           commit_message: "deploy: prototype from ${{ github.sha }}"
