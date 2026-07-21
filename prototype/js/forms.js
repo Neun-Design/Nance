@@ -7,6 +7,7 @@
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
+import { resolveDisplay } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -66,14 +67,90 @@ function classify(entity, field) {
   if (typeof sample === 'boolean') return { type: 'bool' };
   if (ENUM_FIELDS.has(field)) return { type: 'enum', options: distinct(entity, field) };
   if (REF_OVERRIDE[field]) return { type: 'fk', ref: REF_OVERRIDE[field] };
-  if (FK_MAP[field] && field !== pk) return { type: 'fk', ref: FK_MAP[field] };
+  // datamodel rule / label-field / pk-name reference (names, never ids)
+  if (field !== pk) {
+    const { options, target, multi } = optionsForAttr(entity, field);
+    if (target) return { type: multi ? 'multiselect' : 'fk', ref: target, options };
+  }
   if (isDateField(field)) return { type: 'date' };
   if (typeof sample === 'number') return { type: 'number' };
   return { type: 'text' };
 }
-function fkOptions(ref) {
+function fkOptions(ref, display = null) {
   const meta = ENTITY_META[ref];
-  return getEntity(ref).map(r => ({ value: r[meta.pk], label: `${r[meta.label] ?? r[meta.pk]}` }));
+  return getEntity(ref).map(r => {
+    const lbl = resolveDisplay(ref, r, display && display !== meta.pk ? display : meta.label);
+    return { value: r[meta.pk], label: `${lbl !== '' ? lbl : r[meta.pk]}` };
+  });
+}
+
+// table whose configured label field is `field` (e.g. constraintName → Constraints)
+let _labelOwners = null;
+function labelOwner(field) {
+  if (!_labelOwners) {
+    _labelOwners = {};
+    for (const [t, m] of Object.entries(ENTITY_META)) {
+      if (m.label && !(m.label in _labelOwners)) _labelOwners[m.label] = t;
+    }
+  }
+  return _labelOwners[field] || null;
+}
+
+// Options for a select bound to `attrName`, derived from the datamodel rule
+// (guide §3.3 / §6.2). Selects always list display NAMES; the option value is
+// the id the parent rows actually store — or the name itself for label-named
+// attributes stored as names (e.g. constraintName).
+export function optionsForAttr(entity, attrName, ruleText = '') {
+  const cat = getCatalog(entity);
+  const a = cat && cat.byName[attrName];
+  const r = (a && parseRule(a.rule)) || null;
+  const multi = !!(a && /multivalued/i.test(a.notes || ''));
+  const none = { options: null, target: null, multi };
+  if (!attrName) return none;
+
+  const em = ruleText && String(ruleText).match(/enum:\s*(.+)$/);
+  if (em) return { options: em[1].split(',').map(s => ({ value: s.trim(), label: s.trim() })), target: null, multi };
+  if (r && r.kind === 'enum') return { options: r.values.map(v => ({ value: v, label: v })), target: null, multi };
+
+  const owner = labelOwner(attrName);
+  let target = (r && r.target && resolveTable(r.target))
+    || (FK_MAP[attrName] && FK_MAP[attrName] !== entity ? FK_MAP[attrName] : null)
+    || (owner && owner !== entity ? owner : null);
+  if (!target) return none;
+
+  let tCat = getCatalog(target);
+  const storedOnTarget = attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec);
+  // rule target can't answer for this attribute — fall back to the table that owns the label
+  if (!storedOnTarget && attrName !== tCat.pk && owner && owner !== target && owner !== entity
+      && !(r && r.display)) {
+    target = owner;
+    tCat = getCatalog(target);
+  }
+
+  const display = r && r.display && r.display !== tCat.pk ? r.display : null;
+  const valueField = attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec)
+    ? attrName : tCat.pk;
+  // parent rows storing names rather than ids keep storing names
+  const sample0 = sampleOf(entity, attrName);
+  const sampleVal = Array.isArray(sample0) ? sample0[0] : sample0;
+  const asLabel = valueField === tCat.pk && attrName === tCat.label
+    && (sampleVal == null || !getById(target, sampleVal));
+
+  const seen = new Map();
+  for (const rec of getEntity(target)) {
+    const v0 = rec[valueField];
+    if (v0 == null || v0 === '') continue;
+    let lblRaw = resolveDisplay(target, rec, display || tCat.label);
+    // display field unresolvable for this record — degrade to the target's
+    // own label rather than a raw id
+    if (lblRaw === '' && display) lblRaw = resolveDisplay(target, rec, tCat.label);
+    const label = String(lblRaw !== '' ? lblRaw : v0);
+    const value = asLabel ? label : v0;
+    if (!seen.has(String(value))) seen.set(String(value), { value, label });
+  }
+  const options = [...seen.values()]
+    .sort((x, y) => x.label.localeCompare(y.label, undefined, { numeric: true }));
+  return { options, target, multi };
 }
 function genId(entity) {
   const pk = ENTITY_META[entity].pk;
@@ -272,8 +349,8 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 function buildControl(entity, field, c) {
   if (c.type === 'bool') { const s = mkSelect([{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }]); return { node: s, get: () => s.value === 'true' }; }
   if (c.type === 'enum') { const s = mkSelect([{ value: '', label: '— select —' }, ...c.options.map(o => ({ value: o, label: o }))]); return { node: s, get: () => s.value }; }
-  if (c.type === 'fk') { const s = mkSelect([{ value: '', label: '— select —' }, ...fkOptions(c.ref)]); return { node: s, get: () => s.value }; }
-  if (c.type === 'multiselect') { const s = mkSelect(fkOptions(c.ref), true); s.size = Math.min(5, s.options.length || 1); return { node: s, get: () => [...s.selectedOptions].map(o => o.value) }; }
+  if (c.type === 'fk') { const s = mkSelect([{ value: '', label: '— select —' }, ...(c.options || fkOptions(c.ref))]); return { node: s, get: () => s.value }; }
+  if (c.type === 'multiselect') { const s = mkSelect(c.options || fkOptions(c.ref), true); s.size = Math.min(5, s.options.length || 1); return { node: s, get: () => [...s.selectedOptions].map(o => o.value) }; }
   if (c.type === 'tags') { const i = mkInput('text'); i.placeholder = 'comma,separated'; return { node: i, get: () => i.value.split(',').map(x => x.trim()).filter(Boolean) }; }
   if (c.type === 'date') { const i = mkInput('date'); return { node: i, get: () => i.value }; }
   if (c.type === 'number') { const i = mkInput('number'); return { node: i, get: () => (i.value === '' ? null : Number(i.value)) }; }
@@ -314,21 +391,12 @@ function firstTypeKey(ft) {
 }
 
 function specOptions(entity, attrName, ruleText) {
-  const cat = getCatalog(entity);
-  const a = cat && cat.byName[attrName];
-  const r = a && parseRule(a.rule);
-  if (ruleText) {
-    const em = String(ruleText).match(/enum:\s*(.+)$/);
-    if (em) return { options: em[1].split(',').map((s) => ({ value: s.trim(), label: s.trim() })), target: null };
-  }
-  if (r && r.kind === 'enum') return { options: r.values.map((v) => ({ value: v, label: v })), target: null };
-  if (r && r.kind === 'fk') {
-    const target = resolveTable(r.target);
-    if (target) return { options: fkOptions(target), target };
-  }
-  const t = attrName && resolveTable(attrName);
-  if (t) return { options: fkOptions(t), target: t };
-  return { options: distinct(entity, attrName).map((v) => ({ value: v, label: String(v) })), target: null };
+  const res = optionsForAttr(entity, attrName, ruleText);
+  if (res.options) return res;
+  return {
+    options: distinct(entity, attrName).map((v) => ({ value: v, label: String(v) })),
+    target: null, multi: res.multi,
+  };
 }
 
 function fillOptions(sel, options, groupField, target, placeholder) {
@@ -337,10 +405,12 @@ function fillOptions(sel, options, groupField, target, placeholder) {
   ph.value = ''; ph.textContent = placeholder || '— select —';
   sel.appendChild(ph);
   if (groupField && target) {
+    const tCat = getCatalog(target);
+    const byLabelVal = new Map(getEntity(target).map((r) => [String(r[tCat.label] ?? ''), r]));
     const groups = new Map();
     for (const o of options) {
-      const rec = getById(target, o.value);
-      const g = rec ? (rec[groupField] ?? '') : '';
+      const rec = getById(target, o.value) || byLabelVal.get(String(o.value));
+      const g = rec ? (resolveDisplay(target, rec, groupField) || '') : '';
       if (!groups.has(g)) groups.set(g, []);
       groups.get(g).push(o);
     }
@@ -381,13 +451,13 @@ function buildSpecFields(entity, spec, form, ctx, skip, record) {
     if (attrName && skip.has(attrName)) continue;
     const typeKey = firstTypeKey(fv['field-type']);
     const ruleText = Array.isArray(fv['field-rule']) ? fv['field-rule'].join('; ') : (fv['field-rule'] || '');
-    const multi = /allow multiple|multivalued/i.test(ruleText);
     const groupM = String(ruleText).match(/SelectLabel\s*=\s*([A-Za-z.]+)/);
     const groupField = groupM ? groupM[1].split('.').pop() : null;
 
     let node, get;
     if (['select', 'selectgroups', 'combobox', 'comboboxgroups', 'radio'].includes(typeKey)) {
-      const { options, target } = specOptions(entity, attrName, ruleText);
+      const { options, target, multi: noteMulti } = specOptions(entity, attrName, ruleText);
+      const multi = /allow multiple|multivalued/i.test(ruleText) || noteMulti;
       node = document.createElement('select'); node.className = 'form-input';
       if (multi) { node.multiple = true; node.size = Math.min(5, options.length || 1); }
       fillOptions(node, options, groupField, target, multi ? null : undefined);

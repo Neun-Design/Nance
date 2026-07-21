@@ -17,19 +17,58 @@ export const humanize = (f) => String(f)
   .replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
 
 // ---- rule mini-DSL parsing (guide §3.3) ----
+// The rules in datamodel.json are hand-written prose in many spellings:
+//   "FK → Factories (display: CONCAT(factoryName,'-',city)"
+//   "rollup → Roles via:functionID (display: roleName)"
+//   "rollup: Workflows (via: processID; display: activityName)"
+//   "mirror: DISTINCT(\"Tasks\".\"actionName\")"
+//   "computed: lookup Actions via activityID (display: actionName)"
+// so this parser extracts kind / target / via / display tolerantly instead of
+// demanding one canonical shape. Unresolvable prose returns target null and
+// the resolver falls back to the attribute-name domain.
+const DISPLAY_KEYWORDS = new Set(['FOREACH', 'DISTINCT', 'CONCAT', 'SUM', 'IF']);
+
 export function parseRule(rule) {
   if (!rule) return null;
-  let m = rule.match(/^FK\s*→\s*([A-Za-z &]+?)\s*(?:\(display:\s*([A-Za-z]+)\))?\s*$/);
-  if (m) return { kind: 'fk', target: m[1].trim(), display: m[2] || null };
-  m = rule.match(/^rollup\s*→\s*([A-Za-z &]+?)\s*\(via:\s*([A-Za-z. ]+)\)/);
-  if (m) return { kind: 'rollup', target: m[1].trim(), via: m[2].trim() };
-  m = rule.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)/);
-  if (m) return { kind: 'sum', childAttr: m[1], field: m[2] };
-  m = rule.match(/^computed\s*→\s*([A-Za-z &]+?)\s*\(via:\s*([A-Za-z. ]+)\)/);
-  if (m) return { kind: 'computed-path', target: m[1].trim(), via: m[2].trim() };
-  m = rule.match(/^enum:\s*(.+)$/);
+  const txt = String(rule).trim();
+  let m = txt.match(/^enum:\s*(.+)$/i);
   if (m) return { kind: 'enum', values: m[1].split('/').map((s) => s.trim()) };
-  return null;
+  m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)/i);
+  if (m) return { kind: 'sum', childAttr: m[1], field: m[2] };
+
+  const kindM = txt.match(/^(FK|rollup|mirror|computed)\b/i);
+  if (!kindM) return null;
+  const kind = kindM[1].toLowerCase();
+
+  // display: plain field, or CONCAT(field,'lit',field) parts
+  let display = null, concat = null;
+  m = txt.match(/CONCAT\(([^)]*)\)?/i);
+  if (m) {
+    concat = m[1].split(',').map((s) => s.trim()).filter(Boolean)
+      .map((s) => (/^['"]/.test(s) ? { lit: s.replace(/^['"]|['"]$/g, '') } : { field: s }));
+  } else {
+    m = txt.match(/display:\s*([A-Za-z_][A-Za-z0-9_]*)/i);
+    if (m && !DISPLAY_KEYWORDS.has(m[1].toUpperCase())) display = m[1];
+  }
+
+  const vm = txt.match(/via:\s*([A-Za-z_][A-Za-z0-9_.]*)/i);
+  const via = vm ? vm[1].trim() : null;
+
+  // target table: after the arrow, from DISTINCT("Table"."field"), or after "kind:"
+  let target = null;
+  m = txt.match(/^(?:FK|rollup|mirror|computed)\s*(?:→|->)\s*([A-Za-z][A-Za-z &]*?)\s*(?:\(|via\b|display\b|;|,|$)/i);
+  if (m) target = m[1].trim();
+  if (!target) {
+    m = txt.match(/DISTINCT\(\s*"([^"]+)"\s*\.\s*"([^"]+)"\s*\)/i);
+    if (m) { target = m[1]; if (!display) display = m[2]; }
+  }
+  if (!target) {
+    m = txt.match(/^(?:rollup|mirror|computed):\s*(?:from\s+|lookup\s+)?([A-Za-z][A-Za-z &]*?)\s*(?:\(|via\b|→|->|;|,|$)/i);
+    if (m) target = m[1].trim();
+  }
+
+  if (kind === 'fk') return { kind: 'fk', target, display, concat };
+  return { kind, target, via, display, concat };
 }
 
 // ---- subitem-tables entry parsing (guide §9) ----
@@ -108,15 +147,22 @@ function buildCatalog(moduleName, tableName, spec) {
 export const getModules = () => moduleList;
 export const getCatalog = (tableName) => catalog[tableName] || null;
 
-// case-insensitive + forgiving table resolution ("tickets", "people", "Function")
+// case-insensitive + forgiving table resolution ("tickets", "people",
+// "Function", "Product", "Onboards"). Exact singular/plural match wins;
+// a prefix match ("Onboards" → Onboarding) is the fallback.
 export function resolveTable(name) {
   if (!name) return null;
-  const n = name.trim().toLowerCase();
+  const norm = (s) => String(s).trim().toLowerCase().replace(/[^a-z]/g, '')
+    .replace(/ies$/, 'y').replace(/s$/, '');
+  const n = norm(name);
+  if (!n) return null;
+  let prefix = null;
   for (const t of Object.keys(catalog)) {
-    const tl = t.toLowerCase();
-    if (tl === n || tl === n + 's' || tl + 's' === n) return t;
+    const tl = norm(t);
+    if (tl === n) return t;
+    if (!prefix && n.length >= 5 && (tl.startsWith(n) || n.startsWith(tl))) prefix = t;
   }
-  return null;
+  return prefix;
 }
 
 // find the child attribute that references `parentTable` (FK rule or pk-name match)
@@ -147,19 +193,27 @@ export function allColumns(tableName) {
 
 function toColumn(a) {
   const r = parseRule(a.rule);
+  // reference-ish rule: the cell shows a related record's display field,
+  // so it is not a numeric column even when the stored type is INT
+  const refRule = r && (r.kind === 'fk' || (r.target && resolveTable(r.target)) || r.display);
   const col = {
     key: a.name,
     label: humanize(a.name),
-    num: NUMERIC.has(a.type) && !(r && r.kind === 'fk'),
+    num: NUMERIC.has(a.type) && !refRule,
     attr: a,
   };
   if (r && r.kind === 'fk') {
     const target = resolveTable(r.target);
-    if (target) col.fk = { table: target, display: r.display };
+    if (target) col.fk = { table: target, display: r.display, concat: r.concat };
   }
   if (a.type === 'ENUM') col.enum = true;
   if (a.type === 'LINK') col.link = true;
-  if (DERIVED.has(a.type)) col.derived = r || { kind: a.type };
+  // any relational rule (rollup/mirror/computed) resolves at render time —
+  // also on stored columns, so FK-ish ids render as display names
+  if (!col.fk && (DERIVED.has(a.type) || (r && r.kind !== 'enum' && r.kind !== 'sum' && refRule))) {
+    col.derived = r || { kind: a.type };
+  }
+  if (r && r.kind === 'sum') col.derived = r;
   return col;
 }
 
