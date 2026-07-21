@@ -173,7 +173,9 @@
           },
           "cards": null,
           "table-filters": true,
-          "subitem-tables": null
+          "subitem-tables": [
+            "Forecasts: display status=Approved only"
+          ]
         },
         "Forecasts": {
           "visibility": "show",
@@ -185,7 +187,7 @@
               "rule": null,
               "notes": "Auto-generated primary key",
               "table-display": false,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
@@ -194,7 +196,7 @@
               "rule": "FK → Factories (display: CONCAT(factoryName,'-',city)",
               "notes": "Factory submitting this forecast",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -211,7 +213,7 @@
               "type": "DATETIME",
               "rule": null,
               "notes": "Depends on forecastPeriod condition (month/quarter/annual)",
-              "table-display": false,
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
@@ -253,7 +255,7 @@
             {
               "name": "weeklyUsageQuota",
               "type": "INT",
-              "rule": "computed: distribute the period totalEstimatedHours in weeks",
+              "rule": "computed: divide 'totalEstimatedHours' by the number of weeks in 'periodFrame'",
               "notes": "IF periodType='month', than periodFrame=periodStart",
               "table-display": true,
               "subitem-display": true,
@@ -274,7 +276,7 @@
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -283,7 +285,7 @@
               "rule": null,
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -422,7 +424,7 @@
               "rule": null,
               "notes": "Auto-generated primary key",
               "table-display": false,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": "PK"
             },
             {
@@ -439,9 +441,27 @@
               "type": "INT",
               "rule": "FK → Forecasts (display: CONCAT(factoryName,'-',city,' | ', period))",
               "notes": "Parent forecast",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "factoryName",
+              "type": "VARCHAR",
+              "rule": "rollup → forecastID",
+              "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": null
+            },
+            {
+              "name": "periodFrame",
+              "type": "VARCHAR",
+              "rule": "rollup → forecastID",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "scopeID",
@@ -458,8 +478,8 @@
               "rule": "rollup → Product Scopes (via: scopeID); display: productGroupName",
               "notes": "filtered by",
               "table-display": false,
-              "subitem-display": true,
-              "constraints": "FK"
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "constraintName",
@@ -476,7 +496,7 @@
               "rule": "computed: filtrar os productScopeID da tabela product Scopes atraves das entradas de constraintName, productGroupID e scopeID",
               "notes": "display: productScopeName + scopeName",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -485,7 +505,7 @@
               "rule": "FK → Events (display: eventTitle)",
               "notes": "Event that triggers the Process; determines the task list",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -545,10 +565,10 @@
             {
               "name": "consumption",
               "type": "INT",
-              "rule": "computed: every time an forecastScopeID is added to a Ticket this column should be subtract by 1",
+              "rule": "computed: every time an forecastScopeID is added to a Ticket this column should be added by 1",
               "notes": "DEFAULT = forecastScopeQuantity",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1042,7 +1062,8 @@
           ],
           "table-filters": true,
           "subitem-tables": [
-            "Product Scopes -> Competence"
+            "Handouts (grouped by inputs)",
+            "Handouts (grouped by outputs)"
           ]
         },
         "Events": {
@@ -1588,7 +1609,7 @@
               "rule": "mirror: DISTINCT(\"Tasks\".\"taskInput\")",
               "notes": "Determined by taskID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1597,7 +1618,7 @@
               "rule": "mirror: DISTINCT(\"Tasks\".\"taskOutput\")",
               "notes": "Determined by taskID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1606,7 +1627,7 @@
               "rule": "mirror: DISTINCT(\"Tasks\".\"scopeID\")",
               "notes": "Determined by taskID",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1614,8 +1635,8 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"customerName\")",
               "notes": "Determined by taskID",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1632,17 +1653,17 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"productName\")",
               "notes": "Determined by taskID",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "constraints",
+              "name": "constrains",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"constraintName\")",
               "notes": "Determined by taskID",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1758,7 +1779,7 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"workflowID\")",
               "notes": "From taskID rollup; allows filtering by workflow (activity + process)",
-              "table-display": true,
+              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -2007,7 +2028,7 @@
               "rule": null,
               "notes": "nullable",
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -2207,7 +2228,7 @@
               "name": "scopeID",
               "type": "INT",
               "rule": "FK → Scopes (display: scopeName)",
-              "notes": null,
+              "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -2351,7 +2372,10 @@
             }
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Scopes (via: scopesID)"
+          ]
         },
         "Scopes": {
           "visibility": "show",
@@ -2532,23 +2556,14 @@
               "table-display": false,
               "subitem-display": true,
               "constraints": null
-            },
-            {
-              "name": "productClassOwner",
-              "type": "email",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
             }
           ],
           "reports": null,
           "form": [
             "see #wireframe"
           ],
-          "cards": [],
-          "table-filters": []
+          "cards": null,
+          "table-filters": true
         },
         "Product Groups": {
           "visibility": "show",
@@ -4229,6 +4244,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "skillLevelTitle",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT(levelName,' #',levelRank)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": null 
             }
           ],
           "reports": {
@@ -4396,7 +4420,7 @@
               "rule": null,
               "notes": "e.g., Electrical Engineering, Mechanical Engineering",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -4405,7 +4429,7 @@
               "rule": null,
               "notes": "e.g., Engineering, Technical",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -4414,7 +4438,7 @@
               "rule": null,
               "notes": "nullable",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -4422,7 +4446,7 @@
               "type": "VARCHAR",
               "rule": "computed: CONCAT(graduationTitle + institutionName)",
               "notes": null,
-              "table-display": true,
+              "table-display": false,
               "subitem-display": true,
               "constraints": null
             },
@@ -4562,21 +4586,21 @@
               "constraints": "FK"
             },
             {
-              "name": "roleID",
-              "type": "rollup",
-              "rule": "rollup → Roles via: functionID (display: roleName)",
-              "notes": "Role held by this person. Resolves Roles.people rollup, Roles.overheadCost, and the Jobs assignee-by-role filter. Consistent with functionID (role's function).",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
               "name": "squadID",
               "type": "INT",
               "rule": "FK → Squads (display: squadName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "graduationID",
+              "type": "INT",
+              "rule": "FK → Graduation (display: graduationName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -4587,6 +4611,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "roleID",
+              "type": "rollup",
+              "rule": "mirror → Onboards via: onboardID (display: roleName)",
+              "notes": "Role held by this person. Resolves Roles.people rollup, Roles.overheadCost, and the Jobs assignee-by-role filter. Consistent with functionID (role's function).",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
               "name": "personOwner",
@@ -4673,15 +4706,15 @@
                 "check": null,
                 "field-rule": null
               },
-              "Role": {
+              "Graduation": {
                 "field-type": {
-                  "select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
-                "attribute": "roleID",
+                "attribute": "graduationID",
                 "tooltip": null,
                 "step": null,
-                "check": "Function IS NOT NULL",
-                "field-rule": null
+                "check": null,
+                "field-rule": "SelectLabel = field"
               }
             }
           },
@@ -4710,33 +4743,33 @@
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
               "name": "functionID",
               "type": "VARCHAR",
-              "rule": "computed: People via userID",
+              "rule": "computed: People via userID (display: functionID)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "roleID",
-              "type": "rollup",
-              "rule": "rollup → Roles (via: functionID) (display: roleName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
               "name": "competenceID",
               "type": "rollup",
-              "rule": "rollup → Competence (via: roleID) (display: competenceName)",
+              "rule": "rollup → Competence (via: functionID) (display: competenceName)",
               "notes": null,
               "table-display": false,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "roleID",
+              "type": "VARCHAR",
+              "rule": "mirror: Competence (via: competenceID) (display: roleName)",
+              "notes": "multivalued",
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
@@ -4752,7 +4785,7 @@
             {
               "name": "scopeName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via roleID",
+              "rule": "computed: Competence via competenceID",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -4761,7 +4794,16 @@
             {
               "name": "productName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via roleID",
+              "rule": "computed: Competence via competenceID",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productClassName",
+              "type": "VARCHAR",
+              "rule": "computed: Competence via competenceID",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -4779,7 +4821,7 @@
             {
               "name": "constraintName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via roleID (display: FOREACH([{constrainTypeName: constraintName}]))",
+              "rule": "computed: Competence via competenceID (display: FOREACH([{constrainTypeName: constraintName}]))",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -4804,16 +4846,6 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "userID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Function": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "functionID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -4882,7 +4914,7 @@
               "rule": "rollup → Roles via:functionID (display: roleName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -4935,8 +4967,8 @@
               "type": "rollup",
               "rule": "rollup → Tasks (via: taskID) (display: constraintName)",
               "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -4944,8 +4976,8 @@
               "type": "VARCHAR",
               "rule": "computed: CONCAT(activityName,'-',actionName,'for',[scopeName],'of',[productName],'applied to',[{constrainTypeName: constraintName}])",
               "notes": null,
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -4954,7 +4986,7 @@
               "rule": "computed: list of channelName of every input and output from Tasks via taskID",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -5032,8 +5064,8 @@
               }
             }
           },
-          "cards": [],
-          "table-filters": []
+          "cards": null,
+          "table-filters": true
         }
       }
     }
