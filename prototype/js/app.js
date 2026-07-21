@@ -101,9 +101,13 @@ function withAccessors(entity, cols) {
 function mapSubitem(si, parentEntity) {
   const child = resolveTable(si.table);
   if (!child) return null;
-  const opts = { viaThrough: si.viaThrough ? { ...si.viaThrough } : null, orderBy: si.orderBy, only: si.only };
+  const opts = {
+    viaThrough: si.viaThrough ? { ...si.viaThrough } : null,
+    orderBy: si.orderBy, only: si.only,
+    via: si.via || null, throughField: si.throughField || null,
+  };
   const rl = {
-    label: si.only ? `${child} (${si.only.values.join('/')})` : child,
+    label: si.label || (si.only ? `${child} (${si.only.values.join('/')})` : child),
     childEntity: child,
     columns: withAccessors(child, columnsFor(child, 'sub')),
     orderBy: si.orderBy,

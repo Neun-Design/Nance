@@ -75,17 +75,35 @@ export function parseRule(rule) {
 // "Forecast Scopes" | "Workflows: ordered by indentationID"
 // "Actions: rollup via Tasks.activityID" | "Product Scopes -> Competence"
 // "Jobs: only jobStatus=Active|Queued" (status-filtered children)
+// "Forecasts: display status=Approved only" (same filter, review spelling)
+// "Scopes (via: scopeID)" (join field named inline)
+// "Handouts (grouped by inputs)" (children via a through-table field; the
+//   group renders as its own labelled list, e.g. "Handouts - Inputs")
 export function parseSubitem(entry) {
   const chain = entry.split('->').map((s) => s.trim());
   const parseOne = (txt) => {
-    const [namePart, directive] = txt.split(':').map((s) => s.trim());
-    const out = { table: namePart, orderBy: null, viaThrough: null, only: null };
+    const out = { table: '', orderBy: null, viaThrough: null, only: null,
+      via: null, throughField: null, label: null };
+    // parenthetical directives come out first — they may contain ':'
+    const t = txt.replace(/\(([^)]*)\)/g, (_, inner) => {
+      let m = inner.match(/via:?\s*([A-Za-z]+)/i);
+      if (m) out.via = m[1];
+      m = inner.match(/grouped by\s+([A-Za-z]+)/i);
+      if (m) out.throughField = m[1];
+      return '';
+    }).trim();
+    const [namePart, directive] = t.split(':').map((s) => s.trim());
+    out.table = namePart;
+    if (out.throughField) {
+      out.label = `${namePart} - ${out.throughField.charAt(0).toUpperCase()}${out.throughField.slice(1)}`;
+    }
     if (directive) {
       let m = directive.match(/ordered by\s+([A-Za-z]+)/i);
       if (m) out.orderBy = m[1];
       m = directive.match(/rollup via\s+([A-Za-z]+)\.([A-Za-z]+)/i);
       if (m) out.viaThrough = { table: m[1], field: m[2] };
-      m = directive.match(/only\s+([A-Za-z]+)\s*=\s*(.+)/i);
+      m = directive.match(/only\s+([A-Za-z]+)\s*=\s*(.+)/i)
+        || directive.match(/(?:display\s+)?([A-Za-z]+)\s*=\s*(.+?)\s+only\s*$/i);
       if (m) out.only = { field: m[1], values: m[2].split('|').map((s) => s.trim()) };
     }
     return out;
