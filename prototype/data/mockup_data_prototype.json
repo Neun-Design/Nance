@@ -19078,6 +19078,22 @@
     "managerName": "Wei Chen",
     "managerEmail": "wei.chen@partner.com",
     "squadOwner": "U03"
+   },
+   {
+    "squadID": "SQ4",
+    "squadName": "NEUN Design",
+    "squadType": "outsource",
+    "managerName": "Rafael Bova",
+    "managerEmail": "bova@neun-design.com.br",
+    "squadOwner": "U25"
+   },
+   {
+    "squadID": "SQ5",
+    "squadName": "INDIA Hub",
+    "squadType": "internal",
+    "managerName": "Hajesh Niran",
+    "managerEmail": "hajesh.niran@northwind-energy.com",
+    "squadOwner": "U28"
    }
   ],
   "Roles": [
@@ -19576,6 +19592,78 @@
     "squadID": "SQ1",
     "onboardID": "",
     "personOwner": "U01"
+   },
+   {
+    "userID": "U25",
+    "userName": "Rafael Bova",
+    "userEmail": "bova@neun-design.com.br",
+    "location": "FC04",
+    "isActive": true,
+    "hireDate": "2024-02-01",
+    "functionID": "F1",
+    "squadID": "SQ4",
+    "onboardID": null,
+    "personOwner": "U25"
+   },
+   {
+    "userID": "U26",
+    "userName": "Marina Duarte",
+    "userEmail": "marina.duarte@neun-design.com.br",
+    "location": "FC04",
+    "isActive": true,
+    "hireDate": "2024-05-12",
+    "functionID": "F2",
+    "squadID": "SQ4",
+    "onboardID": null,
+    "personOwner": "U25"
+   },
+   {
+    "userID": "U27",
+    "userName": "Felipe Santos",
+    "userEmail": "felipe.santos@neun-design.com.br",
+    "location": "FC04",
+    "isActive": true,
+    "hireDate": "2025-01-20",
+    "functionID": "F3",
+    "squadID": "SQ4",
+    "onboardID": null,
+    "personOwner": "U25"
+   },
+   {
+    "userID": "U28",
+    "userName": "Hajesh Niran",
+    "userEmail": "hajesh.niran@northwind-energy.com",
+    "location": "FC09",
+    "isActive": true,
+    "hireDate": "2020-08-03",
+    "functionID": "F4",
+    "squadID": "SQ5",
+    "onboardID": null,
+    "personOwner": "U28"
+   },
+   {
+    "userID": "U29",
+    "userName": "Ananya Sharma",
+    "userEmail": "ananya.sharma@northwind-energy.com",
+    "location": "FC09",
+    "isActive": true,
+    "hireDate": "2022-11-14",
+    "functionID": "F1",
+    "squadID": "SQ5",
+    "onboardID": null,
+    "personOwner": "U28"
+   },
+   {
+    "userID": "U30",
+    "userName": "Vikram Patel",
+    "userEmail": "vikram.patel@northwind-energy.com",
+    "location": "FC09",
+    "isActive": true,
+    "hireDate": "2023-06-30",
+    "functionID": "F2",
+    "squadID": "SQ5",
+    "onboardID": null,
+    "personOwner": "U28"
    }
   ],
   "Onboarding": [
