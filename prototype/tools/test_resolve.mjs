@@ -88,6 +88,53 @@ expectOptions('Competence', 'constrainID', /[A-Za-z]{3,}/);
 expectOptions('Onboarding', 'roleID', /^(?!R\d+$)./);
 expectOptions('Onboarding', 'competenceID', /^(?!CMP\d+$)./);
 
+console.log('== subitem-tables joins (v1 review, subitem rendering v2) ==');
+const { childrenOf } = await import('../js/resolve.js');
+function subitemsOf(table, r = row(table)) {
+  const cat = catalog[table];
+  return cat.subitems.map((si) => {
+    const child = model.resolveTable(si.table);
+    const kids = childrenOf(table, r, child, {
+      viaThrough: si.viaThrough, via: si.via, throughField: si.throughField, only: si.only,
+    });
+    return { si, child, kids };
+  });
+}
+{
+  // Factories → Forecasts, Approved only
+  const [f] = subitemsOf('Factories');
+  const statuses = [...new Set(f.kids.map((k) => k.status))];
+  if (f.kids.length && statuses.join() === 'Approved') ok(`Factories→Forecasts: ${f.kids.length} kids, all Approved`);
+  else fail(`Factories→Forecasts: ${f.kids.length} kids, statuses=${statuses}`);
+
+  // Tasks → Handouts grouped by inputs / outputs
+  const groups = subitemsOf('Tasks');
+  for (const g of groups) {
+    if (g.child !== 'Handouts') continue;
+    const label = g.si.label;
+    if (g.kids.length && /Handouts - (Inputs|Outputs)/.test(label)) {
+      ok(`Tasks→${label}: ${g.kids.map((k) => k.handoutName).join(', ')}`);
+    } else fail(`Tasks→${label || g.si.table}: ${g.kids.length} kids`);
+  }
+  if (!groups.some((g) => /Inputs/.test(g.si.label || '')) || !groups.some((g) => /Outputs/.test(g.si.label || ''))) {
+    fail('Tasks: expected two grouped Handouts subitem lists');
+  }
+
+  // Constraints → Product Scopes (reverse of the derived constraintName rollup)
+  const cons = data.getEntity('Constraints').find((c) => c.constraintName === 'Max Tank Weight');
+  const [cps] = subitemsOf('Constraints', cons);
+  if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Constraints→Product Scopes: ${cps.kids.length} kids for Max Tank Weight`);
+  else fail(`Constraints→Product Scopes: ${cps.kids.length} kids`);
+
+  // Roles → Competence, Product Scopes → Scopes
+  const [rc] = subitemsOf('Roles');
+  if (rc.child === 'Competence' && rc.kids.length) ok(`Roles→Competence: ${rc.kids.length} kids`);
+  else fail(`Roles→Competence: ${rc.kids.length} kids`);
+  const [pss] = subitemsOf('Product Scopes');
+  if (pss.child === 'Scopes' && pss.kids.length) ok(`Product Scopes→Scopes: ${pss.kids.map((k) => k.scopeName).join(', ')}`);
+  else fail(`Product Scopes→Scopes: ${pss.kids.length} kids`);
+}
+
 console.log('== smoke: every displayed column resolves without throwing ==');
 let cells = 0;
 for (const [tname, cat] of Object.entries(catalog)) {

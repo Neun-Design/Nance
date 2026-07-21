@@ -134,6 +134,9 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
   if (opts.viaThrough) {
     rows = viaThroughJoin(parentTable, pkVal, childTable, opts.viaThrough);
   }
+  if (rows == null && opts.throughField) {
+    rows = throughFieldJoin(parentTable, parentRow, childTable, opts.throughField);
+  }
   if (rows == null && opts.via) {
     rows = viaFieldJoin(parentTable, parentRow, childTable, opts.via, pkVal);
   }
@@ -148,6 +151,9 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
   }
   if (rows == null) {
     rows = twoHopJoin(parentTable, parentRow, childTable);
+  }
+  if (rows == null) {
+    rows = reverseDerivedJoin(parentTable, parentRow, childTable);
   }
   rows = rows || [];
   if (opts.only) {
@@ -330,6 +336,71 @@ function allCatalogs() {
       .filter(([, c]) => c);
   }
   return _catalogList;
+}
+
+// children named by a field on a through-table, e.g. Tasks →
+// Workflows.inputs → Handouts ("Handouts (grouped by inputs)"): find the
+// intermediate table whose data stores `field` with child ids, reachable
+// from the parent by a stored pk reference.
+const _throughCache = {};
+function throughFieldJoin(parentTable, parentRow, childTable, field) {
+  const cCat = getCatalog(childTable);
+  const key = `${parentTable}→${childTable}.${field}`;
+  if (!(key in _throughCache)) {
+    _throughCache[key] = null;
+    for (const [mid, mCat] of allCatalogs()) {
+      if (mid === parentTable || mid === childTable) continue;
+      if (!valuesOverlap(mid, field, childTable, cCat.pk)) continue;
+      const pa = joinFields(parentTable).find((p) =>
+        fieldDomain(parentTable, p) === mid && valuesOverlap(parentTable, p, mid, mCat.pk));
+      if (pa) { _throughCache[key] = { mid, parentField: pa }; break; }
+    }
+  }
+  const path = _throughCache[key];
+  if (!path) return null;
+  const mCat = getCatalog(path.mid);
+  const v = parentRow[path.parentField];
+  if (v == null || v === '') return [];
+  const ids = new Set();
+  for (const m of getEntity(path.mid)) {
+    if (!matches(v, m[mCat.pk]) && !matches(m[mCat.pk], v)) continue;
+    const x = m[field];
+    (Array.isArray(x) ? x : [x]).forEach((y) => y != null && y !== '' && ids.add(y));
+  }
+  return getEntity(childTable).filter((c) => ids.has(c[cCat.pk]));
+}
+
+// last resort: invert a derived relationship declared on the CHILD — e.g.
+// Constraints → Product Scopes, where Product Scopes.constraintName is a
+// rollup targeting Constraints. A child belongs to the parent when the
+// parent appears among the child's resolved rows.
+const _revCache = {};
+const _revActive = new Set();
+function reverseDerivedJoin(parentTable, parentRow, childTable) {
+  const key = `${parentTable}→${childTable}`;
+  if (_revActive.has(key)) return null;
+  if (!(key in _revCache)) {
+    _revCache[key] = null;
+    const cCat = getCatalog(childTable);
+    for (const a of cCat.attrs) {
+      const r = parseRule(a.rule);
+      if (r && r.kind !== 'fk' && r.target && resolveTable(r.target) === parentTable) {
+        _revCache[key] = { via: simpleVia(r.via) };
+        break;
+      }
+    }
+  }
+  const spec = _revCache[key];
+  if (!spec) return null;
+  const pk = getCatalog(parentTable).pk;
+  const pkVal = parentRow[pk];
+  _revActive.add(key);
+  try {
+    return getEntity(childTable).filter((c) =>
+      childrenOf(childTable, c, parentTable, { via: spec.via }).some((p) => p[pk] === pkVal));
+  } finally {
+    _revActive.delete(key);
+  }
 }
 
 function matches(fkVal, pkVal) {
