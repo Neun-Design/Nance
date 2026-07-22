@@ -87,7 +87,7 @@ for fi, fac in enumerate(FACTORY_IDS[:13]):
             'forecastID': f'FRC{fc_n:03d}', 'factoryID': fac, 'forecastPeriod': 'Monthly',
             'periodStart': iso(m0), 'periodFinish': iso(m1),
             'periodBusinessDays': 20 + (mi % 3), 'periodFrame': f'{m0.year}-M{m0.month:02d}',
-            'weeklyUsageQuota': 120 + 15 * ((fi + mi) % 4),
+            'weeklyUsageQuota': 0,  # computed below, once totalEstimatedHours is summed
             'status': STATUSES_FC[(fi * 5 + mi) % len(STATUSES_FC)],
             'createdBy': owner(fi + mi), 'createdAt': iso(m0 - timedelta(days=20)),
             'totalEstimatedHours': 0.0,  # filled after Forecast Scopes
@@ -125,6 +125,13 @@ for i, fc in enumerate(new['Forecasts']):
             'forecastScopeQuantity': 1 + (i + j) % 5, 'consumption': int(hours * 0.6),
             'notes': '', 'forecastScopeOwner': owner(i + j)})
         fc['totalEstimatedHours'] += hours
+# weeklyUsageQuota = totalEstimatedHours / number of (business) weeks in the period
+# (datamodel: "divide totalEstimatedHours by the number of weeks in periodFrame").
+# A work-week is 5 business days, so weeks = periodBusinessDays / 5. This keeps the
+# quota <= totalEstimatedHours by construction.
+for fc in new['Forecasts']:
+    weeks = max(fc['periodBusinessDays'] / 5, 1)
+    fc['weeklyUsageQuota'] = round(fc['totalEstimatedHours'] / weeks)
 FS_IDS = [f['forecastScopeID'] for f in new['Forecast Scopes']]
 
 # --- Operation ---
