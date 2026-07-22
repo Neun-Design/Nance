@@ -17,13 +17,15 @@ const GRID = cssVar('--se-ui-4');
 const FONT = cssVar('--se-font-family');
 
 const baseText = { color: cssVar('--se-text-primary'), fontFamily: FONT };
-const baseGrid = { left: 48, right: 24, top: 40, bottom: 40, containLabel: true };
+const baseGrid = { left: 48, right: 24, top: 16, bottom: 40, containLabel: true };
 
-function baseOption(title) {
+// The report panel renders the title as its <h3> header (reports.js), so the
+// chart itself omits the ECharts title to avoid showing it twice. The unused
+// title arg is kept so call sites can keep documenting their chart's subject.
+function baseOption(_title) {
   return {
     color: PALETTE,
     textStyle: baseText,
-    title: title ? { text: title, left: 0, top: 4, textStyle: { fontSize: 14, fontWeight: 600, color: cssVar('--se-text-primary'), fontFamily: FONT } } : undefined,
     // richText renders tooltips on canvas — category values can't inject HTML
     tooltip: { trigger: 'item', confine: true, renderMode: 'richText' },
     grid: baseGrid,
