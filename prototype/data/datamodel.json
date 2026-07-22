@@ -3557,7 +3557,7 @@
               "name": "availableHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Total available hours for the selected roleID in the selected period",
+              "notes": "computed: number of People.workingHours available for UserID",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3565,7 +3565,7 @@
             {
               "name": "allocatedHours",
               "type": "DECIMAL",
-              "rule": "computed: executionTime of Tasks linked to forecastScopes of each forecastID within a period",
+              "rule": "use the Forecasts.totalEstimatedHours",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -3603,7 +3603,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "availableHours vs. allocatedHours side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "rule": "availableHours vs. allocatedHours side by side grouped by functionName. Y = hours, X = functionName. Apply the weeklyUsageQuota for allocatedHours time framing for the period selected in the filter",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -4626,6 +4626,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "workingHours",
+              "type": "DECIMAL",
+              "rule": null,
+              "notes": "Weekly working-hour capacity per person (7 h/day × 5 days = 35 h/week baseline). Summed by functionID to feed Capacity availableHours per function.",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "personOwner",

@@ -59,6 +59,31 @@ for (const [tname, cat] of Object.entries(catalog)) {
   }
 }
 
+// ---- Capacity::Report-A: available (People.workingHours) vs allocated
+//      (Forecast Scopes.estimatedHours), grouped by functionName ----
+console.log('== Capacity Report-A (available vs allocated by function) ==');
+{
+  const spec = REPORT_QUERIES['Capacity::Report-A'](data.getEntity('Capacity'), {});
+  const funcs = new Set(data.getEntity('Capacity').map((c) => c.functionName));
+  const byFunc = spec.cats.length && spec.cats.every((c) => funcs.has(c));
+  const [avail, alloc] = spec.series;
+  const availPos = avail.data.every((v) => v > 0);
+  const allocPos = alloc.data.every((v) => v > 0);
+  if (byFunc && avail.name === 'Available' && alloc.name === 'Allocated' && availPos && allocPos) {
+    // over-commit (alloc > avail) is a valid signal of an understaffed function, not an error
+    const over = spec.cats.filter((_, i) => alloc.data[i] > avail.data[i]);
+    ok(`Capacity::Report-A: ${spec.cats.length} functions, available & allocated all > 0${over.length ? ` (over-committed: ${over.join(', ')})` : ''}`);
+  } else {
+    fail(`Capacity::Report-A: byFunc=${byFunc} availPos=${availPos} allocPos=${allocPos}`);
+  }
+  // draft radio reduces (or holds) allocated demand
+  const nod = REPORT_QUERIES['Capacity::Report-A'](data.getEntity('Capacity'), { radio: 'nodraft' });
+  const allocAll = alloc.data.reduce((a, b) => a + b, 0);
+  const allocNod = nod.series[1].data.reduce((a, b) => a + b, 0);
+  if (allocNod <= allocAll) ok(`Capacity::Report-A nodraft: allocated ${allocNod} <= all ${allocAll}`);
+  else fail(`Capacity::Report-A nodraft: allocated ${allocNod} > all ${allocAll}`);
+}
+
 // ---- trend coverage: at least one card trends up and the data spans months ----
 console.log('== trend sanity ==');
 const trends = Object.entries(CARD_QUERIES).map(([id, q]) => { try { return [id, q().trendPct]; } catch { return [id, null]; } })
