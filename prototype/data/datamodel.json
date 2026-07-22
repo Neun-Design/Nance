@@ -1,6 +1,7 @@
 {
   "modules": {
     "Customers": {
+      "sidebar-position": 2,
       "tables": {
         "Factories": {
           "visibility": "show",
@@ -704,6 +705,7 @@
       }
     },
     "Operation": {
+      "sidebar-position": 4,
       "tables": {
         "Tasks": {
           "visibility": "show",
@@ -2195,6 +2197,7 @@
       }
     },
     "Inventory": {
+      "sidebar-position": 1,
       "tables": {
         "Product Scopes": {
           "visibility": "show",
@@ -2287,7 +2290,7 @@
               "rule": null,
               "notes": null,
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -2376,9 +2379,7 @@
           },
           "cards": [],
           "table-filters": true,
-          "subitem-tables": [
-            "Scopes (via: scopeID)"
-          ]
+          "subitem-tables": null
         },
         "Scopes": {
           "visibility": "show",
@@ -2473,13 +2474,13 @@
                 "check": null,
                 "field-rule": null
               }
-            },
-            "subitem-tables": [
-              "Product Scopes"
-            ]
+            }
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Scopes"
+          ]
         },
         "Products": {
           "visibility": "show",
@@ -2669,6 +2670,7 @@
       }
     },
     "Workload": {
+      "sidebar-position": 5,
       "tables": {
         "Tickets": {
           "visibility": "show",
@@ -3458,6 +3460,7 @@
       }
     },
     "Control": {
+      "sidebar-position": 6,
       "tables": {
         "Capacity": {
           "visibility": "show",
@@ -3671,7 +3674,7 @@
           },
           "table-filters": null,
           "subitem-tables": null,
-          "form": []
+          "form": false
         },
         "Performance": {
           "visibility": "show",
@@ -3920,11 +3923,13 @@
             }
           },
           "table-filters": null,
-          "subitem-tables": null
+          "subitem-tables": null,
+          "form": false
         }
       }
     },
     "Talent": {
+      "sidebar-position": 3,
       "tables": {
         "Squads": {
           "visibility": "show",

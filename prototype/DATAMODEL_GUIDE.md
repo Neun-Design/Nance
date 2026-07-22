@@ -21,6 +21,7 @@
 {
   "modules": {
     "<Module name>": {
+      "sidebar-position": 1,
       "tables": {
         "<Table name>": { …table spec… }
       }
@@ -31,8 +32,11 @@
 
 | Level | Meaning in the UI |
 |---|---|
-| **module** (`Customers`, `Operation`, `Inventory`, `Workload`, `Control`, `Talent`) | One entry in the **sidebar**. Selecting it shows the module's dashboards. |
+| **module** (`Customers`, `Operation`, `Inventory`, `Workload`, `Control`, `Talent`) | One entry in the **sidebar**. Selecting it shows the module's dashboards. Its `sidebar-position` sets the order — see §2.1. |
 | **table** | One **tab (dashboard)** inside the module. The tab renders, top to bottom: cards → data table (with controls) → reports. |
+
+The fixed **Overview** entry always sits at the top of the sidebar; `sidebar-position`
+orders the modules listed beneath it.
 
 The **Overview** dashboard is *not* a module: it is assembled automatically from every
 card and report across all modules whose `overview-display` parameter is `true`
@@ -40,7 +44,16 @@ card and report across all modules whose `overview-display` parameter is `true`
 
 ---
 
-## 2. Table-level keys
+## 2. Module-level keys
+
+Each module entry carries `tables` (§2.1) plus an ordering hint:
+
+| Key | Type | Drives |
+|---|---|---|
+| `sidebar-position` | int | The module's rank in the **sidebar**, ascending (`1` = first module under Overview). The engine (`model.js`) sorts modules by this value; ties and modules without the key fall back to their order in the file. Because the engine sorts once and every module index derives from the sorted list, the active-tab highlight stays in sync — no other change is needed to reorder the sidebar. |
+| `tables` | object | The module's dashboards — see §2.1. |
+
+### 2.1 Table-level keys
 
 Every table spec carries these keys:
 
@@ -379,7 +392,7 @@ one expanded row (Tasks' Handouts Inputs/Outputs pair is the reference).
 
 | UI element | Parameters consumed |
 |---|---|
-| Sidebar | module names |
+| Sidebar | module names, `sidebar-position` (ordering) |
 | Tab (dashboard) | table name, `visibility`, `description` |
 | KPI cards | `cards` (slot grid, title, card-rules, component, tooltip) |
 | Data table columns | `attributes` → `table-display`, `type` (alignment/pills/Σ), `rule` (FK display fields) |
