@@ -3560,7 +3560,7 @@
               "name": "availableHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Total available hours for the selected roleID in the selected period",
+              "notes": "computed: sum of People.workingHours (weekly) for the function, scaled to the number of weeks in the selected period (Σ periodBusinessDays/5). Factory-independent — used by Report-A as available capacity per function.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3568,8 +3568,8 @@
             {
               "name": "allocatedHours",
               "type": "DECIMAL",
-              "rule": "computed: executionTime of Tasks linked to forecastScopes of each forecastID within a period",
-              "notes": null,
+              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected factory + period",
+              "notes": "totalEstimatedHours decomposed by function (= its Forecast Scopes). Used by Report-A as allocated demand per function; responds to the factory + period filters and the Exclude-Draft radio.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3606,7 +3606,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "availableHours vs. allocatedHours side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "rule": "availableHours vs. allocatedHours side by side grouped by functionName. Y = hours, X = functionName. Apply the weeklyUsageQuota for allocatedHours time framing for the period selected in the filter",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -4631,6 +4631,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "workingHours",
+              "type": "DECIMAL",
+              "rule": null,
+              "notes": "Weekly working-hour capacity per person (7 h/day × 5 days = 35 h/week baseline). Summed by functionID to feed Capacity availableHours per function.",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "personOwner",

@@ -19315,6 +19315,7 @@
     "functionID": "F1",
     "squadID": "SQ1",
     "onboardID": "ONB001",
+    "workingHours": 28,
     "personOwner": "U02"
    },
    {
@@ -19327,6 +19328,7 @@
     "functionID": "F1",
     "squadID": "SQ1",
     "onboardID": "ONB003",
+    "workingHours": 35,
     "personOwner": "U03"
    },
    {
@@ -19339,6 +19341,7 @@
     "functionID": "F1",
     "squadID": "SQ1",
     "onboardID": "ONB004",
+    "workingHours": 35,
     "personOwner": "U04"
    },
    {
@@ -19351,6 +19354,7 @@
     "functionID": "F2",
     "squadID": "SQ1",
     "onboardID": "ONB005",
+    "workingHours": 35,
     "personOwner": "U05"
    },
    {
@@ -19363,6 +19367,7 @@
     "functionID": "F2",
     "squadID": "SQ1",
     "onboardID": "ONB008",
+    "workingHours": 35,
     "personOwner": "U06"
    },
    {
@@ -19375,6 +19380,7 @@
     "functionID": "F2",
     "squadID": "SQ1",
     "onboardID": "ONB011",
+    "workingHours": 28,
     "personOwner": "U07"
    },
    {
@@ -19387,6 +19393,7 @@
     "functionID": "F2",
     "squadID": "SQ1",
     "onboardID": "ONB012",
+    "workingHours": 35,
     "personOwner": "U08"
    },
    {
@@ -19399,6 +19406,7 @@
     "functionID": "F2",
     "squadID": "SQ1",
     "onboardID": "ONB013",
+    "workingHours": 35,
     "personOwner": "U09"
    },
    {
@@ -19411,6 +19419,7 @@
     "functionID": "F3",
     "squadID": "SQ1",
     "onboardID": "ONB014",
+    "workingHours": 35,
     "personOwner": "U10"
    },
    {
@@ -19423,6 +19432,7 @@
     "functionID": "F3",
     "squadID": "SQ1",
     "onboardID": "ONB015",
+    "workingHours": 35,
     "personOwner": "U11"
    },
    {
@@ -19435,6 +19445,7 @@
     "functionID": "F4",
     "squadID": "SQ1",
     "onboardID": "",
+    "workingHours": 28,
     "personOwner": "U12"
    },
    {
@@ -19447,6 +19458,7 @@
     "functionID": "F4",
     "squadID": "SQ2",
     "onboardID": "",
+    "workingHours": 35,
     "personOwner": "U13"
    },
    {
@@ -19459,6 +19471,7 @@
     "functionID": "F1",
     "squadID": "SQ2",
     "onboardID": "ONB017",
+    "workingHours": 35,
     "personOwner": "U14"
    },
    {
@@ -19471,6 +19484,7 @@
     "functionID": "F1",
     "squadID": "SQ2",
     "onboardID": "ONB019",
+    "workingHours": 35,
     "personOwner": "U15"
    },
    {
@@ -19483,6 +19497,7 @@
     "functionID": "F2",
     "squadID": "SQ2",
     "onboardID": "ONB020",
+    "workingHours": 35,
     "personOwner": "U16"
    },
    {
@@ -19495,6 +19510,7 @@
     "functionID": "F2",
     "squadID": "SQ2",
     "onboardID": "ONB023",
+    "workingHours": 28,
     "personOwner": "U17"
    },
    {
@@ -19507,6 +19523,7 @@
     "functionID": "F3",
     "squadID": "SQ2",
     "onboardID": "ONB024",
+    "workingHours": 35,
     "personOwner": "U18"
    },
    {
@@ -19519,6 +19536,7 @@
     "functionID": "F1",
     "squadID": "SQ2",
     "onboardID": "ONB025",
+    "workingHours": 35,
     "personOwner": "U19"
    },
    {
@@ -19531,6 +19549,7 @@
     "functionID": "F2",
     "squadID": "SQ3",
     "onboardID": "ONB026",
+    "workingHours": 35,
     "personOwner": "U20"
    },
    {
@@ -19543,6 +19562,7 @@
     "functionID": "F2",
     "squadID": "SQ3",
     "onboardID": "ONB029",
+    "workingHours": 35,
     "personOwner": "U21"
    },
    {
@@ -19555,6 +19575,7 @@
     "functionID": "F1",
     "squadID": "SQ3",
     "onboardID": "ONB030",
+    "workingHours": 28,
     "personOwner": "U22"
    },
    {
@@ -19567,6 +19588,7 @@
     "functionID": "F3",
     "squadID": "SQ3",
     "onboardID": "ONB031",
+    "workingHours": 35,
     "personOwner": "U23"
    },
    {
@@ -19579,6 +19601,7 @@
     "functionID": "F5",
     "squadID": "SQ1",
     "onboardID": "ONB032",
+    "workingHours": 35,
     "personOwner": "U24"
    },
    {
@@ -19591,6 +19614,7 @@
     "functionID": "F5",
     "squadID": "SQ1",
     "onboardID": "",
+    "workingHours": 35,
     "personOwner": "U01"
    },
    {
@@ -19603,6 +19627,7 @@
     "functionID": "F1",
     "squadID": "SQ4",
     "onboardID": null,
+    "workingHours": 35,
     "personOwner": "U25"
    },
    {
@@ -19615,6 +19640,7 @@
     "functionID": "F2",
     "squadID": "SQ4",
     "onboardID": null,
+    "workingHours": 28,
     "personOwner": "U25"
    },
    {
@@ -19627,6 +19653,7 @@
     "functionID": "F3",
     "squadID": "SQ4",
     "onboardID": null,
+    "workingHours": 35,
     "personOwner": "U25"
    },
    {
@@ -19639,6 +19666,7 @@
     "functionID": "F4",
     "squadID": "SQ5",
     "onboardID": null,
+    "workingHours": 35,
     "personOwner": "U28"
    },
    {
@@ -19651,6 +19679,7 @@
     "functionID": "F1",
     "squadID": "SQ5",
     "onboardID": null,
+    "workingHours": 35,
     "personOwner": "U28"
    },
    {
@@ -19663,6 +19692,7 @@
     "functionID": "F2",
     "squadID": "SQ5",
     "onboardID": null,
+    "workingHours": 35,
     "personOwner": "U28"
    }
   ],

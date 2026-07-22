@@ -406,6 +406,7 @@ new['People'] = [
      'location': pick(FACTORY_IDS, i), 'isActive': p['isActive'], 'hireDate': p['hireDate'],
      'functionID': p['functionID'], 'squadID': p.get('squadID') or pick([s['squadID'] for s in SQUADS], i),
      'onboardID': next((o['onboardID'] for o in ONB_OLD if o['userID'] == p['userID']), ''),
+     'workingHours': 28 if i % 5 == 0 else 35,  # 7 h/day × 5 = 35 h/week (0.8 FTE = 28)
      'personOwner': owner(i + 1)}
     for i, p in enumerate(PEOPLE)]
 new['Onboarding'] = [

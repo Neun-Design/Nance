@@ -105,23 +105,55 @@ export const REPORT_QUERIES = {
     bar('Real Execution Hours by Role', groupAgg(rows, 'roleID', 'realExecutionTime'),
       (k) => lookup('Roles', k, 'roleName') || k),
 
-  // radio (PROTOTYPE_REVIEW Control §Capacity): exclude Draft forecasts — the
-  // allocated hours of each factory scale by its non-Draft share of forecast quota
+  // Capacity vs demand by FUNCTION (datamodel Capacity::Report-A):
+  //  • Available[func] = Σ People.workingHours for that function (weekly) × the
+  //    number of weeks in the selected period. Factory-independent — people
+  //    capacity doesn't change with the factory filter.
+  //  • Allocated[func] = Σ Forecast Scopes.estimatedHours grouped by functionName,
+  //    for forecasts within the selected factory + period. This is
+  //    totalEstimatedHours decomposed by function.
+  // Weeks come from the period's forecasts as Σ(periodBusinessDays / 5), matching
+  // the weeklyUsageQuota basis. The 'nodraft' radio excludes Draft forecasts from
+  // the allocated (demand) side only.
   'Capacity::Report-A': (rows, state = {}) => {
-    const avail = groupAgg(rows, 'factoryID', 'availableHours');
-    const alloc = groupAgg(rows, 'factoryID', 'allocatedHours');
-    const cats = [...avail.keys()];
-    let share = () => 1;
-    if (state.radio === 'nodraft') {
-      const fcs = getEntity('Forecasts');
-      const all = groupAgg(fcs, 'factoryID', 'weeklyUsageQuota');
-      const nod = groupAgg(fcs.filter((f) => f.status !== 'Draft'), 'factoryID', 'weeklyUsageQuota');
-      share = (fid) => { const a = all.get(fid) || 0; return a ? (nod.get(fid) || 0) / a : 1; };
+    const fnName = (fid) => lookup('Functions', fid, 'functionName') || fid;
+    const inPeriod = (f) => {
+      const pf = state.periodFrame;
+      if (!pf || pf === 'ALL') return true;
+      const [from, to] = pf;
+      const d = f.periodStart ? String(f.periodStart).slice(0, 10) : null;
+      if (!d) return false;
+      return (!from || d >= from) && (!to || d <= to);
+    };
+
+    // Available (weekly) by function — all People, factory-independent.
+    const availWeekly = groupAgg(getEntity('People'), (p) => fnName(p.functionID), 'workingHours');
+
+    // Period week-count: Σ businessDays/5 over the distinct months in scope.
+    const months = new Map(); // periodFrame -> periodBusinessDays
+    for (const f of getEntity('Forecasts')) {
+      if (inPeriod(f) && !months.has(f.periodFrame)) months.set(f.periodFrame, f.periodBusinessDays || 0);
     }
-    const title = 'Available vs Allocated Hours by Factory' + (state.radio === 'nodraft' ? ' (excl. Draft forecasts)' : '');
-    return dual(title, cats.map(factName),
-      'Available', cats.map((c) => Math.round(avail.get(c) || 0)),
-      'Allocated', cats.map((c) => Math.round((alloc.get(c) || 0) * share(c))));
+    const weeks = [...months.values()].reduce((s, bd) => s + (Number(bd) || 0) / 5, 0) || 1;
+
+    // Allocated by function — forecast scopes whose forecast matches period +
+    // factory (+ draft radio) filters.
+    const factSel = state.factoryName;
+    const fcIds = new Set(getEntity('Forecasts')
+      .filter((f) => inPeriod(f)
+        && (!factSel || factSel === 'ALL' || factName(f.factoryID) === factSel)
+        && (state.radio !== 'nodraft' || f.status !== 'Draft'))
+      .map((f) => f.forecastID));
+    const alloc = groupAgg(
+      getEntity('Forecast Scopes').filter((s) => fcIds.has(s.forecastID)),
+      'functionName', 'estimatedHours');
+
+    const cats = [...new Set([...availWeekly.keys(), ...alloc.keys()])].sort();
+    const title = 'Available vs Allocated Hours by Function'
+      + (state.radio === 'nodraft' ? ' (excl. Draft forecasts)' : '');
+    return dual(title, cats,
+      'Available', cats.map((c) => Math.round((availWeekly.get(c) || 0) * weeks)),
+      'Allocated', cats.map((c) => Math.round(alloc.get(c) || 0)));
   },
 
   'Performance::Report-A': (rows) => {
