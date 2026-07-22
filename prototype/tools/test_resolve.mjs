@@ -134,6 +134,10 @@ function subitemsOf(table, r = row(table)) {
   const pssKids = subitemsOf('Product Scopes');
   if (pssKids.length === 0) ok('Product Scopes: no subitems (subitem-tables: null)');
   else fail(`Product Scopes: expected no subitems, got ${pssKids.length}`);
+  // Scopes → Product Scopes: the inverse relationship now lives on Scopes (joined via scopeID).
+  const [sps] = subitemsOf('Scopes');
+  if (sps && sps.child === 'Product Scopes' && sps.kids.length) ok(`Scopes→Product Scopes: ${sps.kids.length} kids`);
+  else fail(`Scopes→Product Scopes: ${sps ? sps.kids.length : 'no subitem'} kids`);
 }
 
 console.log('== module graph: every named import has a matching export ==');

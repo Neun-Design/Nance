@@ -2474,13 +2474,13 @@
                 "check": null,
                 "field-rule": null
               }
-            },
-            "subitem-tables": [
-              "Product Scopes"
-            ]
+            }
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Scopes"
+          ]
         },
         "Products": {
           "visibility": "show",
