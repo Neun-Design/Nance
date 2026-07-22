@@ -126,13 +126,14 @@ function subitemsOf(table, r = row(table)) {
   if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Constraints→Product Scopes: ${cps.kids.length} kids for Max Tank Weight`);
   else fail(`Constraints→Product Scopes: ${cps.kids.length} kids`);
 
-  // Roles → Competence, Product Scopes → Scopes
+  // Roles → Competence
   const [rc] = subitemsOf('Roles');
   if (rc.child === 'Competence' && rc.kids.length) ok(`Roles→Competence: ${rc.kids.length} kids`);
   else fail(`Roles→Competence: ${rc.kids.length} kids`);
-  const [pss] = subitemsOf('Product Scopes');
-  if (pss.child === 'Scopes' && pss.kids.length) ok(`Product Scopes→Scopes: ${pss.kids.map((k) => k.scopeName).join(', ')}`);
-  else fail(`Product Scopes→Scopes: ${pss.kids.length} kids`);
+  // Product Scopes no longer declares subitem-tables (datamodel set to null) — rows don't expand.
+  const pssKids = subitemsOf('Product Scopes');
+  if (pssKids.length === 0) ok('Product Scopes: no subitems (subitem-tables: null)');
+  else fail(`Product Scopes: expected no subitems, got ${pssKids.length}`);
 }
 
 console.log('== module graph: every named import has a matching export ==');

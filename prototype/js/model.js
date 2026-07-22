@@ -119,7 +119,13 @@ export async function loadModel() {
   DM = await res.json();
 
   moduleList = [];
-  for (const [mname, m] of Object.entries(DM.modules)) {
+  // Sidebar order is driven by each module's `sidebar-position` (§2 of the
+  // datamodel guide); modules without one keep their insertion order, sorted last.
+  const entries = Object.entries(DM.modules).map(([mname, m], i) => ({
+    mname, m, pos: typeof m['sidebar-position'] === 'number' ? m['sidebar-position'] : Infinity, i,
+  }));
+  entries.sort((a, b) => (a.pos - b.pos) || (a.i - b.i));
+  for (const { mname, m } of entries) {
     const tables = Object.keys(m.tables).filter(
       (t) => (m.tables[t].visibility || 'show') === 'show');
     moduleList.push({ name: mname, tables });
