@@ -38,8 +38,10 @@ function expectName(table, attrName, re, r) {
 }
 
 console.log('== review nonconformities: table/subitem cells ==');
-// Forecasts FACTORY: CONCAT(factoryName,'-',city), not FC ids
-expectName('Forecasts', 'factoryID', /^(?!FC\d)[A-Za-zÀ-ú].*-.+/);
+// Forecasts FACTORY: factoryID shows the plain factoryName; factoryTitle carries
+// the CONCAT(factoryName,'-',city) display.
+expectName('Forecasts', 'factoryID', /^(?!FC\d)[A-Za-zÀ-ú]/);
+expectName('Forecasts', 'factoryTitle', /^[A-Za-zÀ-ú].*-.+/);
 // Forecast Scopes: names, not ids / 0
 expectName('Forecast Scopes', 'constraintName', /[A-Za-z]{3,}/);
 expectName('Forecast Scopes', 'processID', /^(?!PC\d)[A-Za-z]/);
