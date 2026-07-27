@@ -37,7 +37,7 @@
             {
               "name": "factoryTitle",
               "type": "VARCHAR",
-              "rule": "CONCAT(facotryName,'-',city)",
+              "rule": "CONCAT(factoryName,'-',city)",
               "notes": "Short code, e.g. \"PN\"",
               "table-display": true,
               "subitem-display": true,
@@ -1914,7 +1914,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": null
             },
             {
               "name": "isActive",
@@ -2732,7 +2732,7 @@
             {
               "name": "productSpecName",
               "type": "mirror",
-              "rule": "mirrot: Product Spec via: productSpecID",
+              "rule": "mirror: Product Spec via: productSpecID",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
