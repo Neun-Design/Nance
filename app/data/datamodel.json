@@ -4738,8 +4738,8 @@
             {
               "name": "roleID",
               "type": "rollup",
-              "rule": "mirror → Onboards via: onboardID (display: roleName)",
-              "notes": "Role held by this person. Resolves Roles.people rollup, Roles.overheadCost, and the Jobs assignee-by-role filter. Consistent with functionID (role's function).",
+              "rule": "mirror → Roles via: functionID (display: roleName)",
+              "notes": "Role(s) held by this person, resolved from the person's function (Roles.functionID). Onboards did not carry a resolvable role, which rendered skill-level codes.",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -4890,8 +4890,8 @@
             {
               "name": "roleID",
               "type": "VARCHAR",
-              "rule": "computed: Competence (via: functionID) (display: roleName)",
-              "notes": "single valued",
+              "rule": "computed: Roles via functionID (display: roleName)",
+              "notes": "Role resolved from the onboarding's function (Roles.functionID); display: roleName via the Roles table which owns that field.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
