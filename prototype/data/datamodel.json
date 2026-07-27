@@ -497,7 +497,7 @@
               "rule": "FK → Events (display: eventTitle)",
               "notes": "Event that triggers the Process; determines the task list",
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": "FK"
             },
             {
@@ -506,7 +506,7 @@
               "rule": "FK → Scopes (display: scopeName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": "FK"
             },
             {
@@ -515,7 +515,7 @@
               "rule": "FK → Product Groups (display: productGroupName)",
               "notes": "filtered by",
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": "FK"
             },
             {
