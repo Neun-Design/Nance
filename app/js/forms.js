@@ -361,11 +361,39 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 }
 
 // ================= control builders =================
+// checkbox multi-picker. A native <select multiple> needs cmd/ctrl-click to
+// assign more than one value — a plain click replaces the selection — which
+// hides multi-assignment. Each row here toggles independently, so users can
+// assign multiple values (e.g. several input/output handouts) at once.
+function mkMultiCheck(options) {
+  const wrap = document.createElement('div');
+  wrap.className = 'form-multicheck';
+  const boxes = [];
+  for (const o of (options || [])) {
+    if (o.value === '' || o.value == null) continue;
+    const row = document.createElement('label');
+    row.className = 'form-multicheck-row';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.value = String(o.value);
+    const span = document.createElement('span');
+    span.textContent = o.label;
+    row.append(cb, span);
+    wrap.appendChild(row);
+    boxes.push(cb);
+  }
+  const get = () => boxes.filter((c) => c.checked).map((c) => c.value);
+  const set = (v) => {
+    const s = new Set((Array.isArray(v) ? v : [v]).map(String));
+    boxes.forEach((c) => { c.checked = s.has(c.value); });
+  };
+  wrap._setMulti = set;
+  return { node: wrap, get, set };
+}
 function buildControl(entity, field, c) {
   if (c.type === 'bool') { const s = mkSelect([{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }]); return { node: s, get: () => s.value === 'true' }; }
   if (c.type === 'enum') { const s = mkSelect([{ value: '', label: '— select —' }, ...c.options.map(o => ({ value: o, label: o }))]); return { node: s, get: () => s.value }; }
   if (c.type === 'fk') { const s = mkSelect([{ value: '', label: '— select —' }, ...(c.options || fkOptions(c.ref))]); return { node: s, get: () => s.value }; }
-  if (c.type === 'multiselect') { const s = mkSelect(c.options || fkOptions(c.ref), true); s.size = Math.min(5, s.options.length || 1); return { node: s, get: () => [...s.selectedOptions].map(o => o.value) }; }
+  if (c.type === 'multiselect') { const m = mkMultiCheck(c.options || fkOptions(c.ref)); return { node: m.node, get: m.get }; }
   if (c.type === 'tags') { const i = mkInput('text'); i.placeholder = 'comma,separated'; return { node: i, get: () => i.value.split(',').map(x => x.trim()).filter(Boolean) }; }
   if (c.type === 'date') { const i = mkInput('date'); return { node: i, get: () => i.value }; }
   if (c.type === 'number') { const i = mkInput('number'); return { node: i, get: () => (i.value === '' ? null : Number(i.value)) }; }
@@ -411,6 +439,7 @@ function setControlValue(node, c, v) {
   if (v == null) return;
   if (c.type === 'bool') { node.value = String(v); return; }
   if (c.type === 'multiselect') {
+    if (node._setMulti) { node._setMulti(v); return; }
     const vals = new Set((Array.isArray(v) ? v : [v]).map(String));
     [...node.options].forEach(o => { o.selected = vals.has(o.value); });
     return;
@@ -503,13 +532,19 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     if (['select', 'selectgroups', 'combobox', 'comboboxgroups', 'radio'].includes(typeKey)) {
       const { options, target, multi: noteMulti } = specOptions(entity, attrName, ruleText);
       const multi = /allow multiple|multivalued/i.test(ruleText) || noteMulti;
-      node = document.createElement('select'); node.className = 'form-input';
-      if (multi) { node.multiple = true; node.size = Math.min(5, options.length || 1); }
-      fillOptions(node, options, groupField, target, multi ? null : undefined);
-      get = multi ? () => [...node.selectedOptions].map((o) => o.value).filter(Boolean)
-                  : () => node.value;
-      // cascade: "filtered by the <X> selected"
-      const filtM = ruleText.match(/filtered by (?:the )?([A-Za-z ]+?)(?: selected| field|$)/i);
+      if (multi) {
+        // multi-assignment: a checkbox list (each row toggles), not a native
+        // <select multiple> which requires cmd-click and hides multi-select.
+        const picker = mkMultiCheck(options);
+        node = picker.node; node.classList.add('form-input');
+        get = picker.get;
+      } else {
+        node = document.createElement('select'); node.className = 'form-input';
+        fillOptions(node, options, groupField, target, undefined);
+        get = () => node.value;
+      }
+      // cascade: "filtered by the <X> selected" (single-value selects only)
+      const filtM = !multi && ruleText.match(/filtered by (?:the )?([A-Za-z ]+?)(?: selected| field|$)/i);
       if (filtM && target) {
         const depName = filtM[1].trim().toLowerCase();
         node._refilter = () => {
@@ -542,7 +577,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       get = () => (node.type === 'number' ? (node.value === '' ? null : Number(node.value)) : node.value);
     }
 
-    if (record && attrName) setControlValue(node, { type: node.multiple ? 'multiselect' : 'text' }, record[attrName]);
+    if (record && attrName) setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, record[attrName]);
     if (attrName) ctx.controls[attrName] = get;
     byLabel[label] = { node, get };
 
