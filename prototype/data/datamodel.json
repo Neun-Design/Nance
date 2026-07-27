@@ -35,6 +35,15 @@
               "constraints": null
             },
             {
+              "name": "factoryTitle",
+              "type": "VARCHAR",
+              "rule": "CONCAT(factoryName,'-',city)",
+              "notes": "Short code, e.g. \"PN\"",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "country",
               "type": "VARCHAR",
               "rule": null,
@@ -71,9 +80,18 @@
               "constraints": null
             },
             {
-              "name": "forecasts",
+              "name": "forecastID",
               "type": "rollup",
               "rule": "rollup → Forecasts (via: factoryID)",
+              "notes": "All forecast records belonging to this factory",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "scopeName",
+              "type": "mirror",
+              "rule": "mirror: Forecast Scopes (via: forecastID)",
               "notes": "All forecast records belonging to this factory",
               "table-display": false,
               "subitem-display": false,
@@ -92,7 +110,7 @@
           "reports": {
             "Report-A": {
               "graph_type": "bar chart",
-              "rule": "Forecast Count by FactoryName",
+              "rule": "Forecast totalEstimatedHours by FactoryName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -194,11 +212,20 @@
             {
               "name": "factoryID",
               "type": "INT",
-              "rule": "FK → Factories (display: CONCAT(factoryName,'-',city)",
+              "rule": "FK → Factories",
+              "notes": "Factory submitting this forecast",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "factoryTitle",
+              "type": "VARCHAR",
+              "rule": "mirror → Factories via: factoryID",
               "notes": "Factory submitting this forecast",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": null
             },
             {
               "name": "forecastPeriod",
@@ -247,7 +274,7 @@
             {
               "name": "periodFrame",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT('from ',periodStart,' to ',periodFinish",
+              "rule": "computed: CONCAT('from ',periodStart,' to ',periodFinish)",
               "notes": "IF periodType='month', than periodFrame=periodStart",
               "table-display": true,
               "subitem-display": true,
@@ -258,6 +285,33 @@
               "type": "INT",
               "rule": "computed: divide 'totalEstimatedHours' by the number of weeks in 'periodFrame'",
               "notes": "IF periodType='month', than periodFrame=periodStart",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "forecastScopeID",
+              "type": "rollup",
+              "rule": "rollup → Forecast Scopes (via: forecastID)",
+              "notes": "All child Forecast Scope records belonging to this forecast",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "scopeName",
+              "type": "mirror",
+              "rule": "mirror: Forecast Scopes (via: forecastScopeID)",
+              "notes": "All child Forecast Scope records belonging to this forecast",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "totalEstimatedHours",
+              "type": "DECIMAL",
+              "rule": "computed: SUM(forecastScopes.estimatedHours)",
+              "notes": "Total demand projected across all scopes",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -290,24 +344,6 @@
               "constraints": null
             },
             {
-              "name": "forecastScopes",
-              "type": "rollup",
-              "rule": "rollup → Forecast Scopes (via: forecastID)",
-              "notes": "All child Forecast Scope records belonging to this forecast",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "totalEstimatedHours",
-              "type": "DECIMAL",
-              "rule": "computed: SUM(forecastScopes.estimatedHours)",
-              "notes": "Total demand projected across all scopes",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
               "name": "forecastOwner",
               "type": "email",
               "rule": "FK → People (display: userName)",
@@ -321,7 +357,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "inserir um report para mostrar o monthly rate entre horas budgetadas de acordo com os forecast (usageQuota) VS tiketExecutionTime dos Tickets",
+              "rule": "Forecasts.forecastID.totalEstimatedHours vs Tickets.tickedID.ticketExecutionTime by factoryName, Y = hours, X = factoryName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -351,7 +387,7 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryName": {
+                  "factoryTitle": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
@@ -429,25 +465,16 @@
               "constraints": "PK"
             },
             {
-              "name": "forecastScopeRegistry",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "Business unit registry number",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "forecastID",
               "type": "INT",
-              "rule": "FK → Forecasts (display: CONCAT(factoryName,'-',city,' | ', period))",
+              "rule": "FK → Forecasts (display: CONCAT(factoryTitle,' | ', periodFrame))",
               "notes": "Parent forecast",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "factoryName",
+              "name": "factoryTitle",
               "type": "VARCHAR",
               "rule": "rollup → forecastID",
               "notes": null,
@@ -465,42 +492,6 @@
               "constraints": null
             },
             {
-              "name": "scopeID",
-              "type": "INT",
-              "rule": "FK → Scopes (display: scopeName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "productGroupID",
-              "type": "INT",
-              "rule": "rollup → Product Scopes (via: scopeID); display: productGroupName",
-              "notes": "filtered by",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "constraintName",
-              "type": "rollup",
-              "rule": "rollup → Product Scopes (via: productGroupID)",
-              "notes": "Constraint names grouped by constrainTypeID (multivalued)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "productScopeID",
-              "type": "INT",
-              "rule": "computed: filtrar os productScopeID da tabela product Scopes atraves das entradas de constraintName, productGroupID e scopeID",
-              "notes": "display: productScopeName + scopeName",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "eventID",
               "type": "INT",
               "rule": "FK → Events (display: eventTitle)",
@@ -510,16 +501,61 @@
               "constraints": "FK"
             },
             {
-              "name": "processID",
-              "type": "VARCHAR",
-              "rule": "computed: Events → Trigger → Processes (display: processName)",
-              "notes": "Process triggered by the selected Event",
+              "name": "scopeID",
+              "type": "INT",
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "INT",
+              "rule": "FK → Product Scopes (via: scopeID); display: productGroupName",
+              "notes": "filtered by",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "constraintName",
+              "type": "rollup",
+              "rule": "FK → Product Scopes (via: eventID + productGroupID + scopeID)",
+              "notes": "Constraint names filtered by productGroupID and scopeID",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
             },
             {
-              "name": "tasks",
+              "name": "productScopeID",
+              "type": "INT",
+              "rule": "computed → Product Scopes (via: eventID + productGroupID + scopeID + constraintName)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productScopeName",
+              "type": "INT",
+              "rule": "mirror → Product Scopes (via: productScopeID)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "processID",
+              "type": "VARCHAR",
+              "rule": "computed: Events → Trigger → Processes (display: processName)",
+              "notes": "Process triggered by the selected Event",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "taskID",
               "type": "rollup",
               "rule": "rollup → Tasks (via: eventID + productScopeID)",
               "notes": "Tasks matching this event and product scope",
@@ -594,39 +630,43 @@
           "reports": {
             "Report-A": {
               "graph_type": "stacked_bar",
-              "rule": "estimatedHours grouped by productScopeID (scope name), stacked by roles",
-              "filters": [
-                "forecastID (default = ALL)",
-                "period (default = last six months)",
-                "factory (default = ALL)",
-                "businessSegment (default = ALL)"
-              ]
-            },
-            "Report-B": {
-              "overview-display": true,
-              "graph_type": "stacked_bar",
-              "rule": "estimatedHours grouped by productScopeID (scope name), stacked by roles",
-              "filters": [
-                "forecastID (default = ALL)",
-                "period (default = last six months)",
-                "factory (default = ALL)",
-                "businessSegment (default = ALL)"
-              ]
+              "rule": "forecastScopeID.estimatedHours grouped by productScopeID (scope name), stacked by roles",
+              "filters": {
+                "fields": {
+                  "periodFrame": {
+                    "field-type": {
+                      "range-picker": "shadcn-Date Picker"
+                    },
+                    "tooltip": null,
+                    "default": "last six months from current date",
+                    "check": null,
+                    "field-rule": null
+                  },
+                  "eventTitle": {
+                    "field-type": {
+                      "combobox": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Events (display: eventName): Multivalued field"
+                  },
+                  "factoryTitle": {
+                    "field-type": {
+                      "combobox": "shadcn-combobox"
+                    },
+                    "tooltip": null,
+                    "default": "ALL",
+                    "check": null,
+                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                  }
+                }
+              }
             }
           },
           "form": {
             "steps": null,
             "fields": {
-              "Request ID": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "forecastScopeRegistry",
-                "tooltip": "Business Unit system identification for the request",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
               "Forecast": {
                 "field-type": {
                   "SelectGroups": "shadcn-select"
@@ -635,7 +675,17 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Forecasts.factoryName"
+                "field-rule": "SelectLabel = Forecasts.factoryName, WHERE forecastID.preiodFinish >= current month"
+              },
+              "Event": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "eventID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
               },
               "Scope": {
                 "field-type": {
@@ -651,7 +701,7 @@
                 "field-type": {
                   "Select": "shadcn-select"
                 },
-                "attribute": "productGroupID",
+                "attribute": "productGroupName",
                 "tooltip": null,
                 "step": null,
                 "check": "Scope IS NOT NULL",
@@ -666,16 +716,6 @@
                 "step": null,
                 "check": "Product Group IS NOT NULL",
                 "field-rule": "SelectLabel = constrainTypeName"
-              },
-              "Product Scope": {
-                "field-type": {
-                  "Select": "shadcn-select"
-                },
-                "attribute": "productScopeID",
-                "tooltip": null,
-                "step": null,
-                "check": "Constraints IS NOT NULL",
-                "field-rule": null
               },
               "Notes": {
                 "field-type": {
@@ -1868,6 +1908,15 @@
               "constraints": "FK"
             },
             {
+              "name": "constraintTitle",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT(constraintName,'-',constrainTypeID)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "isActive",
               "type": "BOOLEAN",
               "rule": null,
@@ -2196,7 +2245,7 @@
         }
       }
     },
-    "Inventory": {
+    "Portfolio": {
       "sidebar-position": 1,
       "tables": {
         "Product Scopes": {
@@ -2218,7 +2267,7 @@
               "rule": null,
               "notes": "nullable",
               "table-display": false,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -2226,9 +2275,18 @@
               "type": "INT",
               "rule": "FK → Product Groups (display: productGroupName)",
               "notes": "e.g., \"AA\"",
-              "table-display": true,
+              "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "productGroupName",
+              "type": "INT",
+              "rule": "rollup → Product Groups via: productGroupID (display: productGroupName)",
+              "notes": "e.g., \"AA\"",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "rollup"
             },
             {
               "name": "scopeID",
@@ -2245,7 +2303,7 @@
               "rule": "computed: CONCAT(productGroupName from productGroupID,'-',scopeName from scopeID)",
               "notes": null,
               "table-display": false,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2258,9 +2316,9 @@
               "constraints": null
             },
             {
-              "name": "productClassID",
+              "name": "productSpecID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Product Groups\".\"productClassID\")",
+              "rule": "mirror: DISTINCT(\"Product Groups\".\"productSpecID\")",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -2281,6 +2339,15 @@
               "rule": "rollup → Constraints (via: constrainTypeID)",
               "notes": "Constraint names grouped by constrainTypeID",
               "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "constraintTitle",
+              "type": "rollup",
+              "rule": "rollup → Constraints (via: constrainName)",
+              "notes": null,
+              "table-display": false,
               "subitem-display": true,
               "constraints": null
             },
@@ -2357,13 +2424,13 @@
               },
               "Constraints": {
                 "field-type": {
-                  "combobox": "shadcn-combobox"
+                  "ComboboxGroups": "shadcn-combobox"
                 },
                 "attribute": "constraintName",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "SelectLabel = constrainTypeID"
               },
               "Active": {
                 "field-type": {
@@ -2509,24 +2576,46 @@
               "type": "email",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
+              "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
             }
           ],
           "reports": null,
-          "form": [
-            "see #wireframe"
-          ],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Product Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "productName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Opportunity": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "productOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = functionName"
+              }
+            }
+          },
           "cards": null,
           "table-filters": true
         },
-        "Product Class": {
+        "Product Spec": {
           "visibility": "show",
           "description": "Technical classification of products by voltage rating and power rating ranges (ISO §8.1).",
           "attributes": [
             {
-              "name": "productClassID",
+              "name": "productSpecID",
               "type": "INT",
               "rule": null,
               "notes": "Displayed as \"Class Name\" in UI",
@@ -2553,9 +2642,9 @@
               "constraints": null
             },
             {
-              "name": "productClassName",
+              "name": "productSpecName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(voltageRate,'kV - ', powerRating, 'MVA')",
+              "rule": "computed: CONCAT(powerRating,'MVA - ', voltageRate, 'kV')",
               "notes": null,
               "table-display": false,
               "subitem-display": true,
@@ -2563,9 +2652,31 @@
             }
           ],
           "reports": null,
-          "form": [
-            "see #wireframe"
-          ],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Power Rate": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "productName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Voltage Rate": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "productName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
           "cards": null,
           "table-filters": true
         },
@@ -2585,7 +2696,7 @@
             {
               "name": "productGroupName",
               "type": "INT",
-              "rule": "computed: CONCAT(productName from productID,'-',productClassName from productClassID)",
+              "rule": "computed: CONCAT(productName from productID,'-',productSpecName from productSpecID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -2610,9 +2721,18 @@
               "constraints": null
             },
             {
-              "name": "productClassID",
+              "name": "productSpecID",
               "type": "rollup",
-              "rule": "rollup → Product Class (display: productClassName)",
+              "rule": "rollup → Product Spec (display: productSpecName)",
+              "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productSpecName",
+              "type": "mirror",
+              "rule": "mirror: Product Spec via: productSpecID",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
@@ -2652,11 +2772,11 @@
                 "check": null,
                 "field-rule": null
               },
-              "Product Class": {
+              "Product Spec": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "productClassID",
+                "attribute": "productSpecName",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -4230,15 +4350,6 @@
               "constraints": null
             },
             {
-              "name": "levelRank",
-              "type": "INT",
-              "rule": null,
-              "notes": "1 to 5; ordering key (1 = lowest)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
               "name": "roles",
               "type": "rollup",
               "rule": "rollup → Roles (via: skillLevelID)",
@@ -4776,21 +4887,30 @@
               "constraints": null
             },
             {
-              "name": "competenceID",
-              "type": "rollup",
-              "rule": "rollup → Competence (via: functionID) (display: competenceName)",
-              "notes": null,
-              "table-display": false,
+              "name": "roleID",
+              "type": "VARCHAR",
+              "rule": "computed: Competence (via: functionID) (display: roleName)",
+              "notes": "single valued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "levelRank",
+              "type": "INT",
+              "rule": null,
+              "notes": "1 to 3; ordering key (1 = lowest)",
+              "table-display": true,
               "subitem-display": true,
               "constraints": null
             },
             {
-              "name": "roleID",
-              "type": "VARCHAR",
-              "rule": "mirror: Competence (via: competenceID) (display: roleName)",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": false,
+              "name": "competenceID",
+              "type": "FK",
+              "rule": "FK → Competence (via: roleID + levelRank) (display: competenceName)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -4808,7 +4928,7 @@
               "rule": "computed: Competence via competenceID",
               "notes": null,
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -4821,12 +4941,12 @@
               "constraints": null
             },
             {
-              "name": "productClassName",
+              "name": "productSpecName",
               "type": "VARCHAR",
               "rule": "computed: Competence via competenceID",
               "notes": null,
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -4848,6 +4968,15 @@
               "constraints": null
             },
             {
+              "name": "trainingURL",
+              "type": "VARCHAR",
+              "rule": "user input",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "onboardingOwner",
               "type": "email",
               "rule": "FK → People (display: userName)",
@@ -4861,15 +4990,15 @@
           "form": {
             "steps": null,
             "fields": {
-              "User": {
+              "Talent": {
                 "field-type": {
-                  "select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
                 "attribute": "userID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "SelectLabel = functionName"
               },
               "Role": {
                 "field-type": {
@@ -4878,7 +5007,17 @@
                 "attribute": "roleID",
                 "tooltip": null,
                 "step": null,
-                "check": "Function IS NOT NULL",
+                "check": "Talent IS NOT NULL",
+                "field-rule": null
+              },
+              "Skill Rank": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "levelRank",
+                "tooltip": null,
+                "step": null,
+                "check": "Role IS NOT NULL",
                 "field-rule": null
               },
               "Competence": {
@@ -4889,6 +5028,16 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Role IS NOT NULL",
+                "field-rule": null
+              },
+              "Training Material": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "trainingURL",
+                "tooltip": null,
+                "step": null,
+                "check": null,
                 "field-rule": null
               },
               "Certified": {
@@ -4920,36 +5069,72 @@
               "constraints": "PK"
             },
             {
-              "name": "functionID",
+              "name": "eventID",
               "type": "INT",
-              "rule": "FK → Function (display: functionName)",
+              "rule": "FK → Events (display: eventName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
             },
             {
+              "name": "scopeID",
+              "type": "INT",
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupName",
+              "type": "VARCHAR",
+              "rule": "rollup → Product Scopes (via: eventID + scopeID)",
+              "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "functionID",
+              "type": "INT",
+              "rule": "FK → Function (display: functionName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "skillLevelID",
+              "type": "INT",
+              "rule": "rollup → Roles via: roleID (display: levelName)",
+              "notes": "Required proficiency",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "roleID",
               "type": "INT",
-              "rule": "rollup → Roles via:functionID (display: roleName)",
+              "rule": "rollup → Roles via: functionID + skillLevelID (display: roleName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "skillLevelID",
+              "name": "levelRank",
               "type": "INT",
-              "rule": "FK → Skill Levels (display: levelName)",
-              "notes": "Required proficiency",
+              "rule": null,
+              "notes": "1 to 3; ordering key (1 = lowest)",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": null
             },
             {
               "name": "taskID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: roleID) (display: taskName)",
+              "rule": "rollup → Tasks (via: eventID + scopeID + roleID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -4979,7 +5164,7 @@
               "rule": "rollup → Tasks (via: taskID) (display: productGroupName)",
               "notes": "multivalued",
               "table-display": false,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -4994,14 +5179,14 @@
             {
               "name": "competenceName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(activityName,'-',actionName,'for',[scopeName],'of',[productName],'applied to',[{constrainTypeName: constraintName}])",
+              "rule": "computed: CONCAT(activityName,'-',actionName,'for',[scopeName],'of',[productGroupName],'applied to',[{constrainTypeName: constraintName}])",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "resources",
+              "name": "channelName",
               "type": "VARCHAR",
               "rule": "computed: list of channelName of every input and output from Tasks via taskID",
               "notes": null,
@@ -5016,15 +5201,6 @@
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "scopeID",
-              "type": "INT",
-              "rule": "FK → Scopes (display: scopeName)",
-              "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
-              "table-display": true,
-              "subitem-display": true,
               "constraints": "FK"
             }
           ],
@@ -5042,6 +5218,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Skill Level": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "skillLevelID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Role": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -5049,7 +5235,47 @@
                 "attribute": "roleID",
                 "tooltip": null,
                 "step": null,
-                "check": "Function IS NOT NULL",
+                "check": "Skill Level IS NOT NULL",
+                "field-rule": null
+              },
+              "Event": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "eventID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "scopeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Constraint": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "constrainID",
+                "tooltip": null,
+                "step": null,
+                "check": "Task IS NOT NULL",
+                "field-rule": null
+              },
+              "Product Group": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productGroupName",
+                "tooltip": null,
+                "step": null,
+                "check": "Scope && Event && Constraint IS NOT NULL",
                 "field-rule": null
               },
               "Task": {
@@ -5062,24 +5288,14 @@
                 "check": "Role IS NOT NULL",
                 "field-rule": null
               },
-              "Sill Level": {
+              "Skill Rank": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "skillLevelID",
+                "attribute": "levelRank",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
-              },
-              "Constraint": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": null,
-                "tooltip": null,
-                "step": null,
-                "check": "Task IS NOT NULL",
                 "field-rule": null
               }
             }
