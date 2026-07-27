@@ -5144,7 +5144,7 @@
             {
               "name": "actionID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"actionName\")",
+              "rule": "FK → Actions (display: actionName)",
               "notes": "Via taskID",
               "table-display": true,
               "subitem-display": true,
@@ -5153,7 +5153,7 @@
             {
               "name": "activityID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"activityName\")",
+              "rule": "FK → Activities (display: activityName)",
               "notes": "Via taskID",
               "table-display": true,
               "subitem-display": true,
@@ -5180,7 +5180,7 @@
             {
               "name": "competenceName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(activityName,'-',actionName,'for',[scopeName],'of',[productGroupName],'applied to',[{constrainTypeName: constraintName}])",
+              "rule": "computed: CONCAT(activityName,'-',actionName,' for ',[scopeName],' of ',[productGroupName],' applied to ',[{constrainTypeName: constraintName}])",
               "notes": null,
               "table-display": false,
               "subitem-display": false,

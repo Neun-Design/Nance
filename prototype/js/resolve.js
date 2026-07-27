@@ -48,6 +48,32 @@ function concatDisplay(rec, parts) {
   return parts.map((p) => (p.lit != null ? p.lit : (rec[p.field] ?? ''))).join('');
 }
 
+// computed: CONCAT(...) evaluated on the SAME row, resolving each field part
+// cross-table. Supports two bespoke tokens used in the datamodel:
+//   [field]                     → the field's resolved value(s), brackets dropped
+//   [{typeField: valueField}]   → paired "typeValue: valueValue", comma-joined
+function computedConcat(tableName, parts, row, depth) {
+  return parts.map((p) => {
+    if (p.lit != null) return p.lit;
+    const f = String(p.field).trim().replace(/^\[|\]$/g, '');
+    const map = f.match(/^\{\s*([A-Za-z0-9_]+)\s*:\s*([A-Za-z0-9_]+)\s*\}$/);
+    if (map) {
+      const types = String(resolveDisplay(tableName, row, map[1], depth) || '').split(', ');
+      const vals = String(resolveDisplay(tableName, row, map[2], depth) || '').split(', ');
+      const pairs = [];
+      for (let i = 0; i < vals.length; i += 1) {
+        const v = vals[i];
+        if (!v) continue;
+        const t = types[i] || types[0] || '';
+        pairs.push(t ? `${t}: ${v}` : v);
+      }
+      return pairs.join(', ');
+    }
+    const v = resolveDisplay(tableName, row, f, depth);
+    return v == null ? '' : String(v);
+  }).join('');
+}
+
 // FK cell: show the target's display field (never the raw id)
 export function fkDisplay(fk, value) {
   if (value == null || value === '') return '';
@@ -455,6 +481,13 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
       if (s !== '') return s;
     }
     return Array.isArray(stored) ? stored.join(', ') : stored;
+  }
+
+  // computed CONCAT across the row's own (cross-table) fields, e.g.
+  // competenceName. Only when not stored, so precomputed values still win.
+  if (r.concat) {
+    const s = computedConcat(tableName, r.concat, row, depth + 1);
+    return s.replace(/\s+/g, ' ').trim() || '—';
   }
 
   // derived: resolve children, then display names or count

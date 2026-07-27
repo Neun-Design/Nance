@@ -20059,7 +20059,6 @@
     "skillLevelID": "SL1",
     "actionID": "AC01",
     "activityID": "A01",
-    "competenceName": "Competence CMP01",
     "resources": "e-learning",
     "competenceOwner": "U01"
    },
@@ -20071,7 +20070,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC02",
     "activityID": "A02",
-    "competenceName": "Competence CMP02",
     "resources": "mentoring",
     "competenceOwner": "U02"
    },
@@ -20083,7 +20081,6 @@
     "skillLevelID": "SL1",
     "actionID": "AC03",
     "activityID": "A03",
-    "competenceName": "Competence CMP03",
     "resources": "workshop",
     "competenceOwner": "U03"
    },
@@ -20095,7 +20092,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC04",
     "activityID": "A04",
-    "competenceName": "Competence CMP04",
     "resources": "certification",
     "competenceOwner": "U04"
    },
@@ -20107,7 +20103,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC05",
     "activityID": "A05",
-    "competenceName": "Competence CMP05",
     "resources": "e-learning",
     "competenceOwner": "U05"
    },
@@ -20119,7 +20114,6 @@
     "skillLevelID": "SL3",
     "actionID": "AC06",
     "activityID": "A06",
-    "competenceName": "Competence CMP06",
     "resources": "mentoring",
     "competenceOwner": "U06"
    },
@@ -20131,7 +20125,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC07",
     "activityID": "A07",
-    "competenceName": "Competence CMP07",
     "resources": "workshop",
     "competenceOwner": "U07"
    },
@@ -20143,7 +20136,6 @@
     "skillLevelID": "SL3",
     "actionID": "AC01",
     "activityID": "A08",
-    "competenceName": "Competence CMP08",
     "resources": "certification",
     "competenceOwner": "U08"
    },
@@ -20155,7 +20147,6 @@
     "skillLevelID": "SL3",
     "actionID": "AC02",
     "activityID": "A09",
-    "competenceName": "Competence CMP09",
     "resources": "e-learning",
     "competenceOwner": "U09"
    },
@@ -20167,7 +20158,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC03",
     "activityID": "A10",
-    "competenceName": "Competence CMP10",
     "resources": "mentoring",
     "competenceOwner": "U10"
    },
@@ -20179,7 +20169,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC04",
     "activityID": "A11",
-    "competenceName": "Competence CMP11",
     "resources": "workshop",
     "competenceOwner": "U11"
    },
@@ -20191,7 +20180,6 @@
     "skillLevelID": "SL2",
     "actionID": "AC05",
     "activityID": "A12",
-    "competenceName": "Competence CMP12",
     "resources": "certification",
     "competenceOwner": "U12"
    }
