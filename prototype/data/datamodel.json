@@ -2610,7 +2610,7 @@
           "cards": null,
           "table-filters": true
         },
-        "Product Spec": {
+        "Product Specs": {
           "visibility": "show",
           "description": "Technical classification of products by voltage rating and power rating ranges (ISO §8.1).",
           "attributes": [
