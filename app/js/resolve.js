@@ -371,6 +371,24 @@ function allCatalogs() {
 const _throughCache = {};
 function throughFieldJoin(parentTable, parentRow, childTable, field) {
   const cCat = getCatalog(childTable);
+  // Prefer a parent field that stores the child ids directly, named for this
+  // group — e.g. Tasks.taskInput for "grouped by inputs". This reflects the
+  // record's own (possibly multivalued) assignment rather than a through-table
+  // default. Falls back to the through-table search below when absent/empty.
+  const stem = String(field).toLowerCase().replace(/s$/, '');
+  const pCat = getCatalog(parentTable);
+  const directAttr = pCat && pCat.attrs.find((a) => {
+    if (!a.name.toLowerCase().includes(stem)) return false;
+    const r = parseRule(a.rule);
+    return r && r.target && resolveTable(r.target) === childTable;
+  });
+  if (directAttr) {
+    const v = parentRow[directAttr.name];
+    if (v != null && v !== '' && !(Array.isArray(v) && !v.length)) {
+      const hits = getEntity(childTable).filter((c) => matches(v, c[cCat.pk]));
+      if (hits.length) return hits;
+    }
+  }
   const key = `${parentTable}→${childTable}.${field}`;
   if (!(key in _throughCache)) {
     _throughCache[key] = null;
