@@ -32,6 +32,12 @@ function dual(title, cats, aName, aData, bName, bData, stacked = false) {
   return { type: 'multibar', title, cats, stacked, series: [{ name: aName, data: aData }, { name: bName, data: bData }] };
 }
 const monthKey = (d) => (d ? String(d).slice(0, 7) : null);
+// periodFrame is stored as "YYYY-MonthName" (e.g. "2025-August"). These helpers
+// map a "YYYY-MM" month key to that label and give a chronological sort order.
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+const pfFromMonthKey = (mk) => { const [y, m] = String(mk).split('-'); return `${y}-${MONTH_NAMES[+m - 1]}`; };
+const pfOrder = (label) => { const [y, name] = String(label).split('-'); return (+y) * 12 + MONTH_NAMES.indexOf(name); };
 const procName = (pid) => lookup('Processes', pid, 'processName') || pid;
 const factName = (fid) => lookup('Factories', fid, 'factoryName') || fid;
 const jobProc = (j) => { const t = getById('Tickets', j.ticketID); return t ? t.processID : null; };
@@ -56,9 +62,10 @@ export const REPORT_QUERIES = {
   'Forecasts::Report-A': (rows) => {
     const budget = groupAgg(rows, 'periodFrame', (r) => r.weeklyUsageQuota * 4);
     const tickets = groupAgg(getEntity('Tickets'), (t) => {
-      const mk = monthKey(t.targetDate); return mk ? mk.replace('-', '-M') : null;
+      const mk = monthKey(t.targetDate); return mk ? pfFromMonthKey(mk) : null;
     }, 'ticketExecutionTime');
-    const months = [...new Set([...budget.keys(), ...tickets.keys()])].sort();
+    const months = [...new Set([...budget.keys(), ...tickets.keys()])]
+      .sort((a, b) => pfOrder(a) - pfOrder(b));
     return dual('Budgeted (quota) vs Ticket Execution Hours / Month', months,
       'Budgeted hours', months.map((m) => budget.get(m) || 0),
       'Ticket execution hours', months.map((m) => tickets.get(m) || 0));
