@@ -19706,7 +19706,8 @@
     "productName": "LPT",
     "resources": "e-learning",
     "constraintName": "IEC 60076 Compliance",
-    "onboardingOwner": "U01"
+    "onboardingOwner": "U01",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB002",
@@ -19717,7 +19718,8 @@
     "productName": "Autotransformer",
     "resources": "mentoring",
     "constraintName": "Max Tank Weight",
-    "onboardingOwner": "U02"
+    "onboardingOwner": "U02",
+    "competenceID": "CMP02"
    },
    {
     "onboardID": "ONB003",
@@ -19728,7 +19730,8 @@
     "productName": "Phase Shifter",
     "resources": "workshop",
     "constraintName": "Short-circuit Withstand",
-    "onboardingOwner": "U03"
+    "onboardingOwner": "U03",
+    "competenceID": "CMP03"
    },
    {
     "onboardID": "ONB004",
@@ -19739,7 +19742,8 @@
     "productName": "HVDC",
     "resources": "e-learning",
     "constraintName": "Delivery Lead Time",
-    "onboardingOwner": "U04"
+    "onboardingOwner": "U04",
+    "competenceID": "CMP04"
    },
    {
     "onboardID": "ONB005",
@@ -19750,7 +19754,8 @@
     "productName": "Reactors",
     "resources": "mentoring",
     "constraintName": "Noise Level Limit",
-    "onboardingOwner": "U05"
+    "onboardingOwner": "U05",
+    "competenceID": "CMP05"
    },
    {
     "onboardID": "ONB006",
@@ -19761,7 +19766,8 @@
     "productName": "MPT",
     "resources": "workshop",
     "constraintName": "Temperature Rise Limit",
-    "onboardingOwner": "U06"
+    "onboardingOwner": "U06",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB007",
@@ -19772,7 +19778,8 @@
     "productName": "IND",
     "resources": "e-learning",
     "constraintName": "Insulation Level",
-    "onboardingOwner": "U07"
+    "onboardingOwner": "U07",
+    "competenceID": "CMP02"
    },
    {
     "onboardID": "ONB008",
@@ -19783,7 +19790,8 @@
     "productName": "LDT",
     "resources": "mentoring",
     "constraintName": "Budget Cap",
-    "onboardingOwner": "U08"
+    "onboardingOwner": "U08",
+    "competenceID": "CMP03"
    },
    {
     "onboardID": "ONB009",
@@ -19794,7 +19802,8 @@
     "productName": "CRT",
     "resources": "workshop",
     "constraintName": "IEC 60076 Compliance",
-    "onboardingOwner": "U09"
+    "onboardingOwner": "U09",
+    "competenceID": "CMP04"
    },
    {
     "onboardID": "ONB010",
@@ -19805,7 +19814,8 @@
     "productName": "LIDT",
     "resources": "e-learning",
     "constraintName": "Max Tank Weight",
-    "onboardingOwner": "U10"
+    "onboardingOwner": "U10",
+    "competenceID": "CMP05"
    },
    {
     "onboardID": "ONB011",
@@ -19816,7 +19826,8 @@
     "productName": "TRAC",
     "resources": "mentoring",
     "constraintName": "Short-circuit Withstand",
-    "onboardingOwner": "U11"
+    "onboardingOwner": "U11",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB012",
@@ -19827,7 +19838,8 @@
     "productName": "VR",
     "resources": "workshop",
     "constraintName": "Delivery Lead Time",
-    "onboardingOwner": "U12"
+    "onboardingOwner": "U12",
+    "competenceID": "CMP02"
    },
    {
     "onboardID": "ONB013",
@@ -19838,7 +19850,8 @@
     "productName": "CP",
     "resources": "e-learning",
     "constraintName": "Noise Level Limit",
-    "onboardingOwner": "U13"
+    "onboardingOwner": "U13",
+    "competenceID": "CMP03"
    },
    {
     "onboardID": "ONB014",
@@ -19849,7 +19862,8 @@
     "productName": "RENEW",
     "resources": "mentoring",
     "constraintName": "Temperature Rise Limit",
-    "onboardingOwner": "U14"
+    "onboardingOwner": "U14",
+    "competenceID": "CMP04"
    },
    {
     "onboardID": "ONB015",
@@ -19860,7 +19874,8 @@
     "productName": "LPT",
     "resources": "workshop",
     "constraintName": "Insulation Level",
-    "onboardingOwner": "U15"
+    "onboardingOwner": "U15",
+    "competenceID": "CMP05"
    },
    {
     "onboardID": "ONB016",
@@ -19871,7 +19886,8 @@
     "productName": "Autotransformer",
     "resources": "e-learning",
     "constraintName": "Budget Cap",
-    "onboardingOwner": "U16"
+    "onboardingOwner": "U16",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB017",
@@ -19882,7 +19898,8 @@
     "productName": "Phase Shifter",
     "resources": "mentoring",
     "constraintName": "IEC 60076 Compliance",
-    "onboardingOwner": "U17"
+    "onboardingOwner": "U17",
+    "competenceID": "CMP02"
    },
    {
     "onboardID": "ONB018",
@@ -19893,7 +19910,8 @@
     "productName": "HVDC",
     "resources": "workshop",
     "constraintName": "Max Tank Weight",
-    "onboardingOwner": "U18"
+    "onboardingOwner": "U18",
+    "competenceID": "CMP03"
    },
    {
     "onboardID": "ONB019",
@@ -19904,7 +19922,8 @@
     "productName": "Reactors",
     "resources": "e-learning",
     "constraintName": "Short-circuit Withstand",
-    "onboardingOwner": "U19"
+    "onboardingOwner": "U19",
+    "competenceID": "CMP04"
    },
    {
     "onboardID": "ONB020",
@@ -19915,7 +19934,8 @@
     "productName": "MPT",
     "resources": "mentoring",
     "constraintName": "Delivery Lead Time",
-    "onboardingOwner": "U20"
+    "onboardingOwner": "U20",
+    "competenceID": "CMP05"
    },
    {
     "onboardID": "ONB021",
@@ -19926,7 +19946,8 @@
     "productName": "IND",
     "resources": "workshop",
     "constraintName": "Noise Level Limit",
-    "onboardingOwner": "U21"
+    "onboardingOwner": "U21",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB022",
@@ -19937,7 +19958,8 @@
     "productName": "LDT",
     "resources": "e-learning",
     "constraintName": "Temperature Rise Limit",
-    "onboardingOwner": "U22"
+    "onboardingOwner": "U22",
+    "competenceID": "CMP02"
    },
    {
     "onboardID": "ONB023",
@@ -19948,7 +19970,8 @@
     "productName": "CRT",
     "resources": "mentoring",
     "constraintName": "Insulation Level",
-    "onboardingOwner": "U23"
+    "onboardingOwner": "U23",
+    "competenceID": "CMP03"
    },
    {
     "onboardID": "ONB024",
@@ -19959,7 +19982,8 @@
     "productName": "LIDT",
     "resources": "workshop",
     "constraintName": "Budget Cap",
-    "onboardingOwner": "U24"
+    "onboardingOwner": "U24",
+    "competenceID": "CMP04"
    },
    {
     "onboardID": "ONB025",
@@ -19970,7 +19994,8 @@
     "productName": "TRAC",
     "resources": "e-learning",
     "constraintName": "IEC 60076 Compliance",
-    "onboardingOwner": "U01"
+    "onboardingOwner": "U01",
+    "competenceID": "CMP05"
    },
    {
     "onboardID": "ONB026",
@@ -19981,7 +20006,8 @@
     "productName": "VR",
     "resources": "mentoring",
     "constraintName": "Max Tank Weight",
-    "onboardingOwner": "U02"
+    "onboardingOwner": "U02",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB027",
@@ -19992,7 +20018,8 @@
     "productName": "CP",
     "resources": "workshop",
     "constraintName": "Short-circuit Withstand",
-    "onboardingOwner": "U03"
+    "onboardingOwner": "U03",
+    "competenceID": "CMP02"
    },
    {
     "onboardID": "ONB028",
@@ -20003,7 +20030,8 @@
     "productName": "RENEW",
     "resources": "e-learning",
     "constraintName": "Delivery Lead Time",
-    "onboardingOwner": "U04"
+    "onboardingOwner": "U04",
+    "competenceID": "CMP03"
    },
    {
     "onboardID": "ONB029",
@@ -20014,7 +20042,8 @@
     "productName": "LPT",
     "resources": "mentoring",
     "constraintName": "Noise Level Limit",
-    "onboardingOwner": "U05"
+    "onboardingOwner": "U05",
+    "competenceID": "CMP04"
    },
    {
     "onboardID": "ONB030",
@@ -20025,7 +20054,8 @@
     "productName": "Autotransformer",
     "resources": "workshop",
     "constraintName": "Temperature Rise Limit",
-    "onboardingOwner": "U06"
+    "onboardingOwner": "U06",
+    "competenceID": "CMP05"
    },
    {
     "onboardID": "ONB031",
@@ -20036,7 +20066,8 @@
     "productName": "Phase Shifter",
     "resources": "e-learning",
     "constraintName": "Insulation Level",
-    "onboardingOwner": "U07"
+    "onboardingOwner": "U07",
+    "competenceID": "CMP01"
    },
    {
     "onboardID": "ONB032",
@@ -20047,7 +20078,8 @@
     "productName": "HVDC",
     "resources": "mentoring",
     "constraintName": "Budget Cap",
-    "onboardingOwner": "U08"
+    "onboardingOwner": "U08",
+    "competenceID": "CMP02"
    }
   ],
   "Competence": [
@@ -20060,7 +20092,8 @@
     "actionID": "AC01",
     "activityID": "A01",
     "resources": "e-learning",
-    "competenceOwner": "U01"
+    "competenceOwner": "U01",
+    "productSpecID": "CLS03"
    },
    {
     "competenceID": "CMP02",
@@ -20071,7 +20104,8 @@
     "actionID": "AC02",
     "activityID": "A02",
     "resources": "mentoring",
-    "competenceOwner": "U02"
+    "competenceOwner": "U02",
+    "productSpecID": "CLS01"
    },
    {
     "competenceID": "CMP03",
@@ -20082,7 +20116,8 @@
     "actionID": "AC03",
     "activityID": "A03",
     "resources": "workshop",
-    "competenceOwner": "U03"
+    "competenceOwner": "U03",
+    "productSpecID": "CLS02"
    },
    {
     "competenceID": "CMP04",
@@ -20093,7 +20128,8 @@
     "actionID": "AC04",
     "activityID": "A04",
     "resources": "certification",
-    "competenceOwner": "U04"
+    "competenceOwner": "U04",
+    "productSpecID": "CLS01"
    },
    {
     "competenceID": "CMP05",
@@ -20104,7 +20140,8 @@
     "actionID": "AC05",
     "activityID": "A05",
     "resources": "e-learning",
-    "competenceOwner": "U05"
+    "competenceOwner": "U05",
+    "productSpecID": "CLS05"
    },
    {
     "competenceID": "CMP06",
@@ -20115,7 +20152,8 @@
     "actionID": "AC06",
     "activityID": "A06",
     "resources": "mentoring",
-    "competenceOwner": "U06"
+    "competenceOwner": "U06",
+    "productSpecID": "CLS01"
    },
    {
     "competenceID": "CMP07",
@@ -20126,7 +20164,8 @@
     "actionID": "AC07",
     "activityID": "A07",
     "resources": "workshop",
-    "competenceOwner": "U07"
+    "competenceOwner": "U07",
+    "productSpecID": "CLS01"
    },
    {
     "competenceID": "CMP08",
@@ -20137,7 +20176,8 @@
     "actionID": "AC01",
     "activityID": "A08",
     "resources": "certification",
-    "competenceOwner": "U08"
+    "competenceOwner": "U08",
+    "productSpecID": "CLS01"
    },
    {
     "competenceID": "CMP09",
@@ -20148,7 +20188,8 @@
     "actionID": "AC02",
     "activityID": "A09",
     "resources": "e-learning",
-    "competenceOwner": "U09"
+    "competenceOwner": "U09",
+    "productSpecID": "CLS01"
    },
    {
     "competenceID": "CMP10",
@@ -20159,7 +20200,8 @@
     "actionID": "AC03",
     "activityID": "A10",
     "resources": "mentoring",
-    "competenceOwner": "U10"
+    "competenceOwner": "U10",
+    "productSpecID": "CLS06"
    },
    {
     "competenceID": "CMP11",
@@ -20170,7 +20212,8 @@
     "actionID": "AC04",
     "activityID": "A11",
     "resources": "workshop",
-    "competenceOwner": "U11"
+    "competenceOwner": "U11",
+    "productSpecID": "CLS03"
    },
    {
     "competenceID": "CMP12",
@@ -20181,7 +20224,8 @@
     "actionID": "AC05",
     "activityID": "A12",
     "resources": "certification",
-    "competenceOwner": "U12"
+    "competenceOwner": "U12",
+    "productSpecID": "CLS01"
    }
   ]
  }

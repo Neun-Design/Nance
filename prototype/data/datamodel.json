@@ -5169,6 +5169,24 @@
               "constraints": null
             },
             {
+              "name": "productSpecID",
+              "type": "VARCHAR",
+              "rule": "FK → Product Specs (display: productSpecName)",
+              "notes": "Product spec certified by this competence (via scopeID)",
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productSpecName",
+              "type": "VARCHAR",
+              "rule": "computed: Product Specs via productSpecID (display: productSpecName)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "constrainID",
               "type": "rollup",
               "rule": "rollup → Tasks (via: taskID) (display: constraintName)",
