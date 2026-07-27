@@ -37,7 +37,7 @@
             {
               "name": "factoryTitle",
               "type": "VARCHAR",
-              "rule": "CONCAT(factoryName,'-',city)",
+              "rule": "computed: CONCAT(factoryName,'-',city)",
               "notes": "Short code, e.g. \"PN\"",
               "table-display": true,
               "subitem-display": true,
@@ -512,7 +512,7 @@
             {
               "name": "productGroupID",
               "type": "INT",
-              "rule": "FK → Product Scopes (via: scopeID); display: productGroupName",
+              "rule": "FK → Product Groups (display: productGroupName)",
               "notes": "filtered by",
               "table-display": true,
               "subitem-display": false,
@@ -521,8 +521,8 @@
             {
               "name": "constraintName",
               "type": "rollup",
-              "rule": "FK → Product Scopes (via: eventID + productGroupID + scopeID)",
-              "notes": "Constraint names filtered by productGroupID and scopeID",
+              "rule": "rollup → Product Scopes (via: scopeID) (display: constraintName)",
+              "notes": "Constraint names for the row's scope (via Product Scopes)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
