@@ -5,6 +5,7 @@
 
 import { getEntity, getById } from './data.js';
 import { getCatalog, resolveTable, humanize, parseRule } from './model.js';
+import { resolveDisplay } from './resolve.js';
 import { renderChart } from './charts.js';
 import { REPORT_QUERIES, REPORT_RADIOS } from './queries.js';
 import { escapeHtml } from './table.js';
@@ -146,6 +147,16 @@ function applyFilters(tableName, rows, state) {
       }
     } else if (rows[0] && field in rows[0]) {
       out = out.filter((r) => String(r[field]) === String(value));
+    } else {
+      // field not stored on the rows (e.g. scopeName, a multivalued mirror):
+      // resolve it cross-table and keep rows that contain the selected value.
+      // Degrade safely — if it can't resolve to names (empty / bare count),
+      // don't constrain, so the chart never silently empties.
+      out = out.filter((r) => {
+        const resolved = String(resolveDisplay(tableName, r, field) || '');
+        if (!resolved || /^\d+$/.test(resolved)) return true;
+        return resolved.split(', ').map((s) => s.trim()).includes(String(value));
+      });
     }
   }
   return out;
@@ -229,8 +240,21 @@ function optionsForFilter(tableName, fname, fspec) {
     return [...new Set(getEntity(target).map((row) => row[tCat.pk]))]
       .map((v) => ({ value: v, label: String(getById(target, v)?.[tCat.label] ?? v) }));
   }
-  const vals = [...new Set(getEntity(tableName).map((row) => row[fname]).filter((v) => v != null && v !== ''))];
-  return vals.sort().map((v) => ({ value: v, label: String(v) }));
+  const own = [...new Set(getEntity(tableName).map((row) => row[fname]).filter((v) => v != null && v !== ''))];
+  if (own.length) return own.sort().map((v) => ({ value: v, label: String(v) }));
+  // field not stored on these rows (e.g. a multivalued mirror like scopeName):
+  // if the field names another entity's display column, list that entity's
+  // distinct names — value === label so predicates match a contains-join.
+  const src = resolveTable(fname);
+  if (src && src !== tableName) {
+    const sCat = getCatalog(src);
+    const disp = sCat && (sCat.byName[fname] ? fname : sCat.label);
+    if (disp) {
+      const names = [...new Set(getEntity(src).map((row) => row[disp]).filter((v) => v != null && v !== ''))];
+      return names.sort().map((v) => ({ value: v, label: String(v) }));
+    }
+  }
+  return [];
 }
 
 function fillSel(sel, options) {

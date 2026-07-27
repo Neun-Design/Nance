@@ -52,7 +52,7 @@ expectName('Tasks', 'actionID', /^(?!A\d)[A-Za-z]/);
 // Inventory
 expectName('Product Scopes', 'constraintName', /[A-Za-z]{3,}/);
 expectName('Product Groups', 'productID', /^(?!P\d)[A-Za-z]/);
-expectName('Product Groups', 'productClassID', /[A-Za-z]{3,}/);
+expectName('Product Groups', 'productSpecID', /[A-Za-z]{3,}/);
 // Talent
 expectName('People', 'roleID', /[A-Za-z]{3,}/);
 expectName('Onboarding', 'functionID', /^(?!F\d)[A-Za-z]/);
@@ -81,7 +81,7 @@ expectOptions('Tasks', 'workflowID', /^(?!WF\d+$)./);
 expectOptions('Tasks', 'constraintName', /[A-Za-z]{3,}/);
 expectOptions('Product Scopes', 'constraintName', /[A-Za-z]{3,}/);
 expectOptions('Product Groups', 'productID', /^(?!P\d+$)./);
-expectOptions('Product Groups', 'productClassID', /^(?!PC\d+$)./, { wantMulti: true });
+expectOptions('Product Groups', 'productSpecID', /^(?!PC\d+$)./, { wantMulti: true });
 expectOptions('Competence', 'roleID', /^(?!R\d+$)./);
 expectOptions('Competence', 'taskID', /^(?!T\d+$)./);
 expectOptions('Competence', 'constrainID', /[A-Za-z]{3,}/);

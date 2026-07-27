@@ -2610,7 +2610,7 @@
           "cards": null,
           "table-filters": true
         },
-        "Product Spec": {
+        "Product Specs": {
           "visibility": "show",
           "description": "Technical classification of products by voltage rating and power rating ranges (ISO §8.1).",
           "attributes": [
@@ -2731,6 +2731,7 @@
             },
             {
               "name": "productSpecName",
+              "display-name": "SPECS",
               "type": "mirror",
               "rule": "mirror: Product Spec via: productSpecID",
               "notes": "multivalued",
@@ -5143,7 +5144,7 @@
             {
               "name": "actionID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"actionName\")",
+              "rule": "FK → Actions (display: actionName)",
               "notes": "Via taskID",
               "table-display": true,
               "subitem-display": true,
@@ -5152,7 +5153,7 @@
             {
               "name": "activityID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"activityName\")",
+              "rule": "FK → Activities (display: activityName)",
               "notes": "Via taskID",
               "table-display": true,
               "subitem-display": true,
@@ -5163,6 +5164,24 @@
               "type": "rollup",
               "rule": "rollup → Tasks (via: taskID) (display: productGroupName)",
               "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "productSpecID",
+              "type": "VARCHAR",
+              "rule": "FK → Product Specs (display: productSpecName)",
+              "notes": "Product spec certified by this competence (via scopeID)",
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productSpecName",
+              "type": "VARCHAR",
+              "rule": "computed: Product Specs via productSpecID (display: productSpecName)",
+              "notes": null,
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -5179,7 +5198,7 @@
             {
               "name": "competenceName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(activityName,'-',actionName,'for',[scopeName],'of',[productGroupName],'applied to',[{constrainTypeName: constraintName}])",
+              "rule": "computed: CONCAT(activityName,'-',actionName,' for ',[scopeName],' of ',[productGroupName],' applied to ',[{constrainTypeName: constraintName}])",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
