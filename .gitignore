@@ -17,3 +17,9 @@ site-stakeholder/site/
 
 # Raw source media (not for deployment)
 sourceFiles/*.mp4
+
+# Datamodel backups / snapshots (local only — never commit)
+*.bak
+**/datamodel*.bak
+**/datamodel-backup.json
+**/datamodel_[0-9]*.json
