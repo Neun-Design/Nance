@@ -14,7 +14,7 @@ const REF_OVERRIDE = {
   processOwner: 'People', projectOwner: 'People', ticketOwner: 'People', riskOwner: 'People',
   sourceOwner: 'People', createdBy: 'People', changedBy: 'People', reportedBy: 'People',
   customerName: 'Factories', location: 'Factories', activities: 'Activities',
-  products: 'Products', taskInputID: 'Handouts', taskOutputID: 'Handouts',
+  products: 'Products', taskInput: 'Handouts', taskOutput: 'Handouts',
   parentStepID: 'Workflows', parentProcessID: 'Processes', predecesorJob: 'Jobs',
   escalatedToEventID: 'Events',
 };

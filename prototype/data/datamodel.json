@@ -879,18 +879,18 @@
             },
             {
               "name": "taskInput",
-              "type": "rollup",
-              "rule": "rollup → Handouts (display: handoutName + channelName",
-              "notes": "Multivalued",
+              "type": "FK",
+              "rule": "FK → Handouts (display: handoutName)",
+              "notes": "Multivalued — input handouts assigned to this task",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
             {
               "name": "taskOutput",
-              "type": "rollup",
-              "rule": "rollup → Handouts (display: handoutName + channelName",
-              "notes": "Multivalued",
+              "type": "FK",
+              "rule": "FK → Handouts (display: handoutName)",
+              "notes": "Multivalued — output handouts assigned to this task",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -1028,7 +1028,7 @@
               },
               "Inputs": {
                 "field-type": {
-                  "ComboboxGroups": "shadcn-combobox"
+                  "Combobox": "shadcn-combobox"
                 },
                 "attribute": "taskInput",
                 "tooltip": null,
