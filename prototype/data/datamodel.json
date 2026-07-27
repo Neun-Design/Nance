@@ -2731,6 +2731,7 @@
             },
             {
               "name": "productSpecName",
+              "display-name": "SPECS",
               "type": "mirror",
               "rule": "mirror: Product Spec via: productSpecID",
               "notes": "multivalued",

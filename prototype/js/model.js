@@ -222,7 +222,8 @@ function toColumn(a) {
   const refRule = r && (r.kind === 'fk' || (r.target && resolveTable(r.target)) || r.display);
   const col = {
     key: a.name,
-    label: humanize(a.name),
+    // datamodel may override the humanized header via "display-name"
+    label: a['display-name'] || humanize(a.name),
     num: NUMERIC.has(a.type) && !refRule,
     attr: a,
   };
