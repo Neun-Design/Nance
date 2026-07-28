@@ -16,6 +16,10 @@ import { getCatalog, resolveTable, childKeyFor, parseRule } from './model.js';
 
 const MAX_DEPTH = 5;
 
+// month labels for the FORMAT('YYYY-MonthName') rule (Forecasts.periodFrame)
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+
 // owner/audit fields all point at People — joining or displaying through them is meaningless
 const isAudit = (n) => /Owner$/.test(n) || ['createdBy', 'changedBy', 'reportedBy'].includes(n);
 
@@ -104,20 +108,38 @@ export function resolveDisplay(tableName, rec, field, depth = 0) {
     const v = derivedValue(tableName, a, rec, depth + 1);
     return v === '—' ? '' : v;
   }
+  // siblings whose target STORES the field win over ones that only declare it
+  // as a derived attr — e.g. Forecast Scopes.scopeName must hop scopeID →
+  // Scopes (stored) rather than forecastID → Forecasts (mirror), which would
+  // recurse back here and degrade to a count.
+  let fallback = null;
   for (const a2 of cat.attrs) {
     if (a2.name === field || isAudit(a2.name)) continue;
     const r2 = parseRule(a2.rule);
     const t2 = (r2 && r2.target && resolveTable(r2.target)) || domainByName(a2.name);
     if (!t2 || t2 === tableName) continue;
     const c2 = getCatalog(t2);
-    const answers = c2 && (c2.label === field || c2.byName[field] || (r2 && r2.display === field));
+    const declared = c2 && c2.byName[field];
+    const answers = c2 && (c2.label === field || declared || (r2 && r2.display === field));
     if (!answers) continue;
+    const direct = (r2 && r2.display === field) || (declared && !declared.rule);
     const v = rec[a2.name];
-    if (v != null && v !== '') return idsToDisplay(v, [t2], field, depth + 1);
+    if (v != null && v !== '') {
+      if (direct) return idsToDisplay(v, [t2], field, depth + 1);
+      if (!fallback) fallback = { v, t2 };
+      continue;
+    }
     if (a2.rule && r2 && r2.kind !== 'fk') {
       const derived = derivedValue(tableName, a2, rec, depth + 1, field);
-      if (derived !== '—' && derived !== '' && typeof derived !== 'number') return derived;
+      // bare counts (numbers or digit strings bubbled through deeper hops)
+      // are non-answers for a display field — keep looking
+      if (derived !== '—' && derived !== '' && typeof derived !== 'number'
+          && !/^\d+(\.\d+)?$/.test(String(derived))) return derived;
     }
+  }
+  if (fallback) {
+    const s = idsToDisplay(fallback.v, [fallback.t2], field, depth + 1);
+    if (s !== '') return s;
   }
   return '';
 }
@@ -198,7 +220,11 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
 function viaFieldJoin(parentTable, parentRow, childTable, via, pkVal) {
   const childRows = getEntity(childTable);
   const childHasVia = childRows.some((c) => via in c);
-  if (childHasVia && fieldDomain(childTable, via) === parentTable) {
+  // via naming the child's own pk (e.g. "mirror: Forecast Scopes via:
+  // forecastScopeID") points at the parent's rollup attr, not a child FK —
+  // a child pk never references the parent, so let the FK fallback join.
+  if (childHasVia && via !== getCatalog(childTable).pk
+      && fieldDomain(childTable, via) === parentTable) {
     return childRows.filter((c) => matches(c[via], pkVal));
   }
   if (childHasVia && via in parentRow && parentRow[via] != null) {
@@ -302,6 +328,19 @@ function twoHopJoin(parentTable, parentRow, childTable) {
   if (!path) return null;
   const mCat = getCatalog(path.mid);
   let midRows;
+  if (path.conn === 'chain') {
+    // 1-N-N descent: M stores the parent's pk, child stores M's pk
+    // (e.g. Factories ← Forecasts ← Forecast Scopes)
+    const pCat = getCatalog(parentTable);
+    const pkVal = parentRow[pCat.pk];
+    const midIds = new Set(getEntity(path.mid)
+      .filter((m) => matches(m[path.midParentField], pkVal))
+      .map((m) => m[mCat.pk]));
+    return getEntity(childTable).filter((c) => {
+      const v = c[path.childField];
+      return (Array.isArray(v) ? v : [v]).some((x) => midIds.has(x));
+    });
+  }
   if (path.conn === 'pk') {
     const v = parentRow[path.parentField];
     if (v == null || v === '') return [];
@@ -331,24 +370,34 @@ function findTwoHopPath(parentTable, childTable) {
     if (mid === parentTable || mid === childTable) continue;
     const midField = joinFields(mid).find((ma) =>
       fieldDomain(mid, ma) === childTable && valuesOverlap(mid, ma, childTable, cCat.pk));
-    if (!midField) continue;
-    // (a) parent → M by pk
-    const paPk = joinFields(parentTable).find((pa) =>
-      fieldDomain(parentTable, pa) === mid && valuesOverlap(parentTable, pa, mid, mCat.pk));
-    if (paPk) return { mid, midField, conn: 'pk', parentField: paPk };
-    // (b) M → parent by pk
-    const maFk = joinFields(mid).find((ma) =>
-      ma !== midField && fieldDomain(mid, ma) === parentTable
-      && valuesOverlap(mid, ma, parentTable, pCat.pk));
-    if (maFk) return { mid, midField, conn: 'childfk', midParentField: maFk };
-    // (c) shared third domain
-    for (const pa of joinFields(parentTable)) {
-      const dom = fieldDomain(parentTable, pa);
-      if (!dom || dom === mid || dom === childTable) continue;
-      const ma = joinFields(mid).find((x) =>
-        x !== midField && fieldDomain(mid, x) === dom
-        && valuesOverlap(parentTable, pa, mid, x));
-      if (ma) return { mid, midField, conn: 'shared', parentField: pa, midParentField: ma };
+    if (midField) {
+      // (a) parent → M by pk
+      const paPk = joinFields(parentTable).find((pa) =>
+        fieldDomain(parentTable, pa) === mid && valuesOverlap(parentTable, pa, mid, mCat.pk));
+      if (paPk) return { mid, midField, conn: 'pk', parentField: paPk };
+      // (b) M → parent by pk
+      const maFk = joinFields(mid).find((ma) =>
+        ma !== midField && fieldDomain(mid, ma) === parentTable
+        && valuesOverlap(mid, ma, parentTable, pCat.pk));
+      if (maFk) return { mid, midField, conn: 'childfk', midParentField: maFk };
+      // (c) shared third domain
+      for (const pa of joinFields(parentTable)) {
+        const dom = fieldDomain(parentTable, pa);
+        if (!dom || dom === mid || dom === childTable) continue;
+        const ma = joinFields(mid).find((x) =>
+          x !== midField && fieldDomain(mid, x) === dom
+          && valuesOverlap(parentTable, pa, mid, x));
+        if (ma) return { mid, midField, conn: 'shared', parentField: pa, midParentField: ma };
+      }
+    }
+    // (d) chain: M → parent by pk and child → M by pk (1-N-N descent,
+    // e.g. Factories ← Forecasts ← Forecast Scopes). No child ids stored on
+    // M — the child's own FK to M carries the join.
+    const chainFk = joinFields(mid).find((ma) =>
+      fieldDomain(mid, ma) === parentTable && valuesOverlap(mid, ma, parentTable, pCat.pk));
+    const childFk = childKeyFor(childTable, mid);
+    if (chainFk && childFk && valuesOverlap(childTable, childFk, mid, mCat.pk)) {
+      return { mid, conn: 'chain', midParentField: chainFk, childField: childFk };
     }
   }
   return null;
@@ -486,6 +535,18 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
     return row[attr.name] ?? '—';
   }
 
+  if (r.kind === 'format') {
+    // computed: FORMAT(dateField, 'YYYY-MonthName') — stored value wins so the
+    // generator's precomputed labels are untouched; derives for new records
+    const stored = row[attr.name];
+    if (stored != null && stored !== '') return stored;
+    const v = row[r.srcField];
+    if (v == null || v === '') return '—';
+    const d = new Date(String(v));
+    if (Number.isNaN(d.getTime())) return String(v);
+    if (/YYYY-MonthName/i.test(r.pattern)) return `${d.getUTCFullYear()}-${MONTH_NAMES[d.getUTCMonth()]}`;
+    return String(v);
+  }
   if (r.kind === 'map') {
     // computed: MAP(objField → Table) — row[srcField] is { id: value };
     // render "name: value" pairs, keeping the raw id when the record is gone
@@ -543,11 +604,22 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
   if (!df && attr.name !== cCat.pk && (cCat.byName[attr.name] || cCat.label === attr.name)) {
     df = attr.name;
   }
+  // *Name/*Title attrs are display requests even when the child doesn't
+  // declare the field — resolveDisplay can answer through a sibling hop
+  // (e.g. Factories.scopeName → Forecast Scopes.scopeID → Scopes). Falls
+  // back to the count below when nothing resolves.
+  let dfGuessed = false;
+  if (!df && attr.name !== cCat.pk && /(Name|Title)$/.test(attr.name)) {
+    df = attr.name; dfGuessed = true;
+  }
   if (df) {
     const names = dedupe(kids
       .map((k) => String(resolveDisplay(child, k, df, depth + 1)))
-      .filter((s) => s !== ''));
-    return names.length ? names.join(', ') : '—';
+      // guessed display fields must yield real names — drop counts that
+      // bubbled up from deeper unresolved hops
+      .filter((s) => s !== '' && !(dfGuessed && /^\d+(\.\d+)?$/.test(s))));
+    if (names.length) return names.join(', ');
+    return dfGuessed ? kids.length : '—';
   }
   return kids.length; // rollups without a display field render as a count
 }
