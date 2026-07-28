@@ -276,8 +276,8 @@
             {
               "name": "periodFrame",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT('from ',periodStart,' to ',periodFinish)",
-              "notes": "IF periodType='month', than periodFrame=periodStart",
+              "rule": "computed: FORMAT(periodStart, 'YYYY-MonthName')",
+              "notes": "Month label of periodStart, e.g. 2025-June",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5277,8 +5277,8 @@
               "name": "competenceName",
               "type": "VARCHAR",
               "rule": "computed: CONCAT(activityName,'-',actionName,' for ',[scopeName],' of ',[productGroupName],' applied to ',[{constrainTypeName: constraintName}])",
-              "notes": null,
-              "table-display": false,
+              "notes": "Rendered from the CONCAT rule at display time (not stored)",
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },

@@ -39,6 +39,10 @@ export function parseRule(rule) {
   // Table; renders as "name: value" pairs (e.g. Product Groups specValues)
   m = txt.match(/^computed:\s*MAP\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*(?:→|->)\s*([A-Za-z][A-Za-z &]*?)\s*(?:display:\s*([A-Za-z_][A-Za-z0-9_]*))?\s*\)$/i);
   if (m) return { kind: 'map', srcField: m[1], target: m[2].trim(), display: m[3] || null };
+  // FORMAT(dateField, 'pattern') — date reformatting, e.g. Forecasts.periodFrame
+  // as 'YYYY-MonthName' ("2025-August"). Stored values still win at render time.
+  m = txt.match(/^computed:\s*FORMAT\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*'([^']+)'\s*\)$/i);
+  if (m) return { kind: 'format', srcField: m[1], pattern: m[2] };
 
   const kindM = txt.match(/^(FK|rollup|mirror|computed)\b/i);
   if (!kindM) return null;
@@ -249,8 +253,11 @@ function toColumn(a) {
   if (a.type === 'ENUM') col.enum = true;
   if (a.type === 'LINK') col.link = true;
   // any relational rule (rollup/mirror/computed) resolves at render time —
-  // also on stored columns, so FK-ish ids render as display names
-  if (!col.fk && (DERIVED.has(a.type) || (r && r.kind !== 'enum' && r.kind !== 'sum' && refRule))) {
+  // also on stored columns, so FK-ish ids render as display names. CONCAT
+  // rules count too: their target parses as null/garbage but the concat
+  // parts drive computedConcat (e.g. Competence.competenceName).
+  if (!col.fk && (DERIVED.has(a.type)
+      || (r && r.kind !== 'enum' && r.kind !== 'sum' && (refRule || r.concat || r.kind === 'format')))) {
     col.derived = r || { kind: a.type };
   }
   if (r && r.kind === 'sum') col.derived = r;
