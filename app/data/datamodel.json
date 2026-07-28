@@ -5,6 +5,7 @@
       "tables": {
         "Factories": {
           "visibility": "show",
+          "dashboard-order": 1,
           "description": "Manufacturing site entity (ISO §4.1 organisational context) with business segment classification: LPT (Large Power Transformers), MT (Medium Transformers), or DT (Distribution Transformers).",
           "attributes": [
             {
@@ -198,6 +199,7 @@
         },
         "Forecasts": {
           "visibility": "show",
+          "dashboard-order": 2,
           "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Factory can project to global engineering its intended use of role resources for a given planning period.",
           "attributes": [
             {
@@ -453,6 +455,7 @@
         },
         "Forecast Scopes": {
           "visibility": "show",
+          "dashboard-order": 3,
           "description": "The atomic unit of a Forecast (ISO §6.1/§6.2). Specifies one Event × Product Scope combination; the Event determines the triggered Process and therefore the Tasks whose roles and execution times drive estimatedHours.",
           "attributes": [
             {
@@ -749,6 +752,7 @@
       "tables": {
         "Tasks": {
           "visibility": "show",
+          "dashboard-order": 1,
           "description": "A Task is the application of an action to a process activity (workflow). It serves only as an execution template; concrete Jobs are created from Tasks in the Workload module (where taskOwner, taskStatus, taskDueDate and projectID are set).",
           "attributes": [
             {
@@ -1110,6 +1114,7 @@
         },
         "Events": {
           "visibility": "show",
+          "dashboard-order": 2,
           "description": "An Event is an aggregator of processes; it is not executed itself but triggers a defined execution. Forecasts group which events and execution parameters (forecastScopes) they contain. Corrective-action and nonconformity linkage is deferred to a future module.",
           "attributes": [
             {
@@ -1275,6 +1280,7 @@
         },
         "Processes": {
           "visibility": "show",
+          "dashboard-order": 3,
           "description": "The Process table groups workflows. The user creates a process item that is later used to build the process steps (workflow) records.",
           "attributes": [
             {
@@ -1498,6 +1504,7 @@
         },
         "Activities": {
           "visibility": "show",
+          "dashboard-order": 4,
           "description": "Sub-step within a Process (ISO §4.4.1 / §7.1.6). Activities have no execution time, owner, status, start or end date — execution is defined in the Tasks list. roleID is derived from Tasks.",
           "attributes": [
             {
@@ -1580,6 +1587,7 @@
         },
         "Workflows": {
           "visibility": "show",
+          "dashboard-order": 5,
           "description": "Registry of the steps of each process. Through the relations of its records users understand how a process should be executed in terms of activities.",
           "attributes": [
             {
@@ -1769,6 +1777,7 @@
         },
         "Actions": {
           "visibility": "show",
+          "dashboard-order": 6,
           "description": "An action defines the procedure to be performed to execute a given step (workflow) within a process.",
           "attributes": [
             {
@@ -1869,6 +1878,7 @@
         },
         "Constraints": {
           "visibility": "show",
+          "dashboard-order": 7,
           "description": "Regulatory, design, or operational constraint bounding available risk treatment options (ISO §4.3).",
           "attributes": [
             {
@@ -2011,6 +2021,7 @@
         },
         "Handouts": {
           "visibility": "show",
+          "dashboard-order": 8,
           "description": "Input or output document/deliverable exchanged between process steps (ISO §4.4.2(b) — retained documented information).",
           "attributes": [
             {
@@ -2156,6 +2167,7 @@
         },
         "Channels": {
           "visibility": "show",
+          "dashboard-order": 9,
           "description": "Communication or delivery channel used in process steps, with assigned owner (ISO §7.4).",
           "attributes": [
             {
@@ -2250,6 +2262,7 @@
       "tables": {
         "Product Scopes": {
           "visibility": "show",
+          "dashboard-order": 1,
           "description": "Combination of product and scope used for planning and forecasting execution demand (ISO §4.3 / §8.1).",
           "attributes": [
             {
@@ -2311,15 +2324,6 @@
               "type": "rollup",
               "rule": "rollup → Products (via: productGroupID) (display: productName)",
               "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "productSpecID",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Product Groups\".\"productSpecID\")",
-              "notes": null,
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -2450,6 +2454,7 @@
         },
         "Scopes": {
           "visibility": "show",
+          "dashboard-order": 2,
           "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
           "attributes": [
             {
@@ -2551,6 +2556,7 @@
         },
         "Products": {
           "visibility": "show",
+          "dashboard-order": 3,
           "description": "Power transformer products and services tracked through quality and forecasting cycles (ISO §8.1).",
           "attributes": [
             {
@@ -2612,67 +2618,125 @@
         },
         "Product Specs": {
           "visibility": "show",
-          "description": "Technical classification of products by voltage rating and power rating ranges (ISO §8.1).",
+          "dashboard-order": 4,
+          "description": "Dynamic attribute definitions for Product Groups: each spec becomes an input field in the Product Group form for the products it applies to (ISO §8.1).",
           "attributes": [
             {
               "name": "productSpecID",
               "type": "INT",
               "rule": null,
-              "notes": "Displayed as \"Class Name\" in UI",
+              "notes": "Auto-generated primary key",
               "table-display": false,
               "subitem-display": false,
               "constraints": "PK"
             },
             {
-              "name": "voltageRate",
+              "name": "specName",
               "type": "VARCHAR",
               "rule": null,
-              "notes": null,
+              "notes": "Becomes the attribute label in the Product Group form",
               "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "powerRating",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "productSpecName",
-              "type": "VARCHAR",
-              "rule": "computed: CONCAT(powerRating,'MVA - ', voltageRate, 'kV')",
-              "notes": null,
-              "table-display": false,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "specInputType",
+              "type": "ENUM",
+              "rule": "enum: INT/DECIMAL/String/List",
+              "notes": "Controls the input rendered for this spec in the Product Group form",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "specDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productID",
+              "type": "VARCHAR",
+              "rule": "FK → Products (display: productName)",
+              "notes": "multivalued — products this spec applies to",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "specOptions",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Semicolon/comma-separated allowed values; only used when specInputType = List",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productSpecOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
           "form": {
             "steps": null,
             "fields": {
-              "Power Rate": {
+              "Spec Name": {
                 "field-type": {
                   "input": "shadcn-input"
                 },
-                "attribute": "productName",
+                "attribute": "specName",
                 "tooltip": null,
                 "step": null,
                 "check": null,
                 "field-rule": null
               },
-              "Voltage Rate": {
+              "Input Type": {
                 "field-type": {
-                  "input": "shadcn-input"
+                  "select": "shadcn-select"
                 },
-                "attribute": "productName",
+                "attribute": "specInputType",
                 "tooltip": null,
                 "step": null,
                 "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "field": "shadcn-textarea"
+                },
+                "attribute": "specDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Products": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productID",
+                "tooltip": "Products this spec applies to",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Allowed Values": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "specOptions",
+                "tooltip": "Semicolon-separated; only used when Input Type is List",
+                "step": null,
+                "check": "Input Type = List",
                 "field-rule": null
               }
             }
@@ -2682,6 +2746,7 @@
         },
         "Product Groups": {
           "visibility": "show",
+          "dashboard-order": 5,
           "description": "Higher-level commercial grouping of product classes for planning (ISO §8.1).",
           "attributes": [
             {
@@ -2696,7 +2761,7 @@
             {
               "name": "productGroupName",
               "type": "INT",
-              "rule": "computed: CONCAT(productName from productID,'-',productSpecName from productSpecID)",
+              "rule": "computed: CONCAT(productName from productID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -2721,20 +2786,20 @@
               "constraints": null
             },
             {
-              "name": "productSpecID",
-              "type": "rollup",
-              "rule": "rollup → Product Spec (display: productSpecName)",
-              "notes": "multivalued",
+              "name": "specValues",
+              "type": "JSON",
+              "rule": null,
+              "notes": "Object map productSpecID → value, filled by the dynamic spec fields in the form. Never displayed raw.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "productSpecName",
+              "name": "specsSummary",
               "display-name": "SPECS",
-              "type": "mirror",
-              "rule": "mirror: Product Spec via: productSpecID",
-              "notes": "multivalued",
+              "type": "computed",
+              "rule": "computed: MAP(specValues → Product Specs display: specName)",
+              "notes": "Renders the specValues map as 'name: value' pairs",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -2773,15 +2838,15 @@
                 "check": null,
                 "field-rule": null
               },
-              "Product Spec": {
+              "Specs": {
                 "field-type": {
-                  "select": "shadcn-select"
+                  "dynamic-specs": "custom"
                 },
-                "attribute": "productSpecName",
-                "tooltip": null,
+                "attribute": "specValues",
+                "tooltip": "Spec attributes of the selected Product",
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Product IS NOT NULL",
+                "field-rule": "specs of the Product selected"
               }
             }
           },
@@ -2795,6 +2860,7 @@
       "tables": {
         "Tickets": {
           "visibility": "show",
+          "dashboard-order": 1,
           "description": "A Ticket is a project-linked work item capturing the execution context of a project's engineering process. It is the entry point for engineering jobs; Customers, Planners and Managers can create tickets (ISO §10.2).",
           "attributes": [
             {
@@ -3078,6 +3144,7 @@
         },
         "Projects": {
           "visibility": "show",
+          "dashboard-order": 2,
           "description": "Engineering project with customer/factory, owner and status. Groups tickets and provides estimated vs. executed time roll-ups (ISO §8.3 / §8.4).",
           "attributes": [
             {
@@ -3272,6 +3339,7 @@
         },
         "Jobs": {
           "visibility": "show",
+          "dashboard-order": 3,
           "description": "A Job is a concrete execution record assigning a person/role to a Ticket to perform a piece of work, tracking planned and actual dates, dependencies and status. Jobs are the primary source of actual usage data for the Control module (ISO §7.1.2).",
           "attributes": [
             {
@@ -3585,6 +3653,7 @@
       "tables": {
         "Capacity": {
           "visibility": "show",
+          "dashboard-order": 1,
           "description": "Query view (Control module) — no new-item form. Aggregates role/department capacity against allocation over a planning period (ISO §7.1.2 / §6.2).",
           "attributes": [
             {
@@ -3799,6 +3868,7 @@
         },
         "Performance": {
           "visibility": "show",
+          "dashboard-order": 2,
           "description": "Query view (Control module) — no new-item form. Tracks actual resource consumption from Jobs against planned Forecast Scope hours (ISO §9.1).",
           "attributes": [
             {
@@ -4054,6 +4124,7 @@
       "tables": {
         "Squads": {
           "visibility": "show",
+          "dashboard-order": 1,
           "description": "Squads group People so that a manager can simulate forecastScopes by squad.",
           "attributes": [
             {
@@ -4132,6 +4203,7 @@
         },
         "Roles": {
           "visibility": "show",
+          "dashboard-order": 2,
           "description": "Organisational role with function, skill level and required education (ISO §5.3). Resolves all *Owner foreign keys in the model.",
           "attributes": [
             {
@@ -4321,6 +4393,7 @@
         },
         "Skill Levels": {
           "visibility": "show",
+          "dashboard-order": 3,
           "description": "Proficiency level descriptor for a competence or function (ISO §7.2).",
           "attributes": [
             {
@@ -4440,6 +4513,7 @@
         },
         "Functions": {
           "visibility": "show",
+          "dashboard-order": 4,
           "description": "Job function defining the functional scope of work a role performs (ISO §7.2).",
           "attributes": [
             {
@@ -4526,6 +4600,7 @@
         },
         "Graduation": {
           "visibility": "show",
+          "dashboard-order": 5,
           "description": "Qualification or education level required or held by a resource (ISO §7.2).",
           "attributes": [
             {
@@ -4643,6 +4718,7 @@
         },
         "People": {
           "visibility": "show",
+          "dashboard-order": 6,
           "description": "Individual users and team members (ISO §5.3 / §7.1.2). All *Owner foreign keys across the model resolve to a Person.",
           "attributes": [
             {
@@ -4858,6 +4934,7 @@
         },
         "Onboarding": {
           "visibility": "show",
+          "dashboard-order": 7,
           "description": "Tracks a person's certification progress against the competences derived from their function and roles (ISO §7.2).",
           "attributes": [
             {
@@ -5058,6 +5135,7 @@
         },
         "Competence": {
           "visibility": "show",
+          "dashboard-order": 8,
           "description": "Competence profile mapping skills to roles, scopes and products (ISO §7.2), derived largely from the Tasks a role performs.",
           "attributes": [
             {
@@ -5171,8 +5249,8 @@
             {
               "name": "productSpecID",
               "type": "VARCHAR",
-              "rule": "FK → Product Specs (display: productSpecName)",
-              "notes": "Product spec certified by this competence (via scopeID)",
+              "rule": "FK → Product Specs (display: specName)",
+              "notes": "multivalued — spec definitions certified by this competence",
               "table-display": false,
               "subitem-display": true,
               "constraints": "FK"
@@ -5180,7 +5258,7 @@
             {
               "name": "productSpecName",
               "type": "VARCHAR",
-              "rule": "computed: Product Specs via productSpecID (display: productSpecName)",
+              "rule": "computed: Product Specs via productSpecID (display: specName)",
               "notes": null,
               "table-display": false,
               "subitem-display": true,

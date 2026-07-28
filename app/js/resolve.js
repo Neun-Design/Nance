@@ -486,6 +486,30 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
     return row[attr.name] ?? '—';
   }
 
+  if (r.kind === 'map') {
+    // computed: MAP(objField → Table) — row[srcField] is { id: value };
+    // render "name: value" pairs, keeping the raw id when the record is gone
+    const obj = row[r.srcField];
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return '—';
+    const t = r.target ? resolveTable(r.target) : null;
+    const parts = [];
+    for (const [id, v] of Object.entries(obj)) {
+      if (v == null || v === '') continue;
+      let name = id;
+      if (t) {
+        const rec = getById(t, id);
+        if (rec) {
+          const cat = getCatalog(t);
+          const df = r.display && r.display !== cat.pk ? r.display : cat.label;
+          const d = resolveDisplay(t, rec, df, depth + 1);
+          if (d !== '') name = String(d);
+        }
+      }
+      parts.push(`${name}: ${v}`);
+    }
+    return parts.length ? parts.join(', ') : '—';
+  }
+
   if (depth > MAX_DEPTH) return '—';
   const target = r.target ? resolveTable(r.target) : null;
   const display = displayOverride || r.display;

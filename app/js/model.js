@@ -35,6 +35,10 @@ export function parseRule(rule) {
   if (m) return { kind: 'enum', values: m[1].split('/').map((s) => s.trim()) };
   m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)/i);
   if (m) return { kind: 'sum', childAttr: m[1], field: m[2] };
+  // MAP(objField → Table display: field) — an object map whose keys are ids in
+  // Table; renders as "name: value" pairs (e.g. Product Groups specValues)
+  m = txt.match(/^computed:\s*MAP\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*(?:→|->)\s*([A-Za-z][A-Za-z &]*?)\s*(?:display:\s*([A-Za-z_][A-Za-z0-9_]*))?\s*\)$/i);
+  if (m) return { kind: 'map', srcField: m[1], target: m[2].trim(), display: m[3] || null };
 
   const kindM = txt.match(/^(FK|rollup|mirror|computed)\b/i);
   if (!kindM) return null;
@@ -126,12 +130,23 @@ export async function loadModel() {
   }));
   entries.sort((a, b) => (a.pos - b.pos) || (a.i - b.i));
   for (const { mname, m } of entries) {
-    const tables = Object.keys(m.tables).filter(
+    const visible = Object.keys(m.tables).filter(
       (t) => (m.tables[t].visibility || 'show') === 'show');
-    moduleList.push({ name: mname, tables });
-    for (const tname of tables) {
+    // Catalogue every visible table so FK / subitem resolution can reach it,
+    // even ones kept out of the module's tab strip (dashboard-order 0).
+    for (const tname of visible) {
       catalog[tname] = buildCatalog(mname, tname, m.tables[tname]);
     }
+    // Tabs within a module follow `dashboard-order` ascending (§ datamodel guide).
+    // A value of 0 keeps the table out of the tab strip; a missing value sorts last.
+    const orderOf = (t) => {
+      const v = m.tables[t]['dashboard-order'];
+      return typeof v === 'number' ? v : Infinity;
+    };
+    const tables = visible
+      .filter((t) => orderOf(t) !== 0)
+      .sort((a, b) => orderOf(a) - orderOf(b));
+    moduleList.push({ name: mname, tables });
   }
   return { modules: moduleList, catalog };
 }

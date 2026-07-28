@@ -19,7 +19,7 @@
    {
     "factoryID": "FC02",
     "factoryName": "TUSA",
-    "city": "Jundiaí",
+    "city": "Jundia\u00ed",
     "country": "Brazil",
     "businessSegment": "LPT",
     "region": "Americas",
@@ -159,7 +159,7 @@
    {
     "factoryID": "FC16",
     "factoryName": "SAT",
-    "city": "Bogotá",
+    "city": "Bogot\u00e1",
     "country": "Colombia",
     "businessSegment": "DT",
     "region": "Americas",
@@ -169,7 +169,7 @@
    {
     "factoryID": "FC17",
     "factoryName": "STCA",
-    "city": "Trois-Rivières",
+    "city": "Trois-Rivi\u00e8res",
     "country": "Canada",
     "businessSegment": "DT",
     "region": "Americas",
@@ -9168,7 +9168,7 @@
     "roles": "R01",
     "procedureName": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/012",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Approval \u2014 Requirement Capture",
     "taskOwner": "U01"
    },
    {
@@ -9185,7 +9185,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/032",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Assignment \u2014 Electrical Sizing",
     "taskOwner": "U02"
    },
    {
@@ -9202,7 +9202,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/033",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Check \u2014 Offer Costing",
     "taskOwner": "U03"
    },
    {
@@ -9219,7 +9219,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/045",
-    "taskName": "Execution — Mechanical Sizing",
+    "taskName": "Execution \u2014 Mechanical Sizing",
     "taskOwner": "U04"
    },
    {
@@ -9236,7 +9236,7 @@
     "roles": "R02",
     "procedureName": "Procedure PR2-5",
     "procedureURL": "https://portal.example/procedures/101",
-    "taskName": "Followup — Electrical Design",
+    "taskName": "Followup \u2014 Electrical Design",
     "taskOwner": "U05"
    },
    {
@@ -9253,7 +9253,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR2-6",
     "procedureURL": "https://portal.example/procedures/102",
-    "taskName": "Registration — Mechanical Layout",
+    "taskName": "Registration \u2014 Mechanical Layout",
     "taskOwner": "U06"
    },
    {
@@ -9270,7 +9270,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR2-7",
     "procedureURL": "https://portal.example/procedures/103",
-    "taskName": "Release — Design Documentation",
+    "taskName": "Release \u2014 Design Documentation",
     "taskOwner": "U07"
    },
    {
@@ -9287,7 +9287,7 @@
     "roles": "R06",
     "procedureName": "Procedure PR5-1",
     "procedureURL": "https://portal.example/procedures/104",
-    "taskName": "Approval — Load Assessment",
+    "taskName": "Approval \u2014 Load Assessment",
     "taskOwner": "U08"
    },
    {
@@ -9304,7 +9304,7 @@
     "roles": "R07",
     "procedureName": "Procedure PR5-2",
     "procedureURL": "https://portal.example/procedures/105",
-    "taskName": "Assignment — Thermal Study",
+    "taskName": "Assignment \u2014 Thermal Study",
     "taskOwner": "U09"
    },
    {
@@ -9321,7 +9321,7 @@
     "roles": "R06",
     "procedureName": "Procedure PR5-3",
     "procedureURL": "https://portal.example/procedures/106",
-    "taskName": "Check — Uprating Report",
+    "taskName": "Check \u2014 Uprating Report",
     "taskOwner": "U10"
    },
    {
@@ -9338,7 +9338,7 @@
     "roles": "R01",
     "procedureName": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/107",
-    "taskName": "Execution — Requirement Capture",
+    "taskName": "Execution \u2014 Requirement Capture",
     "taskOwner": "U11"
    },
    {
@@ -9355,7 +9355,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-5",
     "procedureURL": "https://portal.example/procedures/108",
-    "taskName": "Followup — Electrical Sizing",
+    "taskName": "Followup \u2014 Electrical Sizing",
     "taskOwner": "U12"
    },
    {
@@ -9372,7 +9372,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR1-6",
     "procedureURL": "https://portal.example/procedures/109",
-    "taskName": "Registration — Offer Costing",
+    "taskName": "Registration \u2014 Offer Costing",
     "taskOwner": "U13"
    },
    {
@@ -9389,7 +9389,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-7",
     "procedureURL": "https://portal.example/procedures/110",
-    "taskName": "Release — Mechanical Sizing",
+    "taskName": "Release \u2014 Mechanical Sizing",
     "taskOwner": "U14"
    },
    {
@@ -9406,7 +9406,7 @@
     "roles": "R02",
     "procedureName": "Procedure PR2-1",
     "procedureURL": "https://portal.example/procedures/111",
-    "taskName": "Approval — Electrical Design",
+    "taskName": "Approval \u2014 Electrical Design",
     "taskOwner": "U15"
    },
    {
@@ -9423,7 +9423,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR2-2",
     "procedureURL": "https://portal.example/procedures/112",
-    "taskName": "Assignment — Mechanical Layout",
+    "taskName": "Assignment \u2014 Mechanical Layout",
     "taskOwner": "U16"
    },
    {
@@ -9440,7 +9440,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR2-3",
     "procedureURL": "https://portal.example/procedures/113",
-    "taskName": "Check — Design Documentation",
+    "taskName": "Check \u2014 Design Documentation",
     "taskOwner": "U17"
    },
    {
@@ -9457,7 +9457,7 @@
     "roles": "R05",
     "procedureName": "Procedure PR3-4",
     "procedureURL": "https://portal.example/procedures/114",
-    "taskName": "Execution — Peer Review",
+    "taskName": "Execution \u2014 Peer Review",
     "taskOwner": "U18"
    },
    {
@@ -9474,7 +9474,7 @@
     "roles": "R09",
     "procedureName": "Procedure PR3-5",
     "procedureURL": "https://portal.example/procedures/115",
-    "taskName": "Followup — Compliance Check",
+    "taskName": "Followup \u2014 Compliance Check",
     "taskOwner": "U19"
    },
    {
@@ -9491,7 +9491,7 @@
     "roles": "R07",
     "procedureName": "Procedure PR4-6",
     "procedureURL": "https://portal.example/procedures/116",
-    "taskName": "Registration — Root Cause Analysis",
+    "taskName": "Registration \u2014 Root Cause Analysis",
     "taskOwner": "U20"
    },
    {
@@ -9508,7 +9508,7 @@
     "roles": "R06",
     "procedureName": "Procedure PR4-7",
     "procedureURL": "https://portal.example/procedures/117",
-    "taskName": "Release — Corrective Proposal",
+    "taskName": "Release \u2014 Corrective Proposal",
     "taskOwner": "U21"
    },
    {
@@ -9525,7 +9525,7 @@
     "roles": "R01",
     "procedureName": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/118",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Approval \u2014 Requirement Capture",
     "taskOwner": "U22"
    },
    {
@@ -9542,7 +9542,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/119",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Assignment \u2014 Electrical Sizing",
     "taskOwner": "U23"
    },
    {
@@ -9559,7 +9559,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/120",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Check \u2014 Offer Costing",
     "taskOwner": "U24"
    },
    {
@@ -9576,7 +9576,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/121",
-    "taskName": "Execution — Mechanical Sizing",
+    "taskName": "Execution \u2014 Mechanical Sizing",
     "taskOwner": "U01"
    },
    {
@@ -9593,7 +9593,7 @@
     "roles": "R06",
     "procedureName": "Procedure PR5-5",
     "procedureURL": "https://portal.example/procedures/122",
-    "taskName": "Followup — Load Assessment",
+    "taskName": "Followup \u2014 Load Assessment",
     "taskOwner": "U02"
    },
    {
@@ -9610,7 +9610,7 @@
     "roles": "R07",
     "procedureName": "Procedure PR5-6",
     "procedureURL": "https://portal.example/procedures/123",
-    "taskName": "Registration — Thermal Study",
+    "taskName": "Registration \u2014 Thermal Study",
     "taskOwner": "U03"
    },
    {
@@ -9627,7 +9627,7 @@
     "roles": "R06",
     "procedureName": "Procedure PR5-7",
     "procedureURL": "https://portal.example/procedures/124",
-    "taskName": "Release — Uprating Report",
+    "taskName": "Release \u2014 Uprating Report",
     "taskOwner": "U04"
    },
    {
@@ -9644,7 +9644,7 @@
     "roles": "R02",
     "procedureName": "Procedure PR2-1",
     "procedureURL": "https://portal.example/procedures/125",
-    "taskName": "Approval — Electrical Design",
+    "taskName": "Approval \u2014 Electrical Design",
     "taskOwner": "U05"
    },
    {
@@ -9661,7 +9661,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR2-2",
     "procedureURL": "https://portal.example/procedures/126",
-    "taskName": "Assignment — Mechanical Layout",
+    "taskName": "Assignment \u2014 Mechanical Layout",
     "taskOwner": "U06"
    },
    {
@@ -9678,7 +9678,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR2-3",
     "procedureURL": "https://portal.example/procedures/127",
-    "taskName": "Check — Design Documentation",
+    "taskName": "Check \u2014 Design Documentation",
     "taskOwner": "U07"
    },
    {
@@ -9695,7 +9695,7 @@
     "roles": "R01",
     "procedureName": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/128",
-    "taskName": "Execution — Requirement Capture",
+    "taskName": "Execution \u2014 Requirement Capture",
     "taskOwner": "U08"
    },
    {
@@ -9712,7 +9712,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-5",
     "procedureURL": "https://portal.example/procedures/129",
-    "taskName": "Followup — Electrical Sizing",
+    "taskName": "Followup \u2014 Electrical Sizing",
     "taskOwner": "U09"
    },
    {
@@ -9729,7 +9729,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR1-6",
     "procedureURL": "https://portal.example/procedures/130",
-    "taskName": "Registration — Offer Costing",
+    "taskName": "Registration \u2014 Offer Costing",
     "taskOwner": "U10"
    },
    {
@@ -9746,7 +9746,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-7",
     "procedureURL": "https://portal.example/procedures/131",
-    "taskName": "Release — Mechanical Sizing",
+    "taskName": "Release \u2014 Mechanical Sizing",
     "taskOwner": "U11"
    },
    {
@@ -9763,7 +9763,7 @@
     "roles": "R07",
     "procedureName": "Procedure PR4-1",
     "procedureURL": "https://portal.example/procedures/132",
-    "taskName": "Approval — Root Cause Analysis",
+    "taskName": "Approval \u2014 Root Cause Analysis",
     "taskOwner": "U12"
    },
    {
@@ -9780,7 +9780,7 @@
     "roles": "R06",
     "procedureName": "Procedure PR4-2",
     "procedureURL": "https://portal.example/procedures/133",
-    "taskName": "Assignment — Corrective Proposal",
+    "taskName": "Assignment \u2014 Corrective Proposal",
     "taskOwner": "U13"
    },
    {
@@ -9797,7 +9797,7 @@
     "roles": "R01",
     "procedureName": "Procedure PC01-3",
     "procedureURL": "https://portal.example/procedures/201",
-    "taskName": "Check — Allocation",
+    "taskName": "Check \u2014 Allocation",
     "taskOwner": "U14"
    },
    {
@@ -9814,7 +9814,7 @@
     "roles": "R02",
     "procedureName": "Procedure PC01-4",
     "procedureURL": "https://portal.example/procedures/202",
-    "taskName": "Execution — Technical Assessment",
+    "taskName": "Execution \u2014 Technical Assessment",
     "taskOwner": "U15"
    },
    {
@@ -9831,7 +9831,7 @@
     "roles": "R01",
     "procedureName": "Procedure PC01-5",
     "procedureURL": "https://portal.example/procedures/203",
-    "taskName": "Followup — Technical Clarification",
+    "taskName": "Followup \u2014 Technical Clarification",
     "taskOwner": "U16"
    },
    {
@@ -9848,7 +9848,7 @@
     "roles": "R01",
     "procedureName": "Procedure PC01-6",
     "procedureURL": "https://portal.example/procedures/204",
-    "taskName": "Registration — Data Collection",
+    "taskName": "Registration \u2014 Data Collection",
     "taskOwner": "U17"
    },
    {
@@ -9865,7 +9865,7 @@
     "roles": "R02",
     "procedureName": "Procedure PC01-7",
     "procedureURL": "https://portal.example/procedures/205",
-    "taskName": "Release — Offer Design",
+    "taskName": "Release \u2014 Offer Design",
     "taskOwner": "U18"
    },
    {
@@ -9882,7 +9882,7 @@
     "roles": "R01",
     "procedureName": "Procedure PC01-1",
     "procedureURL": "https://portal.example/procedures/206",
-    "taskName": "Approval — Operational Clarification",
+    "taskName": "Approval \u2014 Operational Clarification",
     "taskOwner": "U19"
    },
    {
@@ -9899,7 +9899,7 @@
     "roles": "R02",
     "procedureName": "Procedure PC01-2",
     "procedureURL": "https://portal.example/procedures/207",
-    "taskName": "Assignment — Technical Specification",
+    "taskName": "Assignment \u2014 Technical Specification",
     "taskOwner": "U20"
    },
    {
@@ -9916,7 +9916,7 @@
     "roles": "R01",
     "procedureName": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/012",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Approval \u2014 Requirement Capture",
     "taskOwner": "U14"
    },
    {
@@ -9933,7 +9933,7 @@
     "roles": "R01",
     "procedureName": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/012",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Approval \u2014 Requirement Capture",
     "taskOwner": "U15"
    },
    {
@@ -9950,7 +9950,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/032",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Assignment \u2014 Electrical Sizing",
     "taskOwner": "U16"
    },
    {
@@ -9967,7 +9967,7 @@
     "roles": "R04",
     "procedureName": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/032",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Assignment \u2014 Electrical Sizing",
     "taskOwner": "U17"
    },
    {
@@ -9984,7 +9984,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/033",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Check \u2014 Offer Costing",
     "taskOwner": "U18"
    },
    {
@@ -10001,7 +10001,7 @@
     "roles": "R03",
     "procedureName": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/033",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Check \u2014 Offer Costing",
     "taskOwner": "U19"
    }
   ],
@@ -11110,8 +11110,7 @@
     "productScopeRegistry": "PSR-0001",
     "productGroupID": "PG01",
     "scopeID": "A.2",
-    "productScopeName": "LPT · Uprating",
-    "productSpecID": "CLS01",
+    "productScopeName": "LPT \u00b7 Uprating",
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-01-10",
@@ -11122,8 +11121,7 @@
     "productScopeRegistry": "PSR-0002",
     "productGroupID": "PG01",
     "scopeID": "A.3",
-    "productScopeName": "LPT · Uprating with Windings Replacement",
-    "productSpecID": "CLS02",
+    "productScopeName": "LPT \u00b7 Uprating with Windings Replacement",
     "businessSegment": "MPT",
     "isActive": true,
     "createdAt": "2026-01-12",
@@ -11134,8 +11132,7 @@
     "productScopeRegistry": "PSR-0003",
     "productGroupID": "PG02",
     "scopeID": "A.1",
-    "productScopeName": "Autotransformer · Temperature Reduction",
-    "productSpecID": "CLS03",
+    "productScopeName": "Autotransformer \u00b7 Temperature Reduction",
     "businessSegment": "DT",
     "isActive": true,
     "createdAt": "2026-01-15",
@@ -11146,8 +11143,7 @@
     "productScopeRegistry": "PSR-0004",
     "productGroupID": "PG03",
     "scopeID": "A.2",
-    "productScopeName": "Phase Shifter · Uprating",
-    "productSpecID": "CLS04",
+    "productScopeName": "Phase Shifter \u00b7 Uprating",
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-02-01",
@@ -11158,8 +11154,7 @@
     "productScopeRegistry": "PSR-0005",
     "productGroupID": "PG03",
     "scopeID": "B",
-    "productScopeName": "Phase Shifter · Reduction of the volume of gases and moisture in the insulating oil",
-    "productSpecID": "CLS05",
+    "productScopeName": "Phase Shifter \u00b7 Reduction of the volume of gases and moisture in the insulating oil",
     "businessSegment": "MPT",
     "isActive": true,
     "createdAt": "2026-02-05",
@@ -11170,8 +11165,7 @@
     "productScopeRegistry": "PSR-0006",
     "productGroupID": "PG04",
     "scopeID": "G",
-    "productScopeName": "HVDC · Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "productSpecID": "CLS06",
+    "productScopeName": "HVDC \u00b7 Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "businessSegment": "DT",
     "isActive": true,
     "createdAt": "2026-02-10",
@@ -11182,8 +11176,7 @@
     "productScopeRegistry": "PSR-0007",
     "productGroupID": "PG05",
     "scopeID": "A.2",
-    "productScopeName": "Reactors · Uprating",
-    "productSpecID": "CLS07",
+    "productScopeName": "Reactors \u00b7 Uprating",
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-03-01",
@@ -11194,8 +11187,7 @@
     "productScopeRegistry": "PSR-0008",
     "productGroupID": "PG05",
     "scopeID": "A.1",
-    "productScopeName": "Reactors · Temperature Reduction",
-    "productSpecID": "CLS08",
+    "productScopeName": "Reactors \u00b7 Temperature Reduction",
     "businessSegment": "MPT",
     "isActive": true,
     "createdAt": "2026-03-04",
@@ -11206,8 +11198,7 @@
     "productScopeRegistry": "PSR-0009",
     "productGroupID": "PG06",
     "scopeID": "A.3",
-    "productScopeName": "MPT · Uprating with Windings Replacement",
-    "productSpecID": "CLS09",
+    "productScopeName": "MPT \u00b7 Uprating with Windings Replacement",
     "businessSegment": "DT",
     "isActive": true,
     "createdAt": "2026-03-08",
@@ -11218,8 +11209,7 @@
     "productScopeRegistry": "PSR-0010",
     "productGroupID": "PG02",
     "scopeID": "A.2",
-    "productScopeName": "Autotransformer · Uprating",
-    "productSpecID": "CLS10",
+    "productScopeName": "Autotransformer \u00b7 Uprating",
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-03-12",
@@ -11372,109 +11362,52 @@
   ],
   "Product Specs": [
    {
-    "productSpecID": "CLS01",
-    "voltageRate": "<=145",
-    "powerRating": "<=100",
-    "productSpecName": "Class 01",
+    "productSpecID": "SPEC01",
+    "specName": "Voltage Rate",
+    "specInputType": "String",
+    "specDescription": "Rated voltage range in kV",
+    "productID": [
+     "P01",
+     "P02",
+     "P03",
+     "P04",
+     "P05",
+     "P06",
+     "P07",
+     "P08",
+     "P09",
+     "P10",
+     "P11",
+     "P12",
+     "P13",
+     "P14"
+    ],
+    "specOptions": null,
     "productSpecOwner": "U01"
    },
    {
-    "productSpecID": "CLS02",
-    "voltageRate": "<=300",
-    "powerRating": "<=250",
-    "productSpecName": "Class 02",
+    "productSpecID": "SPEC02",
+    "specName": "Power Rating",
+    "specInputType": "String",
+    "specDescription": "Rated power range in MVA",
+    "productID": [
+     "P01",
+     "P02",
+     "P03",
+     "P04",
+     "P05",
+     "P06",
+     "P07",
+     "P08",
+     "P09",
+     "P10",
+     "P11",
+     "P12",
+     "P13",
+     "P14"
+    ],
+    "specOptions": null,
     "productSpecOwner": "U02"
-   },
-   {
-    "productSpecID": "CLS03",
-    "voltageRate": "<=550",
-    "powerRating": "<=400",
-    "productSpecName": "Class 03",
-    "productSpecOwner": "U03"
-   },
-   {
-    "productSpecID": "CLS04",
-    "voltageRate": ">550",
-    "powerRating": ">400",
-    "productSpecName": "Class 04",
-    "productSpecOwner": "U04"
-   },
-   {
-    "productSpecID": "CLS05",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 05",
-    "productSpecOwner": "U05"
-   },
-   {
-    "productSpecID": "CLS06",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 06",
-    "productSpecOwner": "U06"
-   },
-   {
-    "productSpecID": "CLS07",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 07",
-    "productSpecOwner": "U07"
-   },
-   {
-    "productSpecID": "CLS08",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 08",
-    "productSpecOwner": "U08"
-   },
-   {
-    "productSpecID": "CLS09",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 09",
-    "productSpecOwner": "U09"
-   },
-   {
-    "productSpecID": "CLS10",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 10",
-    "productSpecOwner": "U10"
-   },
-   {
-    "productSpecID": "CLS11",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 11",
-    "productSpecOwner": "U11"
-   },
-   {
-    "productSpecID": "CLS12",
-    "voltageRate": "<=36",
-    "powerRating": "<=10",
-    "productSpecName": "Class 12",
-    "productSpecOwner": "U12"
-   },
-   {
-    "productSpecID": "CLS13",
-    "voltageRate": "<=72.5",
-    "powerRating": "<=30",
-    "productSpecName": "Class 13",
-    "productSpecOwner": "U13"
-   },
-   {
-    "productSpecID": "CLS14",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 14",
-    "productSpecOwner": "U14"
-   },
-   {
-    "productSpecID": "CLS15",
-    "voltageRate": "ALL",
-    "powerRating": "ALL",
-    "productSpecName": "Class 15",
-    "productSpecOwner": "U15"
    }
   ],
   "Product Groups": [
@@ -11483,98 +11416,154 @@
     "productGroupName": "LPT",
     "businessSegment": "LPT",
     "productID": "P01",
-    "productGroupOwner": "U01"
+    "productGroupOwner": "U01",
+    "specValues": {
+     "SPEC01": "<=145",
+     "SPEC02": "<=100"
+    }
    },
    {
     "productGroupID": "PG02",
     "productGroupName": "Autotransformer",
     "businessSegment": "LPT",
     "productID": "P02",
-    "productGroupOwner": "U02"
+    "productGroupOwner": "U02",
+    "specValues": {
+     "SPEC01": "<=550",
+     "SPEC02": "<=400"
+    }
    },
    {
     "productGroupID": "PG03",
     "productGroupName": "Phase Shifter",
     "businessSegment": "LPT",
     "productID": "P03",
-    "productGroupOwner": "U03"
+    "productGroupOwner": "U03",
+    "specValues": {
+     "SPEC01": ">550",
+     "SPEC02": ">400"
+    }
    },
    {
     "productGroupID": "PG04",
     "productGroupName": "HVDC",
     "businessSegment": "LPT",
     "productID": "P04",
-    "productGroupOwner": "U04"
+    "productGroupOwner": "U04",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG05",
     "productGroupName": "Reactors",
     "businessSegment": "LPT",
     "productID": "P05",
-    "productGroupOwner": "U05"
+    "productGroupOwner": "U05",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG06",
     "productGroupName": "MPT",
     "businessSegment": "MPT",
     "productID": "P06",
-    "productGroupOwner": "U06"
+    "productGroupOwner": "U06",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG07",
     "productGroupName": "IND",
     "businessSegment": "MPT",
     "productID": "P07",
-    "productGroupOwner": "U07"
+    "productGroupOwner": "U07",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG08",
     "productGroupName": "LDT",
     "businessSegment": "MPT",
     "productID": "P08",
-    "productGroupOwner": "U08"
+    "productGroupOwner": "U08",
+    "specValues": {
+     "SPEC01": "<=36",
+     "SPEC02": "<=10"
+    }
    },
    {
     "productGroupID": "PG09",
     "productGroupName": "CRT",
     "businessSegment": "DT",
     "productID": "P09",
-    "productGroupOwner": "U09"
+    "productGroupOwner": "U09",
+    "specValues": {
+     "SPEC01": "<=72.5",
+     "SPEC02": "<=30"
+    }
    },
    {
     "productGroupID": "PG10",
     "productGroupName": "LIDT",
     "businessSegment": "DT",
     "productID": "P10",
-    "productGroupOwner": "U10"
+    "productGroupOwner": "U10",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG11",
     "productGroupName": "TRAC",
     "businessSegment": "DT",
     "productID": "P11",
-    "productGroupOwner": "U11"
+    "productGroupOwner": "U11",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG12",
     "productGroupName": "VR",
     "businessSegment": "DT",
     "productID": "P12",
-    "productGroupOwner": "U12"
+    "productGroupOwner": "U12",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG13",
     "productGroupName": "CP",
     "businessSegment": "DT",
     "productID": "P13",
-    "productGroupOwner": "U13"
+    "productGroupOwner": "U13",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    },
    {
     "productGroupID": "PG14",
     "productGroupName": "RENEW",
     "businessSegment": "DT",
     "productID": "P14",
-    "productGroupOwner": "U14"
+    "productGroupOwner": "U14",
+    "specValues": {
+     "SPEC01": "ALL",
+     "SPEC02": "ALL"
+    }
    }
   ]
  },
@@ -11636,7 +11625,7 @@
     "projectID": "0034",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[N730700 ENetz Möhrfelden] power increase with new fans and control cubicle",
+    "ticketDescription": "[N730700 ENetz M\u00f6hrfelden] power increase with new fans and control cubicle",
     "processID": "PR4",
     "products": "P04",
     "scopes": "A.4",
@@ -11755,7 +11744,7 @@
     "projectID": "0033",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[AM26_049KE Wesernetz Bühne+Latchways]",
+    "ticketDescription": "[AM26_049KE Wesernetz B\u00fchne+Latchways]",
     "processID": "PR5",
     "products": "P11",
     "scopes": "A.1",
@@ -11823,7 +11812,7 @@
     "projectID": "0037",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[AM26_051stf_UW_Grünkraut_T311_SMITT_220244_Sekundärtechnik] Constructive support for offer preparation",
+    "ticketDescription": "[AM26_051stf_UW_Gr\u00fcnkraut_T311_SMITT_220244_Sekund\u00e4rtechnik] Constructive support for offer preparation",
     "processID": "PR3",
     "products": "P01",
     "scopes": "B",
@@ -11840,7 +11829,7 @@
     "projectID": "0038",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[AM26_052stf_UW_Grünkraut_T312_NORTHWIND_N408157_Sekundärtechnik] Constructive support for offer preparation",
+    "ticketDescription": "[AM26_052stf_UW_Gr\u00fcnkraut_T312_NORTHWIND_N408157_Sekund\u00e4rtechnik] Constructive support for offer preparation",
     "processID": "PR4",
     "products": "P02",
     "scopes": "C",
@@ -11874,7 +11863,7 @@
     "projectID": "0032",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261078 - SE_PL_Mikulowa_Bushing_SPA_YEY] Bushing Exchange  on two-phase shifters.\nAll relevant information is in Fabasoft s.261078. \nHere is one problem that needs your attention.\nIn the tender documentation, the Customer demands a change to the existing leads.\n\nThe existing two M12 cable lugs (for two 185 mm² cables) are rated for currents up to 2 x 800 A = 1600 A.\nDepending on the bushing type and the manufacturer of the lug socket (oil-filled) at the winding output, the connection must be adjusted accordingly.\n\nFrom my point of view the bottleneck is the two 185 mm² copper cables. For a current of 2000 A, four 185 mm² copper cables would be required.\n\nThe problem is that we would have to implement this solution on-site.\n\nMy theoretical solution is:\n\nHave the copper conduit cut and crimp new cables together, but this carries the risk of contaminating the transformer.",
+    "ticketDescription": "[S.261078 - SE_PL_Mikulowa_Bushing_SPA_YEY] Bushing Exchange  on two-phase shifters.\nAll relevant information is in Fabasoft s.261078. \nHere is one problem that needs your attention.\nIn the tender documentation, the Customer demands a change to the existing leads.\n\nThe existing two M12 cable lugs (for two 185 mm\u00b2 cables) are rated for currents up to 2 x 800 A = 1600 A.\nDepending on the bushing type and the manufacturer of the lug socket (oil-filled) at the winding output, the connection must be adjusted accordingly.\n\nFrom my point of view the bottleneck is the two 185 mm\u00b2 copper cables. For a current of 2000 A, four 185 mm\u00b2 copper cables would be required.\n\nThe problem is that we would have to implement this solution on-site.\n\nMy theoretical solution is:\n\nHave the copper conduit cut and crimp new cables together, but this carries the risk of contaminating the transformer.",
     "processID": "PC01",
     "products": "P04",
     "scopes": "E",
@@ -11891,7 +11880,7 @@
     "projectID": "0033",
     "customerName": "STW",
     "eventID": "EV11",
-    "ticketDescription": "[S.251079 - SE_US_ConEd_400MVA_Bushing_ret_SPA_YEY] There is WA6800928 – Astoria. Service WA 3503399. 100 hours for ENG support were planned.\nNew HV bushings (Material number 21001297225) should be installed on a transformer. The drawings should be adapted accordingly. All necessary parts (adaptor flanges, pipes, etc..) should be ordered. \n\nParts are already ordered\nBushing - BUSHING OA/A/RIS/S/362/1300/02000/32/475  SAP 2100129725 -3pcs\nUMFORMUNG KALOTTE - 2100130963 - 3pcs\nBUSHING BAYONET CONNECTION WITH TERMINAL - 2100140253 - 3pcs\nBushing end shield -2006015489 -3pcs\n\nall relevant drawings are in Fabasoft or Agile",
+    "ticketDescription": "[S.251079 - SE_US_ConEd_400MVA_Bushing_ret_SPA_YEY] There is WA6800928 \u2013 Astoria. Service WA 3503399. 100 hours for ENG support were planned.\nNew HV bushings (Material number 21001297225) should be installed on a transformer. The drawings should be adapted accordingly. All necessary parts (adaptor flanges, pipes, etc..) should be ordered. \n\nParts are already ordered\nBushing - BUSHING OA/A/RIS/S/362/1300/02000/32/475  SAP 2100129725 -3pcs\nUMFORMUNG KALOTTE - 2100130963 - 3pcs\nBUSHING BAYONET CONNECTION WITH TERMINAL - 2100140253 - 3pcs\nBushing end shield -2006015489 -3pcs\n\nall relevant drawings are in Fabasoft or Agile",
     "processID": "PR1",
     "products": "P05",
     "scopes": "F",
@@ -11908,7 +11897,7 @@
     "projectID": "0034",
     "customerName": "STW",
     "eventID": "EV11",
-    "ticketDescription": "[S.251080 - SE_US_ConEd_575MVA_PST_Bushing_ret_SPA_YEY] There is PAR WA6800783-784 – Astoria.\nService WA 3503398 \n150 hours were planned\n\n362 kV bushings should be installed. The design should be adapted accordingly (new turrets source/load + current transfomer). \n\nParts are ordered:\nUMFORM. +1 BARR. ZU HSP-ABSCHIRMELEKT. -2100130963 - 6pcs.\nBUSHING OA/A/RIS/S/362/1300/02000/32/475 - 2100129725 - 6pcs.\nBushing end shield - 2006015489 - 6 pcs.\nBUSHING BAYONET CONNECTION WITH TERMINAL - 2100140253 - 6 pcs.\n\nall relevant docs are in Fabasoft",
+    "ticketDescription": "[S.251080 - SE_US_ConEd_575MVA_PST_Bushing_ret_SPA_YEY] There is PAR WA6800783-784 \u2013 Astoria.\nService WA 3503398 \n150 hours were planned\n\n362 kV bushings should be installed. The design should be adapted accordingly (new turrets source/load + current transfomer). \n\nParts are ordered:\nUMFORM. +1 BARR. ZU HSP-ABSCHIRMELEKT. -2100130963 - 6pcs.\nBUSHING OA/A/RIS/S/362/1300/02000/32/475 - 2100129725 - 6pcs.\nBushing end shield - 2006015489 - 6 pcs.\nBUSHING BAYONET CONNECTION WITH TERMINAL - 2100140253 - 6 pcs.\n\nall relevant docs are in Fabasoft",
     "processID": "PR2",
     "products": "P06",
     "scopes": "G",
@@ -11959,7 +11948,7 @@
     "projectID": "0037",
     "customerName": "STN",
     "eventID": "EV02",
-    "ticketDescription": "[EP Produzione - Drawings for the adaptation of a Weiz unit to the Livorno-Ferraris plant (Italy) - V100.2025] We are kindly ask to provide an official estimation of the ENG hours required to update the attached drawing of Weiz unit s/n 112035 (end customer EP Produzione) including 15° tilted HV turrets (drawings attached). This topic has been already discussed with Wittmeier Thomas (first roughly estimation of ENG hours, 30 hours). Kindly provide also an estimation on when the drawings could be available.",
+    "ticketDescription": "[EP Produzione - Drawings for the adaptation of a Weiz unit to the Livorno-Ferraris plant (Italy) - V100.2025] We are kindly ask to provide an official estimation of the ENG hours required to update the attached drawing of Weiz unit s/n 112035 (end customer EP Produzione) including 15\u00b0 tilted HV turrets (drawings attached). This topic has been already discussed with Wittmeier Thomas (first roughly estimation of ENG hours, 30 hours). Kindly provide also an estimation on when the drawings could be available.",
     "processID": "PR5",
     "products": "P09",
     "scopes": "A.3",
@@ -12095,7 +12084,7 @@
     "projectID": "0037",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[AM26_069pk ENO Offenbach UW Mühlheim -T11] New replacement installations after on-site measurement\nFurther documents in the project folder AM26_069pk. \nPlease provide information and documents in German, the customer is in Germany, ...",
+    "ticketDescription": "[AM26_069pk ENO Offenbach UW M\u00fchlheim -T11] New replacement installations after on-site measurement\nFurther documents in the project folder AM26_069pk. \nPlease provide information and documents in German, the customer is in Germany, ...",
     "processID": "PR1",
     "products": "P03",
     "scopes": "A.1",
@@ -12231,7 +12220,7 @@
     "projectID": "0037",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[ONYX KW Farge] Trafo N111 437\nKonstruktive Bewertung der US-Seite für mögliche Anschlusstechniken wegen einem Umbau der Anlage auf BESS",
+    "ticketDescription": "[ONYX KW Farge] Trafo N111 437\nKonstruktive Bewertung der US-Seite f\u00fcr m\u00f6gliche Anschlusstechniken wegen einem Umbau der Anlage auf BESS",
     "processID": "PR3",
     "products": "P11",
     "scopes": "F",
@@ -12265,7 +12254,7 @@
     "projectID": "0031",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261257 - EAG_AT_Lüfteranbau_TABOR_REP_DBC_STL] Customer requested power increase for the unit N006462101. ONAN10MVA --> ONAF 12,5MVA\nTransformer was already prepared for ONAF but with Northwind fans, which are no longer available.\n\nRequired:\n\nEffort estimation:\n- for selecting alternative fans that fit the existing radiators without any modifications.\n- for new nameplate (updated data according to the new fan configuration).\n- for new schematic drawing including the new fans.\n\nWork should begin after receipt of the PO, for now, only an effort estimation is required.",
+    "ticketDescription": "[S.261257 - EAG_AT_L\u00fcfteranbau_TABOR_REP_DBC_STL] Customer requested power increase for the unit N006462101. ONAN10MVA --> ONAF 12,5MVA\nTransformer was already prepared for ONAF but with Northwind fans, which are no longer available.\n\nRequired:\n\nEffort estimation:\n- for selecting alternative fans that fit the existing radiators without any modifications.\n- for new nameplate (updated data according to the new fan configuration).\n- for new schematic drawing including the new fans.\n\nWork should begin after receipt of the PO, for now, only an effort estimation is required.",
     "processID": "PR5",
     "products": "P13",
     "scopes": "A.1",
@@ -12350,7 +12339,7 @@
     "projectID": "0036",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[0] Bitte die Kompatibilität der neuen SETFt550 mit alter OTF550 vergleichen.\nN110133",
+    "ticketDescription": "[0] Bitte die Kompatibilit\u00e4t der neuen SETFt550 mit alter OTF550 vergleichen.\nN110133",
     "processID": "PR4",
     "products": "P04",
     "scopes": "C",
@@ -12401,7 +12390,7 @@
     "projectID": "0031",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[n.a] Ersatztype für DT123 gem. N00 07 509-02",
+    "ticketDescription": "[n.a] Ersatztype f\u00fcr DT123 gem. N00 07 509-02",
     "processID": "PR1",
     "products": "P07",
     "scopes": "F",
@@ -12418,7 +12407,7 @@
     "projectID": "0032",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261308 - WA 67479-480 WNG_AT_Ölstandsanzeiger_REP_MMA] Oil level indicators are defective and must be replaced with a simplified system (only pipe with indicator). Customer wants a simple solution.",
+    "ticketDescription": "[S.261308 - WA 67479-480 WNG_AT_\u00d6lstandsanzeiger_REP_MMA] Oil level indicators are defective and must be replaced with a simplified system (only pipe with indicator). Customer wants a simple solution.",
     "processID": "PR2",
     "products": "P08",
     "scopes": "G",
@@ -12435,7 +12424,7 @@
     "projectID": "0033",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[N730744_UW_Grünkraut_T311_SMIT_220244] Retrofit Engineering",
+    "ticketDescription": "[N730744_UW_Gr\u00fcnkraut_T311_SMIT_220244] Retrofit Engineering",
     "processID": "PR3",
     "products": "P09",
     "scopes": "A.1",
@@ -12452,7 +12441,7 @@
     "projectID": "0034",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[N730745_UW_Grünkraut_T312_N408157] Retrofit Engineering",
+    "ticketDescription": "[N730745_UW_Gr\u00fcnkraut_T312_N408157] Retrofit Engineering",
     "processID": "PR4",
     "products": "P10",
     "scopes": "A.2",
@@ -12554,7 +12543,7 @@
     "projectID": "0032",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[ATUCHA I Cooling plant] Bitte auf technische Realisierbarkeit hin überprüfen.\nTrafo T280895",
+    "ticketDescription": "[ATUCHA I Cooling plant] Bitte auf technische Realisierbarkeit hin \u00fcberpr\u00fcfen.\nTrafo T280895",
     "processID": "PR4",
     "products": "P02",
     "scopes": "E",
@@ -12571,7 +12560,7 @@
     "projectID": "0033",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[D527228 - eNetz Südhessen Babenhausen] In-House Refurbishment of 40MVA SGB transformer\nnew OLTC, HV bushings, conversion of LV to Pfisterer Connex",
+    "ticketDescription": "[D527228 - eNetz S\u00fcdhessen Babenhausen] In-House Refurbishment of 40MVA SGB transformer\nnew OLTC, HV bushings, conversion of LV to Pfisterer Connex",
     "processID": "PR5",
     "products": "P03",
     "scopes": "F",
@@ -12639,7 +12628,7 @@
     "projectID": "0037",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[Infra Fürth Germany, Change from Porcelaine to PFISTERER LV side] Serialnumber N421457 - Change from Porcelaine to PFISTERER LV side, adding one Buchholz",
+    "ticketDescription": "[Infra F\u00fcrth Germany, Change from Porcelaine to PFISTERER LV side] Serialnumber N421457 - Change from Porcelaine to PFISTERER LV side, adding one Buchholz",
     "processID": "PR3",
     "products": "P07",
     "scopes": "A.3",
@@ -12656,7 +12645,7 @@
     "projectID": "0038",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261307 - SE_GB_ENWL_cooling-contrl._SPA_DBC_STL] The customer would like to replace the cooling control system, in the attachment, but the manufacturer don´t exists anymore.\nIs there an alternative we could use here? Could you please have a look at this and let me know what you think?",
+    "ticketDescription": "[S.261307 - SE_GB_ENWL_cooling-contrl._SPA_DBC_STL] The customer would like to replace the cooling control system, in the attachment, but the manufacturer don\u00b4t exists anymore.\nIs there an alternative we could use here? Could you please have a look at this and let me know what you think?",
     "processID": "PR4",
     "products": "P08",
     "scopes": "A.4",
@@ -12673,7 +12662,7 @@
     "projectID": "0031",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[Bushing SOTF vs AETFt] Bitte überprüfen ob wir diese SETFt 1550 im Tx N110233 verwenden können",
+    "ticketDescription": "[Bushing SOTF vs AETFt] Bitte \u00fcberpr\u00fcfen ob wir diese SETFt 1550 im Tx N110233 verwenden k\u00f6nnen",
     "processID": "PR5",
     "products": "P09",
     "scopes": "B",
@@ -12707,7 +12696,7 @@
     "projectID": "0033",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[SEC bushing DT130] DIN123kV vs. STARIP - prüfen ob die Möglichkeit besteht umzurüsten",
+    "ticketDescription": "[SEC bushing DT130] DIN123kV vs. STARIP - pr\u00fcfen ob die M\u00f6glichkeit besteht umzur\u00fcsten",
     "processID": "PR1",
     "products": "P11",
     "scopes": "D",
@@ -12877,7 +12866,7 @@
     "projectID": "0035",
     "customerName": "TUSA",
     "eventID": "EV02",
-    "ticketDescription": "[1015-26_Energie AG-OLTC Exchange-50MVA-110V-Vöklabruck-AT] Small Service incl. OLTC exchange. Details as per project Brief enclosed",
+    "ticketDescription": "[1015-26_Energie AG-OLTC Exchange-50MVA-110V-V\u00f6klabruck-AT] Small Service incl. OLTC exchange. Details as per project Brief enclosed",
     "processID": "PR5",
     "products": "P07",
     "scopes": "D",
@@ -13149,7 +13138,7 @@
     "projectID": "0035",
     "customerName": "PN",
     "eventID": "EV11",
-    "ticketDescription": "[Study SVC Siems] SNr N110291\nMain data: 200/200 MVA; 380/18.1 kV without OLTC; ODAF with a radiator battery incl. fans\n•\tNominal induction? Can it be operated at 420 kV up to rated power? For a short time 30 minutes with 440 kV ?\n•\tWhat is the maximum continuous load possible if the cooling system were enlarged? The target is approx. 300 MVA.\n•\tCould the existing cooling system in the area of the fans be supplemented with additional radiator elements for this purpose? If necessary, attach fans under the radiators.\n•\tWhat is the maximum output possible with current cooling capacity or increased cooling capacity for (starting point: 200 MVA constant, 40°C environment. Limits: hotspot max. 100 K, oil jump max. 60 K):\no\t6 hrs\no\t2 hrs\no\t30 min\no\t10 s\n•\tAre there any special restrictions for pure inductive or capacitive operation?",
+    "ticketDescription": "[Study SVC Siems] SNr N110291\nMain data: 200/200 MVA; 380/18.1 kV without OLTC; ODAF with a radiator battery incl. fans\n\u2022\tNominal induction? Can it be operated at 420 kV up to rated power? For a short time 30 minutes with 440 kV ?\n\u2022\tWhat is the maximum continuous load possible if the cooling system were enlarged? The target is approx. 300 MVA.\n\u2022\tCould the existing cooling system in the area of the fans be supplemented with additional radiator elements for this purpose? If necessary, attach fans under the radiators.\n\u2022\tWhat is the maximum output possible with current cooling capacity or increased cooling capacity for (starting point: 200 MVA constant, 40\u00b0C environment. Limits: hotspot max. 100 K, oil jump max. 60 K):\no\t6 hrs\no\t2 hrs\no\t30 min\no\t10 s\n\u2022\tAre there any special restrictions for pure inductive or capacitive operation?",
     "processID": "PR3",
     "products": "P09",
     "scopes": "A.3",
@@ -13268,7 +13257,7 @@
     "projectID": "0034",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261522 - SE_GB_ESB_NachrechnungP2_CEX_DBC_STL] This requestis a bit older. It was handled by the calculations department in Linz, and we had several meetings with ESB regarding the investigations. Now the ESBhas submitted new inquiries. The calculations will be handled by Linz, as Linz has performed all calculations to date. Paulo Bicca was present at the last meeting with ESB. On the page 13 in the report under: “Further investigation not part of the thermal investigation,” the open issues are listed; the leads design and stray flux are being handled by Linz. \nI will optionally include the topic regarding the Conservator & Control Cubicle in my proposal. If the calculations are acceptable to the client, the further work should be handled through the Global Ing hub -->  for this reason, I need your work time estimate for this work. I will include the investigation and the email from the customer with the additional questions in the attachments. The contacts in Linz for the calculations are 1. Rene Wind and 2. Anatolii Boev. \nPlease tell me the work time hours estimate.",
+    "ticketDescription": "[S.261522 - SE_GB_ESB_NachrechnungP2_CEX_DBC_STL] This requestis a bit older. It was handled by the calculations department in Linz, and we had several meetings with ESB regarding the investigations. Now the ESBhas submitted new inquiries. The calculations will be handled by Linz, as Linz has performed all calculations to date. Paulo Bicca was present at the last meeting with ESB. On the page 13 in the report under: \u201cFurther investigation not part of the thermal investigation,\u201d the open issues are listed; the leads design and stray flux are being handled by Linz. \nI will optionally include the topic regarding the Conservator & Control Cubicle in my proposal. If the calculations are acceptable to the client, the further work should be handled through the Global Ing hub -->  for this reason, I need your work time estimate for this work. I will include the investigation and the email from the customer with the additional questions in the attachments. The contacts in Linz for the calculations are 1. Rene Wind and 2. Anatolii Boev. \nPlease tell me the work time hours estimate.",
     "processID": "PR4",
     "products": "P02",
     "scopes": "G",
@@ -13319,7 +13308,7 @@
     "projectID": "0037",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261505 - Netz-NÖ_AT_Dfg-Umbau_REP_DBC_STL] The customer has contacted us to inquire whether the LV Connex size 2 bushings can be converted to porcelain bushings for unit N005650102.\n\nMy engineering colleague in Linz, Peter Dichlberger, was involved in this request and confirmed that the conversion is feasible using a new handhole cover.\nI need information on the weight of the handhole cover in order to estimate the cost. The porcelain bushings must be plug-in type.\nThe (30F / 2000A) bushings should be the correct ones—please confirm.\nPlease provide me an effort estimation for your works so that I can take this into my offer.",
+    "ticketDescription": "[S.261505 - Netz-N\u00d6_AT_Dfg-Umbau_REP_DBC_STL] The customer has contacted us to inquire whether the LV Connex size 2 bushings can be converted to porcelain bushings for unit N005650102.\n\nMy engineering colleague in Linz, Peter Dichlberger, was involved in this request and confirmed that the conversion is feasible using a new handhole cover.\nI need information on the weight of the handhole cover in order to estimate the cost. The porcelain bushings must be plug-in type.\nThe (30F / 2000A) bushings should be the correct ones\u2014please confirm.\nPlease provide me an effort estimation for your works so that I can take this into my offer.",
     "processID": "PR1",
     "products": "P05",
     "scopes": "A.3",
@@ -13336,7 +13325,7 @@
     "projectID": "0038",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261551 - SE_GB_ESB_Carrickmines T141_REP_DBC_STL] Please see attached the customer’s request mail (ESB, Jonathan Carpenter).\n\nThe transformer has never been in operation before. Following our meeting with the customer, it was agreed with the customer that the oil-to-oil bushings will be replaced with units from a manufacturer we are familiar with. In addition, it needs to be verified whether the links that were never installed can be used, or if new ones need to be designed.\n\nDuring the repair, we will replace all three cable boxes, as well as the expansion conservtor of the cable boxes. I have also suggested replacing the piping, as corrosion may have developed over time if the transformer was never properly filled with oil.\n\nFurthermore, I have recommended to the customer that the Buchholz relay should also be replaced.\n\nFor all these activities, I require your work time estimation. If there are any open questions,feel free to ask.",
+    "ticketDescription": "[S.261551 - SE_GB_ESB_Carrickmines T141_REP_DBC_STL] Please see attached the customer\u2019s request mail (ESB, Jonathan Carpenter).\n\nThe transformer has never been in operation before. Following our meeting with the customer, it was agreed with the customer that the oil-to-oil bushings will be replaced with units from a manufacturer we are familiar with. In addition, it needs to be verified whether the links that were never installed can be used, or if new ones need to be designed.\n\nDuring the repair, we will replace all three cable boxes, as well as the expansion conservtor of the cable boxes. I have also suggested replacing the piping, as corrosion may have developed over time if the transformer was never properly filled with oil.\n\nFurthermore, I have recommended to the customer that the Buchholz relay should also be replaced.\n\nFor all these activities, I require your work time estimation. If there are any open questions,feel free to ask.",
     "processID": "PR2",
     "products": "P06",
     "scopes": "A.4",
@@ -13370,7 +13359,7 @@
     "projectID": "0032",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261544 - TenneT_DE_PST_UMBAU_Kühlsystem_REP_MMA] Die beiden PSTs in UW Diele (Ser. No; 1,726.622/3, wo.r: 66732/3 bzw. Ser. No; 1,726.624/5, wo.r: 66734/5)\naus den Baujahren 2006/7 sollen im Zuge der UW-Erweiterung um 2 weitere PSTs auf neue Fundamente\nversetzt werden. Die Ausschreibung für die neuen PSTs läuft gerade.\nD.h., die Bestands-PSTs sollen möglichst auf die identischen Fundamente wie die aktuellen PSTs für\nWaldeck versetzt werden.\nDa diese älteren PSTs mit ODAN -Kühlung und 2 Radiatorenbatterien je Kessel ausgeführt wurden, geht\ndiese Umsetzung nur mit dem Anbau von einer neuen, kleineren ODAF-Radiatorenbatterie.\nErschwerend kommt noch hinzu, dass bei diesen PST entgegen unserem neuen Standard die Kühler nicht auf der Schalterseite der Kessel angeschlossen sind.\nFolgende Fragen habe ich hier aktuell:\n- Sind die Blindflansche unten auf der Schalterseite mit den internen OD-Kanälen verbunden?\nKönnte die Kaltölleitung neuer Kühler hier angeschlossen werden?\n\nKönnte der Warmölanschluss mit vertretbaren Aufwand nach vorne auf die Schalterseite mittels\nexternen Rohrleitungen (möglichst nur eine je Kessel) neben/über dem Kesseldeckel verlegt werden?\n\nWäre es möglich die vorhandenen ODAN-Radiatorenbatterien durch die ODAF-Radiatorenbatterien\nder aktuellen PSTs zu ersetzen?\nDie Verlustleitung der Bestands-PSTs (0,340 MW + 2,13 MW=2,47 MW ) ist etwas kleiner als die\nVerluste bei den aktuellen PSTs( 0,25 MW+2,45 MW=2,7 MW).\nKönnte auch eine Pumpe PR300/6 die beiden aktuell installierten Pumpen PR250/6 ersetzen?\nEine PR300/6 in Kaltölleitung möglich?",
+    "ticketDescription": "[S.261544 - TenneT_DE_PST_UMBAU_K\u00fchlsystem_REP_MMA] Die beiden PSTs in UW Diele (Ser. No; 1,726.622/3, wo.r: 66732/3 bzw. Ser. No; 1,726.624/5, wo.r: 66734/5)\naus den Baujahren 2006/7 sollen im Zuge der UW-Erweiterung um 2 weitere PSTs auf neue Fundamente\nversetzt werden. Die Ausschreibung f\u00fcr die neuen PSTs l\u00e4uft gerade.\nD.h., die Bestands-PSTs sollen m\u00f6glichst auf die identischen Fundamente wie die aktuellen PSTs f\u00fcr\nWaldeck versetzt werden.\nDa diese \u00e4lteren PSTs mit ODAN -K\u00fchlung und 2 Radiatorenbatterien je Kessel ausgef\u00fchrt wurden, geht\ndiese Umsetzung nur mit dem Anbau von einer neuen, kleineren ODAF-Radiatorenbatterie.\nErschwerend kommt noch hinzu, dass bei diesen PST entgegen unserem neuen Standard die K\u00fchler nicht auf der Schalterseite der Kessel angeschlossen sind.\nFolgende Fragen habe ich hier aktuell:\n- Sind die Blindflansche unten auf der Schalterseite mit den internen OD-Kan\u00e4len verbunden?\nK\u00f6nnte die Kalt\u00f6lleitung neuer K\u00fchler hier angeschlossen werden?\n\nK\u00f6nnte der Warm\u00f6lanschluss mit vertretbaren Aufwand nach vorne auf die Schalterseite mittels\nexternen Rohrleitungen (m\u00f6glichst nur eine je Kessel) neben/\u00fcber dem Kesseldeckel verlegt werden?\n\nW\u00e4re es m\u00f6glich die vorhandenen ODAN-Radiatorenbatterien durch die ODAF-Radiatorenbatterien\nder aktuellen PSTs zu ersetzen?\nDie Verlustleitung der Bestands-PSTs (0,340 MW + 2,13 MW=2,47 MW ) ist etwas kleiner als die\nVerluste bei den aktuellen PSTs( 0,25 MW+2,45 MW=2,7 MW).\nK\u00f6nnte auch eine Pumpe PR300/6 die beiden aktuell installierten Pumpen PR250/6 ersetzen?\nEine PR300/6 in Kalt\u00f6lleitung m\u00f6glich?",
     "processID": "PR4",
     "products": "P08",
     "scopes": "C",
@@ -13387,7 +13376,7 @@
     "projectID": "0033",
     "customerName": "STCA",
     "eventID": "EV02",
-    "ticketDescription": "[SF 262543603 - Alliant Energy - TP499/500 TR Uprating] Request Summary:\nWe request an estimate of engineering hours to perform an engineering assessment for transformer uprating of two (02) GSU units.\nThe intention is to prepare a customer offer covering only the engineering study and the final report.\n\nTransformer Data\n\nQuantity: 2 units\nType: Three-phase GSU Transformer\nRating: 150 / 200 / 250 MVA\nVoltage: 142 / 18 kV\nCooling: ONAN / ONAF / ONAF\nTap Changer: DETC\nOEM: Northwind Energy Mexico (legacy Ferranti Packard)\n\nEnd Customer\nAlliant Energy – Riverside Plant\nBackground\nThe customer is evaluating the possibility of uprating the current GSUs to support increased generation output (target up to 290 MVA).\nSome pictures and limited documentation of the transformers in operation were provided.\n\nScope of Work:\nEngineering assessment to evaluate the feasibility of uprating the two GSU transformers.\nExpected Output (for reference only – not required at this stage)\nAlthough not required in detail for this hours estimate, the engineering assessment is expected to include:\n\nThermal evaluation (top oil temperature extrapolation based on current and proposed losses) - Test Report Available.\nVerification of current-carrying capacity of critical components (Bushings, CT's, DETC, etc)\nPreliminary recommendations (e.g., cooling upgrades such as additional fans or fans replacements)\nTransformer life expectancy impact under higher loading\nConceptual sketches (croquis) showing mainly modification.\nTechnical conclusion regarding uprating feasibility\n\nImportant Note\nAt this stage, we only require the estimated engineering hours to perform the assessment described above.",
+    "ticketDescription": "[SF 262543603 - Alliant Energy - TP499/500 TR Uprating] Request Summary:\nWe request an estimate of engineering hours to perform an engineering assessment for transformer uprating of two (02) GSU units.\nThe intention is to prepare a customer offer covering only the engineering study and the final report.\n\nTransformer Data\n\nQuantity: 2 units\nType: Three-phase GSU Transformer\nRating: 150 / 200 / 250 MVA\nVoltage: 142 / 18 kV\nCooling: ONAN / ONAF / ONAF\nTap Changer: DETC\nOEM: Northwind Energy Mexico (legacy Ferranti Packard)\n\nEnd Customer\nAlliant Energy \u2013 Riverside Plant\nBackground\nThe customer is evaluating the possibility of uprating the current GSUs to support increased generation output (target up to 290 MVA).\nSome pictures and limited documentation of the transformers in operation were provided.\n\nScope of Work:\nEngineering assessment to evaluate the feasibility of uprating the two GSU transformers.\nExpected Output (for reference only \u2013 not required at this stage)\nAlthough not required in detail for this hours estimate, the engineering assessment is expected to include:\n\nThermal evaluation (top oil temperature extrapolation based on current and proposed losses) - Test Report Available.\nVerification of current-carrying capacity of critical components (Bushings, CT's, DETC, etc)\nPreliminary recommendations (e.g., cooling upgrades such as additional fans or fans replacements)\nTransformer life expectancy impact under higher loading\nConceptual sketches (croquis) showing mainly modification.\nTechnical conclusion regarding uprating feasibility\n\nImportant Note\nAt this stage, we only require the estimated engineering hours to perform the assessment described above.",
     "processID": "PR5",
     "products": "P09",
     "scopes": "D",
@@ -13540,7 +13529,7 @@
     "projectID": "0034",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[AM26_145stf_Tennet_UW_Diele_AbstSich_Design_support_Serial Number_Work Order] Absturzsicherung_an_einer_Spule_UW_Diele_nachrüsten",
+    "ticketDescription": "[AM26_145stf_Tennet_UW_Diele_AbstSich_Design_support_Serial Number_Work Order] Absturzsicherung_an_einer_Spule_UW_Diele_nachr\u00fcsten",
     "processID": "PR2",
     "products": "P04",
     "scopes": "C",
@@ -13693,7 +13682,7 @@
     "projectID": "0035",
     "customerName": "PN",
     "eventID": "EV02",
-    "ticketDescription": "[AM26_XXX_Kuwait_N110793] Machbarkeit und Budgetstunden für Angebotserstellung Transviso",
+    "ticketDescription": "[AM26_XXX_Kuwait_N110793] Machbarkeit und Budgetstunden f\u00fcr Angebotserstellung Transviso",
     "processID": "PR5",
     "products": "P13",
     "scopes": "B",
@@ -13863,7 +13852,7 @@
     "projectID": "0037",
     "customerName": "STW",
     "eventID": "EV02",
-    "ticketDescription": "[S.261483 / WA 66407_S.261483 - Illwerke_Durchführungstausch_REP_MMA_1632330 und 1632331_Work Order] Customer inquiry:\n1. Mesh-dome transformer (200 MVA, ELIN, TDQ-365R27T9K-99), manufactured in 1999,\nserial number 1690028\nThis transformer is equipped with Euromold connectors on System 4 (20 kV) (Euromold Series 200, Type\nK180AR-2/J).\nWe would like to replace these with Pfisterer connectors, e.g., Pfisterer Connex single\nangle connectors, size 1. These are installed in another power distribution transformer of the same type\n(NORTHWIND, TDQ-365R27T9K-99, manufactured in 2013).  \nDo you know if this is possible and permissible? The Pfisterer connector with the\ncorrect cone length would have to be used (A = 168)\nOr are there still replacement plugs from Euromold that would fit?\nFor this transformer, we would also swap out the bushings from System 1 and System 2.\nThese bushings are all from HSP (SETFt ...).\nWould it be advisable to use the same bushings (if available) from HSP\nagain in this case?\n\nFor other transformers, we have also used suitable bushings from Moser Glaser\nin the past.  \nA bushing replacement is also pending for three other 450 MVA transformers. To keep things\nclear, however, I am referring here only to the 200 MVA power coupler mentioned above.\nThese projects are planned for 2028. Do you offer such services as part of your transformer maintenance program? That is, bushing replacement?\n\n2. The serial numbers of our three 450 MVA grid-coupling transformers are as follows:\nTwo are from ELIN and are of the same type (TDQ-405R44D9K-99): 1632330 and 1632331\nThe third is from SCHORCH (now GE?): Type TC 2456E, 627150101\nFor these three transformers as well, we have installed the same Euromold connectors (Type K180AR-2/J)\non System 4.\nAnd the bushings (Systems 1 and 2) are all from HSP (SOTF, SETF).\nI first need to clarify internally and with the company how we will handle the maintenance of our transformers\nhere—that is, whether we will simply replace the bushings or focus more on monitoring.\nWe perform diagnostic measurements every 5 years.\nTherefore, before you invest time in detailed planning or preparing a quote, a rough cost estimate would be\nmore than sufficient for us during the current decision-making and budgeting phase.\nFor budgeting purposes, a non-binding cost estimate for replacing the bushings would be very\nhelpful—specifically for replacing the bushings in Systems 1, 2, and 4 of the relevant\ntransformers.",
+    "ticketDescription": "[S.261483 / WA 66407_S.261483 - Illwerke_Durchf\u00fchrungstausch_REP_MMA_1632330 und 1632331_Work Order] Customer inquiry:\n1. Mesh-dome transformer (200 MVA, ELIN, TDQ-365R27T9K-99), manufactured in 1999,\nserial number 1690028\nThis transformer is equipped with Euromold connectors on System 4 (20 kV) (Euromold Series 200, Type\nK180AR-2/J).\nWe would like to replace these with Pfisterer connectors, e.g., Pfisterer Connex single\nangle connectors, size 1. These are installed in another power distribution transformer of the same type\n(NORTHWIND, TDQ-365R27T9K-99, manufactured in 2013).  \nDo you know if this is possible and permissible? The Pfisterer connector with the\ncorrect cone length would have to be used (A = 168)\nOr are there still replacement plugs from Euromold that would fit?\nFor this transformer, we would also swap out the bushings from System 1 and System 2.\nThese bushings are all from HSP (SETFt ...).\nWould it be advisable to use the same bushings (if available) from HSP\nagain in this case?\n\nFor other transformers, we have also used suitable bushings from Moser Glaser\nin the past.  \nA bushing replacement is also pending for three other 450 MVA transformers. To keep things\nclear, however, I am referring here only to the 200 MVA power coupler mentioned above.\nThese projects are planned for 2028. Do you offer such services as part of your transformer maintenance program? That is, bushing replacement?\n\n2. The serial numbers of our three 450 MVA grid-coupling transformers are as follows:\nTwo are from ELIN and are of the same type (TDQ-405R44D9K-99): 1632330 and 1632331\nThe third is from SCHORCH (now GE?): Type TC 2456E, 627150101\nFor these three transformers as well, we have installed the same Euromold connectors (Type K180AR-2/J)\non System 4.\nAnd the bushings (Systems 1 and 2) are all from HSP (SOTF, SETF).\nI first need to clarify internally and with the company how we will handle the maintenance of our transformers\nhere\u2014that is, whether we will simply replace the bushings or focus more on monitoring.\nWe perform diagnostic measurements every 5 years.\nTherefore, before you invest time in detailed planning or preparing a quote, a rough cost estimate would be\nmore than sufficient for us during the current decision-making and budgeting phase.\nFor budgeting purposes, a non-binding cost estimate for replacing the bushings would be very\nhelpful\u2014specifically for replacing the bushings in Systems 1, 2, and 4 of the relevant\ntransformers.",
     "processID": "PR3",
     "products": "P09",
     "scopes": "B",
@@ -19275,7 +19264,7 @@
     "graduationID": "G1",
     "graduationTitle": "Electrical Engineering",
     "field": "Engineering",
-    "institutionName": "TU München",
+    "institutionName": "TU M\u00fcnchen",
     "graduationName": "Electrical Engineering",
     "graduationOwner": "U01"
    },
@@ -20093,7 +20082,10 @@
     "activityID": "A01",
     "resources": "e-learning",
     "competenceOwner": "U01",
-    "productSpecID": "CLS03"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP02",
@@ -20105,7 +20097,10 @@
     "activityID": "A02",
     "resources": "mentoring",
     "competenceOwner": "U02",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP03",
@@ -20117,7 +20112,10 @@
     "activityID": "A03",
     "resources": "workshop",
     "competenceOwner": "U03",
-    "productSpecID": "CLS02"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP04",
@@ -20129,7 +20127,10 @@
     "activityID": "A04",
     "resources": "certification",
     "competenceOwner": "U04",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP05",
@@ -20141,7 +20142,10 @@
     "activityID": "A05",
     "resources": "e-learning",
     "competenceOwner": "U05",
-    "productSpecID": "CLS05"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP06",
@@ -20153,7 +20157,10 @@
     "activityID": "A06",
     "resources": "mentoring",
     "competenceOwner": "U06",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP07",
@@ -20165,7 +20172,10 @@
     "activityID": "A07",
     "resources": "workshop",
     "competenceOwner": "U07",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP08",
@@ -20177,7 +20187,10 @@
     "activityID": "A08",
     "resources": "certification",
     "competenceOwner": "U08",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP09",
@@ -20189,7 +20202,10 @@
     "activityID": "A09",
     "resources": "e-learning",
     "competenceOwner": "U09",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP10",
@@ -20201,7 +20217,10 @@
     "activityID": "A10",
     "resources": "mentoring",
     "competenceOwner": "U10",
-    "productSpecID": "CLS06"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP11",
@@ -20213,7 +20232,10 @@
     "activityID": "A11",
     "resources": "workshop",
     "competenceOwner": "U11",
-    "productSpecID": "CLS03"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    },
    {
     "competenceID": "CMP12",
@@ -20225,7 +20247,10 @@
     "activityID": "A12",
     "resources": "certification",
     "competenceOwner": "U12",
-    "productSpecID": "CLS01"
+    "productSpecID": [
+     "SPEC01",
+     "SPEC02"
+    ]
    }
   ]
  }

@@ -151,8 +151,16 @@ function render() {
 
   const mod = getModules()[active.module];
   if (!mod) { active = { module: 0, tab: 0 }; return render(); }
+
+  // Every table in this module is kept out of the tab strip (dashboard-order 0).
+  if (!mod.tables.length) {
+    tabScrollEl.innerHTML = '';
+    tabViewEl.innerHTML = '<div class="empty-note">No dashboards are enabled for this module.</div>';
+    return;
+  }
   if (active.tab >= mod.tables.length) active.tab = 0;
 
+  // Tabs render in dashboard-order — getModules() already returns them sorted.
   tabScrollEl.innerHTML = '';
   mod.tables.forEach((t, ti) => {
     const chip = document.createElement('div');
