@@ -42,6 +42,23 @@ Models the QMS process hierarchy at four levels of decomposition.
 | Channel, Interface, Tool, Handout, Property, Specs | Supporting operational entities |
 | Product & Service / Product Category | Products/services affected by quality events |
 
+**Product Specs — dynamic attribute definitions (ISO §8.1):**
+
+`Product Specs` is not a table of fixed classification records; each row *defines an attribute* that Product Groups of the applicable products must fill in.
+
+| Attribute | Type | Purpose |
+|---|---|---|
+| `productSpecID` | PK (auto) | |
+| `specName` | VARCHAR | Becomes the attribute label in the Product Group form |
+| `specInputType` | ENUM: `INT` \| `DECIMAL` \| `String` \| `List` | Controls the input control rendered for the attribute |
+| `specDescription` | TEXT | Shown as the field hint |
+| `productID` | FK → Products, **multivalued** | Products this spec applies to |
+| `specOptions` | VARCHAR | Semicolon/comma-separated allowed values; only used when `specInputType = List` |
+
+**Dispatch into Product Groups:** when a Product Group is created/edited, selecting the Product enables exactly the spec fields assigned to that product, each typed per `specInputType`. The entered values are stored on the Product Group record as a `specValues` object map (`productSpecID → value`) and surfaced in tables through a computed **SPECS** summary column (`computed: MAP(specValues → Product Specs display: specName)` in the prototype rule mini-DSL), rendering e.g. `Voltage Rate: <=145, Power Rating: <=100`.
+
+Downstream consequences: `Competence` references spec *definitions* it certifies (multivalued FK → Product Specs, displayed by `specName`); `Product Scopes` no longer stores a `productSpecID` — the spec dimension lives on the Product Group. Implemented in `prototype/data/datamodel.json` (Product Specs / Product Groups schemas) and the prototype engine (`MAP()` rule kind in `model.js`/`resolve.js`, `dynamic-specs` form field type in `forms.js`).
+
 ### 3. Leadership & Resource Context (ISO 9001:2015 §5)
 
 | Entity | Role |
