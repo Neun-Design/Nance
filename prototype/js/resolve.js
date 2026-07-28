@@ -48,15 +48,11 @@ function valuesOverlap(tableA, fieldA, tableB, fieldB) {
   });
 }
 
-function concatDisplay(rec, parts) {
-  return parts.map((p) => (p.lit != null ? p.lit : (rec[p.field] ?? ''))).join('');
-}
-
 // computed: CONCAT(...) evaluated on the SAME row, resolving each field part
 // cross-table. Supports two bespoke tokens used in the datamodel:
 //   [field]                     → the field's resolved value(s), brackets dropped
 //   [{typeField: valueField}]   → paired "typeValue: valueValue", comma-joined
-function computedConcat(tableName, parts, row, depth) {
+export function computedConcat(tableName, parts, row, depth) {
   return parts.map((p) => {
     if (p.lit != null) return p.lit;
     const f = String(p.field).trim().replace(/^\[|\]$/g, '');
@@ -85,7 +81,13 @@ export function fkDisplay(fk, value) {
   const meta = ENTITY_META[fk.table];
   const rec = getById(fk.table, value);
   if (!rec) return value; // stored as display value already, or unknown id
-  if (fk.concat) return concatDisplay(rec, fk.concat);
+  if (fk.concat) {
+    // resolve parts cross-table so computed fields (e.g. specsSummary) work;
+    // fall back to the target's label when nothing resolves
+    const s = computedConcat(fk.table, fk.concat, rec, 0).replace(/\s+/g, ' ').trim();
+    if (s && !/^[\s|,:—-]*$/.test(s)) return s;
+    return meta && rec[meta.label] != null ? rec[meta.label] : value;
+  }
   let field = fk.display && fk.display !== (meta && meta.pk) && rec[fk.display] != null
     ? fk.display : null;
   if (!field) field = meta && rec[meta.label] != null ? meta.label : null;
@@ -173,7 +175,7 @@ function idsToDisplay(value, targets, display, depth) {
 // Resolution order: 1) declared via-through directive, 2) declared via field
 // (child FK to parent, else shared-field join), 3) direct FK / pk-name match,
 // 4) shared-domain join, 5) two-hop join through an intermediate table
-// (e.g. Tasks → Workflows.constraints → Constraints).
+// (e.g. Tasks → Workflows.requirements → Requirements).
 export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
   const parentCat = getCatalog(parentTable);
   const pkVal = parentRow[parentCat.pk];
@@ -184,6 +186,9 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
   }
   if (rows == null && opts.throughField) {
     rows = throughFieldJoin(parentTable, parentRow, childTable, opts.throughField);
+  }
+  if (rows == null && opts.viaList) {
+    rows = multiViaJoin(parentTable, parentRow, childTable, opts.viaList, pkVal);
   }
   if (rows == null && opts.via) {
     rows = viaFieldJoin(parentTable, parentRow, childTable, opts.via, pkVal);
@@ -212,6 +217,32 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
       .localeCompare(String(b[opts.orderBy] ?? ''), undefined, { numeric: true }));
   }
   return rows;
+}
+
+// "via: a + b + c" — compound key with AND semantics: children must match the
+// parent on every listed field that the child DATA actually stores. Each field
+// is either a child FK to the parent (matched against the parent pk) or a
+// field shared by both sides (sameVal, array-aware — e.g. Requirements store
+// scopeID/productGroupID arrays while Product Scopes store single values).
+// Fields absent from the child data are skipped, so rules can name aspirational
+// keys without breaking (guide §10: data wins over catalogue).
+function multiViaJoin(parentTable, parentRow, childTable, fields, pkVal) {
+  const childRows = getEntity(childTable);
+  const childPk = getCatalog(childTable).pk;
+  const usable = fields.filter((f) => f !== childPk && childRows.some((c) => f in c));
+  if (!usable.length) return null;
+  let rows = childRows, constrained = false;
+  for (const f of usable) {
+    if (fieldDomain(childTable, f) === parentTable) {
+      rows = rows.filter((c) => matches(c[f], pkVal));
+      constrained = true;
+    } else if (f in parentRow && parentRow[f] != null && parentRow[f] !== '') {
+      rows = rows.filter((c) => sameVal(c[f], parentRow[f]));
+      constrained = true;
+    }
+    // else: field unresolvable on the parent — skip
+  }
+  return constrained ? rows : null;
 }
 
 // "via: X" — X is a child FK back to the parent, or a field stored on BOTH
@@ -280,8 +311,8 @@ function cataloguePks() {
 }
 
 // candidate join fields for a table: what the DATA stores plus what the
-// catalogue declares (the two disagree in places — e.g. Workflows.constrains
-// in the datamodel vs .constraints in the dataset; guide §10)
+// catalogue declares (the two disagree in places — e.g. legacy Workflows.constrains
+// in the datamodel vs .constraints in the dataset — both now "requirements"; guide §10)
 function joinFields(table) {
   const cat = getCatalog(table);
   const names = new Set(getBaseFields(table));
@@ -317,7 +348,7 @@ function sharedDomainJoin(parentTable, parentRow, childTable) {
 // two-hop join: parent → intermediate table M → child ids stored on M.
 // Connections tried per M: (a) parent stores M's pk, (b) M stores parent's pk,
 // (c) parent and M share a third domain (e.g. Product Scopes.scopeID and
-// Workflows.scopes both → Scopes, Workflows.constraints → Constraints).
+// Workflows.scopes both → Scopes, Workflows.requirements → Requirements).
 const _twoHopCache = {};
 function twoHopJoin(parentTable, parentRow, childTable) {
   const key = `${parentTable}→${childTable}`;
@@ -464,8 +495,8 @@ function throughFieldJoin(parentTable, parentRow, childTable, field) {
 }
 
 // last resort: invert a derived relationship declared on the CHILD — e.g.
-// Constraints → Product Scopes, where Product Scopes.constraintName is a
-// rollup targeting Constraints. A child belongs to the parent when the
+// Requirements → Product Scopes, where Product Scopes.requirementID is a
+// rollup targeting Requirements. A child belongs to the parent when the
 // parent appears among the child's resolved rows.
 const _revCache = {};
 const _revActive = new Set();
@@ -478,7 +509,7 @@ function reverseDerivedJoin(parentTable, parentRow, childTable) {
     for (const a of cCat.attrs) {
       const r = parseRule(a.rule);
       if (r && r.kind !== 'fk' && r.target && resolveTable(r.target) === parentTable) {
-        _revCache[key] = { via: simpleVia(r.via) };
+        _revCache[key] = { via: simpleVia(r.via), viaList: r.viaList };
         break;
       }
     }
@@ -490,7 +521,7 @@ function reverseDerivedJoin(parentTable, parentRow, childTable) {
   _revActive.add(key);
   try {
     return getEntity(childTable).filter((c) =>
-      childrenOf(childTable, c, parentTable, { via: spec.via }).some((p) => p[pk] === pkVal));
+      childrenOf(childTable, c, parentTable, { via: spec.via, viaList: spec.viaList }).some((p) => p[pk] === pkVal));
   } finally {
     _revActive.delete(key);
   }
@@ -527,7 +558,7 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
     if (rr && rr.target) {
       const child = resolveTable(rr.target);
       if (child) {
-        const kids = childrenOf(tableName, row, child, { via: simpleVia(rr.via) });
+        const kids = childrenOf(tableName, row, child, { via: simpleVia(rr.via), viaList: rr.viaList });
         return kids.reduce((s, k) => s + (Number(k[r.field]) || 0), 0);
       }
     }
@@ -596,11 +627,11 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
   // derived: resolve children, then display names or count
   const child = target || domainByName(attr.name);
   if (!child || child === tableName) return '—';
-  const kids = childrenOf(tableName, row, child, { via: simpleVia(r.via) });
+  const kids = childrenOf(tableName, row, child, { via: simpleVia(r.via), viaList: r.viaList });
   const cCat = getCatalog(child);
   let df = display && display !== cCat.pk ? display : null;
   // no display declared: the attribute's own name doubles as the display
-  // field when the child can answer it (e.g. constraintName)
+  // field when the child can answer it (e.g. requirementName)
   if (!df && attr.name !== cCat.pk && (cCat.byName[attr.name] || cCat.label === attr.name)) {
     df = attr.name;
   }

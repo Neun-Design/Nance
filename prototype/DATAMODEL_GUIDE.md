@@ -110,8 +110,10 @@ A mini-DSL declaring where values come from. Grammar patterns in use:
 
 | Pattern | Meaning |
 |---|---|
-| `FK → <Table> (display: <field>)` | Foreign key. Store the target PK, **display the named field** (never the raw ID) in tables, subitems, and selects. `display: CONCAT(a,'-',b)` composes several fields (Forecasts FACTORY = `factoryName-city`). |
+| `FK → <Table> (display: <field>)` | Foreign key. Store the target PK, **display the named field** (never the raw ID) in tables, subitems, and selects. `display: CONCAT(a,'-',b)` composes several fields (Forecasts FACTORY = `factoryName-city`); parts may be computed on the target (Requirements PG = `productName \| specsSummary`). |
+| `FK → <Table> (via: <field>)` | Name-valued FK: the select stores `<field>`'s value instead of the pk (Tasks.customerName stores `factoryName`, matching how Tickets store customers). |
 | `rollup → <Table> (via: <field>)` | Collect the related rows of `<Table>` — see the join ladder below. |
+| `rollup → <Table> (via: a + b)` | **Compound key** (AND semantics): children must match the parent on every listed field that their data actually stores; either side may hold arrays (Product Scopes.requirementID = requirements whose `scopeID[]`/`productGroupID[]` contain the row's pair). Unstored fields are skipped (§10: data wins). |
 | `mirror: <source>` | Value mirrored from related records, e.g. `mirror: DISTINCT("Tasks"."actionName")` or `mirror: Competence (via: competenceID) (display: roleName)`. |
 | `computed: <expression>` | Calculated value, e.g. `computed: SUM(forecastScopes.estimatedHours)`. |
 | `computed → <Table> (via: <path.chain>)` | Calculated by walking a relationship path (dots = hops through FKs). |
@@ -131,12 +133,12 @@ never raw ids:
    match no record pass through unchanged (they are already names).
 2. A **derived** cell resolves its child rows, then shows the distinct display values —
    using the rule's `display:` field, or the attribute's own name when the child can
-   answer it (`constraintName`). Rollups with no display field render as a **count**.
+   answer it (`requirementName`). Rollups with no display field render as a **count**.
 3. Child rows resolve through a join ladder, tried in order: declared through-path
    (`rollup via Tasks.activityID`) → declared `via:` field (child FK, else shared-field
    join) → direct child FK → shared-domain join → **two-hop join** through an
-   intermediate table (Tasks → Workflows.constraints → Constraints) → **reverse derived
-   join** (invert a rollup declared on the child).
+   intermediate table (Tasks → Workflows.requirements → Requirements) → **reverse derived
+   join** (invert a rollup declared on the child, incl. compound-via rollups).
 4. Every join candidate is **data-validated**: the two sides must actually share values
    in `mockup_data_prototype.json`, so catalogue/dataset drift (§10) cannot produce
    silent empty joins.
@@ -283,7 +285,7 @@ their `step` parameter. `steps: null` ⇒ single flat form.
 
 **Select options** derive from the bound attribute's rule (§3.3): labels are display
 names (never ids), values are what the parent rows actually store — the target PK, or
-the name itself for label-named attributes stored as names (`constraintName`). An
+the name itself for label-named attributes stored as names (`requirementName`). An
 attribute whose `notes` contain `multivalued` renders as a multi-select even without a
 `field-rule` marker.
 
@@ -356,7 +358,7 @@ that row (matched through the FK/rollup relationship between the two entities).
 
 | Syntax | Meaning | Example |
 |---|---|---|
-| `"Forecast Scopes"` | Plain child table, joined via the obvious FK (or the §3.3 join ladder when no direct FK exists — incl. the reverse derived join: Constraints → Product Scopes). | Forecasts → their Forecast Scopes |
+| `"Forecast Scopes"` | Plain child table, joined via the obvious FK (or the §3.3 join ladder when no direct FK exists — incl. the reverse derived join: Requirements → Product Scopes). | Forecasts → their Forecast Scopes |
 | `"Workflows: ordered by identationID"` | `:` suffix adds a **directive** — here a sort order (WBS-style `1, 2, 2.1, 2.2…`). | Processes → Workflows |
 | `"Actions: rollup via Tasks.activityID"` | Directive declaring the **join path** when it isn't a direct FK (Actions relate to Activities through Tasks). | Activities → Actions |
 | `"Jobs: only jobStatus=Active\|Queued"` | **Status-filtered children** — only rows whose field matches one of the `\|`-separated values. | Tickets → Jobs |
@@ -383,8 +385,9 @@ one expanded row (Tasks' Handouts Inputs/Outputs pair is the reference).
 |---|---|---|
 | `form` sometimes holds prose placeholders (`["see #wireframe"]`, `["keep the way it is in the #wireframe"]`) | Products, Product Class, Squads | Follow the wireframe until a structured form spec lands. |
 | Lowercase table names in `subitem-tables` (`"tickets"`, `"people"`) | several | Match case-insensitively (§9). |
-| Catalogue field names drift from the dataset (`Workflows.constrains` vs data `constraints`) | Workflows | Joins are discovered over the **union** of catalogue and data fields and are data-validated (§3.3), so the drift is harmless at render time — still fix upstream when touching the datamodel. |
-| `Constrain`/`constraint` naming is mixed across entities (`constrainID`, `constrainTypeID`, `constraintName`) | Constraints and its references | The fuzzy table resolver and pk-name domain handle both spellings; keep new attributes on the `constraint*` spelling. |
+| ~~Catalogue field names drift from the dataset (`Workflows.constrains` vs data `constraints`)~~ | Workflows | **Resolved 2026-07-28** (`tools/migrate_requirements.py`): both sides renamed to `requirements`. |
+| ~~`Constrain`/`constraint` naming mixed across entities~~ | ex-Constraints | **Resolved 2026-07-28**: the whole family is now `requirement*` (`requirementID`, `requirementTypeID`, `requirementName`); the entity is Portfolio → Requirements, typed by the hidden Requirement Type table (dashboard-order 0). |
+| `Skill Levels` catalogue declares `skillLevelTitle` but the data stores `levelName` | Skill Levels | Displays that need the level name point at `levelName` (e.g. Competence.skillLevelID); fix upstream when touching the datamodel. |
 
 ---
 
