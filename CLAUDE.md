@@ -27,7 +27,34 @@ Captures the internal/external context and interested party requirements that fe
 | Constrain / Constrain Type | Regulatory and contractual limits that bound risk treatment options |
 | Region, Location, Business Unit, Department | Organisational structure |
 
-> **Naming note (2026-07-28):** the prototype's `Requirements` table (Portfolio module) is the former `Constraints` dashboard, renamed and generalized so any engineering department can register the regulatory/design/commercial limits that bind its scopes and product groups (ISO §4.3). It is a **different concept** from the ER-model `Requirement` entity above (ISO §4.2 interested-party obligations). When mapping the prototype back to the ER model, prototype-`Requirements` corresponds to `Constrain`/`Constrain Type`.
+**Requirements — department-scoped obligations (prototype, 2026-07-28 restructure):**
+
+The prototype's `Requirements` table (Portfolio module) is the former `Constraints` dashboard, renamed and generalized so **any engineering department** (transformer repairs, switch gear, …) can register the regulatory/design/commercial limits that bind its scopes and product groups (ISO §4.3).
+
+> **Naming note:** prototype-`Requirements` is a **different concept** from the ER-model `Requirement` entity above (ISO §4.2 interested-party obligations). When mapping the prototype back to the ER model, prototype-`Requirements` corresponds to `Constrain`/`Constrain Type`.
+
+| Attribute | Type | Purpose |
+|---|---|---|
+| `requirementID` | PK (auto) | |
+| `requirementName` | VARCHAR | e.g. "IEC 60076 Compliance", "Max Tank Weight" |
+| `requirementDescription` | TEXT | |
+| `requirementTypeID` | FK → Requirement Type | Type registry (Operational / Design / Testing / Technical / Commercial as seed data) |
+| `scopeID` | FK → Scopes, **multivalued** | Scopes this requirement applies to |
+| `productGroupID` | FK → Product Groups, **multivalued** | Product groups it applies to; displayed as `productName \| SPECS` (CONCAT with the computed `specsSummary`) |
+| `isActive`, `regulatoryReference` | BOOLEAN / VARCHAR | Lifecycle flag and external norm code |
+
+`Requirement Type` is a hidden registry (`dashboard-order: 0` — catalogued but kept out of the tab strip); new types are created inline via the "+" button on the Type select of the Requirements form.
+
+**How requirements flow through the model:** they are *derived from the scope + product group pair*, never selected directly on operational records —
+
+- `Product Scopes` / `Forecast Scopes` roll them up with the compound rule `rollup → Requirements (via: productGroupID + scopeID)` (AND semantics, array-aware);
+- `Competence` **stores** the certified `requirementID[]` (multi-select filtered by the chosen Scope + Product Group);
+- `Tasks` and `Onboarding` **derive** their requirement names through Competence;
+- `Jobs` uses the chain for staffing: the Responsible select offers only Onboarding-**certified** people whose Competence matches the ticket's scope, product group and linked requirements (narrowed by the selected Task).
+
+Related Jobs behavior from the same restructure: status transitions stamp `realStartDate` (Queued→Active) and `realEndDate` (Active→Done) with the real clock, Stoped dwell accrues `jobBufferExecution`, and `realExecutionTime = (end − start) − buffer` is stored on Done.
+
+Implemented in `prototype/data/datamodel.json` + `prototype/tools/migrate_requirements.py` (deterministic rename/migration) and the prototype engine (compound `via: a + b` joins in `model.js`/`resolve.js`, multi-dependency form cascades, `applyJobTransition` and the `certified-responsible` control in `forms.js`).
 
 ### 2. Operations Chain (ISO 9001:2015 §4.4)
 Models the QMS process hierarchy at four levels of decomposition.
