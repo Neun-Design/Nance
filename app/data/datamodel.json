@@ -522,10 +522,10 @@
               "constraints": "FK"
             },
             {
-              "name": "constraintName",
+              "name": "requirementName",
               "type": "rollup",
-              "rule": "rollup → Product Scopes (via: scopeID) (display: constraintName)",
-              "notes": "Constraint names for the row's scope (via Product Scopes)",
+              "rule": "rollup → Requirements (via: scopeID + productGroupID) (display: requirementName)",
+              "notes": "Requirements linked to the row's scope + product group",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -533,7 +533,7 @@
             {
               "name": "productScopeID",
               "type": "INT",
-              "rule": "computed → Product Scopes (via: eventID + productGroupID + scopeID + constraintName)",
+              "rule": "computed → Product Scopes (via: eventID + productGroupID + scopeID + requirementName)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -710,15 +710,18 @@
                 "check": "Scope IS NOT NULL",
                 "field-rule": "filtered by Scope selected"
               },
-              "Constraints": {
+              "Requirements": {
                 "field-type": {
                   "SelectGroups": "shadcn-select"
                 },
-                "attribute": "constraintName",
+                "attribute": "requirementName",
                 "tooltip": null,
                 "step": null,
                 "check": "Product Group IS NOT NULL",
-                "field-rule": "SelectLabel = constrainTypeName"
+                "field-rule": [
+                  "SelectLabel = requirementTypeName",
+                  "filtered by Scope + Product Group selected"
+                ]
               },
               "Notes": {
                 "field-type": {
@@ -801,28 +804,10 @@
               "constraints": null
             },
             {
-              "name": "constraintName",
-              "type": "rollup",
-              "rule": "rollup → Constraints (via: constrainTypeID)",
-              "notes": "Constraint items grouped by constrainTypeID; Multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "productScopeID",
-              "type": "rollup",
-              "rule": "rollup -> Product Scopes via: constraintName (display: productGroupName)",
-              "notes": ";multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "products",
-              "type": "VARCHAR",
-              "rule": "mirror -> via:productScopeID; display: productName",
-              "notes": "multivalued",
+              "name": "requirementName",
+              "type": "computed",
+              "rule": "computed → Competence (via: taskID) (display: requirementName)",
+              "notes": "Requirements certified by the competences that reference this task",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -839,8 +824,8 @@
             {
               "name": "functionID",
               "type": "VARCHAR",
-              "rule": "FK -> Functions (display: functionName)",
-              "notes": "multivalued",
+              "rule": "computed → Competence (via: taskID) (display: functionName)",
+              "notes": "multivalued — derived from the competences referencing this task",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -919,12 +904,12 @@
             },
             {
               "name": "customerName",
-              "type": "rollup",
-              "rule": "rollup → Factories",
-              "notes": "atributo associativo sempre que uma task for adicionada em um Job ou Ticket",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
+              "type": "VARCHAR",
+              "rule": "FK → Factories (via: factoryName) (display: factoryName)",
+              "notes": "Customer (factory) this task template serves; stores the factory name",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
             },
             {
               "name": "ticketID",
@@ -1010,25 +995,15 @@
                 "check": "Activity IS NOT NULL",
                 "field-rule": null
               },
-              "Constraints": {
+              "Customer": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "constraintName",
-                "tooltip": null,
+                "attribute": "customerName",
+                "tooltip": "Customer (factory) this task serves",
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = constrainTypeName"
-              },
-              "Product Scope": {
-                "field-type": {
-                  "SelectGroups": "shadcn-select"
-                },
-                "attribute": "productScopeID",
-                "tooltip": null,
-                "step": null,
-                "check": "Constraints IS NOT NULL",
-                "field-rule": "SelectLabel = constrainTypeName"
+                "field-rule": null
               },
               "Inputs": {
                 "field-type": {
@@ -1045,16 +1020,6 @@
                   "Combobox": "shadcn-combobox"
                 },
                 "attribute": "taskOutput",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values"
-              },
-              "Function": {
-                "field-type": {
-                  "Combobox": "shadcn-combobox"
-                },
-                "attribute": "functionID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -1708,9 +1673,9 @@
               "constraints": null
             },
             {
-              "name": "constrains",
+              "name": "requirements",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"constraintName\")",
+              "rule": "mirror: DISTINCT(\"Tasks\".\"requirementName\")",
               "notes": "Determined by taskID",
               "table-display": false,
               "subitem-display": false,
@@ -1876,149 +1841,6 @@
           "cards": [],
           "table-filters": true
         },
-        "Constraints": {
-          "visibility": "show",
-          "dashboard-order": 7,
-          "description": "Regulatory, design, or operational constraint bounding available risk treatment options (ISO §4.3).",
-          "attributes": [
-            {
-              "name": "constrainID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "constraintName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "constrainDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "constrainTypeID",
-              "type": "INT",
-              "rule": "enum: Operational / Design / Testing / Technical / Commercial",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "constraintTitle",
-              "type": "VARCHAR",
-              "rule": "computed: CONCAT(constraintName,'-',constrainTypeID)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "regulatoryReference",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., IEC standard code (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "constraintOwner",
-              "type": "email",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": null,
-          "form": {
-            "steps": null,
-            "fields": {
-              "Name": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "constraintName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Description": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "constrainDescription",
-                "tooltip": null,
-                "step": null,
-                "check": "Action Name IS NOT NULL",
-                "field-rule": null
-              },
-              "Type": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "constrainTypeID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Activate": {
-                "field-type": {
-                  "switch": "shadcn-switch"
-                },
-                "attribute": "isActive",
-                "tooltip": "Make this constraint available to be applied accross the operation",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Regulatory Reference": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "regulatoryReference",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            },
-            "subitem-tables": [
-              "Product Scopes"
-            ]
-          },
-          "cards": [],
-          "table-filters": true,
-          "subitem-tables": [
-            "Product Scopes"
-          ]
-        },
         "Handouts": {
           "visibility": "show",
           "dashboard-order": 8,
@@ -2073,7 +1895,7 @@
               "name": "taskID",
               "type": "rollup",
               "rule": "rollup → Tasks",
-              "notes": "All tasks that have the constraint assigned to it",
+              "notes": "All tasks that have the requirement assigned to it",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -2338,22 +2160,14 @@
               "constraints": null
             },
             {
-              "name": "constraintName",
+              "name": "requirementID",
               "type": "rollup",
-              "rule": "rollup → Constraints (via: constrainTypeID)",
-              "notes": "Constraint names grouped by constrainTypeID",
+              "rule": "rollup → Requirements (via: productGroupID + scopeID) (display: requirementName)",
+              "notes": "Requirements linked to this scope + product group pair",
               "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "constraintTitle",
-              "type": "rollup",
-              "rule": "rollup → Constraints (via: constrainName)",
-              "notes": null,
-              "table-display": false,
               "subitem-display": true,
-              "constraints": null
+              "constraints": null,
+              "display-name": "REQUIREMENTS"
             },
             {
               "name": "isActive",
@@ -2425,16 +2239,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": "SelectLabel = Opportunity"
-              },
-              "Constraints": {
-                "field-type": {
-                  "ComboboxGroups": "shadcn-combobox"
-                },
-                "attribute": "constraintName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = constrainTypeID"
               },
               "Active": {
                 "field-type": {
@@ -2852,6 +2656,258 @@
           },
           "cards": [],
           "table-filters": true
+        },
+        "Requirements": {
+          "visibility": "show",
+          "dashboard-order": 6,
+          "description": "Requirements applicable to scopes and product groups — regulatory, design and commercial obligations any engineering department can register and reuse (ISO 9001:2015 §4.3, §8.2).",
+          "attributes": [
+            {
+              "name": "requirementID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "requirementName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "requirementDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "requirementTypeID",
+              "type": "INT",
+              "rule": "FK → Requirement Type (display: requirementTypeName)",
+              "notes": "Type registry lives in the hidden Requirement Type table (dashboard-order 0)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "scopeID",
+              "type": "VARCHAR",
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": "multivalued — scopes this requirement applies to",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "VARCHAR",
+              "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
+              "notes": "multivalued — product groups this requirement applies to",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "requirementTitle",
+              "type": "VARCHAR",
+              "rule": "computed: CONCAT(requirementName,'-',requirementTypeName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "isActive",
+              "type": "BOOLEAN",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "regulatoryReference",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., IEC standard code (nullable)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "requirementOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "requirementName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "requirementDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "requirementTypeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "scopeID",
+                "tooltip": "Scopes this requirement applies to",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Product Group": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productGroupID",
+                "tooltip": "Product groups this requirement applies to",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Activate": {
+                "field-type": {
+                  "switch": "shadcn-switch"
+                },
+                "attribute": "isActive",
+                "tooltip": "Make this requirement available to be applied accross the operation",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Regulatory Reference": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "regulatoryReference",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "Product Scopes"
+            ]
+          },
+          "cards": [],
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Scopes"
+          ]
+        },
+        "Requirement Type": {
+          "visibility": "show",
+          "dashboard-order": 0,
+          "description": "Registry of requirement types selectable when creating a Requirement (created inline via the \"+\" on the Type select).",
+          "attributes": [
+            {
+              "name": "requirementTypeID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "requirementTypeName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "requirementTypeDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "requirementTypeOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "requirementTypeName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "field": "shadcn-textarea"
+                },
+                "attribute": "requirementTypeDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": false
         }
       }
     },
@@ -2945,9 +3001,9 @@
               "constraints": null
             },
             {
-              "name": "constraintName",
+              "name": "requirementName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"constraintName\")",
+              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"requirementName\")",
               "notes": "Via forecastScopeID",
               "table-display": true,
               "subitem-display": false,
@@ -3042,7 +3098,7 @@
               "filters": [
                 "customerName",
                 "period",
-                "constraintName"
+                "requirementName"
               ]
             }
           },
@@ -3352,6 +3408,15 @@
               "constraints": "PK"
             },
             {
+              "name": "projectID",
+              "type": "INT",
+              "rule": "FK → Projects (display: projectName)",
+              "notes": "Project the job belongs to (via its ticket)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "ticketID",
               "type": "INT",
               "rule": "FK → Tickets (display: ticketID)",
@@ -3362,12 +3427,12 @@
             },
             {
               "name": "taskID",
-              "type": "computed",
-              "rule": "computed → Forecast Scopes (via: Tickets.tickedID.eventID)",
-              "notes": "Task selected as execution template",
+              "type": "INT",
+              "rule": "FK → Tasks (display: taskName)",
+              "notes": "Task template; options filtered by the ticket's process + customer",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "jobName",
@@ -3399,7 +3464,7 @@
             {
               "name": "projectName",
               "type": "VARCHAR",
-              "rule": "mirror: from Project via ticketID",
+              "rule": "mirror: Projects via: projectID (display: projectName)",
               "notes": "From ticket ID",
               "table-display": true,
               "subitem-display": true,
@@ -3453,9 +3518,27 @@
             {
               "name": "realExecutionTime",
               "type": "DECIMAL",
-              "rule": "computed: realEndDate − realStartDate",
-              "notes": "Actual hours spent to complete de job",
+              "rule": "computed: (realEndDate − realStartDate) − jobBufferExecution (DECIMAL hours)",
+              "notes": "Stored when the job transitions to Done: elapsed minus Stoped buffer",
               "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "jobBufferExecution",
+              "type": "DECIMAL",
+              "rule": "computed: accumulates elapsed time whenever jobStatus leaves Stoped",
+              "notes": "Decimal hours the job sat in Stoped; subtracted from realExecutionTime",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "stoppedAt",
+              "type": "DATETIME",
+              "rule": null,
+              "notes": "Bookkeeping: timestamp of the last transition INTO Stoped",
+              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -3557,9 +3640,9 @@
             "fields": {
               "Project": {
                 "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
+                  "select": "shadcn-select"
                 },
-                "attribute": "projectName",
+                "attribute": "projectID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -3574,61 +3657,39 @@
                 "step": null,
                 "check": "Project IS NOT NULL",
                 "field-rule": [
-                  "SelectLabel = clientName",
-                  "display results filtered by the project selected from the tickets table"
+                  "SelectLabel = customerName",
+                  "filtered by Project selected"
                 ]
               },
               "Task": {
                 "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
+                  "select": "shadcn-select"
                 },
                 "attribute": "taskID",
                 "tooltip": null,
                 "step": null,
                 "check": "Ticket IS NOT NULL",
-                "field-rule": [
-                  "display results filtered by the ticketID"
-                ]
+                "field-rule": "filtered by Ticket.processID + customerName"
               },
               "Responsible": {
                 "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
+                  "certified-responsible": "custom"
                 },
-                "attribute": "roleID",
-                "tooltip": null,
+                "attribute": "userID",
+                "tooltip": "Certified people for the ticket's scope, product group and requirements (narrowed by the task)",
                 "step": null,
-                "check": "Task IS NOT NULL",
-                "field-rule": []
+                "check": "Ticket IS NOT NULL",
+                "field-rule": null
               },
               "Delivery Date": {
                 "field-type": {
-                  "date picker": "shadcn-date picker"
+                  "datetime": "shadcn-date picker"
                 },
                 "attribute": "deliveryDate",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": []
-              },
-              "Real Start Date": {
-                "field-type": {
-                  "date picker": "shadcn-date picker"
-                },
-                "attribute": "realStartDate",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": []
-              },
-              "Real Finish Date": {
-                "field-type": {
-                  "date picker": "shadcn-date picker"
-                },
-                "attribute": "realEndDate",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": []
+                "field-rule": null
               },
               "Status": {
                 "field-type": {
@@ -3638,7 +3699,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": []
+                "field-rule": null
               }
             }
           },
@@ -4089,7 +4150,7 @@
               }
             }
           },
-          "form": null,
+          "form": false,
           "cards": {
             "Card 1-1": {
               "title": "Standard Deviation Bottleneck",
@@ -4114,8 +4175,7 @@
             }
           },
           "table-filters": null,
-          "subitem-tables": null,
-          "form": false
+          "subitem-tables": null
         }
       }
     },
@@ -5037,9 +5097,9 @@
               "constraints": null
             },
             {
-              "name": "constraintName",
+              "name": "requirementName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via competenceID (display: FOREACH([{constrainTypeName: constraintName}]))",
+              "rule": "computed: Competence via competenceID (display: FOREACH([{requirementTypeName: requirementName}]))",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -5157,18 +5217,18 @@
               "constraints": "FK"
             },
             {
-              "name": "scopeID",
-              "type": "INT",
-              "rule": "FK → Scopes (display: scopeName)",
-              "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
-              "table-display": true,
+              "name": "processID",
+              "type": "VARCHAR",
+              "rule": "FK → Processes (display: processName)",
+              "notes": "Process context for the certified task",
+              "table-display": false,
               "subitem-display": true,
               "constraints": "FK"
             },
             {
-              "name": "productGroupName",
-              "type": "VARCHAR",
-              "rule": "rollup → Product Scopes (via: eventID + scopeID)",
+              "name": "scopeID",
+              "type": "INT",
+              "rule": "FK → Scopes (display: scopeName)",
               "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
               "table-display": true,
               "subitem-display": true,
@@ -5186,7 +5246,7 @@
             {
               "name": "skillLevelID",
               "type": "INT",
-              "rule": "rollup → Roles via: roleID (display: levelName)",
+              "rule": "FK → Skill Levels (display: levelName)",
               "notes": "Required proficiency",
               "table-display": true,
               "subitem-display": false,
@@ -5195,11 +5255,11 @@
             {
               "name": "roleID",
               "type": "INT",
-              "rule": "rollup → Roles via: functionID + skillLevelID (display: roleName)",
-              "notes": null,
+              "rule": "FK → Roles (display: roleName)",
+              "notes": "Filtered by the selected function + skill level in the form",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "levelRank",
@@ -5212,9 +5272,9 @@
             },
             {
               "name": "taskID",
-              "type": "rollup",
-              "rule": "rollup → Tasks (via: eventID + scopeID + roleID)",
-              "notes": null,
+              "type": "INT",
+              "rule": "rollup → Tasks (via: eventID + processID) (display: taskName)",
+              "notes": "Task this competence certifies; options filtered by event + process",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -5239,12 +5299,12 @@
             },
             {
               "name": "productGroupID",
-              "type": "rollup",
-              "rule": "rollup → Tasks (via: taskID) (display: productGroupName)",
-              "notes": "multivalued",
-              "table-display": false,
+              "type": "INT",
+              "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
+              "notes": "Product group this competence certifies",
+              "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "productSpecID",
@@ -5265,18 +5325,18 @@
               "constraints": null
             },
             {
-              "name": "constrainID",
-              "type": "rollup",
-              "rule": "rollup → Tasks (via: taskID) (display: constraintName)",
-              "notes": "multivalued",
+              "name": "requirementID",
+              "type": "VARCHAR",
+              "rule": "FK → Requirements (display: requirementName)",
+              "notes": "multivalued — requirements this competence certifies",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "competenceName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(activityName,'-',actionName,' for ',[scopeName],' of ',[productGroupName],' applied to ',[{constrainTypeName: constraintName}])",
+              "rule": "computed: CONCAT([taskName],' for ',[scopeName],' of ',[productGroupName],' applied to ',[{requirementTypeName: requirementName}])",
               "notes": "Rendered from the CONCAT rule at display time (not stored)",
               "table-display": true,
               "subitem-display": false,
@@ -5333,17 +5393,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Skill Level IS NOT NULL",
-                "field-rule": null
-              },
-              "Event": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "eventID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
+                "field-rule": "filtered by Skill Level + Function selected"
               },
               "Scope": {
                 "field-type": {
@@ -5355,25 +5405,48 @@
                 "check": null,
                 "field-rule": null
               },
-              "Constraint": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "constrainID",
-                "tooltip": null,
-                "step": null,
-                "check": "Task IS NOT NULL",
-                "field-rule": null
-              },
               "Product Group": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "productGroupName",
+                "attribute": "productGroupID",
                 "tooltip": null,
                 "step": null,
-                "check": "Scope && Event && Constraint IS NOT NULL",
+                "check": null,
                 "field-rule": null
+              },
+              "Requirements": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "requirementID",
+                "tooltip": null,
+                "step": null,
+                "check": "Scope && Product Group IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Scope + Product Group selected"
+                ]
+              },
+              "Event": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "eventID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Process": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "processID",
+                "tooltip": null,
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": "filtered by Event selected"
               },
               "Task": {
                 "field-type": {
@@ -5382,8 +5455,8 @@
                 "attribute": "taskID",
                 "tooltip": null,
                 "step": null,
-                "check": "Role IS NOT NULL",
-                "field-rule": null
+                "check": "Process IS NOT NULL",
+                "field-rule": "filtered by Event + Process selected"
               },
               "Skill Rank": {
                 "field-type": {

@@ -59,8 +59,15 @@ export function parseRule(rule) {
     if (m && !DISPLAY_KEYWORDS.has(m[1].toUpperCase())) display = m[1];
   }
 
-  const vm = txt.match(/via:\s*([A-Za-z_][A-Za-z0-9_.]*)/i);
-  const via = vm ? vm[1].trim() : null;
+  // via: a single field, or a compound key "via: a + b + c" (AND semantics —
+  // children must match the parent on every field that is actually stored)
+  const vm = txt.match(/via:\s*([A-Za-z_][A-Za-z0-9_.]*(?:\s*\+\s*[A-Za-z_][A-Za-z0-9_.]*)*)/i);
+  let via = null, viaList = null;
+  if (vm) {
+    const parts = vm[1].split('+').map((s) => s.trim()).filter(Boolean);
+    via = parts[0];
+    if (parts.length > 1) viaList = parts;
+  }
 
   // target table: after the arrow, from DISTINCT("Table"."field"), or after "kind:"
   let target = null;
@@ -75,8 +82,10 @@ export function parseRule(rule) {
     if (m) target = m[1].trim();
   }
 
-  if (kind === 'fk') return { kind: 'fk', target, display, concat };
-  return { kind, target, via, display, concat };
+  // fk keeps via too: "FK → Factories (via: factoryName)" stores the named
+  // target field instead of the pk (name-valued FK, e.g. Tasks.customerName)
+  if (kind === 'fk') return { kind: 'fk', target, display, concat, via };
+  return { kind, target, via, viaList, display, concat };
 }
 
 // ---- subitem-tables entry parsing (guide §9) ----

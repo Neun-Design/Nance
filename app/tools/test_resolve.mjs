@@ -43,17 +43,19 @@ console.log('== review nonconformities: table/subitem cells ==');
 expectName('Forecasts', 'factoryID', /^(?!FC\d)[A-Za-zÀ-ú]/);
 expectName('Forecasts', 'factoryTitle', /^[A-Za-zÀ-ú].*-.+/);
 // Forecast Scopes: names, not ids / 0
-expectName('Forecast Scopes', 'constraintName', /[A-Za-z]{3,}/);
+expectName('Forecast Scopes', 'requirementName', /[A-Za-z]{3,}/);
 expectName('Forecast Scopes', 'processID', /^(?!PC\d)[A-Za-z]/);
 expectName('Forecast Scopes', 'productGroupID', /^(?!PG\d)[A-Za-z]/);
-// Tasks
-expectName('Tasks', 'constraintName', /[A-Za-z]{3,}/);
+// Tasks — requirementName/functionID derive through Competence via taskID
+expectName('Tasks', 'requirementName', /[A-Za-z]{3,}/);
 expectName('Tasks', 'processID', /^(?!PC\d)[A-Za-z]/);
 expectName('Tasks', 'functionID', /^(?!F\d)[A-Za-z]/);
 expectName('Tasks', 'actionID', /^(?!A\d)[A-Za-z]/);
-// Inventory
-expectName('Product Scopes', 'constraintName', /[A-Za-z]{3,}/);
+// Portfolio
+expectName('Product Scopes', 'requirementID', /[A-Za-z]{3,}/); // compound via: productGroupID + scopeID
 expectName('Product Groups', 'productID', /^(?!P\d)[A-Za-z]/);
+// Requirements: concat display resolves the computed specsSummary part
+expectName('Requirements', 'productGroupID', /\|/);
 // specsSummary renders the specValues map as "Spec Name: value" pairs
 expectName('Product Groups', 'specsSummary', /[A-Za-z]{3,}[^:]*: /);
 // Competence certifies spec DEFINITIONS now — names, not SPECxx ids
@@ -64,7 +66,8 @@ expectName('Onboarding', 'functionID', /^(?!F\d)[A-Za-z]/);
 expectName('Competence', 'roleID', /^(?!R\d)[A-Za-z]/);
 expectName('Competence', 'actionID', /^(?!A\d)[A-Za-z]/);
 expectName('Competence', 'activityID', /^(?!AT\d)[A-Za-z]/);
-expectName('Competence', 'constrainID', /[A-Za-z]{3,}/);
+expectName('Competence', 'requirementID', /[A-Za-z]{3,}/);
+expectName('Competence', 'competenceName', /applied to/);
 // Workload
 expectName('Jobs', 'roleID', /^(?!R\d)[A-Za-z]/);
 
@@ -80,17 +83,20 @@ function expectOptions(entity, attrName, labelRe, { wantMulti = null } = {}) {
 }
 // options must be display names, never bare ids
 expectOptions('Forecast Scopes', 'productGroupID', /^(?!PG\d+$)./);
-expectOptions('Forecast Scopes', 'constraintName', /[A-Za-z]{3,}/);
+expectOptions('Forecast Scopes', 'requirementName', /[A-Za-z]{3,}/);
 expectOptions('Tasks', 'processID', /^(?!PC\d+$)./);
 expectOptions('Tasks', 'workflowID', /^(?!WF\d+$)./);
-expectOptions('Tasks', 'constraintName', /[A-Za-z]{3,}/);
-expectOptions('Product Scopes', 'constraintName', /[A-Za-z]{3,}/);
+// Tasks Customer stores factory NAMES (FK via: factoryName)
+expectOptions('Tasks', 'customerName', /^[A-Za-z]/);
 expectOptions('Product Groups', 'productID', /^(?!P\d+$)./);
 // Product Specs assign to one or more products via the checkbox multi-picker
 expectOptions('Product Specs', 'productID', /^(?!P\d+$)./, { wantMulti: true });
+// Requirements bind to scopes / product groups with multi-pickers
+expectOptions('Requirements', 'scopeID', /[A-Za-z]{3,}/, { wantMulti: true });
+expectOptions('Requirements', 'productGroupID', /\|/, { wantMulti: true });
 expectOptions('Competence', 'roleID', /^(?!R\d+$)./);
 expectOptions('Competence', 'taskID', /^(?!T\d+$)./);
-expectOptions('Competence', 'constrainID', /[A-Za-z]{3,}/);
+expectOptions('Competence', 'requirementID', /[A-Za-z]{3,}/, { wantMulti: true });
 expectOptions('Onboarding', 'roleID', /^(?!R\d+$)./);
 expectOptions('Onboarding', 'competenceID', /^(?!CMP\d+$)./);
 
@@ -126,11 +132,11 @@ function subitemsOf(table, r = row(table)) {
     fail('Tasks: expected two grouped Handouts subitem lists');
   }
 
-  // Constraints → Product Scopes (reverse of the derived constraintName rollup)
-  const cons = data.getEntity('Constraints').find((c) => c.constraintName === 'Max Tank Weight');
-  const [cps] = subitemsOf('Constraints', cons);
-  if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Constraints→Product Scopes: ${cps.kids.length} kids for Max Tank Weight`);
-  else fail(`Constraints→Product Scopes: ${cps.kids.length} kids`);
+  // Requirements → Product Scopes (reverse of the compound requirementID rollup)
+  const req = data.getEntity('Requirements').find((c) => c.requirementName === 'Max Tank Weight');
+  const [cps] = subitemsOf('Requirements', req);
+  if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Requirements→Product Scopes: ${cps.kids.length} kids for Max Tank Weight`);
+  else fail(`Requirements→Product Scopes: ${cps.kids.length} kids`);
 
   // Roles → Competence
   const [rc] = subitemsOf('Roles');
