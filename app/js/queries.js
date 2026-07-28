@@ -5,6 +5,7 @@
 // mockup dataset by prototype/tools/test_queries.mjs.
 
 import { getEntity, getById, lookup } from './data.js';
+import { resolveDisplay } from './resolve.js';
 
 const TODAY = new Date('2026-07-19');
 
@@ -55,8 +56,18 @@ export const REPORT_RADIOS = {
 
 // ---------- REPORT QUERIES ----------
 export const REPORT_QUERIES = {
-  'Factories::Report-A': (rows) =>
-    bar('Forecast Count by Factory', groupAgg(getEntity('Forecasts'), 'factoryID'), factName),
+  // rows are the factories left after the report filters; the scopeName
+  // filter additionally narrows to forecasts CONTAINING that scope, so the
+  // chart reacts even when every factory covers the scope somewhere
+  'Factories::Report-A': (rows, state = {}) => {
+    const ids = new Set(rows.map((f) => f.factoryID));
+    let fcs = getEntity('Forecasts').filter((f) => ids.has(f.factoryID));
+    if (state.scopeName && state.scopeName !== 'ALL') {
+      fcs = fcs.filter((f) => String(resolveDisplay('Forecasts', f, 'scopeName') || '')
+        .split(', ').includes(state.scopeName));
+    }
+    return bar('Forecast Count by Factory', groupAgg(fcs, 'factoryID'), factName);
+  },
 
   // monthly budgeted hours (weeklyUsageQuota × ~4 weeks) vs ticket execution hours
   'Forecasts::Report-A': (rows) => {
