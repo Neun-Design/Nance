@@ -146,7 +146,7 @@ else: fail('Capacity: flat trend')
 # ---------- 6. fixtures ----------
 print('\n== fixtures ==')
 FIX = {'Factories': 17, 'Actions': 7, 'Scopes': 10, 'Products': 14, 'Product Groups': 14,
-       'Product Class': 15, 'Events': 31, 'Tickets': 135}
+       'Product Specs': 2, 'Events': 31, 'Tickets': 135}
 for t, n in FIX.items():
     (ok if len(flat[t]) == n else fail)(f'{t}: {len(flat[t])} rows (expected {n})')
 

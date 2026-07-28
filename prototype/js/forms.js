@@ -104,7 +104,9 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   const cat = getCatalog(entity);
   const a = cat && cat.byName[attrName];
   const r = (a && parseRule(a.rule)) || null;
-  const multi = !!(a && /multivalued/i.test(a.notes || ''));
+  // notes saying "not multivalued" / "single valued" mean single-select
+  const notes = (a && a.notes) || '';
+  const multi = /multivalued/i.test(notes) && !/not multivalued/i.test(notes);
   const none = { options: null, target: null, multi };
   if (!attrName) return none;
 
@@ -561,6 +563,75 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           fillOptions(node, opts, groupField, target);
         };
       }
+    } else if (typeKey === 'dynamic-specs') {
+      // dynamic attribute inputs: one control per Product Spec assigned to the
+      // product picked in the sibling field ("specs of the <Product> selected");
+      // values collect into an { productSpecID: value } map stored on the record
+      const wrap = document.createElement('div');
+      wrap.className = 'form-specs';
+      const pending = { ...((record && record[attrName]) || {}) };
+      let live = new Map();                 // spec id -> get()
+      const collect = () => {
+        const out = {};
+        for (const [id, g] of live) {
+          const v = g();
+          if (v != null && v !== '') out[id] = v;
+        }
+        return out;
+      };
+      const depM = ruleText.match(/specs of (?:the )?([A-Za-z ]+?)(?: selected| field|$)/i);
+      const depName = (depM ? depM[1] : 'product').trim().toLowerCase();
+      const note = (txt) => {
+        const d = document.createElement('div');
+        d.className = 'form-hint'; d.textContent = txt;
+        wrap.appendChild(d);
+      };
+      const rebuild = () => {
+        Object.assign(pending, collect()); // typed values survive product switches
+        live = new Map();
+        wrap.innerHTML = '';
+        const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depName
+          || l.toLowerCase().includes(depName) || depName.includes(l.toLowerCase()));
+        const depRaw = dep ? dep[1].get() : null;
+        const selIds = (Array.isArray(depRaw) ? depRaw : [depRaw]).filter((v) => v != null && v !== '');
+        const specTable = resolveTable('Product Specs');
+        const sCat = specTable && getCatalog(specTable);
+        if (!selIds.length || !sCat) { note('Select a Product to enter its specs'); return; }
+        const depAttr = dep && spec.fields[dep[0]] && spec.fields[dep[0]].attribute;
+        const depTarget = depAttr ? specOptions(entity, depAttr, '').target : null;
+        const key = (depTarget && childKeyFor(specTable, depTarget)) || 'productID';
+        const specs = getEntity(specTable).filter((s) => {
+          const p = Array.isArray(s[key]) ? s[key] : [s[key]];
+          return selIds.some((id) => p.includes(id));
+        });
+        if (!specs.length) { note('No specs assigned to this product'); return; }
+        for (const s of specs) {
+          let ctl, getVal;
+          const t = String(s.specInputType || '').toLowerCase();
+          if (t === 'int' || t === 'decimal') {
+            ctl = mkInput('number'); ctl.step = t === 'int' ? '1' : 'any';
+            getVal = () => (ctl.value === '' ? null : Number(ctl.value));
+          } else if (t === 'list') {
+            const opts = String(s.specOptions || '').split(/[;,]/)
+              .map((x) => x.trim()).filter(Boolean)
+              .map((x) => ({ value: x, label: x }));
+            ctl = mkSelect([{ value: '', label: '— select —' }, ...opts]);
+            getVal = () => ctl.value;
+          } else {
+            ctl = mkInput('text'); getVal = () => ctl.value;
+          }
+          const id = String(s[sCat.pk]);
+          const prev = pending[id];
+          if (prev != null && prev !== '') ctl.value = String(prev);
+          live.set(id, getVal);
+          wrap.appendChild(fieldRow(s[sCat.label] || id, ctl, String(s.specDescription || '').trim()));
+        }
+      };
+      node = wrap;
+      node._refilter = rebuild;
+      node._skipSet = true; // prefill handled per-control from the value map
+      get = collect;
+      rebuild();
     } else if (typeKey === 'switch') {
       node = document.createElement('input'); node.type = 'checkbox'; node.className = 'form-switch';
       get = () => node.checked;
@@ -577,7 +648,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       get = () => (node.type === 'number' ? (node.value === '' ? null : Number(node.value)) : node.value);
     }
 
-    if (record && attrName) setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, record[attrName]);
+    if (record && attrName && !node._skipSet) setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, record[attrName]);
     if (attrName) ctx.controls[attrName] = get;
     byLabel[label] = { node, get };
 
@@ -597,19 +668,27 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     host.appendChild(fieldRow(label, control, (fv.tooltip || '').trim()));
   }
 
-  // ---- check conditions: "<Label> IS NOT NULL" gates this field ----
+  // ---- check conditions: "<Label> IS NOT NULL" (presence) or
+  // "<Label> = Value" (equality) gate this field on another ----
   for (const [label, fv] of entries) {
-    const chk = fv.check && String(fv.check).match(/^(.+?)\s+IS NOT NULL$/i);
-    if (!chk || !byLabel[label]) continue;
-    const depLabel = chk[1].trim().toLowerCase();
+    const raw = fv.check && String(fv.check).trim();
+    const chk = raw && raw.match(/^(.+?)\s+IS NOT NULL$/i);
+    const eq = !chk && raw && raw.match(/^(.+?)\s*=\s*'?([^']+?)'?\s*$/);
+    if ((!chk && !eq) || !byLabel[label]) continue;
+    const depLabel = (chk ? chk[1] : eq[1]).trim().toLowerCase();
     const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depLabel
       || l.toLowerCase().includes(depLabel) || depLabel.includes(l.toLowerCase()));
     if (!dep) continue;
     const target = byLabel[label].node;
     const update = () => {
-      const has = !!dep[1].get() && String(dep[1].get()).length > 0;
+      const val = dep[1].get();
+      const has = chk
+        ? !!val && String(val).length > 0
+        : String(val ?? '').trim().toLowerCase() === eq[2].trim().toLowerCase();
       target.disabled = !has;
-      if (has && target._refilter) target._refilter();
+      // dynamic containers re-render even when the gate closes (to empty out);
+      // selects keep the old behaviour (refilter only with a value present)
+      if (target._refilter && (has || target.tagName !== 'SELECT')) target._refilter();
     };
     dep[1].node.addEventListener('change', update);
     dep[1].node.addEventListener('input', update);

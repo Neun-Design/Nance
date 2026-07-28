@@ -54,7 +54,10 @@ expectName('Tasks', 'actionID', /^(?!A\d)[A-Za-z]/);
 // Inventory
 expectName('Product Scopes', 'constraintName', /[A-Za-z]{3,}/);
 expectName('Product Groups', 'productID', /^(?!P\d)[A-Za-z]/);
-expectName('Product Groups', 'productSpecID', /[A-Za-z]{3,}/);
+// specsSummary renders the specValues map as "Spec Name: value" pairs
+expectName('Product Groups', 'specsSummary', /[A-Za-z]{3,}[^:]*: /);
+// Competence certifies spec DEFINITIONS now — names, not SPECxx ids
+expectName('Competence', 'productSpecID', /^(?!SPEC\d)[A-Za-z]/);
 // Talent
 expectName('People', 'roleID', /[A-Za-z]{3,}/);
 expectName('Onboarding', 'functionID', /^(?!F\d)[A-Za-z]/);
@@ -83,7 +86,8 @@ expectOptions('Tasks', 'workflowID', /^(?!WF\d+$)./);
 expectOptions('Tasks', 'constraintName', /[A-Za-z]{3,}/);
 expectOptions('Product Scopes', 'constraintName', /[A-Za-z]{3,}/);
 expectOptions('Product Groups', 'productID', /^(?!P\d+$)./);
-expectOptions('Product Groups', 'productSpecID', /^(?!PC\d+$)./, { wantMulti: true });
+// Product Specs assign to one or more products via the checkbox multi-picker
+expectOptions('Product Specs', 'productID', /^(?!P\d+$)./, { wantMulti: true });
 expectOptions('Competence', 'roleID', /^(?!R\d+$)./);
 expectOptions('Competence', 'taskID', /^(?!T\d+$)./);
 expectOptions('Competence', 'constrainID', /[A-Za-z]{3,}/);
