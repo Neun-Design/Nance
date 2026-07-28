@@ -7,7 +7,7 @@
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
-import { resolveDisplay } from './resolve.js';
+import { resolveDisplay, computedConcat } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -84,7 +84,7 @@ function fkOptions(ref, display = null) {
   });
 }
 
-// table whose configured label field is `field` (e.g. constraintName → Constraints)
+// table whose configured label field is `field` (e.g. requirementName → Requirements)
 let _labelOwners = null;
 function labelOwner(field) {
   if (!_labelOwners) {
@@ -99,7 +99,7 @@ function labelOwner(field) {
 // Options for a select bound to `attrName`, derived from the datamodel rule
 // (guide §3.3 / §6.2). Selects always list display NAMES; the option value is
 // the id the parent rows actually store — or the name itself for label-named
-// attributes stored as names (e.g. constraintName).
+// attributes stored as names (e.g. requirementName).
 export function optionsForAttr(entity, attrName, ruleText = '') {
   const cat = getCatalog(entity);
   const a = cat && cat.byName[attrName];
@@ -130,8 +130,11 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   }
 
   const display = r && r.display && r.display !== tCat.pk ? r.display : null;
-  const valueField = attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec)
-    ? attrName : tCat.pk;
+  // "FK → T (via: field)" stores that target field's value instead of the pk
+  const viaField = r && r.kind === 'fk' && r.via && r.via !== tCat.pk
+    && getEntity(target).some(rec => r.via in rec) ? r.via : null;
+  const valueField = viaField
+    || (attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec) ? attrName : tCat.pk);
   // parent rows storing names rather than ids keep storing names
   const sample0 = sampleOf(entity, attrName);
   const sampleVal = Array.isArray(sample0) ? sample0[0] : sample0;
@@ -142,7 +145,10 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   for (const rec of getEntity(target)) {
     const v0 = rec[valueField];
     if (v0 == null || v0 === '') continue;
-    let lblRaw = resolveDisplay(target, rec, display || tCat.label);
+    // CONCAT displays (e.g. "productName | specsSummary") resolve cross-table
+    let lblRaw = r && r.concat
+      ? computedConcat(target, r.concat, rec, 0).replace(/\s+/g, ' ').trim()
+      : resolveDisplay(target, rec, display || tCat.label);
     // display field unresolvable for this record — degrade to the target's
     // own label rather than a raw id
     if (lblRaw === '' && display) lblRaw = resolveDisplay(target, rec, tCat.label);
@@ -345,6 +351,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     if (ctx.collect) Object.assign(rec, ctx.collect());
     else for (const [f, get] of Object.entries(ctx.controls)) rec[f] = get();
     if (ctx.link) rec[ctx.link.field] = ctx.link.value; // link wins over any cascade choice
+    applyJobTransition(ctx.entity, rec, ctx.editing ? getById(ctx.entity, ctx.newId) : null);
     if (ctx.editing) updateRecord(ctx.entity, ctx.newId, rec);
     else addRecord(ctx.entity, rec);
     enrichAll();
@@ -362,6 +369,84 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
   requestAnimationFrame(() => overlay.classList.add('open'));
 }
 
+// value-vs-value match where either side may be an array (multivalued FKs)
+function arrOverlap(a, b) {
+  if (a == null || b == null || a === '' || b === '') return false;
+  const A = Array.isArray(a) ? a : [a];
+  const B = Array.isArray(b) ? b : [b];
+  return A.some((x) => B.includes(x));
+}
+
+// Options for the Jobs "Responsible" control: certified Onboarding rows whose
+// Competence matches the selected Ticket's scope / product group / linked
+// requirements, and the selected Task when present. Conditions the Competence
+// record doesn't declare are skipped (lenient — demo data is sparse).
+function certifiedResponsibles(ticketId, taskId) {
+  const tickets = resolveTable('Tickets');
+  const ticket = ticketId && tickets ? getById(tickets, ticketId) : null;
+  let scope = null, pg = null, reqIds = null;
+  if (ticket) {
+    scope = ticket.scopes || ticket.scopeID || null;
+    const pgTable = resolveTable('Product Groups');
+    const pgRec = pgTable && getEntity(pgTable).find((g) => arrOverlap(g.productID, ticket.products));
+    pg = pgRec ? pgRec.productGroupID : null;
+    const reqTable = resolveTable('Requirements');
+    if (reqTable && (scope || pg)) {
+      const reqCat = getCatalog(reqTable);
+      reqIds = getEntity(reqTable)
+        .filter((r) => (!scope || arrOverlap(r.scopeID, scope)) && (!pg || arrOverlap(r.productGroupID, pg)))
+        .map((r) => r[reqCat.pk]);
+    }
+  }
+  const out = [], seen = new Set();
+  const obTable = resolveTable('Onboarding');
+  const compTable = resolveTable('Competence');
+  if (!obTable || !compTable) return out;
+  for (const ob of getEntity(obTable)) {
+    if (ob.isCertified !== true) continue;
+    const comp = getById(compTable, ob.competenceID);
+    if (!comp) continue;
+    if (scope && comp.scopeID && !arrOverlap(comp.scopeID, scope)) continue;
+    if (pg && comp.productGroupID && !arrOverlap(comp.productGroupID, pg)) continue;
+    if (reqIds && reqIds.length && comp.requirementID && !arrOverlap(comp.requirementID, reqIds)) continue;
+    if (taskId && comp.taskID && !arrOverlap(comp.taskID, taskId)) continue;
+    const uid = ob.userID;
+    if (!uid || seen.has(uid)) continue;
+    seen.add(uid);
+    out.push({ value: uid, label: lookup('People', uid) || uid });
+  }
+  return out;
+}
+
+// Jobs status transitions drive the real-clock timestamps (restructure spec):
+// Queued→Active stamps realStartDate; entering Stoped stamps stoppedAt and
+// leaving it accrues the pause into jobBufferExecution (decimal hours);
+// Active→Done stamps realEndDate and STORES realExecutionTime =
+// elapsed − buffer (consumers read the stored field; the datamodel rule is
+// documentation). Exported for tools/test_jobs.mjs.
+export function applyJobTransition(entity, rec, prev, nowISO = null) {
+  if (entity !== 'Jobs') return;
+  const before = prev ? prev.jobStatus : null;
+  const after = rec.jobStatus;
+  if (!after || after === before) return;
+  const now = nowISO || new Date().toISOString();
+  const hrs = (a, b) => Math.round(((Date.parse(a) - Date.parse(b)) / 36e5) * 100) / 100;
+  if (after === 'Active' && !(prev && prev.realStartDate)) rec.realStartDate = now;
+  if (before === 'Stoped') {
+    const buf = Number(prev && prev.jobBufferExecution) || 0;
+    const since = prev && prev.stoppedAt;
+    rec.jobBufferExecution = Math.max(0, buf + (since ? hrs(now, since) : 0));
+    rec.stoppedAt = null;
+  }
+  if (after === 'Stoped') rec.stoppedAt = now;
+  if (after === 'Done') {
+    rec.realEndDate = now;
+    const start = rec.realStartDate || (prev && prev.realStartDate);
+    const buf = rec.jobBufferExecution ?? (prev && prev.jobBufferExecution) ?? 0;
+    if (start) rec.realExecutionTime = Math.max(0, hrs(now, start) - Number(buf));
+  }
+}
+
 // ================= control builders =================
 // checkbox multi-picker. A native <select multiple> needs cmd/ctrl-click to
 // assign more than one value — a plain click replaces the selection — which
@@ -370,25 +455,34 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 function mkMultiCheck(options) {
   const wrap = document.createElement('div');
   wrap.className = 'form-multicheck';
-  const boxes = [];
-  for (const o of (options || [])) {
-    if (o.value === '' || o.value == null) continue;
-    const row = document.createElement('label');
-    row.className = 'form-multicheck-row';
-    const cb = document.createElement('input');
-    cb.type = 'checkbox'; cb.value = String(o.value);
-    const span = document.createElement('span');
-    span.textContent = o.label;
-    row.append(cb, span);
-    wrap.appendChild(row);
-    boxes.push(cb);
-  }
+  let boxes = [];
+  const render = (opts) => {
+    // cascade refilters re-render the rows; already-checked values survive
+    const keep = new Set(boxes.filter((c) => c.checked).map((c) => c.value));
+    wrap.innerHTML = '';
+    boxes = [];
+    for (const o of (opts || [])) {
+      if (o.value === '' || o.value == null) continue;
+      const row = document.createElement('label');
+      row.className = 'form-multicheck-row';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.value = String(o.value);
+      cb.checked = keep.has(cb.value);
+      const span = document.createElement('span');
+      span.textContent = o.label;
+      row.append(cb, span);
+      wrap.appendChild(row);
+      boxes.push(cb);
+    }
+  };
+  render(options);
   const get = () => boxes.filter((c) => c.checked).map((c) => c.value);
   const set = (v) => {
     const s = new Set((Array.isArray(v) ? v : [v]).map(String));
     boxes.forEach((c) => { c.checked = s.has(c.value); });
   };
   wrap._setMulti = set;
+  wrap._rebuild = render;
   return { node: wrap, get, set };
 }
 function buildControl(entity, field, c) {
@@ -439,6 +533,7 @@ function refillSelect(node, options, target, newId) {
 // Prefill a control built by buildControl with an existing record's value (edit mode).
 function setControlValue(node, c, v) {
   if (v == null) return;
+  if (node.type === 'datetime-local') { node.value = String(v).slice(0, 16); return; }
   if (c.type === 'bool') { node.value = String(v); return; }
   if (c.type === 'multiselect') {
     if (node._setMulti) { node._setMulti(v); return; }
@@ -545,22 +640,67 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         fillOptions(node, options, groupField, target, undefined);
         get = () => node.value;
       }
-      // cascade: "filtered by the <X> selected" (single-value selects only)
-      const filtM = !multi && ruleText.match(/filtered by (?:the )?([A-Za-z ]+?)(?: selected| field|$)/i);
+      // cascade: "filtered by <A> [+ <B>…] selected" — ANDs option filtering
+      // across every dependency; selects refill, multi-checks rebuild. A part
+      // spelled "Dep.field" (e.g. "Ticket.processID") switches to record
+      // matching: the option's record must share `field` (and any following
+      // bare field names) with the SELECTED dep record.
+      const filtM = ruleText.match(/filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i);
       if (filtM && target) {
-        const depName = filtM[1].trim().toLowerCase();
-        node._refilter = () => {
-          const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase().includes(depName) || depName.includes(l.toLowerCase()));
-          if (!dep) return;
-          const depVal = dep[1].get();
-          const depAttr = spec.fields[dep[0]] && spec.fields[dep[0]].attribute;
-          const depTarget = depAttr ? specOptions(entity, depAttr, '').target : null;
-          let opts = specOptions(entity, attrName, ruleText).options;
-          if (depVal && depTarget) {
-            const key = childKeyFor(target, depTarget);
-            if (key) opts = opts.filter((o) => { const rec = getById(target, o.value); return rec && (Array.isArray(rec[key]) ? rec[key].includes(depVal) : rec[key] === depVal); });
+        const parts = filtM[1].split(/\s*(?:\+|&&|,|\band\b)\s*/i).map((s) => s.trim()).filter(Boolean);
+        // group parts: "Ticket.processID" starts a record-dep; bare parts that
+        // don't match a form label attach to the previous record-dep as fields
+        const deps = [];
+        for (const p of parts) {
+          if (p.includes('.')) {
+            const [head, field] = p.split('.').map((s) => s.trim());
+            deps.push({ label: head, fields: [field] });
+          } else {
+            const isLabel = Object.keys(spec.fields).some((l) => l.toLowerCase() === p.toLowerCase()
+              || l.toLowerCase().includes(p.toLowerCase()) || p.toLowerCase().includes(l.toLowerCase()));
+            const last = deps[deps.length - 1];
+            if (!isLabel && last && last.fields) last.fields.push(p);
+            else deps.push({ label: p });
           }
-          fillOptions(node, opts, groupField, target);
+        }
+        const applyOpts = (opts) => {
+          if (node._rebuild) node._rebuild(opts);
+          else fillOptions(node, opts, groupField, target);
+        };
+        node._refilterDepSpecs = deps;
+        node._refilter = () => {
+          let opts = specOptions(entity, attrName, ruleText).options;
+          for (const d of deps) {
+            const depName = d.label.toLowerCase();
+            const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depName
+              || l.toLowerCase().includes(depName) || depName.includes(l.toLowerCase()));
+            if (!dep) continue;
+            const depVal = dep[1].get();
+            if (depVal == null || depVal === '' || (Array.isArray(depVal) && !depVal.length)) continue;
+            const depAttr = spec.fields[dep[0]] && spec.fields[dep[0]].attribute;
+            const depTarget = depAttr ? specOptions(entity, depAttr, '').target : null;
+            if (d.fields && depTarget) {
+              // record matching: compare listed fields of the dep record
+              const depRec = getById(depTarget, depVal);
+              if (!depRec) continue;
+              for (const f of d.fields) {
+                if (depRec[f] == null || depRec[f] === '') continue;
+                opts = opts.filter((o) => {
+                  const rec = getById(target, o.value);
+                  return rec && arrOverlap(rec[f], depRec[f]);
+                });
+              }
+            } else if (depTarget) {
+              const key = childKeyFor(target, depTarget);
+              if (key) {
+                opts = opts.filter((o) => {
+                  const rec = getById(target, o.value);
+                  return rec && arrOverlap(rec[key], depVal);
+                });
+              }
+            }
+          }
+          applyOpts(opts);
         };
       }
     } else if (typeKey === 'dynamic-specs') {
@@ -632,9 +772,34 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       node._skipSet = true; // prefill handled per-control from the value map
       get = collect;
       rebuild();
+    } else if (typeKey === 'certified-responsible') {
+      // Jobs "Responsible": Onboarding-certified people whose Competence
+      // matches the selected Ticket's scope / product group / requirements
+      // (and the selected Task, when one is picked). Irreducibly multi-hop —
+      // lives here rather than in the generic join engine.
+      const sel = document.createElement('select');
+      sel.className = 'form-input';
+      const rebuild = () => {
+        const depVal = (name) => {
+          const d = Object.entries(byLabel).find(([l]) => l.toLowerCase() === name
+            || l.toLowerCase().includes(name));
+          return d ? d[1].get() : null;
+        };
+        const keep = sel.value;
+        const opts = certifiedResponsibles(depVal('ticket'), depVal('task'));
+        fillOptions(sel, opts, null, null);
+        if (opts.some((o) => String(o.value) === keep)) sel.value = keep;
+      };
+      node = sel;
+      get = () => sel.value;
+      node._refilter = rebuild;
+      node._refilterDepSpecs = [{ label: 'Ticket' }, { label: 'Task' }];
+      rebuild();
     } else if (typeKey === 'switch') {
       node = document.createElement('input'); node.type = 'checkbox'; node.className = 'form-switch';
       get = () => node.checked;
+    } else if (typeKey === 'datetime') {
+      node = mkInput('datetime-local'); get = () => node.value;
     } else if (typeKey === 'date' || typeKey === 'date picker') {
       node = mkInput('date'); get = () => node.value;
     } else if (typeKey === 'month') {
@@ -668,30 +833,50 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     host.appendChild(fieldRow(label, control, (fv.tooltip || '').trim()));
   }
 
-  // ---- check conditions: "<Label> IS NOT NULL" (presence) or
-  // "<Label> = Value" (equality) gate this field on another ----
+  // ---- cascade listeners: refilter when any declared dependency changes ----
+  const findDep = (name) => {
+    const n = String(name).trim().toLowerCase();
+    return Object.entries(byLabel).find(([l]) => l.toLowerCase() === n
+      || l.toLowerCase().includes(n) || n.includes(l.toLowerCase()));
+  };
+  for (const [label, ctl] of Object.entries(byLabel)) {
+    const specs = ctl.node && ctl.node._refilterDepSpecs;
+    if (!specs) continue;
+    for (const d of specs) {
+      const dep = findDep(d.label);
+      if (!dep || dep[0] === label) continue;
+      const fire = () => ctl.node._refilter && ctl.node._refilter();
+      dep[1].node.addEventListener('change', fire);
+      dep[1].node.addEventListener('input', fire);
+    }
+    if (ctl.node._refilter) ctl.node._refilter();
+  }
+
+  // ---- check conditions: "<Label> IS NOT NULL" (presence, "A && B" allowed)
+  // or "<Label> = Value" (equality) gate this field on others ----
   for (const [label, fv] of entries) {
     const raw = fv.check && String(fv.check).trim();
     const chk = raw && raw.match(/^(.+?)\s+IS NOT NULL$/i);
     const eq = !chk && raw && raw.match(/^(.+?)\s*=\s*'?([^']+?)'?\s*$/);
     if ((!chk && !eq) || !byLabel[label]) continue;
-    const depLabel = (chk ? chk[1] : eq[1]).trim().toLowerCase();
-    const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depLabel
-      || l.toLowerCase().includes(depLabel) || depLabel.includes(l.toLowerCase()));
-    if (!dep) continue;
+    const depLabels = (chk ? chk[1] : eq[1]).split(/\s*&&\s*/).map((s) => s.trim()).filter(Boolean);
+    const deps = depLabels.map(findDep).filter(Boolean);
+    if (!deps.length) continue;
     const target = byLabel[label].node;
+    const filled = (v) => v != null && String(v).length > 0 && !(Array.isArray(v) && !v.length);
     const update = () => {
-      const val = dep[1].get();
       const has = chk
-        ? !!val && String(val).length > 0
-        : String(val ?? '').trim().toLowerCase() === eq[2].trim().toLowerCase();
+        ? deps.every((dep) => filled(dep[1].get()))
+        : String(deps[0][1].get() ?? '').trim().toLowerCase() === eq[2].trim().toLowerCase();
       target.disabled = !has;
       // dynamic containers re-render even when the gate closes (to empty out);
       // selects keep the old behaviour (refilter only with a value present)
       if (target._refilter && (has || target.tagName !== 'SELECT')) target._refilter();
     };
-    dep[1].node.addEventListener('change', update);
-    dep[1].node.addEventListener('input', update);
+    for (const dep of deps) {
+      dep[1].node.addEventListener('change', update);
+      dep[1].node.addEventListener('input', update);
+    }
     update();
   }
 

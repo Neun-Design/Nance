@@ -27,6 +27,8 @@ Captures the internal/external context and interested party requirements that fe
 | Constrain / Constrain Type | Regulatory and contractual limits that bound risk treatment options |
 | Region, Location, Business Unit, Department | Organisational structure |
 
+> **Naming note (2026-07-28):** the prototype's `Requirements` table (Portfolio module) is the former `Constraints` dashboard, renamed and generalized so any engineering department can register the regulatory/design/commercial limits that bind its scopes and product groups (ISO §4.3). It is a **different concept** from the ER-model `Requirement` entity above (ISO §4.2 interested-party obligations). When mapping the prototype back to the ER model, prototype-`Requirements` corresponds to `Constrain`/`Constrain Type`.
+
 ### 2. Operations Chain (ISO 9001:2015 §4.4)
 Models the QMS process hierarchy at four levels of decomposition.
 
