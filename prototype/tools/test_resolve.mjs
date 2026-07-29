@@ -38,10 +38,10 @@ function expectName(table, attrName, re, r) {
 }
 
 console.log('== review nonconformities: table/subitem cells ==');
-// Forecasts FACTORY: factoryID shows the plain factoryName; factoryTitle carries
-// the CONCAT(factoryName,'-',city) display.
-expectName('Forecasts', 'factoryID', /^(?!FC\d)[A-Za-zÀ-ú]/);
-expectName('Forecasts', 'factoryTitle', /^[A-Za-zÀ-ú].*-.+/);
+// Forecasts CUSTOMER: customerID shows the plain customerName; customerTitle carries
+// the CONCAT(customerName,'-',city) display.
+expectName('Forecasts', 'customerID', /^(?!FC\d)[A-Za-zÀ-ú]/);
+expectName('Forecasts', 'customerTitle', /^[A-Za-zÀ-ú].*-.+/);
 // Forecast Scopes: names, not ids / 0
 expectName('Forecast Scopes', 'requirementName', /[A-Za-z]{3,}/);
 expectName('Forecast Scopes', 'processID', /^(?!PC\d)[A-Za-z]/);
@@ -86,8 +86,8 @@ expectOptions('Forecast Scopes', 'productGroupID', /^(?!PG\d+$)./);
 expectOptions('Forecast Scopes', 'requirementName', /[A-Za-z]{3,}/);
 expectOptions('Tasks', 'processID', /^(?!PC\d+$)./);
 expectOptions('Tasks', 'workflowID', /^(?!WF\d+$)./);
-// Tasks Customer stores factory NAMES (FK via: factoryName)
-expectOptions('Tasks', 'customerName', /^[A-Za-z]/);
+// (Tasks.customerName was removed in the Organization restructure — the
+// customer now derives from the task's workflow, so there is no form input.)
 expectOptions('Product Groups', 'productID', /^(?!P\d+$)./);
 // Product Specs assign to one or more products via the checkbox multi-picker
 expectOptions('Product Specs', 'productID', /^(?!P\d+$)./, { wantMulti: true });
@@ -113,11 +113,14 @@ function subitemsOf(table, r = row(table)) {
   });
 }
 {
-  // Factories → Forecasts, Approved only
-  const [f] = subitemsOf('Factories');
-  const statuses = [...new Set(f.kids.map((k) => k.status))];
-  if (f.kids.length && statuses.join() === 'Approved') ok(`Factories→Forecasts: ${f.kids.length} kids, all Approved`);
-  else fail(`Factories→Forecasts: ${f.kids.length} kids, statuses=${statuses}`);
+  // Customers → Forecasts, Approved only
+  if (!row('Customers')) fail('Customers→Forecasts: no Customers rows (mockup migration #77 pending)');
+  else {
+    const [f] = subitemsOf('Customers');
+    const statuses = [...new Set(f.kids.map((k) => k.status))];
+    if (f.kids.length && statuses.join() === 'Approved') ok(`Customers→Forecasts: ${f.kids.length} kids, all Approved`);
+    else fail(`Customers→Forecasts: ${f.kids.length} kids, statuses=${statuses}`);
+  }
 
   // Tasks → Handouts grouped by inputs / outputs
   const groups = subitemsOf('Tasks');

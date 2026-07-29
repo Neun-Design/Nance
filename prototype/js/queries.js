@@ -40,7 +40,7 @@ const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
 const pfFromMonthKey = (mk) => { const [y, m] = String(mk).split('-'); return `${y}-${MONTH_NAMES[+m - 1]}`; };
 const pfOrder = (label) => { const [y, name] = String(label).split('-'); return (+y) * 12 + MONTH_NAMES.indexOf(name); };
 const procName = (pid) => lookup('Processes', pid, 'processName') || pid;
-const factName = (fid) => lookup('Factories', fid, 'factoryName') || fid;
+const custName = (cid) => lookup('Customers', cid, 'customerName') || cid;
 const jobProc = (j) => { const t = getById('Tickets', j.ticketID); return t ? t.processID : null; };
 
 // panel-level radio controls per report (rendered by reports.js)
@@ -56,17 +56,17 @@ export const REPORT_RADIOS = {
 
 // ---------- REPORT QUERIES ----------
 export const REPORT_QUERIES = {
-  // rows are the factories left after the report filters; the scopeName
+  // rows are the customers left after the report filters; the scopeName
   // filter additionally narrows to forecasts CONTAINING that scope, so the
-  // chart reacts even when every factory covers the scope somewhere
-  'Factories::Report-A': (rows, state = {}) => {
-    const ids = new Set(rows.map((f) => f.factoryID));
-    let fcs = getEntity('Forecasts').filter((f) => ids.has(f.factoryID));
+  // chart reacts even when every customer covers the scope somewhere
+  'Customers::Report-A': (rows, state = {}) => {
+    const ids = new Set(rows.map((c) => c.customerID));
+    let fcs = getEntity('Forecasts').filter((f) => ids.has(f.customerID));
     if (state.scopeName && state.scopeName !== 'ALL') {
       fcs = fcs.filter((f) => String(resolveDisplay('Forecasts', f, 'scopeName') || '')
         .split(', ').includes(state.scopeName));
     }
-    return bar('Forecast Count by Factory', groupAgg(fcs, 'factoryID'), factName);
+    return bar('Forecast Count by Customer', groupAgg(fcs, 'customerID'), custName);
   },
 
   // monthly budgeted hours (weeklyUsageQuota × ~4 weeks) vs ticket execution hours
@@ -115,7 +115,7 @@ export const REPORT_QUERIES = {
     const planned = groupAgg(rows, 'customerName', 'plannedExecutionTime');
     const real = groupAgg(rows, 'customerName', 'realExecutionTime');
     const cats = [...planned.keys()];
-    return dual('Planned vs Real Execution Hours by Factory', cats,
+    return dual('Planned vs Real Execution Hours by Customer', cats,
       'Planned', cats.map((c) => Math.round(planned.get(c) || 0)),
       'Real', cats.map((c) => Math.round(real.get(c) || 0)));
   },
@@ -125,10 +125,10 @@ export const REPORT_QUERIES = {
 
   // Capacity vs demand by FUNCTION (datamodel Capacity::Report-A):
   //  • Available[func] = Σ People.workingHours for that function (weekly) × the
-  //    number of weeks in the selected period. Factory-independent — people
-  //    capacity doesn't change with the factory filter.
+  //    number of weeks in the selected period. Customer-independent — people
+  //    capacity doesn't change with the customer filter.
   //  • Allocated[func] = Σ Forecast Scopes.estimatedHours grouped by functionName,
-  //    for forecasts within the selected factory + period. This is
+  //    for forecasts within the selected customer + period. This is
   //    totalEstimatedHours decomposed by function.
   // Weeks come from the period's forecasts as Σ(periodBusinessDays / 5), matching
   // the weeklyUsageQuota basis. The 'nodraft' radio excludes Draft forecasts from
@@ -144,7 +144,7 @@ export const REPORT_QUERIES = {
       return (!from || d >= from) && (!to || d <= to);
     };
 
-    // Available (weekly) by function — all People, factory-independent.
+    // Available (weekly) by function — all People, customer-independent.
     const availWeekly = groupAgg(getEntity('People'), (p) => fnName(p.functionID), 'workingHours');
 
     // Period week-count: Σ businessDays/5 over the distinct months in scope.
@@ -155,11 +155,11 @@ export const REPORT_QUERIES = {
     const weeks = [...months.values()].reduce((s, bd) => s + (Number(bd) || 0) / 5, 0) || 1;
 
     // Allocated by function — forecast scopes whose forecast matches period +
-    // factory (+ draft radio) filters.
-    const factSel = state.factoryName;
+    // customer (+ draft radio) filters.
+    const custSel = state.customerName;
     const fcIds = new Set(getEntity('Forecasts')
       .filter((f) => inPeriod(f)
-        && (!factSel || factSel === 'ALL' || factName(f.factoryID) === factSel)
+        && (!custSel || custSel === 'ALL' || custName(f.customerID) === custSel)
         && (state.radio !== 'nodraft' || f.status !== 'Draft'))
       .map((f) => f.forecastID));
     const alloc = groupAgg(
@@ -178,7 +178,7 @@ export const REPORT_QUERIES = {
     const planned = groupAgg(rows, 'customerName', 'plannedHours');
     const real = groupAgg(rows, 'customerName', 'realExecutionTime');
     const cats = [...planned.keys()];
-    return dual('Planned vs Real Hours by Factory', cats,
+    return dual('Planned vs Real Hours by Customer', cats,
       'Planned', cats.map((c) => Math.round(planned.get(c) || 0)),
       'Real', cats.map((c) => Math.round(real.get(c) || 0)));
   },
@@ -266,11 +266,11 @@ export const CARD_QUERIES = {
 
   'Capacity::Card 1-2': () => {
     const rows = getEntity('Capacity');
-    const gapBy = groupAgg(rows, 'factoryID', (r) => (r.availableHours - r.allocatedHours));
+    const gapBy = groupAgg(rows, 'customerID', (r) => (r.availableHours - r.allocatedHours));
     const es = [...gapBy.entries()];
     const mean = es.reduce((s, [, v]) => s + v, 0) / (es.length || 1);
     const top = es.sort((a, b) => b[1] - a[1])[0];
-    return { main: top ? factName(top[0]) : '—', trendPct: null,
+    return { main: top ? custName(top[0]) : '—', trendPct: null,
       detail: top ? `${Math.round(top[1])} h gap vs ${Math.round(mean)} h average` : '' };
   },
 
