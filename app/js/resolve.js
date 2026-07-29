@@ -219,25 +219,78 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
   return rows;
 }
 
+// raw values of a dotted path from a row: each segment reads a stored field,
+// intermediate values are mapped id → record against the segment attribute's
+// FK target (else the pk-name / fuzzy table-name domain). Returns the raw
+// value list of the FINAL segment (ids or literals — never display names),
+// so callers can join or display them. Empty when any hop is unstored.
+export function pathValues(tableName, row, path, depth = 0) {
+  if (depth > MAX_DEPTH) return [];
+  const segs = String(path).split('.').map((s) => s.trim()).filter(Boolean);
+  let curTable = tableName;
+  let recs = [row];
+  for (let i = 0; i < segs.length; i += 1) {
+    const seg = segs[i];
+    const vals = [];
+    for (const rec of recs) {
+      const v = rec && rec[seg];
+      if (v == null || v === '') continue;
+      (Array.isArray(v) ? v : [v]).forEach((x) => x != null && x !== '' && vals.push(x));
+    }
+    if (i === segs.length - 1) return dedupe(vals);
+    const next = fieldDomain(curTable, seg);
+    if (!next) return [];
+    recs = vals.map((v) => getById(next, v)).filter(Boolean);
+    curTable = next;
+  }
+  return [];
+}
+
+// domain of the FINAL segment of a dotted path (for display resolution of
+// path-derived values) — e.g. "workflowID.productScopeID.scopeID" → Scopes
+function pathDomain(tableName, path) {
+  const segs = String(path).split('.').map((s) => s.trim()).filter(Boolean);
+  let curTable = tableName;
+  for (let i = 0; i < segs.length - 1; i += 1) {
+    curTable = fieldDomain(curTable, segs[i]);
+    if (!curTable) return null;
+  }
+  return curTable ? fieldDomain(curTable, segs[segs.length - 1]) : null;
+}
+
 // "via: a + b + c" — compound key with AND semantics: children must match the
 // parent on every listed field that the child DATA actually stores. Each field
 // is either a child FK to the parent (matched against the parent pk) or a
 // field shared by both sides (sameVal, array-aware — e.g. Requirements store
 // scopeID/productGroupID arrays while Product Scopes store single values).
+// Dotted entries ("productScopeID.scopeID") traverse the parent side as a
+// path; the child matches on the last segment. A child that stores the key
+// EMPTY (null / '' / []) matches every parent — applicability keys left blank
+// mean "applies to all" (Q1: a Requirement without customerID is generic).
 // Fields absent from the child data are skipped, so rules can name aspirational
 // keys without breaking (guide §10: data wins over catalogue).
 function multiViaJoin(parentTable, parentRow, childTable, fields, pkVal) {
   const childRows = getEntity(childTable);
   const childPk = getCatalog(childTable).pk;
-  const usable = fields.filter((f) => f !== childPk && childRows.some((c) => f in c));
+  const childField = (f) => f.split('.').pop();
+  const usable = fields.filter((f) => childField(f) !== childPk
+    && childRows.some((c) => childField(f) in c));
   if (!usable.length) return null;
+  const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
   let rows = childRows, constrained = false;
   for (const f of usable) {
-    if (fieldDomain(childTable, f) === parentTable) {
+    const cf = childField(f);
+    if (f.includes('.')) {
+      const vals = pathValues(parentTable, parentRow, f);
+      if (vals.length) {
+        rows = rows.filter((c) => blank(c[cf]) || sameVal(c[cf], vals));
+        constrained = true;
+      }
+    } else if (fieldDomain(childTable, f) === parentTable) {
       rows = rows.filter((c) => matches(c[f], pkVal));
       constrained = true;
     } else if (f in parentRow && parentRow[f] != null && parentRow[f] !== '') {
-      rows = rows.filter((c) => sameVal(c[f], parentRow[f]));
+      rows = rows.filter((c) => blank(c[f]) || sameVal(c[f], parentRow[f]));
       constrained = true;
     }
     // else: field unresolvable on the parent — skip
@@ -622,6 +675,22 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
   if (r.concat) {
     const s = computedConcat(tableName, r.concat, row, depth + 1);
     return s.replace(/\s+/g, ' ').trim() || '—';
+  }
+
+  // path-computed via ("computed: Workflows via: workflowID.productScopeID.scopeID"):
+  // traverse the dotted path from this row's stored fields, then resolve the
+  // final raw values against the last segment's domain (display names win).
+  if (r.via && r.via.includes('.') && !r.viaList) {
+    const vals = pathValues(tableName, row, r.via, depth + 1);
+    if (vals.length) {
+      const dom = pathDomain(tableName, r.via);
+      if (dom) {
+        const s = idsToDisplay(vals, [dom], display, depth + 1);
+        if (s !== '') return s;
+      }
+      return vals.join(', ');
+    }
+    // path unstored on this record — fall through to the generic strategies
   }
 
   // derived: resolve children, then display names or count

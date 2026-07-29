@@ -60,8 +60,11 @@ export function parseRule(rule) {
   }
 
   // via: a single field, or a compound key "via: a + b + c" (AND semantics —
-  // children must match the parent on every field that is actually stored)
-  const vm = txt.match(/via:\s*([A-Za-z_][A-Za-z0-9_.]*(?:\s*\+\s*[A-Za-z_][A-Za-z0-9_.]*)*)/i);
+  // children must match the parent on every field that is actually stored).
+  // Compound entries may be dotted paths ("productScopeID.scopeID"): the
+  // parent side traverses the path, the child matches on the last segment.
+  // The colon is optional ("rollup → People via departmentID").
+  const vm = txt.match(/\bvia:?\s*([A-Za-z_][A-Za-z0-9_.]*(?:\s*\+\s*[A-Za-z_][A-Za-z0-9_.]*)*)/i);
   let via = null, viaList = null;
   if (vm) {
     const parts = vm[1].split('+').map((s) => s.trim()).filter(Boolean);
@@ -78,14 +81,20 @@ export function parseRule(rule) {
     if (m) { target = m[1]; if (!display) display = m[2]; }
   }
   if (!target) {
-    m = txt.match(/^(?:rollup|mirror|computed):\s*(?:from\s+|lookup\s+)?([A-Za-z][A-Za-z &]*?)\s*(?:\(|via\b|→|->|;|,|$)/i);
+    m = txt.match(/^(?:FK|rollup|mirror|computed):\s*(?:from\s+|lookup\s+)?([A-Za-z][A-Za-z &]*?)\s*(?:\(|via\b|→|->|;|,|$)/i);
     if (m) target = m[1].trim();
   }
 
+  // "FK: Issues (filtered by issueType='Opportunity')" — option lists and
+  // joins only consider target records where field = value
+  let filter = null;
+  m = txt.match(/filtered by\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*'([^']+)'/i);
+  if (m) filter = { field: m[1], value: m[2] };
+
   // fk keeps via too: "FK → Factories (via: factoryName)" stores the named
   // target field instead of the pk (name-valued FK, e.g. Tasks.customerName)
-  if (kind === 'fk') return { kind: 'fk', target, display, concat, via };
-  return { kind, target, via, viaList, display, concat };
+  if (kind === 'fk') return { kind: 'fk', target, display, concat, via, filter };
+  return { kind, target, via, viaList, display, concat, filter };
 }
 
 // ---- subitem-tables entry parsing (guide §9) ----

@@ -357,7 +357,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "filtered by Department selected"
               }
             }
           },
@@ -3967,8 +3967,8 @@
             {
               "name": "taskID",
               "type": "INT",
-              "rule": "rollup → Tasks via: customerID -> productGroupID -> scopeID  (display: taskName)",
-              "notes": "Task template; options filtered by the ticket's process + customer",
+              "rule": "rollup → Tasks (via: customerID + productGroupID + scopeID) (display: taskName)",
+              "notes": "Task template; options filtered by the ticket's customer + product group + scope",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -4199,7 +4199,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Ticket IS NOT NULL",
-                "field-rule": "filtered by Ticket.processID + customerName"
+                "field-rule": "filtered by Ticket selected"
               },
               "Responsible": {
                 "field-type": {

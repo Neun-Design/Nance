@@ -50,8 +50,15 @@ export const getById = (name, id) => store.index[name]?.get(id);
 export const getBaseFields = (name) => store.baseFields[name] || [];
 
 // Register a new in-memory record (non-persistent, resets on reload).
+// Tables catalogued in the datamodel but absent from the dataset (newly
+// added entities awaiting seed data) get their store initialized here.
 export function addRecord(name, record) {
   const meta = ENTITY_META[name];
+  if (!store.entities[name]) {
+    store.entities[name] = [];
+    store.index[name] = new Map();
+    store.baseFields[name] = [];
+  }
   store.entities[name].push(record);
   if (meta) store.index[name].set(record[meta.pk], record);
   return record;

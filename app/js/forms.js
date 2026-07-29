@@ -7,13 +7,13 @@
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
-import { resolveDisplay, computedConcat } from './resolve.js';
+import { resolveDisplay, computedConcat, childrenOf } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
   processOwner: 'People', projectOwner: 'People', ticketOwner: 'People', riskOwner: 'People',
   sourceOwner: 'People', createdBy: 'People', changedBy: 'People', reportedBy: 'People',
-  customerName: 'Factories', location: 'Factories', activities: 'Activities',
+  customerName: 'Customers', location: 'Customers', activities: 'Activities',
   products: 'Products', taskInput: 'Handouts', taskOutput: 'Handouts',
   parentStepID: 'Workflows', parentProcessID: 'Processes', predecesorJob: 'Jobs',
   escalatedToEventID: 'Events',
@@ -21,7 +21,7 @@ const REF_OVERRIDE = {
 const ENUM_FIELDS = new Set([
   'status', 'ticketStatus', 'projectStatus', 'jobStatus', 'processStatus', 'channelStatus',
   'riskStatus', 'forecastPeriod', 'periodType', 'requirementType', 'riskCategory',
-  'businessSegment', 'region', 'squadType', 'type', 'scopeOpportunity', 'dependencyType',
+  'businessSegment', 'region', 'squadType', 'type', 'dependencyType',
   'previousStatus', 'newStatus',
 ]);
 
@@ -143,6 +143,10 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
 
   const seen = new Map();
   for (const rec of getEntity(target)) {
+    // "FK: Issues (filtered by issueType='Opportunity')" — only matching
+    // target records become options
+    if (r && r.filter && String(rec[r.filter.field] ?? '').toLowerCase()
+        !== r.filter.value.toLowerCase()) continue;
     const v0 = rec[valueField];
     if (v0 == null || v0 === '') continue;
     // CONCAT displays (e.g. "productName | specsSummary") resolve cross-table
@@ -418,6 +422,50 @@ function certifiedResponsibles(ticketId, taskId) {
   return out;
 }
 
+// Options for the Jobs "Task" select — the datamodel chain
+// `rollup → Tasks (via: customerID + productGroupID + scopeID)` resolved
+// through the selected Ticket: ticket → scopes / products → product group /
+// customer, task → workflow → customerID / productScopeID. Irreducibly
+// multi-hop (like certifiedResponsibles), so it lives here rather than in
+// the generic join engine. Workflow applicability keys left EMPTY mean
+// "applies to all" (Q1 wildcard); tasks without a workflow pass (lenient).
+// Exported for tools/test_engine_org.mjs.
+export function tasksForJob(ticketId) {
+  const tasksT = resolveTable('Tasks');
+  if (!tasksT) return [];
+  const meta = ENTITY_META[tasksT];
+  const asOption = (t) => ({ value: t[meta.pk], label: t.taskName || t[meta.pk] });
+  const tickets = resolveTable('Tickets');
+  const ticket = ticketId && tickets ? getById(tickets, ticketId) : null;
+  if (!ticket) return getEntity(tasksT).map(asOption);
+  const wfT = resolveTable('Workflows');
+  const psT = resolveTable('Product Scopes');
+  const scope = ticket.scopes || ticket.scopeID || null;
+  const cust = ticket.customerID || ticket.customerName || null;
+  const pgTable = resolveTable('Product Groups');
+  const pgRec = pgTable && getEntity(pgTable).find((g) => arrOverlap(g.productID, ticket.products));
+  const pg = pgRec ? pgRec.productGroupID : null;
+  const out = [];
+  for (const t of getEntity(tasksT)) {
+    const wf = wfT && t.workflowID ? getById(wfT, t.workflowID) : null;
+    if (wf) {
+      const wfCust = wf.customerID;
+      if (cust && wfCust != null && wfCust !== '' && !(Array.isArray(wfCust) && !wfCust.length)
+          && !arrOverlap(wfCust, cust)) continue;
+      const psIds = wf.productScopeID;
+      if ((scope || pg) && psIds != null && psIds !== '' && !(Array.isArray(psIds) && !psIds.length) && psT) {
+        const pss = (Array.isArray(psIds) ? psIds : [psIds]).map((id) => getById(psT, id)).filter(Boolean);
+        if (pss.length) {
+          if (scope && !pss.some((ps) => arrOverlap(ps.scopeID, scope))) continue;
+          if (pg && !pss.some((ps) => arrOverlap(ps.productGroupID, pg))) continue;
+        }
+      }
+    }
+    out.push(asOption(t));
+  }
+  return out;
+}
+
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
 // Queued→Active stamps realStartDate; entering Stoped stamps stoppedAt and
 // leaving it accrues the pause into jobBufferExecution (decimal hours);
@@ -669,6 +717,13 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         };
         node._refilterDepSpecs = deps;
         node._refilter = () => {
+          // Jobs "Task": the ticket-driven chain (customer + product group +
+          // scope through the task's workflow) is bespoke — see tasksForJob.
+          if (entity === 'Jobs' && attrName === 'taskID') {
+            const dep = deps.map((d) => findDep(d.label)).find(Boolean);
+            applyOpts(tasksForJob(dep ? dep[1].get() : null));
+            return;
+          }
           let opts = specOptions(entity, attrName, ruleText).options;
           for (const d of deps) {
             const depName = d.label.toLowerCase();
@@ -692,11 +747,23 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
               }
             } else if (depTarget) {
               const key = childKeyFor(target, depTarget);
-              if (key) {
+              const stored = key && getEntity(target).some((rec) => rec[key] != null && rec[key] !== '');
+              if (stored) {
                 opts = opts.filter((o) => {
                   const rec = getById(target, o.value);
                   return rec && arrOverlap(rec[key], depVal);
                 });
+              } else {
+                // option records don't store the key — derive membership
+                // through the join engine instead (e.g. Squads.Owner: People
+                // of the chosen Department via the shared business unit)
+                const depRec = getById(depTarget, Array.isArray(depVal) ? depVal[0] : depVal);
+                if (depRec) {
+                  const tCat = getCatalog(target);
+                  const allowed = new Set(childrenOf(depTarget, depRec, target)
+                    .map((r) => String(r[tCat.pk])));
+                  if (allowed.size) opts = opts.filter((o) => allowed.has(String(o.value)));
+                }
               }
             }
           }
@@ -795,6 +862,28 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       node._refilter = rebuild;
       node._refilterDepSpecs = [{ label: 'Ticket' }, { label: 'Task' }];
       rebuild();
+    } else if (typeKey === 'readonly') {
+      // read-only derived field (decision Q4): the shown value resolves from
+      // the OTHER controls' current values through the attribute's rule (e.g.
+      // Customers.Segment auto-fills from the chosen Business Unit) and is
+      // never stored — render-time resolution owns it.
+      const inp = mkInput('text');
+      inp.readOnly = true;
+      inp.classList.add('form-ro');
+      inp.placeholder = '— derived —';
+      const rebuild = () => {
+        const draft = {};
+        for (const [f, g] of Object.entries(ctx.controls)) {
+          const v = g();
+          if (v != null && v !== '') draft[f] = v;
+        }
+        inp.value = String(resolveDisplay(entity, draft, attrName) || '');
+      };
+      node = inp;
+      node._refilter = rebuild;
+      node._refilterAll = true; // re-derive whenever any sibling field changes
+      node._skipSet = true;
+      get = () => undefined;
     } else if (typeKey === 'switch') {
       node = document.createElement('input'); node.type = 'checkbox'; node.className = 'form-switch';
       get = () => node.checked;
@@ -841,10 +930,12 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
   };
   for (const [label, ctl] of Object.entries(byLabel)) {
     const specs = ctl.node && ctl.node._refilterDepSpecs;
-    if (!specs) continue;
-    for (const d of specs) {
-      const dep = findDep(d.label);
-      if (!dep || dep[0] === label) continue;
+    const all = ctl.node && ctl.node._refilterAll;
+    if (!specs && !all) continue;
+    const deps = all
+      ? Object.entries(byLabel).filter(([l]) => l !== label)
+      : specs.map((d) => findDep(d.label)).filter((dep) => dep && dep[0] !== label);
+    for (const dep of deps) {
       const fire = () => ctl.node._refilter && ctl.node._refilter();
       dep[1].node.addEventListener('change', fire);
       dep[1].node.addEventListener('input', fire);
