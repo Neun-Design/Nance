@@ -41,6 +41,7 @@ The prototype's `Requirements` table (Portfolio module) is the former `Constrain
 | `requirementTypeID` | FK → Requirement Type | Type registry (Operational / Design / Testing / Technical / Commercial as seed data) |
 | `scopeID` | FK → Scopes, **multivalued** | Scopes this requirement applies to |
 | `productGroupID` | FK → Product Groups, **multivalued** | Product groups it applies to; displayed as `productName \| SPECS` (CONCAT with the computed `specsSummary`) |
+| `customerID` | FK → Customers, **multivalued** | Customers it applies to (2026-07-29). **Empty = applies to all customers** — the multivalued applicability keys are the flattened associative entity (decision Q1, `prototype/prototype_v2-review.md`) |
 | `isActive`, `regulatoryReference` | BOOLEAN / VARCHAR | Lifecycle flag and external norm code |
 
 `Requirement Type` is a hidden registry (`dashboard-order: 0` — catalogued but kept out of the tab strip); new types are created inline via the "+" button on the Type select of the Requirements form.
@@ -55,6 +56,19 @@ The prototype's `Requirements` table (Portfolio module) is the former `Constrain
 Related Jobs behavior from the same restructure: status transitions stamp `realStartDate` (Queued→Active) and `realEndDate` (Active→Done) with the real clock, Stoped dwell accrues `jobBufferExecution`, and `realExecutionTime = (end − start) − buffer` is stored on Done.
 
 Implemented in `prototype/data/datamodel.json` + `prototype/tools/migrate_requirements.py` (deterministic rename/migration) and the prototype engine (compound `via: a + b` joins in `model.js`/`resolve.js`, multi-dependency form cascades, `applyJobTransition` and the `certified-responsible` control in `forms.js`).
+
+**Organization & CRM (prototype, 2026-07-29 restructure):**
+
+The prototype's module map is now: `Organization` (1) · `Portfolio` (2) · `CRM` (3) · `Talent` (4) · `Operation` (5) · `Workload` (6) · `Control` (7).
+
+- **Organization module** — `Business Segments` (LPT/MPT/DT/SG registry replacing the old `businessSegment` enum) → `Business Units` → `Departments` (ids `DPT01…`, matched by legacy Capacity/Performance refs) → `Squads` (moved from Talent; `departmentID` FK, owner picked among the department's People).
+- **CRM module** — the former `Customers` module; the `Factories` table is renamed **`Customers`** (`factoryID/Name` → `customerID/Name`): internal factories and final Northwind Energy clients are one entity, classified by `businessUnitID` (Segment is read-only, derived from the Unit — decision Q4).
+- **Issues** (Portfolio) — registry typed `Opportunity | Risk`; `Scopes.scopeOpportunity` is an FK filtered to `issueType='Opportunity'` (replaces the old enum).
+- **Customer-aware chain** — `Workflows` declare `customerID[]` + `productScopeID[]`; their `requirements` derive via the 3-key compound rollup `via: customerID + productScopeID.productGroupID + productScopeID.scopeID` (empty key = applies to all, Q1); `Tasks` derive customer/scope/product-group from their workflow via dotted paths; the Jobs Task select follows the ticket's customer + product group + scope (`tasksForJob` in `forms.js`); Competence stays **customer-agnostic** (decision Q5).
+
+Full change catalog and decisions Q1–Q5: `prototype/prototype_v2-review.md`. Data migration: `prototype/tools/migrate_organization.py` (applied to both mockup copies). Engine tests: `prototype/tools/test_engine_org.mjs`.
+
+> **Source of truth:** `prototype/data/datamodel.json` is the canonical schema. `sourceFiles/developer/datamodel.json` is a legacy design reference kept for the wireframe era — it received the Factories attribute rename but not the Organization/CRM restructure, and is **not** consumed by the prototype.
 
 ### 2. Operations Chain (ISO 9001:2015 §4.4)
 Models the QMS process hierarchy at four levels of decomposition.
