@@ -32,7 +32,7 @@
 
 | Level | Meaning in the UI |
 |---|---|
-| **module** (`Customers`, `Operation`, `Inventory`, `Workload`, `Control`, `Talent`) | One entry in the **sidebar**. Selecting it shows the module's dashboards. Its `sidebar-position` sets the order — see §2.1. |
+| **module** (`Organization`, `Portfolio`, `CRM`, `Talent`, `Operation`, `Workload`, `Control`) | One entry in the **sidebar**. Selecting it shows the module's dashboards. Its `sidebar-position` sets the order — see §2.1. |
 | **table** | One **tab (dashboard)** inside the module. The tab renders, top to bottom: cards → data table (with controls) → reports. |
 
 The fixed **Overview** entry always sits at the top of the sidebar; `sidebar-position`
@@ -102,7 +102,7 @@ Declares both storage shape and rendering behaviour:
 | `DATE`, `DATETIME` | ISO dates; date-pickers in forms, range-pickers in filters. |
 | `email` | A person reference — every `*Owner` attribute uses this; resolves to People (`userName`). |
 | `LINK` | Clickable URL (e.g. `procedureURL`). |
-| `rollup` | **Derived, not stored.** Aggregates child records via the `rule` (e.g. `rollup → Forecasts (via: factoryID)`). Computed at render time; read-only in forms ("Auto-calculated on save"). |
+| `rollup` | **Derived, not stored.** Aggregates child records via the `rule` (e.g. `rollup → Forecasts (via: customerID)`). Computed at render time; read-only in forms ("Auto-calculated on save"). |
 | `computed` | Derived scalar via the `rule`'s expression/path chain. Read-only, same treatment as `rollup`. |
 
 ### 3.3 `rule`
@@ -110,13 +110,14 @@ A mini-DSL declaring where values come from. Grammar patterns in use:
 
 | Pattern | Meaning |
 |---|---|
-| `FK → <Table> (display: <field>)` | Foreign key. Store the target PK, **display the named field** (never the raw ID) in tables, subitems, and selects. `display: CONCAT(a,'-',b)` composes several fields (Forecasts FACTORY = `factoryName-city`); parts may be computed on the target (Requirements PG = `productName \| specsSummary`). |
-| `FK → <Table> (via: <field>)` | Name-valued FK: the select stores `<field>`'s value instead of the pk (Tasks.customerName stores `factoryName`, matching how Tickets store customers). |
-| `rollup → <Table> (via: <field>)` | Collect the related rows of `<Table>` — see the join ladder below. |
-| `rollup → <Table> (via: a + b)` | **Compound key** (AND semantics): children must match the parent on every listed field that their data actually stores; either side may hold arrays (Product Scopes.requirementID = requirements whose `scopeID[]`/`productGroupID[]` contain the row's pair). Unstored fields are skipped (§10: data wins). |
+| `FK → <Table> (display: <field>)` | Foreign key. Store the target PK, **display the named field** (never the raw ID) in tables, subitems, and selects. `display: CONCAT(a,'-',b)` composes several fields (Forecasts CUSTOMER = `customerName-city`); parts may be computed on the target (Requirements PG = `productName \| specsSummary`). |
+| `FK → <Table> (via: <field>)` | Name-valued FK: the select stores `<field>`'s value instead of the pk (legacy Tickets rows store customer names this way). |
+| `FK: <Table> (filtered by f='v')` | **Filtered FK** (2026-07-29): option lists and joins only consider target records where `f = v` — `Scopes.scopeOpportunity → Issues` filtered to `issueType='Opportunity'`. |
+| `rollup → <Table> (via: <field>)` | Collect the related rows of `<Table>` — see the join ladder below. The colon after `via` is optional. |
+| `rollup → <Table> (via: a + b [+ c])` | **Compound key** (AND semantics): children must match the parent on every listed field that their data actually stores; either side may hold arrays (Product Scopes.requirementID = requirements whose `scopeID[]`/`productGroupID[]` contain the row's pair). Unstored fields are skipped (§10: data wins). Entries may be **dotted paths** (`productScopeID.scopeID`) — the parent traverses the path, the child matches on the last segment. A child storing an applicability key **empty** (`[]`/null) matches every parent: a Requirement without `customerID` applies to all customers (decision Q1). |
 | `mirror: <source>` | Value mirrored from related records, e.g. `mirror: DISTINCT("Tasks"."actionName")` or `mirror: Competence (via: competenceID) (display: roleName)`. |
 | `computed: <expression>` | Calculated value, e.g. `computed: SUM(forecastScopes.estimatedHours)`. |
-| `computed → <Table> (via: <path.chain>)` | Calculated by walking a relationship path (dots = hops through FKs). |
+| `computed → <Table> (via: <path.chain>)` | Calculated by walking a relationship path (dots = hops through stored FKs), then displaying the final ids against the last segment's domain — `Tasks.scopeID = computed: Workflows via: workflowID.productScopeID.scopeID (display: scopeName)`. |
 | `enum: A/B/C` | The closed value list for an `ENUM` type. |
 
 **Tolerant parsing.** The rules are hand-written prose in many spellings; the parser
@@ -206,7 +207,7 @@ regardless of the child's own `table-display` settings.
   "Report-A": {
     "overview-display": true,
     "graph_type": "bar chart - multiple",
-    "rule": "availableHours vs. allocatedHours side by side grouped by factoryName. Y = hours, X = FactoryNames",
+    "rule": "availableHours vs. allocatedHours side by side grouped by customerName. Y = hours, X = customerName",
     "filters": {
       "fields": {
         "periodFrame": {
@@ -216,12 +217,12 @@ regardless of the child's own `table-display` settings.
           "check": null,
           "field-rule": null
         },
-        "factoryName": {
+        "customerName": {
           "field-type": { "combobox": "shadcn-combobox" },
           "tooltip": null,
           "default": "ALL",
           "check": null,
-          "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+          "field-rule": "FK -> Customers (display: customerName): Multivalued field"
         }
       }
     }
@@ -233,7 +234,7 @@ regardless of the child's own `table-display` settings.
 |---|---|
 | **key** `Report-A`, `Report-B`, … | One chart panel each, rendered in key order. The letter is the report's identity (PROTOTYPE_REVIEW.md refers to "report A" this way). |
 | `graph_type` | Chart family in prose: `bar chart`, `bar chart - multiple` (grouped series), `donut`, `line`, … Choose the design-system/shadcn chart that best matches; where no component is named, pick the closest fit (per PROTOTYPE_REVIEW.md Reports note). |
-| `rule` | **The query specification in prose**: measure(s), grouping, and axis mapping ("Y = hours, X = FactoryNames"). Implementations must satisfy the rule against the mockup dataset — this is what report tests should assert. |
+| `rule` | **The query specification in prose**: measure(s), grouping, and axis mapping ("Y = hours, X = customerName"). Implementations must satisfy the rule against the mockup dataset — this is what report tests should assert. |
 | `filters.fields` | The report's own filter set. Each entry follows the **form-field grammar** (§6.2) plus a `default` (initial state — e.g. `"ALL"` or `"last six months from current date"`). Render per the wireframe pattern: a **filter button on the report `<div>`** opening a right-side drawer with these inputs and a **Reset** button inside the drawer. Each report has its *own* filter button. |
 | `overview-display` | `true` ⇒ the chart also appears on the Overview dashboard (§7). |
 
@@ -288,6 +289,18 @@ names (never ids), values are what the parent rows actually store — the target
 the name itself for label-named attributes stored as names (`requirementName`). An
 attribute whose `notes` contain `multivalued` renders as a multi-select even without a
 `field-rule` marker.
+
+**2026-07-29 Organization/CRM constructs.** `field-type {"readonly": …}` renders a
+read-only input whose value is **derived live** from the sibling controls through the
+attribute's rule and never stored (Customers.Segment auto-fills from the chosen
+Business Unit — decision Q4). Cascades whose option records don't store the dependency
+key fall back to a **join-engine membership** test (Squads.Owner lists the chosen
+Department's People through the shared business-unit domain). Two chains are bespoke
+controls rather than generic joins: the Jobs **Responsible** select
+(`certified-responsible`: Onboarding-certified people matching the ticket's
+scope/product-group/requirements) and the Jobs **Task** select (`tasksForJob`: tasks
+whose workflow matches the ticket's customer + product group + scope, empty workflow
+keys meaning "applies to all" — Q1).
 
 **Selection fields that reference another table** offer a **"+" (create new item)
 button** beside the select: it pushes a nested drawer tab for the referenced table onto
@@ -362,7 +375,7 @@ that row (matched through the FK/rollup relationship between the two entities).
 | `"Workflows: ordered by identationID"` | `:` suffix adds a **directive** — here a sort order (WBS-style `1, 2, 2.1, 2.2…`). | Processes → Workflows |
 | `"Actions: rollup via Tasks.activityID"` | Directive declaring the **join path** when it isn't a direct FK (Actions relate to Activities through Tasks). | Activities → Actions |
 | `"Jobs: only jobStatus=Active\|Queued"` | **Status-filtered children** — only rows whose field matches one of the `\|`-separated values. | Tickets → Jobs |
-| `"Forecasts: display status=Approved only"` | Same filter, review spelling. | Factories → Approved Forecasts |
+| `"Forecasts: display status=Approved only"` | Same filter, review spelling. | Customers → Approved Forecasts |
 | `"Scopes (via: scopeID)"` | The join field named inline (parenthetical directive). | Product Scopes → Scopes |
 | `"Handouts (grouped by inputs)"` | Children named by a **through-table field** (Tasks → Workflows.inputs → Handouts). Each group renders as its **own labelled list** — declaring both `inputs` and `outputs` yields "Handouts - Inputs" and "Handouts - Outputs" under one expanded row. | Tasks → Handouts |
 | `"Product Scopes -> Competence"` | **Nesting**: the subitem table has its own subitem table — Product Scopes rows expand again into Competence. Arbitrary depth follows the same rules recursively. | Tasks → Product Scopes → Competence |
@@ -383,7 +396,7 @@ one expanded row (Tasks' Handouts Inputs/Outputs pair is the reference).
 
 | Quirk | Location | Correct interpretation |
 |---|---|---|
-| `form` sometimes holds prose placeholders (`["see #wireframe"]`, `["keep the way it is in the #wireframe"]`) | Products, Product Class, Squads | Follow the wireframe until a structured form spec lands. |
+| `form` sometimes holds prose placeholders (`["see #wireframe"]`, `["keep the way it is in the #wireframe"]`) | Products | Follow the wireframe until a structured form spec lands. (Squads gained a structured spec in the 2026-07-29 Organization restructure.) |
 | Lowercase table names in `subitem-tables` (`"tickets"`, `"people"`) | several | Match case-insensitively (§9). |
 | ~~Catalogue field names drift from the dataset (`Workflows.constrains` vs data `constraints`)~~ | Workflows | **Resolved 2026-07-28** (`tools/migrate_requirements.py`): both sides renamed to `requirements`. |
 | ~~`Constrain`/`constraint` naming mixed across entities~~ | ex-Constraints | **Resolved 2026-07-28**: the whole family is now `requirement*` (`requirementID`, `requirementTypeID`, `requirementName`); the entity is Portfolio → Requirements, typed by the hidden Requirement Type table (dashboard-order 0). |

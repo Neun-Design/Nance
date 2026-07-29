@@ -182,28 +182,28 @@ The rename was applied to attribute names but not to rule bodies, report specs a
 
 ## C. Engine work required (rule mini-DSL constructs not yet supported)
 
-- [ ] **Path-traversal computed** — two-hop dotted `via` paths: Tasks.scopeID /
+- [x] **Path-traversal computed** — two-hop dotted `via` paths: Tasks.scopeID /
   Tasks.productGroupID (`computed: Workflows via: workflowID.productScopeID.scopeID`) and the
   path keys inside the Q1 rollup below.
-- [ ] **3-key compound rollup with path keys** — `Workflows.requirements`:
+- [x] **3-key compound rollup with path keys** — `Workflows.requirements`:
   `rollup → Requirements (via: customerID + productScopeID.productGroupID +
   productScopeID.scopeID)` (Q1, applied in the datamodel). Extends the 2-key compound join in
   `model.js`/`resolve.js` to three keys, allows dotted path keys, and treats an **empty
   `Requirements.customerID` as matching every customer**.
-- [ ] **Chained-via rollup** — `rollup → Tasks via: customerID -> productGroupID -> scopeID`
+- [x] **Chained-via rollup** — `rollup → Tasks via: customerID -> productGroupID -> scopeID`
   (Jobs.taskID). Normalize to the compound-AND syntax (`via: customerID + productGroupID +
   scopeID`) rather than introducing a third `->` syntax; covered by the 3-key extension above.
-- [ ] **Filtered FK** — `FK: Issues (filtered by issueType='Opportunity')`
+- [x] **Filtered FK** — `FK: Issues (filtered by issueType='Opportunity')`
   (Scopes.scopeOpportunity): FK option lists constrained by a predicate on the target table.
-- [ ] **Owner-from-rollup select** — `Squads.squadOwner: rollup → People via departmentID` used as
+- [x] **Owner-from-rollup select** — `Squads.squadOwner: rollup → People via departmentID` used as
   a form select: options restricted to People of the chosen Department (form cascade on
   `departmentID`).
-- [ ] **Form gating + readonly derived field** — `check: "Unit IS NOT NULL"`
+- [x] **Form gating + readonly derived field** — `check: "Unit IS NOT NULL"`
   (Customers.Segment, People.Department): verify the existing multi-dependency cascade in
   `forms.js` covers gating a field on another field's non-null value. Per Q4, Customers.Segment
   is additionally a **readonly** input auto-filled from the chosen Unit's
   `businessSegmentName` — new `readonly` field-type behavior in `forms.js`.
-- [ ] **Multivalued FK on a plain select** — `Business Units.businessSegmentID` is multivalued but
+- [x] **Multivalued FK on a plain select** — `Business Units.businessSegmentID` is multivalued but
   rendered as `shadcn-select`; either render a multi-combobox or drop `multivalued`.
 
 ## D. Mockup data migration (`prototype/data/mockup_data_prototype.json`)
@@ -236,6 +236,10 @@ table renders empty (rows still live under the `"Factories"` key).
 prototype copy (no Organization module, no Issues, table still `Factories`). Decide whether to
 sync it or formally declare `prototype/data/datamodel.json` the single source of truth and mark
 the sourceFiles copy legacy.
+
+> **Resolved (P3-A):** `prototype/data/datamodel.json` is the canonical schema;
+> the sourceFiles copy keeps only the attribute rename and is documented as a
+> legacy design reference in CLAUDE.md.
 
 # Design decisions (Q1–Q5, approved by Rafael 29/07/2026 — recommendations adopted)
 
