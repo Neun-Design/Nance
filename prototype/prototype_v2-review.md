@@ -137,46 +137,46 @@ The hand edits left `prototype/data/datamodel.json` unparseable; the following w
 The rename was applied to attribute names but not to rule bodies, report specs and filter fields.
 `grep -n 'Factories\|factory'` currently returns ~30 hits; the complete list:
 
-- [ ] `Customers.customerTitle` rule: `computed: CONCAT(factoryName,'-',city)` → `customerName`.
-- [ ] `Customers.factoryOwner` attribute — rename to `customerOwner` (also in mockup rows).
-- [ ] `Customers` form `Name` field attribute: `factoryName` → `customerName` (currently a dead
+- [x] `Customers.customerTitle` rule: `computed: CONCAT(factoryName,'-',city)` → `customerName`.
+- [x] `Customers.factoryOwner` attribute — rename to `customerOwner` (also in mockup rows).
+- [x] `Customers` form `Name` field attribute: `factoryName` → `customerName` (currently a dead
   reference; the Name input would not bind).
-- [ ] `Forecasts.customerID` rule: `FK → Factories` → `FK → Customers`.
-- [ ] `Forecasts.factoryTitle` / `Forecast Scopes.factoryTitle` — rename to `customerTitle`;
+- [x] `Forecasts.customerID` rule: `FK → Factories` → `FK → Customers`.
+- [x] `Forecasts.factoryTitle` / `Forecast Scopes.factoryTitle` — rename to `customerTitle`;
   rules `mirror → Factories …` → `Customers`; forecast display
   `CONCAT(factoryTitle,' | ', periodFrame)` accordingly.
-- [ ] Report/filter rules still on factory vocabulary: Forecasts Report-A/B filters
+- [x] Report/filter rules still on factory vocabulary: Forecasts Report-A/B filters
   (`factoryTitle` filter fields, `FK -> Factories …`, `SelectLabel = Factories.region`,
   `SelectLabel = Forecasts.factoryName`), Tickets/Capacity/Performance Report-A rules
   (`grouped by factoryName`), Capacity `Card 1-2` (`factoryName with the biggest utilization gap`),
   Workload `factoryName` filter fields.
-- [ ] `Tickets.customerName` (line ~3476) rule: `FK → Factories (display: CONCAT(factoryName + city)`
+- [x] `Tickets.customerName` (line ~3476) rule: `FK → Factories (display: CONCAT(factoryName + city)`
   → `Customers` + `customerName` (note: this rule was already missing its closing parenthesis).
-- [ ] `Capacity.customerID` rule: `FK → Factories (display: factoryName)` →
+- [x] `Capacity.customerID` rule: `FK → Factories (display: factoryName)` →
   `FK → Customers (display: customerName)`.
-- [ ] `Onboarding.location` (line ~5303) rule: `FK → Factories (display: factoryName)` →
+- [x] `Onboarding.location` (line ~5303) rule: `FK → Factories (display: factoryName)` →
   `FK → Customers (display: customerName)`.
 
 ## B. Copy-paste / definition errors introduced by the edits
 
-- [ ] `Business Units.businessSegmentID` rule `"FK ->  Business Segment (display: businessSegmentName"`
+- [x] `Business Units.businessSegmentID` rule `"FK ->  Business Segment (display: businessSegmentName"`
   — missing closing parenthesis and wrong table name (`Business Segments`).
-- [ ] `Departments.businessUnitName` mirror uses nonstandard syntax
+- [x] `Departments.businessUnitName` mirror uses nonstandard syntax
   (`mirror: businessUnitName via businessUnitID`) — normalize to the engine form
   `mirror: Business Units via: businessUnitID (display: businessUnitName)`.
-- [ ] `People.businessUnitID` and `People.departmentID` carry `notes: "Auto-generated primary key"`
+- [x] `People.businessUnitID` and `People.departmentID` carry `notes: "Auto-generated primary key"`
   and `constraints: "PK"` (copy-paste) — must be `FK`/`null`. **Risk:** three PK-flagged
   attributes can break the engine's PK detection for People.
-- [ ] `Issues.scopeID` rule is prose (`computed: list scopeID from Scopes where scopeID matches`)
+- [x] `Issues.scopeID` rule is prose (`computed: list scopeID from Scopes where scopeID matches`)
   — normalize to `rollup → Scopes (via: scopeOpportunity)` (reverse of the new FK).
-- [ ] `Jobs.scopeID` / `Jobs.productGroupID` notes say "Ticket this job belongs to" (copy-paste;
+- [x] `Jobs.scopeID` / `Jobs.productGroupID` notes say "Ticket this job belongs to" (copy-paste;
   cosmetic).
-- [ ] `Tasks` form still has a `Customer` field bound to the removed `customerName` attribute.
+- [x] `Tasks` form still has a `Customer` field bound to the removed `customerName` attribute.
   Since `customerID` is now computed from the workflow (hidden), the field should be **removed**
   from the form (customer is no longer an input on Tasks — matches the restructure direction).
 - [x] `Workflows.productScopeID` display referenced a nonexistent `productScopeName` — fixed per
   Q3 to `display: CONCAT(productName,' | ',scopeName)`.
-- [ ] Pre-existing (not from this edit, found while validating): `Forecast Scopes` form
+- [x] Pre-existing (not from this edit, found while validating): `Forecast Scopes` form
   `Product Group` → missing `productGroupName` attribute; `Skill Levels` form `Rank` → missing
   `levelRank` attribute.
 

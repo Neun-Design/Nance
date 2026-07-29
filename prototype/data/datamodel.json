@@ -20,7 +20,7 @@
             {
               "name": "businessSegmentID",
               "type": "FK",
-              "rule": "FK ->  Business Segment (display: businessSegmentName",
+              "rule": "FK -> Business Segments (display: businessSegmentName)",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
@@ -191,7 +191,7 @@
             {
               "name": "businessUnitName",
               "type": "mirror",
-              "rule": "mirror: businessUnitName via businessUnitID",
+              "rule": "mirror: Business Units via: businessUnitID (display: businessUnitName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -425,7 +425,7 @@
             {
               "name": "customerTitle",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(factoryName,'-',city)",
+              "rule": "computed: CONCAT(customerName,'-',city)",
               "notes": "Short code, e.g. \"PN\"",
               "table-display": true,
               "subitem-display": true,
@@ -462,7 +462,7 @@
               "name": "forecastID",
               "type": "rollup",
               "rule": "rollup → Forecasts (via: customerID)",
-              "notes": "All forecast records belonging to this factory",
+              "notes": "All forecast records belonging to this customer",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -471,13 +471,13 @@
               "name": "scopeName",
               "type": "mirror",
               "rule": "mirror: Forecast Scopes (via: forecastID)",
-              "notes": "All forecast records belonging to this factory",
+              "notes": "All forecast records belonging to this customer",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "factoryOwner",
+              "name": "customerOwner",
               "type": "email",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
@@ -489,7 +489,7 @@
           "reports": {
             "Report-A": {
               "graph_type": "bar chart",
-              "rule": "Forecast totalEstimatedHours by FactoryName",
+              "rule": "Forecast totalEstimatedHours by customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -541,7 +541,7 @@
                 "field-type": {
                   "field": "shadcn-input"
                 },
-                "attribute": "factoryName",
+                "attribute": "customerName",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -588,7 +588,7 @@
         "Forecasts": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Factory can project to global engineering its intended use of role resources for a given planning period.",
+          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Customer (factory) can project to global engineering its intended use of role resources for a given planning period.",
           "attributes": [
             {
               "name": "forecastID",
@@ -602,17 +602,17 @@
             {
               "name": "customerID",
               "type": "INT",
-              "rule": "FK → Factories",
-              "notes": "Factory submitting this forecast",
+              "rule": "FK → Customers",
+              "notes": "Customer submitting this forecast",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "factoryTitle",
+              "name": "customerTitle",
               "type": "VARCHAR",
-              "rule": "mirror → Factories via: customerID",
-              "notes": "Factory submitting this forecast",
+              "rule": "mirror → Customers via: customerID",
+              "notes": "Customer submitting this forecast",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -747,7 +747,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "Forecasts.forecastID.totalEstimatedHours vs Tickets.tickedID.ticketExecutionTime by factoryName, Y = hours, X = factoryName",
+              "rule": "Forecasts.forecastID.totalEstimatedHours vs Tickets.tickedID.ticketExecutionTime by customerName, Y = hours, X = customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -777,14 +777,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryTitle": {
+                  "customerTitle": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -793,7 +793,7 @@
           "form": {
             "steps": null,
             "fields": {
-              "Factory": {
+              "Customer": {
                 "field-type": {
                   "SelectGroups": "shadcn-select"
                 },
@@ -801,7 +801,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Factories.region"
+                "field-rule": "SelectLabel = Customers.region"
               },
               "Forecast Period": {
                 "field-type": {
@@ -858,14 +858,14 @@
             {
               "name": "forecastID",
               "type": "INT",
-              "rule": "FK → Forecasts (display: CONCAT(factoryTitle,' | ', periodFrame))",
+              "rule": "FK → Forecasts (display: CONCAT(customerTitle,' | ', periodFrame))",
               "notes": "Parent forecast",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "factoryTitle",
+              "name": "customerTitle",
               "type": "VARCHAR",
               "rule": "rollup → forecastID",
               "notes": null,
@@ -975,8 +975,8 @@
             {
               "name": "region",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Factories\".\"region\")",
-              "notes": "Region of the factory that owns the parent forecast (via forecastID → Factories.region). Used by Report-B.",
+              "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Customers\".\"region\")",
+              "notes": "Region of the factory that owns the parent forecast (via forecastID → Customers.region). Used by Report-B.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -1042,14 +1042,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryTitle": {
+                  "customerTitle": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -1066,7 +1066,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Forecasts.factoryName, WHERE forecastID.preiodFinish >= current month"
+                "field-rule": "SelectLabel = Forecasts.customerName, WHERE forecastID.preiodFinish >= current month"
               },
               "Event": {
                 "field-type": {
@@ -1092,7 +1092,7 @@
                 "field-type": {
                   "Select": "shadcn-select"
                 },
-                "attribute": "productGroupName",
+                "attribute": "productGroupID",
                 "tooltip": null,
                 "step": null,
                 "check": "Scope IS NOT NULL",
@@ -1392,16 +1392,6 @@
                 "check": "Activity IS NOT NULL",
                 "field-rule": null
               },
-              "Customer": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "customerName",
-                "tooltip": "Customer (factory) this task serves",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
               "Inputs": {
                 "field-type": {
                   "Combobox": "shadcn-combobox"
@@ -1561,7 +1551,7 @@
               "constraints": null
             },
             {
-              "name": "factoryName",
+              "name": "customerName",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tickets\".\"customerName\")",
               "notes": "From ticketID rollup",
@@ -2819,8 +2809,8 @@
             {
               "name": "scopeID",
               "type": "rollup",
-              "rule": "computed: list scopeID from Scopes where scopeID matches",
-              "notes": null,
+              "rule": "rollup → Scopes (via: scopeOpportunity)",
+              "notes": "Scopes tagged with this issue (reverse of Scopes.scopeOpportunity)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -3463,7 +3453,7 @@
             {
               "name": "customerName",
               "type": "INT",
-              "rule": "FK → Factories (display: CONCAT(factoryName + city)",
+              "rule": "FK → Customers (display: CONCAT(customerName + city)",
               "notes": "Customer / requester factory",
               "table-display": true,
               "subitem-display": false,
@@ -3942,7 +3932,7 @@
               "name": "scopeID",
               "type": "rollup",
               "rule": "rollup → Product Scopes via: ticketID (display: scopeName)",
-              "notes": "Ticket this job belongs to",
+              "notes": "Scope of the ticket's product scope",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -3951,7 +3941,7 @@
               "name": "productGroupID",
               "type": "rollup",
               "rule": "rollup → Product Scopes via: ticketID (display: productGroupName)",
-              "notes": "Ticket this job belongs to",
+              "notes": "Product group of the ticket's product scope",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -4123,7 +4113,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "plannedExecutionTime vs. realExecutionTime side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "rule": "plannedExecutionTime vs. realExecutionTime side by side grouped by customerName. Y = hours, X = customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -4153,14 +4143,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryName": {
+                  "customerName": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -4359,7 +4349,7 @@
             {
               "name": "allocatedHours",
               "type": "DECIMAL",
-              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected factory + period",
+              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected customer + period",
               "notes": "totalEstimatedHours decomposed by function (= its Forecast Scopes). Used by Report-A as allocated demand per function; responds to the factory + period filters and the Exclude-Draft radio.",
               "table-display": true,
               "subitem-display": true,
@@ -4377,7 +4367,7 @@
             {
               "name": "customerID",
               "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
+              "rule": "FK → Customers (display: customerName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -4427,14 +4417,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryName": {
+                  "customerName": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -4455,9 +4445,9 @@
             "Card 1-2": {
               "title": "Most Overestimated Customer",
               "card-rules": {
-                "main-data": "factoryName with the biggest utilization gap",
+                "main-data": "customerName with the biggest utilization gap",
                 "trend-data": null,
-                "detail-data": "factoryName utilization gap vs the medium utilization gap"
+                "detail-data": "customerName utilization gap vs the medium utilization gap"
               },
               "card-component": "shadcn-card",
               "card-tooltip": "Cliente que menos utilizou dos product scopes previstos em seus forecasts"
@@ -4630,7 +4620,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "plannedHours vs. realExecutionTime side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "rule": "plannedHours vs. realExecutionTime side by side grouped by customerName. Y = hours, X = customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -4966,9 +4956,18 @@
               "name": "skillLevelTitle",
               "type": "VARCHAR",
               "rule": "computed: CONCAT(levelName,' #',levelRank)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "notes": "Display title combining level name and rank",
               "table-display": false,
               "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "levelRank",
+              "type": "INT",
+              "rule": null,
+              "notes": "Selection priority among eligible resources with the same role; lower ranks are prioritized",
+              "table-display": true,
+              "subitem-display": false,
               "constraints": null
             }
           ],
@@ -5264,19 +5263,19 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK -> Business Units (display: businessUnitName)",
-              "notes": "Auto-generated primary key",
+              "notes": "Business unit this person belongs to",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "PK"
+              "constraints": "FK"
             },
             {
               "name": "departmentID",
-              "type": "rollup",
-              "rule": "rollup -> Departments via:businessUnitID (display: departmentName)",
-              "notes": "Auto-generated primary key",
+              "type": "FK",
+              "rule": "rollup -> Departments via: businessUnitID (display: departmentName)",
+              "notes": "Department within the selected business unit; options narrowed by businessUnitID",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "PK"
+              "constraints": "FK"
             },
             {
               "name": "userEmail",
@@ -5290,7 +5289,7 @@
             {
               "name": "location",
               "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
+              "rule": "FK → Customers (display: customerName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
