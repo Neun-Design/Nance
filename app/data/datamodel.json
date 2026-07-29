@@ -1,15 +1,15 @@
 {
   "modules": {
-    "Customers": {
-      "sidebar-position": 2,
+    "Organization": {
+      "sidebar-position": 1,
       "tables": {
-        "Factories": {
+        "Business Units": {
           "visibility": "show",
-          "dashboard-order": 1,
-          "description": "Manufacturing site entity (ISO §4.1 organisational context) with business segment classification: LPT (Large Power Transformers), MT (Medium Transformers), or DT (Distribution Transformers).",
+          "dashboard-order": 2,
+          "description": "Adressess ISO 9001:2015 section 4",
           "attributes": [
             {
-              "name": "factoryID",
+              "name": "businessUnitID",
               "type": "INT",
               "rule": null,
               "notes": "Auto-generated primary key",
@@ -18,7 +18,394 @@
               "constraints": "PK"
             },
             {
-              "name": "factoryName",
+              "name": "businessSegmentID",
+              "type": "FK",
+              "rule": "FK -> Business Segments (display: businessSegmentName)",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitCode",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Short code, e.g. \"LMPT\"",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Segment": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessSegmentID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Name": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "businessUnitName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Acronym": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "businessUnitCode",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true
+        },
+        "Business Segments": {
+          "visibility": "show",
+          "dashboard-order": 1,
+          "description": "Adressess ISO 9001:2015 section 4",
+          "attributes": [
+            {
+              "name": "businessSegmentID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "businessSegmentName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessSegmentDescription",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessSegmentCode",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Short code, e.g. \"LPT\"",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "businessSegmentName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "businessSegmentDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Acronym": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "businessSegmentCode",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true
+        },
+        "Departments": {
+          "visibility": "show",
+          "dashboard-order": 3,
+          "description": "Adressess ISO 9001:2015 section 4",
+          "attributes": [
+            {
+              "name": "departmentID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitName",
+              "type": "mirror",
+              "rule": "mirror: Business Units via: businessUnitID (display: businessUnitName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "departmentName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "departmentCode",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
+              "Name": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "departmentName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Acronym": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "departmentCode",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true
+        },
+        "Squads": {
+          "visibility": "show",
+          "dashboard-order": 4,
+          "description": "Squads group People so that a manager can simulate forecastScopes by squad.",
+          "attributes": [
+            {
+              "name": "squadID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK -> Departments (display: departmentName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "squadName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "squadType",
+              "type": "ENUM",
+              "rule": "enum: outsource/internal",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "people",
+              "type": "rollup",
+              "rule": "rollup → People (via: squadID)",
+              "notes": "People belonging to this squad",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "squadOwner",
+              "type": "rollup",
+              "rule": "rollup → People via departmentID (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Department": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessUnitName"
+              },
+              "Name": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "squadName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "squadType",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "enum: outsource, internal"
+              },
+              "Owner": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "squadOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "people"
+          ]
+        }
+      }
+    },
+    "CRM": {
+      "sidebar-position": 3,
+      "tables": {
+        "Customers": {
+          "visibility": "show",
+          "dashboard-order": 1,
+          "description": "Manufacturing site entity (ISO §4.1 organisational context) with business segment classification: LPT (Large Power Transformers), MT (Medium Transformers), or DT (Distribution Transformers).",
+          "attributes": [
+            {
+              "name": "customerID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "businessSegmentID",
+              "type": "rollup",
+              "rule": "rollup -> Business Units via: businessUnitID (display: businessSegmentName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "customerName",
               "type": "VARCHAR",
               "rule": null,
               "notes": "Short code, e.g. \"PN\"",
@@ -36,9 +423,9 @@
               "constraints": null
             },
             {
-              "name": "factoryTitle",
+              "name": "customerTitle",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(factoryName,'-',city)",
+              "rule": "computed: CONCAT(customerName,'-',city)",
               "notes": "Short code, e.g. \"PN\"",
               "table-display": true,
               "subitem-display": true,
@@ -48,15 +435,6 @@
               "name": "country",
               "type": "VARCHAR",
               "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "businessSegment",
-              "type": "ENUM",
-              "rule": "enum: LPT/MPT/DT",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -83,8 +461,8 @@
             {
               "name": "forecastID",
               "type": "rollup",
-              "rule": "rollup → Forecasts (via: factoryID)",
-              "notes": "All forecast records belonging to this factory",
+              "rule": "rollup → Forecasts (via: customerID)",
+              "notes": "All forecast records belonging to this customer",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -93,13 +471,13 @@
               "name": "scopeName",
               "type": "mirror",
               "rule": "mirror: Forecast Scopes (via: forecastID)",
-              "notes": "All forecast records belonging to this factory",
+              "notes": "All forecast records belonging to this customer",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "factoryOwner",
+              "name": "customerOwner",
               "type": "email",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
@@ -111,7 +489,7 @@
           "reports": {
             "Report-A": {
               "graph_type": "bar chart",
-              "rule": "Forecast totalEstimatedHours by FactoryName",
+              "rule": "Forecast totalEstimatedHours by customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -139,11 +517,31 @@
           "form": {
             "steps": null,
             "fields": {
+              "Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Segment": {
+                "field-type": {
+                  "readonly": "shadcn-input"
+                },
+                "attribute": "businessSegmentID",
+                "tooltip": "Derived from the selected Business Unit",
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": "readonly: auto-filled from businessUnitID rollup (display: businessSegmentName)"
+              },
               "Name": {
                 "field-type": {
                   "field": "shadcn-input"
                 },
-                "attribute": "factoryName",
+                "attribute": "customerName",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -164,16 +562,6 @@
                   "combobox": "shadcn-combobox"
                 },
                 "attribute": "country",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Segment": {
-                "field-type": {
-                  "combobox": "shadcn-combobox"
-                },
-                "attribute": "businessSegment",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -200,7 +588,7 @@
         "Forecasts": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Factory can project to global engineering its intended use of role resources for a given planning period.",
+          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Customer (factory) can project to global engineering its intended use of role resources for a given planning period.",
           "attributes": [
             {
               "name": "forecastID",
@@ -212,19 +600,19 @@
               "constraints": "PK"
             },
             {
-              "name": "factoryID",
+              "name": "customerID",
               "type": "INT",
-              "rule": "FK → Factories",
-              "notes": "Factory submitting this forecast",
+              "rule": "FK → Customers",
+              "notes": "Customer submitting this forecast",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "factoryTitle",
+              "name": "customerTitle",
               "type": "VARCHAR",
-              "rule": "mirror → Factories via: factoryID",
-              "notes": "Factory submitting this forecast",
+              "rule": "mirror → Customers via: customerID",
+              "notes": "Customer submitting this forecast",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -359,7 +747,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "Forecasts.forecastID.totalEstimatedHours vs Tickets.tickedID.ticketExecutionTime by factoryName, Y = hours, X = factoryName",
+              "rule": "Forecasts.forecastID.totalEstimatedHours vs Tickets.tickedID.ticketExecutionTime by customerName, Y = hours, X = customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -389,14 +777,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryTitle": {
+                  "customerTitle": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -405,15 +793,15 @@
           "form": {
             "steps": null,
             "fields": {
-              "Factory": {
+              "Customer": {
                 "field-type": {
                   "SelectGroups": "shadcn-select"
                 },
-                "attribute": "factoryID",
+                "attribute": "customerID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Factories.region"
+                "field-rule": "SelectLabel = Customers.region"
               },
               "Forecast Period": {
                 "field-type": {
@@ -470,14 +858,14 @@
             {
               "name": "forecastID",
               "type": "INT",
-              "rule": "FK → Forecasts (display: CONCAT(factoryTitle,' | ', periodFrame))",
+              "rule": "FK → Forecasts (display: CONCAT(customerTitle,' | ', periodFrame))",
               "notes": "Parent forecast",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "factoryTitle",
+              "name": "customerTitle",
               "type": "VARCHAR",
               "rule": "rollup → forecastID",
               "notes": null,
@@ -587,8 +975,8 @@
             {
               "name": "region",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecasts\".\"factoryID\" → \"Factories\".\"region\")",
-              "notes": "Region of the factory that owns the parent forecast (via forecastID → Factories.region). Used by Report-B.",
+              "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Customers\".\"region\")",
+              "notes": "Region of the factory that owns the parent forecast (via forecastID → Customers.region). Used by Report-B.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -654,14 +1042,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryTitle": {
+                  "customerTitle": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -678,7 +1066,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Forecasts.factoryName, WHERE forecastID.preiodFinish >= current month"
+                "field-rule": "SelectLabel = Forecasts.customerName, WHERE forecastID.preiodFinish >= current month"
               },
               "Event": {
                 "field-type": {
@@ -704,7 +1092,7 @@
                 "field-type": {
                   "Select": "shadcn-select"
                 },
-                "attribute": "productGroupName",
+                "attribute": "productGroupID",
                 "tooltip": null,
                 "step": null,
                 "check": "Scope IS NOT NULL",
@@ -751,7 +1139,7 @@
       }
     },
     "Operation": {
-      "sidebar-position": 4,
+      "sidebar-position": 5,
       "tables": {
         "Tasks": {
           "visibility": "show",
@@ -806,16 +1194,25 @@
             {
               "name": "requirementName",
               "type": "computed",
-              "rule": "computed → Competence (via: taskID) (display: requirementName)",
+              "rule": "computed → Workflows (via: workflowID) (display: requirementName)",
               "notes": "Requirements certified by the competences that reference this task",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "scopes",
+              "name": "scopeID",
               "type": "VARCHAR",
-              "rule": "computed: activityID → Payload → Scopes (display: scopeName)",
+              "rule": "computed: Workflows via: workflowID.productScopeID.scopeID (display: scopeName)",
+              "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "productGroupID",
+              "type": "VARCHAR",
+              "rule": "computed: Workflows via: workflowID.productScopeID.productGroupID (display: productGroupName)",
               "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
@@ -903,12 +1300,12 @@
               "constraints": null
             },
             {
-              "name": "customerName",
+              "name": "customerID",
               "type": "VARCHAR",
-              "rule": "FK → Factories (via: factoryName) (display: factoryName)",
+              "rule": "computed: Workflows (via: workflowID) (display: customerName)",
               "notes": "Customer (factory) this task template serves; stores the factory name",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -993,16 +1390,6 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Activity IS NOT NULL",
-                "field-rule": null
-              },
-              "Customer": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "customerName",
-                "tooltip": "Customer (factory) this task serves",
-                "step": null,
-                "check": null,
                 "field-rule": null
               },
               "Inputs": {
@@ -1164,7 +1551,7 @@
               "constraints": null
             },
             {
-              "name": "factoryName",
+              "name": "customerName",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tickets\".\"customerName\")",
               "notes": "From ticketID rollup",
@@ -1583,6 +1970,24 @@
               "constraints": "FK"
             },
             {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
               "name": "activityID",
               "type": "rollup",
               "rule": "rollup → Activities (via: processID) (display: activityName)",
@@ -1646,15 +2051,6 @@
               "constraints": null
             },
             {
-              "name": "customer",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"customerName\")",
-              "notes": "Determined by taskID",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "procedures",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Tasks\".\"procedureName\")",
@@ -1664,31 +2060,13 @@
               "constraints": null
             },
             {
-              "name": "products",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"productName\")",
-              "notes": "Determined by taskID",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "requirements",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"requirementName\")",
-              "notes": "Determined by taskID",
+              "type": "rollup",
+              "rule": "rollup → Requirements (via: customerID + productScopeID.productGroupID + productScopeID.scopeID); display: requirementName",
+              "notes": "Compound AND join; a Requirement with empty customerID applies to all customers. No associative entity in the prototype — the multivalued FKs on Requirements are the flattened associative entity (map to Constrain in the ER-UML model).",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "workflowOwner",
-              "type": "email",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -1704,6 +2082,26 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Customer": {
+                "field-type": {
+                  "combobox": "shadcn-comboboxGroups"
+                },
+                "attribute": "customerID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessUnitName"
+              },
+              "Product Scopes": {
+                "field-type": {
+                  "combobox": "shadcn-comboboxGroups"
+                },
+                "attribute": "productScopeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = scopeName"
               },
               "Activity": {
                 "field-type": {
@@ -2080,7 +2478,7 @@
       }
     },
     "Portfolio": {
-      "sidebar-position": 1,
+      "sidebar-position": 2,
       "tables": {
         "Product Scopes": {
           "visibility": "show",
@@ -2108,7 +2506,7 @@
             {
               "name": "productGroupID",
               "type": "INT",
-              "rule": "FK → Product Groups (display: productGroupName)",
+              "rule": "FK → Product Groups",
               "notes": "e.g., \"AA\"",
               "table-display": false,
               "subitem-display": false,
@@ -2117,11 +2515,29 @@
             {
               "name": "productGroupName",
               "type": "INT",
-              "rule": "rollup → Product Groups via: productGroupID (display: productGroupName)",
+              "rule": "rollup → Product Groups via: productGroupID",
               "notes": "e.g., \"AA\"",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "rollup"
+            },
+            {
+              "name": "productName",
+              "type": "rollup",
+              "rule": "rollup → Products (via: productGroupID)",
+              "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "rollup"
+              "constraints": null
+            },
+            {
+              "name": "productSpecName",
+              "type": "rollup",
+              "rule": "rollup → Product Groups via: productGroupID (display: specsSummary)",
+              "notes": "multivalued — SPECS summary of the linked Product Group (specValues map)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "scopeID",
@@ -2142,21 +2558,12 @@
               "constraints": null
             },
             {
-              "name": "products",
-              "type": "rollup",
-              "rule": "rollup → Products (via: productGroupID) (display: productName)",
-              "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "businessSegment",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Product Groups\".\"businessSegment\")",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2210,16 +2617,6 @@
           "form": {
             "steps": null,
             "fields": {
-              "Product Group": {
-                "field-type": {
-                  "combobox": "shadcn-combobox"
-                },
-                "attribute": "productGroupID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessSegment"
-              },
               "Registry ID": {
                 "field-type": {
                   "input": "shadcn-input"
@@ -2229,6 +2626,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Product Group": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "productGroupName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegment; display: CONCAT(productName,'-',productSpecName)"
               },
               "Scope": {
                 "field-type": {
@@ -2290,8 +2697,8 @@
             },
             {
               "name": "scopeOpportunity",
-              "type": "ENUM",
-              "rule": "enum: lifetime Extension/Increase Capability/Dieletic Failure",
+              "type": "FK",
+              "rule": "FK: Issues (filtered by issueType='Opportunity')",
               "notes": "Opportunity tags; multivalued",
               "table-display": true,
               "subitem-display": true,
@@ -2356,6 +2763,99 @@
           "table-filters": true,
           "subitem-tables": [
             "Product Scopes"
+          ]
+        },
+        "Issues": {
+          "visibility": "show",
+          "dashboard-order": 8,
+          "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
+          "attributes": [
+            {
+              "name": "issueID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "issueName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., Lifetime Extension, Increase Capability, Dieletric Failure",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "issueDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "issueType",
+              "type": "ENUM",
+              "rule": "enum: Opportunity, Risk",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "scopeID",
+              "type": "rollup",
+              "rule": "rollup → Scopes (via: scopeOpportunity)",
+              "notes": "Scopes tagged with this issue (reverse of Scopes.scopeOpportunity)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "issueName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "issueDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "issueType",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": [],
+          "table-filters": true,
+          "subitem-tables": [
+            "Scopes"
           ]
         },
         "Products": {
@@ -2466,7 +2966,7 @@
               "type": "VARCHAR",
               "rule": "FK → Products (display: productName)",
               "notes": "multivalued — products this spec applies to",
-              "table-display": true,
+              "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
@@ -2478,15 +2978,6 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "productSpecOwner",
-              "type": "email",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -2546,7 +3037,10 @@
             }
           },
           "cards": null,
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Products"
+          ]
         },
         "Product Groups": {
           "visibility": "show",
@@ -2699,6 +3193,15 @@
               "constraints": "FK"
             },
             {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "multivalued — scopes this requirement applies to",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
               "name": "scopeID",
               "type": "VARCHAR",
               "rule": "FK → Scopes (display: scopeName)",
@@ -2786,6 +3289,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Customer": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessUnitName"
               },
               "Scope": {
                 "field-type": {
@@ -2912,7 +3425,7 @@
       }
     },
     "Workload": {
-      "sidebar-position": 5,
+      "sidebar-position": 6,
       "tables": {
         "Tickets": {
           "visibility": "show",
@@ -2940,7 +3453,7 @@
             {
               "name": "customerName",
               "type": "INT",
-              "rule": "FK → Factories (display: CONCAT(factoryName + city)",
+              "rule": "FK → Customers (display: CONCAT(customerName + city)",
               "notes": "Customer / requester factory",
               "table-display": true,
               "subitem-display": false,
@@ -3231,9 +3744,9 @@
               "constraints": null
             },
             {
-              "name": "clientName",
+              "name": "customerID",
               "type": "VARCHAR",
-              "rule": null,
+              "rule": "FK -> Customers (display: customerName)",
               "notes": "Name of the final/external client",
               "table-display": true,
               "subitem-display": true,
@@ -3241,12 +3754,12 @@
             },
             {
               "name": "customerName",
-              "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
-              "notes": "Customer name or factory",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
+              "type": "mirror",
+              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "notes": "Merged with the former Client field — resolved from customerID; kept for downstream mirrors (Tickets, Jobs)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "products",
@@ -3345,25 +3858,15 @@
                 "check": null,
                 "field-rule": null
               },
-              "Client": {
+              "Customer": {
                 "field-type": {
-                  "input": "shadcn-input"
+                  "combobox": "shadcn-comboboxGroups"
                 },
-                "attribute": "clientName",
+                "attribute": "customerID",
                 "tooltip": "Final Northwind Energy Client",
                 "step": null,
                 "check": null,
-                "field-rule": null
-              },
-              "Customer": {
-                "field-type": {
-                  "SelectGroups": "shadcn-select"
-                },
-                "attribute": "customerName",
-                "tooltip": "Internal Client-Factory",
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = country"
+                "field-rule": "SelectLabel = businessUnitName"
               },
               "Owner": {
                 "field-type": {
@@ -3426,9 +3929,45 @@
               "constraints": "FK"
             },
             {
+              "name": "scopeID",
+              "type": "rollup",
+              "rule": "rollup → Product Scopes via: ticketID (display: scopeName)",
+              "notes": "Scope of the ticket's product scope",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "rollup",
+              "rule": "rollup → Product Scopes via: ticketID (display: productGroupName)",
+              "notes": "Product group of the ticket's product scope",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "projectName",
+              "type": "VARCHAR",
+              "rule": "mirror: Projects via: projectID (display: projectName)",
+              "notes": "From ticket ID",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "customerID",
+              "type": "VARCHAR",
+              "rule": "mirror: Projects via: projectID (display: customerName)",
+              "notes": "From ticket ID",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "taskID",
               "type": "INT",
-              "rule": "FK → Tasks (display: taskName)",
+              "rule": "rollup → Tasks via: customerID -> productGroupID -> scopeID  (display: taskName)",
               "notes": "Task template; options filtered by the ticket's process + customer",
               "table-display": true,
               "subitem-display": false,
@@ -3457,15 +3996,6 @@
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"People\".\"roleID\")",
               "notes": "From userID",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "projectName",
-              "type": "VARCHAR",
-              "rule": "mirror: Projects via: projectID (display: projectName)",
-              "notes": "From ticket ID",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3583,7 +4113,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "plannedExecutionTime vs. realExecutionTime side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "rule": "plannedExecutionTime vs. realExecutionTime side by side grouped by customerName. Y = hours, X = customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -3613,14 +4143,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryName": {
+                  "customerName": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -3710,7 +4240,7 @@
       }
     },
     "Control": {
-      "sidebar-position": 6,
+      "sidebar-position": 7,
       "tables": {
         "Capacity": {
           "visibility": "show",
@@ -3819,7 +4349,7 @@
             {
               "name": "allocatedHours",
               "type": "DECIMAL",
-              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected factory + period",
+              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected customer + period",
               "notes": "totalEstimatedHours decomposed by function (= its Forecast Scopes). Used by Report-A as allocated demand per function; responds to the factory + period filters and the Exclude-Draft radio.",
               "table-display": true,
               "subitem-display": true,
@@ -3835,9 +4365,9 @@
               "constraints": null
             },
             {
-              "name": "factoryID",
+              "name": "customerID",
               "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
+              "rule": "FK → Customers (display: customerName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -3887,14 +4417,14 @@
                     "check": null,
                     "field-rule": "FK -> Events (display: eventName): Multivalued field"
                   },
-                  "factoryName": {
+                  "customerName": {
                     "field-type": {
                       "combobox": "shadcn-combobox"
                     },
                     "tooltip": null,
                     "default": "ALL",
                     "check": null,
-                    "field-rule": "FK -> Factories (display: factoryName): Multivalued field"
+                    "field-rule": "FK -> Customers (display: customerName): Multivalued field"
                   }
                 }
               }
@@ -3915,9 +4445,9 @@
             "Card 1-2": {
               "title": "Most Overestimated Customer",
               "card-rules": {
-                "main-data": "factoryName with the biggest utilization gap",
+                "main-data": "customerName with the biggest utilization gap",
                 "trend-data": null,
-                "detail-data": "factoryName utilization gap vs the medium utilization gap"
+                "detail-data": "customerName utilization gap vs the medium utilization gap"
               },
               "card-component": "shadcn-card",
               "card-tooltip": "Cliente que menos utilizou dos product scopes previstos em seus forecasts"
@@ -4090,7 +4620,7 @@
             "Report-A": {
               "overview-display": true,
               "graph_type": "bar chart - multiple",
-              "rule": "plannedHours vs. realExecutionTime side by side grouped by factoryName. Y = hours, X = FacotryNames",
+              "rule": "plannedHours vs. realExecutionTime side by side grouped by customerName. Y = hours, X = customerName",
               "filters": {
                 "fields": {
                   "periodFrame": {
@@ -4180,87 +4710,8 @@
       }
     },
     "Talent": {
-      "sidebar-position": 3,
+      "sidebar-position": 4,
       "tables": {
-        "Squads": {
-          "visibility": "show",
-          "dashboard-order": 1,
-          "description": "Squads group People so that a manager can simulate forecastScopes by squad.",
-          "attributes": [
-            {
-              "name": "squadID",
-              "type": "INT",
-              "rule": null,
-              "notes": "Auto-generated",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "squadName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "squadType",
-              "type": "ENUM",
-              "rule": "enum: outsource/internal",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "managerName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "managerEmail",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "people",
-              "type": "rollup",
-              "rule": "rollup → People (via: squadID)",
-              "notes": "People belonging to this squad",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "squadOwner",
-              "type": "email",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": null,
-          "form": [
-            "keep the way it is in the #wireframe"
-          ],
-          "cards": null,
-          "table-filters": true,
-          "subitem-tables": [
-            "people"
-          ]
-        },
         "Roles": {
           "visibility": "show",
           "dashboard-order": 2,
@@ -4505,9 +4956,18 @@
               "name": "skillLevelTitle",
               "type": "VARCHAR",
               "rule": "computed: CONCAT(levelName,' #',levelRank)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "notes": "Display title combining level name and rank",
               "table-display": false,
               "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "levelRank",
+              "type": "INT",
+              "rule": null,
+              "notes": "Selection priority among eligible resources with the same role; lower ranks are prioritized",
+              "table-display": true,
+              "subitem-display": false,
               "constraints": null
             }
           ],
@@ -4800,6 +5260,24 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
+              "notes": "Business unit this person belongs to",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "rollup -> Departments via: businessUnitID (display: departmentName)",
+              "notes": "Department within the selected business unit; options narrowed by businessUnitID",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "userEmail",
               "type": "VARCHAR",
               "rule": null,
@@ -4811,7 +5289,7 @@
             {
               "name": "location",
               "type": "INT",
-              "rule": "FK → Factories (display: factoryName)",
+              "rule": "FK → Customers (display: customerName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -4914,6 +5392,26 @@
           "form": {
             "steps": null,
             "fields": {
+              "Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": null,
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": null
+              },
               "Name": {
                 "field-type": {
                   "input": "shadcn-input"
