@@ -211,23 +211,23 @@ The rename was applied to attribute names but not to rule bodies, report specs a
 `data.js` indexes records **by table name**, so with the current file the renamed `Customers`
 table renders empty (rows still live under the `"Factories"` key).
 
-- [ ] Rename table key `Factories` → `Customers`; move it (with Forecasts / Forecast Scopes) under
+- [x] Rename table key `Factories` → `Customers`; move it (with Forecasts / Forecast Scopes) under
   a `CRM` module key, and Squads under `Organization` (module keys are cosmetic for the loader,
   table keys are not).
-- [ ] Rename remaining record keys: `factoryOwner` → `customerOwner`, `factoryTitle` →
+- [x] Rename remaining record keys: `factoryOwner` → `customerOwner`, `factoryTitle` →
   `customerTitle` (Forecasts / Forecast Scopes rows).
-- [ ] Seed new tables:
+- [x] Seed new tables:
   - `Business Segments` — LPT, MPT, DT (from the removed enum).
   - `Business Units` and `Departments` — at least the transformer-repairs department plus one more
     (e.g. switch gear) to demonstrate the multi-department objective.
   - `Issues` — Lifetime Extension, Increase Capability, Dielectric Failure as `Opportunity`
     (from the removed `scopeOpportunity` enum values), plus at least one `Risk`.
-- [ ] Wire new FKs on existing rows: `Customers.businessUnitID`, `People.businessUnitID`,
+- [x] Wire new FKs on existing rows: `Customers.businessUnitID`, `People.businessUnitID`,
   `Requirements.customerID`, `Workflows.customerID` + `productScopeID`,
   `Projects.customerID` (map former `clientName` strings to Customer records),
   `Scopes.scopeOpportunity` → Issue IDs; drop `managerName`/`managerEmail` from Squads and add
   `departmentID`.
-- [ ] Follow the `prototype/tools/migrate_requirements.py` precedent: write a deterministic
+- [x] Follow the `prototype/tools/migrate_requirements.py` precedent: write a deterministic
   `migrate_organization.py` so the migration is reproducible on both mockup copies.
 
 ## E. Copy divergence
