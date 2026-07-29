@@ -97,11 +97,14 @@ console.log('== bespoke Jobs task chain (tasksForJob) ==');
   data.addRecord('Tickets', { ticketID: 'TKT-T1', customerName: 'FCT1', scopes: scope, products: prod });
   data.addRecord('Tasks', { taskID: 'TSK-T1', taskName: 'Match Task (t)', workflowID: 'WFT1' });
   data.addRecord('Tasks', { taskID: 'TSK-T2', taskName: 'Other-customer Task (t)', workflowID: 'WFT2' });
+  // workflow with EMPTY applicability keys → applies to every customer/scope
+  data.addRecord('Workflows', { workflowID: 'WFT3', workflowName: 'Generic WF', customerID: [], productScopeID: [] });
+  data.addRecord('Tasks', { taskID: 'TSK-T3', taskName: 'Generic Task (t)', workflowID: 'WFT3' });
   const opts = forms.tasksForJob('TKT-T1').map((o) => o.value);
   const hasMatch = opts.includes('TSK-T1'), hasOther = opts.includes('TSK-T2');
-  const hasLegacy = opts.includes('012'); // legacy task, workflow without customerID → wildcard
-  if (hasMatch && !hasOther && hasLegacy) ok('ticket-matched + legacy-wildcard tasks offered; other-customer excluded');
-  else fail(`tasksForJob — match=${hasMatch} other=${hasOther} legacy=${hasLegacy}`);
+  const hasWildcard = opts.includes('TSK-T3');
+  if (hasMatch && !hasOther && hasWildcard) ok('ticket-matched + empty-key-wildcard tasks offered; other-customer excluded');
+  else fail(`tasksForJob — match=${hasMatch} other=${hasOther} wildcard=${hasWildcard}`);
 }
 
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
