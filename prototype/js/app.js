@@ -2,7 +2,7 @@
 // render the active tab. All screen structure derives from datamodel.json
 // via model.js (DATAMODEL_GUIDE.md is the contract).
 
-import { loadData, getEntity, getById, removeRecords, initMeta } from './data.js';
+import { loadData, getEntity, getById, removeRecords, initMeta, BLANK_MODE } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns } from './model.js';
 import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
@@ -34,6 +34,11 @@ async function main() {
   } catch (e) {
     tabViewEl.innerHTML = `<div class="empty-note">Could not load data: ${escapeHtml(e.message)}<br>Serve this folder over http (e.g. <code>python3 -m http.server</code>).</div>`;
     return;
+  }
+  if (BLANK_MODE) {
+    const badge = document.querySelector('.header-badge');
+    badge.textContent = 'BLANK MODE';
+    badge.title = 'Blank walkthrough — records you create persist in this browser; add &reset=1 to the URL to start over';
   }
   buildSidebar();
   onRoute(routeToActive);

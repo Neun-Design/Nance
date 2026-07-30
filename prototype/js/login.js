@@ -2,6 +2,8 @@
 // the vanilla prototype. Credentials are fixed by PROTOTYPE_REVIEW.md and valid
 // for this demo only; the session flag lives in sessionStorage (per-tab).
 
+import { BLANK_MODE } from './data.js';
+
 const USERNAME = 'se-admin';
 const PASSWORD = '@NorthwindEnergy2026';
 const KEY = 'edqms-auth';
@@ -63,7 +65,9 @@ export function requireLogin() {
 
     const note = document.createElement('p');
     note.className = 'login-note';
-    note.textContent = 'Demo environment — non-persistent data, resets on reload.';
+    note.textContent = BLANK_MODE
+      ? 'Blank walkthrough — start from an empty QMS; your records persist in this browser.'
+      : 'Demo environment — non-persistent data, resets on reload.';
 
     card.append(mark, title, sub, form, note);
     screen.appendChild(card);
