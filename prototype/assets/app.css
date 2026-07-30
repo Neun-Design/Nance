@@ -73,6 +73,9 @@ select option { background: var(--se-base-1); color: var(--se-text-primary); }
 }
 .nav-item .nav-ico { width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; }
 .nav-item .nav-ico svg { display: block; }
+/* blank-walkthrough: visible but inert (no click handler is attached) */
+.nav-item.disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-item.disabled:hover { background: transparent; }
 
 /* ---------- Main / Tabs ---------- */
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
@@ -87,6 +90,8 @@ select option { background: var(--se-base-1); color: var(--se-text-primary); }
 }
 .tab-chip:hover { color: var(--se-text-primary); }
 .tab-chip.active { color: var(--se-text-active); border-bottom-color: var(--se-ui-0); font-weight: 600; }
+.tab-chip.disabled { opacity: 0.4; cursor: not-allowed; }
+.tab-chip.disabled:hover { color: var(--se-text-secondary); }
 
 .tab-view { flex: 1; overflow-y: auto; padding: var(--se-space-8); }
 

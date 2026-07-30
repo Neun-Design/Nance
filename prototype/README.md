@@ -34,6 +34,10 @@ mockup dataset — the full experience from a blank QMS, for continuity/usabilit
 - **`?data=empty&reset=1`** wipes the saved session and starts over (remove `&reset=1`
   afterwards, or every reload starts blank again).
 - The header badge shows **BLANK MODE** (vs. DEMO DATA); the login gate is unchanged.
+- **Walkthrough scope:** the analytics surfaces that only make sense with seeded data —
+  the **Overview**, **Workspace** and **Control** modules, plus the CRM **Forecasts** /
+  **Forecast Scopes** dashboards — stay visible but disabled (opaque, not selectable);
+  the session lands on Organization instead of Overview.
 
 Hosted example: `https://bovarafa.github.io/EDQMS/app/?data=empty`
 
