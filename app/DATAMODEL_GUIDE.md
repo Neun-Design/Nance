@@ -32,7 +32,7 @@
 
 | Level | Meaning in the UI |
 |---|---|
-| **module** (`Organization`, `Portfolio`, `CRM`, `Talent`, `Operation`, `Workload`, `Control`) | One entry in the **sidebar**. Selecting it shows the module's dashboards. Its `sidebar-position` sets the order — see §2.1. |
+| **module** (`Organization`, `Portfolio`, `CRM`, `Talent`, `Operation`, `Workspace`, `Control`) | One entry in the **sidebar**. Selecting it shows the module's dashboards. Its `sidebar-position` sets the order — see §2.1. |
 | **table** | One **tab (dashboard)** inside the module. The tab renders, top to bottom: cards → data table (with controls) → reports. |
 
 The fixed **Overview** entry always sits at the top of the sidebar; `sidebar-position`

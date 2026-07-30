@@ -23,7 +23,7 @@ The whole `prototype/` folder is static — deploy it as-is to any static host
 ## What's inside
 
 - **Overview** — executive KPI cards + headline charts (landing page).
-- **6 modules** — Customers, Operation, Inventory, Workload, Control, Talent.
+- **7 modules** — Organization, Portfolio, CRM, Talent, Operation, Workspace, Control.
   Each tab shows its entity table (with sort, search, collapsible rollup rows, mirror
   fields) plus filters and charts computed from the same filtered rows.
 - **Control** tabs are read-only (Capacity / Usage / Productivity), per the design rules.
