@@ -41,7 +41,9 @@
      "BS02"
     ],
     "businessUnitName": "Power Transformers",
-    "businessUnitCode": "PT"
+    "businessUnitCode": "PT",
+    "qualityManager": "U01",
+    "operationalManager": "U02"
    },
    {
     "businessUnitID": "BU02",
@@ -49,7 +51,9 @@
      "BS03"
     ],
     "businessUnitName": "Distribution Transformers",
-    "businessUnitCode": "DT"
+    "businessUnitCode": "DT",
+    "qualityManager": null,
+    "operationalManager": null
    },
    {
     "businessUnitID": "BU03",
@@ -57,7 +61,9 @@
      "BS04"
     ],
     "businessUnitName": "Switch Gear",
-    "businessUnitCode": "SG"
+    "businessUnitCode": "SG",
+    "qualityManager": null,
+    "operationalManager": null
    }
   ],
   "Departments": [
@@ -65,19 +71,22 @@
     "departmentID": "DPT01",
     "businessUnitID": "BU01",
     "departmentName": "Transformer Repairs Engineering",
-    "departmentCode": "TRE"
+    "departmentCode": "TRE",
+    "departmentManager": "U01"
    },
    {
     "departmentID": "DPT02",
     "businessUnitID": "BU03",
     "departmentName": "Switch Gear Engineering",
-    "departmentCode": "SGE"
+    "departmentCode": "SGE",
+    "departmentManager": null
    },
    {
     "departmentID": "DPT03",
     "businessUnitID": "BU02",
     "departmentName": "Distribution Engineering",
-    "departmentCode": "DE"
+    "departmentCode": "DE",
+    "departmentManager": null
    }
   ],
   "Squads": [
@@ -128,7 +137,11 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC02",
@@ -138,7 +151,11 @@
     "region": "Americas",
     "isActive": true,
     "customerOwner": "U02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC03",
@@ -148,7 +165,11 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC04",
@@ -158,7 +179,11 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U04",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC05",
@@ -168,7 +193,11 @@
     "region": "APAC",
     "isActive": true,
     "customerOwner": "U05",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC06",
@@ -178,7 +207,11 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U06",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC07",
@@ -188,7 +221,11 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U07",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC08",
@@ -198,7 +235,11 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U08",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC09",
@@ -208,7 +249,11 @@
     "region": "APAC",
     "isActive": true,
     "customerOwner": "U09",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC10",
@@ -218,7 +263,11 @@
     "region": "APAC",
     "isActive": true,
     "customerOwner": "U10",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC11",
@@ -228,7 +277,11 @@
     "region": "Americas",
     "isActive": true,
     "customerOwner": "U11",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01",
+     "BS02"
+    ]
    },
    {
     "customerID": "FC12",
@@ -238,7 +291,10 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U12",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ]
    },
    {
     "customerID": "FC13",
@@ -248,7 +304,10 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U13",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ]
    },
    {
     "customerID": "FC14",
@@ -258,7 +317,10 @@
     "region": "EMEA",
     "isActive": true,
     "customerOwner": "U14",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ]
    },
    {
     "customerID": "FC15",
@@ -268,7 +330,10 @@
     "region": "Americas",
     "isActive": true,
     "customerOwner": "U15",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ]
    },
    {
     "customerID": "FC16",
@@ -278,7 +343,10 @@
     "region": "Americas",
     "isActive": true,
     "customerOwner": "U16",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ]
    },
    {
     "customerID": "FC17",
@@ -288,7 +356,10 @@
     "region": "Americas",
     "isActive": true,
     "customerOwner": "U17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ]
    }
   ],
   "Forecasts": [
@@ -9274,7 +9345,6 @@
     "processID": "PR1",
     "workflowID": "WF08",
     "actionID": "AC01",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 5,
     "competenceID": "CMP01",
@@ -9283,7 +9353,8 @@
     "procedureURL": "https://portal.example/procedures/012",
     "taskName": "Approval — Requirement Capture",
     "taskOwner": "U01",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "032",
@@ -9291,7 +9362,6 @@
     "processID": "PR1",
     "workflowID": "WF09",
     "actionID": "AC02",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 8,
     "competenceID": "CMP02",
@@ -9300,7 +9370,8 @@
     "procedureURL": "https://portal.example/procedures/032",
     "taskName": "Assignment — Electrical Sizing",
     "taskOwner": "U02",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "033",
@@ -9308,7 +9379,6 @@
     "processID": "PR1",
     "workflowID": "WF10",
     "actionID": "AC03",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 8,
     "competenceID": "CMP03",
@@ -9317,7 +9387,8 @@
     "procedureURL": "https://portal.example/procedures/033",
     "taskName": "Check — Offer Costing",
     "taskOwner": "U03",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "045",
@@ -9325,7 +9396,6 @@
     "processID": "PR1",
     "workflowID": "WF11",
     "actionID": "AC04",
-    "scopes": "A.4",
     "functionID": "F4",
     "executionTime": 15,
     "competenceID": "CMP04",
@@ -9334,7 +9404,8 @@
     "procedureURL": "https://portal.example/procedures/045",
     "taskName": "Execution — Mechanical Sizing",
     "taskOwner": "U04",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "101",
@@ -9342,7 +9413,6 @@
     "processID": "PR2",
     "workflowID": "WF13",
     "actionID": "AC05",
-    "scopes": "B",
     "functionID": "F5",
     "executionTime": 20,
     "competenceID": "CMP05",
@@ -9351,7 +9421,8 @@
     "procedureURL": "https://portal.example/procedures/101",
     "taskName": "Followup — Electrical Design",
     "taskOwner": "U05",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "102",
@@ -9359,7 +9430,6 @@
     "processID": "PR2",
     "workflowID": "WF14",
     "actionID": "AC06",
-    "scopes": "C",
     "functionID": "F1",
     "executionTime": 18,
     "competenceID": "CMP06",
@@ -9368,7 +9438,8 @@
     "procedureURL": "https://portal.example/procedures/102",
     "taskName": "Registration — Mechanical Layout",
     "taskOwner": "U06",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "103",
@@ -9376,7 +9447,6 @@
     "processID": "PR2",
     "workflowID": "WF12",
     "actionID": "AC07",
-    "scopes": "D",
     "functionID": "F2",
     "executionTime": 12,
     "competenceID": "CMP07",
@@ -9385,7 +9455,8 @@
     "procedureURL": "https://portal.example/procedures/103",
     "taskName": "Release — Design Documentation",
     "taskOwner": "U07",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "104",
@@ -9393,7 +9464,6 @@
     "processID": "PR5",
     "workflowID": "WF20",
     "actionID": "AC01",
-    "scopes": "E",
     "functionID": "F3",
     "executionTime": 9,
     "competenceID": "CMP08",
@@ -9402,7 +9472,8 @@
     "procedureURL": "https://portal.example/procedures/104",
     "taskName": "Approval — Load Assessment",
     "taskOwner": "U08",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "105",
@@ -9410,7 +9481,6 @@
     "processID": "PR5",
     "workflowID": "WF21",
     "actionID": "AC02",
-    "scopes": "F",
     "functionID": "F4",
     "executionTime": 14,
     "competenceID": "CMP09",
@@ -9419,7 +9489,8 @@
     "procedureURL": "https://portal.example/procedures/105",
     "taskName": "Assignment — Thermal Study",
     "taskOwner": "U09",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "106",
@@ -9427,7 +9498,6 @@
     "processID": "PR5",
     "workflowID": "WF19",
     "actionID": "AC03",
-    "scopes": "G",
     "functionID": "F5",
     "executionTime": 7,
     "competenceID": "CMP10",
@@ -9436,7 +9506,8 @@
     "procedureURL": "https://portal.example/procedures/106",
     "taskName": "Check — Uprating Report",
     "taskOwner": "U10",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "107",
@@ -9444,7 +9515,6 @@
     "processID": "PR1",
     "workflowID": "WF10",
     "actionID": "AC04",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 5,
     "competenceID": "CMP11",
@@ -9453,7 +9523,8 @@
     "procedureURL": "https://portal.example/procedures/107",
     "taskName": "Execution — Requirement Capture",
     "taskOwner": "U11",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "108",
@@ -9461,7 +9532,6 @@
     "processID": "PR1",
     "workflowID": "WF11",
     "actionID": "AC05",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 8,
     "competenceID": "CMP12",
@@ -9470,7 +9540,8 @@
     "procedureURL": "https://portal.example/procedures/108",
     "taskName": "Followup — Electrical Sizing",
     "taskOwner": "U12",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "109",
@@ -9478,7 +9549,6 @@
     "processID": "PR1",
     "workflowID": "WF08",
     "actionID": "AC06",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 8,
     "competenceID": "CMP01",
@@ -9487,7 +9557,8 @@
     "procedureURL": "https://portal.example/procedures/109",
     "taskName": "Registration — Offer Costing",
     "taskOwner": "U13",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "110",
@@ -9495,7 +9566,6 @@
     "processID": "PR1",
     "workflowID": "WF09",
     "actionID": "AC07",
-    "scopes": "A.4",
     "functionID": "F4",
     "executionTime": 15,
     "competenceID": "CMP02",
@@ -9504,7 +9574,8 @@
     "procedureURL": "https://portal.example/procedures/110",
     "taskName": "Release — Mechanical Sizing",
     "taskOwner": "U14",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "111",
@@ -9512,7 +9583,6 @@
     "processID": "PR2",
     "workflowID": "WF14",
     "actionID": "AC01",
-    "scopes": "B",
     "functionID": "F5",
     "executionTime": 20,
     "competenceID": "CMP03",
@@ -9521,7 +9591,8 @@
     "procedureURL": "https://portal.example/procedures/111",
     "taskName": "Approval — Electrical Design",
     "taskOwner": "U15",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "112",
@@ -9529,7 +9600,6 @@
     "processID": "PR2",
     "workflowID": "WF12",
     "actionID": "AC02",
-    "scopes": "C",
     "functionID": "F1",
     "executionTime": 18,
     "competenceID": "CMP04",
@@ -9538,7 +9608,8 @@
     "procedureURL": "https://portal.example/procedures/112",
     "taskName": "Assignment — Mechanical Layout",
     "taskOwner": "U16",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "113",
@@ -9546,7 +9617,6 @@
     "processID": "PR2",
     "workflowID": "WF13",
     "actionID": "AC03",
-    "scopes": "D",
     "functionID": "F2",
     "executionTime": 12,
     "competenceID": "CMP05",
@@ -9555,7 +9625,8 @@
     "procedureURL": "https://portal.example/procedures/113",
     "taskName": "Check — Design Documentation",
     "taskOwner": "U17",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "114",
@@ -9563,7 +9634,6 @@
     "processID": "PR3",
     "workflowID": "WF16",
     "actionID": "AC04",
-    "scopes": "E",
     "functionID": "F3",
     "executionTime": 6,
     "competenceID": "CMP06",
@@ -9572,7 +9642,8 @@
     "procedureURL": "https://portal.example/procedures/114",
     "taskName": "Execution — Peer Review",
     "taskOwner": "U18",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "115",
@@ -9580,7 +9651,6 @@
     "processID": "PR3",
     "workflowID": "WF15",
     "actionID": "AC05",
-    "scopes": "F",
     "functionID": "F4",
     "executionTime": 4,
     "competenceID": "CMP07",
@@ -9589,7 +9659,8 @@
     "procedureURL": "https://portal.example/procedures/115",
     "taskName": "Followup — Compliance Check",
     "taskOwner": "U19",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "116",
@@ -9597,7 +9668,6 @@
     "processID": "PR4",
     "workflowID": "WF18",
     "actionID": "AC06",
-    "scopes": "G",
     "functionID": "F5",
     "executionTime": 16,
     "competenceID": "CMP08",
@@ -9606,7 +9676,8 @@
     "procedureURL": "https://portal.example/procedures/116",
     "taskName": "Registration — Root Cause Analysis",
     "taskOwner": "U20",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "117",
@@ -9614,7 +9685,6 @@
     "processID": "PR4",
     "workflowID": "WF17",
     "actionID": "AC07",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 10,
     "competenceID": "CMP09",
@@ -9623,7 +9693,8 @@
     "procedureURL": "https://portal.example/procedures/117",
     "taskName": "Release — Corrective Proposal",
     "taskOwner": "U21",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "118",
@@ -9631,7 +9702,6 @@
     "processID": "PR1",
     "workflowID": "WF09",
     "actionID": "AC01",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 5,
     "competenceID": "CMP10",
@@ -9640,7 +9710,8 @@
     "procedureURL": "https://portal.example/procedures/118",
     "taskName": "Approval — Requirement Capture",
     "taskOwner": "U22",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "119",
@@ -9648,7 +9719,6 @@
     "processID": "PR1",
     "workflowID": "WF10",
     "actionID": "AC02",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 8,
     "competenceID": "CMP11",
@@ -9657,7 +9727,8 @@
     "procedureURL": "https://portal.example/procedures/119",
     "taskName": "Assignment — Electrical Sizing",
     "taskOwner": "U23",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "120",
@@ -9665,7 +9736,6 @@
     "processID": "PR1",
     "workflowID": "WF11",
     "actionID": "AC03",
-    "scopes": "A.4",
     "functionID": "F4",
     "executionTime": 8,
     "competenceID": "CMP12",
@@ -9674,7 +9744,8 @@
     "procedureURL": "https://portal.example/procedures/120",
     "taskName": "Check — Offer Costing",
     "taskOwner": "U24",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "121",
@@ -9682,7 +9753,6 @@
     "processID": "PR1",
     "workflowID": "WF08",
     "actionID": "AC04",
-    "scopes": "B",
     "functionID": "F5",
     "executionTime": 15,
     "competenceID": "CMP01",
@@ -9691,7 +9761,8 @@
     "procedureURL": "https://portal.example/procedures/121",
     "taskName": "Execution — Mechanical Sizing",
     "taskOwner": "U01",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "122",
@@ -9699,7 +9770,6 @@
     "processID": "PR5",
     "workflowID": "WF20",
     "actionID": "AC05",
-    "scopes": "C",
     "functionID": "F1",
     "executionTime": 9,
     "competenceID": "CMP02",
@@ -9708,7 +9778,8 @@
     "procedureURL": "https://portal.example/procedures/122",
     "taskName": "Followup — Load Assessment",
     "taskOwner": "U02",
-    "customerName": "STN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "123",
@@ -9716,7 +9787,6 @@
     "processID": "PR5",
     "workflowID": "WF21",
     "actionID": "AC06",
-    "scopes": "D",
     "functionID": "F2",
     "executionTime": 14,
     "competenceID": "CMP03",
@@ -9725,7 +9795,8 @@
     "procedureURL": "https://portal.example/procedures/123",
     "taskName": "Registration — Thermal Study",
     "taskOwner": "U03",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "124",
@@ -9733,7 +9804,6 @@
     "processID": "PR5",
     "workflowID": "WF19",
     "actionID": "AC07",
-    "scopes": "E",
     "functionID": "F3",
     "executionTime": 7,
     "competenceID": "CMP04",
@@ -9742,7 +9812,8 @@
     "procedureURL": "https://portal.example/procedures/124",
     "taskName": "Release — Uprating Report",
     "taskOwner": "U04",
-    "customerName": "TUSA"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "125",
@@ -9750,7 +9821,6 @@
     "processID": "PR2",
     "workflowID": "WF13",
     "actionID": "AC01",
-    "scopes": "F",
     "functionID": "F4",
     "executionTime": 20,
     "competenceID": "CMP05",
@@ -9759,7 +9829,8 @@
     "procedureURL": "https://portal.example/procedures/125",
     "taskName": "Approval — Electrical Design",
     "taskOwner": "U05",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "126",
@@ -9767,7 +9838,6 @@
     "processID": "PR2",
     "workflowID": "WF14",
     "actionID": "AC02",
-    "scopes": "G",
     "functionID": "F5",
     "executionTime": 18,
     "competenceID": "CMP06",
@@ -9776,7 +9846,8 @@
     "procedureURL": "https://portal.example/procedures/126",
     "taskName": "Assignment — Mechanical Layout",
     "taskOwner": "U06",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "127",
@@ -9784,7 +9855,6 @@
     "processID": "PR2",
     "workflowID": "WF12",
     "actionID": "AC03",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 12,
     "competenceID": "CMP07",
@@ -9793,7 +9863,8 @@
     "procedureURL": "https://portal.example/procedures/127",
     "taskName": "Check — Design Documentation",
     "taskOwner": "U07",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "128",
@@ -9801,7 +9872,6 @@
     "processID": "PR1",
     "workflowID": "WF11",
     "actionID": "AC04",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 5,
     "competenceID": "CMP08",
@@ -9810,7 +9880,8 @@
     "procedureURL": "https://portal.example/procedures/128",
     "taskName": "Execution — Requirement Capture",
     "taskOwner": "U08",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "129",
@@ -9818,7 +9889,6 @@
     "processID": "PR1",
     "workflowID": "WF08",
     "actionID": "AC05",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 8,
     "competenceID": "CMP09",
@@ -9827,7 +9897,8 @@
     "procedureURL": "https://portal.example/procedures/129",
     "taskName": "Followup — Electrical Sizing",
     "taskOwner": "U09",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "130",
@@ -9835,7 +9906,6 @@
     "processID": "PR1",
     "workflowID": "WF09",
     "actionID": "AC06",
-    "scopes": "A.4",
     "functionID": "F4",
     "executionTime": 8,
     "competenceID": "CMP10",
@@ -9844,7 +9914,8 @@
     "procedureURL": "https://portal.example/procedures/130",
     "taskName": "Registration — Offer Costing",
     "taskOwner": "U10",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "131",
@@ -9852,7 +9923,6 @@
     "processID": "PR1",
     "workflowID": "WF10",
     "actionID": "AC07",
-    "scopes": "B",
     "functionID": "F5",
     "executionTime": 15,
     "competenceID": "CMP11",
@@ -9861,7 +9931,8 @@
     "procedureURL": "https://portal.example/procedures/131",
     "taskName": "Release — Mechanical Sizing",
     "taskOwner": "U11",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "132",
@@ -9869,7 +9940,6 @@
     "processID": "PR4",
     "workflowID": "WF18",
     "actionID": "AC01",
-    "scopes": "C",
     "functionID": "F1",
     "executionTime": 16,
     "competenceID": "CMP12",
@@ -9878,7 +9948,8 @@
     "procedureURL": "https://portal.example/procedures/132",
     "taskName": "Approval — Root Cause Analysis",
     "taskOwner": "U12",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "133",
@@ -9886,7 +9957,6 @@
     "processID": "PR4",
     "workflowID": "WF17",
     "actionID": "AC02",
-    "scopes": "D",
     "functionID": "F2",
     "executionTime": 10,
     "competenceID": "CMP01",
@@ -9895,7 +9965,8 @@
     "procedureURL": "https://portal.example/procedures/133",
     "taskName": "Assignment — Corrective Proposal",
     "taskOwner": "U13",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "201",
@@ -9903,7 +9974,6 @@
     "processID": "PC01",
     "workflowID": "WF03",
     "actionID": "AC03",
-    "scopes": "E",
     "functionID": "F3",
     "executionTime": 2,
     "competenceID": "CMP02",
@@ -9912,7 +9982,8 @@
     "procedureURL": "https://portal.example/procedures/201",
     "taskName": "Check — Allocation",
     "taskOwner": "U14",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "202",
@@ -9920,7 +9991,6 @@
     "processID": "PC01",
     "workflowID": "WF04",
     "actionID": "AC04",
-    "scopes": "F",
     "functionID": "F4",
     "executionTime": 6,
     "competenceID": "CMP03",
@@ -9929,7 +9999,8 @@
     "procedureURL": "https://portal.example/procedures/202",
     "taskName": "Execution — Technical Assessment",
     "taskOwner": "U15",
-    "customerName": "TUSA"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "203",
@@ -9937,7 +10008,6 @@
     "processID": "PC01",
     "workflowID": "WF05",
     "actionID": "AC05",
-    "scopes": "G",
     "functionID": "F5",
     "executionTime": 3,
     "competenceID": "CMP04",
@@ -9946,7 +10016,8 @@
     "procedureURL": "https://portal.example/procedures/203",
     "taskName": "Followup — Technical Clarification",
     "taskOwner": "U16",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "204",
@@ -9954,7 +10025,6 @@
     "processID": "PC01",
     "workflowID": "WF06",
     "actionID": "AC06",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 4,
     "competenceID": "CMP05",
@@ -9963,7 +10033,8 @@
     "procedureURL": "https://portal.example/procedures/204",
     "taskName": "Registration — Data Collection",
     "taskOwner": "U17",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "205",
@@ -9971,7 +10042,6 @@
     "processID": "PC01",
     "workflowID": "WF07",
     "actionID": "AC07",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 8,
     "competenceID": "CMP06",
@@ -9980,7 +10050,8 @@
     "procedureURL": "https://portal.example/procedures/205",
     "taskName": "Release — Offer Design",
     "taskOwner": "U18",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "206",
@@ -9988,7 +10059,6 @@
     "processID": "PC01",
     "workflowID": "WF01",
     "actionID": "AC01",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 3,
     "competenceID": "CMP07",
@@ -9997,7 +10067,8 @@
     "procedureURL": "https://portal.example/procedures/206",
     "taskName": "Approval — Operational Clarification",
     "taskOwner": "U19",
-    "customerName": "KPT"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "207",
@@ -10005,7 +10076,6 @@
     "processID": "PC01",
     "workflowID": "WF02",
     "actionID": "AC02",
-    "scopes": "A.4",
     "functionID": "F4",
     "executionTime": 6,
     "competenceID": "CMP08",
@@ -10014,7 +10084,8 @@
     "procedureURL": "https://portal.example/procedures/207",
     "taskName": "Assignment — Technical Specification",
     "taskOwner": "U20",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "901",
@@ -10022,7 +10093,6 @@
     "processID": "PR2",
     "workflowID": "WF13",
     "actionID": "AC01",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 5,
     "competenceID": "CMP01",
@@ -10031,7 +10101,8 @@
     "procedureURL": "https://portal.example/procedures/012",
     "taskName": "Approval — Requirement Capture",
     "taskOwner": "U14",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "902",
@@ -10039,7 +10110,6 @@
     "processID": "PR3",
     "workflowID": "WF15",
     "actionID": "AC01",
-    "scopes": "A.1",
     "functionID": "F1",
     "executionTime": 5,
     "competenceID": "CMP01",
@@ -10048,7 +10118,8 @@
     "procedureURL": "https://portal.example/procedures/012",
     "taskName": "Approval — Requirement Capture",
     "taskOwner": "U15",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "903",
@@ -10056,7 +10127,6 @@
     "processID": "PR2",
     "workflowID": "WF12",
     "actionID": "AC02",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 8,
     "competenceID": "CMP02",
@@ -10065,7 +10135,8 @@
     "procedureURL": "https://portal.example/procedures/032",
     "taskName": "Assignment — Electrical Sizing",
     "taskOwner": "U16",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "904",
@@ -10073,7 +10144,6 @@
     "processID": "PR3",
     "workflowID": "WF15",
     "actionID": "AC02",
-    "scopes": "A.2",
     "functionID": "F2",
     "executionTime": 8,
     "competenceID": "CMP02",
@@ -10082,7 +10152,8 @@
     "procedureURL": "https://portal.example/procedures/032",
     "taskName": "Assignment — Electrical Sizing",
     "taskOwner": "U17",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "905",
@@ -10090,7 +10161,6 @@
     "processID": "PR2",
     "workflowID": "WF14",
     "actionID": "AC03",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 8,
     "competenceID": "CMP03",
@@ -10099,7 +10169,8 @@
     "procedureURL": "https://portal.example/procedures/033",
     "taskName": "Check — Offer Costing",
     "taskOwner": "U18",
-    "customerName": "STW"
+    "taskInput": [],
+    "taskOutput": []
    },
    {
     "taskID": "906",
@@ -10107,7 +10178,6 @@
     "processID": "PR3",
     "workflowID": "WF15",
     "actionID": "AC03",
-    "scopes": "A.3",
     "functionID": "F3",
     "executionTime": 8,
     "competenceID": "CMP03",
@@ -10116,7 +10186,8 @@
     "procedureURL": "https://portal.example/procedures/033",
     "taskName": "Check — Offer Costing",
     "taskOwner": "U19",
-    "customerName": "PN"
+    "taskInput": [],
+    "taskOutput": []
    }
   ],
   "Events": [
@@ -10128,7 +10199,8 @@
     "customerName": "PN",
     "productName": "LPT",
     "scopeName": "Temperature Reduction",
-    "eventOwner": "U01"
+    "eventOwner": "U01",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV02",
@@ -10138,7 +10210,8 @@
     "customerName": "TUSA",
     "productName": "Autotransformer",
     "scopeName": "Uprating",
-    "eventOwner": "U02"
+    "eventOwner": "U02",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV03",
@@ -10148,7 +10221,8 @@
     "customerName": "STW",
     "productName": "Phase Shifter",
     "scopeName": "Uprating with Windings Replacement",
-    "eventOwner": "U03"
+    "eventOwner": "U03",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV04",
@@ -10158,7 +10232,8 @@
     "customerName": "KPT",
     "productName": "HVDC",
     "scopeName": "Repair with Windings Replacement",
-    "eventOwner": "U04"
+    "eventOwner": "U04",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV05",
@@ -10168,7 +10243,8 @@
     "customerName": "STGZ",
     "productName": "Reactors",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "eventOwner": "U05"
+    "eventOwner": "U05",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV06",
@@ -10178,7 +10254,8 @@
     "customerName": "STDD",
     "productName": "MPT",
     "scopeName": "Renewal of the paper/oil insulation system",
-    "eventOwner": "U06"
+    "eventOwner": "U06",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV07",
@@ -10188,7 +10265,8 @@
     "customerName": "STL",
     "productName": "IND",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
-    "eventOwner": "U07"
+    "eventOwner": "U07",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV08",
@@ -10198,7 +10276,8 @@
     "customerName": "STN",
     "productName": "LDT",
     "scopeName": "Renovation of External Parts",
-    "eventOwner": "U08"
+    "eventOwner": "U08",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV09",
@@ -10208,7 +10287,8 @@
     "customerName": "STCK",
     "productName": "CRT",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
-    "eventOwner": "U09"
+    "eventOwner": "U09",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV10",
@@ -10218,7 +10298,8 @@
     "customerName": "STWH",
     "productName": "LIDT",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "eventOwner": "U10"
+    "eventOwner": "U10",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV11",
@@ -10228,7 +10309,8 @@
     "customerName": "STM",
     "productName": "TRAC",
     "scopeName": "Temperature Reduction",
-    "eventOwner": "U11"
+    "eventOwner": "U11",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV12",
@@ -10238,7 +10320,8 @@
     "customerName": "DB",
     "productName": "VR",
     "scopeName": "Uprating",
-    "eventOwner": "U12"
+    "eventOwner": "U12",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV13",
@@ -10248,7 +10331,8 @@
     "customerName": "DK",
     "productName": "CP",
     "scopeName": "Uprating with Windings Replacement",
-    "eventOwner": "U13"
+    "eventOwner": "U13",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV14",
@@ -10258,7 +10342,8 @@
     "customerName": "TN",
     "productName": "RENEW",
     "scopeName": "Repair with Windings Replacement",
-    "eventOwner": "U14"
+    "eventOwner": "U14",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV15",
@@ -10268,7 +10353,8 @@
     "customerName": "JXN",
     "productName": "LPT",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "eventOwner": "U15"
+    "eventOwner": "U15",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV16",
@@ -10278,7 +10364,8 @@
     "customerName": "SAT",
     "productName": "Autotransformer",
     "scopeName": "Renewal of the paper/oil insulation system",
-    "eventOwner": "U16"
+    "eventOwner": "U16",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV17",
@@ -10288,7 +10375,8 @@
     "customerName": "STCA",
     "productName": "Phase Shifter",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
-    "eventOwner": "U17"
+    "eventOwner": "U17",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV18",
@@ -10298,7 +10386,8 @@
     "customerName": "PN",
     "productName": "HVDC",
     "scopeName": "Renovation of External Parts",
-    "eventOwner": "U18"
+    "eventOwner": "U18",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV19",
@@ -10308,7 +10397,8 @@
     "customerName": "TUSA",
     "productName": "Reactors",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
-    "eventOwner": "U19"
+    "eventOwner": "U19",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV20",
@@ -10318,7 +10408,8 @@
     "customerName": "STW",
     "productName": "MPT",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "eventOwner": "U20"
+    "eventOwner": "U20",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV21",
@@ -10328,7 +10419,8 @@
     "customerName": "KPT",
     "productName": "IND",
     "scopeName": "Temperature Reduction",
-    "eventOwner": "U21"
+    "eventOwner": "U21",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV22",
@@ -10338,7 +10430,8 @@
     "customerName": "STGZ",
     "productName": "LDT",
     "scopeName": "Uprating",
-    "eventOwner": "U22"
+    "eventOwner": "U22",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV23",
@@ -10348,7 +10441,8 @@
     "customerName": "STDD",
     "productName": "CRT",
     "scopeName": "Uprating with Windings Replacement",
-    "eventOwner": "U23"
+    "eventOwner": "U23",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV24",
@@ -10358,7 +10452,8 @@
     "customerName": "STL",
     "productName": "LIDT",
     "scopeName": "Repair with Windings Replacement",
-    "eventOwner": "U24"
+    "eventOwner": "U24",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV25",
@@ -10368,7 +10463,8 @@
     "customerName": "STN",
     "productName": "TRAC",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "eventOwner": "U01"
+    "eventOwner": "U01",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV26",
@@ -10378,7 +10474,8 @@
     "customerName": "STCK",
     "productName": "VR",
     "scopeName": "Renewal of the paper/oil insulation system",
-    "eventOwner": "U02"
+    "eventOwner": "U02",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV27",
@@ -10388,7 +10485,8 @@
     "customerName": "STWH",
     "productName": "CP",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
-    "eventOwner": "U03"
+    "eventOwner": "U03",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV28",
@@ -10398,7 +10496,8 @@
     "customerName": "STM",
     "productName": "RENEW",
     "scopeName": "Renovation of External Parts",
-    "eventOwner": "U04"
+    "eventOwner": "U04",
+    "businessUnitID": "BU01"
    },
    {
     "eventID": "EV29",
@@ -10408,7 +10507,8 @@
     "customerName": "DB",
     "productName": "LPT",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
-    "eventOwner": "U05"
+    "eventOwner": "U05",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV30",
@@ -10418,7 +10518,8 @@
     "customerName": "DK",
     "productName": "Autotransformer",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "eventOwner": "U06"
+    "eventOwner": "U06",
+    "businessUnitID": "BU02"
    },
    {
     "eventID": "EV31",
@@ -10428,7 +10529,8 @@
     "customerName": "TN",
     "productName": "Phase Shifter",
     "scopeName": "Temperature Reduction",
-    "eventOwner": "U07"
+    "eventOwner": "U07",
+    "businessUnitID": "BU02"
    }
   ],
   "Processes": [
@@ -10645,7 +10747,6 @@
     "workflowName": "Allocation",
     "processID": "PC01",
     "parentStepID": null,
-    "indentationID": "1",
     "inputs": "HO01",
     "outputs": "HO02",
     "scopes": "A.1",
@@ -10656,14 +10757,14 @@
     "productScopeID": [
      "PS03",
      "PS08"
-    ]
+    ],
+    "indentationRule": null
    },
    {
     "workflowID": "WF02",
     "workflowName": "Technical Assessment",
     "processID": "PC01",
     "parentStepID": "WF01",
-    "indentationID": "2",
     "inputs": "HO02",
     "outputs": "HO03",
     "scopes": "A.2",
@@ -10673,14 +10774,14 @@
     ],
     "productScopeID": [
      "PS10"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF03",
     "workflowName": "Technical Clarification",
     "processID": "PC01",
     "parentStepID": "WF02",
-    "indentationID": "2.1",
     "inputs": "HO03",
     "outputs": "HO04",
     "scopes": "A.3",
@@ -10691,14 +10792,14 @@
     "productScopeID": [
      "PS02",
      "PS09"
-    ]
+    ],
+    "indentationRule": "finish-to-finish"
    },
    {
     "workflowID": "WF04",
     "workflowName": "Data Collection",
     "processID": "PC01",
     "parentStepID": "WF02",
-    "indentationID": "2.2",
     "inputs": "HO04",
     "outputs": "HO05",
     "scopes": "A.4",
@@ -10706,14 +10807,14 @@
     "customerID": [
      "FC04"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "finish-to-finish"
    },
    {
     "workflowID": "WF05",
     "workflowName": "Offer Design",
     "processID": "PC01",
     "parentStepID": "WF02",
-    "indentationID": "3",
     "inputs": "HO05",
     "outputs": "HO06",
     "scopes": "B",
@@ -10723,14 +10824,14 @@
     ],
     "productScopeID": [
      "PS05"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF06",
     "workflowName": "Operational Clarification",
     "processID": "PC01",
     "parentStepID": "WF05",
-    "indentationID": "3.1",
     "inputs": "HO06",
     "outputs": "HO07",
     "scopes": "C",
@@ -10738,14 +10839,14 @@
     "customerID": [
      "FC06"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "finish-to-finish"
    },
    {
     "workflowID": "WF07",
     "workflowName": "Technical Specification",
     "processID": "PC01",
     "parentStepID": "WF05",
-    "indentationID": "4",
     "inputs": "HO07",
     "outputs": "HO08",
     "scopes": "D",
@@ -10753,14 +10854,14 @@
     "customerID": [
      "FC07"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF08",
     "workflowName": "Requirement Capture",
     "processID": "PR1",
     "parentStepID": null,
-    "indentationID": "1",
     "inputs": "HO08",
     "outputs": "HO09",
     "scopes": "E",
@@ -10768,14 +10869,14 @@
     "customerID": [
      "FC08"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": null
    },
    {
     "workflowID": "WF09",
     "workflowName": "Electrical Sizing",
     "processID": "PR1",
     "parentStepID": "WF08",
-    "indentationID": "2",
     "inputs": "HO09",
     "outputs": "HO10",
     "scopes": "F",
@@ -10783,14 +10884,14 @@
     "customerID": [
      "FC09"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF10",
     "workflowName": "Offer Costing",
     "processID": "PR1",
     "parentStepID": "WF09",
-    "indentationID": "3",
     "inputs": "HO10",
     "outputs": "HO01",
     "scopes": "G",
@@ -10800,14 +10901,14 @@
     ],
     "productScopeID": [
      "PS06"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF11",
     "workflowName": "Mechanical Sizing",
     "processID": "PR1",
     "parentStepID": "WF10",
-    "indentationID": "4",
     "inputs": "HO01",
     "outputs": "HO02",
     "scopes": "A.1",
@@ -10818,14 +10919,14 @@
     "productScopeID": [
      "PS03",
      "PS08"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF12",
     "workflowName": "Electrical Design",
     "processID": "PR2",
     "parentStepID": null,
-    "indentationID": "1",
     "inputs": "HO02",
     "outputs": "HO03",
     "scopes": "A.2",
@@ -10838,14 +10939,14 @@
      "PS04",
      "PS07",
      "PS10"
-    ]
+    ],
+    "indentationRule": null
    },
    {
     "workflowID": "WF13",
     "workflowName": "Mechanical Layout",
     "processID": "PR2",
     "parentStepID": "WF12",
-    "indentationID": "2",
     "inputs": "HO03",
     "outputs": "HO04",
     "scopes": "A.3",
@@ -10856,14 +10957,14 @@
     "productScopeID": [
      "PS02",
      "PS09"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF14",
     "workflowName": "Design Documentation",
     "processID": "PR2",
     "parentStepID": "WF13",
-    "indentationID": "3",
     "inputs": "HO04",
     "outputs": "HO05",
     "scopes": "A.4",
@@ -10871,14 +10972,14 @@
     "customerID": [
      "FC14"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF15",
     "workflowName": "Peer Review",
     "processID": "PR3",
     "parentStepID": null,
-    "indentationID": "1",
     "inputs": "HO05",
     "outputs": "HO06",
     "scopes": "B",
@@ -10888,14 +10989,14 @@
     ],
     "productScopeID": [
      "PS05"
-    ]
+    ],
+    "indentationRule": null
    },
    {
     "workflowID": "WF16",
     "workflowName": "Compliance Check",
     "processID": "PR3",
     "parentStepID": "WF15",
-    "indentationID": "2",
     "inputs": "HO06",
     "outputs": "HO07",
     "scopes": "C",
@@ -10903,14 +11004,14 @@
     "customerID": [
      "FC16"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF17",
     "workflowName": "Root Cause Analysis",
     "processID": "PR4",
     "parentStepID": null,
-    "indentationID": "1",
     "inputs": "HO07",
     "outputs": "HO08",
     "scopes": "D",
@@ -10918,14 +11019,14 @@
     "customerID": [
      "FC17"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": null
    },
    {
     "workflowID": "WF18",
     "workflowName": "Corrective Proposal",
     "processID": "PR4",
     "parentStepID": "WF17",
-    "indentationID": "2",
     "inputs": "HO08",
     "outputs": "HO09",
     "scopes": "E",
@@ -10933,14 +11034,14 @@
     "customerID": [
      "FC01"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF19",
     "workflowName": "Load Assessment",
     "processID": "PR5",
     "parentStepID": null,
-    "indentationID": "1",
     "inputs": "HO09",
     "outputs": "HO10",
     "scopes": "F",
@@ -10948,14 +11049,14 @@
     "customerID": [
      "FC02"
     ],
-    "productScopeID": []
+    "productScopeID": [],
+    "indentationRule": null
    },
    {
     "workflowID": "WF20",
     "workflowName": "Thermal Study",
     "processID": "PR5",
     "parentStepID": "WF19",
-    "indentationID": "2",
     "inputs": "HO10",
     "outputs": "HO01",
     "scopes": "G",
@@ -10965,14 +11066,14 @@
     ],
     "productScopeID": [
      "PS06"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    },
    {
     "workflowID": "WF21",
     "workflowName": "Uprating Report",
     "processID": "PR5",
     "parentStepID": "WF20",
-    "indentationID": "3",
     "inputs": "HO01",
     "outputs": "HO02",
     "scopes": "A.1",
@@ -10983,7 +11084,8 @@
     "productScopeID": [
      "PS03",
      "PS08"
-    ]
+    ],
+    "indentationRule": "start-to-finish"
    }
   ],
   "Actions": [
@@ -11052,8 +11154,7 @@
     "createdAt": "2026-04-01",
     "channelID": "CH1",
     "templateName": "Req Spec Template",
-    "templateURL": "https://portal.example/templates/HO01",
-    "handoutOwner": "U01"
+    "templateURL": "https://portal.example/templates/HO01"
    },
    {
     "handoutID": "HO02",
@@ -11062,8 +11163,7 @@
     "createdAt": "2026-04-02",
     "channelID": "CH1",
     "templateName": "Datasheet Template",
-    "templateURL": "https://portal.example/templates/HO02",
-    "handoutOwner": "U02"
+    "templateURL": "https://portal.example/templates/HO02"
    },
    {
     "handoutID": "HO03",
@@ -11072,8 +11172,7 @@
     "createdAt": "2026-04-03",
     "channelID": "CH2",
     "templateName": "Offer Template",
-    "templateURL": "https://portal.example/templates/HO03",
-    "handoutOwner": "U03"
+    "templateURL": "https://portal.example/templates/HO03"
    },
    {
     "handoutID": "HO04",
@@ -11082,8 +11181,7 @@
     "createdAt": "2026-04-04",
     "channelID": "CH1",
     "templateName": "Drawing Template",
-    "templateURL": "https://portal.example/templates/HO04",
-    "handoutOwner": "U04"
+    "templateURL": "https://portal.example/templates/HO04"
    },
    {
     "handoutID": "HO05",
@@ -11092,8 +11190,7 @@
     "createdAt": "2026-04-05",
     "channelID": "CH1",
     "templateName": "Layout Template",
-    "templateURL": "https://portal.example/templates/HO05",
-    "handoutOwner": "U05"
+    "templateURL": "https://portal.example/templates/HO05"
    },
    {
     "handoutID": "HO06",
@@ -11102,8 +11199,7 @@
     "createdAt": "2026-04-06",
     "channelID": "CH3",
     "templateName": "Review Template",
-    "templateURL": "https://portal.example/templates/HO06",
-    "handoutOwner": "U06"
+    "templateURL": "https://portal.example/templates/HO06"
    },
    {
     "handoutID": "HO07",
@@ -11112,8 +11208,7 @@
     "createdAt": "2026-04-07",
     "channelID": "CH1",
     "templateName": "Cert Template",
-    "templateURL": "https://portal.example/templates/HO07",
-    "handoutOwner": "U07"
+    "templateURL": "https://portal.example/templates/HO07"
    },
    {
     "handoutID": "HO08",
@@ -11122,8 +11217,7 @@
     "createdAt": "2026-04-08",
     "channelID": "CH3",
     "templateName": "RCA Template",
-    "templateURL": "https://portal.example/templates/HO08",
-    "handoutOwner": "U08"
+    "templateURL": "https://portal.example/templates/HO08"
    },
    {
     "handoutID": "HO09",
@@ -11132,8 +11226,7 @@
     "createdAt": "2026-04-09",
     "channelID": "CH1",
     "templateName": "CAP Template",
-    "templateURL": "https://portal.example/templates/HO09",
-    "handoutOwner": "U09"
+    "templateURL": "https://portal.example/templates/HO09"
    },
    {
     "handoutID": "HO10",
@@ -11142,8 +11235,7 @@
     "createdAt": "2026-04-10",
     "channelID": "CH1",
     "templateName": "Thermal Template",
-    "templateURL": "https://portal.example/templates/HO10",
-    "handoutOwner": "U10"
+    "templateURL": "https://portal.example/templates/HO10"
    }
   ],
   "Channels": [
@@ -11173,7 +11265,7 @@
    }
   ]
  },
- "Workload": {
+ "Workspace": {
   "Tickets": [
    {
     "ticketID": "015",
@@ -13476,97 +13568,89 @@
     "projectID": "0031",
     "projectRegistryID": "N730700",
     "projectName": "Grid Co Uprating",
-    "clientName": "National Grid Co",
-    "customerName": "PN",
     "projectOwner": "U11",
     "projectStatus": "In Progress",
     "jobID": "",
     "estimatedTime": 120.0,
-    "executionTime": 90.0
+    "executionTime": 90.0,
+    "customerID": "FC01"
    },
    {
     "projectID": "0032",
     "projectRegistryID": "N730703",
     "projectName": "Metro Substation",
-    "clientName": "Metro Utility",
-    "customerName": "PN",
     "projectOwner": "U01",
     "projectStatus": "In Progress",
     "jobID": "",
     "estimatedTime": 140.0,
-    "executionTime": 115.0
+    "executionTime": 115.0,
+    "customerID": "FC01"
    },
    {
     "projectID": "0033",
     "projectRegistryID": "N730706",
     "projectName": "SP Rewind",
-    "clientName": "Brasil Energia",
-    "customerName": "STW",
     "projectOwner": "U11",
     "projectStatus": "Planning",
     "jobID": "",
     "estimatedTime": 160.0,
-    "executionTime": 140.0
+    "executionTime": 140.0,
+    "customerID": "FC03"
    },
    {
     "projectID": "0034",
     "projectRegistryID": "N730709",
     "projectName": "MX Distribution",
-    "clientName": "CFE",
-    "customerName": "KPT",
     "projectOwner": "U11",
     "projectStatus": "In Progress",
     "jobID": "",
     "estimatedTime": 180.0,
-    "executionTime": 165.0
+    "executionTime": 165.0,
+    "customerID": "FC04"
    },
    {
     "projectID": "0035",
     "projectRegistryID": "N730712",
     "projectName": "SH Failure Fix",
-    "clientName": "State Grid",
-    "customerName": "STGZ",
     "projectOwner": "U23",
     "projectStatus": "On Hold",
     "jobID": "",
     "estimatedTime": 200.0,
-    "executionTime": 190.0
+    "executionTime": 190.0,
+    "customerID": "FC05"
    },
    {
     "projectID": "0036",
     "projectRegistryID": "N730715",
     "projectName": "DR Cooling Upgrade",
-    "clientName": "EnBW",
-    "customerName": "TUSA",
     "projectOwner": "U10",
     "projectStatus": "In Progress",
     "jobID": "",
     "estimatedTime": 120.0,
-    "executionTime": 215.0
+    "executionTime": 215.0,
+    "customerID": "FC02"
    },
    {
     "projectID": "0037",
     "projectRegistryID": "N730718",
     "projectName": "APAC Uprating Study",
-    "clientName": "State Grid",
-    "customerName": "STGZ",
     "projectOwner": "U10",
     "projectStatus": "Closed",
     "jobID": "",
     "estimatedTime": 140.0,
-    "executionTime": 90.0
+    "executionTime": 90.0,
+    "customerID": "FC05"
    },
    {
     "projectID": "0038",
     "projectRegistryID": "N730721",
     "projectName": "Legacy Support",
-    "clientName": "National Grid Co",
-    "customerName": "PN",
     "projectOwner": "U11",
     "projectStatus": "Closed",
     "jobID": "",
     "estimatedTime": 160.0,
-    "executionTime": 115.0
+    "executionTime": 115.0,
+    "customerID": "FC01"
    }
   ],
   "Jobs": [
@@ -19544,31 +19628,46 @@
     "functionID": "F1",
     "functionName": "Electrical Design",
     "functionDescription": "Electrical Design function",
-    "functionOwner": "U01"
+    "functionOwner": "U01",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "functionID": "F2",
     "functionName": "Mechanical Design",
     "functionDescription": "Mechanical Design function",
-    "functionOwner": "U02"
+    "functionOwner": "U02",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "functionID": "F3",
     "functionName": "Analysis",
     "functionDescription": "Analysis function",
-    "functionOwner": "U03"
+    "functionOwner": "U03",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "functionID": "F4",
     "functionName": "Planning",
     "functionDescription": "Planning function",
-    "functionOwner": "U04"
+    "functionOwner": "U04",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "functionID": "F5",
     "functionName": "Quality",
     "functionDescription": "Quality function",
-    "functionOwner": "U05"
+    "functionOwner": "U05",
+    "businessUnitID": [
+     "BU01"
+    ]
    }
   ],
   "Graduation": [
@@ -19618,7 +19717,9 @@
     "onboardID": "ONB001",
     "workingHours": 28,
     "personOwner": "U02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U02",
@@ -19632,7 +19733,9 @@
     "onboardID": "ONB003",
     "workingHours": 35,
     "personOwner": "U03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U03",
@@ -19646,7 +19749,9 @@
     "onboardID": "ONB004",
     "workingHours": 35,
     "personOwner": "U04",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U04",
@@ -19660,7 +19765,9 @@
     "onboardID": "ONB005",
     "workingHours": 35,
     "personOwner": "U05",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U05",
@@ -19674,7 +19781,9 @@
     "onboardID": "ONB008",
     "workingHours": 35,
     "personOwner": "U06",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U06",
@@ -19688,7 +19797,9 @@
     "onboardID": "ONB011",
     "workingHours": 28,
     "personOwner": "U07",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U07",
@@ -19702,7 +19813,9 @@
     "onboardID": "ONB012",
     "workingHours": 35,
     "personOwner": "U08",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U08",
@@ -19716,7 +19829,9 @@
     "onboardID": "ONB013",
     "workingHours": 35,
     "personOwner": "U09",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U09",
@@ -19730,7 +19845,9 @@
     "onboardID": "ONB014",
     "workingHours": 35,
     "personOwner": "U10",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U10",
@@ -19744,7 +19861,9 @@
     "onboardID": "ONB015",
     "workingHours": 35,
     "personOwner": "U11",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U11",
@@ -19758,7 +19877,9 @@
     "onboardID": "",
     "workingHours": 28,
     "personOwner": "U12",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U12",
@@ -19772,7 +19893,9 @@
     "onboardID": "",
     "workingHours": 35,
     "personOwner": "U13",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U13",
@@ -19786,7 +19909,9 @@
     "onboardID": "ONB017",
     "workingHours": 35,
     "personOwner": "U14",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U14",
@@ -19800,7 +19925,9 @@
     "onboardID": "ONB019",
     "workingHours": 35,
     "personOwner": "U15",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U15",
@@ -19814,7 +19941,9 @@
     "onboardID": "ONB020",
     "workingHours": 35,
     "personOwner": "U16",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U16",
@@ -19828,7 +19957,9 @@
     "onboardID": "ONB023",
     "workingHours": 28,
     "personOwner": "U17",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U17",
@@ -19842,7 +19973,9 @@
     "onboardID": "ONB024",
     "workingHours": 35,
     "personOwner": "U18",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U18",
@@ -19856,7 +19989,9 @@
     "onboardID": "ONB025",
     "workingHours": 35,
     "personOwner": "U19",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U19",
@@ -19870,7 +20005,9 @@
     "onboardID": "ONB026",
     "workingHours": 35,
     "personOwner": "U20",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U20",
@@ -19884,7 +20021,9 @@
     "onboardID": "ONB029",
     "workingHours": 35,
     "personOwner": "U21",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U21",
@@ -19898,7 +20037,9 @@
     "onboardID": "ONB030",
     "workingHours": 28,
     "personOwner": "U22",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U22",
@@ -19912,7 +20053,9 @@
     "onboardID": "ONB031",
     "workingHours": 35,
     "personOwner": "U23",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U23",
@@ -19926,7 +20069,9 @@
     "onboardID": "ONB032",
     "workingHours": 35,
     "personOwner": "U24",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U24",
@@ -19940,7 +20085,9 @@
     "onboardID": "",
     "workingHours": 35,
     "personOwner": "U01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U25",
@@ -19954,7 +20101,9 @@
     "onboardID": null,
     "workingHours": 35,
     "personOwner": "U25",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U26",
@@ -19968,7 +20117,9 @@
     "onboardID": null,
     "workingHours": 28,
     "personOwner": "U25",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U27",
@@ -19982,7 +20133,9 @@
     "onboardID": null,
     "workingHours": 35,
     "personOwner": "U25",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U28",
@@ -19996,7 +20149,9 @@
     "onboardID": null,
     "workingHours": 35,
     "personOwner": "U28",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U29",
@@ -20010,7 +20165,9 @@
     "onboardID": null,
     "workingHours": 35,
     "personOwner": "U28",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    },
    {
     "userID": "U30",
@@ -20024,7 +20181,9 @@
     "onboardID": null,
     "workingHours": 35,
     "personOwner": "U28",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "graduationID": null
    }
   ],
   "Onboarding": [
@@ -20038,7 +20197,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U01",
     "competenceID": "CMP01",
-    "requirementName": "IEC 60076 Compliance"
+    "requirementName": "IEC 60076 Compliance",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB002",
@@ -20050,7 +20211,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U02",
     "competenceID": "CMP02",
-    "requirementName": "Max Tank Weight"
+    "requirementName": "Max Tank Weight",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB003",
@@ -20062,7 +20225,9 @@
     "resources": "workshop",
     "onboardingOwner": "U03",
     "competenceID": "CMP03",
-    "requirementName": "Short-circuit Withstand"
+    "requirementName": "Short-circuit Withstand",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB004",
@@ -20074,7 +20239,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U04",
     "competenceID": "CMP04",
-    "requirementName": "Delivery Lead Time"
+    "requirementName": "Delivery Lead Time",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB005",
@@ -20086,7 +20253,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U05",
     "competenceID": "CMP05",
-    "requirementName": "Noise Level Limit"
+    "requirementName": "Noise Level Limit",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB006",
@@ -20098,7 +20267,9 @@
     "resources": "workshop",
     "onboardingOwner": "U06",
     "competenceID": "CMP01",
-    "requirementName": "Temperature Rise Limit"
+    "requirementName": "Temperature Rise Limit",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB007",
@@ -20110,7 +20281,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U07",
     "competenceID": "CMP02",
-    "requirementName": "Insulation Level"
+    "requirementName": "Insulation Level",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB008",
@@ -20122,7 +20295,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U08",
     "competenceID": "CMP03",
-    "requirementName": "Budget Cap"
+    "requirementName": "Budget Cap",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB009",
@@ -20134,7 +20309,9 @@
     "resources": "workshop",
     "onboardingOwner": "U09",
     "competenceID": "CMP04",
-    "requirementName": "IEC 60076 Compliance"
+    "requirementName": "IEC 60076 Compliance",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB010",
@@ -20146,7 +20323,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U10",
     "competenceID": "CMP05",
-    "requirementName": "Max Tank Weight"
+    "requirementName": "Max Tank Weight",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB011",
@@ -20158,7 +20337,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U11",
     "competenceID": "CMP01",
-    "requirementName": "Short-circuit Withstand"
+    "requirementName": "Short-circuit Withstand",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB012",
@@ -20170,7 +20351,9 @@
     "resources": "workshop",
     "onboardingOwner": "U12",
     "competenceID": "CMP02",
-    "requirementName": "Delivery Lead Time"
+    "requirementName": "Delivery Lead Time",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB013",
@@ -20182,7 +20365,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U13",
     "competenceID": "CMP03",
-    "requirementName": "Noise Level Limit"
+    "requirementName": "Noise Level Limit",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB014",
@@ -20194,7 +20379,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U14",
     "competenceID": "CMP04",
-    "requirementName": "Temperature Rise Limit"
+    "requirementName": "Temperature Rise Limit",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB015",
@@ -20206,7 +20393,9 @@
     "resources": "workshop",
     "onboardingOwner": "U15",
     "competenceID": "CMP05",
-    "requirementName": "Insulation Level"
+    "requirementName": "Insulation Level",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB016",
@@ -20218,7 +20407,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U16",
     "competenceID": "CMP01",
-    "requirementName": "Budget Cap"
+    "requirementName": "Budget Cap",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB017",
@@ -20230,7 +20421,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U17",
     "competenceID": "CMP02",
-    "requirementName": "IEC 60076 Compliance"
+    "requirementName": "IEC 60076 Compliance",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB018",
@@ -20242,7 +20435,9 @@
     "resources": "workshop",
     "onboardingOwner": "U18",
     "competenceID": "CMP03",
-    "requirementName": "Max Tank Weight"
+    "requirementName": "Max Tank Weight",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB019",
@@ -20254,7 +20449,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U19",
     "competenceID": "CMP04",
-    "requirementName": "Short-circuit Withstand"
+    "requirementName": "Short-circuit Withstand",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB020",
@@ -20266,7 +20463,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U20",
     "competenceID": "CMP05",
-    "requirementName": "Delivery Lead Time"
+    "requirementName": "Delivery Lead Time",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB021",
@@ -20278,7 +20477,9 @@
     "resources": "workshop",
     "onboardingOwner": "U21",
     "competenceID": "CMP01",
-    "requirementName": "Noise Level Limit"
+    "requirementName": "Noise Level Limit",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB022",
@@ -20290,7 +20491,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U22",
     "competenceID": "CMP02",
-    "requirementName": "Temperature Rise Limit"
+    "requirementName": "Temperature Rise Limit",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB023",
@@ -20302,7 +20505,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U23",
     "competenceID": "CMP03",
-    "requirementName": "Insulation Level"
+    "requirementName": "Insulation Level",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB024",
@@ -20314,7 +20519,9 @@
     "resources": "workshop",
     "onboardingOwner": "U24",
     "competenceID": "CMP04",
-    "requirementName": "Budget Cap"
+    "requirementName": "Budget Cap",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB025",
@@ -20326,7 +20533,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U01",
     "competenceID": "CMP05",
-    "requirementName": "IEC 60076 Compliance"
+    "requirementName": "IEC 60076 Compliance",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB026",
@@ -20338,7 +20547,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U02",
     "competenceID": "CMP01",
-    "requirementName": "Max Tank Weight"
+    "requirementName": "Max Tank Weight",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB027",
@@ -20350,7 +20561,9 @@
     "resources": "workshop",
     "onboardingOwner": "U03",
     "competenceID": "CMP02",
-    "requirementName": "Short-circuit Withstand"
+    "requirementName": "Short-circuit Withstand",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB028",
@@ -20362,7 +20575,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U04",
     "competenceID": "CMP03",
-    "requirementName": "Delivery Lead Time"
+    "requirementName": "Delivery Lead Time",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB029",
@@ -20374,7 +20589,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U05",
     "competenceID": "CMP04",
-    "requirementName": "Noise Level Limit"
+    "requirementName": "Noise Level Limit",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB030",
@@ -20386,7 +20603,9 @@
     "resources": "workshop",
     "onboardingOwner": "U06",
     "competenceID": "CMP05",
-    "requirementName": "Temperature Rise Limit"
+    "requirementName": "Temperature Rise Limit",
+    "levelRank": 2,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB031",
@@ -20398,7 +20617,9 @@
     "resources": "e-learning",
     "onboardingOwner": "U07",
     "competenceID": "CMP01",
-    "requirementName": "Insulation Level"
+    "requirementName": "Insulation Level",
+    "levelRank": 1,
+    "trainingURL": null
    },
    {
     "onboardID": "ONB032",
@@ -20410,7 +20631,9 @@
     "resources": "mentoring",
     "onboardingOwner": "U08",
     "competenceID": "CMP02",
-    "requirementName": "Budget Cap"
+    "requirementName": "Budget Cap",
+    "levelRank": 2,
+    "trainingURL": null
    }
   ],
   "Competence": [
@@ -20715,7 +20938,8 @@
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-01-10",
-    "productScopeOwner": "U01"
+    "productScopeOwner": "U01",
+    "businessUnitID": "BU01"
    },
    {
     "productScopeID": "PS02",
@@ -20726,7 +20950,8 @@
     "businessSegment": "MPT",
     "isActive": true,
     "createdAt": "2026-01-12",
-    "productScopeOwner": "U02"
+    "productScopeOwner": "U02",
+    "businessUnitID": "BU01"
    },
    {
     "productScopeID": "PS03",
@@ -20737,7 +20962,8 @@
     "businessSegment": "DT",
     "isActive": true,
     "createdAt": "2026-01-15",
-    "productScopeOwner": "U03"
+    "productScopeOwner": "U03",
+    "businessUnitID": "BU02"
    },
    {
     "productScopeID": "PS04",
@@ -20748,7 +20974,8 @@
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-02-01",
-    "productScopeOwner": "U04"
+    "productScopeOwner": "U04",
+    "businessUnitID": "BU01"
    },
    {
     "productScopeID": "PS05",
@@ -20759,7 +20986,8 @@
     "businessSegment": "MPT",
     "isActive": true,
     "createdAt": "2026-02-05",
-    "productScopeOwner": "U05"
+    "productScopeOwner": "U05",
+    "businessUnitID": "BU01"
    },
    {
     "productScopeID": "PS06",
@@ -20770,7 +20998,8 @@
     "businessSegment": "DT",
     "isActive": true,
     "createdAt": "2026-02-10",
-    "productScopeOwner": "U06"
+    "productScopeOwner": "U06",
+    "businessUnitID": "BU02"
    },
    {
     "productScopeID": "PS07",
@@ -20781,7 +21010,8 @@
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-03-01",
-    "productScopeOwner": "U07"
+    "productScopeOwner": "U07",
+    "businessUnitID": "BU01"
    },
    {
     "productScopeID": "PS08",
@@ -20792,7 +21022,8 @@
     "businessSegment": "MPT",
     "isActive": true,
     "createdAt": "2026-03-04",
-    "productScopeOwner": "U08"
+    "productScopeOwner": "U08",
+    "businessUnitID": "BU01"
    },
    {
     "productScopeID": "PS09",
@@ -20803,7 +21034,8 @@
     "businessSegment": "DT",
     "isActive": true,
     "createdAt": "2026-03-08",
-    "productScopeOwner": "U09"
+    "productScopeOwner": "U09",
+    "businessUnitID": "BU02"
    },
    {
     "productScopeID": "PS10",
@@ -20814,7 +21046,8 @@
     "businessSegment": "LPT",
     "isActive": true,
     "createdAt": "2026-03-12",
-    "productScopeOwner": "U10"
+    "productScopeOwner": "U10",
+    "businessUnitID": "BU01"
    }
   ],
   "Scopes": [
@@ -20823,142 +21056,206 @@
     "scopeCodeID": "A.1",
     "scopeName": "Temperature Reduction",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U01"
+    "scopeOwner": "U01",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ]
    },
    {
     "scopeID": "A.2",
     "scopeCodeID": "A.2",
     "scopeName": "Uprating",
     "scopeOpportunity": "IS02",
-    "scopeOwner": "U02"
+    "scopeOwner": "U02",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "scopeID": "A.3",
     "scopeCodeID": "A.3",
     "scopeName": "Uprating with Windings Replacement",
     "scopeOpportunity": "IS02",
-    "scopeOwner": "U03"
+    "scopeOwner": "U03",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ]
    },
    {
     "scopeID": "A.4",
     "scopeCodeID": "A.4",
     "scopeName": "Repair with Windings Replacement",
     "scopeOpportunity": "IS01",
-    "scopeOwner": "U04"
+    "scopeOwner": "U04",
+    "businessUnitID": []
    },
    {
     "scopeID": "B",
     "scopeCodeID": "B",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U05"
+    "scopeOwner": "U05",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "scopeID": "C",
     "scopeCodeID": "C",
     "scopeName": "Renewal of the paper/oil insulation system",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U06"
+    "scopeOwner": "U06",
+    "businessUnitID": []
    },
    {
     "scopeID": "D",
     "scopeCodeID": "D",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U07"
+    "scopeOwner": "U07",
+    "businessUnitID": []
    },
    {
     "scopeID": "E",
     "scopeCodeID": "E",
     "scopeName": "Renovation of External Parts",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U08"
+    "scopeOwner": "U08",
+    "businessUnitID": []
    },
    {
     "scopeID": "F",
     "scopeCodeID": "F",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U09"
+    "scopeOwner": "U09",
+    "businessUnitID": []
    },
    {
     "scopeID": "G",
     "scopeCodeID": "G",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "scopeOpportunity": "IS03",
-    "scopeOwner": "U10"
+    "scopeOwner": "U10",
+    "businessUnitID": [
+     "BU02"
+    ]
    }
   ],
   "Products": [
    {
     "productID": "P01",
     "productName": "LPT",
-    "productOwner": "U01"
+    "productOwner": "U01",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P02",
     "productName": "Autotransformer",
-    "productOwner": "U02"
+    "productOwner": "U02",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P03",
     "productName": "Phase Shifter",
-    "productOwner": "U03"
+    "productOwner": "U03",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P04",
     "productName": "HVDC",
-    "productOwner": "U04"
+    "productOwner": "U04",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P05",
     "productName": "Reactors",
-    "productOwner": "U05"
+    "productOwner": "U05",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P06",
     "productName": "MPT",
-    "productOwner": "U06"
+    "productOwner": "U06",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P07",
     "productName": "IND",
-    "productOwner": "U07"
+    "productOwner": "U07",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P08",
     "productName": "LDT",
-    "productOwner": "U08"
+    "productOwner": "U08",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "productID": "P09",
     "productName": "CRT",
-    "productOwner": "U09"
+    "productOwner": "U09",
+    "businessUnitID": [
+     "BU02"
+    ]
    },
    {
     "productID": "P10",
     "productName": "LIDT",
-    "productOwner": "U10"
+    "productOwner": "U10",
+    "businessUnitID": [
+     "BU02"
+    ]
    },
    {
     "productID": "P11",
     "productName": "TRAC",
-    "productOwner": "U11"
+    "productOwner": "U11",
+    "businessUnitID": [
+     "BU02"
+    ]
    },
    {
     "productID": "P12",
     "productName": "VR",
-    "productOwner": "U12"
+    "productOwner": "U12",
+    "businessUnitID": [
+     "BU02"
+    ]
    },
    {
     "productID": "P13",
     "productName": "CP",
-    "productOwner": "U13"
+    "productOwner": "U13",
+    "businessUnitID": [
+     "BU02"
+    ]
    },
    {
     "productID": "P14",
     "productName": "RENEW",
-    "productOwner": "U14"
+    "productOwner": "U14",
+    "businessUnitID": [
+     "BU02"
+    ]
    }
   ],
   "Product Specs": [
@@ -21415,25 +21712,35 @@
     "issueID": "IS01",
     "issueName": "Dielectric Failure",
     "issueDescription": "Dielectric Failure opportunity (from the retired scopeOpportunity enum)",
-    "issueType": "Opportunity"
+    "issueType": "Opportunity",
+    "businessUnitID": []
    },
    {
     "issueID": "IS02",
     "issueName": "Increase Capability",
     "issueDescription": "Increase Capability opportunity (from the retired scopeOpportunity enum)",
-    "issueType": "Opportunity"
+    "issueType": "Opportunity",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ]
    },
    {
     "issueID": "IS03",
     "issueName": "Lifetime Extension",
     "issueDescription": "Lifetime Extension opportunity (from the retired scopeOpportunity enum)",
-    "issueType": "Opportunity"
+    "issueType": "Opportunity",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ]
    },
    {
     "issueID": "IS90",
     "issueName": "Chronic Rework",
     "issueDescription": "Recurring rework on delivered designs detected across tickets",
-    "issueType": "Risk"
+    "issueType": "Risk",
+    "businessUnitID": []
    }
   ]
  }

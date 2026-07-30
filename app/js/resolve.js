@@ -30,6 +30,59 @@ function domainByName(attrName) {
 
 const dedupe = (arr) => [...new Set(arr)];
 
+// ---- STEPORDER (identation-rule.md): derived outline numbers for process
+// steps. Rows are numbered in insertion order, parents before children:
+//   - no parent (or parent outside the set) → next major number (1, 2, 3…)
+//   - parallel dependency (finish-to-finish, start-to-start) → sub-number
+//     under the parent (2.1, 2.2, 2.1.1…)
+//   - sequential dependency (start-to-finish, finish-to-start, or none) →
+//     next major number
+// The value is NEVER stored: callers pass the sibling rows of ONE process, so
+// the computation stays scoped no matter how many workflows exist overall.
+const STEP_PARALLEL = new Set(['finish-to-finish', 'start-to-start']);
+export function stepOrderMap(rows, pkField, parentField = 'parentStepID', ruleField = 'indentationRule') {
+  const map = new Map();
+  const subCount = new Map();
+  const inSet = new Set(rows.map((r) => r[pkField]));
+  let major = 0;
+  let pending = rows;
+  while (pending.length) {
+    const rest = [];
+    for (const w of pending) {
+      const pid = w[parentField];
+      const hasParent = pid != null && pid !== '' && inSet.has(pid);
+      if (hasParent && !map.has(pid)) { rest.push(w); continue; }
+      if (hasParent && STEP_PARALLEL.has(String(w[ruleField] || '').toLowerCase())) {
+        const n = (subCount.get(pid) || 0) + 1;
+        subCount.set(pid, n);
+        map.set(w[pkField], `${map.get(pid)}.${n}`);
+      } else {
+        major += 1;
+        map.set(w[pkField], String(major));
+      }
+    }
+    if (rest.length === pending.length) {
+      // cycle or dangling parents — number the leftovers sequentially
+      for (const w of rest) { major += 1; map.set(w[pkField], String(major)); }
+      break;
+    }
+    pending = rest;
+  }
+  return map;
+}
+
+// STEPORDER value for one row: number its sibling group (same groupField
+// value) and read this row's entry.
+function stepOrderValue(tableName, rule, row) {
+  const cat = getCatalog(tableName);
+  const all = getEntity(tableName);
+  const rows = rule.groupField
+    ? all.filter((x) => x[rule.groupField] === row[rule.groupField])
+    : all;
+  const map = stepOrderMap(rows, cat.pk, rule.parentField, rule.ruleField);
+  return map.get(row[cat.pk]) ?? '—';
+}
+
 // join-path discovery is DATA-validated: a candidate field pair only forms a
 // join when the two sides actually share values in the mockup dataset —
 // catalogue-declared fields that are absent from the data can't be joined on.
@@ -213,8 +266,19 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
     rows = rows.filter((r) => opts.only.values.includes(String(r[opts.only.field])));
   }
   if (opts.orderBy) {
-    rows = [...rows].sort((a, b) => String(a[opts.orderBy] ?? '')
-      .localeCompare(String(b[opts.orderBy] ?? ''), undefined, { numeric: true }));
+    // derived order fields (STEPORDER) are computed over the child set —
+    // exactly the sibling group — since the value is never stored
+    const cCat = getCatalog(childTable);
+    const oAttr = cCat && cCat.byName[opts.orderBy];
+    const oRule = oAttr && parseRule(oAttr.rule);
+    if (oRule && oRule.kind === 'steporder') {
+      const map = stepOrderMap(rows, cCat.pk, oRule.parentField, oRule.ruleField);
+      rows = [...rows].sort((a, b) => String(map.get(a[cCat.pk]) ?? '')
+        .localeCompare(String(map.get(b[cCat.pk]) ?? ''), undefined, { numeric: true }));
+    } else {
+      rows = [...rows].sort((a, b) => String(a[opts.orderBy] ?? '')
+        .localeCompare(String(b[opts.orderBy] ?? ''), undefined, { numeric: true }));
+    }
   }
   return rows;
 }
@@ -597,6 +661,7 @@ function sameVal(a, b) {
 export function derivedValue(tableName, attr, row, depth = 0, displayOverride = null) {
   const r = parseRule(attr.rule);
   if (!r || r.kind === 'enum') return row[attr.name] ?? '—';
+  if (r.kind === 'steporder') return stepOrderValue(tableName, r, row);
   if (r.kind === 'fk') {
     const table = (r.target && resolveTable(r.target)) || domainByName(attr.name);
     if (!table) return row[attr.name] ?? '—';
