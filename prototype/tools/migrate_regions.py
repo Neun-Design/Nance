@@ -16,6 +16,8 @@ datamodel edits. Everything derives from existing values:
   Onboarding     businessUnitID — via userID -> People.businessUnitID
   People         location (legacy factory FK) -> regionID via the customer's
                  regionID; drops location
+  Business Units regionID[] — union of the regions of the unit's customers
+                 (multivalued; empty when the unit has no customers yet)
 
 Idempotent: fields already present and non-empty are left untouched; the
 Regions table is only created when absent.
@@ -123,6 +125,17 @@ def migrate(path):
             if blank(p.get('regionID')):
                 p['regionID'] = cust_region.get(legacy)
             note('People')
+
+    # ---- Business Units: regions served, union of the unit's customers ----
+    unit_regions = {}
+    for c in customers:
+        for u in as_list(c.get('businessUnitID')):
+            if c.get('regionID'):
+                unit_regions.setdefault(u, set()).add(c['regionID'])
+    for bu in (find_table(data, 'Business Units') or []):
+        if 'regionID' not in bu or blank(bu.get('regionID')):
+            bu['regionID'] = sorted(unit_regions.get(bu.get('businessUnitID'), set()))
+            note('Business Units')
 
     # ---- Onboarding: unit of the person ----
     person_bu = {p['userID']: p.get('businessUnitID')
