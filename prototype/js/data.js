@@ -3,6 +3,21 @@
 
 const DATA_URL = 'data/mockup_data_prototype.json';
 
+// "?data=empty" boots every catalogued table blank — stakeholder walkthroughs
+// building the QMS from scratch. Records created in this mode persist in
+// localStorage (per browser) so a session survives reloads; "?data=empty&reset=1"
+// wipes the saved session and starts over. Without the param, the mockup
+// dataset loads as usual and nothing persists.
+const PARAMS = typeof location !== 'undefined'
+  ? new URLSearchParams(location.search) : new URLSearchParams();
+export const BLANK_MODE = PARAMS.get('data') === 'empty';
+const BLANK_KEY = 'edqms-blank-data';
+
+function persist() {
+  if (!BLANK_MODE) return;
+  try { localStorage.setItem(BLANK_KEY, JSON.stringify({ Blank: store.entities })); } catch { /* quota/private mode — keep in-memory */ }
+}
+
 // pk + human label field per entity, populated from the datamodel catalogue.
 export const ENTITY_META = {};
 
@@ -26,9 +41,16 @@ const store = {
 export const FK_MAP = {};
 
 export async function loadData() {
-  const res = await fetch(DATA_URL);
-  if (!res.ok) throw new Error(`Failed to load data (${res.status})`);
-  const raw = await res.json();
+  let raw;
+  if (BLANK_MODE) {
+    if (PARAMS.has('reset')) localStorage.removeItem(BLANK_KEY);
+    const saved = localStorage.getItem(BLANK_KEY);
+    raw = saved ? JSON.parse(saved) : {};
+  } else {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error(`Failed to load data (${res.status})`);
+    raw = await res.json();
+  }
   store.raw = raw;
 
   for (const [mod, entities] of Object.entries(raw)) {
@@ -40,6 +62,16 @@ export async function loadData() {
       const map = new Map();
       if (meta) rows.forEach(r => map.set(r[meta.pk], r));
       store.index[name] = map;
+    }
+  }
+  if (BLANK_MODE) {
+    // every catalogued table exists (empty) so tabs, forms and joins render
+    for (const name of Object.keys(ENTITY_META)) {
+      if (!store.entities[name]) {
+        store.entities[name] = [];
+        store.index[name] = new Map();
+        store.baseFields[name] = [];
+      }
     }
   }
   return store;
@@ -61,6 +93,7 @@ export function addRecord(name, record) {
   }
   store.entities[name].push(record);
   if (meta) store.index[name].set(record[meta.pk], record);
+  persist();
   return record;
 }
 
@@ -72,13 +105,14 @@ export function removeRecords(name, ids) {
   const before = store.entities[name].length;
   store.entities[name] = store.entities[name].filter(r => !idSet.has(r[meta.pk]));
   ids.forEach(id => store.index[name].delete(id));
+  persist();
   return before - store.entities[name].length;
 }
 
 // Patch an existing record in place (keeps identity so index stays valid).
 export function updateRecord(name, id, patch) {
   const rec = getById(name, id);
-  if (rec) Object.assign(rec, patch);
+  if (rec) { Object.assign(rec, patch); persist(); }
   return rec;
 }
 
