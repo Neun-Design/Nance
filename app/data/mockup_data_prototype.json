@@ -43,7 +43,12 @@
     "businessUnitName": "Power Transformers",
     "businessUnitCode": "PT",
     "qualityManager": "U01",
-    "operationalManager": "U02"
+    "operationalManager": "U02",
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ]
    },
    {
     "businessUnitID": "BU02",
@@ -53,7 +58,11 @@
     "businessUnitName": "Distribution Transformers",
     "businessUnitCode": "DT",
     "qualityManager": null,
-    "operationalManager": null
+    "operationalManager": null,
+    "regionID": [
+     "RG01",
+     "RG03"
+    ]
    },
    {
     "businessUnitID": "BU03",
@@ -63,7 +72,8 @@
     "businessUnitName": "Switch Gear",
     "businessUnitCode": "SG",
     "qualityManager": null,
-    "operationalManager": null
+    "operationalManager": null,
+    "regionID": []
    }
   ],
   "Departments": [

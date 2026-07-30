@@ -36,11 +36,20 @@
               "constraints": null
             },
             {
+              "name": "regionID",
+              "type": "FK",
+              "rule": "FK -> Regions (display: regionName)",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "businessSegmentName",
               "type": "mirror",
               "rule": "mirror: Business Segments via: businessSegmentID",
               "notes": "multivalued",
-              "table-display": true,
+              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -94,6 +103,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Region": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "regionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "multivalued"
               },
               "Name": {
                 "field-type": {
@@ -685,16 +704,6 @@
           "form": {
             "steps": null,
             "fields": {
-              "Unit": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "businessUnitID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
               "Segment": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -702,8 +711,18 @@
                 "attribute": "businessSegmentID",
                 "tooltip": null,
                 "step": null,
-                "check": "Unit IS NOT NULL",
+                "check": null,
                 "field-rule": "multivalued"
+              },
+              "Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": "Segment IS NOT NULL",
+                "field-rule": "filtered by Segment selected"
               },
               "Name": {
                 "field-type": {
