@@ -19,6 +19,23 @@ python3 -m http.server 8080
 
 The whole `prototype/` folder is static — deploy it as-is to any static host
 (GitHub Pages, Netlify, Azure Static Web Apps, an S3 bucket, etc.) and send the URL.
+This repo auto-publishes it to GitHub Pages under `/app/` on every push to `main`
+(`.github/workflows/deploy-prototype.yml`).
+
+## Blank mode (stakeholder walkthroughs)
+
+Append **`?data=empty`** to the URL to boot every table empty instead of loading the
+mockup dataset — the full experience from a blank QMS, for continuity/usability testing:
+
+- All modules, tabs, forms, cascades and dashboards render from the datamodel as usual;
+  stakeholders create Regions → Business Units → … themselves and hit any gaps live.
+- Records created in blank mode **persist in the browser's localStorage**, so the
+  session survives reloads and can continue across days (per browser/participant).
+- **`?data=empty&reset=1`** wipes the saved session and starts over (remove `&reset=1`
+  afterwards, or every reload starts blank again).
+- The header badge shows **BLANK MODE** (vs. DEMO DATA); the login gate is unchanged.
+
+Hosted example: `https://bovarafa.github.io/EDQMS/app/?data=empty`
 
 ## What's inside
 
