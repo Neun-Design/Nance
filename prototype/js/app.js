@@ -299,8 +299,9 @@ function renderBodyOnly() {
   const countEl = document.getElementById('tab-count');
   if (countEl) countEl.textContent = `${rows.length} of ${all.length} records`;
 
-  // KPI cards above the table (datamodel cards spec)
-  renderCards(body, cfg.entity);
+  // KPI cards above the table (datamodel cards spec); the blank walkthrough
+  // hides analytics — stakeholders see only the record tables and forms
+  if (!BLANK_MODE) renderCards(body, cfg.entity);
 
   const tablePanel = panel(`${cfg.tab} — records`);
   const controls = document.createElement('div');
@@ -352,7 +353,7 @@ function renderBodyOnly() {
   body.appendChild(tablePanel.wrap);
 
   // report chart panels below the table (datamodel reports spec)
-  liveCharts = renderReports(body, cfg.entity);
+  liveCharts = BLANK_MODE ? [] : renderReports(body, cfg.entity);
 }
 
 function rowMatchesSearch(r, cfg, term) {
