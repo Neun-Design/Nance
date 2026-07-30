@@ -62,25 +62,57 @@ const MODULE_ICONS = {
 };
 const FALLBACK_ICON = svgIcon('<rect x="3" y="3" width="18" height="18" rx="2"/>');
 
+// Blank-walkthrough scope: analytics modules/dashboards need seeded data, so
+// in blank mode they stay visible in the navigation but inert (opaque, not
+// selectable) — stakeholder sessions focus on the creation chain.
+const BLANK_DISABLED_MODULES = new Set(['Overview', 'Workspace', 'Control']);
+const BLANK_DISABLED_TABS = { CRM: new Set(['Forecasts', 'Forecast Scopes']) };
+const DISABLED_TIP = 'Not available in this walkthrough';
+const moduleDisabled = (name) => BLANK_MODE && BLANK_DISABLED_MODULES.has(name);
+const tabDisabled = (modName, table) => BLANK_MODE && !!BLANK_DISABLED_TABS[modName]?.has(table);
+
+// Route guard: never land on (or stay in) a disabled module/dashboard.
+function guardActive() {
+  if (active.module === -1) {
+    if (moduleDisabled('Overview')) {
+      const mi = getModules().findIndex((m) => !moduleDisabled(m.name));
+      active = { module: mi === -1 ? 0 : mi, tab: 0 };
+    }
+    return;
+  }
+  const mod = getModules()[active.module];
+  if (!mod) return;
+  if (moduleDisabled(mod.name)) {
+    const mi = getModules().findIndex((m) => !moduleDisabled(m.name));
+    active = { module: mi === -1 ? 0 : mi, tab: 0 };
+    return;
+  }
+  if (tabDisabled(mod.name, mod.tables[active.tab])) {
+    const ti = mod.tables.findIndex((t) => !tabDisabled(mod.name, t));
+    active.tab = ti === -1 ? 0 : ti;
+  }
+}
+
 function buildSidebar() {
   sidebarEl.innerHTML = '';
-  sidebarEl.appendChild(navItem(MODULE_ICONS.Overview, 'Overview', () => { active = { module: -1, tab: 0 }; render(); }, active.module === -1));
+  sidebarEl.appendChild(navItem(MODULE_ICONS.Overview, 'Overview', () => { active = { module: -1, tab: 0 }; render(); }, active.module === -1, moduleDisabled('Overview')));
   const section = document.createElement('div');
   section.className = 'nav-section';
   section.textContent = 'Modules';
   sidebarEl.appendChild(section);
   getModules().forEach((mod, mi) => {
-    sidebarEl.appendChild(navItem(MODULE_ICONS[mod.name] || FALLBACK_ICON, mod.name, () => go(mi, 0), active.module === mi));
+    sidebarEl.appendChild(navItem(MODULE_ICONS[mod.name] || FALLBACK_ICON, mod.name, () => go(mi, 0), active.module === mi, moduleDisabled(mod.name)));
   });
 }
 
-function navItem(icon, text, onClick, isActive) {
+function navItem(icon, text, onClick, isActive, disabled) {
   const d = document.createElement('div');
-  d.className = 'nav-item' + (isActive ? ' active' : '');
+  d.className = 'nav-item' + (isActive ? ' active' : '') + (disabled ? ' disabled' : '');
   const ico = document.createElement('span'); ico.className = 'nav-ico'; ico.innerHTML = icon;
   const lbl = document.createElement('span'); lbl.textContent = text;
   d.append(ico, lbl);
-  d.addEventListener('click', onClick);
+  if (disabled) d.title = DISABLED_TIP;
+  else d.addEventListener('click', onClick);
   return d;
 }
 
@@ -141,6 +173,7 @@ function engineCfg(tableName) {
 }
 
 function render() {
+  guardActive();
   [...sidebarEl.querySelectorAll('.nav-item')].forEach((c, i) => {
     const idx = i - 1; // Overview occupies index 0; the section label isn't a nav-item
     c.classList.toggle('active', (active.module === -1 && i === 0) || active.module === idx);
@@ -170,9 +203,11 @@ function render() {
   tabScrollEl.innerHTML = '';
   mod.tables.forEach((t, ti) => {
     const chip = document.createElement('div');
-    chip.className = 'tab-chip' + (ti === active.tab ? ' active' : '');
+    const off = tabDisabled(mod.name, t);
+    chip.className = 'tab-chip' + (ti === active.tab ? ' active' : '') + (off ? ' disabled' : '');
     chip.textContent = t;
-    chip.addEventListener('click', () => go(active.module, ti));
+    if (off) chip.title = DISABLED_TIP;
+    else chip.addEventListener('click', () => go(active.module, ti));
     tabScrollEl.appendChild(chip);
   });
 
