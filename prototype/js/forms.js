@@ -814,9 +814,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           }
           let opts = applyWhere(specOptions(entity, attrName, ruleText).options);
           for (const d of deps) {
-            const depName = d.label.toLowerCase();
-            const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depName
-              || l.toLowerCase().includes(depName) || depName.includes(l.toLowerCase()));
+            const dep = findDep(d.label);
             if (!dep) continue;
             const depVal = dep[1].get();
             if (depVal == null || depVal === '' || (Array.isArray(depVal) && !depVal.length)) continue;
@@ -844,14 +842,18 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
               } else {
                 // option records don't store the key — derive membership
                 // through the join engine instead (e.g. Squads.Owner: People
-                // of the chosen Department via the shared business unit)
-                const depRec = getById(depTarget, Array.isArray(depVal) ? depVal[0] : depVal);
-                if (depRec) {
-                  const tCat = getCatalog(target);
-                  const allowed = new Set(childrenOf(depTarget, depRec, target)
-                    .map((r) => String(r[tCat.pk])));
-                  if (allowed.size) opts = opts.filter((o) => allowed.has(String(o.value)));
+                // of the chosen Department; Requirements.Business Unit: units
+                // reached from the selected Regions through their customers).
+                // Multivalued deps union the children of every selected value.
+                const tCat = getCatalog(target);
+                const allowed = new Set();
+                for (const v of (Array.isArray(depVal) ? depVal : [depVal])) {
+                  const depRec = getById(depTarget, v);
+                  if (!depRec) continue;
+                  childrenOf(depTarget, depRec, target)
+                    .forEach((r) => allowed.add(String(r[tCat.pk])));
                 }
+                if (allowed.size) opts = opts.filter((o) => allowed.has(String(o.value)));
               }
             }
           }
@@ -1013,8 +1015,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
   // ---- cascade listeners: refilter when any declared dependency changes ----
   const findDep = (name) => {
     const n = String(name).trim().toLowerCase();
-    return Object.entries(byLabel).find(([l]) => l.toLowerCase() === n
+    const hit = Object.entries(byLabel).find(([l]) => l.toLowerCase() === n
       || l.toLowerCase().includes(n) || n.includes(l.toLowerCase()));
+    if (hit) return hit;
+    // rules may name the bound ATTRIBUTE instead of the field label
+    // (e.g. "filtered by businessUnitID selected" → the "Business Unit" field)
+    return Object.entries(byLabel).find(([l]) => {
+      const a = spec.fields[l] && spec.fields[l].attribute;
+      return a && String(a).toLowerCase() === n;
+    });
   };
   for (const [label, ctl] of Object.entries(byLabel)) {
     const specs = ctl.node && ctl.node._refilterDepSpecs;
