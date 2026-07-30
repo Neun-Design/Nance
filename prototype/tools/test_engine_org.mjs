@@ -81,13 +81,15 @@ console.log('== path-computed via (Tasks ← Workflow ← Product Scope) ==');
   eq(shown, String(want), 'derivedValue shows the scope NAME through the path');
 }
 
-console.log('== filtered FK options (Scopes.scopeOpportunity → Opportunity issues) ==');
+console.log('== FK options (Scopes.scopeOpportunity → ALL issues, 2026-07-30) ==');
 {
+  // the issueType filter was dropped from the rule — every Issue is offered,
+  // grouped by issueType in the form (SelectLabel = issueType)
   const { options, target } = forms.optionsForAttr('Scopes', 'scopeOpportunity');
   const ids = (options || []).map((o) => o.value).filter((v) => String(v).startsWith('IST'));
-  if (target === 'Issues' && ids.includes('IST1') && !ids.includes('IST2')) {
-    ok('only issueType=Opportunity records offered');
-  } else fail(`filtered FK — target=${target} opts=${JSON.stringify(ids)}`);
+  if (target === 'Issues' && ids.includes('IST1') && ids.includes('IST2')) {
+    ok('all Issues records offered (Opportunity and Risk)');
+  } else fail(`FK options — target=${target} opts=${JSON.stringify(ids)}`);
 }
 
 console.log('== bespoke Jobs task chain (tasksForJob) ==');

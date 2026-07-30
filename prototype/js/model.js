@@ -31,8 +31,18 @@ const DISPLAY_KEYWORDS = new Set(['FOREACH', 'DISTINCT', 'CONCAT', 'SUM', 'IF'])
 export function parseRule(rule) {
   if (!rule) return null;
   const txt = String(rule).trim();
+  // enum spellings: "enum: A/B", "enum: A, B", "enum: ['A', 'B']"
   let m = txt.match(/^enum:\s*(.+)$/i);
-  if (m) return { kind: 'enum', values: m[1].split('/').map((s) => s.trim()) };
+  if (m) {
+    const body = m[1].trim().replace(/^\[|\]$/g, '');
+    const values = body.split(/[/,]/).map((s) => s.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+    return { kind: 'enum', values };
+  }
+  // STEPORDER(parentField, ruleField) per groupField — derived outline number
+  // for ordered process steps (identation-rule.md): numbering is scoped to the
+  // rows sharing groupField, so it never scans beyond one process.
+  m = txt.match(/^computed:\s*STEPORDER\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s+per\s+([A-Za-z_][A-Za-z0-9_]*))?$/i);
+  if (m) return { kind: 'steporder', parentField: m[1], ruleField: m[2], groupField: m[3] || null };
   m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)/i);
   if (m) return { kind: 'sum', childAttr: m[1], field: m[2] };
   // MAP(objField → Table display: field) — an object map whose keys are ids in

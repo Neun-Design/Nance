@@ -40,10 +40,13 @@ const cfgForEntity = (entity) => {
 const rollupsForEntity = (entity) => {
   const cat = getCatalog(entity);
   if (!cat) return [];
+  const seen = new Set(); // grouped subitem views (inputs/outputs) share one create button
   return cat.subitems.map(si => {
     const child = resolveTable(si.table);
     const key = child && childKeyFor(child, entity);
     if (!child || !key) return null; // via-through chains can't be linked from a form
+    if (seen.has(child)) return null;
+    seen.add(child);
     return { label: child, childEntity: child, childKey: key, columns: columnsFor(child, 'sub') };
   }).filter(Boolean);
 };
@@ -466,6 +469,36 @@ export function tasksForJob(ticketId) {
   return out;
 }
 
+// Options for the Tasks "Inputs" / "Outputs" pickers (decision 2026-07-30,
+// "filtered selection"): a Handout stays selectable while UNLINKED (no task
+// references it yet — e.g. just created from this form's "New Handout"
+// button); once linked, it is only offered to tasks on the same
+// Process → Activity → Action chain as its owning task(s). Exported for
+// tools/test_engine_indentation.mjs.
+export function handoutsForTask(processID, workflowID, actionID) {
+  const hT = resolveTable('Handouts');
+  if (!hT) return [];
+  const hMeta = ENTITY_META[hT];
+  const tT = resolveTable('Tasks');
+  const tasks = tT ? getEntity(tT) : [];
+  const tPk = tT ? ENTITY_META[tT].pk : null;
+  const filters = [['processID', processID], ['workflowID', workflowID], ['actionID', actionID]]
+    .filter(([, v]) => v != null && v !== '');
+  const out = [];
+  for (const h of getEntity(hT)) {
+    const hid = h[hMeta.pk];
+    const owners = tasks.filter((t) => arrOverlap(t.taskInput, hid)
+      || arrOverlap(t.taskOutput, hid) || (tPk && arrOverlap(h.taskID, t[tPk])));
+    const ok = !owners.length
+      || !filters.length
+      || owners.some((t) => filters.every(([f, v]) => arrOverlap(t[f], v)));
+    if (!ok) continue;
+    const lbl = resolveDisplay(hT, h, ENTITY_META[hT].label);
+    out.push({ value: hid, label: String(lbl !== '' ? lbl : hid) });
+  }
+  return out;
+}
+
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
 // Queued→Active stamps realStartDate; entering Stoped stamps stoppedAt and
 // leaving it accrues the pause into jobBufferExecution (decimal hours);
@@ -510,6 +543,13 @@ function mkMultiCheck(options) {
     wrap.innerHTML = '';
     boxes = [];
     for (const o of (opts || [])) {
+      if (o.header != null) {
+        const h = document.createElement('div');
+        h.className = 'form-multicheck-group';
+        h.textContent = o.header;
+        wrap.appendChild(h);
+        continue;
+      }
       if (o.value === '' || o.value == null) continue;
       const row = document.createElement('label');
       row.className = 'form-multicheck-row';
@@ -618,6 +658,28 @@ function specOptions(entity, attrName, ruleText) {
   };
 }
 
+// grouped variant for checkbox pickers: interleave {header} rows per the
+// group field resolved on each option's target record ("SelectLabel = X"
+// parity for multi-selects, e.g. Scopes.Opportunity grouped by issueType)
+function withGroupHeaders(options, target, groupField) {
+  if (!groupField || !target || !options || !options.length) return options || [];
+  const tCat = getCatalog(target);
+  const byLabelVal = new Map(getEntity(target).map((r) => [String(r[tCat.label] ?? ''), r]));
+  const groups = new Map();
+  for (const o of options) {
+    const rec = getById(target, o.value) || byLabelVal.get(String(o.value));
+    const g = rec ? String(resolveDisplay(target, rec, groupField) || '—') : '—';
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(o);
+  }
+  const out = [];
+  for (const [g, list] of [...groups.entries()].sort((a, b) => String(a[0]).localeCompare(String(b[0])))) {
+    out.push({ header: g });
+    out.push(...list);
+  }
+  return out;
+}
+
 function fillOptions(sel, options, groupField, target, placeholder) {
   sel.innerHTML = '';
   const ph = document.createElement('option');
@@ -675,12 +737,31 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
 
     let node, get;
     if (['select', 'selectgroups', 'combobox', 'comboboxgroups', 'radio'].includes(typeKey)) {
-      const { options, target, multi: noteMulti } = specOptions(entity, attrName, ruleText);
+      const { options: rawOptions, target, multi: noteMulti } = specOptions(entity, attrName, ruleText);
+      // "WHERE <field> >= current month" (e.g. Forecast Scopes → Forecast):
+      // drop options whose target record's date field precedes the current
+      // month. Dotted spellings keep the last segment.
+      const whereM = ruleText.match(/WHERE\s+([A-Za-z_.]+)\s*>=\s*current month/i);
+      const applyWhere = (opts) => {
+        if (!whereM || !target) return opts || [];
+        const f = whereM[1].split('.').pop();
+        const now = new Date();
+        const floor = new Date(now.getFullYear(), now.getMonth(), 1);
+        return (opts || []).filter((o) => {
+          const rec = getById(target, o.value);
+          const v = rec && rec[f];
+          if (v == null || v === '') return false;
+          const d = new Date(String(v));
+          return !Number.isNaN(d.getTime()) && d >= floor;
+        });
+      };
+      const options = applyWhere(rawOptions);
       const multi = /allow multiple|multivalued/i.test(ruleText) || noteMulti;
       if (multi) {
         // multi-assignment: a checkbox list (each row toggles), not a native
         // <select multiple> which requires cmd-click and hides multi-select.
-        const picker = mkMultiCheck(options);
+        // "SelectLabel = <field>" renders as group header rows.
+        const picker = mkMultiCheck(withGroupHeaders(options, target, groupField));
         node = picker.node; node.classList.add('form-input');
         get = picker.get;
       } else {
@@ -712,7 +793,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           }
         }
         const applyOpts = (opts) => {
-          if (node._rebuild) node._rebuild(opts);
+          if (node._rebuild) node._rebuild(withGroupHeaders(opts, target, groupField));
           else fillOptions(node, opts, groupField, target);
         };
         node._refilterDepSpecs = deps;
@@ -724,7 +805,14 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(tasksForJob(dep ? dep[1].get() : null));
             return;
           }
-          let opts = specOptions(entity, attrName, ruleText).options;
+          // Tasks "Inputs"/"Outputs": linked handouts follow their owning
+          // task's Process → Activity → Action chain — see handoutsForTask.
+          if (entity === 'Tasks' && (attrName === 'taskInput' || attrName === 'taskOutput')) {
+            const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
+            applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action')));
+            return;
+          }
+          let opts = applyWhere(specOptions(entity, attrName, ruleText).options);
           for (const d of deps) {
             const depName = d.label.toLowerCase();
             const dep = Object.entries(byLabel).find(([l]) => l.toLowerCase() === depName

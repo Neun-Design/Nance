@@ -42,8 +42,9 @@ console.log('== review nonconformities: table/subitem cells ==');
 // the CONCAT(customerName,'-',city) display.
 expectName('Forecasts', 'customerID', /^(?!FC\d)[A-Za-zÀ-ú]/);
 expectName('Forecasts', 'customerTitle', /^[A-Za-zÀ-ú].*-.+/);
-// Forecast Scopes: names, not ids / 0
-expectName('Forecast Scopes', 'requirementName', /[A-Za-z]{3,}/);
+// Forecast Scopes: names, not ids / 0 (requirementName → requirementID,
+// computed via forecastID.customerID + scopeID + productGroupID, 2026-07-30)
+expectName('Forecast Scopes', 'requirementID', /[A-Za-z]{3,}/);
 expectName('Forecast Scopes', 'processID', /^(?!PC\d)[A-Za-z]/);
 expectName('Forecast Scopes', 'productGroupID', /^(?!PG\d)[A-Za-z]/);
 // Tasks — requirementName/functionID derive through Competence via taskID
@@ -83,7 +84,8 @@ function expectOptions(entity, attrName, labelRe, { wantMulti = null } = {}) {
 }
 // options must be display names, never bare ids
 expectOptions('Forecast Scopes', 'productGroupID', /^(?!PG\d+$)./);
-expectOptions('Forecast Scopes', 'requirementName', /[A-Za-z]{3,}/);
+// (Forecast Scopes.requirementName select was removed 2026-07-30 — the
+// requirements now derive as the computed requirementID, no form input.)
 expectOptions('Tasks', 'processID', /^(?!PC\d+$)./);
 expectOptions('Tasks', 'workflowID', /^(?!WF\d+$)./);
 // (Tasks.customerName was removed in the Organization restructure — the
