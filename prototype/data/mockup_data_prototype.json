@@ -125,6 +125,26 @@
     "squadOwner": "U28",
     "departmentID": "DPT01"
    }
+  ],
+  "Regions": [
+   {
+    "regionID": "RG01",
+    "regionName": "Americas",
+    "regionDescription": "Americas region",
+    "regionOwner": "U02"
+   },
+   {
+    "regionID": "RG02",
+    "regionName": "APAC",
+    "regionDescription": "APAC region",
+    "regionOwner": "U05"
+   },
+   {
+    "regionID": "RG03",
+    "regionName": "EMEA",
+    "regionDescription": "EMEA region",
+    "regionOwner": "U01"
+   }
   ]
  },
  "CRM": {
@@ -134,232 +154,232 @@
     "customerName": "PN",
     "city": "Nuremberg",
     "country": "Germany",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U01",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC02",
     "customerName": "TUSA",
     "city": "Jundiaí",
     "country": "Brazil",
-    "region": "Americas",
     "isActive": true,
     "customerOwner": "U02",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG01"
    },
    {
     "customerID": "FC03",
     "customerName": "STW",
     "city": "Weiz",
     "country": "Austria",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U03",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC04",
     "customerName": "KPT",
     "city": "Zagreb",
     "country": "Croatia",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U04",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC05",
     "customerName": "STGZ",
     "city": "Guangzhou",
     "country": "China",
-    "region": "APAC",
     "isActive": true,
     "customerOwner": "U05",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG02"
    },
    {
     "customerID": "FC06",
     "customerName": "STDD",
     "city": "Dresden",
     "country": "Germany",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U06",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC07",
     "customerName": "STL",
     "city": "Linz",
     "country": "Austria",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U07",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC08",
     "customerName": "STN",
     "city": "Trento",
     "country": "Italy",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U08",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC09",
     "customerName": "STCK",
     "city": "Jinan",
     "country": "China",
-    "region": "APAC",
     "isActive": true,
     "customerOwner": "U09",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG02"
    },
    {
     "customerID": "FC10",
     "customerName": "STWH",
     "city": "Wuhan",
     "country": "China",
-    "region": "APAC",
     "isActive": true,
     "customerOwner": "U10",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG02"
    },
    {
     "customerID": "FC11",
     "customerName": "STM",
     "city": "Guanajuato",
     "country": "Mexico",
-    "region": "Americas",
     "isActive": true,
     "customerOwner": "U11",
     "businessUnitID": "BU01",
     "businessSegmentID": [
      "BS01",
      "BS02"
-    ]
+    ],
+    "regionID": "RG01"
    },
    {
     "customerID": "FC12",
     "customerName": "DB",
     "city": "Budapest",
     "country": "Hungary",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U12",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC13",
     "customerName": "DK",
     "city": "Kirchheim",
     "country": "Germany",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U13",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC14",
     "customerName": "TN",
     "city": "Nuremberg",
     "country": "Germany",
-    "region": "EMEA",
     "isActive": true,
     "customerOwner": "U14",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
-    ]
+    ],
+    "regionID": "RG03"
    },
    {
     "customerID": "FC15",
     "customerName": "JXN",
     "city": "Jackson",
     "country": "USA",
-    "region": "Americas",
     "isActive": true,
     "customerOwner": "U15",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
-    ]
+    ],
+    "regionID": "RG01"
    },
    {
     "customerID": "FC16",
     "customerName": "SAT",
     "city": "Bogotá",
     "country": "Colombia",
-    "region": "Americas",
     "isActive": true,
     "customerOwner": "U16",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
-    ]
+    ],
+    "regionID": "RG01"
    },
    {
     "customerID": "FC17",
     "customerName": "STCA",
     "city": "Trois-Rivières",
     "country": "Canada",
-    "region": "Americas",
     "isActive": true,
     "customerOwner": "U17",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
-    ]
+    ],
+    "regionID": "RG01"
    }
   ],
   "Forecasts": [
@@ -19709,7 +19729,6 @@
     "userID": "U01",
     "userName": "Lena Fischer",
     "userEmail": "lena.fischer@northwind-energy.com",
-    "location": "FC01",
     "isActive": true,
     "hireDate": "2016-03-15",
     "functionID": "F1",
@@ -19719,13 +19738,13 @@
     "personOwner": "U02",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U02",
     "userName": "Omar Haddad",
     "userEmail": "omar.haddad@northwind-energy.com",
-    "location": "FC02",
     "isActive": true,
     "hireDate": "2017-03-15",
     "functionID": "F1",
@@ -19735,13 +19754,13 @@
     "personOwner": "U03",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG01"
    },
    {
     "userID": "U03",
     "userName": "Priya Nair",
     "userEmail": "priya.nair@northwind-energy.com",
-    "location": "FC03",
     "isActive": true,
     "hireDate": "2018-03-15",
     "functionID": "F1",
@@ -19751,13 +19770,13 @@
     "personOwner": "U04",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U04",
     "userName": "Tomas Novak",
     "userEmail": "tomas.novak@northwind-energy.com",
-    "location": "FC04",
     "isActive": true,
     "hireDate": "2019-03-15",
     "functionID": "F2",
@@ -19767,13 +19786,13 @@
     "personOwner": "U05",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U05",
     "userName": "Sofia Rossi",
     "userEmail": "sofia.rossi@northwind-energy.com",
-    "location": "FC05",
     "isActive": true,
     "hireDate": "2020-03-15",
     "functionID": "F2",
@@ -19783,13 +19802,13 @@
     "personOwner": "U06",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    },
    {
     "userID": "U06",
     "userName": "Hugo Meyer",
     "userEmail": "hugo.meyer@northwind-energy.com",
-    "location": "FC06",
     "isActive": true,
     "hireDate": "2021-03-15",
     "functionID": "F2",
@@ -19799,13 +19818,13 @@
     "personOwner": "U07",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U07",
     "userName": "Marta Alves",
     "userEmail": "marta.alves@northwind-energy.com",
-    "location": "FC07",
     "isActive": true,
     "hireDate": "2022-03-15",
     "functionID": "F2",
@@ -19815,13 +19834,13 @@
     "personOwner": "U08",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U08",
     "userName": "Jan Kowalski",
     "userEmail": "jan.kowalski@northwind-energy.com",
-    "location": "FC08",
     "isActive": true,
     "hireDate": "2015-03-15",
     "functionID": "F2",
@@ -19831,13 +19850,13 @@
     "personOwner": "U09",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U09",
     "userName": "Eva Braun",
     "userEmail": "eva.braun@northwind-energy.com",
-    "location": "FC09",
     "isActive": true,
     "hireDate": "2016-03-15",
     "functionID": "F3",
@@ -19847,13 +19866,13 @@
     "personOwner": "U10",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    },
    {
     "userID": "U10",
     "userName": "Nils Andersson",
     "userEmail": "nils.andersson@northwind-energy.com",
-    "location": "FC10",
     "isActive": true,
     "hireDate": "2017-03-15",
     "functionID": "F3",
@@ -19863,13 +19882,13 @@
     "personOwner": "U11",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    },
    {
     "userID": "U11",
     "userName": "Ingrid Holm",
     "userEmail": "ingrid.holm@northwind-energy.com",
-    "location": "FC11",
     "isActive": true,
     "hireDate": "2018-03-15",
     "functionID": "F4",
@@ -19879,13 +19898,13 @@
     "personOwner": "U12",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG01"
    },
    {
     "userID": "U12",
     "userName": "Pedro Gomes",
     "userEmail": "pedro.gomes@northwind-energy.com",
-    "location": "FC12",
     "isActive": true,
     "hireDate": "2019-03-15",
     "functionID": "F4",
@@ -19895,13 +19914,13 @@
     "personOwner": "U13",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U13",
     "userName": "Camila Dias",
     "userEmail": "camila.dias@northwind-energy.com",
-    "location": "FC13",
     "isActive": true,
     "hireDate": "2020-03-15",
     "functionID": "F1",
@@ -19911,13 +19930,13 @@
     "personOwner": "U14",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U14",
     "userName": "Rafael Lima",
     "userEmail": "rafael.lima@northwind-energy.com",
-    "location": "FC14",
     "isActive": true,
     "hireDate": "2021-03-15",
     "functionID": "F1",
@@ -19927,13 +19946,13 @@
     "personOwner": "U15",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U15",
     "userName": "Bruna Costa",
     "userEmail": "bruna.costa@northwind-energy.com",
-    "location": "FC15",
     "isActive": true,
     "hireDate": "2022-03-15",
     "functionID": "F2",
@@ -19943,13 +19962,13 @@
     "personOwner": "U16",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG01"
    },
    {
     "userID": "U16",
     "userName": "Diego Torres",
     "userEmail": "diego.torres@northwind-energy.com",
-    "location": "FC16",
     "isActive": true,
     "hireDate": "2015-03-15",
     "functionID": "F2",
@@ -19959,13 +19978,13 @@
     "personOwner": "U17",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG01"
    },
    {
     "userID": "U17",
     "userName": "Lucia Mendez",
     "userEmail": "lucia.mendez@northwind-energy.com",
-    "location": "FC17",
     "isActive": true,
     "hireDate": "2016-03-15",
     "functionID": "F3",
@@ -19975,13 +19994,13 @@
     "personOwner": "U18",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG01"
    },
    {
     "userID": "U18",
     "userName": "Mateus Rocha",
     "userEmail": "mateus.rocha@northwind-energy.com",
-    "location": "FC01",
     "isActive": true,
     "hireDate": "2017-03-15",
     "functionID": "F1",
@@ -19991,13 +20010,13 @@
     "personOwner": "U19",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U19",
     "userName": "Wei Zhang",
     "userEmail": "wei.zhang@northwind-energy.com",
-    "location": "FC02",
     "isActive": true,
     "hireDate": "2018-03-15",
     "functionID": "F2",
@@ -20007,13 +20026,13 @@
     "personOwner": "U20",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG01"
    },
    {
     "userID": "U20",
     "userName": "Hana Kim",
     "userEmail": "hana.kim@northwind-energy.com",
-    "location": "FC03",
     "isActive": true,
     "hireDate": "2019-03-15",
     "functionID": "F2",
@@ -20023,13 +20042,13 @@
     "personOwner": "U21",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U21",
     "userName": "Arjun Patel",
     "userEmail": "arjun.patel@northwind-energy.com",
-    "location": "FC04",
     "isActive": true,
     "hireDate": "2020-03-15",
     "functionID": "F1",
@@ -20039,13 +20058,13 @@
     "personOwner": "U22",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U22",
     "userName": "Mei Lin",
     "userEmail": "mei.lin@northwind-energy.com",
-    "location": "FC05",
     "isActive": true,
     "hireDate": "2021-03-15",
     "functionID": "F3",
@@ -20055,13 +20074,13 @@
     "personOwner": "U23",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    },
    {
     "userID": "U23",
     "userName": "Sara Vogel",
     "userEmail": "sara.vogel@northwind-energy.com",
-    "location": "FC06",
     "isActive": true,
     "hireDate": "2022-03-15",
     "functionID": "F5",
@@ -20071,13 +20090,13 @@
     "personOwner": "U24",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U24",
     "userName": "Franz Keller",
     "userEmail": "franz.keller@northwind-energy.com",
-    "location": "FC07",
     "isActive": true,
     "hireDate": "2015-03-15",
     "functionID": "F5",
@@ -20087,13 +20106,13 @@
     "personOwner": "U01",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U25",
     "userName": "Rafael Bova",
     "userEmail": "bova@neun-design.com.br",
-    "location": "FC04",
     "isActive": true,
     "hireDate": "2024-02-01",
     "functionID": "F1",
@@ -20103,13 +20122,13 @@
     "personOwner": "U25",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U26",
     "userName": "Marina Duarte",
     "userEmail": "marina.duarte@neun-design.com.br",
-    "location": "FC04",
     "isActive": true,
     "hireDate": "2024-05-12",
     "functionID": "F2",
@@ -20119,13 +20138,13 @@
     "personOwner": "U25",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U27",
     "userName": "Felipe Santos",
     "userEmail": "felipe.santos@neun-design.com.br",
-    "location": "FC04",
     "isActive": true,
     "hireDate": "2025-01-20",
     "functionID": "F3",
@@ -20135,13 +20154,13 @@
     "personOwner": "U25",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG03"
    },
    {
     "userID": "U28",
     "userName": "Hajesh Niran",
     "userEmail": "hajesh.niran@northwind-energy.com",
-    "location": "FC09",
     "isActive": true,
     "hireDate": "2020-08-03",
     "functionID": "F4",
@@ -20151,13 +20170,13 @@
     "personOwner": "U28",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    },
    {
     "userID": "U29",
     "userName": "Ananya Sharma",
     "userEmail": "ananya.sharma@northwind-energy.com",
-    "location": "FC09",
     "isActive": true,
     "hireDate": "2022-11-14",
     "functionID": "F1",
@@ -20167,13 +20186,13 @@
     "personOwner": "U28",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    },
    {
     "userID": "U30",
     "userName": "Vikram Patel",
     "userEmail": "vikram.patel@northwind-energy.com",
-    "location": "FC09",
     "isActive": true,
     "hireDate": "2023-06-30",
     "functionID": "F2",
@@ -20183,7 +20202,8 @@
     "personOwner": "U28",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null
+    "graduationID": null,
+    "regionID": "RG02"
    }
   ],
   "Onboarding": [
@@ -20199,7 +20219,8 @@
     "competenceID": "CMP01",
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB002",
@@ -20213,7 +20234,8 @@
     "competenceID": "CMP02",
     "requirementName": "Max Tank Weight",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB003",
@@ -20227,7 +20249,8 @@
     "competenceID": "CMP03",
     "requirementName": "Short-circuit Withstand",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB004",
@@ -20241,7 +20264,8 @@
     "competenceID": "CMP04",
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB005",
@@ -20255,7 +20279,8 @@
     "competenceID": "CMP05",
     "requirementName": "Noise Level Limit",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB006",
@@ -20269,7 +20294,8 @@
     "competenceID": "CMP01",
     "requirementName": "Temperature Rise Limit",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB007",
@@ -20283,7 +20309,8 @@
     "competenceID": "CMP02",
     "requirementName": "Insulation Level",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB008",
@@ -20297,7 +20324,8 @@
     "competenceID": "CMP03",
     "requirementName": "Budget Cap",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB009",
@@ -20311,7 +20339,8 @@
     "competenceID": "CMP04",
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB010",
@@ -20325,7 +20354,8 @@
     "competenceID": "CMP05",
     "requirementName": "Max Tank Weight",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB011",
@@ -20339,7 +20369,8 @@
     "competenceID": "CMP01",
     "requirementName": "Short-circuit Withstand",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB012",
@@ -20353,7 +20384,8 @@
     "competenceID": "CMP02",
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB013",
@@ -20367,7 +20399,8 @@
     "competenceID": "CMP03",
     "requirementName": "Noise Level Limit",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB014",
@@ -20381,7 +20414,8 @@
     "competenceID": "CMP04",
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB015",
@@ -20395,7 +20429,8 @@
     "competenceID": "CMP05",
     "requirementName": "Insulation Level",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB016",
@@ -20409,7 +20444,8 @@
     "competenceID": "CMP01",
     "requirementName": "Budget Cap",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB017",
@@ -20423,7 +20459,8 @@
     "competenceID": "CMP02",
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB018",
@@ -20437,7 +20474,8 @@
     "competenceID": "CMP03",
     "requirementName": "Max Tank Weight",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB019",
@@ -20451,7 +20489,8 @@
     "competenceID": "CMP04",
     "requirementName": "Short-circuit Withstand",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB020",
@@ -20465,7 +20504,8 @@
     "competenceID": "CMP05",
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB021",
@@ -20479,7 +20519,8 @@
     "competenceID": "CMP01",
     "requirementName": "Noise Level Limit",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB022",
@@ -20493,7 +20534,8 @@
     "competenceID": "CMP02",
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB023",
@@ -20507,7 +20549,8 @@
     "competenceID": "CMP03",
     "requirementName": "Insulation Level",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB024",
@@ -20521,7 +20564,8 @@
     "competenceID": "CMP04",
     "requirementName": "Budget Cap",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB025",
@@ -20535,7 +20579,8 @@
     "competenceID": "CMP05",
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB026",
@@ -20549,7 +20594,8 @@
     "competenceID": "CMP01",
     "requirementName": "Max Tank Weight",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB027",
@@ -20563,7 +20609,8 @@
     "competenceID": "CMP02",
     "requirementName": "Short-circuit Withstand",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB028",
@@ -20577,7 +20624,8 @@
     "competenceID": "CMP03",
     "requirementName": "Delivery Lead Time",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB029",
@@ -20591,7 +20639,8 @@
     "competenceID": "CMP04",
     "requirementName": "Noise Level Limit",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB030",
@@ -20605,7 +20654,8 @@
     "competenceID": "CMP05",
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB031",
@@ -20619,7 +20669,8 @@
     "competenceID": "CMP01",
     "requirementName": "Insulation Level",
     "levelRank": 1,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB032",
@@ -20633,7 +20684,8 @@
     "competenceID": "CMP02",
     "requirementName": "Budget Cap",
     "levelRank": 2,
-    "trainingURL": null
+    "trainingURL": null,
+    "businessUnitID": "BU01"
    }
   ],
   "Competence": [
@@ -21281,7 +21333,8 @@
      "P14"
     ],
     "specOptions": null,
-    "productSpecOwner": "U01"
+    "productSpecOwner": "U01",
+    "businessUnitID": "BU01"
    },
    {
     "productSpecID": "SPEC02",
@@ -21305,7 +21358,8 @@
      "P14"
     ],
     "specOptions": null,
-    "productSpecOwner": "U02"
+    "productSpecOwner": "U02",
+    "businessUnitID": "BU01"
    }
   ],
   "Product Groups": [
@@ -21484,10 +21538,12 @@
      "PG05",
      "PG06"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "IEC 60076-1",
-    "requirementOwner": "U01",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN2",
@@ -21503,10 +21559,12 @@
      "PG03",
      "PG05"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "",
-    "requirementOwner": "U02",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN3",
@@ -21523,10 +21581,12 @@
      "PG03",
      "PG06"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "IEC 60076-5",
-    "requirementOwner": "U03",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN4",
@@ -21541,10 +21601,12 @@
      "PG02",
      "PG03"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "",
-    "requirementOwner": "U04",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN5",
@@ -21557,10 +21619,12 @@
     "productGroupID": [
      "PG04"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "IEC 60076-10",
-    "requirementOwner": "U05",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN6",
@@ -21574,10 +21638,12 @@
     "productGroupID": [
      "PG05"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "IEC 60076-2",
-    "requirementOwner": "U06",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN7",
@@ -21612,10 +21678,12 @@
      "PG13",
      "PG14"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "",
-    "requirementOwner": "U07",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN8",
@@ -21650,10 +21718,12 @@
      "PG13",
      "PG14"
     ],
-    "isActive": false,
+    "isActive": "Inactive",
     "regulatoryReference": "",
-    "requirementOwner": "U08",
-    "customerID": []
+    "customerID": [],
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    },
    {
     "requirementID": "CN9",
@@ -21670,9 +21740,11 @@
     "customerID": [
      "FC01"
     ],
-    "isActive": true,
+    "isActive": "Active",
     "regulatoryReference": "VDE-AR-N 4130",
-    "requirementOwner": "U01"
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null
    }
   ],
   "Requirement Type": [
