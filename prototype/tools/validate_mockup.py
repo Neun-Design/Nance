@@ -44,7 +44,8 @@ for mname, m in DM['modules'].items():
         fail(f'{mname}: tables missing from mockup: {find}')
     for tname, t in m['tables'].items():
         rows = MOCK.get(mname, {}).get(tname, [])
-        stored = [a['name'] for a in t['attributes'] if a['type'] not in ('rollup', 'computed')]
+        # mirror attrs derive at render time like rollup/computed (guide §3.3)
+        stored = [a['name'] for a in t['attributes'] if a['type'] not in ('rollup', 'computed', 'mirror')]
         pk = next((a['name'] for a in t['attributes'] if a.get('constraints') == 'PK'), None)
         pk_of[tname] = pk
         if not rows:
@@ -145,7 +146,7 @@ else: fail('Capacity: flat trend')
 
 # ---------- 6. fixtures ----------
 print('\n== fixtures ==')
-FIX = {'Factories': 17, 'Actions': 7, 'Scopes': 10, 'Products': 14, 'Product Groups': 14,
+FIX = {'Customers': 17, 'Actions': 7, 'Scopes': 10, 'Products': 14, 'Product Groups': 14,
        'Product Specs': 2, 'Events': 31, 'Tickets': 135}
 for t, n in FIX.items():
     (ok if len(flat[t]) == n else fail)(f'{t}: {len(flat[t])} rows (expected {n})')
