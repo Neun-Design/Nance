@@ -78,6 +78,15 @@ Full change catalog and decisions Q1–Q5: `prototype/prototype_v2-review.md`. D
 
 Engine tests: `prototype/tools/test_engine_indentation.mjs`.
 
+**Regions & region-aware requirements (prototype, 2026-07-30 second update — `prototype/requirements-model.md`):**
+
+- **`Regions`** (Organization module) — `regionID/Name/Description/Owner` registry replacing the old `Customers.region` enum; `Customers.regionID` is an FK to it. Seed/convert: `prototype/tools/migrate_regions.py`.
+- **Requirements applicability grew two dimensions**: multivalued `regionID[]` and `businessUnitID[]` (empty = applies to all, Q1 wildcard). Form cascade: Region (multi) → Business Unit (multi, filtered via the region's customers — two-hop join) → Customer/Scope/Product Group (filtered by Unit). The operational rollups carry the new keys: `Workflows.requirements` and `Forecast Scopes.requirementID` use the 5-key chain `customerID + customerID.regionID + customerID.businessUnitID + productGroup + scope`; `Product Scopes.requirementID` adds `businessUnitID`. Also: `isActive` became an `Active|Inactive` enum and `regulatoryURL` (LINK) replaced `requirementOwner` (owner-convention deviation — Rafael's call).
+- **Display helpers** — `businessUnitTitle` (`CONCAT(businessUnitName,'-',businessSegmentName)`) on Business Units, mirrored on Issues; `fkDisplay` now resolves derived display fields. Product Scopes' Product Group picker shows `productName | SPECS` and binds `productGroupID`.
+- **Form-engine** — cascade deps may name the bound *attribute* (`filtered by businessUnitID selected`); multivalued deps union the join-engine children of every selected value. Product Specs/Onboarding gained a stored `businessUnitID` (seeded) driving filtered pickers; People form got a Squad select filtered by Department.
+
+Engine tests: `prototype/tools/test_engine_regions.mjs`.
+
 > **Source of truth:** `prototype/data/datamodel.json` is the canonical schema. `sourceFiles/developer/datamodel.json` is a legacy design reference kept for the wireframe era — it received the Factories attribute rename but not the Organization/CRM restructure, and is **not** consumed by the prototype.
 
 ### 2. Operations Chain (ISO 9001:2015 §4.4)
