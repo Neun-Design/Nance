@@ -143,6 +143,12 @@ export function fkDisplay(fk, value) {
   }
   let field = fk.display && fk.display !== (meta && meta.pk) && rec[fk.display] != null
     ? fk.display : null;
+  if (!field && fk.display && fk.display !== (meta && meta.pk)) {
+    // display names a DERIVED field of the target (e.g. businessUnitTitle) —
+    // resolve it instead of silently falling back to the label
+    const d = resolveDisplay(fk.table, rec, fk.display, 1);
+    if (d !== '') return String(d);
+  }
   if (!field) field = meta && rec[meta.label] != null ? meta.label : null;
   return field ? rec[field] : value;
 }
