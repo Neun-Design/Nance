@@ -270,6 +270,13 @@ now a read-only input auto-filled from the Business Unit rollup
 (`field-rule: "readonly: auto-filled from businessUnitID rollup (display: businessSegmentName)"`,
 still gated on `Unit IS NOT NULL`). One source of truth — nothing stored redundantly.
 
+> **Q4 addendum (2026-07-30, twice revised).** First reversal: Segment became a stored,
+> user-selected multivalued FK gated on Unit. Second revision (PR #96): the cascade direction
+> inverted — **Segment is picked first**, and Unit is gated on it (`check: "Segment IS NOT NULL"`)
+> with options filtered to the selected segments' units (`field-rule: "filtered by Segment
+> selected"`). Note the engine only reads cascade filters from `field-rule` in the
+> `filtered by <Label> selected` spelling; gate suffixes inside `check` are ignored.
+
 **Q5 — Competence stays customer-agnostic.** A certification (e.g. "IEC 60076 Compliance") holds
 regardless of customer; Competence keeps certifying by scope + product group, and the Jobs
 `certified-responsible` control keeps matching on scope/product-group/requirements. The customer
