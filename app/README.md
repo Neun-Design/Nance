@@ -37,7 +37,8 @@ mockup dataset — the full experience from a blank QMS, for continuity/usabilit
 - **Walkthrough scope:** the analytics surfaces that only make sense with seeded data —
   the **Overview**, **Workspace** and **Control** modules, plus the CRM **Forecasts** /
   **Forecast Scopes** dashboards — stay visible but disabled (opaque, not selectable);
-  the session lands on Organization instead of Overview.
+  the session lands on Organization instead of Overview. KPI **cards** and **report
+  charts** are hidden on every tab — stakeholders see only the record tables and forms.
 
 Hosted example: `https://bovarafa.github.io/EDQMS/app/?data=empty`
 
