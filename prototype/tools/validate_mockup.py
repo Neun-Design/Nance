@@ -66,7 +66,7 @@ for tname, rows in flat.items():
     pk = pk_of.get(tname)
     id_sets[tname] = {r[pk] for r in rows} if pk and rows else set()
     display_sets[tname] = {v for r in rows for v in r.values() if isinstance(v, str)}
-NON_TABLES = {'Departments', 'Regions'}  # code-value FKs by design
+NON_TABLES = set()  # Departments and Regions became real tables (2026-07-29/30)
 fk_checked = fk_bad = 0
 for mname, m in DM['modules'].items():
     for tname, t in m['tables'].items():
