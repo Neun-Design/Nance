@@ -36,6 +36,24 @@
               "constraints": null
             },
             {
+              "name": "businessSegmentName",
+              "type": "mirror",
+              "rule": "mirror: Business Segments via: businessSegmentID",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitTitle",
+              "type": "computed",
+              "rule": "computed: CONCAT(businessUnitName,'-',businessSegmentName)",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "businessUnitCode",
               "type": "VARCHAR",
               "rule": null,
@@ -423,6 +441,99 @@
           "subitem-tables": [
             "people"
           ]
+        },
+        "Regions": {
+          "visibility": "show",
+          "dashboard-order": 5,
+          "description": "Geographical grouping of customers (ISO 9001:2015 §4.1 organisational context). A region can carry execution requirements of its own: Requirements may be scoped to specific regions (empty = applies to all regions).",
+          "attributes": [
+            {
+              "name": "regionID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "regionName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., EMEA, Americas, APAC",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "regionDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": "nullable",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "regionOwner",
+              "type": "email",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c)) — requirements-model.md asks rollup.userID; kept as the standard owner FK",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "customers",
+              "type": "rollup",
+              "rule": "rollup → Customers (via: regionID)",
+              "notes": "Customers located in this region",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "regionName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "field": "shadcn-textarea"
+                },
+                "attribute": "regionDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Owner": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "regionOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "Customers"
+          ]
         }
       }
     },
@@ -498,9 +609,9 @@
               "constraints": null
             },
             {
-              "name": "region",
-              "type": "ENUM",
-              "rule": "enum: EMEA/Americas/APAC",
+              "name": "regionID",
+              "type": "FK",
+              "rule": "FK → Regions (display: regionName)",
               "notes": "Geographical grouping",
               "table-display": true,
               "subitem-display": true,
@@ -628,7 +739,7 @@
                 "field-type": {
                   "combobox": "shadcn-combobox"
                 },
-                "attribute": "region",
+                "attribute": "regionID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -987,7 +1098,7 @@
             {
               "name": "requirementID",
               "type": "computed",
-              "rule": "computed → Requirements (via: forecastID.customerID + scopeID + productGroupID) (display: requirementName)",
+              "rule": "computed → Requirements (via: forecastID.customerID + forecastID.customerID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID) (display: requirementName)",
               "notes": "Requirements linked to the row's scope + product group",
               "table-display": true,
               "subitem-display": true,
@@ -1050,8 +1161,8 @@
             {
               "name": "region",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Customers\".\"region\")",
-              "notes": "Region of the factory that owns the parent forecast (via forecastID → Customers.region). Used by Report-B.",
+              "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Customers\".\"regionName\")",
+              "notes": "Region of the factory that owns the parent forecast (via forecastID → Customers.regionID → Regions). Used by Report-B.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -2161,7 +2272,7 @@
             {
               "name": "requirements",
               "type": "rollup",
-              "rule": "rollup → Requirements (via: customerID + productScopeID.productGroupID + productScopeID.scopeID); display: requirementName",
+              "rule": "rollup → Requirements (via: customerID + customerID.regionID + customerID.businessUnitID + productScopeID.productGroupID + productScopeID.scopeID); display: requirementName",
               "notes": "Compound AND join; a Requirement with empty customerID applies to all customers. No associative entity in the prototype — the multivalued FKs on Requirements are the flattened associative entity (map to Constrain in the ER-UML model).",
               "table-display": false,
               "subitem-display": false,
@@ -2632,8 +2743,8 @@
             {
               "name": "productGroupID",
               "type": "FK",
-              "rule": "FK → Product Groups (display: productGroupName)",
-              "notes": "e.g., \"AA\" — form options are filtered by the selected Business Unit (via the group's products)",
+              "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
+              "notes": "Options show productName | SPECS and are filtered by the selected Business Unit (via the group's products)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -2695,7 +2806,7 @@
             {
               "name": "requirementID",
               "type": "rollup",
-              "rule": "rollup → Requirements (via: productGroupID + scopeID) (display: requirementName)",
+              "rule": "rollup → Requirements (via: productGroupID + scopeID + businessUnitID) (display: requirementName)",
               "notes": "Requirements linked to this scope + product group pair",
               "table-display": true,
               "subitem-display": true,
@@ -2767,10 +2878,10 @@
                 "field-type": {
                   "combobox": "shadcn-combobox"
                 },
-                "attribute": "productGroupName",
+                "attribute": "productGroupID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
+                "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by Business Unit selected"
               },
               "Scope": {
@@ -2973,8 +3084,26 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK → Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitTitle)",
               "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "businessUnitTitle",
+              "type": "mirror",
+              "rule": "mirror: Business Units via:businessUnitID",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "businessSegmentName",
+              "type": "mirror",
+              "rule": "mirror: Business Units via: businessUnitID",
+              "notes": null,
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -3088,16 +3217,6 @@
                 "check": null,
                 "field-rule": null
               },
-              "Owner": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "productOwner",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = functionName"
-              },
               "Business Unit": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -3107,6 +3226,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Owner": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "productOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = functionName; filtered by businessUnitID selected"
               }
             }
           },
@@ -3164,6 +3293,15 @@
               "constraints": "FK"
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Unit this spec belongs to — the Products picker narrows to the unit's products",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "specOptions",
               "type": "VARCHAR",
               "rule": null,
@@ -3216,6 +3354,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Products": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -3223,8 +3371,8 @@
                 "attribute": "productID",
                 "tooltip": "Products this spec applies to",
                 "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected; Allow multiple values"
               },
               "Allowed Values": {
                 "field-type": {
@@ -3386,6 +3534,24 @@
               "constraints": null
             },
             {
+              "name": "regionID",
+              "type": "FK",
+              "rule": "FK → Regions (display: regionName)",
+              "notes": "multivalued — regions this requirement applies to; empty = applies to all regions (Q1 wildcard)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "multivalued — units this requirement applies to; empty = applies to all units (Q1 wildcard)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "requirementTypeID",
               "type": "INT",
               "rule": "FK → Requirement Type (display: requirementTypeName)",
@@ -3432,8 +3598,8 @@
             },
             {
               "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
+              "type": "ENUM",
+              "rule": "enum: ['Active', 'Inactive']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -3449,13 +3615,13 @@
               "constraints": null
             },
             {
-              "name": "requirementOwner",
-              "type": "email",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
+              "name": "regulatoryURL",
+              "type": "LINK",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": null
             }
           ],
           "reports": null,
@@ -3492,6 +3658,26 @@
                 "check": null,
                 "field-rule": null
               },
+              "Region": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "regionID",
+                "tooltip": "Regions this requirement applies to — leave empty for all regions",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Units this requirement applies to — leave empty for all units",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by Region selected"
+              },
               "Customer": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -3499,8 +3685,8 @@
                 "attribute": "customerID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
               },
               "Scope": {
                 "field-type": {
@@ -3510,7 +3696,7 @@
                 "tooltip": "Scopes this requirement applies to",
                 "step": null,
                 "check": null,
-                "field-rule": "Allow multiple values"
+                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
               },
               "Product Group": {
                 "field-type": {
@@ -3520,11 +3706,11 @@
                 "tooltip": "Product groups this requirement applies to",
                 "step": null,
                 "check": null,
-                "field-rule": "Allow multiple values"
+                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
               },
               "Activate": {
                 "field-type": {
-                  "switch": "shadcn-switch"
+                  "select": "shadcn-select"
                 },
                 "attribute": "isActive",
                 "tooltip": "Make this requirement available to be applied accross the operation",
@@ -3537,6 +3723,16 @@
                   "input": "shadcn-input"
                 },
                 "attribute": "regulatoryReference",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Reference Link": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "regulatoryURL",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -5508,9 +5704,9 @@
               "constraints": null
             },
             {
-              "name": "location",
+              "name": "regionID",
               "type": "INT",
-              "rule": "FK → Customers (display: customerName)",
+              "rule": "FK → Regions (display: regionName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -5613,6 +5809,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Region": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "regionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Unit": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -5620,8 +5826,8 @@
                 "attribute": "businessUnitID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessSegmentName"
+                "check": "Region IS NOT NULL",
+                "field-rule": "SelectLabel = businessSegmentName; rollup by regionID selected"
               },
               "Department": {
                 "field-type": {
@@ -5631,7 +5837,17 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Unit IS NOT NULL",
-                "field-rule": null
+                "field-rule": "filtered by businessUnitID selected"
+              },
+              "Squad": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "squadID",
+                "tooltip": null,
+                "step": null,
+                "check": "Department IS NOT NULL",
+                "field-rule": "filtered by departmentID selected"
               },
               "Name": {
                 "field-type": {
@@ -5652,16 +5868,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
-              },
-              "Location": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "location",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = country"
               },
               "Active": {
                 "field-type": {
@@ -5726,18 +5932,18 @@
               "constraints": "PK"
             },
             {
-              "name": "userID",
-              "type": "INT",
-              "rule": "FK → People (display: userName)",
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK"
+              "subitem-display": true,
+              "constraints": null
             },
             {
               "name": "functionID",
               "type": "VARCHAR",
-              "rule": "computed: People via userID (display: functionID)",
+              "rule": "rollup: Function via businessUnitID (display: functionID)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -5746,11 +5952,20 @@
             {
               "name": "roleID",
               "type": "mirror",
-              "rule": "computed: Roles via functionID (display: roleName)",
+              "rule": "rollup: Roles via functionID (display: roleName)",
               "notes": "Role resolved from the onboarding's function (Roles.functionID); display: roleName via the Roles table which owns that field.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "userID",
+              "type": "INT",
+              "rule": "rollup → People via:businessUnitID (display: userName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
               "name": "levelRank",
@@ -5847,15 +6062,15 @@
           "form": {
             "steps": null,
             "fields": {
-              "Talent": {
+              "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "userID",
+                "attribute": "businessUnitID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = functionName"
+                "field-rule": null
               },
               "Role": {
                 "field-type": {
@@ -5864,8 +6079,18 @@
                 "attribute": "roleID",
                 "tooltip": null,
                 "step": null,
-                "check": "Talent IS NOT NULL",
-                "field-rule": null
+                "check": "Businee Unit IS NOT NULL",
+                "field-rule": "rollup by Talent selected"
+              },
+              "Talent": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "userID",
+                "tooltip": null,
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "SelectLabel = functionName; rollup by businessUnitID selected"
               },
               "Skill Rank": {
                 "field-type": {
@@ -5885,7 +6110,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Role IS NOT NULL",
-                "field-rule": "SelectLabel = processName"
+                "field-rule": "SelectLabel = processName; filtered by roleID selected"
               },
               "Training Material": {
                 "field-type": {
@@ -6145,7 +6370,7 @@
               },
               "Requirements": {
                 "field-type": {
-                  "select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
                 "attribute": "requirementID",
                 "tooltip": null,
@@ -6153,7 +6378,8 @@
                 "check": "Scope && Product Group IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "filtered by Scope + Product Group selected"
+                  "filtered by Scope + Product Group selected",
+                  "SelectLabel = requirementTypeName"
                 ]
               },
               "Event": {
