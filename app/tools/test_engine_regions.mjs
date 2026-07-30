@@ -97,5 +97,34 @@ console.log('== derived display through FK (businessUnitTitle) ==');
   eq(/-/.test(String(title)), true, `fkDisplay derives computed display fields (${String(title).slice(0, 40)}…)`);
 }
 
+console.log('== Segment-first Customers cascade (PR #96) ==');
+{
+  // Unit options follow the selected Segments: join-engine children of each
+  // selected Business Segment among Business Units (multivalued deps union)
+  const segs = data.getEntity('Business Segments');
+  const unitsOf = (id) => resolve.childrenOf('Business Segments',
+    segs.find((s) => s.businessSegmentID === id), 'Business Units')
+    .map((b) => b.businessUnitID);
+  eq(unitsOf('BS01'), ['BU01'], 'BS01 (LPT) reaches BU01');
+  eq(unitsOf('BS03'), ['BU02'], 'BS03 (DT) reaches BU02');
+  eq(unitsOf('BS04'), ['BU03'], 'BS04 (SG) reaches BU03');
+  // the datamodel spells the cascade in engine-readable form: the gate lives
+  // in `check`, the option filter in `field-rule` (a "rollup by … selected"
+  // suffix inside `check` is invisible to both parsers in forms.js)
+  const unit = catalog['Customers'].form.fields.Unit;
+  eq(unit.check, 'Segment IS NOT NULL', 'Unit gated on Segment');
+  eq(unit['field-rule'], 'filtered by Segment selected', 'Unit filtered by selected Segments');
+}
+
+console.log('== Business Units.regionID[] (multivalued, seeded from customers) ==');
+{
+  const reg = forms.optionsForAttr('Business Units', 'regionID');
+  eq(reg.multi, true, 'Region picker on Business Units is multivalued');
+  const byId = Object.fromEntries(data.getEntity('Business Units')
+    .map((b) => [b.businessUnitID, b.regionID]));
+  eq(byId['BU01'], ['RG01', 'RG02', 'RG03'], 'BU01 seeded with the union of its customers’ regions');
+  eq(byId['BU03'], [], 'BU03 (no customers) seeded empty');
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
 process.exit(fails ? 1 : 0);
