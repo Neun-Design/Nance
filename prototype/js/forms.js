@@ -206,7 +206,8 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
   panel.append(head, bodyHost, foot);
 
   const closeAll = () => { overlay.classList.remove('open'); setTimeout(() => overlay.remove(), 180); };
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAll(); });
+  // stakeholder round 2026-07-31: clicking outside must NOT close the drawer
+  // (typed data was being lost) — only ✕, Discard/Cancel and Save close it.
 
   function pushForm(cfg, entity, link, record, opts = {}) {
     const ctx = buildFormCtx(cfg, entity, link, record);
@@ -218,9 +219,29 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 
   // "+ create new item" on a rollup select (wireframe drawer parity):
   // pushes a nested form for the select's target table; on save the select
-  // refreshes its options and picks the new record.
-  const addNewFor = (target, onSaved) =>
-    pushForm(cfgForEntity(target), target, null, null, { onSaved });
+  // refreshes its options and picks the new record. When the target's form
+  // references the ORIGIN entity back (Region → Owner → People.regionID…),
+  // that back-reference is passed as a locked link prefilled with the
+  // in-progress parent — breaking the infinite nested-drawer loop.
+  const addNewFor = (target, onSaved) => {
+    const origin = stack[activeIdx];
+    const backRef = origin && origin.entity !== target ? fkAttrTo(target, origin.entity) : null;
+    const link = backRef ? {
+      field: backRef, value: origin.newId,
+      parentEntity: origin.entity,
+      parentTab: origin.cfg ? origin.cfg.tab : origin.entity,
+      label: pendingLabel(origin),
+    } : null;
+    pushForm(cfgForEntity(target), target, link, null, { onSaved });
+  };
+
+  // current value of the origin form's label field (the name typed so far)
+  function pendingLabel(ctx) {
+    const labelAttr = ENTITY_META[ctx.entity]?.label;
+    const get = labelAttr && ctx.controls[labelAttr];
+    const v = get && get();
+    return (v != null && String(v).trim() !== '') ? String(v) : ctx.newId;
+  }
 
   // Build a form context (its body DOM is kept alive so inputs persist across spine switches).
   function buildFormCtx(cfg, entity, link, record = null) {
@@ -244,9 +265,10 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
       return ctx;
     }
 
-    // linked parent field (locked)
+    // linked parent field (locked) — link.label carries the parent's typed
+    // name when the parent record hasn't been saved yet
     if (link) {
-      const parentLabel = lookup(link.parentEntity, link.value) || link.value;
+      const parentLabel = link.label || lookup(link.parentEntity, link.value) || link.value;
       form.appendChild(fieldRow(humanize(link.field), roInput(parentLabel + '  (' + link.value + ')'),
         `Linked to the ${singularTitle(link.parentTab)} being created`));
     }
@@ -359,6 +381,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     if (ctx.collect) Object.assign(rec, ctx.collect());
     else for (const [f, get] of Object.entries(ctx.controls)) rec[f] = get();
     if (ctx.link) rec[ctx.link.field] = ctx.link.value; // link wins over any cascade choice
+    applyDerivedUnits(ctx.entity, rec);
     applyJobTransition(ctx.entity, rec, ctx.editing ? getById(ctx.entity, ctx.newId) : null);
     if (ctx.editing) updateRecord(ctx.entity, ctx.newId, rec);
     else addRecord(ctx.entity, rec);
@@ -375,6 +398,42 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
   pushForm(rootCfg, rootCfg.entity, null, editRecord);
   document.body.appendChild(overlay);
   requestAnimationFrame(() => overlay.classList.add('open'));
+}
+
+// first stored single-valued FK on `entity` that references `origin` — the
+// back-reference a nested add-new form gets locked (and prefilled) to
+function fkAttrTo(entity, origin) {
+  const cat = getCatalog(entity);
+  if (!cat || !cat.byName) return null;
+  for (const a of Object.values(cat.byName)) {
+    if (a.name === cat.pk || ['rollup', 'mirror', 'computed'].includes(String(a.type))) continue;
+    const { target, multi } = specOptions(entity, a.name, String(a.rule || ''));
+    if (target === origin && !multi) return a.name;
+  }
+  return null;
+}
+
+// stakeholder round 2026-07-31: units are no longer picked in these forms —
+// derive businessUnitID from the chosen products / product group / department
+function applyDerivedUnits(entity, rec) {
+  const unitsOfProducts = (ids) => {
+    const units = new Set();
+    for (const pid of (Array.isArray(ids) ? ids : [ids]).filter(Boolean)) {
+      const p = getById('Products', pid);
+      const u = p && p.businessUnitID;
+      (Array.isArray(u) ? u : [u]).filter(Boolean).forEach((x) => units.add(x));
+    }
+    return [...units].sort();
+  };
+  if (entity === 'Product Specs') {
+    rec.businessUnitID = unitsOfProducts(rec.productID)[0] ?? null;
+  } else if (entity === 'Product Scopes') {
+    const pg = rec.productGroupID && getById('Product Groups', rec.productGroupID);
+    rec.businessUnitID = (pg && unitsOfProducts(pg.productID)[0]) ?? null;
+  } else if (entity === 'Onboarding') {
+    const d = rec.departmentID && getById('Departments', rec.departmentID);
+    rec.businessUnitID = (d && d.businessUnitID) ?? null;
+  }
 }
 
 // value-vs-value match where either side may be an array (multivalued FKs)
@@ -1152,7 +1211,10 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
 
 // ================= DOM helpers =================
 function fieldRow(label, control, hint) {
-  const w = document.createElement('label'); w.className = 'form-field';
+  // a <div>, deliberately not a <label>: label click-forwarding targets the
+  // first labelable descendant, which for an EMPTY multicheck/radio list is
+  // the "+" add-new button — clicking the field text was opening the drawer
+  const w = document.createElement('div'); w.className = 'form-field';
   const l = document.createElement('span'); l.className = 'form-label'; l.textContent = label;
   w.append(l, control);
   if (hint) { const h = document.createElement('span'); h.className = 'form-hint'; h.textContent = hint; w.appendChild(h); }
