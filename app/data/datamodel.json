@@ -603,8 +603,8 @@
             {
               "name": "customerType",
               "type": "ENUM",
-              "rule": "enum: ['internal client', 'external client', 'supplier']",
-              "notes": "Relationship of this customer to the organisation",
+              "rule": "enum: ['branch', 'client', 'supplier']",
+              "notes": "Relationship of this customer to the organisation — branch (internal), client (external) or supplier",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -748,7 +748,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerType",
-                "tooltip": "Relationship to the organisation: internal client, external client or supplier",
+                "tooltip": "Relationship to the organisation: branch (internal), client (external) or supplier",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -5789,8 +5789,8 @@
             {
               "name": "customerID",
               "type": "INT",
-              "rule": "FK → Customers (filtered by customerType='internal client') (display: customerName)",
-              "notes": "nullable — internal-client customer (factory) this person is stationed at",
+              "rule": "FK → Customers (filtered by customerType='branch') (display: customerName)",
+              "notes": "nullable — branch (internal factory) this person is stationed at",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -5896,12 +5896,12 @@
                 "check": "Department IS NOT NULL",
                 "field-rule": "filtered by departmentID selected"
               },
-              "Customer": {
+              "Branch": {
                 "field-type": {
                   "radio": "shadcn-radio button"
                 },
                 "attribute": "customerID",
-                "tooltip": "Internal-client customer (factory) this person is stationed at — optional",
+                "tooltip": "Branch (internal factory) this person is stationed at — optional",
                 "step": null,
                 "check": "Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
