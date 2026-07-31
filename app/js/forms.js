@@ -266,7 +266,8 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
         if (c.ref) {
           control = withAddNew(node, c.ref, addNewFor, (newId) => {
             const { options } = optionsForAttr(entity, f);
-            refillSelect(node, options || fkOptions(c.ref), c.ref, newId);
+            if (node._rebuild) recheckMulti(node, options || fkOptions(c.ref), c.ref, newId);
+            else refillSelect(node, options || fkOptions(c.ref), c.ref, newId);
           });
         }
         form.appendChild(fieldRow(humanize(f), control, hintFor(c)));
@@ -600,6 +601,22 @@ function withAddNew(node, target, addNew, refresh) {
   btn.addEventListener('click', () => addNew(target, refresh));
   wrap.append(node, btn);
   return wrap;
+}
+
+// multicheck twin of refillSelect: rebuild the rows (already-checked values
+// survive the rebuild) and tick the freshly created record — by id, or by
+// its label for name-valued pickers. Fires a change event so fields that
+// cascade off this one refilter to the new selection.
+function recheckMulti(node, options, target, newId, groupField = null) {
+  node._rebuild(withGroupHeaders(options || [], target, groupField));
+  const tCat = getCatalog(target);
+  const rec = getById(target, newId);
+  const wanted = new Set([String(newId), rec && tCat ? String(rec[tCat.label] ?? '') : '']);
+  let hit = false;
+  node.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    if (wanted.has(cb.value)) { cb.checked = true; hit = true; }
+  });
+  if (hit) node.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
 // rebuild a select's option list and pick the freshly created record —
@@ -996,14 +1013,16 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     if (attrName) ctx.controls[attrName] = get;
     byLabel[label] = { node, get };
 
-    // wireframe drawer parity: every rollup select can create its target item
+    // wireframe drawer parity: every rollup select (single or multi-check)
+    // can create its target item without leaving the form
     let control = node;
-    if (addNew && node.tagName === 'SELECT') {
+    if (addNew && (node.tagName === 'SELECT' || node._rebuild)) {
       const { target } = specOptions(entity, attrName, ruleText);
       if (target) {
         control = withAddNew(node, target, addNew, (newId) => {
           const fresh = specOptions(entity, attrName, ruleText);
-          refillSelect(node, fresh.options, target, newId);
+          if (node._rebuild) recheckMulti(node, fresh.options, target, newId, groupField);
+          else refillSelect(node, fresh.options, target, newId);
         });
       }
     }
