@@ -154,6 +154,7 @@ table.dt th {
 table.dt th:hover { color: var(--se-text-primary); }
 table.dt th .sort-ind { color: var(--se-ui-0); margin-left: 4px; }
 table.dt tbody tr:hover { background: var(--se-base-1-hover); }
+table.dt tbody tr.row-clickable { cursor: pointer; }
 td.mirror, th.mirror { background: var(--se-base-4); font-style: italic; }
 td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .rollup-toggle {

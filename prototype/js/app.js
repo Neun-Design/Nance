@@ -345,6 +345,9 @@ function renderBodyOnly() {
     columns: cfg.columns, rows, pk: cfg.pk, rollups: cfg.rollups || [],
     initialHidden: cfg.initialHidden,
     selectable: !cfg.readonly,
+    // stakeholder round 2026-07-31: clicking a row opens its edit drawer
+    onRowClick: (!cfg.readonly && supportsEdit(cfg.entity))
+      ? (r) => openForm(cfg, renderBodyOnly, r) : null,
     onSelectionChange: (ids) => {
       if (editBtn) editBtn.disabled = ids.length !== 1 || !supportsEdit(cfg.entity);
       if (delBtn) delBtn.disabled = ids.length === 0;
