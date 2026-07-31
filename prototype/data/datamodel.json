@@ -5787,6 +5787,15 @@
               "constraints": "FK"
             },
             {
+              "name": "customerID",
+              "type": "INT",
+              "rule": "FK → Customers (filtered by customerType='internal client') (display: customerName)",
+              "notes": "nullable — internal-client customer (factory) this person is stationed at",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "graduationID",
               "type": "INT",
               "rule": "FK → Graduation (display: graduationName)",
@@ -5865,7 +5874,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Region IS NOT NULL",
-                "field-rule": "SelectLabel = businessSegmentName; rollup by regionID selected"
+                "field-rule": "SelectLabel = businessSegmentName; filtered by regionID selected"
               },
               "Department": {
                 "field-type": {
@@ -5886,6 +5895,16 @@
                 "step": null,
                 "check": "Department IS NOT NULL",
                 "field-rule": "filtered by departmentID selected"
+              },
+              "Customer": {
+                "field-type": {
+                  "radio": "shadcn-radio button"
+                },
+                "attribute": "customerID",
+                "tooltip": "Internal-client customer (factory) this person is stationed at — optional",
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
               },
               "Name": {
                 "field-type": {
