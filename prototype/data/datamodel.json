@@ -601,6 +601,15 @@
               "constraints": null
             },
             {
+              "name": "customerType",
+              "type": "ENUM",
+              "rule": "enum: ['internal client', 'external client', 'supplier']",
+              "notes": "Relationship of this customer to the organisation",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "city",
               "type": "VARCHAR",
               "rule": null,
@@ -730,6 +739,16 @@
                 },
                 "attribute": "customerName",
                 "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerType",
+                "tooltip": "Relationship to the organisation: internal client, external client or supplier",
                 "step": null,
                 "check": null,
                 "field-rule": null
