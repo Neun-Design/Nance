@@ -157,10 +157,7 @@
             }
           },
           "cards": null,
-          "table-filters": true,
-          "subitem-tables": [
-            "Departments"
-          ]
+          "table-filters": true
         },
         "Business Segments": {
           "visibility": "show",
@@ -350,10 +347,7 @@
             }
           },
           "cards": null,
-          "table-filters": true,
-          "subitem-tables": [
-            "Squads"
-          ]
+          "table-filters": true
         },
         "Squads": {
           "visibility": "show",
@@ -549,7 +543,7 @@
                 "attribute": "regionOwner",
                 "tooltip": null,
                 "step": null,
-                "check": "Name IS NOT NULL",
+                "check": null,
                 "field-rule": null
               }
             }
@@ -557,8 +551,7 @@
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "Customers",
-            "Business Units"
+            "Customers"
           ]
         }
       }
@@ -581,15 +574,6 @@
               "constraints": "PK"
             },
             {
-              "name": "customerName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "Short code, e.g. \"PN\"",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK -> Business Units (display: businessUnitName)",
@@ -603,6 +587,15 @@
               "type": "FK",
               "rule": "FK -> Business Segments (display: businessSegmentName)",
               "notes": "multivalued — user-selected (reverts decision Q4, 2026-07-30)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "customerName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Short code, e.g. \"PN\"",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -2780,7 +2773,7 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "Derived on save from the selected Product Group (no user input)",
+              "notes": null,
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -2909,6 +2902,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Business Unit this product scope belongs to",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Product Group": {
                 "field-type": {
                   "combobox": "shadcn-combobox"
@@ -2916,8 +2919,8 @@
                 "attribute": "productGroupID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
               },
               "Scope": {
                 "field-type": {
@@ -3331,7 +3334,7 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "Derived on save from the selected products (no user input)",
+              "notes": "Unit this spec belongs to — the Products picker narrows to the unit's products",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3389,6 +3392,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Products": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -3396,8 +3409,8 @@
                 "attribute": "productID",
                 "tooltip": "Products this spec applies to",
                 "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected; Allow multiple values"
               },
               "Allowed Values": {
                 "field-type": {
@@ -3430,15 +3443,6 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "PK"
-            },
-            {
-              "name": "classCodeName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
             },
             {
               "name": "productGroupName",
@@ -3500,16 +3504,6 @@
           "form": {
             "steps": null,
             "fields": {
-              "Class Code": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "classCodeName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
               "Business Segment": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -5995,15 +5989,6 @@
               "constraints": "PK"
             },
             {
-              "name": "departmentID",
-              "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": "Department running the onboarding; businessUnitID derives from it on save",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK -> Business Units (display: businessUnitName)",
@@ -6134,15 +6119,15 @@
           "form": {
             "steps": null,
             "fields": {
-              "Department": {
+              "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "departmentID",
+                "attribute": "businessUnitID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "field-rule": null
               },
               "Role": {
                 "field-type": {
@@ -6151,7 +6136,7 @@
                 "attribute": "roleID",
                 "tooltip": null,
                 "step": null,
-                "check": "Department IS NOT NULL",
+                "check": "Businee Unit IS NOT NULL",
                 "field-rule": "rollup by Talent selected"
               },
               "Talent": {
@@ -6161,8 +6146,8 @@
                 "attribute": "userID",
                 "tooltip": null,
                 "step": null,
-                "check": "Department IS NOT NULL",
-                "field-rule": "SelectLabel = functionName; filtered by departmentID selected"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "SelectLabel = functionName; rollup by businessUnitID selected"
               },
               "Skill Rank": {
                 "field-type": {

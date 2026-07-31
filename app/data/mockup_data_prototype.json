@@ -20277,8 +20277,7 @@
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB002",
@@ -20293,8 +20292,7 @@
     "requirementName": "Max Tank Weight",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB003",
@@ -20309,8 +20307,7 @@
     "requirementName": "Short-circuit Withstand",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB004",
@@ -20325,8 +20322,7 @@
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB005",
@@ -20341,8 +20337,7 @@
     "requirementName": "Noise Level Limit",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB006",
@@ -20357,8 +20352,7 @@
     "requirementName": "Temperature Rise Limit",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB007",
@@ -20373,8 +20367,7 @@
     "requirementName": "Insulation Level",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB008",
@@ -20389,8 +20382,7 @@
     "requirementName": "Budget Cap",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB009",
@@ -20405,8 +20397,7 @@
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB010",
@@ -20421,8 +20412,7 @@
     "requirementName": "Max Tank Weight",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB011",
@@ -20437,8 +20427,7 @@
     "requirementName": "Short-circuit Withstand",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB012",
@@ -20453,8 +20442,7 @@
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB013",
@@ -20469,8 +20457,7 @@
     "requirementName": "Noise Level Limit",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB014",
@@ -20485,8 +20472,7 @@
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB015",
@@ -20501,8 +20487,7 @@
     "requirementName": "Insulation Level",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB016",
@@ -20517,8 +20502,7 @@
     "requirementName": "Budget Cap",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB017",
@@ -20533,8 +20517,7 @@
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB018",
@@ -20549,8 +20532,7 @@
     "requirementName": "Max Tank Weight",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB019",
@@ -20565,8 +20547,7 @@
     "requirementName": "Short-circuit Withstand",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB020",
@@ -20581,8 +20562,7 @@
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB021",
@@ -20597,8 +20577,7 @@
     "requirementName": "Noise Level Limit",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB022",
@@ -20613,8 +20592,7 @@
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB023",
@@ -20629,8 +20607,7 @@
     "requirementName": "Insulation Level",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB024",
@@ -20645,8 +20622,7 @@
     "requirementName": "Budget Cap",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB025",
@@ -20661,8 +20637,7 @@
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB026",
@@ -20677,8 +20652,7 @@
     "requirementName": "Max Tank Weight",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB027",
@@ -20693,8 +20667,7 @@
     "requirementName": "Short-circuit Withstand",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB028",
@@ -20709,8 +20682,7 @@
     "requirementName": "Delivery Lead Time",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB029",
@@ -20725,8 +20697,7 @@
     "requirementName": "Noise Level Limit",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB030",
@@ -20741,8 +20712,7 @@
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB031",
@@ -20757,8 +20727,7 @@
     "requirementName": "Insulation Level",
     "levelRank": 1,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    },
    {
     "onboardID": "ONB032",
@@ -20773,8 +20742,7 @@
     "requirementName": "Budget Cap",
     "levelRank": 2,
     "trainingURL": null,
-    "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "businessUnitID": "BU01"
    }
   ],
   "Competence": [
@@ -21461,8 +21429,7 @@
     "specValues": {
      "SPEC01": "<=145",
      "SPEC02": "<=100"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG02",
@@ -21473,8 +21440,7 @@
     "specValues": {
      "SPEC01": "<=550",
      "SPEC02": "<=400"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG03",
@@ -21485,8 +21451,7 @@
     "specValues": {
      "SPEC01": ">550",
      "SPEC02": ">400"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG04",
@@ -21497,8 +21462,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG05",
@@ -21509,8 +21473,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG06",
@@ -21521,8 +21484,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG07",
@@ -21533,8 +21495,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG08",
@@ -21545,8 +21506,7 @@
     "specValues": {
      "SPEC01": "<=36",
      "SPEC02": "<=10"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG09",
@@ -21557,8 +21517,7 @@
     "specValues": {
      "SPEC01": "<=72.5",
      "SPEC02": "<=30"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG10",
@@ -21569,8 +21528,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG11",
@@ -21581,8 +21539,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG12",
@@ -21593,8 +21550,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG13",
@@ -21605,8 +21561,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    },
    {
     "productGroupID": "PG14",
@@ -21617,8 +21572,7 @@
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
-    },
-    "classCodeName": null
+    }
    }
   ],
   "Requirements": [
