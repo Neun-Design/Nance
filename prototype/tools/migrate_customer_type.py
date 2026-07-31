@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Deterministic migration: Customers.customerType enum (2026-07-31).
 
-Seeds the new ENUM attribute customerType ('internal client' |
-'external client' | 'supplier') on every Customers row. All current mockup
-customers descend from the former Factories table (internal Northwind Energy
-factories), so they seed as 'internal client'; external clients and
-suppliers are registered through the form going forward.
+Seeds the new ENUM attribute customerType ('branch' | 'client' |
+'supplier') on every Customers row. All current mockup customers descend
+from the former Factories table (internal Northwind Energy factories), so
+they seed as 'branch'; clients and suppliers are registered through the
+form going forward. Also renames the same-day legacy option spellings
+('internal client' -> 'branch', 'external client' -> 'client').
 
 Idempotent: rows that already carry a non-empty customerType are untouched.
 Applies to both mockup copies (prototype/data + sourceFiles/developer).
@@ -34,10 +35,15 @@ def migrate(path):
     if customers is None:
         print(f'{path.name}: no Customers table — skipped')
         return
+    # 2026-07-31 rename: 'internal client' -> 'branch', 'external client' -> 'client'
+    legacy = {'internal client': 'branch', 'external client': 'client'}
     changed = 0
     for c in customers:
-        if not c.get('customerType'):
-            c['customerType'] = 'internal client'
+        if c.get('customerType') in legacy:
+            c['customerType'] = legacy[c['customerType']]
+            changed += 1
+        elif not c.get('customerType'):
+            c['customerType'] = 'branch'
             changed += 1
     if changed:
         path.write_text(json.dumps(data, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
