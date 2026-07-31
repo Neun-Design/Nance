@@ -27,7 +27,7 @@ function cellHtml(col, r) {
 // rollup rl: { label, childEntity, childKey?, resolve?(row), columns, orderBy?, nested? }
 // Returns an API: { getSelected, clearSelection, setColumnHidden, isColumnHidden, redraw }
 export function renderTable(container, opts) {
-  const { columns, rows, pk, rollups = [], selectable = false, onSelectionChange } = opts;
+  const { columns, rows, pk, rollups = [], selectable = false, onSelectionChange, onRowClick } = opts;
   const hasRollups = rollups.length > 0;
   let sortKey = null, sortDir = 1;
   let page = 0, pageSize = PAGE_SIZES[0];
@@ -111,6 +111,15 @@ export function renderTable(container, opts) {
     for (const r of pageRows) {
       const tr = document.createElement('tr');
       if (selected.has(r[pk])) tr.classList.add('row-selected');
+      if (onRowClick) {
+        tr.classList.add('row-clickable');
+        // interactive elements (select checkbox, rollup chevron, links) keep
+        // their own behaviour — only plain cell clicks open the edit drawer
+        tr.addEventListener('click', (e) => {
+          if (e.target.closest('input, button, a, .sel-cell')) return;
+          onRowClick(r);
+        });
+      }
       if (selectable) {
         const td = el('td', '', { class: 'sel-cell' });
         const cb = document.createElement('input');
