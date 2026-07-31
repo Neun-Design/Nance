@@ -25,7 +25,7 @@ export function requireLogin() {
 
     const mark = document.createElement('div');
     mark.className = 'brand-mark';
-    mark.textContent = 'GE';
+    mark.textContent = 'OG';
 
     const title = document.createElement('h1');
     title.className = 'login-title';
@@ -33,7 +33,7 @@ export function requireLogin() {
 
     const sub = document.createElement('p');
     sub.className = 'login-sub';
-    sub.textContent = 'Global Engineering Portal · EDQMS';
+    sub.textContent = 'Omterra Governance Portal · EDQMS';
 
     const form = document.createElement('form');
     form.className = 'login-form';
