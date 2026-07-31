@@ -1,4 +1,4 @@
-# EDQMS — Omterra Governance Portal (Interactive Prototype)
+# EDQMS — Powergrid Governance Portal (Interactive Prototype)
 
 A **data-driven** prototype of the EDQMS portal. Every table, chart and KPI is computed
 **live in the browser** from `data/mockup_data_prototype.json` — nothing is a static image.
