@@ -290,7 +290,8 @@ select.form-input[multiple] { padding: 0; }
   padding: 6px 4px 2px; margin-top: 2px;
 }
 .form-multicheck-group:first-child { margin-top: 0; }
-.form-multicheck-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--se-ui-0); flex: none; }
+.form-multicheck-row input[type="checkbox"],
+.form-multicheck-row input[type="radio"] { width: 16px; height: 16px; accent-color: var(--se-ui-0); flex: none; }
 .form-multicheck-row span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .form-ro { background: var(--se-base-4); font-style: italic; color: var(--se-text-secondary); }
 /* rollup select + "create new item" button (wireframe drawer parity) */
