@@ -574,6 +574,58 @@ function mkMultiCheck(options) {
   wrap._rebuild = render;
   return { node: wrap, get, set };
 }
+// single-choice twin of mkMultiCheck: an option list rendered as radio rows
+// (one record max). Nullable — the leading "— none —" row clears the value.
+function mkRadioList(options) {
+  const wrap = document.createElement('div');
+  wrap.className = 'form-multicheck';
+  const name = `radio-${Math.random().toString(36).slice(2)}`;
+  let radios = [];
+  const render = (opts) => {
+    // cascade refilters re-render the rows; the checked value survives
+    const keep = String(radios.find((r) => r.checked)?.value ?? '');
+    wrap.innerHTML = '';
+    radios = [];
+    const mkRow = (value, label) => {
+      const row = document.createElement('label');
+      row.className = 'form-multicheck-row';
+      const rb = document.createElement('input');
+      rb.type = 'radio'; rb.name = name; rb.value = String(value);
+      rb.checked = keep === rb.value;
+      const span = document.createElement('span');
+      span.textContent = label;
+      row.append(rb, span);
+      wrap.appendChild(row);
+      radios.push(rb);
+    };
+    mkRow('', '— none —');
+    for (const o of (opts || [])) {
+      if (o.header != null) {
+        const h = document.createElement('div');
+        h.className = 'form-multicheck-group';
+        h.textContent = o.header;
+        wrap.appendChild(h);
+        continue;
+      }
+      if (o.value === '' || o.value == null) continue;
+      mkRow(o.value, o.label);
+    }
+    if (!radios.some((r) => r.checked)) radios[0].checked = true;
+  };
+  render(options);
+  const get = () => {
+    const v = radios.find((r) => r.checked)?.value ?? '';
+    return v === '' ? null : v;
+  };
+  const set = (v) => {
+    const s = String((Array.isArray(v) ? v[0] : v) ?? '');
+    radios.forEach((r) => { r.checked = r.value === s; });
+    if (!radios.some((r) => r.checked)) radios[0].checked = true;
+  };
+  wrap._setMulti = set; // reuse the prefill hook (scalar value)
+  wrap._rebuild = render;
+  return { node: wrap, get, set };
+}
 function buildControl(entity, field, c) {
   if (c.type === 'bool') { const s = mkSelect([{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }]); return { node: s, get: () => s.value === 'true' }; }
   if (c.type === 'enum') { const s = mkSelect([{ value: '', label: '— select —' }, ...c.options.map(o => ({ value: o, label: o }))]); return { node: s, get: () => s.value }; }
@@ -613,8 +665,8 @@ function recheckMulti(node, options, target, newId, groupField = null) {
   const rec = getById(target, newId);
   const wanted = new Set([String(newId), rec && tCat ? String(rec[tCat.label] ?? '') : '']);
   let hit = false;
-  node.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-    if (wanted.has(cb.value)) { cb.checked = true; hit = true; }
+  node.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((cb) => {
+    if (cb.value !== '' && wanted.has(cb.value)) { cb.checked = true; hit = true; }
   });
   if (hit) node.dispatchEvent(new Event('change', { bubbles: true }));
 }
@@ -779,6 +831,12 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         // <select multiple> which requires cmd-click and hides multi-select.
         // "SelectLabel = <field>" renders as group header rows.
         const picker = mkMultiCheck(withGroupHeaders(options, target, groupField));
+        node = picker.node; node.classList.add('form-input');
+        get = picker.get;
+      } else if (typeKey === 'radio' && options.length) {
+        // single-record choice rendered as an option list (radio rows),
+        // nullable via the "— none —" row
+        const picker = mkRadioList(withGroupHeaders(options, target, groupField));
         node = picker.node; node.classList.add('form-input');
         get = picker.get;
       } else {
