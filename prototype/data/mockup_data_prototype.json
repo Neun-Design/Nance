@@ -171,7 +171,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC02",
@@ -185,7 +186,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG01"
+    "regionID": "RG01",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC03",
@@ -199,7 +201,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC04",
@@ -213,7 +216,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC05",
@@ -227,7 +231,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG02"
+    "regionID": "RG02",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC06",
@@ -241,7 +246,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC07",
@@ -255,7 +261,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC08",
@@ -269,7 +276,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC09",
@@ -283,7 +291,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG02"
+    "regionID": "RG02",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC10",
@@ -297,7 +306,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG02"
+    "regionID": "RG02",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC11",
@@ -311,7 +321,8 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG01"
+    "regionID": "RG01",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC12",
@@ -324,7 +335,8 @@
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC13",
@@ -337,7 +349,8 @@
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC14",
@@ -350,7 +363,8 @@
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG03"
+    "regionID": "RG03",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC15",
@@ -363,7 +377,8 @@
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG01"
+    "regionID": "RG01",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC16",
@@ -376,7 +391,8 @@
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG01"
+    "regionID": "RG01",
+    "customerType": "internal client"
    },
    {
     "customerID": "FC17",
@@ -389,7 +405,8 @@
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG01"
+    "regionID": "RG01",
+    "customerType": "internal client"
    }
   ],
   "Forecasts": [
