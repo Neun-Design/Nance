@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Deterministic migration: People.customerID (2026-07-31).
 
-Seeds the new nullable FK People.customerID (internal-client customer /
-factory the person is stationed at). Derivation from existing values: the
-first (by customerID) Customers row with customerType 'internal client'
+Seeds the new nullable FK People.customerID (branch / internal factory
+the person is stationed at). Derivation from existing values: the
+first (by customerID) Customers row with customerType 'branch'
 whose businessUnitID contains the person's unit AND whose regionID equals
 the person's regionID — the same pair the regions migration derived from
 the person's original factory `location`, so this effectively recovers it.
@@ -44,7 +44,7 @@ def migrate(path):
         print(f'{path.name}: no People table — skipped')
         return
     internal = sorted(
-        (c for c in customers if c.get('customerType') == 'internal client'),
+        (c for c in customers if c.get('customerType') == 'branch'),
         key=lambda c: str(c.get('customerID', '')))
     changed = 0
     for p in people:
