@@ -782,6 +782,15 @@
               "constraints": "NOT NULL"
             },
             {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName) (filtered by customerType='branch')",
+              "notes": "nullable — the internal customer (interested party, ISO §4.2) this branch is the organisational record of; enables the customer → branch → units ticket chain (v3-review D1, option 1)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "cityName",
               "type": "VARCHAR",
               "rule": null,
@@ -850,6 +859,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Customer": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": "Optional — the internal customer record (interested party) of this site; only branch-type customers of the selected Unit are offered",
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
               },
               "City": {
                 "field-type": {

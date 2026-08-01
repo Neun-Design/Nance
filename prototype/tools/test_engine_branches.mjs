@@ -80,6 +80,27 @@ console.log('== Regions.countryName drives the Branches Country picker ==');
     'EMEA branch Country options collapse to the region countries');
 }
 
+console.log('== Branches <-> Customers link (v3-review D1, option 1) ==');
+{
+  eq(data.getById('Branches', 'BR01').customerID, 'FC01', 'BR01 linked to its mirror customer');
+  eq(data.getEntity('Branches').every((b) => b.customerID), true, 'all demo branches linked');
+  const r = model.parseRule(catalog['Branches'].byName['customerID'].rule);
+  eq([r.target, r.filter], ['Customers', { field: 'customerType', value: 'branch' }],
+    'FK filtered to branch-type customers');
+  const opt = forms.optionsForAttr('Branches', 'customerID',
+    catalog['Branches'].byName['customerID'].rule);
+  eq(opt.options.every((o) => data.getById('Customers', o.value).customerType === 'branch'),
+    true, 'option list only offers branch-type customers');
+  // geography agreement (the validator warns on drift; here it must hold)
+  const drift = data.getEntity('Branches').filter((b) => {
+    const c = data.getById('Customers', b.customerID);
+    return c && (String(b.cityName) !== String(c.city)
+      || String(b.countryName) !== String(c.country)
+      || String(b.regionID) !== String(c.regionID));
+  });
+  eq(drift.map((b) => b.branchID), [], 'linked pairs agree on city/country/region');
+}
+
 console.log('== Branches Owner: everyone, grouped by function ==');
 {
   const r = model.parseRule(catalog['Branches'].byName['userID'].rule);
