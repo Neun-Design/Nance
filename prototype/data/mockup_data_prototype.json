@@ -142,21 +142,38 @@
     "regionName": "Americas",
     "regionDescription": "Americas region",
     "regionOwner": "U02",
-    "continent": "North America"
+    "continent": "North America",
+    "countryName": [
+     "Brazil",
+     "Canada",
+     "Colombia",
+     "Mexico",
+     "United States"
+    ]
    },
    {
     "regionID": "RG02",
     "regionName": "APAC",
     "regionDescription": "APAC region",
     "regionOwner": "U05",
-    "continent": "Asia"
+    "continent": "Asia",
+    "countryName": [
+     "China"
+    ]
    },
    {
     "regionID": "RG03",
     "regionName": "EMEA",
     "regionDescription": "EMEA region",
     "regionOwner": "U01",
-    "continent": "Europe"
+    "continent": "Europe",
+    "countryName": [
+     "Austria",
+     "Croatia",
+     "Germany",
+     "Hungary",
+     "Italy"
+    ]
    }
   ],
   "Branches": [

@@ -503,7 +503,16 @@
               "name": "continent",
               "type": "ENUM",
               "rule": "enum: ['Africa', 'Antarctica', 'Asia', 'Europe', 'North America', 'Oceania', 'South America']",
-              "notes": "Continent this region operates in (drives the Branches country picker)",
+              "notes": "Continent this region operates in",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "countryName",
+              "type": "FK",
+              "rule": "FK → Countries (display: countryName)",
+              "notes": "multivalued — countries this region covers (drives the Branches Country picker)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -560,6 +569,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Country": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "countryName",
+                "tooltip": "Countries this region covers — offered as the Country options for the region's branches",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; SelectLabel = continent"
               },
               "Owner": {
                 "field-type": {
@@ -735,6 +754,15 @@
               "constraints": "PK"
             },
             {
+              "name": "branchName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "businessSegmentID",
               "type": "FK",
               "rule": "FK → Business Segments (display: businessSegmentName)",
@@ -750,15 +778,6 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "branchName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
               "constraints": null
             },
             {
@@ -856,10 +875,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "countryName",
-                "tooltip": null,
+                "tooltip": "Only countries registered on the selected Region are offered",
                 "step": null,
                 "check": "Region IS NOT NULL",
-                "field-rule": "SelectLabel = continent; filtered by Region.continent selected"
+                "field-rule": "SelectLabel = continent; filtered by Region.countryName selected"
               },
               "Owner": {
                 "field-type": {
