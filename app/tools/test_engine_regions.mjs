@@ -62,8 +62,11 @@ console.log('== 5-key requirement rollup: region / unit wildcards (Q1 semantics)
   mk('RQR-BU01', { businessUnitID: ['BU01'] });        // matches the customer's unit
   mk('RQR-BU03', { businessUnitID: ['BU03'] });        // other unit → excluded
   const wf = data.getById('Workflows', 'WFR1');
+  // 2026-08-01: requirements applicability moved from customers to Branches —
+  // the bare customerID leg left the chain (region/unit still derive from the
+  // workflow's customer)
   const kids = resolve.childrenOf('Workflows', wf, 'Requirements', { viaList: [
-    'customerID', 'customerID.regionID', 'customerID.businessUnitID',
+    'customerID.regionID', 'customerID.businessUnitID',
     'productScopeID.productGroupID', 'productScopeID.scopeID'] });
   const ids = kids.map((k) => k.requirementID).filter((i) => String(i).startsWith('RQR'));
   eq([ids.includes('RQR-ALL'), ids.includes('RQR-EMEA'), ids.includes('RQR-APAC'),
@@ -71,8 +74,8 @@ console.log('== 5-key requirement rollup: region / unit wildcards (Q1 semantics)
   [true, true, false, true, false],
   'wildcard + region-matched + unit-matched roll up; other region/unit excluded');
   const declared = model.parseRule(catalog['Workflows'].byName['requirements'].rule);
-  eq(declared.viaList, ['customerID', 'customerID.regionID', 'customerID.businessUnitID',
-    'productScopeID.productGroupID', 'productScopeID.scopeID'], 'datamodel rule declares the 5-key chain');
+  eq(declared.viaList, ['customerID.regionID', 'customerID.businessUnitID',
+    'productScopeID.productGroupID', 'productScopeID.scopeID'], 'datamodel rule declares the 4-key chain');
 }
 
 console.log('== Requirements form: enum isActive + region options ==');

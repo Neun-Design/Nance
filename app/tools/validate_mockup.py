@@ -49,7 +49,8 @@ for mname, m in DM['modules'].items():
         pk = next((a['name'] for a in t['attributes'] if a.get('constraints') == 'PK'), None)
         pk_of[tname] = pk
         if not rows:
-            fail(f'{tname}: no rows'); continue
+            # registries may legitimately start blank (e.g. Classes, 2026-08-01)
+            warn(f'{tname}: no rows'); continue
         missing = [f for f in stored if any(f not in r for r in rows)]
         extra = sorted({k for r in rows for k in r} - set(stored))
         if missing: fail(f'{tname}: rows missing stored attrs {missing}')

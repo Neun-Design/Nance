@@ -141,19 +141,1024 @@
     "regionID": "RG01",
     "regionName": "Americas",
     "regionDescription": "Americas region",
-    "regionOwner": "U02"
+    "regionOwner": "U02",
+    "continent": "North America"
    },
    {
     "regionID": "RG02",
     "regionName": "APAC",
     "regionDescription": "APAC region",
-    "regionOwner": "U05"
+    "regionOwner": "U05",
+    "continent": "Asia"
    },
    {
     "regionID": "RG03",
     "regionName": "EMEA",
     "regionDescription": "EMEA region",
-    "regionOwner": "U01"
+    "regionOwner": "U01",
+    "continent": "Europe"
+   }
+  ],
+  "Countries": [
+   {
+    "countryName": "Algeria",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Angola",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Benin",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Botswana",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Burkina Faso",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Burundi",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Cabo Verde",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Cameroon",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Central African Republic",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Chad",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Comoros",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Congo",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Democratic Republic of the Congo",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Djibouti",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Egypt",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Equatorial Guinea",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Eritrea",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Eswatini",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Ethiopia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Gabon",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Gambia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Ghana",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Guinea",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Guinea-Bissau",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Ivory Coast",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Kenya",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Lesotho",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Liberia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Libya",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Madagascar",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Malawi",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Mali",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Mauritania",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Mauritius",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Morocco",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Mozambique",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Namibia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Niger",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Nigeria",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Rwanda",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Sao Tome and Principe",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Senegal",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Seychelles",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Sierra Leone",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Somalia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "South Africa",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "South Sudan",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Sudan",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Tanzania",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Togo",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Tunisia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Uganda",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Zambia",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Zimbabwe",
+    "continent": "Africa"
+   },
+   {
+    "countryName": "Afghanistan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Armenia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Azerbaijan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Bahrain",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Bangladesh",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Bhutan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Brunei",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Cambodia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "China",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Cyprus",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Georgia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "India",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Indonesia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Iran",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Iraq",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Israel",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Japan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Jordan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Kazakhstan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Kuwait",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Kyrgyzstan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Laos",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Lebanon",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Malaysia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Maldives",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Mongolia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Myanmar",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Nepal",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "North Korea",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Oman",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Pakistan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Palestine",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Philippines",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Qatar",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Saudi Arabia",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Singapore",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "South Korea",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Sri Lanka",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Syria",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Taiwan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Tajikistan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Thailand",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Timor-Leste",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Turkey",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Turkmenistan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "United Arab Emirates",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Uzbekistan",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Vietnam",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Yemen",
+    "continent": "Asia"
+   },
+   {
+    "countryName": "Albania",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Andorra",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Austria",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Belarus",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Belgium",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Bosnia and Herzegovina",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Bulgaria",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Croatia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Czechia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Denmark",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Estonia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Finland",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "France",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Germany",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Greece",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Hungary",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Iceland",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Ireland",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Italy",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Kosovo",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Latvia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Liechtenstein",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Lithuania",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Luxembourg",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Malta",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Moldova",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Monaco",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Montenegro",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Netherlands",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "North Macedonia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Norway",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Poland",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Portugal",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Romania",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Russia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "San Marino",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Serbia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Slovakia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Slovenia",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Spain",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Sweden",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Switzerland",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Ukraine",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "United Kingdom",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Vatican City",
+    "continent": "Europe"
+   },
+   {
+    "countryName": "Antigua and Barbuda",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Bahamas",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Barbados",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Belize",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Canada",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Costa Rica",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Cuba",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Dominica",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Dominican Republic",
+    "continent": "North America"
+   },
+   {
+    "countryName": "El Salvador",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Grenada",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Guatemala",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Haiti",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Honduras",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Jamaica",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Mexico",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Nicaragua",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Panama",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Saint Kitts and Nevis",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Saint Lucia",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Saint Vincent and the Grenadines",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Trinidad and Tobago",
+    "continent": "North America"
+   },
+   {
+    "countryName": "United States",
+    "continent": "North America"
+   },
+   {
+    "countryName": "Australia",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Fiji",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Kiribati",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Marshall Islands",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Micronesia",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Nauru",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "New Zealand",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Palau",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Papua New Guinea",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Samoa",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Solomon Islands",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Tonga",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Tuvalu",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Vanuatu",
+    "continent": "Oceania"
+   },
+   {
+    "countryName": "Argentina",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Bolivia",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Brazil",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Chile",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Colombia",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Ecuador",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Guyana",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Paraguay",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Peru",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Suriname",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Uruguay",
+    "continent": "South America"
+   },
+   {
+    "countryName": "Venezuela",
+    "continent": "South America"
+   }
+  ],
+  "Branches": [
+   {
+    "branchID": "BR01",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "PN",
+    "cityName": "Nuremberg",
+    "regionID": "RG03",
+    "countryName": "Germany",
+    "userID": null
+   },
+   {
+    "branchID": "BR02",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "TUSA",
+    "cityName": "Jundiaí",
+    "regionID": "RG01",
+    "countryName": "Brazil",
+    "userID": null
+   },
+   {
+    "branchID": "BR03",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STW",
+    "cityName": "Weiz",
+    "regionID": "RG03",
+    "countryName": "Austria",
+    "userID": null
+   },
+   {
+    "branchID": "BR04",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "KPT",
+    "cityName": "Zagreb",
+    "regionID": "RG03",
+    "countryName": "Croatia",
+    "userID": null
+   },
+   {
+    "branchID": "BR05",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STGZ",
+    "cityName": "Guangzhou",
+    "regionID": "RG02",
+    "countryName": "China",
+    "userID": null
+   },
+   {
+    "branchID": "BR06",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STDD",
+    "cityName": "Dresden",
+    "regionID": "RG03",
+    "countryName": "Germany",
+    "userID": null
+   },
+   {
+    "branchID": "BR07",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STL",
+    "cityName": "Linz",
+    "regionID": "RG03",
+    "countryName": "Austria",
+    "userID": null
+   },
+   {
+    "branchID": "BR08",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STN",
+    "cityName": "Trento",
+    "regionID": "RG03",
+    "countryName": "Italy",
+    "userID": null
+   },
+   {
+    "branchID": "BR09",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STCK",
+    "cityName": "Jinan",
+    "regionID": "RG02",
+    "countryName": "China",
+    "userID": null
+   },
+   {
+    "branchID": "BR10",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STWH",
+    "cityName": "Wuhan",
+    "regionID": "RG02",
+    "countryName": "China",
+    "userID": null
+   },
+   {
+    "branchID": "BR11",
+    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
+    "branchName": "STM",
+    "cityName": "Guanajuato",
+    "regionID": "RG01",
+    "countryName": "Mexico",
+    "userID": null
+   },
+   {
+    "branchID": "BR12",
+    "businessSegmentID": "BS03",
+    "businessUnitID": "BU02",
+    "branchName": "DB",
+    "cityName": "Budapest",
+    "regionID": "RG03",
+    "countryName": "Hungary",
+    "userID": null
+   },
+   {
+    "branchID": "BR13",
+    "businessSegmentID": "BS03",
+    "businessUnitID": "BU02",
+    "branchName": "DK",
+    "cityName": "Kirchheim",
+    "regionID": "RG03",
+    "countryName": "Germany",
+    "userID": null
+   },
+   {
+    "branchID": "BR14",
+    "businessSegmentID": "BS03",
+    "businessUnitID": "BU02",
+    "branchName": "TN",
+    "cityName": "Nuremberg",
+    "regionID": "RG03",
+    "countryName": "Germany",
+    "userID": null
+   },
+   {
+    "branchID": "BR15",
+    "businessSegmentID": "BS03",
+    "businessUnitID": "BU02",
+    "branchName": "JXN",
+    "cityName": "Jackson",
+    "regionID": "RG01",
+    "countryName": "United States",
+    "userID": null
+   },
+   {
+    "branchID": "BR16",
+    "businessSegmentID": "BS03",
+    "businessUnitID": "BU02",
+    "branchName": "SAT",
+    "cityName": "Bogotá",
+    "regionID": "RG01",
+    "countryName": "Colombia",
+    "userID": null
+   },
+   {
+    "branchID": "BR17",
+    "businessSegmentID": "BS03",
+    "businessUnitID": "BU02",
+    "branchName": "STCA",
+    "cityName": "Trois-Rivières",
+    "regionID": "RG01",
+    "countryName": "Canada",
+    "userID": null
+   }
+  ],
+  "Issues": [
+   {
+    "issueID": "IS01",
+    "issueName": "Dielectric Failure",
+    "issueDescription": "Dielectric Failure opportunity (from the retired scopeOpportunity enum)",
+    "issueType": "Opportunity",
+    "businessUnitID": [],
+    "businessSegmentID": null
+   },
+   {
+    "issueID": "IS02",
+    "issueName": "Increase Capability",
+    "issueDescription": "Increase Capability opportunity (from the retired scopeOpportunity enum)",
+    "issueType": "Opportunity",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
+    "businessSegmentID": "BS01"
+   },
+   {
+    "issueID": "IS03",
+    "issueName": "Lifetime Extension",
+    "issueDescription": "Lifetime Extension opportunity (from the retired scopeOpportunity enum)",
+    "issueType": "Opportunity",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
+    "businessSegmentID": "BS01"
+   },
+   {
+    "issueID": "IS90",
+    "issueName": "Chronic Rework",
+    "issueDescription": "Recurring rework on delivered designs detected across tickets",
+    "issueType": "Risk",
+    "businessUnitID": [],
+    "businessSegmentID": null
    }
   ]
  },
@@ -19715,6 +20720,13 @@
     "businessUnitID": [
      "BU01"
     ]
+   },
+   {
+    "functionID": "F6",
+    "functionName": "Manager",
+    "functionDescription": null,
+    "functionOwner": null,
+    "businessUnitID": null
    }
   ],
   "Graduation": [
@@ -19767,7 +20779,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U02",
@@ -19784,7 +20796,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG01",
-    "customerID": "FC02"
+    "branchID": "BR02"
    },
    {
     "userID": "U03",
@@ -19801,7 +20813,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U04",
@@ -19818,7 +20830,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U05",
@@ -19835,7 +20847,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    },
    {
     "userID": "U06",
@@ -19852,7 +20864,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U07",
@@ -19869,7 +20881,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U08",
@@ -19886,7 +20898,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U09",
@@ -19903,7 +20915,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    },
    {
     "userID": "U10",
@@ -19920,7 +20932,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    },
    {
     "userID": "U11",
@@ -19937,7 +20949,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG01",
-    "customerID": "FC02"
+    "branchID": "BR02"
    },
    {
     "userID": "U12",
@@ -19954,7 +20966,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U13",
@@ -19971,7 +20983,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U14",
@@ -19988,7 +21000,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U15",
@@ -20005,7 +21017,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG01",
-    "customerID": "FC02"
+    "branchID": "BR02"
    },
    {
     "userID": "U16",
@@ -20022,7 +21034,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG01",
-    "customerID": "FC02"
+    "branchID": "BR02"
    },
    {
     "userID": "U17",
@@ -20039,7 +21051,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG01",
-    "customerID": "FC02"
+    "branchID": "BR02"
    },
    {
     "userID": "U18",
@@ -20056,7 +21068,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U19",
@@ -20073,7 +21085,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG01",
-    "customerID": "FC02"
+    "branchID": "BR02"
    },
    {
     "userID": "U20",
@@ -20090,7 +21102,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U21",
@@ -20107,7 +21119,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U22",
@@ -20124,7 +21136,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    },
    {
     "userID": "U23",
@@ -20141,7 +21153,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U24",
@@ -20158,7 +21170,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U25",
@@ -20175,7 +21187,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U26",
@@ -20192,7 +21204,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U27",
@@ -20209,7 +21221,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG03",
-    "customerID": "FC01"
+    "branchID": "BR01"
    },
    {
     "userID": "U28",
@@ -20226,7 +21238,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    },
    {
     "userID": "U29",
@@ -20243,7 +21255,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    },
    {
     "userID": "U30",
@@ -20260,7 +21272,7 @@
     "departmentID": "DPT01",
     "graduationID": null,
     "regionID": "RG02",
-    "customerID": "FC05"
+    "branchID": "BR05"
    }
   ],
   "Onboarding": [
@@ -21201,7 +22213,8 @@
     "businessUnitID": [
      "BU01",
      "BU02"
-    ]
+    ],
+    "scopeClassID": []
    },
    {
     "scopeID": "A.2",
@@ -21211,7 +22224,8 @@
     "scopeOwner": "U02",
     "businessUnitID": [
      "BU01"
-    ]
+    ],
+    "scopeClassID": []
    },
    {
     "scopeID": "A.3",
@@ -21222,7 +22236,8 @@
     "businessUnitID": [
      "BU01",
      "BU02"
-    ]
+    ],
+    "scopeClassID": []
    },
    {
     "scopeID": "A.4",
@@ -21230,7 +22245,8 @@
     "scopeName": "Repair with Windings Replacement",
     "scopeOpportunity": "IS01",
     "scopeOwner": "U04",
-    "businessUnitID": []
+    "businessUnitID": [],
+    "scopeClassID": []
    },
    {
     "scopeID": "B",
@@ -21240,7 +22256,8 @@
     "scopeOwner": "U05",
     "businessUnitID": [
      "BU01"
-    ]
+    ],
+    "scopeClassID": []
    },
    {
     "scopeID": "C",
@@ -21248,7 +22265,8 @@
     "scopeName": "Renewal of the paper/oil insulation system",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U06",
-    "businessUnitID": []
+    "businessUnitID": [],
+    "scopeClassID": []
    },
    {
     "scopeID": "D",
@@ -21256,7 +22274,8 @@
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U07",
-    "businessUnitID": []
+    "businessUnitID": [],
+    "scopeClassID": []
    },
    {
     "scopeID": "E",
@@ -21264,7 +22283,8 @@
     "scopeName": "Renovation of External Parts",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U08",
-    "businessUnitID": []
+    "businessUnitID": [],
+    "scopeClassID": []
    },
    {
     "scopeID": "F",
@@ -21272,7 +22292,8 @@
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U09",
-    "businessUnitID": []
+    "businessUnitID": [],
+    "scopeClassID": []
    },
    {
     "scopeID": "G",
@@ -21282,7 +22303,8 @@
     "scopeOwner": "U10",
     "businessUnitID": [
      "BU02"
-    ]
+    ],
+    "scopeClassID": []
    }
   ],
   "Products": [
@@ -21643,10 +22665,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "IEC 60076-1",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN2",
@@ -21664,10 +22686,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN3",
@@ -21686,10 +22708,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "IEC 60076-5",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN4",
@@ -21706,10 +22728,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN5",
@@ -21724,10 +22746,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "IEC 60076-10",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN6",
@@ -21743,10 +22765,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "IEC 60076-2",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN7",
@@ -21783,10 +22805,10 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN8",
@@ -21823,10 +22845,10 @@
     ],
     "isActive": "Inactive",
     "regulatoryReference": "",
-    "customerID": [],
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": []
    },
    {
     "requirementID": "CN9",
@@ -21840,14 +22862,14 @@
     "productGroupID": [
      "PG01"
     ],
-    "customerID": [
-     "FC01"
-    ],
     "isActive": "Active",
     "regulatoryReference": "VDE-AR-N 4130",
     "regionID": [],
     "businessUnitID": [],
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "branchID": [
+     "BR01"
+    ]
    }
   ],
   "Requirement Type": [
@@ -21882,41 +22904,6 @@
     "requirementTypeOwner": "U05"
    }
   ],
-  "Issues": [
-   {
-    "issueID": "IS01",
-    "issueName": "Dielectric Failure",
-    "issueDescription": "Dielectric Failure opportunity (from the retired scopeOpportunity enum)",
-    "issueType": "Opportunity",
-    "businessUnitID": []
-   },
-   {
-    "issueID": "IS02",
-    "issueName": "Increase Capability",
-    "issueDescription": "Increase Capability opportunity (from the retired scopeOpportunity enum)",
-    "issueType": "Opportunity",
-    "businessUnitID": [
-     "BU01",
-     "BU02"
-    ]
-   },
-   {
-    "issueID": "IS03",
-    "issueName": "Lifetime Extension",
-    "issueDescription": "Lifetime Extension opportunity (from the retired scopeOpportunity enum)",
-    "issueType": "Opportunity",
-    "businessUnitID": [
-     "BU01",
-     "BU02"
-    ]
-   },
-   {
-    "issueID": "IS90",
-    "issueName": "Chronic Rework",
-    "issueDescription": "Recurring rework on delivered designs detected across tickets",
-    "issueType": "Risk",
-    "businessUnitID": []
-   }
-  ]
+  "Classes": []
  }
 }
