@@ -5619,8 +5619,8 @@
             {
               "name": "squadID",
               "type": "VARCHAR",
-              "rule": "rollup → People (via: roleID)",
-              "notes": null,
+              "rule": "rollup → People via: roleID (display: squadName)",
+              "notes": "Squads of the people currently holding this role",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6099,8 +6099,8 @@
             {
               "name": "departmentID",
               "type": "FK",
-              "rule": "rollup -> Departments via: businessUnitID (display: departmentName)",
-              "notes": "Department within the selected business unit; options narrowed by businessUnitID",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Stored, user-selected (Unit → Department → Squad cascade in the form); kept consistent with squadID → Squads.departmentID",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -6382,7 +6382,7 @@
             {
               "name": "functionID",
               "type": "VARCHAR",
-              "rule": "rollup: Function via businessUnitID (display: functionID)",
+              "rule": "rollup: Functions via businessUnitID (display: functionID)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -6418,8 +6418,8 @@
             {
               "name": "competenceID",
               "type": "FK",
-              "rule": "FK → Competence (via: roleID + levelRank) (display: competenceName)",
-              "notes": null,
+              "rule": "FK → Competence (display: competenceName)",
+              "notes": "Stores the competence PK; role/rank/department narrowing lives in the form cascade (the old 'via: roleID + levelRank' spelling made the select store roleIDs)",
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -6546,10 +6546,10 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "competenceID",
-                "tooltip": null,
+                "tooltip": "Competences of the selected Department (via their event) matching the chosen Role",
                 "step": null,
                 "check": "Role IS NOT NULL",
-                "field-rule": "SelectLabel = processName; filtered by roleID selected"
+                "field-rule": "SelectLabel = processName; filtered by departmentID + roleID selected"
               },
               "Training Material": {
                 "field-type": {
@@ -6593,10 +6593,19 @@
             {
               "name": "eventID",
               "type": "INT",
-              "rule": "FK → Events (display: eventName)",
+              "rule": "FK → Events (display: eventTitle)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Derived on save from the selected Event (Event.departmentID) — join key for the Onboarding Department → Competence cascade",
+              "table-display": false,
+              "subitem-display": false,
               "constraints": "FK"
             },
             {
@@ -6620,7 +6629,7 @@
             {
               "name": "functionID",
               "type": "INT",
-              "rule": "FK → Function (display: functionName)",
+              "rule": "FK → Functions (display: functionName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,

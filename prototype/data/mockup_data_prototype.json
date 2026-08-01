@@ -21076,7 +21076,8 @@
      "CN1",
      "CN4"
     ],
-    "levelRank": 1
+    "levelRank": 1,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP02",
@@ -21100,7 +21101,8 @@
      "CN1",
      "CN2"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP03",
@@ -21124,7 +21126,8 @@
      "CN1",
      "CN2"
     ],
-    "levelRank": 1
+    "levelRank": 1,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP04",
@@ -21148,7 +21151,8 @@
      "CN1",
      "CN7"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP05",
@@ -21172,7 +21176,8 @@
      "CN4",
      "CN7"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP06",
@@ -21196,7 +21201,8 @@
      "CN7",
      "CN8"
     ],
-    "levelRank": 3
+    "levelRank": 3,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP07",
@@ -21220,7 +21226,8 @@
      "CN7",
      "CN8"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP08",
@@ -21244,7 +21251,8 @@
      "CN7",
      "CN8"
     ],
-    "levelRank": 3
+    "levelRank": 3,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP09",
@@ -21268,7 +21276,8 @@
      "CN7",
      "CN8"
     ],
-    "levelRank": 3
+    "levelRank": 3,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP10",
@@ -21292,7 +21301,8 @@
      "CN5",
      "CN7"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP11",
@@ -21316,7 +21326,8 @@
      "CN1",
      "CN4"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    },
    {
     "competenceID": "CMP12",
@@ -21340,7 +21351,8 @@
      "CN1",
      "CN2"
     ],
-    "levelRank": 2
+    "levelRank": 2,
+    "departmentID": "DPT01"
    }
   ]
  },
