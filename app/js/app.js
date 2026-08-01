@@ -3,8 +3,8 @@
 // via model.js (DATAMODEL_GUIDE.md is the contract).
 
 import { loadData, getEntity, getById, removeRecords, initMeta, BLANK_MODE,
-  exportSnapshot, importSnapshot } from './data.js';
-import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns } from './model.js';
+  exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
+import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion } from './model.js';
 import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
@@ -31,6 +31,7 @@ async function main() {
   try {
     const { catalog } = await loadModel();
     initMeta(catalog);
+    setSchemaVersion(getSchemaVersion());
     await loadData();
   } catch (e) {
     tabViewEl.innerHTML = `<div class="empty-note">Could not load data: ${escapeHtml(e.message)}<br>Serve this folder over http (e.g. <code>python3 -m http.server</code>).</div>`;
@@ -67,7 +68,11 @@ async function main() {
       if (!f) return;
       try {
         const raw = JSON.parse(await f.text());
-        if (!confirm(`Import "${f.name}"?\nThis replaces the records of the current session.`)) return;
+        const fileVer = (raw._meta && raw._meta.schemaVersion) ?? null;
+        const appVer = getSchemaVersion();
+        const drift = fileVer != null && appVer != null && String(fileVer) !== String(appVer)
+          ? `\n\n⚠ Schema mismatch: file v${fileVer} vs app v${appVer} — fields may be missing or renamed; review before trusting derived views.` : '';
+        if (!confirm(`Import "${f.name}"?\nThis replaces the records of the current session.${drift}`)) return;
         const { records, skipped } = importSnapshot(raw);
         alert(`Imported ${records} record(s).${skipped.length
           ? `\nSkipped tables this build doesn't know (schema drift): ${skipped.join(', ')}` : ''}`);
