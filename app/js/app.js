@@ -65,8 +65,8 @@ const FALLBACK_ICON = svgIcon('<rect x="3" y="3" width="18" height="18" rx="2"/>
 // Blank-walkthrough scope: analytics modules/dashboards need seeded data, so
 // in blank mode they stay visible in the navigation but inert (opaque, not
 // selectable) — stakeholder sessions focus on the creation chain.
-const BLANK_DISABLED_MODULES = new Set(['Overview', 'Workspace', 'Control']);
-const BLANK_DISABLED_TABS = { CRM: new Set(['Forecasts', 'Forecast Scopes']) };
+const BLANK_DISABLED_MODULES = new Set(['Overview', 'CRM', 'Workspace', 'Control']);
+const BLANK_DISABLED_TABS = {};
 const DISABLED_TIP = 'Not available in this walkthrough';
 const moduleDisabled = (name) => BLANK_MODE && BLANK_DISABLED_MODULES.has(name);
 const tabDisabled = (modName, table) => BLANK_MODE && !!BLANK_DISABLED_TABS[modName]?.has(table);
