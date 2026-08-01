@@ -19990,7 +19990,7 @@
     "functionName": "Manager",
     "functionDescription": null,
     "functionOwner": null,
-    "businessUnitID": null
+    "businessUnitID": "BU01"
    }
   ],
   "Graduation": [
@@ -21521,7 +21521,10 @@
     "scopeName": "Repair with Windings Replacement",
     "scopeOpportunity": "IS01",
     "scopeOwner": "U04",
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
     "scopeClassID": []
    },
    {
@@ -21541,7 +21544,10 @@
     "scopeName": "Renewal of the paper/oil insulation system",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U06",
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
     "scopeClassID": []
    },
    {
@@ -21550,7 +21556,10 @@
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U07",
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
     "scopeClassID": []
    },
    {
@@ -21559,7 +21568,10 @@
     "scopeName": "Renovation of External Parts",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U08",
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
     "scopeClassID": []
    },
    {
@@ -21568,7 +21580,10 @@
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "scopeOpportunity": "IS03",
     "scopeOwner": "U09",
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ],
     "scopeClassID": []
    },
    {

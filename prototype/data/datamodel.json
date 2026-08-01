@@ -33,7 +33,7 @@
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "regionID",
@@ -273,7 +273,7 @@
               "notes": null,
               "table-display": false,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "departmentCode",
@@ -394,7 +394,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "people",
@@ -770,7 +770,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "businessUnitID",
@@ -779,7 +779,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "cityName",
@@ -797,7 +797,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "countryName",
@@ -956,7 +956,7 @@
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "businessSegmentID",
@@ -965,7 +965,7 @@
               "notes": "multivalued — user-selected (reverts decision Q4, 2026-07-30)",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "customerType",
@@ -1010,7 +1010,7 @@
               "notes": "Geographical grouping",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "isActive",
@@ -1179,7 +1179,7 @@
               "notes": "Customer submitting this forecast",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerTitle",
@@ -1206,7 +1206,7 @@
               "notes": "Granularity of the period",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "periodStart",
@@ -1453,7 +1453,7 @@
               "notes": "Parent forecast",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerTitle",
@@ -1489,7 +1489,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "productGroupID",
@@ -1740,7 +1740,7 @@
               "notes": "Event that triggered this task",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "processID",
@@ -1749,7 +1749,7 @@
               "notes": "Options are processes triggered by the selected event",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "workflowID",
@@ -1758,7 +1758,7 @@
               "notes": "Options filtered by matching processID",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "actionID",
@@ -1767,7 +1767,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "requirementName",
@@ -2081,7 +2081,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "departmentID",
@@ -2090,7 +2090,7 @@
               "notes": "Department handling the event — offered from the selected Business Unit's departments",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "eventCreatedAt",
@@ -2285,7 +2285,7 @@
               "notes": "Event that triggered this Process",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "processOwner",
@@ -2611,7 +2611,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerID",
@@ -3181,7 +3181,7 @@
               "notes": "Derived on save from the selected Product Group (no user input)",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "productGroupID",
@@ -3190,7 +3190,7 @@
               "notes": "Options show productName | SPECS and are filtered by the selected Business Unit (via the group's products)",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "productGroupName",
@@ -3226,7 +3226,7 @@
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "productScopeName",
@@ -3418,7 +3418,7 @@
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             }
           ],
           "reports": null,
@@ -3522,7 +3522,7 @@
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             }
           ],
           "reports": null,
@@ -3594,7 +3594,7 @@
               "notes": "Controls the input rendered for this spec in the Product Group form",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "specDescription",
@@ -3612,7 +3612,7 @@
               "notes": "multivalued — products this spec applies to",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "businessUnitID",
@@ -3752,7 +3752,7 @@
               "notes": "Single valued, not multivalued",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "specValues",
@@ -4257,7 +4257,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerName",
@@ -4726,7 +4726,7 @@
               "notes": "Project the job belongs to (via its ticket)",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "ticketID",
@@ -4735,7 +4735,7 @@
               "notes": "Ticket this job belongs to",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "scopeID",
@@ -5551,7 +5551,7 @@
               "notes": "Functional area this role belongs to",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "skillLevelID",
@@ -5879,7 +5879,7 @@
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "NOT NULL"
             },
             {
               "name": "roles",
@@ -6094,7 +6094,7 @@
               "notes": "Business unit this person belongs to",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "departmentID",
@@ -6103,7 +6103,7 @@
               "notes": "Stored, user-selected (Unit → Department → Squad cascade in the form); kept consistent with squadID → Squads.departmentID",
               "table-display": false,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "userEmail",
@@ -6121,7 +6121,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "isActive",
@@ -6148,7 +6148,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "squadID",
@@ -6368,7 +6368,7 @@
               "notes": "Department running the onboarding; businessUnitID derives from it on save",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "businessUnitID",
@@ -6404,7 +6404,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "levelRank",
@@ -6597,7 +6597,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "departmentID",
@@ -6624,7 +6624,7 @@
               "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "functionID",
@@ -6633,7 +6633,7 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "skillLevelID",
@@ -6642,7 +6642,7 @@
               "notes": "Required proficiency",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "roleID",
@@ -6696,7 +6696,7 @@
               "notes": "Product group this competence certifies",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "productSpecID",
