@@ -5,7 +5,7 @@
       "tables": {
         "Business Units": {
           "visibility": "show",
-          "dashboard-order": 2,
+          "dashboard-order": 3,
           "description": "Adressess ISO 9001:2015 section 4",
           "attributes": [
             {
@@ -245,7 +245,7 @@
         },
         "Departments": {
           "visibility": "show",
-          "dashboard-order": 3,
+          "dashboard-order": 4,
           "description": "Adressess ISO 9001:2015 section 4",
           "attributes": [
             {
@@ -357,7 +357,7 @@
         },
         "Squads": {
           "visibility": "show",
-          "dashboard-order": 4,
+          "dashboard-order": 5,
           "description": "Squads group People so that a manager can simulate forecastScopes by squad.",
           "attributes": [
             {
@@ -469,7 +469,7 @@
         },
         "Regions": {
           "visibility": "show",
-          "dashboard-order": 5,
+          "dashboard-order": 6,
           "description": "Geographical grouping of customers (ISO 9001:2015 §4.1 organisational context). A region can carry execution requirements of its own: Requirements may be scoped to specific regions (empty = applies to all regions).",
           "attributes": [
             {
@@ -495,6 +495,15 @@
               "type": "TEXT",
               "rule": null,
               "notes": "nullable",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "continent",
+              "type": "ENUM",
+              "rule": "enum: ['Africa', 'Antarctica', 'Asia', 'Europe', 'North America', 'Oceania', 'South America']",
+              "notes": "Continent this region operates in (drives the Branches country picker)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -542,6 +551,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Continent": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "continent",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Owner": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -560,6 +579,349 @@
             "Customers",
             "Business Units"
           ]
+        },
+        "Issues": {
+          "visibility": "show",
+          "dashboard-order": 2,
+          "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
+          "attributes": [
+            {
+              "name": "issueID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "issueName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., Lifetime Extension, Increase Capability, Dieletric Failure",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "issueDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "issueType",
+              "type": "ENUM",
+              "rule": "enum: ['Opportunity', 'Risk']",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "businessSegmentID",
+              "type": "FK",
+              "rule": "FK → Business Segments (display: businessSegmentName)",
+              "notes": "Stakeholder round 2026-08-01: issues classify by segment (was unit)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "scopeID",
+              "type": "rollup",
+              "rule": "rollup → Scopes (via: scopeOpportunity)",
+              "notes": "Scopes tagged with this issue (reverse of Scopes.scopeOpportunity)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitTitle)",
+              "notes": "legacy — issues classify by businessSegmentID since 2026-08-01",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "businessUnitTitle",
+              "type": "mirror",
+              "rule": "mirror: Business Units via:businessUnitID",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "businessSegmentName",
+              "type": "mirror",
+              "rule": "mirror: Business Segments via: businessSegmentID",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "issueName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "issueDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "issueType",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Segment": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessSegmentID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": [],
+          "table-filters": true,
+          "subitem-tables": [
+            "Scopes"
+          ]
+        },
+        "Branches": {
+          "description": "Physical branches (internal factories/sites) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
+          "dashboard-order": 7,
+          "subitem-tables": null,
+          "attributes": [
+            {
+              "name": "branchID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "businessSegmentID",
+              "type": "FK",
+              "rule": "FK → Business Segments (display: businessSegmentName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "branchName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "cityName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "regionID",
+              "type": "FK",
+              "rule": "FK → Regions (display: regionName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "countryName",
+              "type": "VARCHAR",
+              "rule": "FK → Countries (display: countryName)",
+              "notes": "Country picker sourced from the hidden Countries registry",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "userID",
+              "type": "INT",
+              "rule": "FK → People (filtered by functionName='Manager') (display: userName)",
+              "notes": "Branch owner — only people whose function is Manager",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Segment": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessSegmentID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": "Segment IS NOT NULL",
+                "field-rule": "filtered by businessSegmentID selected"
+              },
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "branchName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "City": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "cityName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Region": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "regionID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Country": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "countryName",
+                "tooltip": null,
+                "step": null,
+                "check": "Region IS NOT NULL",
+                "field-rule": "SelectLabel = continent; filtered by Region.continent selected"
+              },
+              "Owner": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "userID",
+                "tooltip": "Only people with the Manager function are offered",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          }
+        },
+        "Countries": {
+          "description": "Hidden registry of countries per continent — feeds the Branches Country picker",
+          "dashboard-order": 0,
+          "subitem-tables": null,
+          "attributes": [
+            {
+              "name": "countryName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "PK — name-valued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "continent",
+              "type": "ENUM",
+              "rule": "enum: ['Africa', 'Antarctica', 'Asia', 'Europe', 'North America', 'Oceania', 'South America']",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "countryName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Continent": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "continent",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          }
         }
       }
     },
@@ -1143,7 +1505,7 @@
             {
               "name": "requirementID",
               "type": "computed",
-              "rule": "computed → Requirements (via: forecastID.customerID + forecastID.customerID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID) (display: requirementName)",
+              "rule": "computed → Requirements (via: forecastID.customerID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID) (display: requirementName)",
               "notes": "Requirements linked to the row's scope + product group",
               "table-display": true,
               "subitem-display": true,
@@ -2317,7 +2679,7 @@
             {
               "name": "requirements",
               "type": "rollup",
-              "rule": "rollup → Requirements (via: customerID + customerID.regionID + customerID.businessUnitID + productScopeID.productGroupID + productScopeID.scopeID); display: requirementName",
+              "rule": "rollup → Requirements (via: customerID.regionID + customerID.businessUnitID + productScopeID.productGroupID + productScopeID.scopeID); display: requirementName",
               "notes": "Compound AND join; a Requirement with empty customerID applies to all customers. No associative entity in the prototype — the multivalued FKs on Requirements are the flattened associative entity (map to Constrain in the ER-UML model).",
               "table-display": false,
               "subitem-display": false,
@@ -2755,7 +3117,7 @@
       "tables": {
         "Product Scopes": {
           "visibility": "show",
-          "dashboard-order": 1,
+          "dashboard-order": 7,
           "description": "Combination of product and scope used for planning and forecasting execution demand (ISO §4.3 / §8.1).",
           "attributes": [
             {
@@ -2987,6 +3349,15 @@
               "constraints": null
             },
             {
+              "name": "scopeClassID",
+              "type": "FK",
+              "rule": "FK → Classes (display: scopeClassName)",
+              "notes": "multivalued",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "productScopeID",
               "type": "rollup",
               "rule": "computed: list productScopeID from Product Scopes where scopeID matches",
@@ -3038,6 +3409,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Opportunity": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -3045,18 +3426,18 @@
                 "attribute": "scopeOpportunity",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = issueType"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "SelectLabel = issueType; filtered by Business Unit.businessSegmentID selected"
               },
-              "Business Unit": {
+              "Classification": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "businessUnitID",
+                "attribute": "scopeClassID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "Allow multiple values"
               }
             }
           },
@@ -3064,136 +3445,6 @@
           "table-filters": true,
           "subitem-tables": [
             "Product Scopes"
-          ]
-        },
-        "Issues": {
-          "visibility": "show",
-          "dashboard-order": 8,
-          "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
-          "attributes": [
-            {
-              "name": "issueID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "issueName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., Lifetime Extension, Increase Capability, Dieletric Failure",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "issueDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "issueType",
-              "type": "ENUM",
-              "rule": "enum: ['Opportunity', 'Risk']",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "scopeID",
-              "type": "rollup",
-              "rule": "rollup → Scopes (via: scopeOpportunity)",
-              "notes": "Scopes tagged with this issue (reverse of Scopes.scopeOpportunity)",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK → Business Units (display: businessUnitTitle)",
-              "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "businessUnitTitle",
-              "type": "mirror",
-              "rule": "mirror: Business Units via:businessUnitID",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "businessSegmentName",
-              "type": "mirror",
-              "rule": "mirror: Business Units via: businessUnitID",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": null,
-          "form": {
-            "steps": null,
-            "fields": {
-              "Name": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "issueName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Description": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "issueDescription",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Type": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "issueType",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Business Unit": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "businessUnitID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            }
-          },
-          "cards": [],
-          "table-filters": true,
-          "subitem-tables": [
-            "Scopes"
           ]
         },
         "Products": {
@@ -3605,9 +3856,9 @@
               "constraints": "FK"
             },
             {
-              "name": "customerID",
+              "name": "branchID",
               "type": "FK",
-              "rule": "FK → Customers (display: customerName)",
+              "rule": "FK → Branches (display: branchName)",
               "notes": "multivalued — scopes this requirement applies to",
               "table-display": true,
               "subitem-display": true,
@@ -3722,11 +3973,11 @@
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by Region selected"
               },
-              "Customer": {
+              "Branch": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "customerID",
+                "attribute": "branchID",
                 "tooltip": null,
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
@@ -3863,6 +4114,86 @@
           },
           "cards": null,
           "table-filters": false
+        },
+        "Classes": {
+          "description": "Scope classification registry (stakeholder round 2026-08-01) — each class ties scopes to the Issue it addresses",
+          "dashboard-order": 1,
+          "subitem-tables": [
+            "Scopes"
+          ],
+          "attributes": [
+            {
+              "name": "scopeClassID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "scopeClassName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "scopeClassDefinition",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "issueID",
+              "type": "INT",
+              "rule": "FK → Issues (display: issueName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "scopeClassName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Definition": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "scopeClassDefinition",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Issue": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "issueID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              }
+            }
+          }
         }
       }
     },
@@ -5793,9 +6124,9 @@
               "constraints": "FK"
             },
             {
-              "name": "customerID",
+              "name": "branchID",
               "type": "INT",
-              "rule": "FK → Customers (filtered by customerType='branch') (display: customerName)",
+              "rule": "FK → Branches (display: branchName)",
               "notes": "nullable — branch (internal factory) this person is stationed at",
               "table-display": true,
               "subitem-display": false,
@@ -5906,8 +6237,8 @@
                 "field-type": {
                   "radio": "shadcn-radio button"
                 },
-                "attribute": "customerID",
-                "tooltip": "Branch (internal factory) this person is stationed at — optional",
+                "attribute": "branchID",
+                "tooltip": "Branch this person is stationed at — optional",
                 "step": null,
                 "check": "Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"

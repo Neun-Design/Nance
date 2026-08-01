@@ -38,7 +38,9 @@
 ## Regions 
 
 - subitem-tables: Business Units
-
+- atributos:
+  - inserir atributos:
+    - continent: enum (list with all continents)
 
 ## Departments 
 
@@ -47,3 +49,118 @@
 ## Business Units
 
 - subitem-tables: Departments
+
+
+## Issues 
+
+- Enviar dashboard Issues para o modulo Organization.
+- Form:
+  - alterar o input Business Unit para Business Segment
+
+- subitem-tables: Scopes
+
+## Scopes 
+
+- atributos:
+  - adicionar atributo scopeClassID (display: scopeClassName), multivalued
+
+- Form:
+  - alterar a ordem dos inputs na seguinte sequencia: Code, Name, Business Unit, Opportunity
+  - Opportunity input: deve mostrar as opcoes de rollup dos business segments pertencentes a business unit selecionada. agrupar as opcoes por issueType
+  - adicionar input "Classification" para listar os itens da tabela Scope Classes (multivalued)
+
+
+# Modulos 
+
+## Organization
+
+- criar nova tabela (dashboard) chamada "Branches"
+  - atributo de Branches:
+    - branchID: auto generated
+    - businessSegmentID: FK -> Business Segments (display: businessSegmentName)
+      - form:
+        - input name: Segment
+        - input type: select
+    - businessUnitID: FK ->  Business Units (display: businessUnitName)
+      - form:
+        - input name: Country
+        - input type: select
+        - rule: filtered by businessSegmentID
+    - branchName: VARCHAR
+      - form:
+        - input name: Name
+    - cityName: VARCHAR
+      - form:
+        - input name: City
+    - regionID: FK -> Regions (display: regionName)
+    - countryName: select from list of countries filtered and grouped by the continents selected in regionID
+      - Please, append a table with all the countries for all continents so that the prototype can search. it can be a json file
+      - form:
+        - input name: Country
+        - rule: grouped by continent
+    - userID: FK -> People (display: userName)
+      - form:
+        - input name: Owner
+        - rule: filtered by the functionName("Manager")
+
+- Ordem das dashboards neste modulo:
+  1. Business segments
+  2. Issues
+  3. Business Units
+  4. Departments
+  5. Squads
+  6. Regions
+  7. Branches
+
+## CRM
+
+Deixar esse modulo "inativo" da mesma que forma dos modulos "Overview", "Workspace" e "Control"
+
+
+## Portfolio
+
+- Ordem das dashboards neste modulo:
+  1. Classes
+  2. Scopes
+  3. Products
+  4. Product Specs
+  5. Product Groups
+  6. Requirements
+  7. Product Scopes
+
+### Requirements
+
+- Form:
+  - Alterar o input "Customer" para listar os itens da tabela "Branches", filtrados pela business Unit selecionada e agrupados por 
+
+### Classes
+
+- Atributos:
+  - scopeClassID: auto generated
+  - scopeClassName: VARCHAR (form input: text input)
+  - scopeClassDefinition: VARCHAR (form input: TEXT box)
+  - issueID: FK -> Issues (display: issueName) (input: select; grouped by businessSegmentName)
+
+- subitem-tables: scopes
+
+
+## Talent
+
+### People
+
+- atributo:
+  - alterar atributo customerID para branchID (display: branchName)
+
+- Form:
+  - alterar input Branch para consultar a tabelas Branches ao inves de Customers
+
+
+
+
+
+
+
+
+
+
+
