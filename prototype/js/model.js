@@ -208,6 +208,8 @@ function buildCatalog(moduleName, tableName, spec) {
     cards: spec.cards || null,
     reports: spec.reports || null,
     form: spec.form || null,
+    // predefined dataset shipped with the app — never user-registered
+    systemRegistry: spec['system-registry'] === true,
     subitems: (Array.isArray(spec['subitem-tables']) ? spec['subitem-tables'] : [])
       .filter((e) => typeof e === 'string' && e.trim())
       .map(parseSubitem),
