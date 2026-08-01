@@ -42,9 +42,12 @@ console.log('== Branches seeded from branch customers ==');
   eq(usa.length, 0, 'legacy USA spelling normalized to United States');
 }
 
-console.log('== Countries registry & continent cascade basis ==');
+console.log('== Countries system registry & continent cascade basis ==');
 {
-  eq(data.getEntity('Countries').length > 150, true, 'world country list seeded');
+  eq(data.getEntity('Countries').length > 150, true, 'country list loads from data/countries.json');
+  eq(catalog['Countries'].systemRegistry, true, 'flagged system-registry (no "+" add-new, skipped by mockup parity)');
+  const mock = JSON.parse(fs.readFileSync('data/mockup_data_prototype.json'));
+  eq('Countries' in (mock.Organization || {}), false, 'mockup no longer carries country rows');
   eq(data.getById('Countries', 'Germany').continent, 'Europe', 'name-valued PK resolves');
   const opt = forms.optionsForAttr('Branches', 'countryName');
   eq(opt.target, 'Countries', 'country picker sourced from the registry');
