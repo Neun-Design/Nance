@@ -36,7 +36,7 @@ This path gives you the context needed to contribute meaningfully to governance 
 **Your reading path:**
 
 1. Read all **Intro** subpages across every section
-2. Read **[Project Intro](project/intro.md)** and **[Roadmap](project/roadmap.md)** in full to understand phase sequencing and milestones
+2. Read **[Project Intro](project/intro.md)** and **[Roadmap](roadmap.md)** in full to understand phase sequencing and milestones
 3. Read **[Discovery Intro](discovery/intro.md)** and **[Assumptions](discovery/assumptions.md)** to understand the strategic framing
 4. Read **[Validation Intro](audit/intro.md)** and **[MVP Assessment](audit/mvp-assessment.md)** to follow the current phase and next steps
 5. Review **[Q&A](questions/index.md)**
