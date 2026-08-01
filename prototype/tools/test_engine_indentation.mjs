@@ -129,5 +129,23 @@ console.log('== enum options reach the form engine ==');
   eq(rank.options && rank.options.map((o) => o.value), ['1', '2', '3'], 'Onboarding.levelRank options');
 }
 
+console.log('== Activities as hidden registry (v3-review R5, D3) ==');
+{
+  const op = model.getModules().find((m) => m.name === 'Operation');
+  eq(op.tables.includes('Activities'), false, 'Activities out of the tab strip (dashboard-order 0)');
+  eq(!!catalog['Activities'], true, 'still catalogued (options + inline "+" reachable)');
+  const r = model.parseRule(catalog['Workflows'].byName['activityID'].rule);
+  eq([r.kind, r.target, r.display], ['fk', 'Activities', 'activityName'],
+    'Workflows.activityID is a stored FK (was a dead rollup)');
+  // seed rows only — the STEPORDER block above adds in-memory WFT-* fixtures
+  eq(data.getEntity('Workflows').filter((w) => !String(w.workflowID).startsWith('WFT'))
+    .every((w) => w.activityID), true, 'every seeded step linked to its activity');
+  eq(forms.requiredAttrs('Workflows').has('activityID'), true, 'activity is a NOT NULL anchor');
+  const pr1 = data.getById('Processes', 'PR1');
+  const acts = resolve.derivedValue('Processes', catalog['Processes'].byName['activities'], pr1);
+  eq(String(acts).includes('Requirement Capture'), true,
+    'Processes.activities revived through the workflow chain');
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
 process.exit(fails ? 1 : 0);
