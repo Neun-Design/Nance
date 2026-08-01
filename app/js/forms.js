@@ -420,7 +420,7 @@ function fkAttrTo(entity, origin) {
 
 // stakeholder round 2026-07-31: units are no longer picked in these forms —
 // derive businessUnitID from the chosen products / product group / department
-function applyDerivedUnits(entity, rec) {
+export function applyDerivedUnits(entity, rec) {
   const unitsOfProducts = (ids) => {
     const units = new Set();
     for (const pid of (Array.isArray(ids) ? ids : [ids]).filter(Boolean)) {
@@ -438,6 +438,9 @@ function applyDerivedUnits(entity, rec) {
   } else if (entity === 'Onboarding') {
     const d = rec.departmentID && getById('Departments', rec.departmentID);
     rec.businessUnitID = (d && d.businessUnitID) ?? null;
+  } else if (entity === 'Competence') {
+    const e = rec.eventID && getById('Events', rec.eventID);
+    rec.departmentID = (e && e.departmentID) ?? null;
   }
 }
 
