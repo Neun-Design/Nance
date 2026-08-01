@@ -102,6 +102,15 @@ nav:
     - Data Model: prototype/data-model.md
     - Prototype: prototype/prototype.md
     - Power Apps Guide: prototype/power-apps-guide.md
+  - App Guide:
+    - Start here: app-guide/index.md
+    - Organization: app-guide/organization.md
+    - CRM: app-guide/crm.md
+    - Portfolio: app-guide/portfolio.md
+    - Talent: app-guide/talent.md
+    - Operation: app-guide/operation.md
+    - Workspace: app-guide/workspace.md
+    - Control: app-guide/control.md
   - Validation:
     - Intro: audit/intro.md
     - End-to-End Case: audit/end-to-end-case.md
