@@ -263,7 +263,7 @@
               "rule": null,
               "notes": null,
               "table-display": true,
-              "subitem-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -299,7 +299,7 @@
               "rule": "mirror: Business Units via: businessUnitID (display: businessUnitName)",
               "notes": null,
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
             }
           ],
