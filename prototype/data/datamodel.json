@@ -311,7 +311,7 @@
                 "field-type": {
                   "selectGroups": "shadcn-select"
                 },
-                "attribute": "businessUnitName",
+                "attribute": "businessUnitID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
