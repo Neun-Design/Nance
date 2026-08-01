@@ -12,25 +12,29 @@
     "businessSegmentID": "BS01",
     "businessSegmentName": "Large Power Transformers",
     "businessSegmentDescription": "Large Power Transformers",
-    "businessSegmentCode": "LPT"
+    "businessSegmentCode": "LPT",
+    "businessSegmentOwner": "U01"
    },
    {
     "businessSegmentID": "BS02",
     "businessSegmentName": "Medium Power Transformers",
     "businessSegmentDescription": "Medium Power Transformers",
-    "businessSegmentCode": "MPT"
+    "businessSegmentCode": "MPT",
+    "businessSegmentOwner": "U01"
    },
    {
     "businessSegmentID": "BS03",
     "businessSegmentName": "Distribution Transformers",
     "businessSegmentDescription": "Distribution Transformers",
-    "businessSegmentCode": "DT"
+    "businessSegmentCode": "DT",
+    "businessSegmentOwner": null
    },
    {
     "businessSegmentID": "BS04",
     "businessSegmentName": "Switch Gear",
     "businessSegmentDescription": "Switch Gear",
-    "businessSegmentCode": "SG"
+    "businessSegmentCode": "SG",
+    "businessSegmentOwner": null
    }
   ],
   "Business Units": [
@@ -372,7 +376,8 @@
     "issueDescription": "Dielectric Failure opportunity (from the retired scopeOpportunity enum)",
     "issueType": "Opportunity",
     "businessUnitID": [],
-    "businessSegmentID": null
+    "businessSegmentID": null,
+    "issueOwner": null
    },
    {
     "issueID": "IS02",
@@ -383,7 +388,8 @@
      "BU01",
      "BU02"
     ],
-    "businessSegmentID": "BS01"
+    "businessSegmentID": "BS01",
+    "issueOwner": "U01"
    },
    {
     "issueID": "IS03",
@@ -394,7 +400,8 @@
      "BU01",
      "BU02"
     ],
-    "businessSegmentID": "BS01"
+    "businessSegmentID": "BS01",
+    "issueOwner": "U01"
    },
    {
     "issueID": "IS90",
@@ -402,7 +409,8 @@
     "issueDescription": "Recurring rework on delivered designs detected across tickets",
     "issueType": "Risk",
     "businessUnitID": [],
-    "businessSegmentID": null
+    "businessSegmentID": null,
+    "issueOwner": null
    }
   ]
  },
