@@ -2,6 +2,9 @@
 // Entity metadata (pk + label) is derived from the datamodel via initMeta(catalog).
 
 const DATA_URL = 'data/mockup_data_prototype.json';
+// system registries: predefined datasets shipped with the app (never
+// user-registered) — loaded in every mode, blank walkthroughs included
+const COUNTRIES_URL = 'data/countries.json';
 
 // "?data=empty" boots every catalogued table blank — stakeholder walkthroughs
 // building the QMS from scratch. Records created in this mode persist in
@@ -15,7 +18,9 @@ const BLANK_KEY = 'edqms-blank-data';
 
 function persist() {
   if (!BLANK_MODE) return;
-  try { localStorage.setItem(BLANK_KEY, JSON.stringify({ Blank: store.entities })); } catch { /* quota/private mode — keep in-memory */ }
+  // system registries stay out of the user snapshot — they reload from file
+  const { Countries, ...user } = store.entities;
+  try { localStorage.setItem(BLANK_KEY, JSON.stringify({ Blank: user })); } catch { /* quota/private mode — keep in-memory */ }
 }
 
 // pk + human label field per entity, populated from the datamodel catalogue.
@@ -74,6 +79,20 @@ export async function loadData() {
       }
     }
   }
+  // Countries system registry — installed over whatever the dataset carried
+  // (blank mode included: the country list is app data, not user data)
+  try {
+    const res = await fetch(COUNTRIES_URL);
+    if (res.ok) {
+      const rows = await res.json();
+      store.entities['Countries'] = rows;
+      store.baseFields['Countries'] = rows[0] ? Object.keys(rows[0]) : [];
+      const meta = ENTITY_META['Countries'];
+      const map = new Map();
+      if (meta) rows.forEach(r => map.set(r[meta.pk], r));
+      store.index['Countries'] = map;
+    }
+  } catch { /* registry file absent — dataset-provided rows stand */ }
   return store;
 }
 
