@@ -86,6 +86,23 @@ console.log('== Scopes: order, Opportunity matching, Classification ==');
   eq(forms.optionsForAttr('Scopes', 'scopeClassID').target, 'Classes', 'Classification lists Classes');
 }
 
+console.log('== drill-down subitems: Regions -> Units -> Branches -> Departments ==');
+{
+  eq(catalog['Regions'].subitems.map((s) => s.table), ['Business Units'],
+    'Regions shows only Business Units (Customers subitem dropped)');
+  eq(catalog['Business Units'].subitems.map((s) => s.table), ['Branches'],
+    'Business Units drills into Branches');
+  const brSi = catalog['Branches'].subitems[0];
+  eq([brSi.table, brSi.via], ['Departments', 'businessUnitID'],
+    'Branches -> Departments joined via businessUnitID');
+  const br = data.getById('Branches', 'BR01');
+  eq(resolve.childrenOf('Branches', br, 'Departments', { via: brSi.via }).map((d) => d.departmentID),
+    ['DPT01'], 'BR01 resolves the departments of its unit');
+  const bu = data.getById('Business Units', 'BU01');
+  eq(resolve.childrenOf('Business Units', bu, 'Branches').length > 0, true,
+    'BU01 resolves its branches');
+}
+
 console.log('== Classes registry & subitem ==');
 {
   eq(data.getEntity('Classes').length, 0, 'registry starts blank');

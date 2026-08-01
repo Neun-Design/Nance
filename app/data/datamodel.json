@@ -159,7 +159,7 @@
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "Departments"
+            "Branches"
           ]
         },
         "Business Segments": {
@@ -576,7 +576,6 @@
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "Customers",
             "Business Units"
           ]
         },
@@ -722,7 +721,9 @@
         "Branches": {
           "description": "Physical branches (internal factories/sites) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
           "dashboard-order": 7,
-          "subitem-tables": null,
+          "subitem-tables": [
+            "Departments (via: businessUnitID)"
+          ],
           "attributes": [
             {
               "name": "branchID",
