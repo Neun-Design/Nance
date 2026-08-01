@@ -64,6 +64,34 @@ for mname, m in DM['modules'].items():
             if len(ids) != len(set(ids)): fail(f'{tname}: duplicate {pk} values')
 if not fails: ok('all 30 tables present, stored attrs exact, PKs unique')
 
+# ---------- 1b. required fields (NOT NULL) ----------
+# Structural anchors (cascade deps / derived-chain join keys) marked NOT NULL
+# in the datamodel must be non-empty on every seed row — a null anchor makes
+# the record invisible to subitems/rollups/cascades (required-fields round,
+# 2026-08-01). The form engine enforces the same rule on save (forms.js
+# missingRequired); this check keeps the seeds honest.
+print('\n== required fields (NOT NULL) ==')
+blank = lambda v: v is None or v == '' or (isinstance(v, list) and not v)
+req_failures = 0
+for mname, m in DM['modules'].items():
+    for tname, t in m['tables'].items():
+        if t.get('system-registry'):
+            continue
+        required = [a['name'] for a in t['attributes']
+                    if 'NOT NULL' in str(a.get('constraints') or '')
+                    and a.get('constraints') != 'PK']
+        if not required:
+            continue
+        rows = MOCK.get(mname, {}).get(tname, [])
+        for attr in required:
+            bad = [r for r in rows if blank(r.get(attr))]
+            if bad:
+                req_failures += 1
+                pk = pk_of.get(tname)
+                ids = [r.get(pk) for r in bad[:5]] if pk else len(bad)
+                fail(f'{tname}.{attr}: {len(bad)} row(s) empty (NOT NULL) — e.g. {ids}')
+if not req_failures: ok('every NOT NULL anchor is filled on all seed rows')
+
 # ---------- 2. FK resolvability ----------
 print('\n== FK resolvability ==')
 id_sets, display_sets = {}, {}

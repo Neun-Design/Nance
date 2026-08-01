@@ -297,7 +297,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
             else refillSelect(node, options || fkOptions(c.ref), c.ref, newId);
           });
         }
-        form.appendChild(fieldRow(humanize(f), control, hintFor(c)));
+        form.appendChild(fieldRow(humanize(f) + (requiredAttrs(entity).has(f) ? ' *' : ''), control, hintFor(c)));
       }
     }
 
@@ -386,6 +386,14 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     if (ctx.collect) Object.assign(rec, ctx.collect());
     else for (const [f, get] of Object.entries(ctx.controls)) rec[f] = get();
     if (ctx.link) rec[ctx.link.field] = ctx.link.value; // link wins over any cascade choice
+    // NOT NULL enforcement: structural anchors (cascade deps / join keys)
+    // and the table's label must be filled — a null anchor makes the record
+    // invisible to every derived chain (subitems, rollups, staffing)
+    const missing = missingRequired(ctx.entity, rec, new Set(Object.keys(ctx.controls)));
+    if (missing.length) {
+      toast(`Required: ${missing.map(humanize).join(', ')}`);
+      return;
+    }
     applyDerivedUnits(ctx.entity, rec);
     applyJobTransition(ctx.entity, rec, ctx.editing ? getById(ctx.entity, ctx.newId) : null);
     if (ctx.editing) updateRecord(ctx.entity, ctx.newId, rec);
@@ -442,6 +450,28 @@ export function applyDerivedUnits(entity, rec) {
     const e = rec.eventID && getById('Events', rec.eventID);
     rec.departmentID = (e && e.departmentID) ?? null;
   }
+}
+
+// ---- NOT NULL enforcement (required-fields round, 2026-08-01) ----
+// Required = attrs the datamodel marks NOT NULL (structural anchors: cascade
+// deps and derived-chain join keys) plus the table's label attribute (a
+// record without its display name is meaningless in every join/select).
+// Only attrs present as form controls are enforced — derived-on-save fields
+// (e.g. Competence.departmentID) and non-input keys stay out.
+export function requiredAttrs(entity) {
+  const cat = getCatalog(entity);
+  if (!cat || !cat.byName) return new Set();
+  const req = new Set();
+  for (const a of Object.values(cat.byName)) {
+    if (a.name !== cat.pk && /NOT NULL/i.test(String(a.constraints || ''))) req.add(a.name);
+  }
+  if (cat.label && cat.label !== cat.pk) req.add(cat.label);
+  return req;
+}
+
+export function missingRequired(entity, rec, presentAttrs) {
+  const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+  return [...requiredAttrs(entity)].filter((a) => presentAttrs.has(a) && blank(rec[a]));
 }
 
 // value-vs-value match where either side may be an array (multivalued FKs)
@@ -935,8 +965,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           }
         }
         const applyOpts = (opts) => {
-          if (node._rebuild) node._rebuild(withGroupHeaders(opts, target, groupField));
-          else fillOptions(node, opts, groupField, target);
+          if (node._rebuild) { node._rebuild(withGroupHeaders(opts, target, groupField)); return; }
+          // preserve the current selection across the refill (same pattern as
+          // mkMultiCheck/mkRadioList/certified-responsible): the initial
+          // cascade pass runs AFTER the edit-mode prefill, and losing the
+          // value here would also wipe the stored FK on save — commit()
+          // collects every control, and '' overwrites the record's field
+          const keep = node.value;
+          fillOptions(node, opts, groupField, target);
+          if (keep && (opts || []).some((o) => String(o.value) === keep)) node.value = keep;
         };
         node._refilterDepSpecs = deps;
         node._refilter = () => {
@@ -1154,7 +1191,10 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     }
 
     const host = stepHosts[fv.step] || defaultHost;
-    host.appendChild(fieldRow(label, control, (fv.tooltip || '').trim()));
+    // required marker only decorates the display — byLabel/findDep keep the
+    // undecorated key so cascade and check lookups still match
+    const star = attrName && requiredAttrs(entity).has(attrName) ? ' *' : '';
+    host.appendChild(fieldRow(label + star, control, (fv.tooltip || '').trim()));
   }
 
   // ---- cascade listeners: refilter when any declared dependency changes ----
