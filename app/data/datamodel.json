@@ -790,8 +790,8 @@
             {
               "name": "userID",
               "type": "INT",
-              "rule": "FK → People (filtered by functionName='Manager') (display: userName)",
-              "notes": "Branch owner — only people whose function is Manager",
+              "rule": "FK → People (display: userName)",
+              "notes": "Branch owner — any person, options grouped by function",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -865,10 +865,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "userID",
-                "tooltip": "Only people with the Manager function are offered",
+                "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "SelectLabel = functionName"
               }
             }
           }
