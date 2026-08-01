@@ -37,10 +37,15 @@ Indentation Rule (start-to-finish = next number, start-to-start = sub-number und
 **What it is:** discrete quality interventions a task executes (approval, verification…).
 **Register when:** before Tasks.
 
-## Channels & Handouts
+## Channels
 
-**What it is:** communication channels and the documents/templates that flow through them —
-tasks consume handouts as inputs and produce them as outputs.
+**What it is:** the communication channels documents flow through.
+**Register when:** before Handouts (each handout names its channel).
+
+## Handouts
+
+**What it is:** the documents/templates that flow through channels — tasks consume handouts
+as inputs and produce them as outputs.
 **Register when:** before Tasks; handouts can also be created inline from the Task form.
 
 ## Tasks

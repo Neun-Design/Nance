@@ -91,6 +91,15 @@ select option { background: var(--se-base-1); color: var(--se-text-primary); }
   background: var(--se-base-1); border-bottom: 1px solid var(--se-ui-4); overflow-x: auto;
 }
 .tab-scroll::-webkit-scrollbar { display: none; }
+/* App Guide link — right end of the tab strip (D10 phase 2) */
+.guide-link {
+  margin-left: auto; align-self: center; flex: none;
+  font-size: var(--se-font-size-caption); font-weight: 600;
+  color: var(--se-text-primary); text-decoration: none;
+  background: var(--se-base-1); border: 1px solid var(--se-ui-4);
+  padding: 3px var(--se-space-4); border-radius: var(--se-radius-pill);
+}
+.guide-link:hover { background: var(--se-base-1-hover); }
 .tab-chip {
   flex: none; padding: var(--se-space-5) var(--se-space-5); font-size: var(--se-font-size-body);
   color: var(--se-text-secondary); border-bottom: 2px solid transparent; white-space: nowrap;
