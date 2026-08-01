@@ -23,3 +23,7 @@ sourceFiles/*.mp4
 **/datamodel*.bak
 **/datamodel-backup.json
 **/datamodel_[0-9]*.json
+
+# Client session snapshots (offline-database workflow — confidential, OneDrive only)
+client-data/
+**/edqms_blank_*.json

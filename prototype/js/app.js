@@ -2,7 +2,8 @@
 // render the active tab. All screen structure derives from datamodel.json
 // via model.js (DATAMODEL_GUIDE.md is the contract).
 
-import { loadData, getEntity, getById, removeRecords, initMeta, BLANK_MODE } from './data.js';
+import { loadData, getEntity, getById, removeRecords, initMeta, BLANK_MODE,
+  exportSnapshot, importSnapshot } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns } from './model.js';
 import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
@@ -39,6 +40,45 @@ async function main() {
     const badge = document.querySelector('.header-badge');
     badge.textContent = 'BLANK MODE';
     badge.title = 'Blank walkthrough — records you create persist in this browser; add &reset=1 to the URL to start over';
+    // offline-database workflow (consulting sessions): snapshot the session
+    // to a JSON file and load it back — localStorage alone is too fragile to
+    // carry client data between machines/browsers
+    const right = document.querySelector('.header-right');
+    const imp = document.createElement('button');
+    imp.className = 'header-btn'; imp.textContent = 'Import';
+    imp.title = 'Load a session snapshot (.json) — replaces everything registered in this browser';
+    const save = document.createElement('button');
+    save.className = 'header-btn'; save.textContent = 'Save';
+    save.title = 'Download the session as a JSON snapshot — store it in the shared folder, never in the repo';
+    save.addEventListener('click', () => {
+      const stamp = new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(
+        [JSON.stringify(exportSnapshot(), null, 1)], { type: 'application/json' }));
+      a.download = `edqms_blank_${stamp}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    const file = document.createElement('input');
+    file.type = 'file'; file.accept = 'application/json,.json'; file.hidden = true;
+    imp.addEventListener('click', () => { file.value = ''; file.click(); });
+    file.addEventListener('change', async () => {
+      const f = file.files && file.files[0];
+      if (!f) return;
+      try {
+        const raw = JSON.parse(await f.text());
+        if (!confirm(`Import "${f.name}"?\nThis replaces the records of the current session.`)) return;
+        const { records, skipped } = importSnapshot(raw);
+        alert(`Imported ${records} record(s).${skipped.length
+          ? `\nSkipped tables this build doesn't know (schema drift): ${skipped.join(', ')}` : ''}`);
+        routeToActive();
+      } catch (e) {
+        alert(`Import failed: ${e.message}`);
+      }
+    });
+    right.insertBefore(imp, badge);
+    right.insertBefore(save, badge);
+    document.body.appendChild(file);
   }
   buildSidebar();
   onRoute(routeToActive);

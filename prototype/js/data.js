@@ -142,5 +142,55 @@ export function lookup(name, id, field) {
   return field ? rec[field] : rec[ENTITY_META[name]?.label];
 }
 
+// ---- offline snapshots (blank-mode consulting sessions) ----
+// The blank-mode store doubles as an offline database: Save serializes it to
+// a shareable JSON file (kept outside the repo — OneDrive folder), Import
+// loads such a file back. System registries (Countries) never travel in
+// snapshots; they reload from app data in every mode.
+export function exportSnapshot() {
+  // deep-copy so the snapshot is immutable — later edits to the live store
+  // must not leak into an already-taken export (and vice versa)
+  const user = {};
+  for (const [name, rows] of Object.entries(store.entities)) {
+    if (name === 'Countries') continue;
+    user[name] = structuredClone(rows);
+  }
+  return {
+    _meta: {
+      app: 'EDQMS prototype',
+      kind: 'blank-snapshot',
+      exportedAt: new Date().toISOString(),
+      tables: Object.keys(user).filter((t) => (user[t] || []).length).length,
+      records: Object.values(user).reduce((s, r) => s + (r ? r.length : 0), 0),
+    },
+    Blank: user,
+  };
+}
+
+// Replace the user store with a snapshot's tables and persist. Table names
+// this build doesn't catalogue (schema drift between the file and the app)
+// are skipped and reported back so the UI can warn the consultant.
+export function importSnapshot(raw) {
+  const src = raw && raw.Blank;
+  if (!src || typeof src !== 'object' || Array.isArray(src)) {
+    throw new Error('not an EDQMS blank snapshot (missing "Blank" section)');
+  }
+  const skipped = Object.keys(src).filter((n) => !ENTITY_META[n]);
+  let records = 0;
+  for (const name of Object.keys(ENTITY_META)) {
+    if (name === 'Countries') continue;
+    // clone: the caller's parsed file must not stay aliased into the store
+    const rows = Array.isArray(src[name]) ? structuredClone(src[name]) : [];
+    store.entities[name] = rows;
+    store.baseFields[name] = rows[0] ? Object.keys(rows[0]) : [];
+    const map = new Map();
+    rows.forEach((r) => map.set(r[ENTITY_META[name].pk], r));
+    store.index[name] = map;
+    records += rows.length;
+  }
+  persist();
+  return { records, skipped };
+}
+
 // Convenience label lookup using the entity's configured label field.
 export const label = (name, id) => lookup(name, id, ENTITY_META[name]?.label);
