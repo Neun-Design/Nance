@@ -25,7 +25,7 @@ the rest of the model. The order below follows those anchors:
 | Phase | Module | Register (in order) |
 |---|---|---|
 | 1 — Structure | [Organization](organization.md) | Business Segments → Business Units → Regions → Departments → Branches → Squads |
-| 2 — Interested parties | [CRM](crm.md) | Customers (internal sites first, then clients/suppliers) |
+| 2 — Interested parties | [CRM](crm.md) | Customers — **always after the Branches they anchor to** (internal sites first, then clients/suppliers) |
 | 3 — What you sell | [Portfolio](portfolio.md) | Issues → Classes → Scopes → Products → Product Specs → Product Groups → Requirements → Product Scopes |
 | 4 — Who works | [Talent](talent.md) | Skill Levels → Graduation → Functions → Roles → People |
 | 5 — How you work | [Operation](operation.md) | Events → Processes → Workflows → Actions/Channels/Handouts → Tasks |
