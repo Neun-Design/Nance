@@ -202,6 +202,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "businessSegmentOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3) — v3-review D7",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -237,6 +246,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Owner": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessSegmentOwner",
+                "tooltip": null,
+                "step": null,
+                "check": "Name IS NOT NULL",
+                "field-rule": "SelectLabel = functionName"
               }
             }
           },
@@ -520,7 +539,7 @@
             },
             {
               "name": "regionOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c)) — requirements-model.md asks rollup.userID; kept as the standard owner FK",
               "table-display": true,
@@ -602,7 +621,7 @@
         "Issues": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
+          "description": "Positive and negative factors or conditions for consideration (ISO 9001:2015 §4.1/§4.2). Positive issues are Opportunities — registered top-down by managers in strategic positions (SWOT or equivalent market analysis) to drive business strategy (segmentation, units, departments). Negative issues are Risks — elevated automatically from the nonconformity flow once an investigation routes a cause to the risk class (see issue #124).",
           "attributes": [
             {
               "name": "issueID",
@@ -684,6 +703,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "issueOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3) — v3-review D7",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "reports": null,
@@ -729,6 +757,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Owner": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "issueOwner",
+                "tooltip": null,
+                "step": null,
+                "check": "Name IS NOT NULL",
+                "field-rule": "SelectLabel = functionName"
               }
             }
           },
@@ -810,7 +848,7 @@
             },
             {
               "name": "countryName",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Countries (display: countryName)",
               "notes": "Country picker sourced from the hidden Countries registry",
               "table-display": true,
@@ -819,7 +857,7 @@
             },
             {
               "name": "userID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Branch owner — any person, options grouped by function",
               "table-display": true,
@@ -1060,7 +1098,7 @@
             },
             {
               "name": "customerOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -1193,7 +1231,7 @@
             },
             {
               "name": "customerID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Customers",
               "notes": "Customer submitting this forecast",
               "table-display": false,
@@ -1318,7 +1356,7 @@
             },
             {
               "name": "createdBy",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
@@ -1336,7 +1374,7 @@
             },
             {
               "name": "forecastOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -1467,7 +1505,7 @@
             },
             {
               "name": "forecastID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Forecasts (display: CONCAT(customerTitle,' | ', periodFrame))",
               "notes": "Parent forecast",
               "table-display": false,
@@ -1494,7 +1532,7 @@
             },
             {
               "name": "eventID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
               "notes": "Event that triggers the Process; determines the task list",
               "table-display": true,
@@ -1503,7 +1541,7 @@
             },
             {
               "name": "scopeID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
               "notes": null,
               "table-display": true,
@@ -1512,7 +1550,7 @@
             },
             {
               "name": "productGroupID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Product Groups (display: productGroupName)",
               "notes": "filtered by",
               "table-display": true,
@@ -1620,7 +1658,7 @@
             },
             {
               "name": "forecastScopeOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -1754,7 +1792,7 @@
             },
             {
               "name": "eventID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
               "notes": "Event that triggered this task",
               "table-display": true,
@@ -1925,7 +1963,7 @@
             },
             {
               "name": "taskOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -2194,7 +2232,7 @@
             },
             {
               "name": "eventOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -2299,7 +2337,7 @@
             },
             {
               "name": "eventID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
               "notes": "Event that triggered this Process",
               "table-display": true,
@@ -2308,7 +2346,7 @@
             },
             {
               "name": "processOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
@@ -2326,7 +2364,7 @@
             },
             {
               "name": "parentProcessID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Processes (display: processName)",
               "notes": "Self-referential 'Sub-process of' (nullable)",
               "table-display": true,
@@ -2560,7 +2598,7 @@
             },
             {
               "name": "activityOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -2625,7 +2663,7 @@
             },
             {
               "name": "processID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Processes (display: processName)",
               "notes": null,
               "table-display": true,
@@ -2661,7 +2699,7 @@
             },
             {
               "name": "parentStepID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Workflows",
               "notes": "Self-referential step ordering (nullable)",
               "table-display": true,
@@ -2795,7 +2833,7 @@
                 "check": "Activity IS NOT NULL",
                 "field-rule": "filtered by Process selected"
               },
-              "Identation Rule": {
+              "Indentation Rule": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
@@ -2871,7 +2909,7 @@
             },
             {
               "name": "actionOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -2954,7 +2992,7 @@
             },
             {
               "name": "channelID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Channels (display: channelName)",
               "notes": "Delivery channel",
               "table-display": true,
@@ -3240,7 +3278,7 @@
             },
             {
               "name": "scopeID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
               "notes": "multivalued",
               "table-display": true,
@@ -3304,7 +3342,7 @@
             },
             {
               "name": "productScopeOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -3423,7 +3461,7 @@
             },
             {
               "name": "scopeOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -3527,7 +3565,7 @@
             },
             {
               "name": "productOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": true,
@@ -3626,7 +3664,7 @@
             },
             {
               "name": "productID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Products (display: productName)",
               "notes": "multivalued — products this spec applies to",
               "table-display": false,
@@ -3653,7 +3691,7 @@
             },
             {
               "name": "productSpecOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -3766,7 +3804,7 @@
             },
             {
               "name": "productID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK -> Product (display: productName)",
               "notes": "Single valued, not multivalued",
               "table-display": true,
@@ -3794,7 +3832,7 @@
             },
             {
               "name": "productGroupOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -3903,7 +3941,7 @@
             },
             {
               "name": "requirementTypeID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Requirement Type (display: requirementTypeName)",
               "notes": "Type registry lives in the hidden Requirement Type table (dashboard-order 0)",
               "table-display": true,
@@ -3921,7 +3959,7 @@
             },
             {
               "name": "scopeID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
               "notes": "multivalued — scopes this requirement applies to",
               "table-display": true,
@@ -3930,7 +3968,7 @@
             },
             {
               "name": "productGroupID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
               "notes": "multivalued — product groups this requirement applies to",
               "table-display": true,
@@ -4133,7 +4171,7 @@
             },
             {
               "name": "requirementTypeOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -4206,7 +4244,7 @@
             },
             {
               "name": "issueID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Issues (display: issueName)",
               "notes": null,
               "table-display": true,
@@ -4271,7 +4309,7 @@
             },
             {
               "name": "projectID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Projects (display: projectRegistryID)",
               "notes": null,
               "table-display": true,
@@ -4280,7 +4318,7 @@
             },
             {
               "name": "customerName",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Customers (display: CONCAT(customerName + city)",
               "notes": "Customer / requester factory",
               "table-display": true,
@@ -4289,7 +4327,7 @@
             },
             {
               "name": "eventID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Events (display: eventName)",
               "notes": null,
               "table-display": true,
@@ -4573,7 +4611,7 @@
             },
             {
               "name": "customerID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK -> Customers (display: customerName)",
               "notes": "Name of the final/external client",
               "table-display": true,
@@ -4600,7 +4638,7 @@
             },
             {
               "name": "projectOwner",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
@@ -4740,7 +4778,7 @@
             },
             {
               "name": "projectID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Projects (display: projectName)",
               "notes": "Project the job belongs to (via its ticket)",
               "table-display": false,
@@ -4749,7 +4787,7 @@
             },
             {
               "name": "ticketID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Tickets (display: ticketID)",
               "notes": "Ticket this job belongs to",
               "table-display": true,
@@ -4812,7 +4850,7 @@
             },
             {
               "name": "userID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Filtered by the roleID of the selected task template",
               "table-display": true,
@@ -4929,7 +4967,7 @@
             },
             {
               "name": "jobOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -5086,7 +5124,7 @@
             },
             {
               "name": "departmentID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
               "notes": null,
               "table-display": true,
@@ -5095,7 +5133,7 @@
             },
             {
               "name": "roleID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Roles (display: roleName)",
               "notes": null,
               "table-display": true,
@@ -5194,7 +5232,7 @@
             },
             {
               "name": "customerID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Customers (display: customerName)",
               "notes": null,
               "table-display": true,
@@ -5203,7 +5241,7 @@
             },
             {
               "name": "capacityOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -5301,7 +5339,7 @@
             },
             {
               "name": "regionID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Regions (display: regionName)",
               "notes": null,
               "table-display": true,
@@ -5310,7 +5348,7 @@
             },
             {
               "name": "departmentID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
               "notes": null,
               "table-display": true,
@@ -5319,7 +5357,7 @@
             },
             {
               "name": "ticketID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Tickets",
               "notes": null,
               "table-display": true,
@@ -5427,7 +5465,7 @@
             },
             {
               "name": "reportedBy",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
@@ -5436,7 +5474,7 @@
             },
             {
               "name": "performanceOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -5565,7 +5603,7 @@
             },
             {
               "name": "functionID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Functions (display: functionName)",
               "notes": "Functional area this role belongs to",
               "table-display": true,
@@ -5574,7 +5612,7 @@
             },
             {
               "name": "skillLevelID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Skill Levels (display: levelName)",
               "notes": "Required proficiency level",
               "table-display": true,
@@ -5583,7 +5621,7 @@
             },
             {
               "name": "graduationID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Graduation (display: graduationName)",
               "notes": "Required educational background",
               "table-display": true,
@@ -5646,7 +5684,7 @@
             },
             {
               "name": "roleOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -5773,7 +5811,7 @@
             },
             {
               "name": "skillLevelOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -5911,7 +5949,7 @@
             },
             {
               "name": "functionOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -6026,7 +6064,7 @@
             },
             {
               "name": "graduationOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -6135,7 +6173,7 @@
             },
             {
               "name": "regionID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Regions (display: regionName)",
               "notes": null,
               "table-display": true,
@@ -6162,7 +6200,7 @@
             },
             {
               "name": "functionID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Functions (display: functionName)",
               "notes": null,
               "table-display": true,
@@ -6171,7 +6209,7 @@
             },
             {
               "name": "squadID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Squads (display: squadName)",
               "notes": null,
               "table-display": true,
@@ -6180,7 +6218,7 @@
             },
             {
               "name": "branchID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Branches (display: branchName)",
               "notes": "nullable — branch (internal factory) this person is stationed at",
               "table-display": true,
@@ -6189,7 +6227,7 @@
             },
             {
               "name": "graduationID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Graduation (display: graduationName)",
               "notes": null,
               "table-display": true,
@@ -6225,7 +6263,7 @@
             },
             {
               "name": "personOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -6508,7 +6546,7 @@
             },
             {
               "name": "onboardingOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
@@ -6611,7 +6649,7 @@
             },
             {
               "name": "eventID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
               "notes": null,
               "table-display": true,
@@ -6629,7 +6667,7 @@
             },
             {
               "name": "processID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Processes (display: processName)",
               "notes": "Process context for the certified task",
               "table-display": false,
@@ -6638,7 +6676,7 @@
             },
             {
               "name": "scopeID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
               "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
               "table-display": true,
@@ -6647,7 +6685,7 @@
             },
             {
               "name": "functionID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Functions (display: functionName)",
               "notes": null,
               "table-display": true,
@@ -6656,7 +6694,7 @@
             },
             {
               "name": "skillLevelID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Skill Levels (display: levelName)",
               "notes": "Required proficiency",
               "table-display": true,
@@ -6665,7 +6703,7 @@
             },
             {
               "name": "roleID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Roles (display: roleName)",
               "notes": "Filtered by the selected function + skill level in the form",
               "table-display": true,
@@ -6692,7 +6730,7 @@
             },
             {
               "name": "actionID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Actions (display: actionName)",
               "notes": "Via taskID",
               "table-display": true,
@@ -6701,7 +6739,7 @@
             },
             {
               "name": "activityID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Activities (display: activityName)",
               "notes": "Via taskID",
               "table-display": true,
@@ -6710,7 +6748,7 @@
             },
             {
               "name": "productGroupID",
-              "type": "INT",
+              "type": "FK",
               "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
               "notes": "Product group this competence certifies",
               "table-display": true,
@@ -6719,7 +6757,7 @@
             },
             {
               "name": "productSpecID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Product Specs (display: specName)",
               "notes": "multivalued — spec definitions certified by this competence",
               "table-display": false,
@@ -6737,7 +6775,7 @@
             },
             {
               "name": "requirementID",
-              "type": "VARCHAR",
+              "type": "FK",
               "rule": "FK → Requirements (display: requirementName)",
               "notes": "multivalued — requirements this competence certifies",
               "table-display": true,
@@ -6773,7 +6811,7 @@
             },
             {
               "name": "competenceOwner",
-              "type": "email",
+              "type": "FK",
               "rule": "FK → People (display: userName)",
               "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
               "table-display": false,
