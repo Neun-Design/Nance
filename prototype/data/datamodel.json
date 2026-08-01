@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 1,
+    "schemaVersion": 2,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -4321,13 +4321,22 @@
               "constraints": "FK, NOT NULL"
             },
             {
-              "name": "customerName",
+              "name": "customerID",
               "type": "FK",
-              "rule": "FK → Customers (display: CONCAT(customerName + city)",
-              "notes": "Customer / requester factory",
+              "rule": "FK → Customers (display: customerTitle)",
+              "notes": "Customer / requester factory — PK-keyed since v3-review R3 (was the name-valued customerName); customerTitle = CONCAT(customerName,'-',city)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "customerName",
+              "type": "mirror",
+              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "notes": "Display/report mirror of the linked customer (same pattern as Projects)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "eventID",
@@ -4341,7 +4350,7 @@
             {
               "name": "forecastScopeID",
               "type": "rollup",
-              "rule": "rollup → Forecast Scopes (via: customerName, eventID) (display: productScopeName))",
+              "rule": "rollup → Forecast Scopes (via: customerID, eventID) (display: productScopeName))",
               "notes": "Forecast Scope this ticket contributes to",
               "table-display": true,
               "subitem-display": false,
@@ -4395,7 +4404,7 @@
             {
               "name": "taskID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: scopeID, productName, customerName)",
+              "rule": "rollup → Tasks (via: scopeID, productName, customerID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -4492,7 +4501,7 @@
                 "field-type": {
                   "SelectGroups": "shadcn-select"
                 },
-                "attribute": "customerName",
+                "attribute": "customerID",
                 "tooltip": null,
                 "step": null,
                 "check": null,

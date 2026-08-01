@@ -98,7 +98,7 @@ export const REPORT_QUERIES = {
 
   'Processes::Report-A': (rows) => bar('Tasks by Process', groupAgg(getEntity('Tasks'), 'processID'), procName),
 
-  'Tickets::Report-A': (rows) => bar('Tickets by Customer', groupAgg(rows, 'customerName'), null),
+  'Tickets::Report-A': (rows) => bar('Tickets by Customer', groupAgg(rows, 'customerID'), custName),
   'Tickets::Report-B': (rows) =>
     donut('Tickets by Scope', groupAgg(rows, 'scopes'), (k) => lookup('Scopes', k, 'scopeName') || k),
 
