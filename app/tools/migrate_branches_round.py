@@ -3,8 +3,9 @@
 
 Implements the data side of prototype/stakeholders_test_results.md:
 
-  Countries      hidden registry seeded with the world's countries per
-                 continent (feeds the Branches Country picker)
+  Countries      system registry — rows live in prototype/data/countries.json
+                 (generated from COUNTRIES below) and load in every mode;
+                 mockup copies of the table are removed
   Regions        continent enum — demo defaults by region name
                  (Americas -> North America, APAC -> Asia, EMEA -> Europe)
   Branches       new Organization table seeded from the branch-typed
@@ -125,11 +126,10 @@ def migrate(path):
     def note(k, n=1):
         changed[k] = changed.get(k, 0) + n
 
-    # ---- Countries registry ----
-    if 'Countries' not in org:
-        org['Countries'] = [{'countryName': c, 'continent': cont}
-                            for cont in sorted(COUNTRIES) for c in sorted(COUNTRIES[cont])]
-        note('Countries created', len(org['Countries']))
+    # ---- Countries: system registry since 2026-08-01 — the rows live in
+    # prototype/data/countries.json (loaded in every mode), not in the mockup
+    if 'Countries' in org:
+        note('Countries moved to countries.json', len(org.pop('Countries')))
 
     # ---- Regions: demo continents ----
     for r in (find_table(data, 'Regions') or []):

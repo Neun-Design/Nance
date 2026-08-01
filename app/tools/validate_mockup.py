@@ -40,9 +40,13 @@ def find_table(name):
 print('\n== schema parity ==')
 pk_of, label_candidates = {}, {}
 for mname, m in DM['modules'].items():
-    if find := set(m['tables']) - set(MOCK.get(mname, {})):
+    # system registries ship as app data (data/countries.json), not mockup rows
+    system = {t for t, s in m['tables'].items() if s.get('system-registry')}
+    if find := set(m['tables']) - set(MOCK.get(mname, {})) - system:
         fail(f'{mname}: tables missing from mockup: {find}')
     for tname, t in m['tables'].items():
+        if tname in system:
+            continue
         rows = MOCK.get(mname, {}).get(tname, [])
         # mirror attrs derive at render time like rollup/computed (guide §3.3)
         stored = [a['name'] for a in t['attributes'] if a['type'] not in ('rollup', 'computed', 'mirror')]

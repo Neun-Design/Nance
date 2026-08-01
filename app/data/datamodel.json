@@ -874,7 +874,7 @@
           }
         },
         "Countries": {
-          "description": "Hidden registry of countries per continent — feeds the Branches Country picker",
+          "description": "System registry of countries per continent — predefined in data/countries.json, never user-registered; feeds the Branches Country picker",
           "dashboard-order": 0,
           "subitem-tables": null,
           "attributes": [
@@ -897,31 +897,8 @@
               "constraints": null
             }
           ],
-          "form": {
-            "steps": null,
-            "fields": {
-              "Name": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "countryName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Continent": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "continent",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            }
-          }
+          "form": null,
+          "system-registry": true
         }
       }
     },
