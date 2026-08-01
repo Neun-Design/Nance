@@ -290,7 +290,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
         if (record) setControlValue(node, c, record[f]);
         ctx.controls[f] = get;
         let control = node;
-        if (c.ref) {
+        if (c.ref && !getCatalog(c.ref)?.systemRegistry) {
           control = withAddNew(node, c.ref, addNewFor, (newId) => {
             const { options } = optionsForAttr(entity, f);
             if (node._rebuild) recheckMulti(node, options || fkOptions(c.ref), c.ref, newId);
@@ -1140,7 +1140,8 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     let control = node;
     if (addNew && (node.tagName === 'SELECT' || node._rebuild)) {
       const { target } = specOptions(entity, attrName, ruleText);
-      if (target) {
+      // system registries (Countries) are predefined — no "+" create button
+      if (target && !getCatalog(target)?.systemRegistry) {
         control = withAddNew(node, target, addNew, (newId) => {
           const fresh = specOptions(entity, attrName, ruleText);
           if (node._rebuild) recheckMulti(node, fresh.options, target, newId, groupField);
