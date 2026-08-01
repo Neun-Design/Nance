@@ -44,6 +44,13 @@ select option { background: var(--se-base-1); color: var(--se-text-primary); }
   font-size: var(--se-font-size-caption); font-weight: 600; color: var(--se-text-warning);
   background: var(--se-base-warning); padding: 3px var(--se-space-4); border-radius: var(--se-radius-pill);
 }
+/* blank-mode snapshot actions (offline-database workflow) */
+.header-btn {
+  font-size: var(--se-font-size-caption); font-weight: 600; color: var(--se-text-primary);
+  background: var(--se-base-1); border: 1px solid var(--se-ui-4); cursor: pointer;
+  padding: 3px var(--se-space-4); border-radius: var(--se-radius-pill);
+}
+.header-btn:hover { background: var(--se-base-1-hover); }
 .avatar {
   width: 32px; height: 32px; border-radius: 50%; background: var(--se-base-1-selected);
   color: var(--se-text-primary); font-size: var(--se-font-size-caption); font-weight: 700;
