@@ -13,8 +13,8 @@ blank mode) move that store in and out of files:
 
 | Button | Action |
 |---|---|
-| **Save** | Downloads the session as `edqms_blank_<date>_<time>.json` — same table shape as the mockup dataset, wrapped in `{ _meta, Blank }`. `_meta` stamps app, export time and table/record counts. |
-| **Import** | Loads a snapshot file back: after a confirmation, it **replaces** the whole session (and re-persists to localStorage). Tables the current build doesn't catalogue are skipped and reported — that's the schema-drift warning. |
+| **Save** | Downloads the session as `edqms_blank_<date>_<time>.json` — same table shape as the mockup dataset, wrapped in `{ _meta, Blank }`. `_meta` stamps app, **schemaVersion** (from the datamodel's `_meta`, bumped on every schema PR), export time and table/record counts. |
+| **Import** | Loads a snapshot file back: after a confirmation, it **replaces** the whole session (and re-persists to localStorage). The confirm dialog **warns when the file's schemaVersion differs from the app's**; tables the current build doesn't catalogue are skipped and reported. |
 
 System registries (Countries) never travel in snapshots; they reload from
 app data in every mode. Engine entry points: `exportSnapshot()` /
@@ -35,8 +35,8 @@ block).
    OneDrive folder only.
 4. **Freeze the app for the engagement.** Schema changes weekly on `main`;
    deploy a tagged build for the client and migrate their snapshots
-   deliberately between phases. The Import warning lists tables the build
-   doesn't recognize, but renamed *attributes* inside a table are not
-   detected — hence the freeze.
+   deliberately between phases. The Import dialog warns on schemaVersion
+   mismatch and lists tables the build doesn't recognize, but renamed
+   *attributes* inside a table are not detected — hence the freeze.
 5. When the MVP is authorized, the accumulated snapshots are the seed data:
    same table shape the migration tooling already consumes.

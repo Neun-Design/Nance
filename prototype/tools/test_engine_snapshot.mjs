@@ -20,9 +20,16 @@ const fail = (m) => { fails += 1; console.log(`  ✗ ${m}`); };
 const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
   ? ok(m) : fail(`${m} — got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`));
 
+console.log('== schema version (v3-review D9) ==');
+{
+  eq(typeof model.getSchemaVersion(), 'number', 'datamodel _meta.schemaVersion exposed');
+  data.setSchemaVersion(model.getSchemaVersion());
+}
+
 console.log('== exportSnapshot ==');
 const snap = data.exportSnapshot();
 {
+  eq(snap._meta.schemaVersion, model.getSchemaVersion(), 'snapshot stamps the schema version');
   eq(snap._meta.kind, 'blank-snapshot', '_meta stamps the snapshot kind');
   eq(typeof snap._meta.exportedAt, 'string', '_meta carries the export time');
   eq('Countries' in snap.Blank, false, 'system registry stays out of the file');
@@ -55,8 +62,10 @@ console.log('== importSnapshot: drift + malformed ==');
   let threw = null;
   try { data.importSnapshot({ nope: true }); } catch (e) { threw = e.message; }
   eq(/blank snapshot/.test(threw), true, 'file without a Blank section rejected');
-  // restore the full dataset for any suite that might run after this one
-  data.importSnapshot(snap);
+  const older = { _meta: { schemaVersion: 0 }, Blank: { Regions: [] } };
+  eq(data.importSnapshot(older).schemaMismatch,
+    { file: 0, app: model.getSchemaVersion() }, 'version mismatch reported on import');
+  eq(data.importSnapshot(snap).schemaMismatch ?? null, null, 'same-version import reports no mismatch');
 }
 
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');

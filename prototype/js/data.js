@@ -147,6 +147,12 @@ export function lookup(name, id, field) {
 // a shareable JSON file (kept outside the repo — OneDrive folder), Import
 // loads such a file back. System registries (Countries) never travel in
 // snapshots; they reload from app data in every mode.
+// schema version of the running app (wired by app.js from the datamodel's
+// _meta after loadModel; tests set it explicitly) — snapshots stamp it and
+// imports compare it so schema drift is visible to the consultant
+let SCHEMA_VERSION = null;
+export const setSchemaVersion = (v) => { SCHEMA_VERSION = v; };
+
 export function exportSnapshot() {
   // deep-copy so the snapshot is immutable — later edits to the live store
   // must not leak into an already-taken export (and vice versa)
@@ -159,6 +165,7 @@ export function exportSnapshot() {
     _meta: {
       app: 'EDQMS prototype',
       kind: 'blank-snapshot',
+      schemaVersion: SCHEMA_VERSION,
       exportedAt: new Date().toISOString(),
       tables: Object.keys(user).filter((t) => (user[t] || []).length).length,
       records: Object.values(user).reduce((s, r) => s + (r ? r.length : 0), 0),
@@ -176,6 +183,10 @@ export function importSnapshot(raw) {
     throw new Error('not an EDQMS blank snapshot (missing "Blank" section)');
   }
   const skipped = Object.keys(src).filter((n) => !ENTITY_META[n]);
+  const fileVersion = (raw._meta && raw._meta.schemaVersion) ?? null;
+  const schemaMismatch = fileVersion != null && SCHEMA_VERSION != null
+    && String(fileVersion) !== String(SCHEMA_VERSION)
+    ? { file: fileVersion, app: SCHEMA_VERSION } : null;
   let records = 0;
   for (const name of Object.keys(ENTITY_META)) {
     if (name === 'Countries') continue;
@@ -189,7 +200,7 @@ export function importSnapshot(raw) {
     records += rows.length;
   }
   persist();
-  return { records, skipped };
+  return { records, skipped, schemaMismatch };
 }
 
 // Convenience label lookup using the entity's configured label field.
