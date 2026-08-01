@@ -149,6 +149,12 @@ export function parseSubitem(entry) {
   return parsed[0];
 }
 
+// schema version stamped in datamodel _meta (v3-review D9): bumped on every
+// schema PR; blank-mode snapshots carry it so imports can detect drift
+export function getSchemaVersion() {
+  return (DM && DM._meta && DM._meta.schemaVersion) ?? null;
+}
+
 export async function loadModel() {
   const res = await fetch(DM_URL);
   if (!res.ok) throw new Error(`Failed to load datamodel (${res.status})`);

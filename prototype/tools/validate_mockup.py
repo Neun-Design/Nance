@@ -38,6 +38,13 @@ def find_table(name):
 
 # ---------- 1. schema parity ----------
 print('\n== schema parity ==')
+# v3-review D9: the datamodel must carry a schema version — snapshots stamp
+# it and the app warns on import mismatch; a schema PR must bump it
+_sv = (DM.get('_meta') or {}).get('schemaVersion')
+if _sv is None:
+    fail('datamodel _meta.schemaVersion missing (bump it on every schema PR)')
+else:
+    ok(f'schema version present: {_sv}')
 pk_of, label_candidates = {}, {}
 for mname, m in DM['modules'].items():
     # system registries ship as app data (data/countries.json), not mockup rows
