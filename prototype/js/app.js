@@ -228,6 +228,7 @@ function render() {
 
   if (active.module === -1) {
     tabScrollEl.innerHTML = '';
+    tabScrollEl.appendChild(guideLink(null));
     tabViewEl.innerHTML = '';
     liveCharts = renderOverview(tabViewEl);
     return;
@@ -239,6 +240,7 @@ function render() {
   // Every table in this module is kept out of the tab strip (dashboard-order 0).
   if (!mod.tables.length) {
     tabScrollEl.innerHTML = '';
+    tabScrollEl.appendChild(guideLink(mod.name));
     tabViewEl.innerHTML = '<div class="empty-note">No dashboards are enabled for this module.</div>';
     return;
   }
@@ -255,9 +257,29 @@ function render() {
     else chip.addEventListener('click', () => go(active.module, ti));
     tabScrollEl.appendChild(chip);
   });
+  tabScrollEl.appendChild(guideLink(mod.name, mod.tables[active.tab]));
 
   currentCfg = engineCfg(mod.tables[active.tab]);
   renderTabShell(currentCfg);
+}
+
+// App Guide links (v3-review D10 phase 2): every module/dashboard opens its
+// guide page. The deployed layout serves this app under /app/ with the docs
+// at the site root; local runs fall back to the published site.
+const GUIDE_BASE = location.pathname.includes('/app/')
+  ? '../app-guide/' : 'https://bovarafa.github.io/EDQMS/app-guide/';
+const guideSlug = (s) => String(s).toLowerCase().replace(/\s+/g, '-');
+function guideLink(moduleName, tableName = null) {
+  const a = document.createElement('a');
+  a.className = 'guide-link';
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.href = moduleName
+    ? `${GUIDE_BASE}${guideSlug(moduleName)}/${tableName ? '#' + guideSlug(tableName) : ''}`
+    : GUIDE_BASE;
+  a.title = 'Open the App Guide for this page — what it is, when to register, key fields';
+  a.textContent = '📖 Guide';
+  return a;
 }
 
 function renderTabShell(cfg) {

@@ -41,19 +41,19 @@ it is fine to register a few key people early and return).
 **Key fields:** the cascade `Region *` → `Unit *` → `Department *` → Squad; Branch; Name,
 Email; `Function *`; Graduation.
 
-## Competence *(phase 6)*
+## Competence
 
-**What it is:** a certified capability: a role/level certified for a task chain (event →
-process → task) on a scope + product group, with the requirements it certifies.
+*(phase 6)* **What it is:** a certified capability: a role/level certified for a task chain
+(event → process → task) on a scope + product group, with the requirements it certifies.
 **Register when:** after Operation exists.
 **Key fields:** `Function *` + `Skill Level *` → unlock Role; `Scope *` + `Product Group *` →
 unlock Requirements (multi); `Event *` → unlocks Process → Task. The competence's department
 derives from the chosen event automatically.
 
-## Onboarding *(phase 6)*
+## Onboarding
 
-**What it is:** the certification record of a person on a competence (with training material
-and the certified flag) — Jobs only offer certified people as responsibles.
+*(phase 6)* **What it is:** the certification record of a person on a competence (with
+training material and the certified flag) — Jobs only offer certified people as responsibles.
 **Register when:** after Competences.
 **Key fields:** `Department *` → unlocks Talent (people of the department) and, with the Role,
 the Competence options (only competences of that department and role); Skill Rank; Training
