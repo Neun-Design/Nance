@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 2,
+    "schemaVersion": 3,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2414,8 +2414,8 @@
             {
               "name": "activities",
               "type": "rollup",
-              "rule": "rollup → Activities (via: processID)",
-              "notes": "All Activities belonging to this Process",
+              "rule": "rollup → Workflows via: processID (display: activityName)",
+              "notes": "Activities of this process, reached through its workflow steps",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -2561,8 +2561,8 @@
         },
         "Activities": {
           "visibility": "show",
-          "dashboard-order": 4,
-          "description": "Sub-step within a Process (ISO §4.4.1 / §7.1.6). Activities have no execution time, owner, status, start or end date — execution is defined in the Tasks list. roleID is derived from Tasks.",
+          "dashboard-order": 0,
+          "description": "Hidden registry (dashboard-order 0) of the activities that form workflow steps (step = activity x process, v3-review D3). Created inline via the '+' button on the Workflows Activity select -- FK-keyed, no free text, so grouping/filtering never breaks on typos.",
           "attributes": [
             {
               "name": "activityID",
@@ -2694,12 +2694,12 @@
             },
             {
               "name": "activityID",
-              "type": "rollup",
-              "rule": "rollup → Activities (via: processID) (display: activityName)",
-              "notes": "Single select, not multivalued",
+              "type": "FK",
+              "rule": "FK → Activities (display: activityName)",
+              "notes": "The activity this step executes (step = activity × process); stored FK since v3-review R5 — was a dead rollup",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "parentStepID",
