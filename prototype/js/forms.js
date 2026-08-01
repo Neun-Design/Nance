@@ -147,9 +147,14 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   const seen = new Map();
   for (const rec of getEntity(target)) {
     // "FK: Issues (filtered by issueType='Opportunity')" — only matching
-    // target records become options
-    if (r && r.filter && String(rec[r.filter.field] ?? '').toLowerCase()
-        !== r.filter.value.toLowerCase()) continue;
+    // target records become options. Fields the record doesn't store resolve
+    // through the display engine (e.g. People filtered by functionName —
+    // reached via the functionID FK).
+    if (r && r.filter) {
+      const fv = rec[r.filter.field] !== undefined
+        ? rec[r.filter.field] : resolveDisplay(target, rec, r.filter.field);
+      if (String(fv ?? '').toLowerCase() !== r.filter.value.toLowerCase()) continue;
+    }
     const v0 = rec[valueField];
     if (v0 == null || v0 === '') continue;
     // CONCAT displays (e.g. "productName | specsSummary") resolve cross-table
