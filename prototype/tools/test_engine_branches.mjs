@@ -55,8 +55,29 @@ console.log('== Countries system registry & continent cascade basis ==');
   const emea = data.getEntity('Regions').find((r) => r.regionName === 'EMEA');
   eq(emea.continent, 'Europe', 'Regions.continent demo default');
   const country = catalog['Branches'].form.fields.Country;
-  eq(country['field-rule'], 'SelectLabel = continent; filtered by Region.continent selected',
-    'country grouped by continent, record-matched on the region continent');
+  eq(country['field-rule'], 'SelectLabel = continent; filtered by Region.countryName selected',
+    'country grouped by continent, record-matched on the region countries');
+}
+
+console.log('== Regions.countryName drives the Branches Country picker ==');
+{
+  const emea = data.getEntity('Regions').find((r) => r.regionName === 'EMEA');
+  eq(emea.countryName.includes('Germany') && !emea.countryName.includes('Brazil'), true,
+    'EMEA countries seeded from its branches');
+  const opt = forms.optionsForAttr('Regions', 'countryName');
+  eq([opt.target, opt.multi], ['Countries', true], 'Regions Country picker: registry-sourced, multivalued');
+  eq(catalog['Regions'].form.fields.Country['field-rule'],
+    'Allow multiple values; SelectLabel = continent', 'grouped multi-select on the Regions form');
+  // record-matching cascade (forms.js "Dep.field" branch): a Branches country
+  // option survives only when the Countries row shares countryName with the
+  // selected Region record
+  const all = forms.optionsForAttr('Branches', 'countryName').options;
+  const kept = all.filter((o) => {
+    const rec = data.getById('Countries', o.value);
+    return rec && emea.countryName.includes(rec.countryName);
+  });
+  eq(kept.map((o) => o.value), ['Austria', 'Croatia', 'Germany', 'Hungary', 'Italy'],
+    'EMEA branch Country options collapse to the region countries');
 }
 
 console.log('== Branches Owner: everyone, grouped by function ==');
