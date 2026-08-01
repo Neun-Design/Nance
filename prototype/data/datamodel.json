@@ -464,7 +464,8 @@
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "people"
+            "people",
+            "Processes"
           ]
         },
         "Regions": {
@@ -2083,6 +2084,15 @@
               "constraints": null
             },
             {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Department handling the event — offered from the selected Business Unit's departments",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "eventCreatedAt",
               "type": "DATETIME",
               "rule": null,
@@ -2217,6 +2227,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Departments of the selected Business Unit",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
               }
             }
           },
@@ -2293,6 +2313,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "squadID",
+              "type": "FK",
+              "rule": "FK → Squads (display: squadName)",
+              "notes": "Squad running the process — offered from the squads of the department reached through the selected Event (eventID → departmentID)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "processStatus",
@@ -2450,6 +2479,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Squad": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "squadID",
+                "tooltip": "Squads of the department handling the selected Event",
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": "filtered by Event.departmentID selected"
               }
             }
           },

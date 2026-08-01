@@ -10479,7 +10479,8 @@
     "productName": "LPT",
     "scopeName": "Temperature Reduction",
     "eventOwner": "U01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV02",
@@ -10490,7 +10491,8 @@
     "productName": "Autotransformer",
     "scopeName": "Uprating",
     "eventOwner": "U02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV03",
@@ -10501,7 +10503,8 @@
     "productName": "Phase Shifter",
     "scopeName": "Uprating with Windings Replacement",
     "eventOwner": "U03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV04",
@@ -10512,7 +10515,8 @@
     "productName": "HVDC",
     "scopeName": "Repair with Windings Replacement",
     "eventOwner": "U04",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV05",
@@ -10523,7 +10527,8 @@
     "productName": "Reactors",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "eventOwner": "U05",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV06",
@@ -10534,7 +10539,8 @@
     "productName": "MPT",
     "scopeName": "Renewal of the paper/oil insulation system",
     "eventOwner": "U06",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV07",
@@ -10545,7 +10551,8 @@
     "productName": "IND",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "eventOwner": "U07",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV08",
@@ -10556,7 +10563,8 @@
     "productName": "LDT",
     "scopeName": "Renovation of External Parts",
     "eventOwner": "U08",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV09",
@@ -10567,7 +10575,8 @@
     "productName": "CRT",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "eventOwner": "U09",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV10",
@@ -10578,7 +10587,8 @@
     "productName": "LIDT",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "eventOwner": "U10",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV11",
@@ -10589,7 +10599,8 @@
     "productName": "TRAC",
     "scopeName": "Temperature Reduction",
     "eventOwner": "U11",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV12",
@@ -10600,7 +10611,8 @@
     "productName": "VR",
     "scopeName": "Uprating",
     "eventOwner": "U12",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV13",
@@ -10611,7 +10623,8 @@
     "productName": "CP",
     "scopeName": "Uprating with Windings Replacement",
     "eventOwner": "U13",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV14",
@@ -10622,7 +10635,8 @@
     "productName": "RENEW",
     "scopeName": "Repair with Windings Replacement",
     "eventOwner": "U14",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV15",
@@ -10633,7 +10647,8 @@
     "productName": "LPT",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "eventOwner": "U15",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV16",
@@ -10644,7 +10659,8 @@
     "productName": "Autotransformer",
     "scopeName": "Renewal of the paper/oil insulation system",
     "eventOwner": "U16",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV17",
@@ -10655,7 +10671,8 @@
     "productName": "Phase Shifter",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "eventOwner": "U17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV18",
@@ -10666,7 +10683,8 @@
     "productName": "HVDC",
     "scopeName": "Renovation of External Parts",
     "eventOwner": "U18",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV19",
@@ -10677,7 +10695,8 @@
     "productName": "Reactors",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "eventOwner": "U19",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV20",
@@ -10688,7 +10707,8 @@
     "productName": "MPT",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "eventOwner": "U20",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV21",
@@ -10699,7 +10719,8 @@
     "productName": "IND",
     "scopeName": "Temperature Reduction",
     "eventOwner": "U21",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV22",
@@ -10710,7 +10731,8 @@
     "productName": "LDT",
     "scopeName": "Uprating",
     "eventOwner": "U22",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV23",
@@ -10721,7 +10743,8 @@
     "productName": "CRT",
     "scopeName": "Uprating with Windings Replacement",
     "eventOwner": "U23",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV24",
@@ -10732,7 +10755,8 @@
     "productName": "LIDT",
     "scopeName": "Repair with Windings Replacement",
     "eventOwner": "U24",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV25",
@@ -10743,7 +10767,8 @@
     "productName": "TRAC",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "eventOwner": "U01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV26",
@@ -10754,7 +10779,8 @@
     "productName": "VR",
     "scopeName": "Renewal of the paper/oil insulation system",
     "eventOwner": "U02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV27",
@@ -10765,7 +10791,8 @@
     "productName": "CP",
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "eventOwner": "U03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV28",
@@ -10776,7 +10803,8 @@
     "productName": "RENEW",
     "scopeName": "Renovation of External Parts",
     "eventOwner": "U04",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV29",
@@ -10787,7 +10815,8 @@
     "productName": "LPT",
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "eventOwner": "U05",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV30",
@@ -10798,7 +10827,8 @@
     "productName": "Autotransformer",
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "eventOwner": "U06",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV31",
@@ -10809,7 +10839,8 @@
     "productName": "Phase Shifter",
     "scopeName": "Temperature Reduction",
     "eventOwner": "U07",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03"
    }
   ],
   "Processes": [
@@ -10824,7 +10855,8 @@
     "processStatus": "Active",
     "processVersion": "v1.2",
     "productName": "LPT",
-    "scopeName": "Temperature Reduction"
+    "scopeName": "Temperature Reduction",
+    "squadID": "SQ1"
    },
    {
     "processID": "PR2",
@@ -10837,7 +10869,8 @@
     "processStatus": "Active",
     "processVersion": "v2.0",
     "productName": "Autotransformer",
-    "scopeName": "Uprating"
+    "scopeName": "Uprating",
+    "squadID": "SQ1"
    },
    {
     "processID": "PR3",
@@ -10850,7 +10883,8 @@
     "processStatus": "Active",
     "processVersion": "v1.0",
     "productName": "Phase Shifter",
-    "scopeName": "Uprating with Windings Replacement"
+    "scopeName": "Uprating with Windings Replacement",
+    "squadID": "SQ1"
    },
    {
     "processID": "PR4",
@@ -10863,7 +10897,8 @@
     "processStatus": "Active",
     "processVersion": "v1.1",
     "productName": "HVDC",
-    "scopeName": "Repair with Windings Replacement"
+    "scopeName": "Repair with Windings Replacement",
+    "squadID": "SQ1"
    },
    {
     "processID": "PR5",
@@ -10876,7 +10911,8 @@
     "processStatus": "Active",
     "processVersion": "v1.3",
     "productName": "Reactors",
-    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil"
+    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
+    "squadID": null
    },
    {
     "processID": "PC01",
@@ -10889,7 +10925,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": "MPT",
-    "scopeName": "Renewal of the paper/oil insulation system"
+    "scopeName": "Renewal of the paper/oil insulation system",
+    "squadID": null
    }
   ],
   "Activities": [
