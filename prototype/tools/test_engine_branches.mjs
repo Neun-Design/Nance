@@ -56,18 +56,14 @@ console.log('== Countries registry & continent cascade basis ==');
     'country grouped by continent, record-matched on the region continent');
 }
 
-console.log('== Branches Owner: Manager-filtered people ==');
+console.log('== Branches Owner: everyone, grouped by function ==');
 {
   const r = model.parseRule(catalog['Branches'].byName['userID'].rule);
-  eq(r.filter, { field: 'functionName', value: 'Manager' }, 'rule declares the function filter');
-  eq(data.getEntity('Functions').some((f) => f.functionName === 'Manager'), true, 'Manager function seeded');
-  const before = forms.optionsForAttr('Branches', 'userID');
-  eq((before.options || []).length, 0, 'no managers yet — list starts empty');
-  const mgrF = data.getEntity('Functions').find((f) => f.functionName === 'Manager').functionID;
-  data.addRecord('People', { userID: 'UMGR', userName: 'Maria Manager', functionID: mgrF });
-  const after = forms.optionsForAttr('Branches', 'userID');
-  eq((after.options || []).map((o) => o.value), ['UMGR'],
-    'people with the Manager function appear (filter resolves functionName through the FK)');
+  eq(r.filter ?? null, null, 'no function filter on the rule (2026-08-01 revision)');
+  const opt = forms.optionsForAttr('Branches', 'userID');
+  eq((opt.options || []).length, data.getEntity('People').length, 'every person is offered');
+  eq(catalog['Branches'].form.fields.Owner['field-rule'], 'SelectLabel = functionName',
+    'options grouped by functionName');
 }
 
 console.log('== Issues by segment in Organization ==');
