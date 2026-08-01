@@ -185,7 +185,8 @@
     "cityName": "Nuremberg",
     "regionID": "RG03",
     "countryName": "Germany",
-    "userID": null
+    "userID": null,
+    "customerID": "FC01"
    },
    {
     "branchID": "BR02",
@@ -195,7 +196,8 @@
     "cityName": "Jundiaí",
     "regionID": "RG01",
     "countryName": "Brazil",
-    "userID": null
+    "userID": null,
+    "customerID": "FC02"
    },
    {
     "branchID": "BR03",
@@ -205,7 +207,8 @@
     "cityName": "Weiz",
     "regionID": "RG03",
     "countryName": "Austria",
-    "userID": null
+    "userID": null,
+    "customerID": "FC03"
    },
    {
     "branchID": "BR04",
@@ -215,7 +218,8 @@
     "cityName": "Zagreb",
     "regionID": "RG03",
     "countryName": "Croatia",
-    "userID": null
+    "userID": null,
+    "customerID": "FC04"
    },
    {
     "branchID": "BR05",
@@ -225,7 +229,8 @@
     "cityName": "Guangzhou",
     "regionID": "RG02",
     "countryName": "China",
-    "userID": null
+    "userID": null,
+    "customerID": "FC05"
    },
    {
     "branchID": "BR06",
@@ -235,7 +240,8 @@
     "cityName": "Dresden",
     "regionID": "RG03",
     "countryName": "Germany",
-    "userID": null
+    "userID": null,
+    "customerID": "FC06"
    },
    {
     "branchID": "BR07",
@@ -245,7 +251,8 @@
     "cityName": "Linz",
     "regionID": "RG03",
     "countryName": "Austria",
-    "userID": null
+    "userID": null,
+    "customerID": "FC07"
    },
    {
     "branchID": "BR08",
@@ -255,7 +262,8 @@
     "cityName": "Trento",
     "regionID": "RG03",
     "countryName": "Italy",
-    "userID": null
+    "userID": null,
+    "customerID": "FC08"
    },
    {
     "branchID": "BR09",
@@ -265,7 +273,8 @@
     "cityName": "Jinan",
     "regionID": "RG02",
     "countryName": "China",
-    "userID": null
+    "userID": null,
+    "customerID": "FC09"
    },
    {
     "branchID": "BR10",
@@ -275,7 +284,8 @@
     "cityName": "Wuhan",
     "regionID": "RG02",
     "countryName": "China",
-    "userID": null
+    "userID": null,
+    "customerID": "FC10"
    },
    {
     "branchID": "BR11",
@@ -285,7 +295,8 @@
     "cityName": "Guanajuato",
     "regionID": "RG01",
     "countryName": "Mexico",
-    "userID": null
+    "userID": null,
+    "customerID": "FC11"
    },
    {
     "branchID": "BR12",
@@ -295,7 +306,8 @@
     "cityName": "Budapest",
     "regionID": "RG03",
     "countryName": "Hungary",
-    "userID": null
+    "userID": null,
+    "customerID": "FC12"
    },
    {
     "branchID": "BR13",
@@ -305,7 +317,8 @@
     "cityName": "Kirchheim",
     "regionID": "RG03",
     "countryName": "Germany",
-    "userID": null
+    "userID": null,
+    "customerID": "FC13"
    },
    {
     "branchID": "BR14",
@@ -315,7 +328,8 @@
     "cityName": "Nuremberg",
     "regionID": "RG03",
     "countryName": "Germany",
-    "userID": null
+    "userID": null,
+    "customerID": "FC14"
    },
    {
     "branchID": "BR15",
@@ -325,7 +339,8 @@
     "cityName": "Jackson",
     "regionID": "RG01",
     "countryName": "United States",
-    "userID": null
+    "userID": null,
+    "customerID": "FC15"
    },
    {
     "branchID": "BR16",
@@ -335,7 +350,8 @@
     "cityName": "Bogotá",
     "regionID": "RG01",
     "countryName": "Colombia",
-    "userID": null
+    "userID": null,
+    "customerID": "FC16"
    },
    {
     "branchID": "BR17",
@@ -345,7 +361,8 @@
     "cityName": "Trois-Rivières",
     "regionID": "RG01",
     "countryName": "Canada",
-    "userID": null
+    "userID": null,
+    "customerID": "FC17"
    }
   ],
   "Issues": [
@@ -602,7 +619,7 @@
     "customerID": "FC15",
     "customerName": "JXN",
     "city": "Jackson",
-    "country": "USA",
+    "country": "United States",
     "isActive": true,
     "customerOwner": "U15",
     "businessUnitID": "BU02",
