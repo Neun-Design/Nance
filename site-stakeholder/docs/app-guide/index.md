@@ -11,8 +11,8 @@ belongs to a module, and most registrations depend on earlier ones — a Branch 
 Unit, a Process needs its triggering Event, a Competence needs the Scope and Product Group it
 certifies. Register in the order below and no selector will ever be unexpectedly empty.
 
-!!! tip "Blank mode & saving your work"
-    Open the prototype with `?data=empty` to start from a blank QMS. Your records persist in the
+!!! tip "MVP mode & saving your work"
+    Open the prototype at `/app/mvp/` to start from a blank QMS. Your records persist in the
     browser, but the browser is a cache — **use the `Save` button** (top bar) at every milestone
     and store the downloaded file in the shared folder. `Import` loads a saved session back.
     The app warns if the file was saved by a different schema version.

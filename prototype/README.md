@@ -22,25 +22,27 @@ The whole `prototype/` folder is static — deploy it as-is to any static host
 This repo auto-publishes it to GitHub Pages under `/app/` on every push to `main`
 (`.github/workflows/deploy-prototype.yml`).
 
-## Blank mode (stakeholder walkthroughs)
+## MVP mode (stakeholder walkthroughs)
 
-Append **`?data=empty`** to the URL to boot every table empty instead of loading the
-mockup dataset — the full experience from a blank QMS, for continuity/usability testing:
+The deployed copy under **`/app/mvp/`** — or, locally, appending **`?data=empty`** to the
+URL — boots every table empty instead of loading the mockup dataset: the full experience
+from a blank QMS, for continuity/usability testing:
 
 - All modules, tabs, forms, cascades and dashboards render from the datamodel as usual;
   stakeholders create Regions → Business Units → … themselves and hit any gaps live.
 - Records created in blank mode **persist in the browser's localStorage**, so the
   session survives reloads and can continue across days (per browser/participant).
-- **`?data=empty&reset=1`** wipes the saved session and starts over (remove `&reset=1`
-  afterwards, or every reload starts blank again).
-- The header badge shows **BLANK MODE** (vs. DEMO DATA); the login gate is unchanged.
+- **`?reset=1`** wipes the saved session and starts over (remove it afterwards, or
+  every reload starts blank again).
+- The header badge shows **MVP** (vs. DEMO DATA); the login gate is unchanged — and it
+  does not advertise the credentials the way the demo login note does.
 - **Walkthrough scope:** the analytics surfaces that only make sense with seeded data —
   the **Overview**, **Workspace** and **Control** modules, plus the CRM **Forecasts** /
   **Forecast Scopes** dashboards — stay visible but disabled (opaque, not selectable);
   the session lands on Organization instead of Overview. KPI **cards** and **report
   charts** are hidden on every tab — stakeholders see only the record tables and forms.
 
-Hosted example: `https://bovarafa.github.io/EDQMS/app/?data=empty`
+Hosted: `https://bovarafa.github.io/EDQMS/app/mvp/` (published by `deploy_pages.sh`)
 
 ## What's inside
 

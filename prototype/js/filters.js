@@ -11,19 +11,29 @@ const AUTO_EXPAND_VALUES = 8;
 
 // columns: engine columns ({ key, label, accessor? }); rows: the tab's records
 // Returns { apply(list), clear(), hasSections }
+// empty-value labels (ux-review U9): an EMPTY ARRAY on a multivalued
+// applicability key means "applies to all" (decision Q1) — it must not read
+// as a bare dash; a scalar null is a plainly empty cell.
+const ALL_LABEL = '(all — no restriction)';
+const EMPTY_LABEL = '(empty)';
+
 export function buildColumnFilters(container, columns, rows, onChange) {
   const state = new Map(); // column key -> Set(selected display values)
-  const resolve = (col, r) => {
+  // array-valued columns filter by their INDIVIDUAL values (ux-review U2) —
+  // counting the joined strings yields truncated near-duplicate options
+  const valuesOf = (col, r) => {
     const v = col.accessor ? col.accessor(r) : r[col.key];
-    return v == null || v === '' ? '—' : String(v);
+    if (Array.isArray(v)) return v.length ? v.map((x) => String(x)) : [ALL_LABEL];
+    return [v == null || v === '' ? EMPTY_LABEL : String(v)];
   };
 
   const sections = [];
   for (const col of columns) {
     const counts = new Map();
     for (const r of rows) {
-      const v = resolve(col, r);
-      counts.set(v, (counts.get(v) || 0) + 1);
+      for (const v of new Set(valuesOf(col, r))) {
+        counts.set(v, (counts.get(v) || 0) + 1);
+      }
     }
     if (counts.size < 2 || counts.size > MAX_VALUES) continue;
     sections.push({
@@ -101,7 +111,7 @@ export function buildColumnFilters(container, columns, rows, onChange) {
     for (const [key, set] of state) {
       const col = byKey.get(key);
       if (!col || !set.size) continue;
-      if (!set.has(resolve(col, r))) return false;
+      if (!valuesOf(col, r).some((v) => set.has(v))) return false;
     }
     return true;
   };
