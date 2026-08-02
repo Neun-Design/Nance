@@ -2042,27 +2042,27 @@
 <p>The interested parties (ISO 9001:2015 §4.2) and their demand. A Customer here is <strong>anyone
 eligible to open a Ticket</strong>: internal sites (type <em>branch</em>), external clients and suppliers.</p>
 <div class="admonition important">
-<p class="admonition-title">Every customer anchors to a Branch</p>
-<p>Contracts are made with physical/legal <strong>sites</strong>, never with Business Units — so no
-customer of any type exists without a Branch behind it. Always register the
-<a href="../organization/#branches">Branches</a> (phase 1) <strong>before</strong> their customers: an internal
-customer <em>is</em> the commercial face of its site; a client or supplier connects to the site
-it contracts with. That anchoring is what lets a customer open tickets to the branch's
-business units.</p>
+<p class="admonition-title">Customers connect to Branches through Contracts</p>
+<p>Contracts are made with physical/legal <strong>sites</strong> (branches), never with Business Units.
+A customer can exist without a branch, and can hold contracts with several branches —
+the <strong>Contract</strong> is what connects them. Registering the
+<a href="../organization/#branches">Branches</a> (phase 1) before customers keeps that connection
+ready, and it is what lets a customer open tickets to a branch's business units.</p>
 </div>
 <h2 id="customers">Customers<a class="headerlink" href="#customers" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> the registry of interested parties, typed <code>branch</code> / <code>client</code> / <code>supplier</code>.
 <strong>Register when:</strong> phase 2, after Organization — internal sites first (they mirror your
 Branches), then external clients/suppliers.
 <strong>Key fields:</strong> Name; Type; <code>Segment *</code> (multi) → unlocks <code>Unit *</code> (multi, filtered by the
-chosen segments); <code>Region *</code>; City/Country. <strong>Today the anchoring is recorded on the Branch
-form:</strong> after registering an internal customer, open its <a href="../organization/#branches">Branch</a>
-and set the Customer select there.</p>
+chosen segments); <code>Region *</code>; City/Country. <strong>Today the internal-site relationship is
+recorded on the Branch form:</strong> after registering an internal customer, open its
+<a href="../organization/#branches">Branch</a> and set the Customer select there.</p>
 <div class="admonition note">
 <p class="admonition-title">Roadmap</p>
-<p>The anchoring is moving into this form: every Customer will pick its Branch directly at
-registration (mandatory for all three types), and internal customers will inherit the
-site's geography automatically — see GitHub issue #132.</p>
+<p>A <strong>Contract</strong> entity is coming to CRM: each contract connects a customer to a branch
+and carries the product scopes it covers (filtered by the branch's business unit) plus
+the forecasts raised against them; the customer types become
+<code>internal client / external client / supplier</code> — see GitHub issue #132.</p>
 </div>
 <h2 id="forecasts">Forecasts<a class="headerlink" href="#forecasts" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> a demand plan for a customer over a period.
