@@ -48,6 +48,14 @@ entities over a merge.
 > So, as a Customer is connected to a Branch, it can open tickets to all business units connected to that branch, being able
 > to select all events also related to the business units related to the branch, and so on.
 > For that reason, I think that **option 1** (Link) should be the way to go here!
+> >[!note] Issue Update
+> > I need to correct something in my strategy. I have said in our conversation that a Customer cannot live without a branch.
+> > Thats not entirely true. Off course, a Customer can be connected to one or more branches, but it does not requires a branch to
+> > exist in the database. What connects the Customer with a Branch is the `Contract`.
+> > This entity, Contract, have not being modeled in our datamodel. A contract will relate to the entities: Product Scopes, Branches,
+> > Forecasts. Meaning that a Contract will have a list of product scopes (filtered by the business Unit of the branch selected) and
+> > will have a rollup relation with Forecasts to store all the forecast scopes created pr each product scope assigned to the contract.
+> > Because of that change, it make sense to keep the first enum classification for customer type: internal client, external client, supplier.
 
 ---
 

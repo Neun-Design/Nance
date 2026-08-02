@@ -42,8 +42,8 @@ the drill-down of every Branch of its unit.
 **Register when:** after Units and Regions.
 **Key fields:** `Segment *` → unlocks `Unit *`; Name; City; `Region *` → unlocks Country (only
 the region's registered countries are offered); **Customer** (optional) — after phase 2, come
-back and link the branch to its internal customer record (every customer anchors to a branch:
-contracts are made with sites, not business units); Owner.
+back and link the branch to its internal customer record (contracts are made with sites, not
+business units; the branch is the site customers contract with); Owner.
 
 ## Squads
 
