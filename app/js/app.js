@@ -81,8 +81,11 @@ async function main() {
         alert(`Import failed: ${e.message}`);
       }
     });
-    right.insertBefore(imp, badge);
-    right.insertBefore(save, badge);
+    // the badge lives in the left-hand brand group — anchor the snapshot
+    // buttons on the avatar instead
+    const avatar = document.getElementById('avatar');
+    right.insertBefore(imp, avatar);
+    right.insertBefore(save, avatar);
     document.body.appendChild(file);
   }
   buildSidebar();
