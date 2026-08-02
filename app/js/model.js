@@ -149,6 +149,31 @@ export function parseSubitem(entry) {
   return parsed[0];
 }
 
+// Object entries (guide §9, Squads reference) declare TABBED subitem groups:
+//   { "tab-order": 1, "rule": null, "tab-name": "people", "tab-table": "People" }
+// `rule` carries the same directive text a string entry would put after ':'
+// ("ordered by X", "only f=v", "rollup via T.f") or in parens ("(via: f)").
+// The parsed shape is identical to a string entry plus a `tab` marker; the
+// renderer switches the expanded row to a tab strip when every group of a
+// table carries one (mixed string/object lists keep the stacked layout).
+export function normalizeSubitem(entry) {
+  if (typeof entry === 'string' && entry.trim()) return parseSubitem(entry);
+  if (entry && typeof entry === 'object' && entry['tab-table']) {
+    const rule = entry.rule == null ? '' : String(entry.rule).trim();
+    const txt = !rule ? String(entry['tab-table'])
+      : rule.startsWith('(') ? `${entry['tab-table']} ${rule}`
+      : `${entry['tab-table']}: ${rule}`;
+    const si = parseSubitem(txt);
+    si.tab = {
+      name: entry['tab-name'] ? humanize(entry['tab-name']) : si.table,
+      order: typeof entry['tab-order'] === 'number' ? entry['tab-order'] : Infinity,
+    };
+    if (!si.label) si.label = si.tab.name;
+    return si;
+  }
+  return null;
+}
+
 // schema version stamped in datamodel _meta (v3-review D9): bumped on every
 // schema PR; blank-mode snapshots carry it so imports can detect drift
 export function getSchemaVersion() {
@@ -189,6 +214,9 @@ export async function loadModel() {
   return { modules: moduleList, catalog };
 }
 
+const subOrder = (si) =>
+  (si.tab && Number.isFinite(si.tab.order)) ? si.tab.order : Number.MAX_SAFE_INTEGER;
+
 function buildCatalog(moduleName, tableName, spec) {
   const attrs = spec.attributes || [];
   const stored = attrs.filter((a) => !DERIVED.has(a.type));
@@ -217,8 +245,10 @@ function buildCatalog(moduleName, tableName, spec) {
     // predefined dataset shipped with the app — never user-registered
     systemRegistry: spec['system-registry'] === true,
     subitems: (Array.isArray(spec['subitem-tables']) ? spec['subitem-tables'] : [])
-      .filter((e) => typeof e === 'string' && e.trim())
-      .map(parseSubitem),
+      .map(normalizeSubitem)
+      .filter(Boolean)
+      // tab-order sorts tabbed entries; string entries keep insertion order
+      .sort((a, b) => subOrder(a) - subOrder(b)),
   };
 }
 

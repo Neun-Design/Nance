@@ -382,8 +382,28 @@ that row (matched through the FK/rollup relationship between the two entities).
 | `[]` | Explicitly no subitems. Same effect as omitting the key. |
 | Lowercase names (`"tickets"`, `"people"`, `"competence"`) | Match tables **case-insensitively** (fuzzy singular/plural too: `"Onboards"` → Onboarding). |
 
-Grouped subitems: a list with multiple entries renders **multiple child groups** under
-one expanded row (Tasks' Handouts Inputs/Outputs pair is the reference).
+Grouped subitems: a list with multiple string entries renders **multiple stacked child
+groups** under one expanded row. Tables with 2+ child lists normally use the **tabbed
+object form** below instead (Squads and Tasks are the references).
+
+**Tabbed subitem groups (object entries):** an entry may also be an object —
+
+```json
+"subitem-tables": [
+  { "tab-order": 1, "rule": null, "tab-name": "people",    "tab-table": "People" },
+  { "tab-order": 2, "rule": null, "tab-name": "processes", "tab-table": "Processes" }
+]
+```
+
+When **every** entry of a table is an object and there are 2+ of them, the expanded row
+renders a **tab strip** instead of stacked lists: one tab per child table (humanized
+`tab-name` + record-count badge, ordered by `tab-order`), with the active tab's child
+table below it (Squads → People / Processes and Tasks → Handouts Inputs / Outputs are
+the references). `rule` accepts exactly the same directive text a string entry would
+carry after `:` (`"ordered by …"`, `"only f=v"`, `"rollup via T.f"`) or in parens
+(`"(via: f)"`, `"(grouped by f)"`); `null` means the plain FK join. A mixed
+string/object list keeps the stacked layout — the objects then behave like their
+equivalent string entries.
 
 ---
 
