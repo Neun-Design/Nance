@@ -9,13 +9,12 @@ purpose: "What to register in the CRM module and in which order"
 The interested parties (ISO 9001:2015 §4.2) and their demand. A Customer here is **anyone
 eligible to open a Ticket**: internal sites (type *branch*), external clients and suppliers.
 
-!!! important "Every customer anchors to a Branch"
-    Contracts are made with physical/legal **sites**, never with Business Units — so no
-    customer of any type exists without a Branch behind it. Always register the
-    [Branches](organization.md#branches) (phase 1) **before** their customers: an internal
-    customer *is* the commercial face of its site; a client or supplier connects to the site
-    it contracts with. That anchoring is what lets a customer open tickets to the branch's
-    business units.
+!!! important "Customers connect to Branches through Contracts"
+    Contracts are made with physical/legal **sites** (branches), never with Business Units.
+    A customer can exist without a branch, and can hold contracts with several branches —
+    the **Contract** is what connects them. Registering the
+    [Branches](organization.md#branches) (phase 1) before customers keeps that connection
+    ready, and it is what lets a customer open tickets to a branch's business units.
 
 ## Customers
 
@@ -23,14 +22,15 @@ eligible to open a Ticket**: internal sites (type *branch*), external clients an
 **Register when:** phase 2, after Organization — internal sites first (they mirror your
 Branches), then external clients/suppliers.
 **Key fields:** Name; Type; `Segment *` (multi) → unlocks `Unit *` (multi, filtered by the
-chosen segments); `Region *`; City/Country. **Today the anchoring is recorded on the Branch
-form:** after registering an internal customer, open its [Branch](organization.md#branches)
-and set the Customer select there.
+chosen segments); `Region *`; City/Country. **Today the internal-site relationship is
+recorded on the Branch form:** after registering an internal customer, open its
+[Branch](organization.md#branches) and set the Customer select there.
 
 !!! note "Roadmap"
-    The anchoring is moving into this form: every Customer will pick its Branch directly at
-    registration (mandatory for all three types), and internal customers will inherit the
-    site's geography automatically — see GitHub issue #132.
+    A **Contract** entity is coming to CRM: each contract connects a customer to a branch
+    and carries the product scopes it covers (filtered by the branch's business unit) plus
+    the forecasts raised against them; the customer types become
+    `internal client / external client / supplier` — see GitHub issue #132.
 
 ## Forecasts
 
