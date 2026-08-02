@@ -2,8 +2,8 @@
 // render the active tab. All screen structure derives from datamodel.json
 // via model.js (DATAMODEL_GUIDE.md is the contract).
 
-import { loadData, getEntity, getById, removeRecords, initMeta, BLANK_MODE,
-  exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
+import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta,
+  BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion } from './model.js';
 import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
@@ -39,8 +39,8 @@ async function main() {
   }
   if (BLANK_MODE) {
     const badge = document.querySelector('.header-badge');
-    badge.textContent = 'BLANK MODE';
-    badge.title = 'Blank walkthrough — records you create persist in this browser; add &reset=1 to the URL to start over';
+    badge.textContent = 'MVP';
+    badge.title = 'MVP walkthrough — records you create persist in this browser; add ?reset=1 to the URL to start over';
     // offline-database workflow (consulting sessions): snapshot the session
     // to a JSON file and load it back — localStorage alone is too fragile to
     // carry client data between machines/browsers
@@ -175,7 +175,14 @@ let filterDrawer = null;
 function withAccessors(entity, cols) {
   return cols.map(col => {
     const c = { ...col };
-    if (c.fk) c.accessor = (r) => fkDisplay(c.fk, r[c.key]);
+    // multivalued FKs stay ARRAYS of display names — the renderers decide how
+    // to show them (cells cap at +n, filters count individual values; U2/U9).
+    // fkDisplay itself would join them into one long string.
+    if (c.fk) c.accessor = (r) => {
+      const v = r[c.key];
+      if (Array.isArray(v)) return v.map((x) => fkDisplay(c.fk, x));
+      return fkDisplay(c.fk, v);
+    };
     else if (c.derived) c.accessor = (r) => derivedValue(entity, c.attr, r);
     return c;
   });
@@ -267,8 +274,10 @@ function render() {
 // App Guide links (v3-review D10 phase 2): every module/dashboard opens its
 // guide page. The deployed layout serves this app under /app/ with the docs
 // at the site root; local runs fall back to the published site.
-const GUIDE_BASE = location.pathname.includes('/app/')
-  ? '../app-guide/' : 'https://bovarafa.github.io/EDQMS/app-guide/';
+const GUIDE_BASE = location.pathname.includes('/app/mvp/')
+  ? '../../app-guide/'
+  : location.pathname.includes('/app/')
+    ? '../app-guide/' : 'https://bovarafa.github.io/EDQMS/app-guide/';
 const guideSlug = (s) => String(s).toLowerCase().replace(/\s+/g, '-');
 function guideLink(moduleName, tableName = null) {
   const a = document.createElement('a');
@@ -386,9 +395,18 @@ function renderBodyOnly() {
     delBtn = ctrlBtn('Delete', true, () => {
       const ids = tableApi.getSelected();
       if (!ids.length) return;
-      if (!window.confirm(`Delete ${ids.length} record(s) from ${cfg.tab}? (in-memory only)`)) return;
+      // ux-review U6: name what is about to be deleted, and offer an undo —
+      // in blank/MVP mode these are real client mapping records
+      const names = ids.map((id) => label(cfg.entity, id) || id);
+      const listed = names.slice(0, 5).join(', ') + (names.length > 5 ? ` … and ${names.length - 5} more` : '');
+      if (!window.confirm(`Delete ${ids.length} record(s) from ${cfg.tab}?\n\n${listed}`)) return;
+      const removed = ids.map((id) => getById(cfg.entity, id)).filter(Boolean);
       removeRecords(cfg.entity, ids);
       renderBodyOnly();
+      undoToast(`Deleted ${removed.length} record(s) from ${cfg.tab}`, () => {
+        removed.forEach((r) => addRecord(cfg.entity, r));
+        renderBodyOnly();
+      });
     });
     delBtn.classList.add('btn-danger');
     controls.append(editBtn, delBtn);
@@ -442,6 +460,24 @@ function ctrlBtn(label, disabled, onClick) {
   b.disabled = disabled;
   b.addEventListener('click', onClick);
   return b;
+}
+
+// toast with an action button (delete-undo, ux-review U6); records live in
+// memory, so restoring is just re-adding them
+function undoToast(msg, onUndo) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  const txt = document.createElement('span');
+  txt.textContent = msg;
+  const b = document.createElement('button');
+  b.className = 'toast-undo';
+  b.textContent = 'Undo';
+  const dismiss = () => { t.classList.remove('show'); setTimeout(() => t.remove(), 200); };
+  const timer = setTimeout(dismiss, 6000);
+  b.addEventListener('click', () => { clearTimeout(timer); onUndo(); dismiss(); });
+  t.append(txt, b);
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
 }
 
 let openPopover = null;

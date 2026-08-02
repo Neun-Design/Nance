@@ -2,8 +2,8 @@
 
 The prototype doubles as an **offline mapping tool** for consulting
 engagements: the client's operation is registered through the GitHub Pages
-build in blank mode (`?data=empty`), and the session data travels as plain
-JSON files — no backend, no MVP required.
+build in MVP mode (`/app/mvp/`, locally `?data=empty`), and the session data
+travels as plain JSON files — no backend required.
 
 ## How it works
 

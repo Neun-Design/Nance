@@ -162,6 +162,8 @@ table.dt th, table.dt td {
   text-align: left; padding: var(--se-space-4) var(--se-space-5);
   border-bottom: 1px solid var(--se-ui-4); white-space: nowrap;
 }
+/* long joined lists must not own the row — ellipsis + title tooltip (U2) */
+table.dt td { max-width: 340px; overflow: hidden; text-overflow: ellipsis; }
 table.dt th {
   position: sticky; top: 0; background: var(--se-base-1); color: var(--se-text-secondary);
   font-size: var(--se-font-size-caption); font-weight: 600; text-transform: uppercase; letter-spacing: .4px;
@@ -198,6 +200,8 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .subtab.active { color: var(--se-text-active); border-bottom-color: var(--se-ui-0); font-weight: 600; }
 .subtab-strip + div .empty-note { padding: var(--se-space-5); text-align: left; }
 .rollup-row table.dt th { background: var(--se-base-0); position: static; }
+/* a wide child table scrolls on its own instead of stretching the parent (U4) */
+.subitem-scroll { overflow-x: auto; max-width: 100%; }
 .empty-note { padding: var(--se-space-8); text-align: center; color: var(--se-text-secondary); }
 
 /* ---------- Status pills ---------- */
@@ -344,6 +348,12 @@ select.form-input[multiple] { padding: 0; }
   opacity: 0; transition: opacity .2s ease, transform .2s ease; z-index: 60;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast .toast-undo {
+  margin-left: var(--se-space-5); border: none; border-radius: var(--se-radius-1);
+  padding: 2px var(--se-space-4); font-size: var(--se-font-size-caption); font-weight: 700;
+  background: var(--se-base-1); color: var(--se-text-active);
+}
+.toast .toast-undo:hover { background: var(--se-base-1-hover); }
 
 /* ---------- Table controls (Edit / Delete / Customize Columns / Filters) ---------- */
 .tbl-controls { display: flex; align-items: center; gap: var(--se-space-3); }
