@@ -20,6 +20,9 @@ trap 'rm -rf "$STAGE"; git worktree remove --force "$WT" 2>/dev/null || true' EX
 cp -R site-stakeholder/site/. "$STAGE"/
 mkdir -p "$STAGE/app"
 rsync -a --delete --exclude '.DS_Store' prototype/ "$STAGE/app/"
+# MVP walkthrough (ux-review U8): same app served under /app/mvp/ — data.js
+# detects the /mvp/ path and boots blank; replaces the ?data=empty share link
+rsync -a --exclude '.DS_Store' prototype/ "$STAGE/app/mvp/"
 touch "$STAGE/.nojekyll"
 
 echo "== publishing to gh-pages =="
@@ -37,4 +40,4 @@ rsync -a --delete --exclude '.git' "$STAGE"/ "$WT"/
     git push origin gh-pages
   fi
 )
-echo "== done: https://bovarafa.github.io/EDQMS/ (docs) · /app/ (prototype) =="
+echo "== done: https://bovarafa.github.io/EDQMS/ (docs) · /app/ (prototype) · /app/mvp/ (MVP walkthrough) =="

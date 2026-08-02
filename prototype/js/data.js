@@ -6,14 +6,17 @@ const DATA_URL = 'data/mockup_data_prototype.json';
 // user-registered) — loaded in every mode, blank walkthroughs included
 const COUNTRIES_URL = 'data/countries.json';
 
-// "?data=empty" boots every catalogued table blank — stakeholder walkthroughs
-// building the QMS from scratch. Records created in this mode persist in
-// localStorage (per browser) so a session survives reloads; "?data=empty&reset=1"
-// wipes the saved session and starts over. Without the param, the mockup
-// dataset loads as usual and nothing persists.
+// Blank/MVP mode boots every catalogued table blank — stakeholder walkthroughs
+// building the QMS from scratch. Two entry points: the deployed copy under
+// /app/mvp/ (ux-review U8 — the shareable URL) and the "?data=empty" query
+// param (local dev / legacy links). Records created in this mode persist in
+// localStorage (per browser) so a session survives reloads; add "reset=1"
+// to wipe the saved session and start over. Otherwise the mockup dataset
+// loads as usual and nothing persists.
 const PARAMS = typeof location !== 'undefined'
   ? new URLSearchParams(location.search) : new URLSearchParams();
-export const BLANK_MODE = PARAMS.get('data') === 'empty';
+export const BLANK_MODE = PARAMS.get('data') === 'empty'
+  || (typeof location !== 'undefined' && /\/mvp(\/|$)/.test(location.pathname));
 const BLANK_KEY = 'edqms-blank-data';
 
 function persist() {

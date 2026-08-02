@@ -13,14 +13,27 @@ function resolveVal(col, r) {
   return r[col.key];
 }
 
+const CELL_LIST_CAP = 2; // multivalued cells show this many items + a "+n" badge (ux-review U2)
+
 function cellHtml(col, r) {
   const v = resolveVal(col, r);
   if (col.pill) {
     const cls = col.pill(v, r) || 'neutral';
     return `<span class="pill ${cls}">${escapeHtml(v ?? '')}</span>`;
   }
-  if (Array.isArray(v)) return escapeHtml(v.join(', '));
+  if (Array.isArray(v)) {
+    if (v.length <= CELL_LIST_CAP) return escapeHtml(v.join(', '));
+    return `<span title="${escapeHtml(v.join(', '))}">${escapeHtml(v.slice(0, CELL_LIST_CAP).join(', '))}` +
+      ` <span class="count-badge">+${v.length - CELL_LIST_CAP}</span></span>`;
+  }
   return escapeHtml(v ?? '');
+}
+
+// derived columns join their lists internally — the CSS ellipsis cap keeps
+// the row scannable, the title carries the full text (ux-review U2)
+function fillCell(td, col, r) {
+  td.innerHTML = cellHtml(col, r);
+  if (td.textContent.length > 60) td.title = td.textContent;
 }
 
 // opts: { columns, rows, pk, rollups, selectable, onSelectionChange, initialHidden }
@@ -138,7 +151,7 @@ export function renderTable(container, opts) {
         const td = document.createElement('td');
         if (col.mirror) td.classList.add('mirror');
         if (col.num) td.classList.add('num');
-        td.innerHTML = cellHtml(col, r);
+        fillCell(td, col, r);
         tr.appendChild(td);
       }
       tbody.appendChild(tr);
@@ -292,18 +305,22 @@ export function renderTable(container, opts) {
       host.appendChild(h);
     }
     if (!kids.length) return;
+    // the child table scrolls on its own (ux-review U4) — a wide child must
+    // not stretch the parent table's horizontal scroll
+    const scroll = document.createElement('div');
+    scroll.className = 'subitem-scroll';
+    if (depth) scroll.style.marginLeft = `${depth * 18}px`;
     const mini = document.createElement('table'); mini.className = 'dt';
-    if (depth) mini.style.marginLeft = `${depth * 18}px`;
     const thead = document.createElement('thead'); const htr = document.createElement('tr');
     rl.columns.forEach(c => htr.appendChild(el('th', c.label || c.key)));
     thead.appendChild(htr); mini.appendChild(thead);
     const tb = document.createElement('tbody');
     kids.forEach(k => {
       const ktr = document.createElement('tr');
-      rl.columns.forEach(c => { const ktd = document.createElement('td'); ktd.innerHTML = cellHtml(c, k); ktr.appendChild(ktd); });
+      rl.columns.forEach(c => { const ktd = document.createElement('td'); fillCell(ktd, c, k); ktr.appendChild(ktd); });
       tb.appendChild(ktr);
     });
-    mini.appendChild(tb); host.appendChild(mini);
+    mini.appendChild(tb); scroll.appendChild(mini); host.appendChild(scroll);
     // nested subitem table (guide §9, "A -> B"): grouped under each child row
     if (rl.nested) {
       kids.forEach(k => {

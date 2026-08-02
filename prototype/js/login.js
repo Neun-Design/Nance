@@ -63,11 +63,14 @@ export function requireLogin() {
       }
     });
 
+    // ux-review U8: the demo gate protects nothing sensitive — show the
+    // credentials so a Pages visitor isn't stopped cold. The MVP walkthrough
+    // keeps them out: only invited sessions get in.
     const note = document.createElement('p');
     note.className = 'login-note';
     note.textContent = BLANK_MODE
-      ? 'Blank walkthrough — start from an empty QMS; your records persist in this browser.'
-      : 'Demo environment — non-persistent data, resets on reload.';
+      ? 'MVP walkthrough — start from an empty QMS; your records persist in this browser.'
+      : `Demo environment — sign in with ${USERNAME} / ${PASSWORD}. Non-persistent data, resets on reload.`;
 
     card.append(mark, title, sub, form, note);
     screen.appendChild(card);

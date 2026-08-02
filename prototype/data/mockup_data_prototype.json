@@ -21821,7 +21821,7 @@
      "SPEC01": "<=145",
      "SPEC02": "<=100"
     },
-    "classCodeName": null
+    "classCodeName": "PC-LPT-01"
    },
    {
     "productGroupID": "PG02",
@@ -21833,7 +21833,7 @@
      "SPEC01": "<=550",
      "SPEC02": "<=400"
     },
-    "classCodeName": null
+    "classCodeName": "PC-LPT-02"
    },
    {
     "productGroupID": "PG03",
@@ -21845,7 +21845,7 @@
      "SPEC01": ">550",
      "SPEC02": ">400"
     },
-    "classCodeName": null
+    "classCodeName": "PC-LPT-03"
    },
    {
     "productGroupID": "PG04",
@@ -21857,7 +21857,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-LPT-04"
    },
    {
     "productGroupID": "PG05",
@@ -21869,7 +21869,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-LPT-05"
    },
    {
     "productGroupID": "PG06",
@@ -21881,7 +21881,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-MPT-01"
    },
    {
     "productGroupID": "PG07",
@@ -21893,7 +21893,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-MPT-02"
    },
    {
     "productGroupID": "PG08",
@@ -21905,7 +21905,7 @@
      "SPEC01": "<=36",
      "SPEC02": "<=10"
     },
-    "classCodeName": null
+    "classCodeName": "PC-MPT-03"
    },
    {
     "productGroupID": "PG09",
@@ -21917,7 +21917,7 @@
      "SPEC01": "<=72.5",
      "SPEC02": "<=30"
     },
-    "classCodeName": null
+    "classCodeName": "PC-DT-01"
    },
    {
     "productGroupID": "PG10",
@@ -21929,7 +21929,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-DT-02"
    },
    {
     "productGroupID": "PG11",
@@ -21941,7 +21941,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-DT-03"
    },
    {
     "productGroupID": "PG12",
@@ -21953,7 +21953,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-DT-04"
    },
    {
     "productGroupID": "PG13",
@@ -21965,7 +21965,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-DT-05"
    },
    {
     "productGroupID": "PG14",
@@ -21977,7 +21977,7 @@
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": null
+    "classCodeName": "PC-DT-06"
    }
   ],
   "Requirements": [

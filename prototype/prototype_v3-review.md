@@ -8,6 +8,10 @@ interviews, is the model of record.
 > Decision points are numbered **D1–D12** (continuing the Q1–Q5 convention from
 > `prototype_v2-review.md`). Nothing here is implemented yet; this is the debate artifact.
 
+> [!note] Companion document
+> The UI/UX review lives in `prototype_ux-review.md` (findings **U1–U9** + the tabbed
+> subitem-tables feature, 02/08/2026) — same debate convention, own methodology section.
+
 # Context
 
 Reviewed at `main` = PR #123 (form-data integrity). The model spans 7 modules / ~30 tables with

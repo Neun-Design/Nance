@@ -261,12 +261,15 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     const form = document.createElement('form'); form.className = 'stack-form';
     body.appendChild(form);
 
-    // PK — generated for new records, locked for edits
-    form.appendChild(fieldRow(humanize(pk) + (record ? '' : ' (auto)'), roInput(newId),
-      record ? 'Primary key — read-only' : 'Primary key — generated automatically'));
+    // PK — generated for new records, locked for edits. Lives in the AUTO
+    // section at the bottom (ux-review U7): the form leads with the record's
+    // name, not with a value the user can't act on.
+    const pkRow = fieldRow(humanize(pk) + (record ? '' : ' (auto)'), roInput(newId),
+      record ? 'Primary key — read-only' : 'Primary key — generated automatically');
 
     // Bespoke stepped/cascading forms (Jobs, Task Templates) own the whole field area.
     if (CUSTOM_FORMS[entity]) {
+      form.appendChild(pkRow);
       ctx.collect = CUSTOM_FORMS[entity](form, ctx, link);
       ctx.body = body;
       return ctx;
@@ -303,12 +306,12 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
       }
     }
 
-    // mirror / auto-calculated fields (read-only, so the client sees what's derived)
+    // auto section: the generated PK + mirror / derived fields (read-only,
+    // so the client sees what the system fills in)
     const mirrors = (cfg?.columns || []).filter(col => col.mirror);
-    if (mirrors.length) {
-      form.appendChild(sectionNote('Auto-calculated on save'));
-      for (const col of mirrors) form.appendChild(fieldRow(col.label || col.key, roInput('— derived —'), 'Computed from related records'));
-    }
+    form.appendChild(sectionNote('Auto-calculated on save'));
+    form.appendChild(pkRow);
+    for (const col of mirrors) form.appendChild(fieldRow(col.label || col.key, roInput('— derived —'), 'Computed from related records'));
 
     // rollups → "New <child>" buttons that push a nested form linked to this record
     // (table-level subitems + any form-level subitem-tables from the spec)
@@ -895,6 +898,14 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
   const byLabel = {};   // field label -> { node, get, refilter }
   const entries = Object.entries(spec.fields).filter(([, fv]) => fv && typeof fv === 'object');
 
+  // ux-review U7: lead with the record's name — hoist the field bound to the
+  // table's label attribute. Stepless forms only: step layouts own their order.
+  if (!steps.length) {
+    const labelAttr = ENTITY_META[entity]?.label;
+    const i = entries.findIndex(([, fv]) => fv.attribute === labelAttr);
+    if (i > 0) entries.unshift(entries.splice(i, 1)[0]);
+  }
+
   for (const [label, fv] of entries) {
     const attrName = fv.attribute;
     if (attrName && skip.has(attrName)) continue;
@@ -1239,11 +1250,21 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     if (!deps.length) continue;
     const target = byLabel[label].node;
     const filled = (v) => v != null && String(v).length > 0 && !(Array.isArray(v) && !v.length);
+    // ux-review U5: a bare disabled select doesn't say what unlocks it — the
+    // gate hint names the dependency, derived from the check condition itself
+    const gateHint = document.createElement('span');
+    gateHint.className = 'form-hint';
+    gateHint.textContent = chk
+      ? `Select ${deps.map((dep) => dep[0]).join(' and ')} first`
+      : `Requires ${deps[0][0]} = "${eq[2].trim()}"`;
+    const fieldEl = target.closest('.form-field');
+    if (fieldEl) fieldEl.appendChild(gateHint);
     const update = () => {
       const has = chk
         ? deps.every((dep) => filled(dep[1].get()))
         : String(deps[0][1].get() ?? '').trim().toLowerCase() === eq[2].trim().toLowerCase();
       target.disabled = !has;
+      gateHint.style.display = has ? 'none' : '';
       // dynamic containers re-render even when the gate closes (to empty out);
       // selects keep the old behaviour (refilter only with a value present)
       if (target._refilter && (has || target.tagName !== 'SELECT')) target._refilter();
