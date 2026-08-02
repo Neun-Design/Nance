@@ -249,16 +249,48 @@ export function renderTable(container, opts) {
     tr.className = 'rollup-row';
     const td = document.createElement('td');
     td.colSpan = span;
-    for (const rl of rollups) renderGroup(td, rl, childrenOf(rl, r));
+    // tabbed subitem groups (guide §9 object entries, Squads reference):
+    // one tab per child list beats stacked lists once a row has 2+ of them
+    if (rollups.length > 1 && rollups.every(rl => rl.tab)) renderSubTabs(td, r);
+    else for (const rl of rollups) renderGroup(td, rl, childrenOf(rl, r));
     tr.appendChild(td);
     return tr;
   }
 
-  function renderGroup(host, rl, kids, depth = 0) {
-    const h = document.createElement('div');
-    if (depth) h.style.marginLeft = `${depth * 18}px`;
-    h.innerHTML = `<div style="font-weight:600;margin:6px 0;">${escapeHtml(rl.label)} <span class="count-badge">${kids.length}</span></div>`;
-    host.appendChild(h);
+  function renderSubTabs(host, r) {
+    const groups = rollups.map(rl => ({ rl, kids: childrenOf(rl, r) }));
+    const strip = document.createElement('div');
+    strip.className = 'subtab-strip';
+    const pane = document.createElement('div');
+    host.append(strip, pane);
+    let current = 0;
+    const drawPane = () => {
+      strip.querySelectorAll('.subtab').forEach((b, i) => b.classList.toggle('active', i === current));
+      pane.innerHTML = '';
+      const g = groups[current];
+      if (!g.kids.length) {
+        pane.appendChild(el('div', 'No records.', { class: 'empty-note' }));
+        return;
+      }
+      renderGroup(pane, g.rl, g.kids, 0, false); // the tab already names the group
+    };
+    groups.forEach((g, i) => {
+      const b = document.createElement('button');
+      b.className = 'subtab';
+      b.innerHTML = `${escapeHtml(g.rl.tab.name)} <span class="count-badge">${g.kids.length}</span>`;
+      b.addEventListener('click', () => { current = i; drawPane(); });
+      strip.appendChild(b);
+    });
+    drawPane();
+  }
+
+  function renderGroup(host, rl, kids, depth = 0, header = true) {
+    if (header) {
+      const h = document.createElement('div');
+      if (depth) h.style.marginLeft = `${depth * 18}px`;
+      h.innerHTML = `<div style="font-weight:600;margin:6px 0;">${escapeHtml(rl.label)} <span class="count-badge">${kids.length}</span></div>`;
+      host.appendChild(h);
+    }
     if (!kids.length) return;
     const mini = document.createElement('table'); mini.className = 'dt';
     if (depth) mini.style.marginLeft = `${depth * 18}px`;

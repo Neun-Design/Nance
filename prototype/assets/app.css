@@ -184,6 +184,19 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
   background: var(--se-base-4); border-radius: var(--se-radius-pill); padding: 1px 7px;
 }
 .rollup-row > td { background: var(--se-base-0); padding: var(--se-space-4) var(--se-space-7); }
+/* tabbed subitem groups (§9 object entries) — same idiom as the dashboard tab strip */
+.subtab-strip {
+  display: flex; gap: 2px; border-bottom: 1px solid var(--se-ui-4);
+  margin: var(--se-space-2) 0 var(--se-space-4);
+}
+.subtab {
+  border: none; background: none; padding: 6px 12px;
+  font-family: inherit; font-size: var(--se-font-size-body);
+  color: var(--se-text-secondary); border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.subtab:hover { color: var(--se-text-primary); }
+.subtab.active { color: var(--se-text-active); border-bottom-color: var(--se-ui-0); font-weight: 600; }
+.subtab-strip + div .empty-note { padding: var(--se-space-5); text-align: left; }
 .rollup-row table.dt th { background: var(--se-base-0); position: static; }
 .empty-note { padding: var(--se-space-8); text-align: center; color: var(--se-text-secondary); }
 

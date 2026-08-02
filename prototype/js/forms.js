@@ -28,7 +28,9 @@ const ENUM_FIELDS = new Set([
 const isDateField = (f) => /(date|at)$/i.test(f);
 const humanize = (f) => f.replace(/IDs$/, 's').replace(/ID$/, '')
   .replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, c => c.toUpperCase());
-const singularTitle = (tab) => tab.replace(/ies$/, 'y').replace(/s$/, '');
+// "Processes"/"Classes" → "Process"/"Class"; the bare /s$/ strip must skip
+// them or the button reads "New Processe"
+const singularTitle = (tab) => tab.replace(/ies$/, 'y').replace(/sses$/, 'ss').replace(/([^s])s$/, '$1');
 
 // tab config for an entity (to reuse its columns/mirror + rollups in nested forms)
 // Interim engine bridge: rollups come from the datamodel's subitem-tables;

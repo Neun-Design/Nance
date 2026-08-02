@@ -191,6 +191,7 @@ function mapSubitem(si, parentEntity) {
   };
   const rl = {
     label: si.label || (si.only ? `${child} (${si.only.values.join('/')})` : child),
+    tab: si.tab || null,
     childEntity: child,
     columns: withAccessors(child, columnsFor(child, 'sub')),
     orderBy: si.orderBy,
