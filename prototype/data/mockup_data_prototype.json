@@ -9653,12 +9653,8 @@
     "executionTime": 5,
     "competenceID": "CMP01",
     "roles": "R01",
-    "procedureName": "Procedure PR1-1",
-    "procedureURL": "https://portal.example/procedures/012",
     "taskName": "Approval — Requirement Capture",
-    "taskOwner": "U01",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U01"
    },
    {
     "taskID": "032",
@@ -9670,12 +9666,8 @@
     "executionTime": 8,
     "competenceID": "CMP02",
     "roles": "R04",
-    "procedureName": "Procedure PR1-2",
-    "procedureURL": "https://portal.example/procedures/032",
     "taskName": "Assignment — Electrical Sizing",
-    "taskOwner": "U02",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U02"
    },
    {
     "taskID": "033",
@@ -9687,12 +9679,8 @@
     "executionTime": 8,
     "competenceID": "CMP03",
     "roles": "R03",
-    "procedureName": "Procedure PR1-3",
-    "procedureURL": "https://portal.example/procedures/033",
     "taskName": "Check — Offer Costing",
-    "taskOwner": "U03",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U03"
    },
    {
     "taskID": "045",
@@ -9704,12 +9692,8 @@
     "executionTime": 15,
     "competenceID": "CMP04",
     "roles": "R04",
-    "procedureName": "Procedure PR1-4",
-    "procedureURL": "https://portal.example/procedures/045",
     "taskName": "Execution — Mechanical Sizing",
-    "taskOwner": "U04",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U04"
    },
    {
     "taskID": "101",
@@ -9721,12 +9705,8 @@
     "executionTime": 20,
     "competenceID": "CMP05",
     "roles": "R02",
-    "procedureName": "Procedure PR2-5",
-    "procedureURL": "https://portal.example/procedures/101",
     "taskName": "Followup — Electrical Design",
-    "taskOwner": "U05",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U05"
    },
    {
     "taskID": "102",
@@ -9738,12 +9718,8 @@
     "executionTime": 18,
     "competenceID": "CMP06",
     "roles": "R04",
-    "procedureName": "Procedure PR2-6",
-    "procedureURL": "https://portal.example/procedures/102",
     "taskName": "Registration — Mechanical Layout",
-    "taskOwner": "U06",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U06"
    },
    {
     "taskID": "103",
@@ -9755,12 +9731,8 @@
     "executionTime": 12,
     "competenceID": "CMP07",
     "roles": "R03",
-    "procedureName": "Procedure PR2-7",
-    "procedureURL": "https://portal.example/procedures/103",
     "taskName": "Release — Design Documentation",
-    "taskOwner": "U07",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U07"
    },
    {
     "taskID": "104",
@@ -9772,12 +9744,8 @@
     "executionTime": 9,
     "competenceID": "CMP08",
     "roles": "R06",
-    "procedureName": "Procedure PR5-1",
-    "procedureURL": "https://portal.example/procedures/104",
     "taskName": "Approval — Load Assessment",
-    "taskOwner": "U08",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U08"
    },
    {
     "taskID": "105",
@@ -9789,12 +9757,8 @@
     "executionTime": 14,
     "competenceID": "CMP09",
     "roles": "R07",
-    "procedureName": "Procedure PR5-2",
-    "procedureURL": "https://portal.example/procedures/105",
     "taskName": "Assignment — Thermal Study",
-    "taskOwner": "U09",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U09"
    },
    {
     "taskID": "106",
@@ -9806,12 +9770,8 @@
     "executionTime": 7,
     "competenceID": "CMP10",
     "roles": "R06",
-    "procedureName": "Procedure PR5-3",
-    "procedureURL": "https://portal.example/procedures/106",
     "taskName": "Check — Uprating Report",
-    "taskOwner": "U10",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U10"
    },
    {
     "taskID": "107",
@@ -9823,12 +9783,8 @@
     "executionTime": 5,
     "competenceID": "CMP11",
     "roles": "R01",
-    "procedureName": "Procedure PR1-4",
-    "procedureURL": "https://portal.example/procedures/107",
     "taskName": "Execution — Requirement Capture",
-    "taskOwner": "U11",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U11"
    },
    {
     "taskID": "108",
@@ -9840,12 +9796,8 @@
     "executionTime": 8,
     "competenceID": "CMP12",
     "roles": "R04",
-    "procedureName": "Procedure PR1-5",
-    "procedureURL": "https://portal.example/procedures/108",
     "taskName": "Followup — Electrical Sizing",
-    "taskOwner": "U12",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U12"
    },
    {
     "taskID": "109",
@@ -9857,12 +9809,8 @@
     "executionTime": 8,
     "competenceID": "CMP01",
     "roles": "R03",
-    "procedureName": "Procedure PR1-6",
-    "procedureURL": "https://portal.example/procedures/109",
     "taskName": "Registration — Offer Costing",
-    "taskOwner": "U13",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U13"
    },
    {
     "taskID": "110",
@@ -9874,12 +9822,8 @@
     "executionTime": 15,
     "competenceID": "CMP02",
     "roles": "R04",
-    "procedureName": "Procedure PR1-7",
-    "procedureURL": "https://portal.example/procedures/110",
     "taskName": "Release — Mechanical Sizing",
-    "taskOwner": "U14",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U14"
    },
    {
     "taskID": "111",
@@ -9891,12 +9835,8 @@
     "executionTime": 20,
     "competenceID": "CMP03",
     "roles": "R02",
-    "procedureName": "Procedure PR2-1",
-    "procedureURL": "https://portal.example/procedures/111",
     "taskName": "Approval — Electrical Design",
-    "taskOwner": "U15",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U15"
    },
    {
     "taskID": "112",
@@ -9908,12 +9848,8 @@
     "executionTime": 18,
     "competenceID": "CMP04",
     "roles": "R04",
-    "procedureName": "Procedure PR2-2",
-    "procedureURL": "https://portal.example/procedures/112",
     "taskName": "Assignment — Mechanical Layout",
-    "taskOwner": "U16",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U16"
    },
    {
     "taskID": "113",
@@ -9925,12 +9861,8 @@
     "executionTime": 12,
     "competenceID": "CMP05",
     "roles": "R03",
-    "procedureName": "Procedure PR2-3",
-    "procedureURL": "https://portal.example/procedures/113",
     "taskName": "Check — Design Documentation",
-    "taskOwner": "U17",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U17"
    },
    {
     "taskID": "114",
@@ -9942,12 +9874,8 @@
     "executionTime": 6,
     "competenceID": "CMP06",
     "roles": "R05",
-    "procedureName": "Procedure PR3-4",
-    "procedureURL": "https://portal.example/procedures/114",
     "taskName": "Execution — Peer Review",
-    "taskOwner": "U18",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U18"
    },
    {
     "taskID": "115",
@@ -9959,12 +9887,8 @@
     "executionTime": 4,
     "competenceID": "CMP07",
     "roles": "R09",
-    "procedureName": "Procedure PR3-5",
-    "procedureURL": "https://portal.example/procedures/115",
     "taskName": "Followup — Compliance Check",
-    "taskOwner": "U19",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U19"
    },
    {
     "taskID": "116",
@@ -9976,12 +9900,8 @@
     "executionTime": 16,
     "competenceID": "CMP08",
     "roles": "R07",
-    "procedureName": "Procedure PR4-6",
-    "procedureURL": "https://portal.example/procedures/116",
     "taskName": "Registration — Root Cause Analysis",
-    "taskOwner": "U20",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U20"
    },
    {
     "taskID": "117",
@@ -9993,12 +9913,8 @@
     "executionTime": 10,
     "competenceID": "CMP09",
     "roles": "R06",
-    "procedureName": "Procedure PR4-7",
-    "procedureURL": "https://portal.example/procedures/117",
     "taskName": "Release — Corrective Proposal",
-    "taskOwner": "U21",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U21"
    },
    {
     "taskID": "118",
@@ -10010,12 +9926,8 @@
     "executionTime": 5,
     "competenceID": "CMP10",
     "roles": "R01",
-    "procedureName": "Procedure PR1-1",
-    "procedureURL": "https://portal.example/procedures/118",
     "taskName": "Approval — Requirement Capture",
-    "taskOwner": "U22",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U22"
    },
    {
     "taskID": "119",
@@ -10027,12 +9939,8 @@
     "executionTime": 8,
     "competenceID": "CMP11",
     "roles": "R04",
-    "procedureName": "Procedure PR1-2",
-    "procedureURL": "https://portal.example/procedures/119",
     "taskName": "Assignment — Electrical Sizing",
-    "taskOwner": "U23",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U23"
    },
    {
     "taskID": "120",
@@ -10044,12 +9952,8 @@
     "executionTime": 8,
     "competenceID": "CMP12",
     "roles": "R03",
-    "procedureName": "Procedure PR1-3",
-    "procedureURL": "https://portal.example/procedures/120",
     "taskName": "Check — Offer Costing",
-    "taskOwner": "U24",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U24"
    },
    {
     "taskID": "121",
@@ -10061,12 +9965,8 @@
     "executionTime": 15,
     "competenceID": "CMP01",
     "roles": "R04",
-    "procedureName": "Procedure PR1-4",
-    "procedureURL": "https://portal.example/procedures/121",
     "taskName": "Execution — Mechanical Sizing",
-    "taskOwner": "U01",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U01"
    },
    {
     "taskID": "122",
@@ -10078,12 +9978,8 @@
     "executionTime": 9,
     "competenceID": "CMP02",
     "roles": "R06",
-    "procedureName": "Procedure PR5-5",
-    "procedureURL": "https://portal.example/procedures/122",
     "taskName": "Followup — Load Assessment",
-    "taskOwner": "U02",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U02"
    },
    {
     "taskID": "123",
@@ -10095,12 +9991,8 @@
     "executionTime": 14,
     "competenceID": "CMP03",
     "roles": "R07",
-    "procedureName": "Procedure PR5-6",
-    "procedureURL": "https://portal.example/procedures/123",
     "taskName": "Registration — Thermal Study",
-    "taskOwner": "U03",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U03"
    },
    {
     "taskID": "124",
@@ -10112,12 +10004,8 @@
     "executionTime": 7,
     "competenceID": "CMP04",
     "roles": "R06",
-    "procedureName": "Procedure PR5-7",
-    "procedureURL": "https://portal.example/procedures/124",
     "taskName": "Release — Uprating Report",
-    "taskOwner": "U04",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U04"
    },
    {
     "taskID": "125",
@@ -10129,12 +10017,8 @@
     "executionTime": 20,
     "competenceID": "CMP05",
     "roles": "R02",
-    "procedureName": "Procedure PR2-1",
-    "procedureURL": "https://portal.example/procedures/125",
     "taskName": "Approval — Electrical Design",
-    "taskOwner": "U05",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U05"
    },
    {
     "taskID": "126",
@@ -10146,12 +10030,8 @@
     "executionTime": 18,
     "competenceID": "CMP06",
     "roles": "R04",
-    "procedureName": "Procedure PR2-2",
-    "procedureURL": "https://portal.example/procedures/126",
     "taskName": "Assignment — Mechanical Layout",
-    "taskOwner": "U06",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U06"
    },
    {
     "taskID": "127",
@@ -10163,12 +10043,8 @@
     "executionTime": 12,
     "competenceID": "CMP07",
     "roles": "R03",
-    "procedureName": "Procedure PR2-3",
-    "procedureURL": "https://portal.example/procedures/127",
     "taskName": "Check — Design Documentation",
-    "taskOwner": "U07",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U07"
    },
    {
     "taskID": "128",
@@ -10180,12 +10056,8 @@
     "executionTime": 5,
     "competenceID": "CMP08",
     "roles": "R01",
-    "procedureName": "Procedure PR1-4",
-    "procedureURL": "https://portal.example/procedures/128",
     "taskName": "Execution — Requirement Capture",
-    "taskOwner": "U08",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U08"
    },
    {
     "taskID": "129",
@@ -10197,12 +10069,8 @@
     "executionTime": 8,
     "competenceID": "CMP09",
     "roles": "R04",
-    "procedureName": "Procedure PR1-5",
-    "procedureURL": "https://portal.example/procedures/129",
     "taskName": "Followup — Electrical Sizing",
-    "taskOwner": "U09",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U09"
    },
    {
     "taskID": "130",
@@ -10214,12 +10082,8 @@
     "executionTime": 8,
     "competenceID": "CMP10",
     "roles": "R03",
-    "procedureName": "Procedure PR1-6",
-    "procedureURL": "https://portal.example/procedures/130",
     "taskName": "Registration — Offer Costing",
-    "taskOwner": "U10",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U10"
    },
    {
     "taskID": "131",
@@ -10231,12 +10095,8 @@
     "executionTime": 15,
     "competenceID": "CMP11",
     "roles": "R04",
-    "procedureName": "Procedure PR1-7",
-    "procedureURL": "https://portal.example/procedures/131",
     "taskName": "Release — Mechanical Sizing",
-    "taskOwner": "U11",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U11"
    },
    {
     "taskID": "132",
@@ -10248,12 +10108,8 @@
     "executionTime": 16,
     "competenceID": "CMP12",
     "roles": "R07",
-    "procedureName": "Procedure PR4-1",
-    "procedureURL": "https://portal.example/procedures/132",
     "taskName": "Approval — Root Cause Analysis",
-    "taskOwner": "U12",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U12"
    },
    {
     "taskID": "133",
@@ -10265,12 +10121,8 @@
     "executionTime": 10,
     "competenceID": "CMP01",
     "roles": "R06",
-    "procedureName": "Procedure PR4-2",
-    "procedureURL": "https://portal.example/procedures/133",
     "taskName": "Assignment — Corrective Proposal",
-    "taskOwner": "U13",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U13"
    },
    {
     "taskID": "201",
@@ -10282,12 +10134,8 @@
     "executionTime": 2,
     "competenceID": "CMP02",
     "roles": "R01",
-    "procedureName": "Procedure PC01-3",
-    "procedureURL": "https://portal.example/procedures/201",
     "taskName": "Check — Allocation",
-    "taskOwner": "U14",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U14"
    },
    {
     "taskID": "202",
@@ -10299,12 +10147,8 @@
     "executionTime": 6,
     "competenceID": "CMP03",
     "roles": "R02",
-    "procedureName": "Procedure PC01-4",
-    "procedureURL": "https://portal.example/procedures/202",
     "taskName": "Execution — Technical Assessment",
-    "taskOwner": "U15",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U15"
    },
    {
     "taskID": "203",
@@ -10316,12 +10160,8 @@
     "executionTime": 3,
     "competenceID": "CMP04",
     "roles": "R01",
-    "procedureName": "Procedure PC01-5",
-    "procedureURL": "https://portal.example/procedures/203",
     "taskName": "Followup — Technical Clarification",
-    "taskOwner": "U16",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U16"
    },
    {
     "taskID": "204",
@@ -10333,12 +10173,8 @@
     "executionTime": 4,
     "competenceID": "CMP05",
     "roles": "R01",
-    "procedureName": "Procedure PC01-6",
-    "procedureURL": "https://portal.example/procedures/204",
     "taskName": "Registration — Data Collection",
-    "taskOwner": "U17",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U17"
    },
    {
     "taskID": "205",
@@ -10350,12 +10186,8 @@
     "executionTime": 8,
     "competenceID": "CMP06",
     "roles": "R02",
-    "procedureName": "Procedure PC01-7",
-    "procedureURL": "https://portal.example/procedures/205",
     "taskName": "Release — Offer Design",
-    "taskOwner": "U18",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U18"
    },
    {
     "taskID": "206",
@@ -10367,12 +10199,8 @@
     "executionTime": 3,
     "competenceID": "CMP07",
     "roles": "R01",
-    "procedureName": "Procedure PC01-1",
-    "procedureURL": "https://portal.example/procedures/206",
     "taskName": "Approval — Operational Clarification",
-    "taskOwner": "U19",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U19"
    },
    {
     "taskID": "207",
@@ -10384,12 +10212,8 @@
     "executionTime": 6,
     "competenceID": "CMP08",
     "roles": "R02",
-    "procedureName": "Procedure PC01-2",
-    "procedureURL": "https://portal.example/procedures/207",
     "taskName": "Assignment — Technical Specification",
-    "taskOwner": "U20",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U20"
    },
    {
     "taskID": "901",
@@ -10401,12 +10225,8 @@
     "executionTime": 5,
     "competenceID": "CMP01",
     "roles": "R01",
-    "procedureName": "Procedure PR1-1",
-    "procedureURL": "https://portal.example/procedures/012",
     "taskName": "Approval — Requirement Capture",
-    "taskOwner": "U14",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U14"
    },
    {
     "taskID": "902",
@@ -10418,12 +10238,8 @@
     "executionTime": 5,
     "competenceID": "CMP01",
     "roles": "R01",
-    "procedureName": "Procedure PR1-1",
-    "procedureURL": "https://portal.example/procedures/012",
     "taskName": "Approval — Requirement Capture",
-    "taskOwner": "U15",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U15"
    },
    {
     "taskID": "903",
@@ -10435,12 +10251,8 @@
     "executionTime": 8,
     "competenceID": "CMP02",
     "roles": "R04",
-    "procedureName": "Procedure PR1-2",
-    "procedureURL": "https://portal.example/procedures/032",
     "taskName": "Assignment — Electrical Sizing",
-    "taskOwner": "U16",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U16"
    },
    {
     "taskID": "904",
@@ -10452,12 +10264,8 @@
     "executionTime": 8,
     "competenceID": "CMP02",
     "roles": "R04",
-    "procedureName": "Procedure PR1-2",
-    "procedureURL": "https://portal.example/procedures/032",
     "taskName": "Assignment — Electrical Sizing",
-    "taskOwner": "U17",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U17"
    },
    {
     "taskID": "905",
@@ -10469,12 +10277,8 @@
     "executionTime": 8,
     "competenceID": "CMP03",
     "roles": "R03",
-    "procedureName": "Procedure PR1-3",
-    "procedureURL": "https://portal.example/procedures/033",
     "taskName": "Check — Offer Costing",
-    "taskOwner": "U18",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U18"
    },
    {
     "taskID": "906",
@@ -10486,12 +10290,8 @@
     "executionTime": 8,
     "competenceID": "CMP03",
     "roles": "R03",
-    "procedureName": "Procedure PR1-3",
-    "procedureURL": "https://portal.example/procedures/033",
     "taskName": "Check — Offer Costing",
-    "taskOwner": "U19",
-    "taskInput": [],
-    "taskOutput": []
+    "taskOwner": "U19"
    }
   ],
   "Events": [
@@ -11624,6 +11424,894 @@
     "channelName": "Teams",
     "channelOwner": "Microsoft",
     "channelStatus": "Inactive"
+   }
+  ],
+  "Procedures": [
+   {
+    "procedureID": "PRC01",
+    "procedureRegistry": "Procedure PR1-1",
+    "procedureURL": "https://portal.example/procedures/012",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "012",
+    "requirementID": [
+     "CN1",
+     "CN4"
+    ],
+    "taskInput": [
+     "HO08"
+    ],
+    "taskOutput": [
+     "HO09"
+    ],
+    "procedureOwner": "U01"
+   },
+   {
+    "procedureID": "PRC02",
+    "procedureRegistry": "Procedure PR1-2",
+    "procedureURL": "https://portal.example/procedures/032",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "032",
+    "requirementID": [
+     "CN1",
+     "CN2"
+    ],
+    "taskInput": [
+     "HO09"
+    ],
+    "taskOutput": [
+     "HO10"
+    ],
+    "procedureOwner": "U02"
+   },
+   {
+    "procedureID": "PRC03",
+    "procedureRegistry": "Procedure PR1-3",
+    "procedureURL": "https://portal.example/procedures/033",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "033",
+    "requirementID": [
+     "CN1",
+     "CN2"
+    ],
+    "taskInput": [
+     "HO10"
+    ],
+    "taskOutput": [
+     "HO01"
+    ],
+    "procedureOwner": "U03"
+   },
+   {
+    "procedureID": "PRC04",
+    "procedureRegistry": "Procedure PR1-4",
+    "procedureURL": "https://portal.example/procedures/045",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "045",
+    "requirementID": [
+     "CN1",
+     "CN7"
+    ],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U04"
+   },
+   {
+    "procedureID": "PRC05",
+    "procedureRegistry": "Procedure PR2-5",
+    "procedureURL": "https://portal.example/procedures/101",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "101",
+    "requirementID": [
+     "CN4",
+     "CN7"
+    ],
+    "taskInput": [
+     "HO03"
+    ],
+    "taskOutput": [
+     "HO04"
+    ],
+    "procedureOwner": "U05"
+   },
+   {
+    "procedureID": "PRC06",
+    "procedureRegistry": "Procedure PR2-6",
+    "procedureURL": "https://portal.example/procedures/102",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "102",
+    "requirementID": [
+     "CN7",
+     "CN8"
+    ],
+    "taskInput": [
+     "HO04"
+    ],
+    "taskOutput": [
+     "HO05"
+    ],
+    "procedureOwner": "U06"
+   },
+   {
+    "procedureID": "PRC07",
+    "procedureRegistry": "Procedure PR2-7",
+    "procedureURL": "https://portal.example/procedures/103",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "103",
+    "requirementID": [
+     "CN7",
+     "CN8"
+    ],
+    "taskInput": [
+     "HO02"
+    ],
+    "taskOutput": [
+     "HO03"
+    ],
+    "procedureOwner": "U07"
+   },
+   {
+    "procedureID": "PRC08",
+    "procedureRegistry": "Procedure PR5-1",
+    "procedureURL": "https://portal.example/procedures/104",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR5",
+    "taskID": "104",
+    "requirementID": [
+     "CN7",
+     "CN8"
+    ],
+    "taskInput": [
+     "HO10"
+    ],
+    "taskOutput": [
+     "HO01"
+    ],
+    "procedureOwner": "U08"
+   },
+   {
+    "procedureID": "PRC09",
+    "procedureRegistry": "Procedure PR5-2",
+    "procedureURL": "https://portal.example/procedures/105",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR5",
+    "taskID": "105",
+    "requirementID": [
+     "CN7",
+     "CN8"
+    ],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U09"
+   },
+   {
+    "procedureID": "PRC10",
+    "procedureRegistry": "Procedure PR5-3",
+    "procedureURL": "https://portal.example/procedures/106",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR5",
+    "taskID": "106",
+    "requirementID": [
+     "CN5",
+     "CN7"
+    ],
+    "taskInput": [
+     "HO09"
+    ],
+    "taskOutput": [
+     "HO10"
+    ],
+    "procedureOwner": "U10"
+   },
+   {
+    "procedureID": "PRC11",
+    "procedureRegistry": "Procedure PR1-4",
+    "procedureURL": "https://portal.example/procedures/107",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "107",
+    "requirementID": [
+     "CN1",
+     "CN4"
+    ],
+    "taskInput": [
+     "HO10"
+    ],
+    "taskOutput": [
+     "HO01"
+    ],
+    "procedureOwner": "U11"
+   },
+   {
+    "procedureID": "PRC12",
+    "procedureRegistry": "Procedure PR1-5",
+    "procedureURL": "https://portal.example/procedures/108",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "108",
+    "requirementID": [
+     "CN1",
+     "CN2"
+    ],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U12"
+   },
+   {
+    "procedureID": "PRC13",
+    "procedureRegistry": "Procedure PR1-6",
+    "procedureURL": "https://portal.example/procedures/109",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "109",
+    "requirementID": [],
+    "taskInput": [
+     "HO08"
+    ],
+    "taskOutput": [
+     "HO09"
+    ],
+    "procedureOwner": "U13"
+   },
+   {
+    "procedureID": "PRC14",
+    "procedureRegistry": "Procedure PR1-7",
+    "procedureURL": "https://portal.example/procedures/110",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "110",
+    "requirementID": [],
+    "taskInput": [
+     "HO09"
+    ],
+    "taskOutput": [
+     "HO10"
+    ],
+    "procedureOwner": "U14"
+   },
+   {
+    "procedureID": "PRC15",
+    "procedureRegistry": "Procedure PR2-1",
+    "procedureURL": "https://portal.example/procedures/111",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "111",
+    "requirementID": [],
+    "taskInput": [
+     "HO04"
+    ],
+    "taskOutput": [
+     "HO05"
+    ],
+    "procedureOwner": "U15"
+   },
+   {
+    "procedureID": "PRC16",
+    "procedureRegistry": "Procedure PR2-2",
+    "procedureURL": "https://portal.example/procedures/112",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "112",
+    "requirementID": [],
+    "taskInput": [
+     "HO02"
+    ],
+    "taskOutput": [
+     "HO03"
+    ],
+    "procedureOwner": "U16"
+   },
+   {
+    "procedureID": "PRC17",
+    "procedureRegistry": "Procedure PR2-3",
+    "procedureURL": "https://portal.example/procedures/113",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "113",
+    "requirementID": [],
+    "taskInput": [
+     "HO03"
+    ],
+    "taskOutput": [
+     "HO04"
+    ],
+    "procedureOwner": "U17"
+   },
+   {
+    "procedureID": "PRC18",
+    "procedureRegistry": "Procedure PR3-4",
+    "procedureURL": "https://portal.example/procedures/114",
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03",
+    "processID": "PR3",
+    "taskID": "114",
+    "requirementID": [],
+    "taskInput": [
+     "HO06"
+    ],
+    "taskOutput": [
+     "HO07"
+    ],
+    "procedureOwner": "U18"
+   },
+   {
+    "procedureID": "PRC19",
+    "procedureRegistry": "Procedure PR3-5",
+    "procedureURL": "https://portal.example/procedures/115",
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03",
+    "processID": "PR3",
+    "taskID": "115",
+    "requirementID": [],
+    "taskInput": [
+     "HO05"
+    ],
+    "taskOutput": [
+     "HO06"
+    ],
+    "procedureOwner": "U19"
+   },
+   {
+    "procedureID": "PRC20",
+    "procedureRegistry": "Procedure PR4-6",
+    "procedureURL": "https://portal.example/procedures/116",
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03",
+    "processID": "PR4",
+    "taskID": "116",
+    "requirementID": [],
+    "taskInput": [
+     "HO08"
+    ],
+    "taskOutput": [
+     "HO09"
+    ],
+    "procedureOwner": "U20"
+   },
+   {
+    "procedureID": "PRC21",
+    "procedureRegistry": "Procedure PR4-7",
+    "procedureURL": "https://portal.example/procedures/117",
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03",
+    "processID": "PR4",
+    "taskID": "117",
+    "requirementID": [],
+    "taskInput": [
+     "HO07"
+    ],
+    "taskOutput": [
+     "HO08"
+    ],
+    "procedureOwner": "U21"
+   },
+   {
+    "procedureID": "PRC22",
+    "procedureRegistry": "Procedure PR1-1",
+    "procedureURL": "https://portal.example/procedures/118",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "118",
+    "requirementID": [],
+    "taskInput": [
+     "HO09"
+    ],
+    "taskOutput": [
+     "HO10"
+    ],
+    "procedureOwner": "U22"
+   },
+   {
+    "procedureID": "PRC23",
+    "procedureRegistry": "Procedure PR1-2",
+    "procedureURL": "https://portal.example/procedures/119",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "119",
+    "requirementID": [],
+    "taskInput": [
+     "HO10"
+    ],
+    "taskOutput": [
+     "HO01"
+    ],
+    "procedureOwner": "U23"
+   },
+   {
+    "procedureID": "PRC24",
+    "procedureRegistry": "Procedure PR1-3",
+    "procedureURL": "https://portal.example/procedures/120",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "120",
+    "requirementID": [],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U24"
+   },
+   {
+    "procedureID": "PRC25",
+    "procedureRegistry": "Procedure PR1-4",
+    "procedureURL": "https://portal.example/procedures/121",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "121",
+    "requirementID": [],
+    "taskInput": [
+     "HO08"
+    ],
+    "taskOutput": [
+     "HO09"
+    ],
+    "procedureOwner": "U01"
+   },
+   {
+    "procedureID": "PRC26",
+    "procedureRegistry": "Procedure PR5-5",
+    "procedureURL": "https://portal.example/procedures/122",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR5",
+    "taskID": "122",
+    "requirementID": [],
+    "taskInput": [
+     "HO10"
+    ],
+    "taskOutput": [
+     "HO01"
+    ],
+    "procedureOwner": "U02"
+   },
+   {
+    "procedureID": "PRC27",
+    "procedureRegistry": "Procedure PR5-6",
+    "procedureURL": "https://portal.example/procedures/123",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR5",
+    "taskID": "123",
+    "requirementID": [],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U03"
+   },
+   {
+    "procedureID": "PRC28",
+    "procedureRegistry": "Procedure PR5-7",
+    "procedureURL": "https://portal.example/procedures/124",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR5",
+    "taskID": "124",
+    "requirementID": [],
+    "taskInput": [
+     "HO09"
+    ],
+    "taskOutput": [
+     "HO10"
+    ],
+    "procedureOwner": "U04"
+   },
+   {
+    "procedureID": "PRC29",
+    "procedureRegistry": "Procedure PR2-1",
+    "procedureURL": "https://portal.example/procedures/125",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "125",
+    "requirementID": [],
+    "taskInput": [
+     "HO03"
+    ],
+    "taskOutput": [
+     "HO04"
+    ],
+    "procedureOwner": "U05"
+   },
+   {
+    "procedureID": "PRC30",
+    "procedureRegistry": "Procedure PR2-2",
+    "procedureURL": "https://portal.example/procedures/126",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "126",
+    "requirementID": [],
+    "taskInput": [
+     "HO04"
+    ],
+    "taskOutput": [
+     "HO05"
+    ],
+    "procedureOwner": "U06"
+   },
+   {
+    "procedureID": "PRC31",
+    "procedureRegistry": "Procedure PR2-3",
+    "procedureURL": "https://portal.example/procedures/127",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "127",
+    "requirementID": [],
+    "taskInput": [
+     "HO02"
+    ],
+    "taskOutput": [
+     "HO03"
+    ],
+    "procedureOwner": "U07"
+   },
+   {
+    "procedureID": "PRC32",
+    "procedureRegistry": "Procedure PR1-4",
+    "procedureURL": "https://portal.example/procedures/128",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "128",
+    "requirementID": [],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U08"
+   },
+   {
+    "procedureID": "PRC33",
+    "procedureRegistry": "Procedure PR1-5",
+    "procedureURL": "https://portal.example/procedures/129",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "129",
+    "requirementID": [],
+    "taskInput": [
+     "HO08"
+    ],
+    "taskOutput": [
+     "HO09"
+    ],
+    "procedureOwner": "U09"
+   },
+   {
+    "procedureID": "PRC34",
+    "procedureRegistry": "Procedure PR1-6",
+    "procedureURL": "https://portal.example/procedures/130",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "130",
+    "requirementID": [],
+    "taskInput": [
+     "HO09"
+    ],
+    "taskOutput": [
+     "HO10"
+    ],
+    "procedureOwner": "U10"
+   },
+   {
+    "procedureID": "PRC35",
+    "procedureRegistry": "Procedure PR1-7",
+    "procedureURL": "https://portal.example/procedures/131",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR1",
+    "taskID": "131",
+    "requirementID": [],
+    "taskInput": [
+     "HO10"
+    ],
+    "taskOutput": [
+     "HO01"
+    ],
+    "procedureOwner": "U11"
+   },
+   {
+    "procedureID": "PRC36",
+    "procedureRegistry": "Procedure PR4-1",
+    "procedureURL": "https://portal.example/procedures/132",
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03",
+    "processID": "PR4",
+    "taskID": "132",
+    "requirementID": [],
+    "taskInput": [
+     "HO08"
+    ],
+    "taskOutput": [
+     "HO09"
+    ],
+    "procedureOwner": "U12"
+   },
+   {
+    "procedureID": "PRC37",
+    "procedureRegistry": "Procedure PR4-2",
+    "procedureURL": "https://portal.example/procedures/133",
+    "businessUnitID": "BU02",
+    "departmentID": "DPT03",
+    "processID": "PR4",
+    "taskID": "133",
+    "requirementID": [],
+    "taskInput": [
+     "HO07"
+    ],
+    "taskOutput": [
+     "HO08"
+    ],
+    "procedureOwner": "U13"
+   },
+   {
+    "procedureID": "PRC38",
+    "procedureRegistry": "Procedure PC01-3",
+    "procedureURL": "https://portal.example/procedures/201",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "201",
+    "requirementID": [],
+    "taskInput": [
+     "HO03"
+    ],
+    "taskOutput": [
+     "HO04"
+    ],
+    "procedureOwner": "U14"
+   },
+   {
+    "procedureID": "PRC39",
+    "procedureRegistry": "Procedure PC01-4",
+    "procedureURL": "https://portal.example/procedures/202",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "202",
+    "requirementID": [],
+    "taskInput": [
+     "HO04"
+    ],
+    "taskOutput": [
+     "HO05"
+    ],
+    "procedureOwner": "U15"
+   },
+   {
+    "procedureID": "PRC40",
+    "procedureRegistry": "Procedure PC01-5",
+    "procedureURL": "https://portal.example/procedures/203",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "203",
+    "requirementID": [],
+    "taskInput": [
+     "HO05"
+    ],
+    "taskOutput": [
+     "HO06"
+    ],
+    "procedureOwner": "U16"
+   },
+   {
+    "procedureID": "PRC41",
+    "procedureRegistry": "Procedure PC01-6",
+    "procedureURL": "https://portal.example/procedures/204",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "204",
+    "requirementID": [],
+    "taskInput": [
+     "HO06"
+    ],
+    "taskOutput": [
+     "HO07"
+    ],
+    "procedureOwner": "U17"
+   },
+   {
+    "procedureID": "PRC42",
+    "procedureRegistry": "Procedure PC01-7",
+    "procedureURL": "https://portal.example/procedures/205",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "205",
+    "requirementID": [],
+    "taskInput": [
+     "HO07"
+    ],
+    "taskOutput": [
+     "HO08"
+    ],
+    "procedureOwner": "U18"
+   },
+   {
+    "procedureID": "PRC43",
+    "procedureRegistry": "Procedure PC01-1",
+    "procedureURL": "https://portal.example/procedures/206",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "206",
+    "requirementID": [],
+    "taskInput": [
+     "HO01"
+    ],
+    "taskOutput": [
+     "HO02"
+    ],
+    "procedureOwner": "U19"
+   },
+   {
+    "procedureID": "PRC44",
+    "procedureRegistry": "Procedure PC01-2",
+    "procedureURL": "https://portal.example/procedures/207",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PC01",
+    "taskID": "207",
+    "requirementID": [],
+    "taskInput": [
+     "HO02"
+    ],
+    "taskOutput": [
+     "HO03"
+    ],
+    "procedureOwner": "U20"
+   },
+   {
+    "procedureID": "PRC45",
+    "procedureRegistry": "Procedure PR1-1",
+    "procedureURL": "https://portal.example/procedures/012",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "901",
+    "requirementID": [],
+    "taskInput": [
+     "HO03"
+    ],
+    "taskOutput": [
+     "HO04"
+    ],
+    "procedureOwner": "U14"
+   },
+   {
+    "procedureID": "PRC46",
+    "procedureRegistry": "Procedure PR1-1",
+    "procedureURL": "https://portal.example/procedures/012",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR3",
+    "taskID": "902",
+    "requirementID": [],
+    "taskInput": [
+     "HO05"
+    ],
+    "taskOutput": [
+     "HO06"
+    ],
+    "procedureOwner": "U15"
+   },
+   {
+    "procedureID": "PRC47",
+    "procedureRegistry": "Procedure PR1-2",
+    "procedureURL": "https://portal.example/procedures/032",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "903",
+    "requirementID": [],
+    "taskInput": [
+     "HO02"
+    ],
+    "taskOutput": [
+     "HO03"
+    ],
+    "procedureOwner": "U16"
+   },
+   {
+    "procedureID": "PRC48",
+    "procedureRegistry": "Procedure PR1-2",
+    "procedureURL": "https://portal.example/procedures/032",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR3",
+    "taskID": "904",
+    "requirementID": [],
+    "taskInput": [
+     "HO05"
+    ],
+    "taskOutput": [
+     "HO06"
+    ],
+    "procedureOwner": "U17"
+   },
+   {
+    "procedureID": "PRC49",
+    "procedureRegistry": "Procedure PR1-3",
+    "procedureURL": "https://portal.example/procedures/033",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR2",
+    "taskID": "905",
+    "requirementID": [],
+    "taskInput": [
+     "HO04"
+    ],
+    "taskOutput": [
+     "HO05"
+    ],
+    "procedureOwner": "U18"
+   },
+   {
+    "procedureID": "PRC50",
+    "procedureRegistry": "Procedure PR1-3",
+    "procedureURL": "https://portal.example/procedures/033",
+    "businessUnitID": "BU01",
+    "departmentID": "DPT01",
+    "processID": "PR3",
+    "taskID": "906",
+    "requirementID": [],
+    "taskInput": [
+     "HO05"
+    ],
+    "taskOutput": [
+     "HO06"
+    ],
+    "procedureOwner": "U19"
    }
   ]
  },
@@ -21118,12 +21806,11 @@
     "processID": "PR1",
     "taskID": "012",
     "productGroupID": "PG02",
-    "requirementID": [
-     "CN1",
-     "CN4"
-    ],
     "levelRank": 1,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC01"
+    ]
    },
    {
     "competenceID": "CMP02",
@@ -21143,12 +21830,11 @@
     "processID": "PR1",
     "taskID": "032",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN1",
-     "CN2"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC02"
+    ]
    },
    {
     "competenceID": "CMP03",
@@ -21168,12 +21854,11 @@
     "processID": "PR1",
     "taskID": "033",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN1",
-     "CN2"
-    ],
     "levelRank": 1,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC03"
+    ]
    },
    {
     "competenceID": "CMP04",
@@ -21193,12 +21878,11 @@
     "processID": "PR1",
     "taskID": "045",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN1",
-     "CN7"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC04"
+    ]
    },
    {
     "competenceID": "CMP05",
@@ -21218,12 +21902,11 @@
     "processID": "PR2",
     "taskID": "101",
     "productGroupID": "PG03",
-    "requirementID": [
-     "CN4",
-     "CN7"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC05"
+    ]
    },
    {
     "competenceID": "CMP06",
@@ -21243,12 +21926,11 @@
     "processID": "PR2",
     "taskID": "102",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN7",
-     "CN8"
-    ],
     "levelRank": 3,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC06"
+    ]
    },
    {
     "competenceID": "CMP07",
@@ -21268,12 +21950,11 @@
     "processID": "PR2",
     "taskID": "103",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN7",
-     "CN8"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC07"
+    ]
    },
    {
     "competenceID": "CMP08",
@@ -21293,12 +21974,11 @@
     "processID": "PR5",
     "taskID": "104",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN7",
-     "CN8"
-    ],
     "levelRank": 3,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC08"
+    ]
    },
    {
     "competenceID": "CMP09",
@@ -21318,12 +21998,11 @@
     "processID": "PR5",
     "taskID": "105",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN7",
-     "CN8"
-    ],
     "levelRank": 3,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC09"
+    ]
    },
    {
     "competenceID": "CMP10",
@@ -21343,12 +22022,11 @@
     "processID": "PR5",
     "taskID": "106",
     "productGroupID": "PG04",
-    "requirementID": [
-     "CN5",
-     "CN7"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC10"
+    ]
    },
    {
     "competenceID": "CMP11",
@@ -21368,12 +22046,11 @@
     "processID": "PR1",
     "taskID": "107",
     "productGroupID": "PG02",
-    "requirementID": [
-     "CN1",
-     "CN4"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC11"
+    ]
    },
    {
     "competenceID": "CMP12",
@@ -21393,12 +22070,11 @@
     "processID": "PR1",
     "taskID": "108",
     "productGroupID": "PG01",
-    "requirementID": [
-     "CN1",
-     "CN2"
-    ],
     "levelRank": 2,
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "procedureID": [
+     "PRC12"
+    ]
    }
   ]
  },
