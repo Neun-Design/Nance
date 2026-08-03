@@ -55,14 +55,17 @@ console.log('== joins: both tabs resolve children ==');
     `Processes tab filters by squadID (${procs.length} row(s))`);
 }
 
-console.log('== Tasks: Handouts Inputs/Outputs as tabs (ux-review Part 3 follow-up) ==');
+console.log('== Procedures: Handouts Inputs/Outputs as tabs (moved from Tasks, Procedures round) ==');
 {
-  const tasks = catalog['Tasks'].subitems;
-  eq(tasks.map((s) => [s.table, s.throughField, s.tab.name]),
+  const procs = catalog['Procedures'].subitems;
+  eq(procs.map((s) => [s.table, s.throughField, s.tab.name]),
     [['Handouts', 'inputs', 'Inputs'], ['Handouts', 'outputs', 'Outputs']],
     'both grouped-by entries carry tabs in order');
-  eq(tasks.map((s) => s.label), ['Handouts - Inputs', 'Handouts - Outputs'],
+  eq(procs.map((s) => s.label), ['Handouts - Inputs', 'Handouts - Outputs'],
     'group labels preserved for stacked fallbacks');
+  const tasks = catalog['Tasks'].subitems;
+  eq(tasks.map((s) => [s.table, s.tab.name]), [['Procedures', 'Procedures']],
+    'Tasks expands into its Procedures (single group renders stacked)');
 }
 
 console.log('== string entries: stacked layout preserved ==');

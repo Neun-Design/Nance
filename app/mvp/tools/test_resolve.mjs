@@ -98,7 +98,9 @@ expectOptions('Requirements', 'scopeID', /[A-Za-z]{3,}/, { wantMulti: true });
 expectOptions('Requirements', 'productGroupID', /\|/, { wantMulti: true });
 expectOptions('Competence', 'roleID', /^(?!R\d+$)./);
 expectOptions('Competence', 'taskID', /^(?!T\d+$)./);
-expectOptions('Competence', 'requirementID', /[A-Za-z]{3,}/, { wantMulti: true });
+// (Competence.requirementID became derived in the Procedures round — the
+// form input is the multivalued Procedure select, requirements follow it.)
+expectOptions('Competence', 'procedureID', /[A-Za-z]{3,}/, { wantMulti: true });
 expectOptions('Onboarding', 'roleID', /^(?!R\d+$)./);
 expectOptions('Onboarding', 'competenceID', /^(?!CMP\d+$)./);
 
@@ -124,18 +126,25 @@ function subitemsOf(table, r = row(table)) {
     else fail(`Customers→Forecasts: ${f.kids.length} kids, statuses=${statuses}`);
   }
 
-  // Tasks → Handouts grouped by inputs / outputs
-  const groups = subitemsOf('Tasks');
+  // Procedures → Handouts grouped by inputs / outputs (moved from Tasks in
+  // the Procedures round — Tasks now expands into its Procedures instead)
+  const procWithHandouts = data.getEntity('Procedures')
+    .find((p) => (p.taskInput || []).length && (p.taskOutput || []).length);
+  const groups = subitemsOf('Procedures', procWithHandouts);
   for (const g of groups) {
     if (g.child !== 'Handouts') continue;
     const label = g.si.label;
     if (g.kids.length && /Handouts - (Inputs|Outputs)/.test(label)) {
-      ok(`Tasks→${label}: ${g.kids.map((k) => k.handoutName).join(', ')}`);
-    } else fail(`Tasks→${label || g.si.table}: ${g.kids.length} kids`);
+      ok(`Procedures→${label}: ${g.kids.map((k) => k.handoutName).join(', ')}`);
+    } else fail(`Procedures→${label || g.si.table}: ${g.kids.length} kids`);
   }
   if (!groups.some((g) => /Inputs/.test(g.si.label || '')) || !groups.some((g) => /Outputs/.test(g.si.label || ''))) {
-    fail('Tasks: expected two grouped Handouts subitem lists');
+    fail('Procedures: expected two grouped Handouts subitem lists');
   }
+  const [tp] = subitemsOf('Tasks');
+  if (tp.child === 'Procedures' && tp.kids.length) {
+    ok(`Tasks→Procedures: ${tp.kids.length} kid(s) for the first task`);
+  } else fail(`Tasks→Procedures: ${tp.kids.length} kids`);
 
   // Requirements → Product Scopes (reverse of the compound requirementID rollup)
   const req = data.getEntity('Requirements').find((c) => c.requirementName === 'Max Tank Weight');

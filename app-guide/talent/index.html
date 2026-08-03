@@ -2153,11 +2153,13 @@ it is fine to register a few key people early and return).
 Email; <code>Function *</code>; Graduation.</p>
 <h2 id="competence">Competence<a class="headerlink" href="#competence" title="Permanent link">&para;</a></h2>
 <p><em>(phase 6)</em> <strong>What it is:</strong> a certified capability: a role/level certified for a task chain
-(event → process → task) on a scope + product group, with the requirements it certifies.
-<strong>Register when:</strong> after Operation exists.
-<strong>Key fields:</strong> <code>Function *</code> + <code>Skill Level *</code> → unlock Role; <code>Scope *</code> + <code>Product Group *</code> →
-unlock Requirements (multi); <code>Event *</code> → unlocks Process → Task. The competence's department
-derives from the chosen event automatically.</p>
+(event → process → task) on a scope + product group. The competence certifies <strong>procedures</strong>
+of the task — the requirements follow from them automatically.
+<strong>Register when:</strong> after Operation exists (including the task's Procedures).
+<strong>Key fields:</strong> <code>Function *</code> + <code>Skill Level *</code> → unlock Role; <code>Scope *</code> + <code>Product Group *</code>;
+<code>Event *</code> → unlocks Process → Task → Procedure (multi — the task's procedures this
+competence certifies). The competence's department derives from the chosen event
+automatically.</p>
 <h2 id="onboarding">Onboarding<a class="headerlink" href="#onboarding" title="Permanent link">&para;</a></h2>
 <p><em>(phase 6)</em> <strong>What it is:</strong> the certification record of a person on a competence (with
 training material and the certified flag) — Jobs only offer certified people as responsibles.

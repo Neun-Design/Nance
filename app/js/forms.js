@@ -491,6 +491,28 @@ function arrOverlap(a, b) {
 // Competence matches the selected Ticket's scope / product group / linked
 // requirements, and the selected Task when present. Conditions the Competence
 // record doesn't declare are skipped (lenient — demo data is sparse).
+// Requirements a competence certifies — via its procedures since the
+// Procedures round (v3-review Iterations): the union of the linked
+// procedures' requirement sets. A procedure with an EMPTY set applies to
+// every requirement (Q1 wildcard → null = no restriction). Rows that still
+// carry a legacy stored requirementID keep working.
+function competenceRequirements(comp) {
+  const pT = resolveTable('Procedures');
+  const ids = Array.isArray(comp.procedureID) ? comp.procedureID
+    : comp.procedureID != null && comp.procedureID !== '' ? [comp.procedureID] : [];
+  if (!pT || !ids.length) return comp.requirementID || null;
+  const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
+  if (!procs.length) return comp.requirementID || null;
+  const set = [];
+  for (const p of procs) {
+    const reqs = Array.isArray(p.requirementID) ? p.requirementID
+      : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
+    if (!reqs.length) return null; // wildcard procedure — certifies all
+    reqs.forEach((r) => { if (!set.includes(r)) set.push(r); });
+  }
+  return set;
+}
+
 function certifiedResponsibles(ticketId, taskId) {
   const tickets = resolveTable('Tickets');
   const ticket = ticketId && tickets ? getById(tickets, ticketId) : null;
@@ -518,7 +540,8 @@ function certifiedResponsibles(ticketId, taskId) {
     if (!comp) continue;
     if (scope && comp.scopeID && !arrOverlap(comp.scopeID, scope)) continue;
     if (pg && comp.productGroupID && !arrOverlap(comp.productGroupID, pg)) continue;
-    if (reqIds && reqIds.length && comp.requirementID && !arrOverlap(comp.requirementID, reqIds)) continue;
+    const compReqs = competenceRequirements(comp);
+    if (reqIds && reqIds.length && compReqs && !arrOverlap(compReqs, reqIds)) continue;
     if (taskId && comp.taskID && !arrOverlap(comp.taskID, taskId)) continue;
     const uid = ob.userID;
     if (!uid || seen.has(uid)) continue;
@@ -587,11 +610,22 @@ export function handoutsForTask(processID, workflowID, actionID) {
   const tPk = tT ? ENTITY_META[tT].pk : null;
   const filters = [['processID', processID], ['workflowID', workflowID], ['actionID', actionID]]
     .filter(([, v]) => v != null && v !== '');
+  // handout ownership lives on Procedures since the Procedures round —
+  // the owning task is the procedure's task (legacy task-side links and
+  // the handout's own taskID keep counting)
+  const pT = resolveTable('Procedures');
+  const procs = pT ? getEntity(pT) : [];
+  const taskById = new Map(tPk ? tasks.map((t) => [String(t[tPk]), t]) : []);
   const out = [];
   for (const h of getEntity(hT)) {
     const hid = h[hMeta.pk];
     const owners = tasks.filter((t) => arrOverlap(t.taskInput, hid)
       || arrOverlap(t.taskOutput, hid) || (tPk && arrOverlap(h.taskID, t[tPk])));
+    for (const p of procs) {
+      if (!arrOverlap(p.taskInput, hid) && !arrOverlap(p.taskOutput, hid)) continue;
+      const t = taskById.get(String(p.taskID));
+      if (t && !owners.includes(t)) owners.push(t);
+    }
     const ok = !owners.length
       || !filters.length
       || owners.some((t) => filters.every(([f, v]) => arrOverlap(t[f], v)));
@@ -600,6 +634,33 @@ export function handoutsForTask(processID, workflowID, actionID) {
     out.push({ value: hid, label: String(lbl !== '' ? lbl : hid) });
   }
   return out;
+}
+
+// Options for the Procedures "Requirements" picker: the requirement set the
+// selected task derives through its workflow (the 5-key applicability chain
+// on Workflows.requirements). No task / no workflow ⇒ every requirement is
+// offered (lenient, same spirit as tasksForJob). Exported for
+// tools/test_engine_procedures.mjs.
+export function requirementsForTask(taskId) {
+  const rT = resolveTable('Requirements');
+  if (!rT) return [];
+  const rMeta = ENTITY_META[rT];
+  const asOption = (r) => ({
+    value: r[rMeta.pk],
+    label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]),
+  });
+  const all = getEntity(rT).map(asOption);
+  const tT = resolveTable('Tasks');
+  const wT = resolveTable('Workflows');
+  const task = taskId && tT ? getById(tT, taskId) : null;
+  const wf = task && task.workflowID && wT ? getById(wT, task.workflowID) : null;
+  if (!wf) return all;
+  const cat = getCatalog(wT);
+  const attr = cat && cat.byName['requirements'];
+  const rule = attr && parseRule(attr.rule);
+  if (!rule || !rule.target) return all;
+  const kids = childrenOf(wT, wf, rT, { via: rule.via, viaList: rule.viaList });
+  return kids.length ? kids.map(asOption) : all;
 }
 
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
@@ -997,11 +1058,21 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(tasksForJob(dep ? dep[1].get() : null));
             return;
           }
-          // Tasks "Inputs"/"Outputs": linked handouts follow their owning
-          // task's Process → Activity → Action chain — see handoutsForTask.
-          if (entity === 'Tasks' && (attrName === 'taskInput' || attrName === 'taskOutput')) {
+          // Procedures "Inputs"/"Outputs" (Tasks pre-Procedures-round):
+          // linked handouts follow their owning task's Process → Activity →
+          // Action chain — see handoutsForTask.
+          if ((entity === 'Tasks' || entity === 'Procedures')
+              && (attrName === 'taskInput' || attrName === 'taskOutput')) {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
             applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action')));
+            return;
+          }
+          // Procedures "Requirements": options = the requirement set the
+          // selected task actually derives (workflow 5-key chain) — a
+          // procedure must not claim a requirement its task never produces.
+          if (entity === 'Procedures' && attrName === 'requirementID') {
+            const dep = findDep('Task');
+            applyOpts(requirementsForTask(dep ? dep[1].get() : null));
             return;
           }
           let opts = applyWhere(specOptions(entity, attrName, ruleText).options);

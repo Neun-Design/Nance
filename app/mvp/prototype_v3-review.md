@@ -20,7 +20,129 @@ validator. The strengths worth preserving: the datamodel as single declarative s
 cascades, joins, dashboards), the "materialize FK + derive on save" pattern, and the
 one-migration-one-suite-per-round workflow.
 
----
+# Iterations 
+This session will be the place to insert new features or data model instructions to be
+assess in the review.
+
+## New Procedure entity 
+Currently the procedure is just a link input in the Task instances.
+The new relationship must create a new Entity (table) for Procedures in the Operation module
+Check the updates made in the datamodel to understand the impact of this new entity in the model.
+I decided to create this procedure entity because the inputs and outputs of task can change depending
+on the requirements applied, but a task must be requirement free, because a process cannot vary depending
+on requirements or scopes. Process, workflows and tasks do not change depending on product scopes or requirements.
+But the procedures to perform a given task can change depending on requirements, and competences can vary depending
+on product scopes and the procedures.
+That means that a task can have multiple procedures, and a procedure can be applied to multiple competences.
+
+> **Claude (impact analysis, 03/08):** the concept is sound and I recommend adopting it — with a
+> corrected schema. The invariance principle (Process/Workflow/Task are requirement-free;
+> **Procedure** is where requirements bite; Competence certifies procedures) sharpens the model,
+> matches the reference ER model (Procedure = "documented method", `procedureNumber` as external
+> reference — CLAUDE.md §4.4 chain), and *simplifies* Competence as a side effect. The sketch in
+> `datamodel.json` cannot run as written, though, and the change ripples through six things we
+> already built. Point by point:
+>
+> **A. Blockers in the current sketch (working tree, 03/08):**
+> 1. **The JSON does not parse** — missing comma before `"Procedures": {` (line ~3195) and a
+>    trailing comma after its closing brace. The local app is down until fixed (the deployed
+>    copies are unaffected).
+> 2. **Stored-vs-derived inversion** — `Procedures.departmentID/processID/taskID/requirementID`
+>    are typed `rollup` yet bound to form selects. A field the user *selects* must be a **stored
+>    FK** (type `FK`, `FK → <Table> (display: …)`), with the cascade living in
+>    `check:`/`field-rule: "filtered by X selected"` — the engine derives rollups and ignores
+>    them as commit targets, and the validator's parity contract (schema-parity round) forbids
+>    stored values under derived attrs. The dotted vias also traverse the wrong direction:
+>    `businessUnitID.departmentID` reads a `departmentID` field *on Business Units*, which
+>    doesn't exist (Departments store `businessUnitID`, not the reverse). The shipped cascade
+>    engine already gives you Unit → Department → Process → Task with plain stored FKs +
+>    `filtered by` rules (same pattern as Competence/Onboarding).
+> 3. **Copy-paste slips** — the "Requirements" field binds `attribute: taskID` (should be
+>    `requirementID`); Competence's new "Procedure" field also binds `taskID` (should be a new
+>    stored `procedureID`); `"SelecLabel = squadName"` (typo — engine greps `SelectLabel`);
+>    `Procedures.taskInput/taskOutput` notes still read "assigned to this task".
+> 4. **Channels: `visibility: "hide"` un-catalogues the table** — `Handouts.channelID` FK display
+>    and `Competence.channelName` mirror break. The convention for "keep but no dashboard" is the
+>    hidden-registry pattern: `visibility: "show"` + `dashboard-order: 0` (Requirement Type,
+>    Activities-R5).
+> 5. **Inputs/Outputs now live in two places** — Procedures gained `taskInput`/`taskOutput` but
+>    Tasks kept its own stored pair (attrs + form fields). Dual ownership is the drift anatomy of
+>    D1. Your own rationale ("inputs and outputs of a task can change depending on the
+>    requirements applied") says they belong to **Procedure only**; Tasks can expose a derived
+>    union over its procedures where a task-level view is still wanted.
+> 6. **No `procedureOwner`** — a procedure is documented information (ISO §7.5, controlled);
+>    under your D7 owner policy this looks like an entity that *does* need accountability. Your
+>    call.
+> 7. **`Procedures.requirementID` should stay consistent with the applicability chain** —
+>    recommend a stored multivalued FK whose form options are **filtered to the task's derived
+>    requirement set** (the 5-key chain via the task's workflow), empty = applies to all (Q1).
+>    Otherwise a procedure can claim a requirement its task's scope never produces.
+>
+> **B. Impact on what is already built:**
+> 1. **Jobs staffing (`certified-responsible`)** — today it matches People through Competence's
+>    *stored* `requirementID[]` (scope + product group + ticket requirements, narrowed by Task).
+>    With certification moving to procedures, the match becomes ticket requirements → applicable
+>    Procedures → Competences holding them; `forms.js` (`certified-responsible`, `tasksForJob`)
+>    must re-route, and `test_engine_required.mjs`/`test_engine_talent.mjs` re-anchor.
+> 2. **Competence simplifies** — drop stored `requirementID` (derive via `procedureID.requirementID`),
+>    drop the Scope+PG-filtered Requirements multiselect from the form; `channelName` (mirror over
+>    the task's handout channels) re-routes through procedures once inputs/outputs move.
+> 3. **Tasks ↔ Handouts machinery moves** — `handoutsForTask` filtering and the "New Handout"
+>    related-records launcher relocate to the Procedures form; the Inputs/Outputs subitem tabs you
+>    placed on Procedures work out of the box (the object entries shipped in PR #136 accept
+>    `(grouped by …)`); Tasks' single "Procedures" tab renders as one stacked group (tabs need 2+
+>    — fine).
+> 4. **Onboarding/Tasks requirement derives** lengthen by one hop (via Competence → Procedures).
+> 5. **Migration is non-trivial but deterministic** — seed one Procedure per Task that carries
+>    `procedureName`/`procedureURL` (registry = the old name, `requirementID = []` wildcard,
+>    `taskID` link); Competence.procedureID = the procedures of its task; then drop
+>    `Tasks.procedureName/procedureURL` (+ `taskInput/taskOutput` if decision A5 says move).
+>    Both mockup copies; `schemaVersion` 5 → 6; one proof suite per the round workflow.
+> 6. **Docs/deploy surface** — new Operation dashboard → app-guide page + D10 registration order
+>    (Procedures registers after Tasks, before Competence), MVP walkthrough sequence, and a
+>    `./deploy_pages.sh` run.
+>
+> **C. Sequencing** — this round touches Tasks/Workflows/Competence, the same ground as
+> **#141 (Activities R5)**; #124/#132 also change the datamodel. One datamodel round at a time:
+> suggest R5 first (it stabilizes the Workflows/Tasks keys Procedures will chain through), then
+> Procedures — unless you prefer to fold both into one round. Effort: a full round (schema +
+> migration + engine re-route + suite + guide) — comparable to the Regions round.
+>
+> **Corrected Procedures attribute sheet** (proposal to implement):
+>
+> | Attribute | Type | Rule / note |
+> |---|---|---|
+> | `procedureID` | INT PK | auto |
+> | `procedureRegistry` | VARCHAR, NOT NULL | label attr (external registry number) |
+> | `procedureURL` | LINK | |
+> | `businessUnitID` | FK → Business Units | form filter only |
+> | `departmentID` | FK → Departments | `check: Unit IS NOT NULL`, filtered by Unit |
+> | `processID` | FK → Processes | `check: Department IS NOT NULL`, filtered via the department's squads; `SelectLabel = squadName` |
+> | `taskID` | FK → Tasks, NOT NULL | `check: Process IS NOT NULL`, filtered by Process (join anchor for the Tasks rollup/tab) |
+> | `requirementID` | FK → Requirements, multivalued, nullable | options = the task's derived requirement set; empty = all (Q1) |
+> | `taskInput` / `taskOutput` | FK → Handouts, multivalued | moved from Tasks; `handoutsForTask` filtering follows |
+> | `procedureOwner` | FK → People | pending your D7 call (item A6) |
+>
+> Competence side: new stored `procedureID[]` (FK → Procedures, filtered by Task selected);
+> `requirementID` becomes derived via `procedureID.requirementID`.
+>
+> **Rafael:**
+> A5 - Inputs/Outputs belong to procedures only.
+> A6 - Well notice. The procedure do need an owner. Implement.
+
+> **Claude (implemented, 03/08):** round shipped per the corrected attribute sheet + A5/A6.
+> Schema: Procedures table with stored FKs and the Unit → Department → Process → Task cascade,
+> `procedureOwner`, Handouts Inputs/Outputs tabs; Tasks dropped `procedureName/URL` and
+> `taskInput/taskOutput` (form + attrs) and expands into its Procedures; Competence stores
+> `procedureID[]` (Procedure select gated on Task) and derives `requirementID` through it;
+> Channels became a hidden registry (`show` + `dashboard-order: 0`); `schemaVersion` 6.
+> Migration `tools/migrate_procedures.py`: one procedure per demo task (PRC01…), requirement
+> set = the task's competence sets, handouts from the task's workflow inputs/outputs, owner =
+> taskOwner; all 12 competences linked, legacy fields dropped. Engine: `certified-responsible`
+> matches requirements **through procedures** (empty set = certifies all, Q1);
+> `handoutsForTask` ownership resolves via Procedures; new `requirementsForTask` limits the
+> Requirements picker to the task's derived set. Proof: `tools/test_engine_procedures.mjs` +
+> full 13-suite run + validator green; App Guide (operation/talent) updated.
 
 # Central finding
 

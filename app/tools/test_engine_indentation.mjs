@@ -92,15 +92,20 @@ console.log('== subitem ordering follows the derived number ==');
 
 console.log('== handoutsForTask: filtered selection (decision 2026-07-30) ==');
 {
-  // Task 012 sits on chain PR1 / WF08 / AC01; link HO01 to it, leave HO02 free
-  const t = data.getById('Tasks', '012');
-  data.updateRecord('Tasks', '012', { ...t, taskInput: ['HO01'] });
+  // Ownership lives on Procedures since the Procedures round: link a fresh
+  // handout through PRC01 (task 012, chain PR1 / WF08 / AC01) and leave a
+  // second fresh one unlinked — seeded procedures already own the workflow
+  // handouts, so only new records are chain-free.
+  data.addRecord('Handouts', { handoutID: 'HO98', handoutName: 'Linked Probe' });
+  data.addRecord('Handouts', { handoutID: 'HO99', handoutName: 'Unlinked Probe' });
+  const p = data.getById('Procedures', 'PRC01');
+  data.updateRecord('Procedures', 'PRC01', { ...p, taskInput: ['HO98'] });
   const on = forms.handoutsForTask('PR1', 'WF08', 'AC01').map((o) => o.value);
   const off = forms.handoutsForTask('PR2', 'WF13', 'AC05').map((o) => o.value);
-  eq([on.includes('HO01'), on.includes('HO02')], [true, true],
-    'matching chain offers the linked handout and unlinked ones');
-  eq([off.includes('HO01'), off.includes('HO02')], [false, true],
-    'other chain hides the linked handout, keeps unlinked ones');
+  eq([on.includes('HO98'), on.includes('HO99')], [true, true],
+    'matching chain offers the procedure-linked handout and unlinked ones');
+  eq([off.includes('HO98'), off.includes('HO99')], [false, true],
+    'other chain hides the procedure-linked handout, keeps unlinked ones');
 }
 
 console.log('== Forecast Scopes requirement rollup via forecastID.customerID ==');

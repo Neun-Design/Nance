@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 5,
+    "schemaVersion": 6,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1913,39 +1913,12 @@
               "constraints": null
             },
             {
-              "name": "taskInput",
-              "type": "FK",
-              "rule": "FK → Handouts (display: handoutName)",
-              "notes": "Multivalued — input handouts assigned to this task; form options are filtered by the Process → Activity → Action chain (unlinked handouts always offered)",
-              "table-display": true,
+              "name": "procedureID",
+              "type": "rollup",
+              "rule": "rollup → Procedures (via: taskID) (display: procedureRegistry)",
+              "notes": "Procedures registered for this task (subitem tab)",
+              "table-display": false,
               "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "taskOutput",
-              "type": "FK",
-              "rule": "FK → Handouts (display: handoutName)",
-              "notes": "Multivalued — output handouts assigned to this task; form options are filtered by the Process → Activity → Action chain (unlinked handouts always offered)",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "procedureName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "procedureURL",
-              "type": "LINK",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
               "constraints": null
             },
             {
@@ -2041,26 +2014,6 @@
                 "check": "Activity IS NOT NULL",
                 "field-rule": null
               },
-              "Inputs": {
-                "field-type": {
-                  "Combobox": "shadcn-combobox"
-                },
-                "attribute": "taskInput",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
-              },
-              "Outputs": {
-                "field-type": {
-                  "Combobox": "shadcn-combobox"
-                },
-                "attribute": "taskOutput",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
-              },
               "Execution Time": {
                 "field-type": {
                   "input": "shadcn-input"
@@ -2069,26 +2022,6 @@
                 "tooltip": "Estimated time required to complete the task",
                 "step": null,
                 "check": null,
-                "field-rule": null
-              },
-              "Procedure ID": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "procedureName",
-                "tooltip": "Registry Number or unique identification for the procedure",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Procedure URL": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "procedureURL",
-                "tooltip": "Link to access the procedure documentation",
-                "step": null,
-                "check": "Procedure ID IS NOT NULL",
                 "field-rule": null
               }
             }
@@ -2111,15 +2044,9 @@
           "subitem-tables": [
             {
               "tab-order": 1,
-              "rule": "(grouped by inputs)",
-              "tab-name": "inputs",
-              "tab-table": "Handouts"
-            },
-            {
-              "tab-order": 2,
-              "rule": "(grouped by outputs)",
-              "tab-name": "outputs",
-              "tab-table": "Handouts"
+              "rule": null,
+              "tab-name": "Procedures",
+              "tab-table": "Procedures"
             }
           ]
         },
@@ -3139,7 +3066,7 @@
         },
         "Channels": {
           "visibility": "show",
-          "dashboard-order": 9,
+          "dashboard-order": 0,
           "description": "Communication or delivery channel used in process steps, with assigned owner (ISO §7.4).",
           "attributes": [
             {
@@ -3226,6 +3153,238 @@
           },
           "cards": [],
           "table-filters": true
+        },
+        "Procedures": {
+          "visibility": "show",
+          "dashboard-order": 9,
+          "description": "Documented method for executing a Task (ISO 9001:2015 §4.4 operations chain; §7.5 documented information). Tasks stay requirement-free — the procedure is where requirements bite: each row registers how a task is performed under a given requirement set, with its own input/output handouts. An empty requirement list means the procedure applies to every requirement (Q1 wildcard).",
+          "attributes": [
+            {
+              "name": "procedureID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "procedureRegistry",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "External registry number / unique identification (label attribute)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "procedureURL",
+              "type": "LINK",
+              "rule": null,
+              "notes": "Link to the procedure documentation",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Department options",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Form filter — narrows the Process options",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "processID",
+              "type": "FK",
+              "rule": "FK → Processes (display: processName)",
+              "notes": "Form filter — narrows the Task options",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "taskID",
+              "type": "FK",
+              "rule": "FK → Tasks (display: taskName)",
+              "notes": "Task this procedure executes — join anchor for the Tasks → Procedures subitem tab",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "requirementID",
+              "type": "FK",
+              "rule": "FK → Requirements (display: requirementName)",
+              "notes": "Multivalued; nullable — requirements under which this procedure applies. EMPTY = applies to all (Q1 wildcard). Form options are filtered to the selected task's derived requirement set (via its workflow, 5-key chain).",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "taskInput",
+              "type": "FK",
+              "rule": "FK → Handouts (display: handoutName)",
+              "notes": "Multivalued — input handouts of this procedure (moved from Tasks — iterations round A5); form options follow the owning chain (unlinked handouts always offered)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "taskOutput",
+              "type": "FK",
+              "rule": "FK → Handouts (display: handoutName)",
+              "notes": "Multivalued — output handouts of this procedure (moved from Tasks — iterations round A5); form options follow the owning chain (unlinked handouts always offered)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "procedureOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §7.5) — iterations round A6",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Registry Code": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "procedureRegistry",
+                "tooltip": "Registry number or unique identification for the procedure",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": null,
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": "filtered by Unit selected"
+              },
+              "Process": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "processID",
+                "tooltip": null,
+                "step": null,
+                "check": "Department IS NOT NULL",
+                "field-rule": "SelectLabel = squadName; filtered by Department selected"
+              },
+              "Task": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "taskID",
+                "tooltip": null,
+                "step": null,
+                "check": "Process IS NOT NULL",
+                "field-rule": "filtered by Process selected"
+              },
+              "Requirements": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "requirementID",
+                "tooltip": "Requirements under which this procedure applies — leave empty when it applies to all",
+                "step": null,
+                "check": "Task IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Task selected",
+                  "SelectLabel = requirementTypeName"
+                ]
+              },
+              "Procedure URL": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "procedureURL",
+                "tooltip": "Link to access the procedure documentation",
+                "step": null,
+                "check": "Task IS NOT NULL",
+                "field-rule": null
+              },
+              "Inputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "taskInput",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
+              },
+              "Outputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "taskOutput",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
+              },
+              "Owner": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "procedureOwner",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            {
+              "tab-order": 1,
+              "rule": "(grouped by inputs)",
+              "tab-name": "inputs",
+              "tab-table": "Handouts"
+            },
+            {
+              "tab-order": 2,
+              "rule": "(grouped by outputs)",
+              "tab-name": "outputs",
+              "tab-table": "Handouts"
+            }
+          ]
         }
       }
     },
@@ -6807,13 +6966,22 @@
               "constraints": null
             },
             {
-              "name": "requirementID",
+              "name": "procedureID",
               "type": "FK",
-              "rule": "FK → Requirements (display: requirementName)",
-              "notes": "multivalued — requirements this competence certifies",
+              "rule": "FK → Procedures (display: procedureRegistry)",
+              "notes": "Multivalued — procedures this competence certifies (a procedure can be held by many competences)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
+            },
+            {
+              "name": "requirementID",
+              "type": "mirror",
+              "rule": "computed → Procedures (via: procedureID) (display: requirementName)",
+              "notes": "Derived — requirements certified through the linked procedures (a procedure with an empty set applies to all, Q1)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "competenceName",
@@ -6827,7 +6995,7 @@
             {
               "name": "channelName",
               "type": "mirror",
-              "rule": "computed: list of channelName of every input and output from Tasks via taskID",
+              "rule": "computed: list of channelName of every input and output handout of the linked procedures",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -6906,20 +7074,6 @@
                 "check": null,
                 "field-rule": null
               },
-              "Requirements": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "requirementID",
-                "tooltip": null,
-                "step": null,
-                "check": "Scope && Product Group IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by Scope + Product Group selected",
-                  "SelectLabel = requirementTypeName"
-                ]
-              },
               "Event": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -6949,6 +7103,19 @@
                 "step": null,
                 "check": "Process IS NOT NULL",
                 "field-rule": "filtered by Event + Process selected"
+              },
+              "Procedure": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "procedureID",
+                "tooltip": "Procedures of the selected task that this competence certifies",
+                "step": null,
+                "check": "Task IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Task selected"
+                ]
               },
               "Skill Rank": {
                 "field-type": {

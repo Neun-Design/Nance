@@ -1606,17 +1606,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#channels" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Channels
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#handouts" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1632,6 +1621,17 @@
     <span class="md-ellipsis">
       
         Tasks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedures
       
     </span>
   </a>
@@ -2070,17 +2070,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#channels" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Channels
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#handouts" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2096,6 +2085,17 @@
     <span class="md-ellipsis">
       
         Tasks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedures
       
     </span>
   </a>
@@ -2149,19 +2149,30 @@ Indentation Rule (start-to-finish = next number, start-to-start = sub-number und
 <h2 id="actions">Actions<a class="headerlink" href="#actions" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> discrete quality interventions a task executes (approval, verification…).
 <strong>Register when:</strong> before Tasks.</p>
-<h2 id="channels">Channels<a class="headerlink" href="#channels" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> the communication channels documents flow through.
-<strong>Register when:</strong> before Handouts (each handout names its channel).</p>
 <h2 id="handouts">Handouts<a class="headerlink" href="#handouts" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> the documents/templates that flow through channels — tasks consume handouts
-as inputs and produce them as outputs.
-<strong>Register when:</strong> before Tasks; handouts can also be created inline from the Task form.</p>
+<p><strong>What it is:</strong> the documents/templates that flow through channels — procedures consume
+handouts as inputs and produce them as outputs. (Channels are a hidden registry: each
+handout names its channel inline.)
+<strong>Register when:</strong> before Procedures; handouts can also be created inline from the
+Procedure form.</p>
 <h2 id="tasks">Tasks<a class="headerlink" href="#tasks" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> the executable work item of a workflow step, with execution time, inputs and
-outputs — the level Jobs are staffed against.
-<strong>Register when:</strong> last in the module.
+<p><strong>What it is:</strong> the executable work item of a workflow step, with execution time — the level
+Jobs are staffed against. Tasks are <strong>requirement-free</strong>: how a task is performed under a
+given requirement set lives in its Procedures.
+<strong>Register when:</strong> after Actions, before Procedures.
 <strong>Key fields:</strong> <code>Event *</code> → <code>Process *</code> → Activity (the process's steps) → <code>Action *</code>;
-Inputs/Outputs offer only handouts that are free or already on this chain; execution time.</p>
+execution time. Expanding a task row lists its registered procedures.</p>
+<h2 id="procedures">Procedures<a class="headerlink" href="#procedures" title="Permanent link">&para;</a></h2>
+<p><strong>What it is:</strong> the documented method for executing a task (ISO §4.4/§7.5). Each row
+registers how a task is performed under a given <strong>requirement set</strong>, with its own input and
+output handouts — the same task can carry several procedures, one per requirement variant.
+An empty requirement list means the procedure applies to every requirement.
+<strong>Register when:</strong> last in the module — after Tasks; before Competence (a competence
+certifies procedures).
+<strong>Key fields:</strong> registry code and URL of the controlled document; <code>Unit</code> → <code>Department</code> →
+<code>Process</code> → <code>Task *</code> (the anchor); Requirements offers only the requirements the selected
+task actually derives; Inputs/Outputs offer only handouts that are free or already on this
+chain; accountable owner.</p>
 
 
 
