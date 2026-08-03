@@ -121,6 +121,16 @@ Models the QMS process hierarchy at four levels of decomposition.
 
 Downstream consequences: `Competence` references spec *definitions* it certifies (multivalued FK → Product Specs, displayed by `specName`); `Product Scopes` no longer stores a `productSpecID` — the spec dimension lives on the Product Group. Implemented in `prototype/data/datamodel.json` (Product Specs / Product Groups schemas) and the prototype engine (`MAP()` rule kind in `model.js`/`resolve.js`, `dynamic-specs` form field type in `forms.js`).
 
+**Procedures — requirement-dependent task execution (prototype, 2026-08-03 round):**
+
+Rafael's invariance principle (v3-review "Iterations"): **Process/Workflow/Task are requirement-free** — the **Procedure** is where requirements bite. The prototype's Operation module gained a `Procedures` table (materializing the ER-model Procedure at task level): each row = the documented method for executing a Task under a given requirement set, with its own input/output handouts (moved off Tasks — decision A5) and an accountable `procedureOwner` (A6, ISO §5.3/§7.5). Key semantics:
+
+- `procedureRegistry` (label) + `procedureURL` identify the controlled document; stored FK cascade `businessUnitID → departmentID → processID → taskID` (task = NOT NULL join anchor); multivalued `requirementID[]` — **empty = applies to every requirement** (Q1 wildcard), form options limited to the task's *derived* requirement set (`requirementsForTask` in `forms.js`).
+- A task has many procedures (Tasks expands into a Procedures subitem tab); a procedure is held by many competences: `Competence.procedureID[]` (multivalued FK, gated on Task) replaced the stored `requirementID` — requirements now **derive through the procedures** (`computed → Procedures via: procedureID`), and Jobs staffing (`certified-responsible`) matches ticket requirements against the procedure sets (a wildcard procedure certifies all).
+- `handoutsForTask` ownership resolves via Procedures; Channels became a hidden registry (`dashboard-order: 0`).
+
+Migration `prototype/tools/migrate_procedures.py` (one procedure per demo task; requirement sets from the task's competences; handouts from the task's workflow); proof suite `prototype/tools/test_engine_procedures.mjs`; `schemaVersion` 6.
+
 ### 3. Leadership & Resource Context (ISO 9001:2015 §5)
 
 | Entity | Role |

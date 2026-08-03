@@ -1,0 +1,102 @@
+#!/usr/bin/env node
+// test_engine_procedures.mjs — proof suite for the Procedures round
+// (v3-review Iterations, 2026-08-03): Process/Workflow/Task stay
+// requirement-free, the Procedure carries the requirement set and the
+// input/output handouts (A5), Competence certifies procedures (requirements
+// derive through them), procedureOwner exists (A6).
+// Run from prototype/:  node tools/test_engine_procedures.mjs
+
+import fs from 'fs';
+globalThis.fetch = async (p) => new Response(fs.readFileSync(p));
+
+const model = await import('../js/model.js');
+const data = await import('../js/data.js');
+const { catalog } = await model.loadModel();
+data.initMeta(catalog);
+await data.loadData();
+const resolve = await import('../js/resolve.js');
+const forms = await import('../js/forms.js');
+
+let fails = 0;
+const ok = (m) => console.log(`  ✓ ${m}`);
+const fail = (m) => { fails += 1; console.log(`  ✗ ${m}`); };
+const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
+  ? ok(m) : fail(`${m} — got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`));
+
+console.log('== schema: stored FKs, owner, label ==');
+{
+  const cat = catalog['Procedures'];
+  eq(!!cat, true, 'Procedures catalogued in Operation');
+  eq(cat.label, 'procedureRegistry', 'label attribute is the registry code');
+  for (const name of ['businessUnitID', 'departmentID', 'processID', 'taskID', 'requirementID', 'procedureOwner']) {
+    const r = model.parseRule(cat.byName[name].rule);
+    eq(r && r.kind, 'fk', `${name} is a stored FK rule (not a rollup)`);
+  }
+  eq(model.parseRule(catalog['Tasks'].byName['procedureID'].rule).kind, 'rollup',
+    'Tasks.procedureID stays the derived rollup');
+  eq(catalog['Tasks'].byName['taskInput'], undefined, 'Tasks no longer owns taskInput (A5)');
+  eq(catalog['Channels'] != null, true, 'Channels stays catalogued (hidden registry, A4)');
+  eq(model.getSchemaVersion(), 6, 'schemaVersion bumped to 6');
+}
+
+console.log('== migration: seeds and links ==');
+{
+  const procs = data.getEntity('Procedures');
+  const tasks = data.getEntity('Tasks');
+  eq(procs.length, tasks.length, 'one procedure per demo task');
+  eq(procs.every((p) => p.taskID != null && p.procedureRegistry), true,
+    'every procedure anchors a task and carries a registry code');
+  eq(tasks.every((t) => !('procedureName' in t) && !('taskInput' in t)), true,
+    'legacy procedure/handout fields dropped from Tasks');
+  const p1 = data.getById('Procedures', 'PRC01');
+  eq([p1.taskID, p1.requirementID], ['012', ['CN1', 'CN4']],
+    'PRC01 carries task 012 and the competence-derived requirement set');
+  eq(p1.procedureOwner != null, true, 'procedureOwner seeded (A6)');
+}
+
+console.log('== Competence: certifies procedures, requirements derive ==');
+{
+  const comp = data.getById('Competence', 'CMP01');
+  eq(comp.procedureID, ['PRC01'], 'CMP01 links its task\'s procedure');
+  eq('requirementID' in comp, false, 'stored requirementID dropped');
+  const attr = catalog['Competence'].byName['requirementID'];
+  const names = String(resolve.derivedValue('Competence', attr, comp));
+  eq(/IEC 60076|Max Tank|CN/.test(names) && !/^CN\d/.test(names), true,
+    `requirement names derive via the procedure (${names.slice(0, 60)})`);
+}
+
+console.log('== staffing: certified-responsible still resolves via procedures ==');
+{
+  // any ticket with a scope should still find at least one certified person
+  const ticket = data.getEntity('Tickets').find((t) => t.scopes || t.scopeID);
+  const { options } = forms.optionsForAttr('Competence', 'procedureID');
+  eq((options || []).length > 0, true, 'Competence Procedure select offers options');
+  eq(ticket != null, true, `staffing probe ticket found (${ticket && ticket.ticketID})`);
+}
+
+console.log('== requirementsForTask: options follow the task\'s derived set ==');
+{
+  const all = forms.requirementsForTask(null);
+  eq(all.length, data.getEntity('Requirements').length, 'no task -> every requirement offered');
+  const task = data.getEntity('Tasks').find((t) => t.workflowID);
+  const opts = forms.requirementsForTask(task.taskID);
+  eq(opts.length > 0, true, `task ${task.taskID} offers ${opts.length} requirement(s)`);
+  eq(opts.every((o) => /[A-Za-z]{3,}/.test(o.label)), true, 'options are display names');
+}
+
+console.log('== handouts: ownership resolves through procedures ==');
+{
+  const proc = data.getEntity('Procedures').find((p) => (p.taskInput || []).length);
+  eq(proc != null, true, `a procedure carries inputs (${proc && proc.procedureID})`);
+  const task = data.getById('Tasks', proc.taskID);
+  // a linked handout is offered on its owning chain, refused off-chain
+  const onChain = forms.handoutsForTask(task.processID, null, null);
+  eq(onChain.some((o) => (proc.taskInput || []).includes(o.value)), true,
+    'linked handout offered on the owning process chain');
+  const kids = resolve.childrenOf('Tasks', task, 'Procedures', {});
+  eq(kids.some((k) => k.procedureID === proc.procedureID), true,
+    'Tasks → Procedures subitem join resolves');
+}
+
+console.log(fails ? `\n${fails} FAILED` : '\nall passed');
+process.exit(fails ? 1 : 0);

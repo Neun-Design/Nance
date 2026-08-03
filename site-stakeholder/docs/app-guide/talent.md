@@ -44,11 +44,13 @@ Email; `Function *`; Graduation.
 ## Competence
 
 *(phase 6)* **What it is:** a certified capability: a role/level certified for a task chain
-(event → process → task) on a scope + product group, with the requirements it certifies.
-**Register when:** after Operation exists.
-**Key fields:** `Function *` + `Skill Level *` → unlock Role; `Scope *` + `Product Group *` →
-unlock Requirements (multi); `Event *` → unlocks Process → Task. The competence's department
-derives from the chosen event automatically.
+(event → process → task) on a scope + product group. The competence certifies **procedures**
+of the task — the requirements follow from them automatically.
+**Register when:** after Operation exists (including the task's Procedures).
+**Key fields:** `Function *` + `Skill Level *` → unlock Role; `Scope *` + `Product Group *`;
+`Event *` → unlocks Process → Task → Procedure (multi — the task's procedures this
+competence certifies). The competence's department derives from the chosen event
+automatically.
 
 ## Onboarding
 
