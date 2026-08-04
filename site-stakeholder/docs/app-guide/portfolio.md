@@ -40,8 +40,9 @@ Values); `Products *` (multi) the spec applies to.
 **What it is:** a product variant defined by concrete spec values (e.g. "Autotransformer |
 Voltage Rate: <=145").
 **Register when:** after Product Specs.
-**Key fields:** `Product *` → the form grows one input per spec assigned to that product; the
-values become the group's SPECS summary shown everywhere.
+**Key fields:** Class Code; `Business Unit` → unlocks `Product *` (the unit's products) → the
+form grows one input per spec assigned to that product; the values become the group's SPECS
+summary shown everywhere. The segment derives from the unit — there is no segment input.
 
 ## Requirements
 

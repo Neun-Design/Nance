@@ -22477,170 +22477,170 @@
    {
     "productGroupID": "PG01",
     "productGroupName": "LPT",
-    "businessSegment": "LPT",
     "productID": "P01",
     "productGroupOwner": "U01",
     "specValues": {
      "SPEC01": "<=145",
      "SPEC02": "<=100"
     },
-    "classCodeName": "PC-LPT-01"
+    "classCodeName": "PC-LPT-01",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG02",
     "productGroupName": "Autotransformer",
-    "businessSegment": "LPT",
     "productID": "P02",
     "productGroupOwner": "U02",
     "specValues": {
      "SPEC01": "<=550",
      "SPEC02": "<=400"
     },
-    "classCodeName": "PC-LPT-02"
+    "classCodeName": "PC-LPT-02",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG03",
     "productGroupName": "Phase Shifter",
-    "businessSegment": "LPT",
     "productID": "P03",
     "productGroupOwner": "U03",
     "specValues": {
      "SPEC01": ">550",
      "SPEC02": ">400"
     },
-    "classCodeName": "PC-LPT-03"
+    "classCodeName": "PC-LPT-03",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG04",
     "productGroupName": "HVDC",
-    "businessSegment": "LPT",
     "productID": "P04",
     "productGroupOwner": "U04",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-LPT-04"
+    "classCodeName": "PC-LPT-04",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG05",
     "productGroupName": "Reactors",
-    "businessSegment": "LPT",
     "productID": "P05",
     "productGroupOwner": "U05",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-LPT-05"
+    "classCodeName": "PC-LPT-05",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG06",
     "productGroupName": "MPT",
-    "businessSegment": "MPT",
     "productID": "P06",
     "productGroupOwner": "U06",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-MPT-01"
+    "classCodeName": "PC-MPT-01",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG07",
     "productGroupName": "IND",
-    "businessSegment": "MPT",
     "productID": "P07",
     "productGroupOwner": "U07",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-MPT-02"
+    "classCodeName": "PC-MPT-02",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG08",
     "productGroupName": "LDT",
-    "businessSegment": "MPT",
     "productID": "P08",
     "productGroupOwner": "U08",
     "specValues": {
      "SPEC01": "<=36",
      "SPEC02": "<=10"
     },
-    "classCodeName": "PC-MPT-03"
+    "classCodeName": "PC-MPT-03",
+    "businessUnitID": "BU01"
    },
    {
     "productGroupID": "PG09",
     "productGroupName": "CRT",
-    "businessSegment": "DT",
     "productID": "P09",
     "productGroupOwner": "U09",
     "specValues": {
      "SPEC01": "<=72.5",
      "SPEC02": "<=30"
     },
-    "classCodeName": "PC-DT-01"
+    "classCodeName": "PC-DT-01",
+    "businessUnitID": "BU02"
    },
    {
     "productGroupID": "PG10",
     "productGroupName": "LIDT",
-    "businessSegment": "DT",
     "productID": "P10",
     "productGroupOwner": "U10",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-DT-02"
+    "classCodeName": "PC-DT-02",
+    "businessUnitID": "BU02"
    },
    {
     "productGroupID": "PG11",
     "productGroupName": "TRAC",
-    "businessSegment": "DT",
     "productID": "P11",
     "productGroupOwner": "U11",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-DT-03"
+    "classCodeName": "PC-DT-03",
+    "businessUnitID": "BU02"
    },
    {
     "productGroupID": "PG12",
     "productGroupName": "VR",
-    "businessSegment": "DT",
     "productID": "P12",
     "productGroupOwner": "U12",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-DT-04"
+    "classCodeName": "PC-DT-04",
+    "businessUnitID": "BU02"
    },
    {
     "productGroupID": "PG13",
     "productGroupName": "CP",
-    "businessSegment": "DT",
     "productID": "P13",
     "productGroupOwner": "U13",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-DT-05"
+    "classCodeName": "PC-DT-05",
+    "businessUnitID": "BU02"
    },
    {
     "productGroupID": "PG14",
     "productGroupName": "RENEW",
-    "businessSegment": "DT",
     "productID": "P14",
     "productGroupOwner": "U14",
     "specValues": {
      "SPEC01": "ALL",
      "SPEC02": "ALL"
     },
-    "classCodeName": "PC-DT-06"
+    "classCodeName": "PC-DT-06",
+    "businessUnitID": "BU02"
    }
   ],
   "Requirements": [
