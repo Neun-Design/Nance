@@ -219,6 +219,26 @@ registration.
 >
 > **Rafael:**
 
+## Product Groups — classify by Business Unit
+
+Rafael's edit (03/08): the LPT/MPT/DT segment enum on Product Groups becomes a `businessUnitID`
+FK; a derived segment reference stays; the Product select is gated on the chosen unit.
+
+> **Claude (applied, 03/08):** adopted with two corrections per the conventions — the form now
+> binds **`businessUnitID`** (the sketch bound `businessUnitName`; a name-bound select stores
+> the name and leaves the FK empty — the #121 trap), and the Product cascade dep names the
+> bound attribute (`filtered by businessUnitID selected`; the sketch's `businessUnitName` would
+> match no field). The sketch's derived `businessSegmentID` (typed FK) became the mirror
+> `businessSegmentName` (`mirror: Business Units via: businessUnitID`) per the parity
+> convention — hidden by default, available via Customize Columns. Migration
+> `tools/migrate_pg_units.py`: enum code → segment (by `businessSegmentCode`) → the unit
+> carrying that segment (total and deterministic in the demo: LPT/MPT → BU01, DT → BU02; the
+> legacy sourceFiles copy has two pre-normalization 'MT' rows left null, flagged).
+> schemaVersion 11; proof `tools/test_engine_pg_units.mjs`; 14 suites + validator green; App
+> Guide Product Groups section updated.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice
