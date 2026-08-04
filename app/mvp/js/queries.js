@@ -89,8 +89,13 @@ export const REPORT_QUERIES = {
   'Tasks::Report-B': (rows) =>
     bar('Tasks by Function', groupAgg(rows, 'functionID'), (k) => lookup('Functions', k, 'functionName') || k),
 
+  // execution time lives on Procedures since 2026-08-04 — group them by
+  // their task's event (procedures create the variance in task duration)
   'Events::Report-A': (rows) =>
-    bar('Total Execution Time per Event', groupAgg(getEntity('Tasks'), 'eventID', 'executionTime'),
+    bar('Total Execution Time per Event',
+      groupAgg(getEntity('Procedures'), (p) => {
+        const t = getById('Tasks', p.taskID); return t ? t.eventID : null;
+      }, 'executionTime'),
       (k) => lookup('Events', k, 'eventTitle') || k, 10),
   'Events::Report-B': (rows) =>
     bar('Tasks Count by Event', groupAgg(getEntity('Tasks'), 'eventID'),

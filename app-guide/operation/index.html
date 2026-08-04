@@ -2157,8 +2157,8 @@ handout names its channel inline.)
 <strong>Register when:</strong> before Procedures; handouts can also be created inline from the
 Procedure form.</p>
 <h2 id="tasks">Tasks<a class="headerlink" href="#tasks" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> the executable work item of a workflow step, with execution time — the level
-Jobs are staffed against. Tasks are <strong>requirement-free</strong>: how a task is performed under a
+<p><strong>What it is:</strong> the executable work item of a workflow step — the level Jobs are staffed
+against. Its execution time is not registered here: it derives from the task's procedures. Tasks are <strong>requirement-free</strong>: how a task is performed under a
 given requirement set lives in its Procedures.
 <strong>Register when:</strong> after Actions, before Procedures.
 <strong>Key fields:</strong> <code>Event *</code> → <code>Process *</code> → Activity (the process's steps) → <code>Action *</code>;
@@ -2172,8 +2172,9 @@ An empty requirement list means the procedure applies to every requirement.
 certifies procedures).
 <strong>Key fields:</strong> registry code and URL of the controlled document; <code>Unit</code> → <code>Department</code> →
 <code>Process</code> → <code>Task *</code> (the anchor); Requirements offers only the requirements the selected
-task actually derives; Inputs/Outputs offer only handouts that are free or already on this
-chain; accountable owner.</p>
+task actually derives; <strong>execution time</strong> (hours under THIS requirement set — procedures
+create the variance in task duration; the task shows the sum); Inputs/Outputs offer only
+handouts that are free or already on this chain; accountable owner.</p>
 
 
 

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 17,
+    "schemaVersion": 18,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1845,9 +1845,9 @@
             },
             {
               "name": "executionTime",
-              "type": "DECIMAL",
-              "rule": null,
-              "notes": "Estimated execution time in hours",
+              "type": "mirror",
+              "rule": "computed: SUM(procedureID.executionTime)",
+              "notes": "Derived — procedures create the variance in task duration (Rafael, 04/08): the requirement set changes how long a task takes, so the time is registered PER PROCEDURE and the task shows the sum of its procedures.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -1971,16 +1971,6 @@
                 "step": null,
                 "check": "Activity IS NOT NULL",
                 "field-rule": null
-              },
-              "Execution Time": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "executionTime",
-                "tooltip": "Estimated time required to complete the task",
-                "step": null,
-                "check": null,
-                "field-rule": null
               }
             }
           },
@@ -2088,8 +2078,8 @@
             {
               "name": "executionTime",
               "type": "rollup",
-              "rule": "computed: SUM of tasks executionTime",
-              "notes": null,
+              "rule": "computed: SUM(tasks.executionTime)",
+              "notes": "Sum over the event's tasks — each task in turn sums its procedures (nested derived sum)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -3143,6 +3133,15 @@
               "constraints": "FK"
             },
             {
+              "name": "executionTime",
+              "type": "DECIMAL",
+              "rule": null,
+              "notes": "Hours to execute the task under THIS procedure's requirement set — moved from Tasks (2026-08-04): procedures create the variance in task duration",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "procedureOwner",
               "type": "FK",
               "rule": "FK → People (display: userName)",
@@ -3258,6 +3257,16 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
+                "field-rule": null
+              },
+              "Execution Time": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "executionTime",
+                "tooltip": "Hours to execute the task under this procedure's requirement set",
+                "step": null,
+                "check": "Task IS NOT NULL",
                 "field-rule": null
               }
             }
@@ -4962,7 +4971,7 @@
             {
               "name": "plannedExecutionTime",
               "type": "DECIMAL",
-              "rule": "computed: equals taskID.estimatedTime",
+              "rule": "computed: equals the executionTime of the task's procedure (stored at planning time)",
               "notes": "The template execution",
               "table-display": true,
               "subitem-display": true,
