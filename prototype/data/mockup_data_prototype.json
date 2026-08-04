@@ -10877,15 +10877,6 @@
     "parentStepID": null,
     "inputs": "HO01",
     "outputs": "HO02",
-    "scopes": "A.1",
-    "procedures": "PROC-001",
-    "customerID": [
-     "FC01"
-    ],
-    "productScopeID": [
-     "PS03",
-     "PS08"
-    ],
     "indentationRule": null,
     "activityID": "ACT01"
    },
@@ -10896,14 +10887,6 @@
     "parentStepID": "WF01",
     "inputs": "HO02",
     "outputs": "HO03",
-    "scopes": "A.2",
-    "procedures": "PROC-002",
-    "customerID": [
-     "FC02"
-    ],
-    "productScopeID": [
-     "PS10"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "ACT02"
    },
@@ -10914,15 +10897,6 @@
     "parentStepID": "WF02",
     "inputs": "HO03",
     "outputs": "HO04",
-    "scopes": "A.3",
-    "procedures": "PROC-003",
-    "customerID": [
-     "FC03"
-    ],
-    "productScopeID": [
-     "PS02",
-     "PS09"
-    ],
     "indentationRule": "finish-to-finish",
     "activityID": "ACT03"
    },
@@ -10933,12 +10907,6 @@
     "parentStepID": "WF02",
     "inputs": "HO04",
     "outputs": "HO05",
-    "scopes": "A.4",
-    "procedures": "PROC-004",
-    "customerID": [
-     "FC04"
-    ],
-    "productScopeID": [],
     "indentationRule": "finish-to-finish",
     "activityID": "ACT04"
    },
@@ -10949,14 +10917,6 @@
     "parentStepID": "WF02",
     "inputs": "HO05",
     "outputs": "HO06",
-    "scopes": "B",
-    "procedures": "PROC-005",
-    "customerID": [
-     "FC05"
-    ],
-    "productScopeID": [
-     "PS05"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "ACT05"
    },
@@ -10967,12 +10927,6 @@
     "parentStepID": "WF05",
     "inputs": "HO06",
     "outputs": "HO07",
-    "scopes": "C",
-    "procedures": "PROC-006",
-    "customerID": [
-     "FC06"
-    ],
-    "productScopeID": [],
     "indentationRule": "finish-to-finish",
     "activityID": "ACT06"
    },
@@ -10983,12 +10937,6 @@
     "parentStepID": "WF05",
     "inputs": "HO07",
     "outputs": "HO08",
-    "scopes": "D",
-    "procedures": "PROC-007",
-    "customerID": [
-     "FC07"
-    ],
-    "productScopeID": [],
     "indentationRule": "start-to-finish",
     "activityID": "ACT07"
    },
@@ -10999,12 +10947,6 @@
     "parentStepID": null,
     "inputs": "HO08",
     "outputs": "HO09",
-    "scopes": "E",
-    "procedures": "PROC-008",
-    "customerID": [
-     "FC08"
-    ],
-    "productScopeID": [],
     "indentationRule": null,
     "activityID": "A01"
    },
@@ -11015,12 +10957,6 @@
     "parentStepID": "WF08",
     "inputs": "HO09",
     "outputs": "HO10",
-    "scopes": "F",
-    "procedures": "PROC-009",
-    "customerID": [
-     "FC09"
-    ],
-    "productScopeID": [],
     "indentationRule": "start-to-finish",
     "activityID": "A02"
    },
@@ -11031,14 +10967,6 @@
     "parentStepID": "WF09",
     "inputs": "HO10",
     "outputs": "HO01",
-    "scopes": "G",
-    "procedures": "PROC-010",
-    "customerID": [
-     "FC10"
-    ],
-    "productScopeID": [
-     "PS06"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "A03"
    },
@@ -11049,15 +10977,6 @@
     "parentStepID": "WF10",
     "inputs": "HO01",
     "outputs": "HO02",
-    "scopes": "A.1",
-    "procedures": "PROC-011",
-    "customerID": [
-     "FC11"
-    ],
-    "productScopeID": [
-     "PS03",
-     "PS08"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "A04"
    },
@@ -11068,17 +10987,6 @@
     "parentStepID": null,
     "inputs": "HO02",
     "outputs": "HO03",
-    "scopes": "A.2",
-    "procedures": "PROC-012",
-    "customerID": [
-     "FC12"
-    ],
-    "productScopeID": [
-     "PS01",
-     "PS04",
-     "PS07",
-     "PS10"
-    ],
     "indentationRule": null,
     "activityID": "A05"
    },
@@ -11089,15 +10997,6 @@
     "parentStepID": "WF12",
     "inputs": "HO03",
     "outputs": "HO04",
-    "scopes": "A.3",
-    "procedures": "PROC-013",
-    "customerID": [
-     "FC13"
-    ],
-    "productScopeID": [
-     "PS02",
-     "PS09"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "A06"
    },
@@ -11108,12 +11007,6 @@
     "parentStepID": "WF13",
     "inputs": "HO04",
     "outputs": "HO05",
-    "scopes": "A.4",
-    "procedures": "PROC-014",
-    "customerID": [
-     "FC14"
-    ],
-    "productScopeID": [],
     "indentationRule": "start-to-finish",
     "activityID": "A07"
    },
@@ -11124,14 +11017,6 @@
     "parentStepID": null,
     "inputs": "HO05",
     "outputs": "HO06",
-    "scopes": "B",
-    "procedures": "PROC-015",
-    "customerID": [
-     "FC15"
-    ],
-    "productScopeID": [
-     "PS05"
-    ],
     "indentationRule": null,
     "activityID": "A08"
    },
@@ -11142,12 +11027,6 @@
     "parentStepID": "WF15",
     "inputs": "HO06",
     "outputs": "HO07",
-    "scopes": "C",
-    "procedures": "PROC-016",
-    "customerID": [
-     "FC16"
-    ],
-    "productScopeID": [],
     "indentationRule": "start-to-finish",
     "activityID": "A09"
    },
@@ -11158,12 +11037,6 @@
     "parentStepID": null,
     "inputs": "HO07",
     "outputs": "HO08",
-    "scopes": "D",
-    "procedures": "PROC-017",
-    "customerID": [
-     "FC17"
-    ],
-    "productScopeID": [],
     "indentationRule": null,
     "activityID": "A10"
    },
@@ -11174,12 +11047,6 @@
     "parentStepID": "WF17",
     "inputs": "HO08",
     "outputs": "HO09",
-    "scopes": "E",
-    "procedures": "PROC-018",
-    "customerID": [
-     "FC01"
-    ],
-    "productScopeID": [],
     "indentationRule": "start-to-finish",
     "activityID": "A11"
    },
@@ -11190,12 +11057,6 @@
     "parentStepID": null,
     "inputs": "HO09",
     "outputs": "HO10",
-    "scopes": "F",
-    "procedures": "PROC-019",
-    "customerID": [
-     "FC02"
-    ],
-    "productScopeID": [],
     "indentationRule": null,
     "activityID": "A12"
    },
@@ -11206,14 +11067,6 @@
     "parentStepID": "WF19",
     "inputs": "HO10",
     "outputs": "HO01",
-    "scopes": "G",
-    "procedures": "PROC-020",
-    "customerID": [
-     "FC03"
-    ],
-    "productScopeID": [
-     "PS06"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "A13"
    },
@@ -11224,15 +11077,6 @@
     "parentStepID": "WF20",
     "inputs": "HO01",
     "outputs": "HO02",
-    "scopes": "A.1",
-    "procedures": "PROC-021",
-    "customerID": [
-     "FC04"
-    ],
-    "productScopeID": [
-     "PS03",
-     "PS08"
-    ],
     "indentationRule": "start-to-finish",
     "activityID": "A14"
    }
@@ -20759,7 +20603,7 @@
     "userID": "U01",
     "userName": "Lena Fischer",
     "userEmail": "lena.fischer@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2016-03-15",
     "functionID": "F1",
     "squadID": "SQ1",
@@ -20776,7 +20620,7 @@
     "userID": "U02",
     "userName": "Omar Haddad",
     "userEmail": "omar.haddad@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2017-03-15",
     "functionID": "F1",
     "squadID": "SQ1",
@@ -20793,7 +20637,7 @@
     "userID": "U03",
     "userName": "Priya Nair",
     "userEmail": "priya.nair@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2018-03-15",
     "functionID": "F1",
     "squadID": "SQ1",
@@ -20810,7 +20654,7 @@
     "userID": "U04",
     "userName": "Tomas Novak",
     "userEmail": "tomas.novak@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2019-03-15",
     "functionID": "F2",
     "squadID": "SQ1",
@@ -20827,7 +20671,7 @@
     "userID": "U05",
     "userName": "Sofia Rossi",
     "userEmail": "sofia.rossi@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2020-03-15",
     "functionID": "F2",
     "squadID": "SQ1",
@@ -20844,7 +20688,7 @@
     "userID": "U06",
     "userName": "Hugo Meyer",
     "userEmail": "hugo.meyer@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2021-03-15",
     "functionID": "F2",
     "squadID": "SQ1",
@@ -20861,7 +20705,7 @@
     "userID": "U07",
     "userName": "Marta Alves",
     "userEmail": "marta.alves@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2022-03-15",
     "functionID": "F2",
     "squadID": "SQ1",
@@ -20878,7 +20722,7 @@
     "userID": "U08",
     "userName": "Jan Kowalski",
     "userEmail": "jan.kowalski@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2015-03-15",
     "functionID": "F2",
     "squadID": "SQ1",
@@ -20895,7 +20739,7 @@
     "userID": "U09",
     "userName": "Eva Braun",
     "userEmail": "eva.braun@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2016-03-15",
     "functionID": "F3",
     "squadID": "SQ1",
@@ -20912,7 +20756,7 @@
     "userID": "U10",
     "userName": "Nils Andersson",
     "userEmail": "nils.andersson@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2017-03-15",
     "functionID": "F3",
     "squadID": "SQ1",
@@ -20929,7 +20773,7 @@
     "userID": "U11",
     "userName": "Ingrid Holm",
     "userEmail": "ingrid.holm@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2018-03-15",
     "functionID": "F4",
     "squadID": "SQ1",
@@ -20946,7 +20790,7 @@
     "userID": "U12",
     "userName": "Pedro Gomes",
     "userEmail": "pedro.gomes@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2019-03-15",
     "functionID": "F4",
     "squadID": "SQ2",
@@ -20963,7 +20807,7 @@
     "userID": "U13",
     "userName": "Camila Dias",
     "userEmail": "camila.dias@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2020-03-15",
     "functionID": "F1",
     "squadID": "SQ2",
@@ -20980,7 +20824,7 @@
     "userID": "U14",
     "userName": "Rafael Lima",
     "userEmail": "rafael.lima@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2021-03-15",
     "functionID": "F1",
     "squadID": "SQ2",
@@ -20997,7 +20841,7 @@
     "userID": "U15",
     "userName": "Bruna Costa",
     "userEmail": "bruna.costa@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2022-03-15",
     "functionID": "F2",
     "squadID": "SQ2",
@@ -21014,7 +20858,7 @@
     "userID": "U16",
     "userName": "Diego Torres",
     "userEmail": "diego.torres@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2015-03-15",
     "functionID": "F2",
     "squadID": "SQ2",
@@ -21031,7 +20875,7 @@
     "userID": "U17",
     "userName": "Lucia Mendez",
     "userEmail": "lucia.mendez@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2016-03-15",
     "functionID": "F3",
     "squadID": "SQ2",
@@ -21048,7 +20892,7 @@
     "userID": "U18",
     "userName": "Mateus Rocha",
     "userEmail": "mateus.rocha@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2017-03-15",
     "functionID": "F1",
     "squadID": "SQ2",
@@ -21065,7 +20909,7 @@
     "userID": "U19",
     "userName": "Wei Zhang",
     "userEmail": "wei.zhang@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2018-03-15",
     "functionID": "F2",
     "squadID": "SQ3",
@@ -21082,7 +20926,7 @@
     "userID": "U20",
     "userName": "Hana Kim",
     "userEmail": "hana.kim@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2019-03-15",
     "functionID": "F2",
     "squadID": "SQ3",
@@ -21099,7 +20943,7 @@
     "userID": "U21",
     "userName": "Arjun Patel",
     "userEmail": "arjun.patel@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2020-03-15",
     "functionID": "F1",
     "squadID": "SQ3",
@@ -21116,7 +20960,7 @@
     "userID": "U22",
     "userName": "Mei Lin",
     "userEmail": "mei.lin@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2021-03-15",
     "functionID": "F3",
     "squadID": "SQ3",
@@ -21133,7 +20977,7 @@
     "userID": "U23",
     "userName": "Sara Vogel",
     "userEmail": "sara.vogel@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2022-03-15",
     "functionID": "F5",
     "squadID": "SQ1",
@@ -21150,7 +20994,7 @@
     "userID": "U24",
     "userName": "Franz Keller",
     "userEmail": "franz.keller@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2015-03-15",
     "functionID": "F5",
     "squadID": "SQ1",
@@ -21167,7 +21011,7 @@
     "userID": "U25",
     "userName": "Rafael Bova",
     "userEmail": "bova@neun-design.com.br",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2024-02-01",
     "functionID": "F1",
     "squadID": "SQ4",
@@ -21184,7 +21028,7 @@
     "userID": "U26",
     "userName": "Marina Duarte",
     "userEmail": "marina.duarte@neun-design.com.br",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2024-05-12",
     "functionID": "F2",
     "squadID": "SQ4",
@@ -21201,7 +21045,7 @@
     "userID": "U27",
     "userName": "Felipe Santos",
     "userEmail": "felipe.santos@neun-design.com.br",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2025-01-20",
     "functionID": "F3",
     "squadID": "SQ4",
@@ -21218,7 +21062,7 @@
     "userID": "U28",
     "userName": "Hajesh Niran",
     "userEmail": "hajesh.niran@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2020-08-03",
     "functionID": "F4",
     "squadID": "SQ5",
@@ -21235,7 +21079,7 @@
     "userID": "U29",
     "userName": "Ananya Sharma",
     "userEmail": "ananya.sharma@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2022-11-14",
     "functionID": "F1",
     "squadID": "SQ5",
@@ -21252,7 +21096,7 @@
     "userID": "U30",
     "userName": "Vikram Patel",
     "userEmail": "vikram.patel@northwind-energy.com",
-    "isActive": true,
+    "isActive": "Active",
     "hireDate": "2023-06-30",
     "functionID": "F2",
     "squadID": "SQ5",
