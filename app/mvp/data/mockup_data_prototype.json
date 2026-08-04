@@ -375,8 +375,7 @@
     "issueName": "Dielectric Failure",
     "issueDescription": "Dielectric Failure opportunity (from the retired scopeOpportunity enum)",
     "issueType": "Opportunity",
-    "businessUnitID": [],
-    "businessSegmentID": null,
+    "businessUnitID": null,
     "issueOwner": null
    },
    {
@@ -384,11 +383,7 @@
     "issueName": "Increase Capability",
     "issueDescription": "Increase Capability opportunity (from the retired scopeOpportunity enum)",
     "issueType": "Opportunity",
-    "businessUnitID": [
-     "BU01",
-     "BU02"
-    ],
-    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
     "issueOwner": "U01"
    },
    {
@@ -396,11 +391,7 @@
     "issueName": "Lifetime Extension",
     "issueDescription": "Lifetime Extension opportunity (from the retired scopeOpportunity enum)",
     "issueType": "Opportunity",
-    "businessUnitID": [
-     "BU01",
-     "BU02"
-    ],
-    "businessSegmentID": "BS01",
+    "businessUnitID": "BU01",
     "issueOwner": "U01"
    },
    {
@@ -408,8 +399,7 @@
     "issueName": "Chronic Rework",
     "issueDescription": "Recurring rework on delivered designs detected across tickets",
     "issueType": "Risk",
-    "businessUnitID": [],
-    "businessSegmentID": null,
+    "businessUnitID": null,
     "issueOwner": null
    }
   ]

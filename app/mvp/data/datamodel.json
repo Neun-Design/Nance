@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 6,
+    "schemaVersion": 7,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -503,7 +503,7 @@
         },
         "Regions": {
           "visibility": "show",
-          "dashboard-order": 6,
+          "dashboard-order": 2,
           "description": "Geographical grouping of customers (ISO 9001:2015 §4.1 organisational context). A region can carry execution requirements of its own: Requirements may be scoped to specific regions (empty = applies to all regions).",
           "attributes": [
             {
@@ -634,7 +634,7 @@
         },
         "Issues": {
           "visibility": "show",
-          "dashboard-order": 2,
+          "dashboard-order": 0,
           "description": "Positive and negative factors or conditions for consideration (ISO 9001:2015 §4.1/§4.2). Positive issues are Opportunities — registered top-down by managers in strategic positions (SWOT or equivalent market analysis) to drive business strategy (segmentation, units, departments). Negative issues are Risks — elevated automatically from the nonconformity flow once an investigation routes a cause to the risk class (see issue #124).",
           "attributes": [
             {
@@ -674,10 +674,10 @@
               "constraints": null
             },
             {
-              "name": "businessSegmentID",
+              "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK → Business Segments (display: businessSegmentName)",
-              "notes": "Stakeholder round 2026-08-01: issues classify by segment (was unit)",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Unit this issue classifies under (2026-08-03 reversal of the 2026-08-01 segment round — segment shows as the select group header)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -692,29 +692,11 @@
               "constraints": null
             },
             {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK → Business Units (display: businessUnitTitle)",
-              "notes": "legacy — issues classify by businessSegmentID since 2026-08-01",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
               "name": "businessUnitTitle",
               "type": "mirror",
               "rule": "mirror: Business Units via:businessUnitID",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "businessSegmentName",
-              "type": "mirror",
-              "rule": "mirror: Business Segments via: businessSegmentID",
-              "notes": null,
-              "table-display": true,
+              "notes": "unitName-segmentName; hidden by default (the Unit column covers it)",
+              "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
             },
@@ -762,15 +744,15 @@
                 "check": null,
                 "field-rule": null
               },
-              "Segment": {
+              "Unit": {
                 "field-type": {
-                  "select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
-                "attribute": "businessSegmentID",
+                "attribute": "businessUnitID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "SelectLabel = businessSegmentName"
               },
               "Owner": {
                 "field-type": {
@@ -2801,7 +2783,7 @@
         },
         "Actions": {
           "visibility": "show",
-          "dashboard-order": 6,
+          "dashboard-order": 0,
           "description": "An action defines the procedure to be performed to execute a given step (workflow) within a process.",
           "attributes": [
             {

@@ -36,7 +36,7 @@ console.log('== schema: stored FKs, owner, label ==');
     'Tasks.procedureID stays the derived rollup');
   eq(catalog['Tasks'].byName['taskInput'], undefined, 'Tasks no longer owns taskInput (A5)');
   eq(catalog['Channels'] != null, true, 'Channels stays catalogued (hidden registry, A4)');
-  eq(model.getSchemaVersion(), 6, 'schemaVersion bumped to 6');
+  eq(model.getSchemaVersion() >= 6, true, 'schemaVersion at least 6 (Procedures round)');
 }
 
 console.log('== migration: seeds and links ==');

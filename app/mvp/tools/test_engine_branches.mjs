@@ -25,8 +25,8 @@ const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
 console.log('== module map & dashboard order ==');
 {
   const org = model.getModules().find((m) => m.name === 'Organization');
-  eq(org.tables, ['Business Segments', 'Issues', 'Business Units', 'Departments',
-    'Squads', 'Regions', 'Branches'], 'Organization order (Countries hidden)');
+  eq(org.tables, ['Business Segments', 'Regions', 'Business Units', 'Departments',
+    'Squads', 'Branches'], 'Organization order (Issues a hidden registry, Regions tab 2 — 2026-08-03)');
   const pf = model.getModules().find((m) => m.name === 'Portfolio');
   eq(pf.tables, ['Classes', 'Scopes', 'Products', 'Product Specs', 'Product Groups',
     'Requirements', 'Product Scopes'], 'Portfolio order (Issues moved out)');
@@ -111,11 +111,14 @@ console.log('== Branches Owner: everyone, grouped by function ==');
     'options grouped by functionName');
 }
 
-console.log('== Issues by segment in Organization ==');
+console.log('== Issues classify by Unit again (2026-08-03 reversal, hidden registry) ==');
 {
-  eq(data.getById('Issues', 'IS02').businessSegmentID, 'BS01', 'segment seeded from the legacy unit');
-  eq(catalog['Issues'].form.fields.Segment.attribute, 'businessSegmentID', 'form input is Segment');
-  eq('Business Unit' in catalog['Issues'].form.fields, false, 'Business Unit input removed');
+  eq(data.getById('Issues', 'IS02').businessUnitID, 'BU01', 'unit kept from the legacy value');
+  eq('businessSegmentID' in data.getById('Issues', 'IS02'), false, 'segment key dropped');
+  eq(catalog['Issues'].form.fields.Unit.attribute, 'businessUnitID', 'form input is Unit (segment = group header)');
+  eq('Segment' in catalog['Issues'].form.fields, false, 'Segment input removed');
+  const bu = catalog['Issues'].attrs.filter((a) => a.name === 'businessUnitID');
+  eq(bu.length, 1, 'single businessUnitID attribute (duplicate merged)');
 }
 
 console.log('== Scopes: order, Opportunity matching, Classification ==');
