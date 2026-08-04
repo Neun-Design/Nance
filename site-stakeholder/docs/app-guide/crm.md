@@ -22,9 +22,10 @@ eligible to open a Ticket**: internal sites (type *branch*), external clients an
 **Register when:** phase 2, after Organization — internal sites first (they mirror your
 Branches), then external clients/suppliers.
 **Key fields:** Name; Type; `Segment *` (multi) → unlocks `Unit *` (multi, filtered by the
-chosen segments); `Region *`; City/Country. **Today the internal-site relationship is
-recorded on the Branch form:** after registering an internal customer, open its
-[Branch](organization.md#branches) and set the Customer select there.
+chosen segments); `Region *`; City/Country; **Branch** (multi, unlocked by Unit — grouped by
+unit). **The branch link is authored here:** saving the customer stamps its id onto the
+selected [Branch](organization.md#branches) records (deselecting clears it); the Branches
+form has no Customer input.
 
 !!! note "Roadmap"
     A **Contract** entity is coming to CRM: each contract connects a customer to a branch

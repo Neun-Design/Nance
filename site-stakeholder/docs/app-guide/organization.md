@@ -42,9 +42,9 @@ the drill-down of every Branch of its unit.
 **What it is:** the physical sites (factories/shops) of the organisation.
 **Register when:** after Units and Regions.
 **Key fields:** `Segment *` → unlocks `Unit *`; Name; City; `Region *` → unlocks Country (only
-the region's registered countries are offered); **Customer** (optional) — after phase 2, come
-back and link the branch to its internal customer record (contracts are made with sites, not
-business units; the branch is the site customers contract with); Owner.
+the region's registered countries are offered); Owner. The **customer link is not entered
+here** — it is authored on the Customer form (phase 2): registering a customer selects its
+branches and the link is stamped onto the Branch records automatically.
 
 ## Squads
 
