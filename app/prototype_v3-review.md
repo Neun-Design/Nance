@@ -346,6 +346,27 @@ table/subitem displays.
 >
 > **Rafael:**
 
+## Tasks Activity select — Process options were events in disguise
+
+Rafael's report (04/08): the Tasks form's Activity select must list the `activityName` of the
+Workflows whose `processID` matches the selected process; it showed only "Allocation".
+
+> **Claude (root cause + fixed, 04/08):** the Activity filter was fine — the **Process select
+> upstream was poisoned**. `Tasks.processID` carried the prose rule `rollup: from eventID
+> (display: processName)`; the parser extracts the target "eventID" and `resolveTable`'s fuzzy
+> prefix match resolved it to the **Events table** — so the Process dropdown offered *events*
+> labelled with process names, storing `EV16`-style values. The Activity cascade then compared
+> `workflow.processID` against an eventID and never matched. Two-layer fix: (1)
+> `Tasks.processID` is now a proper stored FK (`FK → Processes (display: processName)`,
+> materialize-FK convention — the data already stores it); (2) `resolveTable` never fuzzy-matches
+> id-suffixed names (the whole "attribute name leaks into table resolution" class). Verified in
+> the real DOM with the harness's new `set=`/`probe=` params: Process offers
+> `PC01 = Offer Electrical Design`, and Activity then lists exactly the process's 7 activities
+> (Allocation, Data Collection, Offer Design, …). schemaVersion 17; proof in
+> `test_engine_indentation.mjs`; 14 suites + validator green.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

@@ -90,6 +90,21 @@ console.log('== subitem ordering follows the derived number ==');
     'children sorted 1, 1.1, 2, 2.1 regardless of insertion order');
 }
 
+console.log('== Tasks Process/Activity cascade sources (2026-08-04 fix) ==');
+{
+  // "rollup: from eventID" prose used to fuzzy-resolve the TARGET as Events —
+  // the Process select offered eventIDs and the Activity filter never matched
+  eq(model.resolveTable('eventID'), null, 'id-suffixed names never fuzzy-match a table');
+  const po = forms.optionsForAttr('Tasks', 'processID');
+  eq(po.target, 'Processes', 'Process select sourced from Processes');
+  eq((po.options || []).every((o) => data.getById('Processes', o.value) != null), true,
+    'Process option values are process pks');
+  const ao = forms.optionsForAttr('Tasks', 'workflowID');
+  eq(ao.target, 'Workflows', 'Activity select sourced from Workflows');
+  eq((ao.options || []).length, data.getEntity('Workflows').length,
+    'every workflow step offered before the process filter narrows');
+}
+
 console.log('== Parent Step: self-referential FK options (2026-08-04 fix) ==');
 {
   eq(catalog['Workflows'].form.fields['Parent Step'].attribute, 'parentStepID',

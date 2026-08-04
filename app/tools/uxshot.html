@@ -5,7 +5,10 @@
          --screenshot=out.png "http://localhost:8123/tools/uxshot.html?hash=/1/0&act=expand"
      Params: hash=/<module>/<tab> route · auth=0 keeps the login gate ·
      act=expand|form|filters|edit · sub=<n> clicks the n-th subitem tab after expand ·
-     app=<query> forwards a query string to the app (app=data%3Dempty for MVP mode). -->
+     app=<query> forwards a query string to the app (app=data%3Dempty for MVP mode) ·
+     set=Label:value,… fills form selects sequentially (cascades fire between steps) ·
+     probe=Label overlays that field's value/options and mirrors them into the outer
+     <title> (PROBE::…) so --dump-dom works without a screenshot. -->
 <html><body style="margin:0;background:#000">
 <iframe id="f" style="width:100vw;height:100vh;border:0"></iframe>
 <script>
@@ -26,12 +29,48 @@
     const d = f.contentDocument;
     const ready = d && d.querySelector('#tab-body table.dt, .login-card, .kpi-grid');
     if (!ready && tries < 60) return setTimeout(run, 250);
+    // set=Label:value,Label2:value2 fills form selects (dispatching change so
+    // cascades fire); probe=Label overlays that field's option list so the
+    // screenshot captures it. Both run after `act` opens the drawer.
+    const fieldByLabel = (lab) => [...d.querySelectorAll('.form-field')].find(
+      (x) => (x.querySelector('.form-label') || {}).textContent
+        && x.querySelector('.form-label').textContent.replace(/\s*\*$/, '').trim() === lab);
+    const runFormOps = () => {
+      // sequential with settle time: each set fires the cascades that rebuild
+      // the NEXT field's options — setting them in one tick would race
+      const pairs = (q.get('set') || '').split(',').filter(Boolean);
+      let i = 0;
+      const applyNext = () => {
+        if (i >= pairs.length) return;
+        const [lab, val] = pairs[i++].split(':');
+        const sel = (fieldByLabel(lab) || d).querySelector('select');
+        if (sel) { sel.value = val; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+        window.__setlog = (window.__setlog || []);
+        window.__setlog.push(lab + ': set=' + val + ' readback=' + (sel ? JSON.stringify(sel.value) : 'nosel')
+          + ' opts=' + (sel ? sel.options.length : 0)
+          + ' html=' + (sel ? sel.outerHTML.slice(0, 220) : ''));
+        setTimeout(applyNext, 400);
+      };
+      applyNext();
+      const probe = q.get('probe');
+      if (probe) setTimeout(() => {
+        const sel = (fieldByLabel(probe) || d).querySelector('select');
+        const opts = sel ? [...sel.options].map((o) => o.value + '=' + o.textContent) : ['<no select found>'];
+        const div = d.createElement('div');
+        div.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:9999;background:#fff;color:#000;'
+          + 'padding:10px;font:13px monospace;max-width:900px;white-space:pre-wrap';
+        div.textContent = (window.__setlog || []).join('  ||  ') + '\n' + probe + ' [value=' + (sel ? JSON.stringify(sel.value) : '?') + ' disabled=' + (sel ? sel.disabled : '?') + '] options (' + (sel ? sel.options.length : 0) + '): ' + opts.join(' | ');
+        d.body.appendChild(div);
+        document.title = 'PROBE::' + div.textContent;
+      }, 400 * ((q.get('set') || '').split(',').filter(Boolean).length + 2));
+    };
     if (act === 'expand') {
       clickIn('.rollup-toggle');
       if (q.get('sub')) setTimeout(() => clickIn('.subtab', Number(q.get('sub'))), 400);
     } else if (act === 'form') {
       const b = [...d.querySelectorAll('.btn-primary')].find((x) => /New Item/.test(x.textContent));
       if (b) b.click();
+      if (q.get('set') || q.get('probe')) setTimeout(runFormOps, 600);
     } else if (act === 'filters') {
       const b = [...d.querySelectorAll('.btn-secondary')].find((x) => x.textContent === 'Filters');
       if (b) b.click();
