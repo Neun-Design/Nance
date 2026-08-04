@@ -73,9 +73,11 @@ console.log('== 5-key requirement rollup: region / unit wildcards (Q1 semantics)
     ids.includes('RQR-BU01'), ids.includes('RQR-BU03')],
   [true, true, false, true, false],
   'wildcard + region-matched + unit-matched roll up; other region/unit excluded');
-  const declared = model.parseRule(catalog['Workflows'].byName['requirements'].rule);
-  eq(declared.viaList, ['customerID.regionID', 'customerID.businessUnitID',
-    'productScopeID.productGroupID', 'productScopeID.scopeID'], 'datamodel rule declares the 4-key chain');
+  // 2026-08-04 coherence round: Workflows are applicability-agnostic — the
+  // declared 5-key chain moved off the schema (requirements bite at the
+  // Procedure); the multiViaJoin assertions above cover the engine itself.
+  eq(catalog['Workflows'].byName['requirements'], undefined,
+    'Workflows no longer declare a requirements chain (Procedures doctrine)');
 }
 
 console.log('== Requirements form: enum isActive + region options ==');

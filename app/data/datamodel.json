@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 13,
+    "schemaVersion": 14,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1828,26 +1828,8 @@
             {
               "name": "requirementName",
               "type": "computed",
-              "rule": "computed → Workflows (via: workflowID) (display: requirementName)",
-              "notes": "Requirements certified by the competences that reference this task",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "scopeID",
-              "type": "mirror",
-              "rule": "computed: Workflows via: workflowID.productScopeID.scopeID (display: scopeName)",
-              "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "productGroupID",
-              "type": "mirror",
-              "rule": "computed: Workflows via: workflowID.productScopeID.productGroupID (display: productGroupName)",
-              "notes": "multivalued",
+              "rule": "rollup → Procedures (via: taskID) (display: requirementName)",
+              "notes": "Derived — requirements of the task's procedures (doctrine: tasks are requirement-free, the procedure carries the requirement set; empty set = applies to all, Q1)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -1905,15 +1887,6 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "customerID",
-              "type": "mirror",
-              "rule": "computed: Workflows (via: workflowID) (display: customerName)",
-              "notes": "Customer (factory) this task template serves; stores the factory name",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
             },
             {
               "name": "ticketID",
@@ -2445,13 +2418,13 @@
               },
               "Owner": {
                 "field-type": {
-                  "input": "shadcn-input-email"
+                  "selectGroups": "shadcn-select"
                 },
                 "attribute": "processOwner",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "SelectLabel = functionName; filtered by eventID.businessUnitID"
               },
               "Status": {
                 "field-type": {
@@ -2607,24 +2580,6 @@
               "constraints": "FK, NOT NULL"
             },
             {
-              "name": "customerID",
-              "type": "FK",
-              "rule": "FK → Customers (display: customerName)",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "productScopeID",
-              "type": "FK",
-              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
               "name": "activityID",
               "type": "FK",
               "rule": "FK → Activities (display: activityName)",
@@ -2686,33 +2641,6 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "scopes",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"scopeID\")",
-              "notes": "Determined by taskID",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "procedures",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"procedureName\")",
-              "notes": "Determined by taskID",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "requirements",
-              "type": "rollup",
-              "rule": "rollup → Requirements (via: customerID.regionID + customerID.businessUnitID + productScopeID.productGroupID + productScopeID.scopeID); display: requirementName",
-              "notes": "Compound AND join; a Requirement with empty customerID applies to all customers. No associative entity in the prototype — the multivalued FKs on Requirements are the flattened associative entity (map to Constrain in the ER-UML model).",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
             }
           ],
           "reports": null,
@@ -2728,26 +2656,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
-              },
-              "Customer": {
-                "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
-                },
-                "attribute": "customerID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
-              },
-              "Product Scopes": {
-                "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
-                },
-                "attribute": "productScopeID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = scopeName"
               },
               "Activity": {
                 "field-type": {
@@ -6302,8 +6210,8 @@
             },
             {
               "name": "isActive",
-              "type": "BOOLEAN",
-              "rule": null,
+              "type": "ENUM",
+              "rule": "enum: ['Active', 'Inactive']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,

@@ -204,7 +204,7 @@ export const REPORT_QUERIES = {
       (r) => lookup('Graduation', r.graduationID, 'field') || r.graduationID, 'quantity'), null),
 
   'People::Report-A': (rows) =>
-    bar('Active People by Function', groupAgg(rows.filter((p) => p.isActive), 'functionID'),
+    bar('Active People by Function', groupAgg(rows.filter((p) => p.isActive === 'Active' || p.isActive === true), 'functionID'),
       (k) => lookup('Functions', k, 'functionName') || k),
 };
 
