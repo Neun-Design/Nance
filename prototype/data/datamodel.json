@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 7,
+    "schemaVersion": 8,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -534,19 +534,19 @@
               "constraints": null
             },
             {
-              "name": "continent",
-              "type": "ENUM",
-              "rule": "enum: ['Africa', 'Antarctica', 'Asia', 'Europe', 'North America', 'Oceania', 'South America']",
-              "notes": "Continent this region operates in",
+              "name": "countryName",
+              "type": "FK",
+              "rule": "FK → Countries (display: countryName)",
+              "notes": "multivalued — countries this region covers (drives the Branches Country picker)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "countryName",
-              "type": "FK",
-              "rule": "FK → Countries (display: countryName)",
-              "notes": "multivalued — countries this region covers (drives the Branches Country picker)",
+              "name": "continent",
+              "type": "mirror",
+              "rule": "mirror: Countries via: countryName (display: continent)",
+              "notes": "Derived — distinct continents of the selected countries (the Continent input was removed 2026-08-03; a region spanning several continents lists them all)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -589,16 +589,6 @@
                   "field": "shadcn-textarea"
                 },
                 "attribute": "regionDescription",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Continent": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "continent",
                 "tooltip": null,
                 "step": null,
                 "check": null,
