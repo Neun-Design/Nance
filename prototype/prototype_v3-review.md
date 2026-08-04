@@ -144,6 +144,33 @@ That means that a task can have multiple procedures, and a procedure can be appl
 > Requirements picker to the task's derived set. Proof: `tools/test_engine_procedures.mjs` +
 > full 13-suite run + validator green; App Guide (operation/talent) updated.
 
+## Dashboard trim — Issues & Actions become hidden registries; Issues classify by Unit
+
+Rafael's datamodel edits (03/08, working tree): Issues and Actions set to `visibility: hide` +
+`dashboard-order: 0`; `Issues.businessSegmentID` renamed to `businessUnitID` (Unit select grouped
+by segment — reversing the 2026-08-01 segment round); Regions moved to Organization tab 2.
+
+> **Claude (applied, 03/08):** intent adopted; three corrections per the decisions on record —
+> 1. **`visibility: "hide"` → `"show"`** (dashboard-order 0 kept): `hide` un-catalogues the
+>    table — the A4/Channels lesson. Scopes.scopeOpportunity + Classes.issueID (→ Issues) and
+>    Tasks.actionID + Competence.actionID (→ Actions) keep resolving; both registries create
+>    inline via the "+" button (Scopes Opportunity / Tasks Action fields), the Requirement-Type
+>    pattern — and the same treatment R5 (#141) will give Activities.
+> 2. **Duplicate attribute merged** — the rename collided with the legacy `businessUnitID`
+>    (display businessUnitTitle) still in the schema; one stored FK remains, the orphaned
+>    `businessSegmentName` mirror dropped, `businessUnitTitle` kept but hidden by default.
+> 3. **Data migrated** (`tools/migrate_issue_units.py`): dead `businessSegmentID` key dropped,
+>    legacy multivalued `businessUnitID` normalized to the single-valued shape the form stores
+>    ([] → null, first unit wins).
+>
+> Regions at tab 2 kept as-is — it *improves* the D10 dependency order (Business Units store
+> `regionID[]`, so Regions registers first). MVP impact: both walkthrough modules lose the two
+> dashboards; the registration guide now points at the inline "+" path (App Guide
+> organization/operation updated). schemaVersion 7; proof `tools/test_engine_registry_trim.mjs`;
+> 14 suites + validator green.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice
