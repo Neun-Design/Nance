@@ -52,8 +52,16 @@ console.log('== Countries system registry & continent cascade basis ==');
   const opt = forms.optionsForAttr('Branches', 'countryName');
   eq(opt.target, 'Countries', 'country picker sourced from the registry');
   eq((opt.options || []).some((o) => o.value === 'Brazil'), true, 'options carry country names');
+  // Regions.continent is DERIVED from the selected countries since
+  // 2026-08-03 (the Continent input is gone) — the stored copy was lossy
   const emea = data.getEntity('Regions').find((r) => r.regionName === 'EMEA');
-  eq(emea.continent, 'Europe', 'Regions.continent demo default');
+  const contAttr = catalog['Regions'].byName['continent'];
+  eq('continent' in emea, false, 'stored continent dropped from the data');
+  eq(resolve.derivedValue('Regions', contAttr, emea), 'Europe', 'EMEA derives Europe');
+  const amer = data.getEntity('Regions').find((r) => r.regionName === 'Americas');
+  eq(resolve.derivedValue('Regions', contAttr, amer), 'North America, South America',
+    'Americas derives BOTH continents (the stored value said only North America)');
+  eq('Continent' in catalog['Regions'].form.fields, false, 'Continent form input removed');
   const country = catalog['Branches'].form.fields.Country;
   eq(country['field-rule'], 'SelectLabel = continent; filtered by Region.countryName selected',
     'country grouped by continent, record-matched on the region countries');

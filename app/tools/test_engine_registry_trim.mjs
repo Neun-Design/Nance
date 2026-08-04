@@ -31,7 +31,7 @@ console.log('== hidden registries: catalogued, no tab ==');
   eq(org.tables.includes('Issues'), false, 'Issues out of the Organization tab strip');
   eq(op.tables.includes('Actions'), false, 'Actions out of the Operation tab strip');
   eq(org.tables[1], 'Regions', 'Regions is Organization tab 2');
-  eq(model.getSchemaVersion(), 7, 'schemaVersion bumped to 7');
+  eq(model.getSchemaVersion() >= 7, true, 'schemaVersion at least 7 (trim round)');
 }
 
 console.log('== FK selects still resolve into the registries ==');

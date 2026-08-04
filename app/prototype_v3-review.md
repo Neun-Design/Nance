@@ -171,6 +171,21 @@ by segment — reversing the 2026-08-01 segment round); Regions moved to Organiz
 >
 > **Rafael:**
 
+## Regions — continent derives from the selected countries
+
+Rafael's edit (03/08): the Continent input is obsolete — countries are grouped by continent, so
+the continent must fill automatically from the country selection.
+
+> **Claude (applied, 03/08):** implemented as a render-time derive (the display-only pattern on
+> record): `continent` became `mirror: Countries via: countryName (display: continent)` — no
+> stored copy to drift, and changing the countries updates the continents instantly. Bonus fix:
+> the stored value was lossy — RG01 "Americas" said "North America" while covering Brazil and
+> Colombia; it now lists "North America, South America". Migration
+> `tools/migrate_region_continents.py` drops the stored key; Continent form input removed
+> (Rafael's edit kept); schemaVersion 8; proof in `test_engine_branches.mjs`; App Guide updated.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice
