@@ -329,6 +329,23 @@ parent choice INTO the step's activity; reverted.)
 >
 > **Rafael:**
 
+## Parent Step options display the activity name; Tasks.functionID hidden
+
+Rafael (04/08): the Parent Step picker must show only the step's `activityName` (filtered by the
+selected process), never `workflowName`; plus a datamodel edit hiding Tasks.functionID from the
+table/subitem displays.
+
+> **Claude (applied, 04/08):** `Workflows.parentStepID` rule gained the display clause —
+> `FK → Workflows (display: activityName)` — resolved through the step's `activityID` by the
+> derived-display engine: option labels now read "Allocation", "Compliance Check", …, the
+> table's Parent Step column follows, and a freshly created (blank-mode) step labels correctly
+> too ("Requirement Capture" probe). The process filter was already in place from the #153 fix.
+> Tasks.functionID display flags kept as edited (hidden by default, available via Customize
+> Columns). schemaVersion 16; proof in `test_engine_indentation.mjs`; 14 suites + validator
+> green.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice
