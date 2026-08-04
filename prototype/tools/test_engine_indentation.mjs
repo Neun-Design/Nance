@@ -90,6 +90,22 @@ console.log('== subitem ordering follows the derived number ==');
     'children sorted 1, 1.1, 2, 2.1 regardless of insertion order');
 }
 
+console.log('== Parent Step: self-referential FK options (2026-08-04 fix) ==');
+{
+  eq(catalog['Workflows'].form.fields['Parent Step'].attribute, 'parentStepID',
+    'form binds parentStepID (not activityID)');
+  data.addRecord('Workflows', { workflowID: 'WFT9', processID: 'PC01', activityID: 'AT1' });
+  const o = forms.optionsForAttr('Workflows', 'parentStepID');
+  eq((o.options || []).every((x) => data.getById('Workflows', x.value) != null), true,
+    'option values are workflow pks (not each row\'s own parent id)');
+  eq((o.options || []).some((x) => x.value === 'WFT9'), true,
+    'a freshly created PARENTLESS step is offered (the empty-dropdown bug)');
+  const pp = forms.optionsForAttr('Processes', 'parentProcessID');
+  eq((pp.options || []).every((x) => data.getById('Processes', x.value) != null), true,
+    'Processes.parentProcessID heals too (same self-ref class)');
+  data.removeRecords('Workflows', ['WFT9']);
+}
+
 console.log('== handoutsForTask: filtered selection (decision 2026-07-30) ==');
 {
   // Ownership lives on Procedures since the Procedures round: link a fresh

@@ -307,6 +307,28 @@ Active/Inactive enum. Ask: evaluate coherence and apply.
 >
 > **Rafael:**
 
+## Workflows Parent Step — self-referential options bug
+
+Rafael's report (04/08): the Parent Step input shows no values, even after registering
+activities. (His working-tree attempt rebound the field to `activityID` — that would store the
+parent choice INTO the step's activity; reverted.)
+
+> **Claude (root cause + fixed, 04/08):** the real bug sat in `optionsForAttr`'s stored-name
+> heuristic: on a **self-referential FK** the attribute naturally exists on the target rows
+> (target = same table), so `parentStepID` was mistaken for the option VALUE field — every
+> option carried the row's own parent id, and parentless rows were skipped entirely. In a fresh
+> MVP session the first steps have no parent, so the dropdown stayed empty no matter what was
+> registered — the reported symptom. Same defect class hit `Processes.parentProcessID` and
+> `Jobs.predecesorJob`. **Fix:** the heuristic now ignores self-referential targets — option
+> values are the table's pks and parentless steps are offered. Also: binding restored to
+> `parentStepID`, gate softened to `Process IS NOT NULL` (matches the process-filtered option
+> pool), and the tooltip now says the options are the process's already-registered steps and
+> that the FIRST step legitimately leaves the field empty (that emptiness is what read as a
+> bug). schemaVersion 15; proof in `test_engine_indentation.mjs` (binding, pk values, fresh
+> parentless step offered, parentProcessID healed); 14 suites + validator green.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

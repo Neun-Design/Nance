@@ -126,7 +126,13 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   if (!target) return none;
 
   let tCat = getCatalog(target);
-  const storedOnTarget = attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec);
+  // SELF-REFERENTIAL FKs (Workflows.parentStepID, Processes.parentProcessID,
+  // Jobs.predecesorJob): the attribute naturally exists on the target rows —
+  // that must not trigger the stored-name heuristics below, or the option
+  // values become each row's own parent id and parentless rows vanish
+  // (the "empty Parent Step" bug, 2026-08-04)
+  const selfRef = target === entity;
+  const storedOnTarget = !selfRef && attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec);
   // rule target can't answer for this attribute — fall back to the table that owns the label
   if (!storedOnTarget && attrName !== tCat.pk && owner && owner !== target && owner !== entity
       && !(r && r.display)) {
@@ -138,8 +144,7 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   // "FK → T (via: field)" stores that target field's value instead of the pk
   const viaField = r && r.kind === 'fk' && r.via && r.via !== tCat.pk
     && getEntity(target).some(rec => r.via in rec) ? r.via : null;
-  const valueField = viaField
-    || (attrName !== tCat.pk && getEntity(target).some(rec => attrName in rec) ? attrName : tCat.pk);
+  const valueField = viaField || (storedOnTarget ? attrName : tCat.pk);
   // parent rows storing names rather than ids keep storing names
   const sample0 = sampleOf(entity, attrName);
   const sampleVal = Array.isArray(sample0) ? sample0[0] : sample0;
