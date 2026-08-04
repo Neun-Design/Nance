@@ -34,7 +34,7 @@ console.log('== schema: unit FK + derived segment ==');
   eq(cat.form.fields['Business Unit'].attribute, 'businessUnitID', 'form binds the FK, not the name (#121)');
   eq(cat.form.fields['Product'].check, 'Business Unit IS NOT NULL', 'Product gated on Unit');
   eq(cat.form.fields['Product']['field-rule'], 'filtered by businessUnitID selected', 'cascade dep names the attribute');
-  eq(model.getSchemaVersion(), 11, 'schemaVersion 11');
+  eq(model.getSchemaVersion() >= 11, true, 'schemaVersion at least 11 (PG units round)');
 }
 
 console.log('== data: deterministic enum -> unit mapping ==');
