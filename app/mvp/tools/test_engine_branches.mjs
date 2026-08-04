@@ -176,5 +176,23 @@ console.log('== branchID renames (People / Requirements) ==');
   eq(catalog['Requirements'].form.fields.Branch.attribute, 'branchID', 'Requirements form field renamed');
 }
 
+console.log('== customer-branch link authored on the Customer form (2026-08-03) ==');
+{
+  eq('Customer' in catalog['Branches'].form.fields, false, 'Branches form has no Customer input');
+  eq(catalog['Customers'].form.fields.Branch.attribute, 'branchID', 'Customers form gained the Branch picker');
+  eq(catalog['Customers'].byName['branchID'].type, 'mirror', 'Customers.branchID is a display mirror (nothing stored)');
+  // save-path: picking BR02 for a new customer stamps the branch; deselect clears
+  const rec = { customerID: 'FC98', customerName: 'Probe Customer', branchID: ['BR02'] };
+  forms.applyCustomerBranches('Customers', rec, 'customerID');
+  eq('branchID' in rec, false, 'collected branchID consumed, not stored on the customer');
+  eq(data.getById('Branches', 'BR02').customerID, 'FC98', 'selected branch stamped with the customer');
+  const rec2 = { customerID: 'FC98', branchID: [] };
+  forms.applyCustomerBranches('Customers', rec2, 'customerID');
+  eq(data.getById('Branches', 'BR02').customerID, null, 'deselecting clears the branch link');
+  // restore the seeded owner so later assertions stay untouched
+  data.updateRecord('Branches', 'BR02', { customerID: 'FC02' });
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
+
 process.exit(fails ? 1 : 0);

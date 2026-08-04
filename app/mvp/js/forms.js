@@ -400,6 +400,7 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
       return;
     }
     applyDerivedUnits(ctx.entity, rec);
+    applyCustomerBranches(ctx.entity, rec, ctx.pk);
     applyJobTransition(ctx.entity, rec, ctx.editing ? getById(ctx.entity, ctx.newId) : null);
     if (ctx.editing) updateRecord(ctx.entity, ctx.newId, rec);
     else addRecord(ctx.entity, rec);
@@ -661,6 +662,42 @@ export function requirementsForTask(taskId) {
   if (!rule || !rule.target) return all;
   const kids = childrenOf(wT, wf, rT, { via: rule.via, viaList: rule.viaList });
   return kids.length ? kids.map(asOption) : all;
+}
+
+// The customer-branch link is AUTHORED on the Customer form (Rafael, 03/08)
+// but STORED on Branches.customerID (D1): saving a customer stamps its id
+// onto the selected Branch rows and clears branches that were deselected.
+// The collected branchID never lands on the Customer record (the Customers
+// attr is a display mirror). Exported for tools/test_engine_branches.mjs.
+export function applyCustomerBranches(entity, rec, pk) {
+  if (resolveTable(entity) !== resolveTable('Customers')) return;
+  if (!('branchID' in rec)) return;
+  const picked = Array.isArray(rec.branchID) ? rec.branchID
+    : rec.branchID != null && rec.branchID !== '' ? [rec.branchID] : [];
+  delete rec.branchID;
+  const bT = resolveTable('Branches');
+  if (!bT) return;
+  const bPk = ENTITY_META[bT].pk;
+  const cid = rec[pk];
+  for (const b of getEntity(bT)) {
+    if (picked.includes(b[bPk])) {
+      if (b.customerID !== cid) updateRecord(bT, b[bPk], { customerID: cid });
+    } else if (b.customerID === cid) {
+      updateRecord(bT, b[bPk], { customerID: null });
+    }
+  }
+}
+
+// edit-mode prefill for form fields whose value lives on ANOTHER table —
+// the Customer form's Branch picker shows the branches currently stamped
+// with this customer's id.
+function presetFor(entity, attrName, record) {
+  if (resolveTable(entity) === resolveTable('Customers') && attrName === 'branchID') {
+    const bT = resolveTable('Branches');
+    const cid = record[ENTITY_META[entity].pk];
+    return bT ? getEntity(bT).filter((b) => b.customerID === cid).map((b) => b[ENTITY_META[bT].pk]) : [];
+  }
+  return undefined;
 }
 
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
@@ -1255,7 +1292,10 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       get = () => (node.type === 'number' ? (node.value === '' ? null : Number(node.value)) : node.value);
     }
 
-    if (record && attrName && !node._skipSet) setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, record[attrName]);
+    if (record && attrName && !node._skipSet) {
+      const preset = record[attrName] !== undefined ? record[attrName] : presetFor(entity, attrName, record);
+      setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, preset);
+    }
     if (attrName) ctx.controls[attrName] = get;
     byLabel[label] = { node, get };
 

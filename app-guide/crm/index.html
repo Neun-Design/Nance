@@ -2054,9 +2054,10 @@ ready, and it is what lets a customer open tickets to a branch's business units.
 <strong>Register when:</strong> phase 2, after Organization — internal sites first (they mirror your
 Branches), then external clients/suppliers.
 <strong>Key fields:</strong> Name; Type; <code>Segment *</code> (multi) → unlocks <code>Unit *</code> (multi, filtered by the
-chosen segments); <code>Region *</code>; City/Country. <strong>Today the internal-site relationship is
-recorded on the Branch form:</strong> after registering an internal customer, open its
-<a href="../organization/#branches">Branch</a> and set the Customer select there.</p>
+chosen segments); <code>Region *</code>; City/Country; <strong>Branch</strong> (multi, unlocked by Unit — grouped by
+unit). <strong>The branch link is authored here:</strong> saving the customer stamps its id onto the
+selected <a href="../organization/#branches">Branch</a> records (deselecting clears it); the Branches
+form has no Customer input.</p>
 <div class="admonition note">
 <p class="admonition-title">Roadmap</p>
 <p>A <strong>Contract</strong> entity is coming to CRM: each contract connects a customer to a branch

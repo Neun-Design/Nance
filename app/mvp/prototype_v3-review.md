@@ -186,6 +186,25 @@ the continent must fill automatically from the country selection.
 >
 > **Rafael:**
 
+## Customer-branch link — authored on the Customer form
+
+Rafael's instruction (03/08): the Branches form must not carry a Customer input — the branch is
+defined when the customer is registered, in the Customer form; the data still lands on the
+Branches table.
+
+> **Claude (applied, 03/08):** Branches form dropped the Customer field; the Customers form
+> gained a **Branch** multi-picker (unlocked by Unit, grouped by unit). Storage direction is
+> unchanged — `Branches.customerID` stays the stored key (D1) — the save applies a cross-table
+> write: `applyCustomerBranches` in `forms.js` stamps the customer's id onto the selected Branch
+> rows and clears deselected ones; nothing is stored on the Customer record
+> (`Customers.branchID` is a display mirror of the reverse join, so the Customers table shows the
+> branches). Edit mode pre-checks the branches currently linked (cross-table prefill). No data
+> migration needed — the seeded BR↔FC links already live on Branches. schemaVersion 9; proof in
+> `test_engine_branches.mjs` (form shape, save-path stamp, deselect-clears); 13 suites +
+> validator green; App Guide organization/crm updated.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

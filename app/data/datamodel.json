@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 8,
+    "schemaVersion": 9,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -809,7 +809,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName) (filtered by customerType='branch')",
-              "notes": "nullable — the internal customer (interested party, ISO §4.2) this branch is the organisational record of; enables the customer → branch → units ticket chain (v3-review D1, option 1)",
+              "notes": "Written from the CUSTOMER form (2026-08-03): registering a customer selects its branches and the save stamps customerID here — the Branches form has no Customer input. Nullable: a branch may have no customer yet.",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -883,16 +883,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
-              },
-              "Customer": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "customerID",
-                "tooltip": "Optional — the internal customer record (interested party) of this site; only branch-type customers of the selected Unit are offered",
-                "step": null,
-                "check": "Unit IS NOT NULL",
-                "field-rule": "filtered by businessUnitID selected"
               },
               "City": {
                 "field-type": {
@@ -1090,6 +1080,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "branchID",
+              "type": "mirror",
+              "rule": "rollup → Branches (via: customerID) (display: branchName)",
+              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record.",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
             }
           ],
           "reports": {
@@ -1192,6 +1191,20 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Branch": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "branchID",
+                "tooltip": "Branches this customer is registered at — saving writes the link onto the Branch records",
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by businessUnitID selected",
+                  "SelectLabel = businessUnitName"
+                ]
               }
             }
           },
