@@ -100,6 +100,9 @@ console.log('== Parent Step: self-referential FK options (2026-08-04 fix) ==');
     'option values are workflow pks (not each row\'s own parent id)');
   eq((o.options || []).some((x) => x.value === 'WFT9'), true,
     'a freshly created PARENTLESS step is offered (the empty-dropdown bug)');
+  // 2026-08-04: options display the step's ACTIVITY name, not workflowName
+  const wf1opt = (o.options || []).find((x) => x.value === 'WF01');
+  eq(wf1opt && wf1opt.label, 'Allocation', 'option label is the activity name');
   const pp = forms.optionsForAttr('Processes', 'parentProcessID');
   eq((pp.options || []).every((x) => data.getById('Processes', x.value) != null), true,
     'Processes.parentProcessID heals too (same self-ref class)');
