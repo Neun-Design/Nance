@@ -239,6 +239,24 @@ FK; a derived segment reference stays; the Product select is gated on the chosen
 >
 > **Rafael:**
 
+## Skill Levels — rank moves to the competence step
+
+Rafael's edit + doctrine (03/08): `levelRank` leaves the Skill Levels registry — the rank is the
+professional's step INSIDE a level, recorded per competence: a rank-1 competence on a Junior role
+is achievable by a fresh hire; rank 3 on every competence of a level signals readiness to move up
+a skill level.
+
+> **Claude (applied, 03/08):** Skill Levels dropped `levelRank` (Rafael's edit kept) and the
+> orphaned `skillLevelTitle` mirror (it concatenated the dropped rank; no dependents —
+> `levelName` takes over the subitem display). `Competence.levelRank` became `enum: [1, 2, 3]`
+> so the Skill Rank select offers exactly 1/2/3 (it was a bare INT), with the step semantics in
+> its notes; Onboarding's derived rank untouched. Migration `tools/migrate_skill_rank.py` strips
+> the stored key from Skill Levels rows (both copies). The promotion automation ("flag a userID
+> at rank 3 on every competence of a level") is tracked as **issue #149**. schemaVersion 12;
+> 14 suites + validator green; App Guide talent updated.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice
