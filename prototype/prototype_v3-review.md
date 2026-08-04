@@ -257,6 +257,24 @@ a skill level.
 >
 > **Rafael:**
 
+## Roles — multivalued Graduation; isActive dropped
+
+Rafael's edits (03/08): `graduationID` flagged "Multivalued" (a role may accept more than one
+educational background — the note he called attention to) and the `isActive` flag removed.
+
+> **Claude (applied, 03/08):** the multivalued keyword is exactly what the engine reads — the
+> Graduation select is now a checkbox multi-picker (verified in-app, with the inline "+"
+> intact); the note was enriched to keep the semantics alongside the keyword. isActive attr +
+> Active radio removed (every demo role was True — the flag carried no information; the only
+> `isActive` consumers elsewhere are People/Requirements, untouched). Migration
+> `tools/migrate_roles_grad.py` listifies the stored graduation links and drops the isActive
+> keys (both copies). Side fix: `validate_mockup.py`'s rollup-coverage check met a multivalued
+> child key for the first time — it now flattens list values like the engine's array-aware
+> joins. schemaVersion 13; proof in `test_engine_talent.mjs`; 14 suites + validator green; App
+> Guide talent updated.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

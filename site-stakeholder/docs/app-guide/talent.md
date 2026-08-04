@@ -34,7 +34,8 @@ competences signals readiness to move up).
 **What it is:** a function at a skill level with a graduation — the unit of competence
 requirements.
 **Register when:** after Functions and Skill Levels.
-**Key fields:** Name; `Function *`; Skill Level; Graduation.
+**Key fields:** Name; `Function *`; Skill Level; Graduation (multi — a role may accept more
+than one educational background).
 
 ## People
 
