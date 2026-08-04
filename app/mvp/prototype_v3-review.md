@@ -205,6 +205,20 @@ Branches table.
 >
 > **Rafael:**
 
+## Classes — Issue field removed
+
+Rafael's instruction (03/08): Classes does not need an Issue — drop the field from the entity's
+registration.
+
+> **Claude (applied, 03/08):** `Classes.issueID` attribute and the form's Issue select removed —
+> Classes is now the plain scope-classification registry (Name + Definition). No data migration
+> (the demo carries zero Class rows) and no dependents (the only inbound reference is
+> `Scopes.scopeClassID`, untouched; `Issues.scopeID` derives via `scopeOpportunity`, not via
+> Classes). schemaVersion 10; test fixture and App Guide Classes section updated; 13 suites +
+> validator green.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

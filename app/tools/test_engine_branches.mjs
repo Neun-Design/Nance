@@ -159,7 +159,7 @@ console.log('== drill-down subitems: Regions -> Units -> Branches -> Departments
 console.log('== Classes registry & subitem ==');
 {
   eq(data.getEntity('Classes').length, 0, 'registry starts blank');
-  data.addRecord('Classes', { scopeClassID: 'SC1', scopeClassName: 'Thermal', issueID: 'IS02' });
+  data.addRecord('Classes', { scopeClassID: 'SC1', scopeClassName: 'Thermal' });
   data.updateRecord('Scopes', data.getEntity('Scopes')[0].scopeID, { scopeClassID: ['SC1'] });
   const cls = data.getById('Classes', 'SC1');
   const kids = resolve.childrenOf('Classes', cls, 'Scopes');
