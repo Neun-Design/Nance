@@ -70,5 +70,16 @@ console.log('== rule normalizations ==');
     'Roles.squadID resolves the people\'s squad names');
 }
 
+console.log('== Roles: multivalued Graduation, isActive gone (2026-08-03) ==');
+{
+  const o = forms.optionsForAttr('Roles', 'graduationID');
+  eq([o.target, o.multi], ['Graduation', true], 'Graduation select is a registry-sourced multi-picker');
+  eq(catalog['Roles'].byName['isActive'], undefined, 'isActive attr removed');
+  eq('Active' in catalog['Roles'].form.fields, false, 'Active radio removed');
+  const rows = data.getEntity('Roles');
+  eq(rows.every((r) => Array.isArray(r.graduationID) && !('isActive' in r)), true,
+    'data migrated: list-shaped graduation, no isActive');
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
 process.exit(fails ? 1 : 0);

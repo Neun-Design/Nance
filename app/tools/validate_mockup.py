@@ -168,7 +168,12 @@ for mname, m in DM['modules'].items():
             target, via = find_table(mt.group(1)), mt.group(2)
             if not target or '.' in via:
                 continue
-            child_vals = {c.get(via) for c in flat.get(target, [])}
+            # multivalued child keys (e.g. Roles.graduationID since 2026-08-03)
+            # contribute every element — mirrors the engine's array-aware joins
+            child_vals = set()
+            for c in flat.get(target, []):
+                v = c.get(via)
+                child_vals.update(v) if isinstance(v, list) else child_vals.add(v)
             covered = sum(1 for r in rows if r.get(pk) in child_vals)
             pct = covered / len(rows) * 100 if rows else 0
             (ok if pct >= 70 else warn)(f'{tname}.{a["name"]} → {target}: {pct:.0f}% parents covered')

@@ -20524,9 +20524,10 @@
     "roleName": "JR Electrical Designer",
     "functionID": "F1",
     "skillLevelID": "SL1",
-    "graduationID": "G1",
+    "graduationID": [
+     "G1"
+    ],
     "quantity": 6,
-    "isActive": true,
     "squadID": "SQ1",
     "roleOwner": "U01"
    },
@@ -20535,9 +20536,10 @@
     "roleName": "SR Electrical Designer",
     "functionID": "F1",
     "skillLevelID": "SL2",
-    "graduationID": "G1",
+    "graduationID": [
+     "G1"
+    ],
     "quantity": 4,
-    "isActive": true,
     "squadID": "SQ2",
     "roleOwner": "U02"
    },
@@ -20546,9 +20548,10 @@
     "roleName": "JR Mechanical Designer",
     "functionID": "F2",
     "skillLevelID": "SL1",
-    "graduationID": "G2",
+    "graduationID": [
+     "G2"
+    ],
     "quantity": 5,
-    "isActive": true,
     "squadID": "SQ3",
     "roleOwner": "U03"
    },
@@ -20557,9 +20560,10 @@
     "roleName": "SR Mechanical Designer",
     "functionID": "F2",
     "skillLevelID": "SL2",
-    "graduationID": "G2",
+    "graduationID": [
+     "G2"
+    ],
     "quantity": 4,
-    "isActive": true,
     "squadID": "SQ1",
     "roleOwner": "U04"
    },
@@ -20568,9 +20572,10 @@
     "roleName": "Expert Mechanical Designer",
     "functionID": "F2",
     "skillLevelID": "SL3",
-    "graduationID": "G2",
+    "graduationID": [
+     "G2"
+    ],
     "quantity": 2,
-    "isActive": true,
     "squadID": "SQ2",
     "roleOwner": "U05"
    },
@@ -20579,9 +20584,10 @@
     "roleName": "Analyst",
     "functionID": "F3",
     "skillLevelID": "SL2",
-    "graduationID": "G3",
+    "graduationID": [
+     "G3"
+    ],
     "quantity": 3,
-    "isActive": true,
     "squadID": "SQ3",
     "roleOwner": "U06"
    },
@@ -20590,9 +20596,10 @@
     "roleName": "SR Analyst",
     "functionID": "F3",
     "skillLevelID": "SL3",
-    "graduationID": "G3",
+    "graduationID": [
+     "G3"
+    ],
     "quantity": 2,
-    "isActive": true,
     "squadID": "SQ1",
     "roleOwner": "U07"
    },
@@ -20601,9 +20608,10 @@
     "roleName": "Planner",
     "functionID": "F4",
     "skillLevelID": "SL2",
-    "graduationID": "G3",
+    "graduationID": [
+     "G3"
+    ],
     "quantity": 3,
-    "isActive": true,
     "squadID": "SQ2",
     "roleOwner": "U08"
    },
@@ -20612,9 +20620,10 @@
     "roleName": "Quality Engineer",
     "functionID": "F5",
     "skillLevelID": "SL2",
-    "graduationID": "G1",
+    "graduationID": [
+     "G1"
+    ],
     "quantity": 2,
-    "isActive": true,
     "squadID": "SQ3",
     "roleOwner": "U09"
    },
@@ -20623,9 +20632,10 @@
     "roleName": "Quality Manager",
     "functionID": "F5",
     "skillLevelID": "SL4",
-    "graduationID": "G1",
+    "graduationID": [
+     "G1"
+    ],
     "quantity": 1,
-    "isActive": true,
     "squadID": "SQ1",
     "roleOwner": "U10"
    }
