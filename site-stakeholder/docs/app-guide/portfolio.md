@@ -11,8 +11,8 @@ technical specifications and the requirements that bind them.
 
 ## Classes
 
-**What it is:** a registry classifying scopes (e.g. Thermal), each tied to an Issue.
-**Register when:** with the Issues, before Scopes.
+**What it is:** a registry classifying scopes (e.g. Thermal).
+**Register when:** before Scopes.
 
 ## Scopes
 
