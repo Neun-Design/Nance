@@ -367,6 +367,38 @@ Workflows whose `processID` matches the selected process; it showed only "Alloca
 >
 > **Rafael:**
 
+## executionTime moves to Procedures — procedures create the duration variance
+
+Rafael's theory (04/08): a task can carry several procedures, each shaped by its requirement
+set — the requirements change how long the task takes, so fixing the time on the Task makes no
+sense. Move `executionTime` to Procedures, analysing the impact on every consumer (automations,
+FKs, reports and queries).
+
+> **Claude (impact analysis + applied, 04/08):** consumer map and treatment —
+> 1. **Tasks** — `executionTime` became derived (`computed: SUM(procedureID.executionTime)`),
+>    form input removed; the task column now shows the sum of its procedures (demo: 1:1, so
+>    values are unchanged).
+> 2. **Procedures** — stored DECIMAL + form input gated on Task ("hours under THIS requirement
+>    set").
+> 3. **Events.executionTime** (`SUM of tasks executionTime` prose) — normalized to the
+>    parseable `SUM(tasks.executionTime)`; the engine's SUM branch now resolves **derived**
+>    child fields, so Events sum through the derived task time (nested SUM: Events → Tasks →
+>    Procedures; probe EV01 = 60h).
+> 4. **Forecast Scopes.estimatedHours** (`SUM(tasks.executionTime)`) — seeded rows keep their
+>    stored values (stored wins); new records derive correctly through the same nested path.
+> 5. **Events::Report-A** ("Total Execution Time per Event", queries.js) — re-routed to group
+>    Procedures by their task's event; totals identical on the demo data (218h top event) and
+>    `test_queries` stays green.
+> 6. **Jobs.plannedExecutionTime** — prose rule re-documented ("equals the executionTime of the
+>    task's procedure, stored at planning time"); values are stored at planning, no live
+>    dependency. Staffing/adherence flows untouched.
+>
+> Migration `tools/migrate_procedure_time.py` (lossless — one procedure per demo task; both
+> copies). schemaVersion 18; proof extended in `test_engine_procedures.mjs`; 14 suites +
+> validator green; App Guide operation + CLAUDE.md updated.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

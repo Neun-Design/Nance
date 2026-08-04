@@ -48,8 +48,8 @@ Procedure form.
 
 ## Tasks
 
-**What it is:** the executable work item of a workflow step, with execution time — the level
-Jobs are staffed against. Tasks are **requirement-free**: how a task is performed under a
+**What it is:** the executable work item of a workflow step — the level Jobs are staffed
+against. Its execution time is not registered here: it derives from the task's procedures. Tasks are **requirement-free**: how a task is performed under a
 given requirement set lives in its Procedures.
 **Register when:** after Actions, before Procedures.
 **Key fields:** `Event *` → `Process *` → Activity (the process's steps) → `Action *`;
@@ -65,5 +65,6 @@ An empty requirement list means the procedure applies to every requirement.
 certifies procedures).
 **Key fields:** registry code and URL of the controlled document; `Unit` → `Department` →
 `Process` → `Task *` (the anchor); Requirements offers only the requirements the selected
-task actually derives; Inputs/Outputs offer only handouts that are free or already on this
-chain; accountable owner.
+task actually derives; **execution time** (hours under THIS requirement set — procedures
+create the variance in task duration; the task shows the sum); Inputs/Outputs offer only
+handouts that are free or already on this chain; accountable owner.

@@ -9637,7 +9637,6 @@
     "workflowID": "WF08",
     "actionID": "AC01",
     "functionID": "F1",
-    "executionTime": 5,
     "competenceID": "CMP01",
     "roles": "R01",
     "taskName": "Approval — Requirement Capture",
@@ -9650,7 +9649,6 @@
     "workflowID": "WF09",
     "actionID": "AC02",
     "functionID": "F2",
-    "executionTime": 8,
     "competenceID": "CMP02",
     "roles": "R04",
     "taskName": "Assignment — Electrical Sizing",
@@ -9663,7 +9661,6 @@
     "workflowID": "WF10",
     "actionID": "AC03",
     "functionID": "F3",
-    "executionTime": 8,
     "competenceID": "CMP03",
     "roles": "R03",
     "taskName": "Check — Offer Costing",
@@ -9676,7 +9673,6 @@
     "workflowID": "WF11",
     "actionID": "AC04",
     "functionID": "F4",
-    "executionTime": 15,
     "competenceID": "CMP04",
     "roles": "R04",
     "taskName": "Execution — Mechanical Sizing",
@@ -9689,7 +9685,6 @@
     "workflowID": "WF13",
     "actionID": "AC05",
     "functionID": "F5",
-    "executionTime": 20,
     "competenceID": "CMP05",
     "roles": "R02",
     "taskName": "Followup — Electrical Design",
@@ -9702,7 +9697,6 @@
     "workflowID": "WF14",
     "actionID": "AC06",
     "functionID": "F1",
-    "executionTime": 18,
     "competenceID": "CMP06",
     "roles": "R04",
     "taskName": "Registration — Mechanical Layout",
@@ -9715,7 +9709,6 @@
     "workflowID": "WF12",
     "actionID": "AC07",
     "functionID": "F2",
-    "executionTime": 12,
     "competenceID": "CMP07",
     "roles": "R03",
     "taskName": "Release — Design Documentation",
@@ -9728,7 +9721,6 @@
     "workflowID": "WF20",
     "actionID": "AC01",
     "functionID": "F3",
-    "executionTime": 9,
     "competenceID": "CMP08",
     "roles": "R06",
     "taskName": "Approval — Load Assessment",
@@ -9741,7 +9733,6 @@
     "workflowID": "WF21",
     "actionID": "AC02",
     "functionID": "F4",
-    "executionTime": 14,
     "competenceID": "CMP09",
     "roles": "R07",
     "taskName": "Assignment — Thermal Study",
@@ -9754,7 +9745,6 @@
     "workflowID": "WF19",
     "actionID": "AC03",
     "functionID": "F5",
-    "executionTime": 7,
     "competenceID": "CMP10",
     "roles": "R06",
     "taskName": "Check — Uprating Report",
@@ -9767,7 +9757,6 @@
     "workflowID": "WF10",
     "actionID": "AC04",
     "functionID": "F1",
-    "executionTime": 5,
     "competenceID": "CMP11",
     "roles": "R01",
     "taskName": "Execution — Requirement Capture",
@@ -9780,7 +9769,6 @@
     "workflowID": "WF11",
     "actionID": "AC05",
     "functionID": "F2",
-    "executionTime": 8,
     "competenceID": "CMP12",
     "roles": "R04",
     "taskName": "Followup — Electrical Sizing",
@@ -9793,7 +9781,6 @@
     "workflowID": "WF08",
     "actionID": "AC06",
     "functionID": "F3",
-    "executionTime": 8,
     "competenceID": "CMP01",
     "roles": "R03",
     "taskName": "Registration — Offer Costing",
@@ -9806,7 +9793,6 @@
     "workflowID": "WF09",
     "actionID": "AC07",
     "functionID": "F4",
-    "executionTime": 15,
     "competenceID": "CMP02",
     "roles": "R04",
     "taskName": "Release — Mechanical Sizing",
@@ -9819,7 +9805,6 @@
     "workflowID": "WF14",
     "actionID": "AC01",
     "functionID": "F5",
-    "executionTime": 20,
     "competenceID": "CMP03",
     "roles": "R02",
     "taskName": "Approval — Electrical Design",
@@ -9832,7 +9817,6 @@
     "workflowID": "WF12",
     "actionID": "AC02",
     "functionID": "F1",
-    "executionTime": 18,
     "competenceID": "CMP04",
     "roles": "R04",
     "taskName": "Assignment — Mechanical Layout",
@@ -9845,7 +9829,6 @@
     "workflowID": "WF13",
     "actionID": "AC03",
     "functionID": "F2",
-    "executionTime": 12,
     "competenceID": "CMP05",
     "roles": "R03",
     "taskName": "Check — Design Documentation",
@@ -9858,7 +9841,6 @@
     "workflowID": "WF16",
     "actionID": "AC04",
     "functionID": "F3",
-    "executionTime": 6,
     "competenceID": "CMP06",
     "roles": "R05",
     "taskName": "Execution — Peer Review",
@@ -9871,7 +9853,6 @@
     "workflowID": "WF15",
     "actionID": "AC05",
     "functionID": "F4",
-    "executionTime": 4,
     "competenceID": "CMP07",
     "roles": "R09",
     "taskName": "Followup — Compliance Check",
@@ -9884,7 +9865,6 @@
     "workflowID": "WF18",
     "actionID": "AC06",
     "functionID": "F5",
-    "executionTime": 16,
     "competenceID": "CMP08",
     "roles": "R07",
     "taskName": "Registration — Root Cause Analysis",
@@ -9897,7 +9877,6 @@
     "workflowID": "WF17",
     "actionID": "AC07",
     "functionID": "F1",
-    "executionTime": 10,
     "competenceID": "CMP09",
     "roles": "R06",
     "taskName": "Release — Corrective Proposal",
@@ -9910,7 +9889,6 @@
     "workflowID": "WF09",
     "actionID": "AC01",
     "functionID": "F2",
-    "executionTime": 5,
     "competenceID": "CMP10",
     "roles": "R01",
     "taskName": "Approval — Requirement Capture",
@@ -9923,7 +9901,6 @@
     "workflowID": "WF10",
     "actionID": "AC02",
     "functionID": "F3",
-    "executionTime": 8,
     "competenceID": "CMP11",
     "roles": "R04",
     "taskName": "Assignment — Electrical Sizing",
@@ -9936,7 +9913,6 @@
     "workflowID": "WF11",
     "actionID": "AC03",
     "functionID": "F4",
-    "executionTime": 8,
     "competenceID": "CMP12",
     "roles": "R03",
     "taskName": "Check — Offer Costing",
@@ -9949,7 +9925,6 @@
     "workflowID": "WF08",
     "actionID": "AC04",
     "functionID": "F5",
-    "executionTime": 15,
     "competenceID": "CMP01",
     "roles": "R04",
     "taskName": "Execution — Mechanical Sizing",
@@ -9962,7 +9937,6 @@
     "workflowID": "WF20",
     "actionID": "AC05",
     "functionID": "F1",
-    "executionTime": 9,
     "competenceID": "CMP02",
     "roles": "R06",
     "taskName": "Followup — Load Assessment",
@@ -9975,7 +9949,6 @@
     "workflowID": "WF21",
     "actionID": "AC06",
     "functionID": "F2",
-    "executionTime": 14,
     "competenceID": "CMP03",
     "roles": "R07",
     "taskName": "Registration — Thermal Study",
@@ -9988,7 +9961,6 @@
     "workflowID": "WF19",
     "actionID": "AC07",
     "functionID": "F3",
-    "executionTime": 7,
     "competenceID": "CMP04",
     "roles": "R06",
     "taskName": "Release — Uprating Report",
@@ -10001,7 +9973,6 @@
     "workflowID": "WF13",
     "actionID": "AC01",
     "functionID": "F4",
-    "executionTime": 20,
     "competenceID": "CMP05",
     "roles": "R02",
     "taskName": "Approval — Electrical Design",
@@ -10014,7 +9985,6 @@
     "workflowID": "WF14",
     "actionID": "AC02",
     "functionID": "F5",
-    "executionTime": 18,
     "competenceID": "CMP06",
     "roles": "R04",
     "taskName": "Assignment — Mechanical Layout",
@@ -10027,7 +9997,6 @@
     "workflowID": "WF12",
     "actionID": "AC03",
     "functionID": "F1",
-    "executionTime": 12,
     "competenceID": "CMP07",
     "roles": "R03",
     "taskName": "Check — Design Documentation",
@@ -10040,7 +10009,6 @@
     "workflowID": "WF11",
     "actionID": "AC04",
     "functionID": "F2",
-    "executionTime": 5,
     "competenceID": "CMP08",
     "roles": "R01",
     "taskName": "Execution — Requirement Capture",
@@ -10053,7 +10021,6 @@
     "workflowID": "WF08",
     "actionID": "AC05",
     "functionID": "F3",
-    "executionTime": 8,
     "competenceID": "CMP09",
     "roles": "R04",
     "taskName": "Followup — Electrical Sizing",
@@ -10066,7 +10033,6 @@
     "workflowID": "WF09",
     "actionID": "AC06",
     "functionID": "F4",
-    "executionTime": 8,
     "competenceID": "CMP10",
     "roles": "R03",
     "taskName": "Registration — Offer Costing",
@@ -10079,7 +10045,6 @@
     "workflowID": "WF10",
     "actionID": "AC07",
     "functionID": "F5",
-    "executionTime": 15,
     "competenceID": "CMP11",
     "roles": "R04",
     "taskName": "Release — Mechanical Sizing",
@@ -10092,7 +10057,6 @@
     "workflowID": "WF18",
     "actionID": "AC01",
     "functionID": "F1",
-    "executionTime": 16,
     "competenceID": "CMP12",
     "roles": "R07",
     "taskName": "Approval — Root Cause Analysis",
@@ -10105,7 +10069,6 @@
     "workflowID": "WF17",
     "actionID": "AC02",
     "functionID": "F2",
-    "executionTime": 10,
     "competenceID": "CMP01",
     "roles": "R06",
     "taskName": "Assignment — Corrective Proposal",
@@ -10118,7 +10081,6 @@
     "workflowID": "WF03",
     "actionID": "AC03",
     "functionID": "F3",
-    "executionTime": 2,
     "competenceID": "CMP02",
     "roles": "R01",
     "taskName": "Check — Allocation",
@@ -10131,7 +10093,6 @@
     "workflowID": "WF04",
     "actionID": "AC04",
     "functionID": "F4",
-    "executionTime": 6,
     "competenceID": "CMP03",
     "roles": "R02",
     "taskName": "Execution — Technical Assessment",
@@ -10144,7 +10105,6 @@
     "workflowID": "WF05",
     "actionID": "AC05",
     "functionID": "F5",
-    "executionTime": 3,
     "competenceID": "CMP04",
     "roles": "R01",
     "taskName": "Followup — Technical Clarification",
@@ -10157,7 +10117,6 @@
     "workflowID": "WF06",
     "actionID": "AC06",
     "functionID": "F1",
-    "executionTime": 4,
     "competenceID": "CMP05",
     "roles": "R01",
     "taskName": "Registration — Data Collection",
@@ -10170,7 +10129,6 @@
     "workflowID": "WF07",
     "actionID": "AC07",
     "functionID": "F2",
-    "executionTime": 8,
     "competenceID": "CMP06",
     "roles": "R02",
     "taskName": "Release — Offer Design",
@@ -10183,7 +10141,6 @@
     "workflowID": "WF01",
     "actionID": "AC01",
     "functionID": "F3",
-    "executionTime": 3,
     "competenceID": "CMP07",
     "roles": "R01",
     "taskName": "Approval — Operational Clarification",
@@ -10196,7 +10153,6 @@
     "workflowID": "WF02",
     "actionID": "AC02",
     "functionID": "F4",
-    "executionTime": 6,
     "competenceID": "CMP08",
     "roles": "R02",
     "taskName": "Assignment — Technical Specification",
@@ -10209,7 +10165,6 @@
     "workflowID": "WF13",
     "actionID": "AC01",
     "functionID": "F1",
-    "executionTime": 5,
     "competenceID": "CMP01",
     "roles": "R01",
     "taskName": "Approval — Requirement Capture",
@@ -10222,7 +10177,6 @@
     "workflowID": "WF15",
     "actionID": "AC01",
     "functionID": "F1",
-    "executionTime": 5,
     "competenceID": "CMP01",
     "roles": "R01",
     "taskName": "Approval — Requirement Capture",
@@ -10235,7 +10189,6 @@
     "workflowID": "WF12",
     "actionID": "AC02",
     "functionID": "F2",
-    "executionTime": 8,
     "competenceID": "CMP02",
     "roles": "R04",
     "taskName": "Assignment — Electrical Sizing",
@@ -10248,7 +10201,6 @@
     "workflowID": "WF15",
     "actionID": "AC02",
     "functionID": "F2",
-    "executionTime": 8,
     "competenceID": "CMP02",
     "roles": "R04",
     "taskName": "Assignment — Electrical Sizing",
@@ -10261,7 +10213,6 @@
     "workflowID": "WF14",
     "actionID": "AC03",
     "functionID": "F3",
-    "executionTime": 8,
     "competenceID": "CMP03",
     "roles": "R03",
     "taskName": "Check — Offer Costing",
@@ -10274,7 +10225,6 @@
     "workflowID": "WF15",
     "actionID": "AC03",
     "functionID": "F3",
-    "executionTime": 8,
     "competenceID": "CMP03",
     "roles": "R03",
     "taskName": "Check — Offer Costing",
@@ -11276,7 +11226,8 @@
     "taskOutput": [
      "HO09"
     ],
-    "procedureOwner": "U01"
+    "procedureOwner": "U01",
+    "executionTime": 5
    },
    {
     "procedureID": "PRC02",
@@ -11296,7 +11247,8 @@
     "taskOutput": [
      "HO10"
     ],
-    "procedureOwner": "U02"
+    "procedureOwner": "U02",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC03",
@@ -11316,7 +11268,8 @@
     "taskOutput": [
      "HO01"
     ],
-    "procedureOwner": "U03"
+    "procedureOwner": "U03",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC04",
@@ -11336,7 +11289,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U04"
+    "procedureOwner": "U04",
+    "executionTime": 15
    },
    {
     "procedureID": "PRC05",
@@ -11356,7 +11310,8 @@
     "taskOutput": [
      "HO04"
     ],
-    "procedureOwner": "U05"
+    "procedureOwner": "U05",
+    "executionTime": 20
    },
    {
     "procedureID": "PRC06",
@@ -11376,7 +11331,8 @@
     "taskOutput": [
      "HO05"
     ],
-    "procedureOwner": "U06"
+    "procedureOwner": "U06",
+    "executionTime": 18
    },
    {
     "procedureID": "PRC07",
@@ -11396,7 +11352,8 @@
     "taskOutput": [
      "HO03"
     ],
-    "procedureOwner": "U07"
+    "procedureOwner": "U07",
+    "executionTime": 12
    },
    {
     "procedureID": "PRC08",
@@ -11416,7 +11373,8 @@
     "taskOutput": [
      "HO01"
     ],
-    "procedureOwner": "U08"
+    "procedureOwner": "U08",
+    "executionTime": 9
    },
    {
     "procedureID": "PRC09",
@@ -11436,7 +11394,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U09"
+    "procedureOwner": "U09",
+    "executionTime": 14
    },
    {
     "procedureID": "PRC10",
@@ -11456,7 +11415,8 @@
     "taskOutput": [
      "HO10"
     ],
-    "procedureOwner": "U10"
+    "procedureOwner": "U10",
+    "executionTime": 7
    },
    {
     "procedureID": "PRC11",
@@ -11476,7 +11436,8 @@
     "taskOutput": [
      "HO01"
     ],
-    "procedureOwner": "U11"
+    "procedureOwner": "U11",
+    "executionTime": 5
    },
    {
     "procedureID": "PRC12",
@@ -11496,7 +11457,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U12"
+    "procedureOwner": "U12",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC13",
@@ -11513,7 +11475,8 @@
     "taskOutput": [
      "HO09"
     ],
-    "procedureOwner": "U13"
+    "procedureOwner": "U13",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC14",
@@ -11530,7 +11493,8 @@
     "taskOutput": [
      "HO10"
     ],
-    "procedureOwner": "U14"
+    "procedureOwner": "U14",
+    "executionTime": 15
    },
    {
     "procedureID": "PRC15",
@@ -11547,7 +11511,8 @@
     "taskOutput": [
      "HO05"
     ],
-    "procedureOwner": "U15"
+    "procedureOwner": "U15",
+    "executionTime": 20
    },
    {
     "procedureID": "PRC16",
@@ -11564,7 +11529,8 @@
     "taskOutput": [
      "HO03"
     ],
-    "procedureOwner": "U16"
+    "procedureOwner": "U16",
+    "executionTime": 18
    },
    {
     "procedureID": "PRC17",
@@ -11581,7 +11547,8 @@
     "taskOutput": [
      "HO04"
     ],
-    "procedureOwner": "U17"
+    "procedureOwner": "U17",
+    "executionTime": 12
    },
    {
     "procedureID": "PRC18",
@@ -11598,7 +11565,8 @@
     "taskOutput": [
      "HO07"
     ],
-    "procedureOwner": "U18"
+    "procedureOwner": "U18",
+    "executionTime": 6
    },
    {
     "procedureID": "PRC19",
@@ -11615,7 +11583,8 @@
     "taskOutput": [
      "HO06"
     ],
-    "procedureOwner": "U19"
+    "procedureOwner": "U19",
+    "executionTime": 4
    },
    {
     "procedureID": "PRC20",
@@ -11632,7 +11601,8 @@
     "taskOutput": [
      "HO09"
     ],
-    "procedureOwner": "U20"
+    "procedureOwner": "U20",
+    "executionTime": 16
    },
    {
     "procedureID": "PRC21",
@@ -11649,7 +11619,8 @@
     "taskOutput": [
      "HO08"
     ],
-    "procedureOwner": "U21"
+    "procedureOwner": "U21",
+    "executionTime": 10
    },
    {
     "procedureID": "PRC22",
@@ -11666,7 +11637,8 @@
     "taskOutput": [
      "HO10"
     ],
-    "procedureOwner": "U22"
+    "procedureOwner": "U22",
+    "executionTime": 5
    },
    {
     "procedureID": "PRC23",
@@ -11683,7 +11655,8 @@
     "taskOutput": [
      "HO01"
     ],
-    "procedureOwner": "U23"
+    "procedureOwner": "U23",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC24",
@@ -11700,7 +11673,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U24"
+    "procedureOwner": "U24",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC25",
@@ -11717,7 +11691,8 @@
     "taskOutput": [
      "HO09"
     ],
-    "procedureOwner": "U01"
+    "procedureOwner": "U01",
+    "executionTime": 15
    },
    {
     "procedureID": "PRC26",
@@ -11734,7 +11709,8 @@
     "taskOutput": [
      "HO01"
     ],
-    "procedureOwner": "U02"
+    "procedureOwner": "U02",
+    "executionTime": 9
    },
    {
     "procedureID": "PRC27",
@@ -11751,7 +11727,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U03"
+    "procedureOwner": "U03",
+    "executionTime": 14
    },
    {
     "procedureID": "PRC28",
@@ -11768,7 +11745,8 @@
     "taskOutput": [
      "HO10"
     ],
-    "procedureOwner": "U04"
+    "procedureOwner": "U04",
+    "executionTime": 7
    },
    {
     "procedureID": "PRC29",
@@ -11785,7 +11763,8 @@
     "taskOutput": [
      "HO04"
     ],
-    "procedureOwner": "U05"
+    "procedureOwner": "U05",
+    "executionTime": 20
    },
    {
     "procedureID": "PRC30",
@@ -11802,7 +11781,8 @@
     "taskOutput": [
      "HO05"
     ],
-    "procedureOwner": "U06"
+    "procedureOwner": "U06",
+    "executionTime": 18
    },
    {
     "procedureID": "PRC31",
@@ -11819,7 +11799,8 @@
     "taskOutput": [
      "HO03"
     ],
-    "procedureOwner": "U07"
+    "procedureOwner": "U07",
+    "executionTime": 12
    },
    {
     "procedureID": "PRC32",
@@ -11836,7 +11817,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U08"
+    "procedureOwner": "U08",
+    "executionTime": 5
    },
    {
     "procedureID": "PRC33",
@@ -11853,7 +11835,8 @@
     "taskOutput": [
      "HO09"
     ],
-    "procedureOwner": "U09"
+    "procedureOwner": "U09",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC34",
@@ -11870,7 +11853,8 @@
     "taskOutput": [
      "HO10"
     ],
-    "procedureOwner": "U10"
+    "procedureOwner": "U10",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC35",
@@ -11887,7 +11871,8 @@
     "taskOutput": [
      "HO01"
     ],
-    "procedureOwner": "U11"
+    "procedureOwner": "U11",
+    "executionTime": 15
    },
    {
     "procedureID": "PRC36",
@@ -11904,7 +11889,8 @@
     "taskOutput": [
      "HO09"
     ],
-    "procedureOwner": "U12"
+    "procedureOwner": "U12",
+    "executionTime": 16
    },
    {
     "procedureID": "PRC37",
@@ -11921,7 +11907,8 @@
     "taskOutput": [
      "HO08"
     ],
-    "procedureOwner": "U13"
+    "procedureOwner": "U13",
+    "executionTime": 10
    },
    {
     "procedureID": "PRC38",
@@ -11938,7 +11925,8 @@
     "taskOutput": [
      "HO04"
     ],
-    "procedureOwner": "U14"
+    "procedureOwner": "U14",
+    "executionTime": 2
    },
    {
     "procedureID": "PRC39",
@@ -11955,7 +11943,8 @@
     "taskOutput": [
      "HO05"
     ],
-    "procedureOwner": "U15"
+    "procedureOwner": "U15",
+    "executionTime": 6
    },
    {
     "procedureID": "PRC40",
@@ -11972,7 +11961,8 @@
     "taskOutput": [
      "HO06"
     ],
-    "procedureOwner": "U16"
+    "procedureOwner": "U16",
+    "executionTime": 3
    },
    {
     "procedureID": "PRC41",
@@ -11989,7 +11979,8 @@
     "taskOutput": [
      "HO07"
     ],
-    "procedureOwner": "U17"
+    "procedureOwner": "U17",
+    "executionTime": 4
    },
    {
     "procedureID": "PRC42",
@@ -12006,7 +11997,8 @@
     "taskOutput": [
      "HO08"
     ],
-    "procedureOwner": "U18"
+    "procedureOwner": "U18",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC43",
@@ -12023,7 +12015,8 @@
     "taskOutput": [
      "HO02"
     ],
-    "procedureOwner": "U19"
+    "procedureOwner": "U19",
+    "executionTime": 3
    },
    {
     "procedureID": "PRC44",
@@ -12040,7 +12033,8 @@
     "taskOutput": [
      "HO03"
     ],
-    "procedureOwner": "U20"
+    "procedureOwner": "U20",
+    "executionTime": 6
    },
    {
     "procedureID": "PRC45",
@@ -12057,7 +12051,8 @@
     "taskOutput": [
      "HO04"
     ],
-    "procedureOwner": "U14"
+    "procedureOwner": "U14",
+    "executionTime": 5
    },
    {
     "procedureID": "PRC46",
@@ -12074,7 +12069,8 @@
     "taskOutput": [
      "HO06"
     ],
-    "procedureOwner": "U15"
+    "procedureOwner": "U15",
+    "executionTime": 5
    },
    {
     "procedureID": "PRC47",
@@ -12091,7 +12087,8 @@
     "taskOutput": [
      "HO03"
     ],
-    "procedureOwner": "U16"
+    "procedureOwner": "U16",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC48",
@@ -12108,7 +12105,8 @@
     "taskOutput": [
      "HO06"
     ],
-    "procedureOwner": "U17"
+    "procedureOwner": "U17",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC49",
@@ -12125,7 +12123,8 @@
     "taskOutput": [
      "HO05"
     ],
-    "procedureOwner": "U18"
+    "procedureOwner": "U18",
+    "executionTime": 8
    },
    {
     "procedureID": "PRC50",
@@ -12142,7 +12141,8 @@
     "taskOutput": [
      "HO06"
     ],
-    "procedureOwner": "U19"
+    "procedureOwner": "U19",
+    "executionTime": 8
    }
   ]
  },
