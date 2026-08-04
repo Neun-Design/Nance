@@ -275,6 +275,38 @@ educational background — the note he called attention to) and the `isActive` f
 >
 > **Rafael:**
 
+## Coherence round — Workflows go applicability-agnostic; Owner select; People.isActive enum
+
+Rafael's edits (04/08): Processes' Owner becomes a grouped select filtered by the event's unit;
+Workflows lose `productScopeID` + the Customer/Product Scopes inputs; People.isActive becomes the
+Active/Inactive enum. Ask: evaluate coherence and apply.
+
+> **Claude (coherence assessment + applied, 04/08):**
+> 1. **Processes.Owner** — coherent as written and kept verbatim: Events and People both store
+>    `businessUnitID`, so the `filtered by eventID.businessUnitID` record-match resolves;
+>    `SelectLabel = functionName` follows the Squads/Roles precedent. (Was a free-text email
+>    input — now a real People select.)
+> 2. **Workflows** — coherent with the Procedures doctrine ("workflows and tasks do not change
+>    depending on product scopes or requirements") but half-applied: `customerID` kept an attr
+>    with no input, and the 5-key `requirements` chain + Tasks' scope/product-group/customer
+>    derives dangled off the dropped `productScopeID`. **Completed to the full doctrine:**
+>    Workflows also drop `customerID`, the `requirements` rollup and the stale `scopes`/
+>    `procedures` display copies; Tasks drop the three orphaned derives and `requirementName`
+>    now derives **via the task's procedures** (probe: task 012 → "IEC 60076 Compliance,
+>    Delivery Lead Time"). Graceful degradations, no engine change needed: `tasksForJob` offers
+>    every task (its wildcard path — staffing selectivity already lives in
+>    `certified-responsible` via Competence → Procedures), and `requirementsForTask` falls back
+>    to the full requirement list on the Procedures form.
+> 3. **People.isActive** — coherent (the Requirements precedent); type casing normalized to
+>    `ENUM`, data migrated True→'Active' (30 rows), and the "Active People by Function" chart
+>    filter fixed ('Inactive' is truthy — it would have counted everyone).
+>
+> Migration `tools/migrate_workflow_agnostic.py` (both copies); schemaVersion 14; regions-suite
+> assertion re-anchored ("Workflows no longer declare a requirements chain"); 14 suites +
+> validator green; CLAUDE.md customer-aware-chain bullet superseded.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice
