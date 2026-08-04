@@ -146,7 +146,6 @@
     "regionName": "Americas",
     "regionDescription": "Americas region",
     "regionOwner": "U02",
-    "continent": "North America",
     "countryName": [
      "Brazil",
      "Canada",
@@ -160,7 +159,6 @@
     "regionName": "APAC",
     "regionDescription": "APAC region",
     "regionOwner": "U05",
-    "continent": "Asia",
     "countryName": [
      "China"
     ]
@@ -170,7 +168,6 @@
     "regionName": "EMEA",
     "regionDescription": "EMEA region",
     "regionOwner": "U01",
-    "continent": "Europe",
     "countryName": [
      "Austria",
      "Croatia",

@@ -26,7 +26,8 @@ automatically as you register customers.
 
 **What it is:** geographical groupings (EMEA, Americas, APAC) with the countries they cover.
 **Register when:** before Branches and Customers (both pick a Region).
-**Key fields:** Name; Continent; **Countries** (multi-select, grouped by continent) — the
+**Key fields:** Name; **Countries** (multi-select, grouped by continent — the region's
+continent list derives from them automatically) — the
 countries you tick here become the only Country options for this region's branches.
 
 ## Departments
