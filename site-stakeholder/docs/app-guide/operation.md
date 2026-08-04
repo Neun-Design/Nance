@@ -35,7 +35,8 @@ Indentation Rule (start-to-finish = next number, start-to-start = sub-number und
 ## Actions
 
 **What it is:** discrete quality interventions a task executes (approval, verification…).
-**Register when:** before Tasks.
+**Register when:** before Tasks. Actions has **no dashboard tab** — register them inline with
+the "+" button on the Task form's Action field (hidden-registry pattern).
 
 ## Handouts
 

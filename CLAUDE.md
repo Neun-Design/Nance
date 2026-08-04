@@ -131,6 +131,8 @@ Rafael's invariance principle (v3-review "Iterations"): **Process/Workflow/Task 
 
 Migration `prototype/tools/migrate_procedures.py` (one procedure per demo task; requirement sets from the task's competences; handouts from the task's workflow); proof suite `prototype/tools/test_engine_procedures.mjs`; `schemaVersion` 6.
 
+**Dashboard trim (prototype, 2026-08-03 second round, `schemaVersion` 7):** `Issues` and `Actions` are **hidden registries** (`dashboard-order: 0`, still catalogued) — created inline via the "+" button on the Scopes Opportunity / Tasks Action selects; `Issues.businessUnitID` replaced `businessSegmentID` (Unit select grouped by segment — reversal of the 2026-08-01 segment round; migration `tools/migrate_issue_units.py`); Regions is Organization tab 2 (matches the D10 dependency order).
+
 ### 3. Leadership & Resource Context (ISO 9001:2015 §5)
 
 | Entity | Role |

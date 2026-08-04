@@ -58,5 +58,6 @@ department's people — so you may prefer to finish [Talent](talent.md) phase 4 
 **Opportunities**, registered top-down from strategic analysis; negative = **Risks**, elevated
 automatically from the future nonconformity flow.
 **Register when:** opportunities during phase 3, before Scopes (each Scope points at the
-opportunity that justifies it).
-**Key fields:** Name, Type (Opportunity/Risk), `Segment`, Owner.
+opportunity that justifies it). Issues has **no dashboard tab** — register them inline with
+the "+" button on the Scope form's Opportunity field (hidden-registry pattern).
+**Key fields:** Name, Type (Opportunity/Risk), `Unit` (grouped by segment), Owner.
