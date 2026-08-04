@@ -683,7 +683,18 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
       const child = resolveTable(rr.target);
       if (child) {
         const kids = childrenOf(tableName, row, child, { via: simpleVia(rr.via), viaList: rr.viaList });
-        return kids.reduce((s, k) => s + (Number(k[r.field]) || 0), 0);
+        // a child field may itself be derived (Tasks.executionTime sums the
+        // task's Procedures since 2026-08-04) — nested sums resolve through
+        // derivedValue instead of reading a raw key that no longer exists
+        const childCat = getCatalog(child);
+        return kids.reduce((s, k) => {
+          let v = Number(k[r.field]);
+          if (k[r.field] == null || Number.isNaN(v)) {
+            const ca = childCat && childCat.byName[r.field];
+            v = ca ? Number(derivedValue(child, ca, k, depth + 1)) : NaN;
+          }
+          return s + (Number.isNaN(v) ? 0 : v);
+        }, 0);
       }
     }
     // stored fallback (generator may have precomputed it)

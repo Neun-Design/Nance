@@ -98,5 +98,21 @@ console.log('== handouts: ownership resolves through procedures ==');
     'Tasks → Procedures subitem join resolves');
 }
 
+console.log('== executionTime lives on Procedures (2026-08-04) ==');
+{
+  eq(catalog['Procedures'].byName['executionTime'].type, 'DECIMAL', 'stored per procedure');
+  eq(catalog['Tasks'].byName['executionTime'].type, 'mirror', 'task time is derived');
+  eq('Execution Time' in catalog['Tasks'].form.fields, false, 'Tasks form input removed');
+  eq(catalog['Procedures'].form.fields['Execution Time'].attribute, 'executionTime',
+    'Procedures form gained the input');
+  const t = data.getById('Tasks', '012');
+  eq('executionTime' in t, false, 'stored task key dropped');
+  eq(resolve.derivedValue('Tasks', catalog['Tasks'].byName['executionTime'], t),
+    data.getById('Procedures', 'PRC01').executionTime, 'task derives the sum of its procedures');
+  const ev = data.getEntity('Events').find((e) => e.eventID === 'EV01');
+  eq(resolve.derivedValue('Events', catalog['Events'].byName['executionTime'], ev) > 0, true,
+    'Events nested sum resolves through the derived task time');
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
 process.exit(fails ? 1 : 0);
