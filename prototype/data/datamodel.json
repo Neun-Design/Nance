@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 16,
+    "schemaVersion": 17,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1800,9 +1800,9 @@
             },
             {
               "name": "processID",
-              "type": "VARCHAR",
-              "rule": "rollup: from eventID (display: processName)",
-              "notes": "Options are processes triggered by the selected event",
+              "type": "FK",
+              "rule": "FK → Processes (display: processName)",
+              "notes": "Stored FK (materialize-FK convention) — the process of the selected event; the form filters the options by the Event field. The old \"rollup: from eventID\" prose made the parser resolve the TARGET as the Events table (fuzzy id-suffix match), so the Process select offered eventIDs (2026-08-04 bug).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "NOT NULL"

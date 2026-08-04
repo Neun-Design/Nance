@@ -265,11 +265,15 @@ export function resolveTable(name) {
     .replace(/ies$/, 'y').replace(/s$/, '');
   const n = norm(name);
   if (!n) return null;
+  // attribute names leak into table resolution through sloppy rule prose
+  // ("rollup: from eventID"): an id-suffixed name must never fuzzy-match a
+  // table ("eventid" ~ Events served eventIDs as Process options, 2026-08-04)
+  const idish = /id$/.test(n);
   let prefix = null;
   for (const t of Object.keys(catalog)) {
     const tl = norm(t);
     if (tl === n) return t;
-    if (!prefix && n.length >= 5 && (tl.startsWith(n) || n.startsWith(tl))) prefix = t;
+    if (!prefix && !idish && n.length >= 5 && (tl.startsWith(n) || n.startsWith(tl))) prefix = t;
   }
   return prefix;
 }
