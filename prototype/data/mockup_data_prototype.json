@@ -20635,28 +20635,24 @@
     "skillLevelID": "SL1",
     "levelName": "Junior",
     "levelDescription": "0-3 years of experience",
-    "levelRank": 1,
     "skillLevelOwner": "U01"
    },
    {
     "skillLevelID": "SL2",
     "levelName": "Senior",
     "levelDescription": "4-8 years of experience",
-    "levelRank": 2,
     "skillLevelOwner": "U02"
    },
    {
     "skillLevelID": "SL3",
     "levelName": "Expert",
     "levelDescription": "9-15 years of experience",
-    "levelRank": 3,
     "skillLevelOwner": "U03"
    },
    {
     "skillLevelID": "SL4",
     "levelName": "Principal",
     "levelDescription": "15+ years of experience",
-    "levelRank": 4,
     "skillLevelOwner": "U04"
    }
   ],

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 11,
+    "schemaVersion": 12,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5984,24 +5984,6 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
-            },
-            {
-              "name": "skillLevelTitle",
-              "type": "mirror",
-              "rule": "computed: CONCAT(levelName,' #',levelRank)",
-              "notes": "Display title combining level name and rank",
-              "table-display": false,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "levelRank",
-              "type": "INT",
-              "rule": null,
-              "notes": "Selection priority among eligible resources with the same role; lower ranks are prioritized",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
             }
           ],
           "reports": {
@@ -6033,16 +6015,6 @@
                 },
                 "attribute": "levelDescription",
                 "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Rank": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "levelRank",
-                "tooltip": "Determines the selection priority among eligible resources with the same role. Lower ranks are prioritized over higher ranks to optimize resource allocation and operational costs.",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -6879,9 +6851,9 @@
             },
             {
               "name": "levelRank",
-              "type": "INT",
-              "rule": null,
-              "notes": "1 to 3; ordering key (1 = lowest)",
+              "type": "ENUM",
+              "rule": "enum: [1, 2, 3]",
+              "notes": "Step of the professional INSIDE the competence's skill level (Rafael, 03/08): rank 1 = a newly promoted/hired professional at that level may hold the competence; holding rank 3 on every competence of a skill level signals readiness to move up a level (promotion automation: issue #149)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
