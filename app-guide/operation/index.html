@@ -2133,13 +2133,17 @@ workflow steps, steps carry tasks with inputs and outputs.</p>
 <p><strong>What it is:</strong> the business occurrences that drive the QMS — the architectural pivot of the
 model.
 <strong>Register when:</strong> first in the module; Competence (phase 6) also anchors on events.
-<strong>Key fields:</strong> Title, Description; <code>Business Unit *</code> → unlocks <code>Department *</code> (only the
-unit's departments).</p>
+<strong>Key fields:</strong> Title, Description; <code>Business Unit *</code> → unlocks <strong>Scopes</strong> and <strong>Products</strong>
+(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
+apply to all). The department is not registered here anymore — it moved down to the Process.
+Expanding an event lists its Processes and the Product Scopes its applicability admits.</p>
 <h2 id="processes">Processes<a class="headerlink" href="#processes" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> a top-level flow triggered by an event, run by a squad.
 <strong>Register when:</strong> after Events.
-<strong>Key fields:</strong> Registry number, Name, Description; <code>Event *</code> → unlocks Squad (squads of the
-department handling the event); Owner; Status; Version.</p>
+<strong>Key fields:</strong> Registry number, Name, Description; <code>Event *</code> → unlocks <strong>Department</strong>
+(departments of the event's unit) and <strong>Product Scopes</strong> (multi — offered from the event's
+applicability, empty = covers all); Department → unlocks Squad (squads of the process's own
+department); Owner; Status; Version.</p>
 <h2 id="workflows">Workflows<a class="headerlink" href="#workflows" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> the ordered steps of a process — the process map. Step numbers (1, 2, 2.1…)
 are computed from each step's parent and indentation rule; you never type them.
@@ -2170,11 +2174,13 @@ output handouts — the same task can carry several procedures, one per requirem
 An empty requirement list means the procedure applies to every requirement.
 <strong>Register when:</strong> last in the module — after Tasks; before Competence (a competence
 certifies procedures).
-<strong>Key fields:</strong> registry code and URL of the controlled document; <code>Unit</code> → <code>Department</code> →
-<code>Process</code> → <code>Task *</code> (the anchor); Requirements offers only the requirements the selected
-task actually derives; <strong>execution time</strong> (hours under THIS requirement set — procedures
-create the variance in task duration; the task shows the sum); Inputs/Outputs offer only
-handouts that are free or already on this chain; accountable owner.</p>
+<strong>Key fields:</strong> registry code and URL of the controlled document; <code>Unit</code> → <code>Process</code> (the
+unit's processes) → <code>Task *</code> (the anchor); <strong>Product Scopes</strong> (multi — offered from the
+process's list, empty = applies to all); Requirements follows the selected product scopes
+(their derived requirement sets — with none selected, the task's set); <strong>execution time</strong>
+(hours under THIS requirement set — procedures create the variance in task duration; the
+task shows the sum); Inputs/Outputs offer only handouts that are free or already on this
+chain; accountable owner. Expanding a procedure shows its handout tabs and product scopes.</p>
 
 
 

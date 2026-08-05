@@ -54,12 +54,20 @@
       applyNext();
       const probe = q.get('probe');
       if (probe) setTimeout(() => {
-        const sel = (fieldByLabel(probe) || d).querySelector('select');
-        const opts = sel ? [...sel.options].map((o) => o.value + '=' + o.textContent) : ['<no select found>'];
+        const fld = fieldByLabel(probe) || d;
+        const sel = fld.querySelector('select');
+        // multivalued fields render as checkbox lists, not selects
+        const multi = !sel && fld.querySelector('.form-multicheck');
+        const opts = sel ? [...sel.options].map((o) => o.value + '=' + o.textContent)
+          : multi ? [...multi.querySelectorAll('.form-multicheck-row')].map((r) => {
+              const cb = r.querySelector('input');
+              return (cb ? cb.value : '?') + '=' + r.textContent.trim();
+            })
+          : ['<no control found>'];
         const div = d.createElement('div');
         div.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:9999;background:#fff;color:#000;'
           + 'padding:10px;font:13px monospace;max-width:900px;white-space:pre-wrap';
-        div.textContent = (window.__setlog || []).join('  ||  ') + '\n' + probe + ' [value=' + (sel ? JSON.stringify(sel.value) : '?') + ' disabled=' + (sel ? sel.disabled : '?') + '] options (' + (sel ? sel.options.length : 0) + '): ' + opts.join(' | ');
+        div.textContent = (window.__setlog || []).join('  ||  ') + '\n' + probe + ' [value=' + (sel ? JSON.stringify(sel.value) : 'multi') + '] options (' + opts.length + '): ' + opts.join(' | ');
         d.body.appendChild(div);
         document.title = 'PROBE::' + div.textContent;
       }, 400 * ((q.get('set') || '').split(',').filter(Boolean).length + 2));

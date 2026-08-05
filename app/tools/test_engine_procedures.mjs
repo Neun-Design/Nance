@@ -28,7 +28,8 @@ console.log('== schema: stored FKs, owner, label ==');
   const cat = catalog['Procedures'];
   eq(!!cat, true, 'Procedures catalogued in Operation');
   eq(cat.label, 'procedureRegistry', 'label attribute is the registry code');
-  for (const name of ['businessUnitID', 'departmentID', 'processID', 'taskID', 'requirementID', 'procedureOwner']) {
+  // departmentID left Procedures in the payload round (issue #159); productScopeID joined
+  for (const name of ['businessUnitID', 'processID', 'taskID', 'productScopeID', 'requirementID', 'procedureOwner']) {
     const r = model.parseRule(cat.byName[name].rule);
     eq(r && r.kind, 'fk', `${name} is a stored FK rule (not a rollup)`);
   }

@@ -59,9 +59,10 @@ console.log('== Procedures: Handouts Inputs/Outputs as tabs (moved from Tasks, P
 {
   const procs = catalog['Procedures'].subitems;
   eq(procs.map((s) => [s.table, s.throughField, s.tab.name]),
-    [['Handouts', 'inputs', 'Inputs'], ['Handouts', 'outputs', 'Outputs']],
-    'both grouped-by entries carry tabs in order');
-  eq(procs.map((s) => s.label), ['Handouts - Inputs', 'Handouts - Outputs'],
+    [['Handouts', 'inputs', 'Inputs'], ['Handouts', 'outputs', 'Outputs'],
+      ['Product Scopes', null, 'Product scopes']],
+    'grouped-by entries + the payload-round Product Scopes tab, in order');
+  eq(procs.map((s) => s.label), ['Handouts - Inputs', 'Handouts - Outputs', 'Product scopes'],
     'group labels preserved for stacked fallbacks');
   const tasks = catalog['Tasks'].subitems;
   eq(tasks.map((s) => [s.table, s.tab.name]), [['Procedures', 'Procedures']],

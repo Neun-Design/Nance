@@ -458,8 +458,11 @@ export function applyDerivedUnits(entity, rec) {
     const d = rec.departmentID && getById('Departments', rec.departmentID);
     rec.businessUnitID = (d && d.businessUnitID) ?? null;
   } else if (entity === 'Competence') {
+    // department moved DOWN to Processes (issue #159) — derive via the
+    // selected process; legacy snapshots may still carry it on the event
+    const pr = rec.processID && getById('Processes', rec.processID);
     const e = rec.eventID && getById('Events', rec.eventID);
-    rec.departmentID = (e && e.departmentID) ?? null;
+    rec.departmentID = (pr && pr.departmentID) ?? (e && e.departmentID) ?? null;
   }
 }
 
@@ -703,6 +706,70 @@ function presetFor(entity, attrName, record) {
     return bT ? getEntity(bT).filter((b) => b.customerID === cid).map((b) => b[ENTITY_META[bT].pk]) : [];
   }
   return undefined;
+}
+
+// ---- payload distribution (issue #159): the applicability chain ----
+// Event declares scopes/products; Process picks product scopes from the
+// event; Procedure picks product scopes from the process and derives its
+// requirement options through them. EMPTY keys = applies to all (Q1).
+const asList = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
+const psOption = (ps) => {
+  const pk = ENTITY_META['Product Scopes'].pk;
+  const parts = [resolveDisplay('Product Scopes', ps, 'productName'),
+    resolveDisplay('Product Scopes', ps, 'scopeName')].filter((x) => x !== '');
+  return { value: ps[pk], label: parts.join(' | ') || String(ps[pk]) };
+};
+
+// Product scopes an EVENT's applicability admits: scope overlap AND the
+// product-group's product among the event's products (each empty = all).
+export function productScopesForEvent(eventId) {
+  const all = getEntity('Product Scopes');
+  const ev = eventId && getById('Events', eventId);
+  if (!ev) return all.map(psOption);
+  const scopes = asList(ev.scopeID);
+  const products = asList(ev.productID);
+  return all.filter((ps) => {
+    if (scopes.length && !arrOverlap(ps.scopeID, scopes)) return false;
+    if (products.length) {
+      const pg = ps.productGroupID && getById('Product Groups', ps.productGroupID);
+      if (!pg || !arrOverlap(pg.productID, products)) return false;
+    }
+    return true;
+  }).map(psOption);
+}
+
+// Product scopes of a PROCESS: its stored list; an empty list means the
+// process covers every product scope of its event.
+export function productScopesForProcess(processId) {
+  const proc = processId && getById('Processes', processId);
+  if (!proc) return getEntity('Product Scopes').map(psOption);
+  const ids = asList(proc.productScopeID);
+  if (!ids.length) return productScopesForEvent(proc.eventID);
+  return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+}
+
+// Requirements derived by the given product scopes (their compound rollup
+// sets, unioned) — the Procedures Requirements picker follows the selected
+// product scopes; with none selected the caller falls back to the task path.
+export function requirementsForProductScopes(psIds) {
+  const rT = resolveTable('Requirements');
+  const cat = getCatalog('Product Scopes');
+  const attr = cat && cat.byName['requirementID'];
+  const rule = attr && parseRule(attr.rule);
+  if (!rT || !rule || !rule.target) return [];
+  const rMeta = ENTITY_META[rT];
+  const seen = new Map();
+  for (const id of asList(psIds)) {
+    const ps = getById('Product Scopes', id);
+    if (!ps) continue;
+    for (const req of childrenOf('Product Scopes', ps, rT, { via: rule.via, viaList: rule.viaList })) {
+      const v = req[rMeta.pk];
+      if (!seen.has(v)) {
+        seen.set(v, { value: v, label: String(resolveDisplay(rT, req, rMeta.label) || v) });
+      }
+    }
+  }
+  return [...seen.values()].sort((a, b) => a.label.localeCompare(b.label));
 }
 
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
@@ -1109,10 +1176,30 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action')));
             return;
           }
-          // Procedures "Requirements": options = the requirement set the
-          // selected task actually derives (workflow 5-key chain) — a
-          // procedure must not claim a requirement its task never produces.
+          // Processes "Product Scopes": offered from the selected event's
+          // applicability (scope + product, empty keys = all — issue #159)
+          if (entity === 'Processes' && attrName === 'productScopeID') {
+            const dep = findDep('Event');
+            applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
+            return;
+          }
+          // Procedures "Product Scopes": the selected process's list (empty
+          // list = every product scope of the process's event)
+          if (entity === 'Procedures' && attrName === 'productScopeID') {
+            const dep = findDep('Process');
+            applyOpts(productScopesForProcess(dep ? dep[1].get() : null));
+            return;
+          }
+          // Procedures "Requirements": follow the selected PRODUCT SCOPES
+          // (their derived requirement sets — issue #159); none selected →
+          // fall back to the task's derived set.
           if (entity === 'Procedures' && attrName === 'requirementID') {
+            const psDep = findDep('Product Scopes');
+            const psIds = psDep ? psDep[1].get() : null;
+            if (psIds && (Array.isArray(psIds) ? psIds.length : psIds !== '')) {
+              applyOpts(requirementsForProductScopes(psIds));
+              return;
+            }
             const dep = findDep('Task');
             applyOpts(requirementsForTask(dep ? dep[1].get() : null));
             return;

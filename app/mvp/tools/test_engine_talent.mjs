@@ -31,14 +31,16 @@ console.log('== Competence.departmentID: seeded + derived on save ==');
     'every mockup competence carries the key (parity)');
   const r = model.parseRule(catalog['Competence'].byName['departmentID'].rule);
   eq([r.kind, r.target], ['fk', 'Departments'], 'stored FK rule');
-  // commit-path derivation (applyDerivedUnits): the record stores the
-  // department of the chosen event — form-created rows join like seeded ones
-  const rec = { eventID: 'EV02' };
+  // commit-path derivation (applyDerivedUnits): department moved DOWN to
+  // Processes in the payload round (issue #159) — the record stores the
+  // department of the chosen PROCESS (legacy event fallback kept for old
+  // snapshots that still carry it on the event)
+  const rec = { processID: 'PR1' };
   forms.applyDerivedUnits('Competence', rec);
-  eq(rec.departmentID, 'DPT01', 'save derives departmentID from the event');
-  const rec2 = { eventID: null };
+  eq(rec.departmentID, 'DPT01', 'save derives departmentID from the process');
+  const rec2 = { processID: null, eventID: null };
   forms.applyDerivedUnits('Competence', rec2);
-  eq(rec2.departmentID, null, 'no event -> null department');
+  eq(rec2.departmentID, null, 'no process -> null department');
 }
 
 console.log('== Onboarding: Department gates the Competence options ==');
