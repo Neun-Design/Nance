@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 18,
+    "schemaVersion": 19,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2040,13 +2040,31 @@
               "constraints": "NOT NULL"
             },
             {
-              "name": "departmentID",
+              "name": "scopeID",
               "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": "Department handling the event — offered from the selected Business Unit's departments",
-              "table-display": true,
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": "Multivalued — scopes this event applies to (Payload distribution, issue #159). EMPTY = applies to every scope (Q1 wildcard).",
+              "table-display": false,
               "subitem-display": false,
-              "constraints": "NOT NULL"
+              "constraints": "FK"
+            },
+            {
+              "name": "productID",
+              "type": "FK",
+              "rule": "FK → Products (display: productName)",
+              "notes": "Multivalued — products this event applies to (issue #159). EMPTY = applies to every product (Q1 wildcard).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "mirror",
+              "rule": "rollup → Product Groups (via: productID) (display: productGroupName)",
+              "notes": "Derived — product groups of the event's products (shared-field join on productID); no form input, available via Customize Columns",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "eventCreatedAt",
@@ -2184,22 +2202,49 @@
                 "check": null,
                 "field-rule": null
               },
-              "Department": {
+              "Scopes": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "departmentID",
-                "tooltip": "Departments of the selected Business Unit",
+                "attribute": "scopeID",
+                "tooltip": "Scopes this event applies to — leave empty when it applies to all",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "filtered by Business Unit selected"
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by businessUnitID selected"
+                ]
+              },
+              "Products": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productID",
+                "tooltip": "Products this event applies to — leave empty when it applies to all",
+                "step": null,
+                "check": "Scope IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by businessUnitID selected"
+                ]
               }
             }
           },
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "Processes"
+            {
+              "tab-order": 1,
+              "rule": null,
+              "tab-name": "processes",
+              "tab-table": "Processes"
+            },
+            {
+              "tab-order": 2,
+              "rule": "(via: scopeID)",
+              "tab-name": "product scopes",
+              "tab-table": "Product Scopes"
+            }
           ]
         },
         "Processes": {
@@ -2271,10 +2316,28 @@
               "constraints": "FK"
             },
             {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Department running the process — moved DOWN from Events (issue #159); options filtered by the event's business unit",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "notes": "Multivalued — product scopes this process covers, offered from the selected event's applicability (scope + product, empty keys = all, Q1). EMPTY = the process covers every product scope of the event.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "squadID",
               "type": "FK",
               "rule": "FK → Squads (display: squadName)",
-              "notes": "Squad running the process — offered from the squads of the department reached through the selected Event (eventID → departmentID)",
+              "notes": "Squad running the process — offered from the squads of the process's own department (issue #159; was: the event's department)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -2406,6 +2469,29 @@
                 "check": null,
                 "field-rule": null
               },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Departments of the event's business unit",
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": "filtered by eventID.businessUnitID"
+              },
+              "Product Scopes": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes covered by this process — offered from the event's applicability; leave empty to cover all",
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by eventID selected"
+                ]
+              },
               "Owner": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -2441,10 +2527,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "squadID",
-                "tooltip": "Squads of the department handling the selected Event",
+                "tooltip": "Squads of the process's department",
                 "step": null,
-                "check": "Event IS NOT NULL",
-                "field-rule": "filtered by Event.departmentID selected"
+                "check": "Department IS NOT NULL",
+                "field-rule": "filtered by departmentID selected"
               }
             }
           },
@@ -3079,15 +3165,6 @@
               "constraints": "FK"
             },
             {
-              "name": "departmentID",
-              "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": "Form filter — narrows the Process options",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
               "name": "processID",
               "type": "FK",
               "rule": "FK → Processes (display: processName)",
@@ -3106,10 +3183,19 @@
               "constraints": "FK, NOT NULL"
             },
             {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "notes": "Multivalued — product scopes this procedure applies to, offered from the selected process's list (empty process list = every product scope, Q1). EMPTY = applies to all.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "requirementID",
               "type": "FK",
               "rule": "FK → Requirements (display: requirementName)",
-              "notes": "Multivalued; nullable — requirements under which this procedure applies. EMPTY = applies to all (Q1 wildcard). Form options are filtered to the selected task's derived requirement set (via its workflow, 5-key chain).",
+              "notes": "Multivalued; nullable — requirements under which this procedure applies. EMPTY = applies to all (Q1 wildcard). Form options follow the selected PRODUCT SCOPES (their derived requirement sets — issue #159); with none selected they fall back to the task's derived set.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3175,16 +3261,6 @@
                 "check": null,
                 "field-rule": null
               },
-              "Department": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "departmentID",
-                "tooltip": null,
-                "step": null,
-                "check": "Unit IS NOT NULL",
-                "field-rule": "filtered by Unit selected"
-              },
               "Process": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -3192,8 +3268,8 @@
                 "attribute": "processID",
                 "tooltip": null,
                 "step": null,
-                "check": "Department IS NOT NULL",
-                "field-rule": "SelectLabel = squadName; filtered by Department selected"
+                "check": "Unit IS NOT NULL",
+                "field-rule": "SelectLabel = squadName; filtered by businessUnitID selected"
               },
               "Task": {
                 "field-type": {
@@ -3205,6 +3281,19 @@
                 "check": "Process IS NOT NULL",
                 "field-rule": "filtered by Process selected"
               },
+              "Product Scopes": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes this procedure applies to — offered from the process's list; leave empty to apply to all",
+                "step": null,
+                "check": "Process IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by processID selected"
+                ]
+              },
               "Requirements": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -3215,7 +3304,7 @@
                 "check": "Task IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "filtered by Task selected",
+                  "filtered by productScopeID selected",
                   "SelectLabel = requirementTypeName"
                 ]
               },
@@ -3285,6 +3374,12 @@
               "rule": "(grouped by outputs)",
               "tab-name": "outputs",
               "tab-table": "Handouts"
+            },
+            {
+              "tab-order": 3,
+              "rule": "(via: productScopeID)",
+              "tab-name": "product scopes",
+              "tab-table": "Product Scopes"
             }
           ]
         }
