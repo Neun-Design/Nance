@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 19,
+    "schemaVersion": 20,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -6807,13 +6807,22 @@
               "constraints": "FK"
             },
             {
-              "name": "scopeID",
+              "name": "productScopeID",
               "type": "FK",
-              "rule": "FK → Scopes (display: scopeName)",
-              "notes": "Scope this competence certifies (links Product Scopes → Competence subitems)",
+              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "notes": "The product scope this competence certifies (scope × product group in one key — replaces the separate Scope/Product Group selects, issue #159 follow-up). Options = the selected process's list.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "scopeID",
+              "type": "mirror",
+              "rule": "computed → Product Scopes (via: productScopeID) (display: scopeName)",
+              "notes": "Derived — the scope of the certified product scope",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK, NOT NULL"
+              "constraints": null
             },
             {
               "name": "functionID",
@@ -6880,12 +6889,12 @@
             },
             {
               "name": "productGroupID",
-              "type": "FK",
-              "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
-              "notes": "Product group this competence certifies",
+              "type": "mirror",
+              "rule": "computed → Product Scopes (via: productScopeID) (display: productGroupName)",
+              "notes": "Derived — the product group of the certified product scope (renders the productName | SPECS display)",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK, NOT NULL"
+              "constraints": null
             },
             {
               "name": "productSpecID",
@@ -6994,26 +7003,6 @@
                 "check": "Skill Level IS NOT NULL",
                 "field-rule": "filtered by Skill Level + Function selected"
               },
-              "Scope": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "scopeID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Product Group": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "productGroupID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
               "Event": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -7033,6 +7022,16 @@
                 "step": null,
                 "check": "Event IS NOT NULL",
                 "field-rule": "filtered by Event selected"
+              },
+              "Product Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Product scope this competence certifies — offered from the selected process's list (scope and product group derive from it)",
+                "step": null,
+                "check": "Process IS NOT NULL",
+                "field-rule": "filtered by processID selected"
               },
               "Task": {
                 "field-type": {

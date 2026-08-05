@@ -522,6 +522,24 @@ function competenceRequirements(comp) {
   return set;
 }
 
+// Scope + product group of a competence — via its certified PRODUCT SCOPE
+// since the #159 follow-up (legacy stored keys honoured for old snapshots;
+// no product scope = wildcard, matches everything). Exported for
+// tools/test_engine_talent.mjs.
+export function competenceProductScope(comp) {
+  const ids = Array.isArray(comp.productScopeID) ? comp.productScopeID
+    : comp.productScopeID != null && comp.productScopeID !== '' ? [comp.productScopeID] : [];
+  const rows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
+  if (!rows.length) return { scope: comp.scopeID || null, pg: comp.productGroupID || null };
+  const flat = (field) => {
+    const out = [];
+    rows.forEach((r) => (Array.isArray(r[field]) ? r[field] : [r[field]])
+      .filter((v) => v != null && v !== '').forEach((v) => { if (!out.includes(v)) out.push(v); }));
+    return out.length ? out : null;
+  };
+  return { scope: flat('scopeID'), pg: flat('productGroupID') };
+}
+
 function certifiedResponsibles(ticketId, taskId) {
   const tickets = resolveTable('Tickets');
   const ticket = ticketId && tickets ? getById(tickets, ticketId) : null;
@@ -547,8 +565,9 @@ function certifiedResponsibles(ticketId, taskId) {
     if (ob.isCertified !== true) continue;
     const comp = getById(compTable, ob.competenceID);
     if (!comp) continue;
-    if (scope && comp.scopeID && !arrOverlap(comp.scopeID, scope)) continue;
-    if (pg && comp.productGroupID && !arrOverlap(comp.productGroupID, pg)) continue;
+    const compPS = competenceProductScope(comp);
+    if (scope && compPS.scope && !arrOverlap(compPS.scope, scope)) continue;
+    if (pg && compPS.pg && !arrOverlap(compPS.pg, pg)) continue;
     const compReqs = competenceRequirements(comp);
     if (reqIds && reqIds.length && compReqs && !arrOverlap(compReqs, reqIds)) continue;
     if (taskId && comp.taskID && !arrOverlap(comp.taskID, taskId)) continue;
@@ -1183,9 +1202,9 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
             return;
           }
-          // Procedures "Product Scopes": the selected process's list (empty
-          // list = every product scope of the process's event)
-          if (entity === 'Procedures' && attrName === 'productScopeID') {
+          // Procedures/Competence "Product Scope(s)": the selected process's
+          // list (empty list = every product scope of the process's event)
+          if ((entity === 'Procedures' || entity === 'Competence') && attrName === 'productScopeID') {
             const dep = findDep('Process');
             applyOpts(productScopesForProcess(dep ? dep[1].get() : null));
             return;

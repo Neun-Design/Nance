@@ -21671,7 +21671,6 @@
    {
     "competenceID": "CMP01",
     "functionID": "F1",
-    "scopeID": "A.1",
     "roleID": "R01",
     "skillLevelID": "SL1",
     "actionID": "AC01",
@@ -21685,17 +21684,16 @@
     "eventID": "EV02",
     "processID": "PR1",
     "taskID": "012",
-    "productGroupID": "PG02",
     "levelRank": 1,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC01"
-    ]
+    ],
+    "productScopeID": "PS03"
    },
    {
     "competenceID": "CMP02",
     "functionID": "F2",
-    "scopeID": "A.2",
     "roleID": "R02",
     "skillLevelID": "SL2",
     "actionID": "AC02",
@@ -21709,17 +21707,16 @@
     "eventID": "EV02",
     "processID": "PR1",
     "taskID": "032",
-    "productGroupID": "PG01",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC02"
-    ]
+    ],
+    "productScopeID": "PS01"
    },
    {
     "competenceID": "CMP03",
     "functionID": "F3",
-    "scopeID": "A.3",
     "roleID": "R03",
     "skillLevelID": "SL1",
     "actionID": "AC03",
@@ -21733,17 +21730,16 @@
     "eventID": "EV02",
     "processID": "PR1",
     "taskID": "033",
-    "productGroupID": "PG01",
     "levelRank": 1,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC03"
-    ]
+    ],
+    "productScopeID": "PS02"
    },
    {
     "competenceID": "CMP04",
     "functionID": "F4",
-    "scopeID": "A.4",
     "roleID": "R04",
     "skillLevelID": "SL2",
     "actionID": "AC04",
@@ -21757,17 +21753,16 @@
     "eventID": "EV02",
     "processID": "PR1",
     "taskID": "045",
-    "productGroupID": "PG01",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC04"
-    ]
+    ],
+    "productScopeID": "PS11"
    },
    {
     "competenceID": "CMP05",
     "functionID": "F5",
-    "scopeID": "B",
     "roleID": "R04",
     "skillLevelID": "SL2",
     "actionID": "AC05",
@@ -21781,17 +21776,16 @@
     "eventID": "EV20",
     "processID": "PR2",
     "taskID": "101",
-    "productGroupID": "PG03",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC05"
-    ]
+    ],
+    "productScopeID": "PS05"
    },
    {
     "competenceID": "CMP06",
     "functionID": "F1",
-    "scopeID": "C",
     "roleID": "R05",
     "skillLevelID": "SL3",
     "actionID": "AC06",
@@ -21805,17 +21799,16 @@
     "eventID": "EV20",
     "processID": "PR2",
     "taskID": "102",
-    "productGroupID": "PG01",
     "levelRank": 3,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC06"
-    ]
+    ],
+    "productScopeID": "PS12"
    },
    {
     "competenceID": "CMP07",
     "functionID": "F2",
-    "scopeID": "D",
     "roleID": "R06",
     "skillLevelID": "SL2",
     "actionID": "AC07",
@@ -21829,17 +21822,16 @@
     "eventID": "EV20",
     "processID": "PR2",
     "taskID": "103",
-    "productGroupID": "PG01",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC07"
-    ]
+    ],
+    "productScopeID": "PS13"
    },
    {
     "competenceID": "CMP08",
     "functionID": "F3",
-    "scopeID": "E",
     "roleID": "R07",
     "skillLevelID": "SL3",
     "actionID": "AC01",
@@ -21853,17 +21845,16 @@
     "eventID": "EV01",
     "processID": "PR5",
     "taskID": "104",
-    "productGroupID": "PG01",
     "levelRank": 3,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC08"
-    ]
+    ],
+    "productScopeID": "PS14"
    },
    {
     "competenceID": "CMP09",
     "functionID": "F4",
-    "scopeID": "F",
     "roleID": "R07",
     "skillLevelID": "SL3",
     "actionID": "AC02",
@@ -21877,17 +21868,16 @@
     "eventID": "EV01",
     "processID": "PR5",
     "taskID": "105",
-    "productGroupID": "PG01",
     "levelRank": 3,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC09"
-    ]
+    ],
+    "productScopeID": "PS15"
    },
    {
     "competenceID": "CMP10",
     "functionID": "F5",
-    "scopeID": "G",
     "roleID": "R09",
     "skillLevelID": "SL2",
     "actionID": "AC03",
@@ -21901,17 +21891,16 @@
     "eventID": "EV01",
     "processID": "PR5",
     "taskID": "106",
-    "productGroupID": "PG04",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC10"
-    ]
+    ],
+    "productScopeID": "PS06"
    },
    {
     "competenceID": "CMP11",
     "functionID": "F1",
-    "scopeID": "A.1",
     "roleID": "R02",
     "skillLevelID": "SL2",
     "actionID": "AC04",
@@ -21925,17 +21914,16 @@
     "eventID": "EV02",
     "processID": "PR1",
     "taskID": "107",
-    "productGroupID": "PG02",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC11"
-    ]
+    ],
+    "productScopeID": "PS03"
    },
    {
     "competenceID": "CMP12",
     "functionID": "F2",
-    "scopeID": "A.2",
     "roleID": "R04",
     "skillLevelID": "SL2",
     "actionID": "AC05",
@@ -21949,12 +21937,12 @@
     "eventID": "EV02",
     "processID": "PR1",
     "taskID": "108",
-    "productGroupID": "PG01",
     "levelRank": 2,
     "departmentID": "DPT01",
     "procedureID": [
      "PRC12"
-    ]
+    ],
+    "productScopeID": "PS01"
    }
   ]
  },
@@ -22078,6 +22066,66 @@
     "isActive": true,
     "createdAt": "2026-03-12",
     "productScopeOwner": "U10",
+    "businessUnitID": "BU01"
+   },
+   {
+    "productScopeID": "PS11",
+    "productScopeRegistry": "PSR-0011",
+    "productGroupID": "PG01",
+    "scopeID": "A.4",
+    "productScopeName": "LPT · Repair with Windings Replacement",
+    "businessSegment": "LPT",
+    "isActive": true,
+    "createdAt": "2026-08-05",
+    "productScopeOwner": "U01",
+    "businessUnitID": "BU01"
+   },
+   {
+    "productScopeID": "PS12",
+    "productScopeRegistry": "PSR-0012",
+    "productGroupID": "PG01",
+    "scopeID": "C",
+    "productScopeName": "LPT · Renewal of the paper/oil insulation system",
+    "businessSegment": "LPT",
+    "isActive": true,
+    "createdAt": "2026-08-05",
+    "productScopeOwner": "U01",
+    "businessUnitID": "BU01"
+   },
+   {
+    "productScopeID": "PS13",
+    "productScopeRegistry": "PSR-0013",
+    "productGroupID": "PG01",
+    "scopeID": "D",
+    "productScopeName": "LPT · Protection devices, wiring/cabling, cubicles, monitoring",
+    "businessSegment": "LPT",
+    "isActive": true,
+    "createdAt": "2026-08-05",
+    "productScopeOwner": "U01",
+    "businessUnitID": "BU01"
+   },
+   {
+    "productScopeID": "PS14",
+    "productScopeRegistry": "PSR-0014",
+    "productGroupID": "PG01",
+    "scopeID": "E",
+    "productScopeName": "LPT · Renovation of External Parts",
+    "businessSegment": "LPT",
+    "isActive": true,
+    "createdAt": "2026-08-05",
+    "productScopeOwner": "U01",
+    "businessUnitID": "BU01"
+   },
+   {
+    "productScopeID": "PS15",
+    "productScopeRegistry": "PSR-0015",
+    "productGroupID": "PG01",
+    "scopeID": "F",
+    "productScopeName": "LPT · Replacement of bushings, shields/electrodes and CTs",
+    "businessSegment": "LPT",
+    "isActive": true,
+    "createdAt": "2026-08-05",
+    "productScopeOwner": "U01",
     "businessUnitID": "BU01"
    }
   ],

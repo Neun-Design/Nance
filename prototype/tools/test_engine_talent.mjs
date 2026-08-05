@@ -83,5 +83,28 @@ console.log('== Roles: multivalued Graduation, isActive gone (2026-08-03) ==');
     'data migrated: list-shaped graduation, no isActive');
 }
 
+console.log('== Competence certifies a Product Scope (#159 follow-up) ==');
+{
+  const cat = catalog['Competence'];
+  eq(model.parseRule(cat.byName['productScopeID'].rule).kind, 'fk', 'productScopeID is the stored anchor');
+  eq([cat.byName['scopeID'].type, cat.byName['productGroupID'].type], ['mirror', 'mirror'],
+    'scope and product group derive from the product scope');
+  eq('Scope' in cat.form.fields || 'Product Group' in cat.form.fields, false,
+    'separate Scope / Product Group selects removed');
+  eq(cat.form.fields['Product Scope'].check, 'Process IS NOT NULL', 'Product Scope gated on Process');
+  const rows = data.getEntity('Competence');
+  eq(rows.every((r2) => r2.productScopeID && !('scopeID' in r2) && !('productGroupID' in r2)), true,
+    'data migrated: every competence anchors a product scope, legacy keys dropped');
+  eq(data.getById('Product Scopes', 'PS11') != null, true,
+    'missing scope x product-group pairs were created as Product Scopes');
+  const cmp = data.getById('Competence', 'CMP01');
+  eq(forms.competenceProductScope(cmp), { scope: ['A.1'], pg: ['PG02'] },
+    'staffing reads scope/pg through the certified product scope');
+  eq(forms.competenceProductScope({}), { scope: null, pg: null },
+    'no product scope = wildcard (matches everything)');
+  eq(String(resolve.derivedValue('Competence', cat.byName['scopeID'], cmp)), 'Temperature Reduction',
+    'scope column renders via the product scope');
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
 process.exit(fails ? 1 : 0);
