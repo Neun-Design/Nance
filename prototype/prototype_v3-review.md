@@ -399,6 +399,29 @@ FKs, reports and queries).
 >
 > **Rafael:**
 
+## Session file Save / Save As — overwrite in place, no timestamped copies
+
+Rafael's request (05/08): Save overwrites the session file (first save picks the folder; after an
+Import, Save writes back to the imported location) with a footer confirmation; Save As records a
+new version defaulting to the session folder; the header shows the folder (last path segment) +
+file name of the Save target; brand renamed to DIVISION GOVERNANCE PORTAL.
+
+> **Claude (applied, 05/08):** built on the File System Access API (Chromium) in the new
+> `js/session-file.js`: Save → `createWritable()` overwrite in place; first save falls through
+> to Save As (folder picker + name prompt, default `edqms_session.json`); Import switches to
+> `showOpenFilePicker`, so the picked file becomes the Save target; Save As's folder picker
+> reopens the session folder (picker `id` + `startIn`). The `📄 folder/file.json` chip lives in
+> the header (folder = last path segment — the API never exposes full paths; files imported from
+> outside the known folder show just the name); every save confirms via the footer toast. The
+> Save target **survives reloads** (handles persisted in IndexedDB; permission re-requested on
+> the next Save click). Non-Chromium browsers (Safari/Firefox) fall back to downloading
+> `edqms_session.json` with a toast explaining the limitation. Brand renamed across the app
+> (header, page title, login card, DG mark) and the prototype docs. No datamodel change
+> (schemaVersion stays 18); 14 suites green; MVP header verified in-app. Note for the field:
+> the native pickers can't be exercised headlessly — worth one manual pass on your machine.
+>
+> **Rafael:**
+
 # Central finding
 
 ## D1 — Customers and Branches are the same real-world thing registered twice

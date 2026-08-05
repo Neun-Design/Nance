@@ -1,7 +1,7 @@
 # EDQMS `datamodel.json` — Rendering Guide
 
 > **Purpose.** `prototype/data/datamodel.json` is the canonical UI specification for the
-> Powergrid Governance Portal prototype. Every dashboard, table, card, report, drawer form,
+> Division Governance Portal prototype. Every dashboard, table, card, report, drawer form,
 > filter and subitem list must be **derived from this file** — a screen is correct only if
 > it can be traced back to a parameter documented here.
 >
