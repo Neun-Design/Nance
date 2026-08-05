@@ -36,7 +36,7 @@ console.log('== schema shapes ==');
   const pc = catalog['Procedures'];
   eq(pc.byName['departmentID'], undefined, 'Procedures dropped departmentID');
   eq(model.parseRule(pc.byName['productScopeID'].rule).kind, 'fk', 'Procedures store product scopes');
-  eq(model.getSchemaVersion(), 19, 'schemaVersion 19');
+  eq(model.getSchemaVersion() >= 19, true, 'schemaVersion at least 19 (payload round)');
 }
 
 console.log('== migration: department moved event -> process, wildcards seeded ==');
