@@ -14,15 +14,19 @@ workflow steps, steps carry tasks with inputs and outputs.
 **What it is:** the business occurrences that drive the QMS — the architectural pivot of the
 model.
 **Register when:** first in the module; Competence (phase 6) also anchors on events.
-**Key fields:** Title, Description; `Business Unit *` → unlocks `Department *` (only the
-unit's departments).
+**Key fields:** Title, Description; `Business Unit *` → unlocks **Scopes** and **Products**
+(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
+apply to all). The department is not registered here anymore — it moved down to the Process.
+Expanding an event lists its Processes and the Product Scopes its applicability admits.
 
 ## Processes
 
 **What it is:** a top-level flow triggered by an event, run by a squad.
 **Register when:** after Events.
-**Key fields:** Registry number, Name, Description; `Event *` → unlocks Squad (squads of the
-department handling the event); Owner; Status; Version.
+**Key fields:** Registry number, Name, Description; `Event *` → unlocks **Department**
+(departments of the event's unit) and **Product Scopes** (multi — offered from the event's
+applicability, empty = covers all); Department → unlocks Squad (squads of the process's own
+department); Owner; Status; Version.
 
 ## Workflows
 
@@ -63,8 +67,10 @@ output handouts — the same task can carry several procedures, one per requirem
 An empty requirement list means the procedure applies to every requirement.
 **Register when:** last in the module — after Tasks; before Competence (a competence
 certifies procedures).
-**Key fields:** registry code and URL of the controlled document; `Unit` → `Department` →
-`Process` → `Task *` (the anchor); Requirements offers only the requirements the selected
-task actually derives; **execution time** (hours under THIS requirement set — procedures
-create the variance in task duration; the task shows the sum); Inputs/Outputs offer only
-handouts that are free or already on this chain; accountable owner.
+**Key fields:** registry code and URL of the controlled document; `Unit` → `Process` (the
+unit's processes) → `Task *` (the anchor); **Product Scopes** (multi — offered from the
+process's list, empty = applies to all); Requirements follows the selected product scopes
+(their derived requirement sets — with none selected, the task's set); **execution time**
+(hours under THIS requirement set — procedures create the variance in task duration; the
+task shows the sum); Inputs/Outputs offer only handouts that are free or already on this
+chain; accountable owner. Expanding a procedure shows its handout tabs and product scopes.

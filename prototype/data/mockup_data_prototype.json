@@ -10242,7 +10242,8 @@
     "scopeName": "Temperature Reduction",
     "eventOwner": "U01",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV02",
@@ -10254,7 +10255,8 @@
     "scopeName": "Uprating",
     "eventOwner": "U02",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV03",
@@ -10266,7 +10268,8 @@
     "scopeName": "Uprating with Windings Replacement",
     "eventOwner": "U03",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV04",
@@ -10278,7 +10281,8 @@
     "scopeName": "Repair with Windings Replacement",
     "eventOwner": "U04",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV05",
@@ -10290,7 +10294,8 @@
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "eventOwner": "U05",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV06",
@@ -10302,7 +10307,8 @@
     "scopeName": "Renewal of the paper/oil insulation system",
     "eventOwner": "U06",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV07",
@@ -10314,7 +10320,8 @@
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "eventOwner": "U07",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV08",
@@ -10326,7 +10333,8 @@
     "scopeName": "Renovation of External Parts",
     "eventOwner": "U08",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV09",
@@ -10338,7 +10346,8 @@
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "eventOwner": "U09",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV10",
@@ -10350,7 +10359,8 @@
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "eventOwner": "U10",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV11",
@@ -10362,7 +10372,8 @@
     "scopeName": "Temperature Reduction",
     "eventOwner": "U11",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV12",
@@ -10374,7 +10385,8 @@
     "scopeName": "Uprating",
     "eventOwner": "U12",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV13",
@@ -10386,7 +10398,8 @@
     "scopeName": "Uprating with Windings Replacement",
     "eventOwner": "U13",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV14",
@@ -10398,7 +10411,8 @@
     "scopeName": "Repair with Windings Replacement",
     "eventOwner": "U14",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV15",
@@ -10410,7 +10424,8 @@
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "eventOwner": "U15",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV16",
@@ -10422,7 +10437,8 @@
     "scopeName": "Renewal of the paper/oil insulation system",
     "eventOwner": "U16",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV17",
@@ -10434,7 +10450,8 @@
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "eventOwner": "U17",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV18",
@@ -10446,7 +10463,8 @@
     "scopeName": "Renovation of External Parts",
     "eventOwner": "U18",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV19",
@@ -10458,7 +10476,8 @@
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "eventOwner": "U19",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV20",
@@ -10470,7 +10489,8 @@
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "eventOwner": "U20",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV21",
@@ -10482,7 +10502,8 @@
     "scopeName": "Temperature Reduction",
     "eventOwner": "U21",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV22",
@@ -10494,7 +10515,8 @@
     "scopeName": "Uprating",
     "eventOwner": "U22",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV23",
@@ -10506,7 +10528,8 @@
     "scopeName": "Uprating with Windings Replacement",
     "eventOwner": "U23",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV24",
@@ -10518,7 +10541,8 @@
     "scopeName": "Repair with Windings Replacement",
     "eventOwner": "U24",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV25",
@@ -10530,7 +10554,8 @@
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
     "eventOwner": "U01",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV26",
@@ -10542,7 +10567,8 @@
     "scopeName": "Renewal of the paper/oil insulation system",
     "eventOwner": "U02",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV27",
@@ -10554,7 +10580,8 @@
     "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
     "eventOwner": "U03",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV28",
@@ -10566,7 +10593,8 @@
     "scopeName": "Renovation of External Parts",
     "eventOwner": "U04",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV29",
@@ -10578,7 +10606,8 @@
     "scopeName": "Replacement of bushings, shields/electrodes and CTs",
     "eventOwner": "U05",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV30",
@@ -10590,7 +10619,8 @@
     "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
     "eventOwner": "U06",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    },
    {
     "eventID": "EV31",
@@ -10602,7 +10632,8 @@
     "scopeName": "Temperature Reduction",
     "eventOwner": "U07",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03"
+    "scopeID": [],
+    "productID": []
    }
   ],
   "Processes": [
@@ -10618,7 +10649,9 @@
     "processVersion": "v1.2",
     "productName": "LPT",
     "scopeName": "Temperature Reduction",
-    "squadID": "SQ1"
+    "squadID": "SQ1",
+    "departmentID": "DPT01",
+    "productScopeID": []
    },
    {
     "processID": "PR2",
@@ -10632,7 +10665,9 @@
     "processVersion": "v2.0",
     "productName": "Autotransformer",
     "scopeName": "Uprating",
-    "squadID": "SQ1"
+    "squadID": "SQ1",
+    "departmentID": "DPT01",
+    "productScopeID": []
    },
    {
     "processID": "PR3",
@@ -10646,7 +10681,9 @@
     "processVersion": "v1.0",
     "productName": "Phase Shifter",
     "scopeName": "Uprating with Windings Replacement",
-    "squadID": "SQ1"
+    "squadID": "SQ1",
+    "departmentID": "DPT01",
+    "productScopeID": []
    },
    {
     "processID": "PR4",
@@ -10660,7 +10697,9 @@
     "processVersion": "v1.1",
     "productName": "HVDC",
     "scopeName": "Repair with Windings Replacement",
-    "squadID": "SQ1"
+    "squadID": "SQ1",
+    "departmentID": "DPT01",
+    "productScopeID": []
    },
    {
     "processID": "PR5",
@@ -10674,7 +10713,9 @@
     "processVersion": "v1.3",
     "productName": "Reactors",
     "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "squadID": null
+    "squadID": null,
+    "departmentID": "DPT03",
+    "productScopeID": []
    },
    {
     "processID": "PC01",
@@ -10688,7 +10729,9 @@
     "processVersion": "1.0",
     "productName": "MPT",
     "scopeName": "Renewal of the paper/oil insulation system",
-    "squadID": null
+    "squadID": null,
+    "departmentID": "DPT03",
+    "productScopeID": []
    }
   ],
   "Activities": [
@@ -11213,7 +11256,6 @@
     "procedureRegistry": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/012",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "012",
     "requirementID": [
@@ -11227,14 +11269,14 @@
      "HO09"
     ],
     "procedureOwner": "U01",
-    "executionTime": 5
+    "executionTime": 5,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC02",
     "procedureRegistry": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/032",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "032",
     "requirementID": [
@@ -11248,14 +11290,14 @@
      "HO10"
     ],
     "procedureOwner": "U02",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC03",
     "procedureRegistry": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/033",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "033",
     "requirementID": [
@@ -11269,14 +11311,14 @@
      "HO01"
     ],
     "procedureOwner": "U03",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC04",
     "procedureRegistry": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/045",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "045",
     "requirementID": [
@@ -11290,14 +11332,14 @@
      "HO02"
     ],
     "procedureOwner": "U04",
-    "executionTime": 15
+    "executionTime": 15,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC05",
     "procedureRegistry": "Procedure PR2-5",
     "procedureURL": "https://portal.example/procedures/101",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "101",
     "requirementID": [
@@ -11311,14 +11353,14 @@
      "HO04"
     ],
     "procedureOwner": "U05",
-    "executionTime": 20
+    "executionTime": 20,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC06",
     "procedureRegistry": "Procedure PR2-6",
     "procedureURL": "https://portal.example/procedures/102",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "102",
     "requirementID": [
@@ -11332,14 +11374,14 @@
      "HO05"
     ],
     "procedureOwner": "U06",
-    "executionTime": 18
+    "executionTime": 18,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC07",
     "procedureRegistry": "Procedure PR2-7",
     "procedureURL": "https://portal.example/procedures/103",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "103",
     "requirementID": [
@@ -11353,14 +11395,14 @@
      "HO03"
     ],
     "procedureOwner": "U07",
-    "executionTime": 12
+    "executionTime": 12,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC08",
     "procedureRegistry": "Procedure PR5-1",
     "procedureURL": "https://portal.example/procedures/104",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR5",
     "taskID": "104",
     "requirementID": [
@@ -11374,14 +11416,14 @@
      "HO01"
     ],
     "procedureOwner": "U08",
-    "executionTime": 9
+    "executionTime": 9,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC09",
     "procedureRegistry": "Procedure PR5-2",
     "procedureURL": "https://portal.example/procedures/105",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR5",
     "taskID": "105",
     "requirementID": [
@@ -11395,14 +11437,14 @@
      "HO02"
     ],
     "procedureOwner": "U09",
-    "executionTime": 14
+    "executionTime": 14,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC10",
     "procedureRegistry": "Procedure PR5-3",
     "procedureURL": "https://portal.example/procedures/106",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR5",
     "taskID": "106",
     "requirementID": [
@@ -11416,14 +11458,14 @@
      "HO10"
     ],
     "procedureOwner": "U10",
-    "executionTime": 7
+    "executionTime": 7,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC11",
     "procedureRegistry": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/107",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "107",
     "requirementID": [
@@ -11437,14 +11479,14 @@
      "HO01"
     ],
     "procedureOwner": "U11",
-    "executionTime": 5
+    "executionTime": 5,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC12",
     "procedureRegistry": "Procedure PR1-5",
     "procedureURL": "https://portal.example/procedures/108",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "108",
     "requirementID": [
@@ -11458,14 +11500,14 @@
      "HO02"
     ],
     "procedureOwner": "U12",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC13",
     "procedureRegistry": "Procedure PR1-6",
     "procedureURL": "https://portal.example/procedures/109",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "109",
     "requirementID": [],
@@ -11476,14 +11518,14 @@
      "HO09"
     ],
     "procedureOwner": "U13",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC14",
     "procedureRegistry": "Procedure PR1-7",
     "procedureURL": "https://portal.example/procedures/110",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "110",
     "requirementID": [],
@@ -11494,14 +11536,14 @@
      "HO10"
     ],
     "procedureOwner": "U14",
-    "executionTime": 15
+    "executionTime": 15,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC15",
     "procedureRegistry": "Procedure PR2-1",
     "procedureURL": "https://portal.example/procedures/111",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "111",
     "requirementID": [],
@@ -11512,14 +11554,14 @@
      "HO05"
     ],
     "procedureOwner": "U15",
-    "executionTime": 20
+    "executionTime": 20,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC16",
     "procedureRegistry": "Procedure PR2-2",
     "procedureURL": "https://portal.example/procedures/112",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "112",
     "requirementID": [],
@@ -11530,14 +11572,14 @@
      "HO03"
     ],
     "procedureOwner": "U16",
-    "executionTime": 18
+    "executionTime": 18,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC17",
     "procedureRegistry": "Procedure PR2-3",
     "procedureURL": "https://portal.example/procedures/113",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "113",
     "requirementID": [],
@@ -11548,14 +11590,14 @@
      "HO04"
     ],
     "procedureOwner": "U17",
-    "executionTime": 12
+    "executionTime": 12,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC18",
     "procedureRegistry": "Procedure PR3-4",
     "procedureURL": "https://portal.example/procedures/114",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03",
     "processID": "PR3",
     "taskID": "114",
     "requirementID": [],
@@ -11566,14 +11608,14 @@
      "HO07"
     ],
     "procedureOwner": "U18",
-    "executionTime": 6
+    "executionTime": 6,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC19",
     "procedureRegistry": "Procedure PR3-5",
     "procedureURL": "https://portal.example/procedures/115",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03",
     "processID": "PR3",
     "taskID": "115",
     "requirementID": [],
@@ -11584,14 +11626,14 @@
      "HO06"
     ],
     "procedureOwner": "U19",
-    "executionTime": 4
+    "executionTime": 4,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC20",
     "procedureRegistry": "Procedure PR4-6",
     "procedureURL": "https://portal.example/procedures/116",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03",
     "processID": "PR4",
     "taskID": "116",
     "requirementID": [],
@@ -11602,14 +11644,14 @@
      "HO09"
     ],
     "procedureOwner": "U20",
-    "executionTime": 16
+    "executionTime": 16,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC21",
     "procedureRegistry": "Procedure PR4-7",
     "procedureURL": "https://portal.example/procedures/117",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03",
     "processID": "PR4",
     "taskID": "117",
     "requirementID": [],
@@ -11620,14 +11662,14 @@
      "HO08"
     ],
     "procedureOwner": "U21",
-    "executionTime": 10
+    "executionTime": 10,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC22",
     "procedureRegistry": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/118",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "118",
     "requirementID": [],
@@ -11638,14 +11680,14 @@
      "HO10"
     ],
     "procedureOwner": "U22",
-    "executionTime": 5
+    "executionTime": 5,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC23",
     "procedureRegistry": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/119",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "119",
     "requirementID": [],
@@ -11656,14 +11698,14 @@
      "HO01"
     ],
     "procedureOwner": "U23",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC24",
     "procedureRegistry": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/120",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "120",
     "requirementID": [],
@@ -11674,14 +11716,14 @@
      "HO02"
     ],
     "procedureOwner": "U24",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC25",
     "procedureRegistry": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/121",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "121",
     "requirementID": [],
@@ -11692,14 +11734,14 @@
      "HO09"
     ],
     "procedureOwner": "U01",
-    "executionTime": 15
+    "executionTime": 15,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC26",
     "procedureRegistry": "Procedure PR5-5",
     "procedureURL": "https://portal.example/procedures/122",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR5",
     "taskID": "122",
     "requirementID": [],
@@ -11710,14 +11752,14 @@
      "HO01"
     ],
     "procedureOwner": "U02",
-    "executionTime": 9
+    "executionTime": 9,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC27",
     "procedureRegistry": "Procedure PR5-6",
     "procedureURL": "https://portal.example/procedures/123",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR5",
     "taskID": "123",
     "requirementID": [],
@@ -11728,14 +11770,14 @@
      "HO02"
     ],
     "procedureOwner": "U03",
-    "executionTime": 14
+    "executionTime": 14,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC28",
     "procedureRegistry": "Procedure PR5-7",
     "procedureURL": "https://portal.example/procedures/124",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR5",
     "taskID": "124",
     "requirementID": [],
@@ -11746,14 +11788,14 @@
      "HO10"
     ],
     "procedureOwner": "U04",
-    "executionTime": 7
+    "executionTime": 7,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC29",
     "procedureRegistry": "Procedure PR2-1",
     "procedureURL": "https://portal.example/procedures/125",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "125",
     "requirementID": [],
@@ -11764,14 +11806,14 @@
      "HO04"
     ],
     "procedureOwner": "U05",
-    "executionTime": 20
+    "executionTime": 20,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC30",
     "procedureRegistry": "Procedure PR2-2",
     "procedureURL": "https://portal.example/procedures/126",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "126",
     "requirementID": [],
@@ -11782,14 +11824,14 @@
      "HO05"
     ],
     "procedureOwner": "U06",
-    "executionTime": 18
+    "executionTime": 18,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC31",
     "procedureRegistry": "Procedure PR2-3",
     "procedureURL": "https://portal.example/procedures/127",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "127",
     "requirementID": [],
@@ -11800,14 +11842,14 @@
      "HO03"
     ],
     "procedureOwner": "U07",
-    "executionTime": 12
+    "executionTime": 12,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC32",
     "procedureRegistry": "Procedure PR1-4",
     "procedureURL": "https://portal.example/procedures/128",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "128",
     "requirementID": [],
@@ -11818,14 +11860,14 @@
      "HO02"
     ],
     "procedureOwner": "U08",
-    "executionTime": 5
+    "executionTime": 5,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC33",
     "procedureRegistry": "Procedure PR1-5",
     "procedureURL": "https://portal.example/procedures/129",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "129",
     "requirementID": [],
@@ -11836,14 +11878,14 @@
      "HO09"
     ],
     "procedureOwner": "U09",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC34",
     "procedureRegistry": "Procedure PR1-6",
     "procedureURL": "https://portal.example/procedures/130",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "130",
     "requirementID": [],
@@ -11854,14 +11896,14 @@
      "HO10"
     ],
     "procedureOwner": "U10",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC35",
     "procedureRegistry": "Procedure PR1-7",
     "procedureURL": "https://portal.example/procedures/131",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR1",
     "taskID": "131",
     "requirementID": [],
@@ -11872,14 +11914,14 @@
      "HO01"
     ],
     "procedureOwner": "U11",
-    "executionTime": 15
+    "executionTime": 15,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC36",
     "procedureRegistry": "Procedure PR4-1",
     "procedureURL": "https://portal.example/procedures/132",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03",
     "processID": "PR4",
     "taskID": "132",
     "requirementID": [],
@@ -11890,14 +11932,14 @@
      "HO09"
     ],
     "procedureOwner": "U12",
-    "executionTime": 16
+    "executionTime": 16,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC37",
     "procedureRegistry": "Procedure PR4-2",
     "procedureURL": "https://portal.example/procedures/133",
     "businessUnitID": "BU02",
-    "departmentID": "DPT03",
     "processID": "PR4",
     "taskID": "133",
     "requirementID": [],
@@ -11908,14 +11950,14 @@
      "HO08"
     ],
     "procedureOwner": "U13",
-    "executionTime": 10
+    "executionTime": 10,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC38",
     "procedureRegistry": "Procedure PC01-3",
     "procedureURL": "https://portal.example/procedures/201",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "201",
     "requirementID": [],
@@ -11926,14 +11968,14 @@
      "HO04"
     ],
     "procedureOwner": "U14",
-    "executionTime": 2
+    "executionTime": 2,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC39",
     "procedureRegistry": "Procedure PC01-4",
     "procedureURL": "https://portal.example/procedures/202",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "202",
     "requirementID": [],
@@ -11944,14 +11986,14 @@
      "HO05"
     ],
     "procedureOwner": "U15",
-    "executionTime": 6
+    "executionTime": 6,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC40",
     "procedureRegistry": "Procedure PC01-5",
     "procedureURL": "https://portal.example/procedures/203",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "203",
     "requirementID": [],
@@ -11962,14 +12004,14 @@
      "HO06"
     ],
     "procedureOwner": "U16",
-    "executionTime": 3
+    "executionTime": 3,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC41",
     "procedureRegistry": "Procedure PC01-6",
     "procedureURL": "https://portal.example/procedures/204",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "204",
     "requirementID": [],
@@ -11980,14 +12022,14 @@
      "HO07"
     ],
     "procedureOwner": "U17",
-    "executionTime": 4
+    "executionTime": 4,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC42",
     "procedureRegistry": "Procedure PC01-7",
     "procedureURL": "https://portal.example/procedures/205",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "205",
     "requirementID": [],
@@ -11998,14 +12040,14 @@
      "HO08"
     ],
     "procedureOwner": "U18",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC43",
     "procedureRegistry": "Procedure PC01-1",
     "procedureURL": "https://portal.example/procedures/206",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "206",
     "requirementID": [],
@@ -12016,14 +12058,14 @@
      "HO02"
     ],
     "procedureOwner": "U19",
-    "executionTime": 3
+    "executionTime": 3,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC44",
     "procedureRegistry": "Procedure PC01-2",
     "procedureURL": "https://portal.example/procedures/207",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PC01",
     "taskID": "207",
     "requirementID": [],
@@ -12034,14 +12076,14 @@
      "HO03"
     ],
     "procedureOwner": "U20",
-    "executionTime": 6
+    "executionTime": 6,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC45",
     "procedureRegistry": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/012",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "901",
     "requirementID": [],
@@ -12052,14 +12094,14 @@
      "HO04"
     ],
     "procedureOwner": "U14",
-    "executionTime": 5
+    "executionTime": 5,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC46",
     "procedureRegistry": "Procedure PR1-1",
     "procedureURL": "https://portal.example/procedures/012",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR3",
     "taskID": "902",
     "requirementID": [],
@@ -12070,14 +12112,14 @@
      "HO06"
     ],
     "procedureOwner": "U15",
-    "executionTime": 5
+    "executionTime": 5,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC47",
     "procedureRegistry": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/032",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "903",
     "requirementID": [],
@@ -12088,14 +12130,14 @@
      "HO03"
     ],
     "procedureOwner": "U16",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC48",
     "procedureRegistry": "Procedure PR1-2",
     "procedureURL": "https://portal.example/procedures/032",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR3",
     "taskID": "904",
     "requirementID": [],
@@ -12106,14 +12148,14 @@
      "HO06"
     ],
     "procedureOwner": "U17",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC49",
     "procedureRegistry": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/033",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR2",
     "taskID": "905",
     "requirementID": [],
@@ -12124,14 +12166,14 @@
      "HO05"
     ],
     "procedureOwner": "U18",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    },
    {
     "procedureID": "PRC50",
     "procedureRegistry": "Procedure PR1-3",
     "procedureURL": "https://portal.example/procedures/033",
     "businessUnitID": "BU01",
-    "departmentID": "DPT01",
     "processID": "PR3",
     "taskID": "906",
     "requirementID": [],
@@ -12142,7 +12184,8 @@
      "HO06"
     ],
     "procedureOwner": "U19",
-    "executionTime": 8
+    "executionTime": 8,
+    "productScopeID": []
    }
   ]
  },
