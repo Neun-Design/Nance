@@ -29,12 +29,13 @@ body:
       label: Module (if prototype)
       options:
         - Overview
-        - Customers
-        - Operation
-        - Inventory
-        - Workload
-        - Control
+        - Organization
+        - Portfolio
+        - CRM
         - Talent
+        - Operation
+        - Workspace
+        - Control
         - N/A
 
   - type: textarea

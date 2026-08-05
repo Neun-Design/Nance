@@ -9,12 +9,13 @@ body:
       label: Module
       options:
         - Overview
-        - Customers
-        - Operation
-        - Inventory
-        - Workload
-        - Control
+        - Organization
+        - Portfolio
+        - CRM
         - Talent
+        - Operation
+        - Workspace
+        - Control
     validations:
       required: true
 
@@ -22,7 +23,7 @@ body:
     id: tab
     attributes:
       label: Tab (if applicable)
-      placeholder: "e.g. Task Templates, Jobs, Tickets"
+      placeholder: "e.g. Procedures, Jobs, Tickets"
 
   - type: dropdown
     id: issue_type
