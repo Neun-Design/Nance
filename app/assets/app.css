@@ -44,6 +44,11 @@ select option { background: var(--se-base-1); color: var(--se-text-primary); }
   font-size: var(--se-font-size-caption); font-weight: 600; color: var(--se-text-warning);
   background: var(--se-base-warning); padding: 3px var(--se-space-4); border-radius: var(--se-radius-pill);
 }
+/* session-file chip — folder/name of the file Save overwrites (MVP mode) */
+.session-file {
+  font-size: var(--se-font-size-caption); color: var(--se-text-secondary);
+  max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 /* blank-mode snapshot actions (offline-database workflow) */
 .header-btn {
   font-size: var(--se-font-size-caption); font-weight: 600; color: var(--se-text-primary);

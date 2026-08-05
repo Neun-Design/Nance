@@ -1,4 +1,4 @@
-# EDQMS — Powergrid Governance Portal (Interactive Prototype)
+# EDQMS — Division Governance Portal (Interactive Prototype)
 
 A **data-driven** prototype of the EDQMS portal. Every table, chart and KPI is computed
 **live in the browser** from `data/mockup_data_prototype.json` — nothing is a static image.
@@ -32,6 +32,10 @@ from a blank QMS, for continuity/usability testing:
   stakeholders create Regions → Business Units → … themselves and hit any gaps live.
 - Records created in blank mode **persist in the browser's localStorage**, so the
   session survives reloads and can continue across days (per browser/participant).
+- **Save / Save As** (Chromium): Save **overwrites the session file in place** — no
+  timestamped copies; the first save asks for the folder once. Save As writes a new
+  version (the picker opens in the session folder). Import makes the picked file the
+  new Save target, and the header chip shows `folder/file.json` of the current target.
 - **`?reset=1`** wipes the saved session and starts over (remove it afterwards, or
   every reload starts blank again).
 - The header badge shows **MVP** (vs. DEMO DATA); the login gate is unchanged — and it

@@ -11,7 +11,8 @@ import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
 import { renderReports } from './reports.js';
 import { renderOverview } from './overview.js';
-import { openForm, supportsEdit } from './forms.js';
+import { openForm, supportsEdit, toast } from './forms.js';
+import * as sessionFile from './session-file.js';
 import { parseHash, go, onRoute } from './router.js';
 import { requireLogin, logout } from './login.js';
 
@@ -41,51 +42,95 @@ async function main() {
     const badge = document.querySelector('.header-badge');
     badge.textContent = 'MVP';
     badge.title = 'MVP walkthrough — records you create persist in this browser; add ?reset=1 to the URL to start over';
-    // offline-database workflow (consulting sessions): snapshot the session
-    // to a JSON file and load it back — localStorage alone is too fragile to
-    // carry client data between machines/browsers
+    // offline-database workflow (consulting sessions): the session lives in a
+    // REAL local file. Save OVERWRITES it in place (no timestamped copies);
+    // Save As writes a new version; Import makes the picked file the new
+    // Save target. The header chip shows folder/name of the session file.
     const right = document.querySelector('.header-right');
-    const imp = document.createElement('button');
-    imp.className = 'header-btn'; imp.textContent = 'Import';
-    imp.title = 'Load a session snapshot (.json) — replaces everything registered in this browser';
-    const save = document.createElement('button');
-    save.className = 'header-btn'; save.textContent = 'Save';
-    save.title = 'Download the session as a JSON snapshot — store it in the shared folder, never in the repo';
-    save.addEventListener('click', () => {
-      const stamp = new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '');
+    const chip = document.createElement('div');
+    chip.className = 'session-file';
+    const setChip = (lbl) => {
+      chip.textContent = '📄 ' + (lbl || 'no session file');
+      chip.title = lbl
+        ? `Session file — Save overwrites ${lbl}`
+        : 'No session file yet — Save asks for a folder on first use';
+    };
+    setChip(null);
+    sessionFile.restoreHandles().then((lbl) => { if (lbl) setChip(lbl); });
+
+    const snapshotText = () => JSON.stringify(exportSnapshot(), null, 1);
+    const aborted = (e) => e && (e.name === 'AbortError' || e.name === 'NotAllowedError');
+    // non-Chromium fallback: in-place writes are impossible — download a copy
+    const legacyDownload = () => {
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob(
-        [JSON.stringify(exportSnapshot(), null, 1)], { type: 'application/json' }));
-      a.download = `edqms_blank_${stamp}.json`;
+      a.href = URL.createObjectURL(new Blob([snapshotText()], { type: 'application/json' }));
+      a.download = 'edqms_session.json';
       a.click();
       URL.revokeObjectURL(a.href);
+      toast('This browser cannot write files in place — downloaded a copy instead');
+    };
+
+    const mkBtn = (label, title) => {
+      const b = document.createElement('button');
+      b.className = 'header-btn'; b.textContent = label; b.title = title;
+      return b;
+    };
+    const imp = mkBtn('Import', 'Open a session file (.json) — it replaces the current records and becomes the Save target');
+    const save = mkBtn('Save', 'Overwrite the session file shown in the chip (first save asks for the folder)');
+    const saveAs = mkBtn('Save As', 'Save a new version — the picker opens in the current session folder');
+
+    save.addEventListener('click', async () => {
+      if (!sessionFile.supported) return legacyDownload();
+      try {
+        const lbl = await sessionFile.save(snapshotText());
+        if (lbl) { setChip(lbl); toast(`Saved ${lbl}`); }
+      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.message}`); }
     });
+    saveAs.addEventListener('click', async () => {
+      if (!sessionFile.supported) return legacyDownload();
+      try {
+        const lbl = await sessionFile.saveAs(snapshotText());
+        if (lbl) { setChip(lbl); toast(`Saved ${lbl}`); }
+      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.message}`); }
+    });
+
+    const applyImport = (name, raw) => {
+      const fileVer = (raw._meta && raw._meta.schemaVersion) ?? null;
+      const appVer = getSchemaVersion();
+      const drift = fileVer != null && appVer != null && String(fileVer) !== String(appVer)
+        ? `\n\n⚠ Schema mismatch: file v${fileVer} vs app v${appVer} — fields may be missing or renamed; review before trusting derived views.` : '';
+      if (!confirm(`Import "${name}"?\nThis replaces the records of the current session.${drift}`)) return false;
+      const { records, skipped } = importSnapshot(raw);
+      alert(`Imported ${records} record(s).${skipped.length
+        ? `\nSkipped tables this build doesn't know (schema drift): ${skipped.join(', ')}` : ''}`);
+      routeToActive();
+      return true;
+    };
+    // legacy <input type=file> import for browsers without the API (no write-back)
     const file = document.createElement('input');
     file.type = 'file'; file.accept = 'application/json,.json'; file.hidden = true;
-    imp.addEventListener('click', () => { file.value = ''; file.click(); });
     file.addEventListener('change', async () => {
       const f = file.files && file.files[0];
       if (!f) return;
-      try {
-        const raw = JSON.parse(await f.text());
-        const fileVer = (raw._meta && raw._meta.schemaVersion) ?? null;
-        const appVer = getSchemaVersion();
-        const drift = fileVer != null && appVer != null && String(fileVer) !== String(appVer)
-          ? `\n\n⚠ Schema mismatch: file v${fileVer} vs app v${appVer} — fields may be missing or renamed; review before trusting derived views.` : '';
-        if (!confirm(`Import "${f.name}"?\nThis replaces the records of the current session.${drift}`)) return;
-        const { records, skipped } = importSnapshot(raw);
-        alert(`Imported ${records} record(s).${skipped.length
-          ? `\nSkipped tables this build doesn't know (schema drift): ${skipped.join(', ')}` : ''}`);
-        routeToActive();
-      } catch (e) {
-        alert(`Import failed: ${e.message}`);
-      }
+      try { applyImport(f.name, JSON.parse(await f.text())); }
+      catch (e) { alert(`Import failed: ${e.message}`); }
     });
-    // the badge lives in the left-hand brand group — anchor the snapshot
-    // buttons on the avatar instead
+    imp.addEventListener('click', async () => {
+      if (!sessionFile.supported) { file.value = ''; file.click(); return; }
+      try {
+        const picked = await sessionFile.importPick();
+        if (applyImport(picked.name, JSON.parse(picked.text))) {
+          setChip(picked.label);
+          toast(`Session file: ${picked.label || picked.name}`);
+        }
+      } catch (e) { if (!aborted(e)) alert(`Import failed: ${e.message}`); }
+    });
+
     const avatar = document.getElementById('avatar');
+    right.insertBefore(chip, right.firstChild);
     right.insertBefore(imp, avatar);
     right.insertBefore(save, avatar);
+    right.insertBefore(saveAs, avatar);
     document.body.appendChild(file);
   }
   buildSidebar();

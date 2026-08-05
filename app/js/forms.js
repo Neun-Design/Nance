@@ -1416,7 +1416,7 @@ function mkSelect(options, multi = false) {
   return s;
 }
 function roInput(text) { const i = document.createElement('input'); i.className = 'form-input form-ro'; i.value = text; i.disabled = true; return i; }
-function toast(msg) {
+export function toast(msg) {
   const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
   document.body.appendChild(t);
   requestAnimationFrame(() => t.classList.add('show'));

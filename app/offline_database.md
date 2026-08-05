@@ -5,6 +5,20 @@ engagements: the client's operation is registered through the GitHub Pages
 build in MVP mode (`/app/mvp/`, locally `?data=empty`), and the session data
 travels as plain JSON files — no backend required.
 
+## Save / Save As (2026-08-05)
+
+The session lives in a **real local file** (File System Access API, Chromium):
+
+- **Save** overwrites the session file in place — no timestamped copies pile up. The
+  very first save asks for the folder once; after an **Import**, Save writes straight
+  back to the imported file's location.
+- **Save As** records a new version: the folder picker opens in the current session
+  folder by default, you name the file, and it becomes the new Save target.
+- The **header chip** (`📄 folder/file.json`) always shows what Save will overwrite; a
+  footer toast confirms every save. The target survives reloads (IndexedDB) — the
+  browser just re-asks permission on the next Save.
+- Non-Chromium browsers fall back to downloading a copy (no in-place writes).
+
 ## How it works
 
 Blank mode already persists every registered record to `localStorage`
