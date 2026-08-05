@@ -25,7 +25,7 @@ export function requireLogin() {
 
     const mark = document.createElement('div');
     mark.className = 'brand-mark';
-    mark.textContent = 'PG';
+    mark.textContent = 'DG';
 
     const title = document.createElement('h1');
     title.className = 'login-title';
@@ -33,7 +33,7 @@ export function requireLogin() {
 
     const sub = document.createElement('p');
     sub.className = 'login-sub';
-    sub.textContent = 'Powergrid Governance Portal · EDQMS';
+    sub.textContent = 'Division Governance Portal · EDQMS';
 
     const form = document.createElement('form');
     form.className = 'login-form';
