@@ -243,12 +243,16 @@ function mapSubitem(si, parentEntity) {
     viaThrough: si.viaThrough ? { ...si.viaThrough } : null,
     orderBy: si.orderBy, only: si.only,
     via: si.via || null, throughField: si.throughField || null,
+    mapField: si.mapField || null,
   };
   const rl = {
     label: si.label || (si.only ? `${child} (${si.only.values.join('/')})` : child),
     tab: si.tab || null,
     childEntity: child,
-    columns: withAccessors(child, columnsFor(child, 'sub')),
+    // map-directive children carry their per-parent value as __mapValue —
+    // it renders as an extra "Values" column (issue #161)
+    columns: withAccessors(child, columnsFor(child, 'sub'))
+      .concat(si.mapField ? [{ key: '__mapValue', label: 'Values' }] : []),
     orderBy: si.orderBy,
     resolve: (row, parentOverride) => childrenOf(parentOverride || parentEntity, row, child, opts),
   };

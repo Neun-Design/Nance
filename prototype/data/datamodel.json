@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 20,
+    "schemaVersion": 21,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3830,7 +3830,7 @@
               "rule": "enum: INT/DECIMAL/String/List",
               "notes": "Controls the input rendered for this spec in the Product Group form",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": "NOT NULL"
             },
             {
@@ -4014,8 +4014,8 @@
               "display-name": "SPECS",
               "type": "computed",
               "rule": "computed: MAP(specValues → Product Specs display: specName)",
-              "notes": "Renders the specValues map as 'name: value' pairs",
-              "table-display": true,
+              "notes": "Renders the specValues map as 'name: value' pairs — hidden by default since issue #161 (the specs expand as a subitem table); still drives the FK CONCAT displays elsewhere",
+              "table-display": false,
               "subitem-display": true,
               "constraints": null
             },
@@ -4076,7 +4076,10 @@
             }
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Specs (map: specValues)"
+          ]
         },
         "Requirements": {
           "visibility": "show",

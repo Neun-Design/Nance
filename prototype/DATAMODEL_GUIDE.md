@@ -378,6 +378,7 @@ that row (matched through the FK/rollup relationship between the two entities).
 | `"Forecasts: display status=Approved only"` | Same filter, review spelling. | Customers → Approved Forecasts |
 | `"Scopes (via: scopeID)"` | The join field named inline (parenthetical directive). | Product Scopes → Scopes |
 | `"Handouts (grouped by inputs)"` | Children named by a **through-table field** (Tasks → Workflows.inputs → Handouts). Each group renders as its **own labelled list** — declaring both `inputs` and `outputs` yields "Handouts - Inputs" and "Handouts - Outputs" under one expanded row. | Tasks → Handouts |
+| `"Product Specs (map: specValues)"` | Children synthesize from the **parent row's object map** `{ childId: value }`: one row per entry, joined to the child table, with the value rendered in an extra **Values** column (`__mapValue`). Missing child records keep the raw id. | Product Groups → Product Specs (issue #161) |
 | `"Product Scopes -> Competence"` | **Nesting**: the subitem table has its own subitem table — Product Scopes rows expand again into Competence. Arbitrary depth follows the same rules recursively. | Tasks → Product Scopes → Competence |
 | `[]` | Explicitly no subitems. Same effect as omitting the key. |
 | Lowercase names (`"tickets"`, `"people"`, `"competence"`) | Match tables **case-insensitively** (fuzzy singular/plural too: `"Onboards"` → Onboarding). |
