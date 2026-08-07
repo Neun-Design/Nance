@@ -10,10 +10,10 @@ travels as plain JSON files — no backend required.
 The session lives in a **real local file** (File System Access API, Chromium):
 
 - **Save** overwrites the session file in place — no timestamped copies pile up. The
-  very first save asks for the folder once; after an **Import**, Save writes straight
-  back to the imported file's location.
-- **Save As** records a new version: the folder picker opens in the current session
-  folder by default, you name the file, and it becomes the new Save target.
+  very first save asks for the folder once and creates `edqms_session.json` inside it;
+  after an **Import**, Save writes straight back to the imported file's location.
+- **Save As** records a new version through one native save dialog (browse + name in
+  the same window, opening in the session folder); the file becomes the new Save target.
 - The **header chip** (`📄 folder/file.json`) always shows what Save will overwrite; a
   footer toast confirms every save. The target survives reloads (IndexedDB) — the
   browser just re-asks permission on the next Save.

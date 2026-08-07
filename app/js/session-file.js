@@ -68,33 +68,50 @@ async function writeTo(handle, text) {
   await w.close();
 }
 
-// Save — overwrite the session file in place; the very first save (no file
-// yet) falls through to Save As so the user picks the folder once.
+async function remember(dir, fh) {
+  state.dir = dir;
+  state.file = fh;
+  await idbSet('dir', dir);
+  await idbSet('file', fh);
+}
+
+// Save — overwrite the session file in place. The FIRST save asks only for
+// the FOLDER (per the spec) and creates edqms_session.json inside it — no
+// window.prompt anywhere: Chrome can suppress sync dialogs right after an
+// async picker, which made the first save die silently (2026-08-07 fix).
 export async function save(text) {
-  if (!state.file) return saveAs(text);
+  if (!state.file) {
+    const opts = { id: 'edqms-session', mode: 'readwrite' };
+    if (state.dir) opts.startIn = state.dir;
+    const dir = await window.showDirectoryPicker(opts);
+    const fh = await dir.getFileHandle('edqms_session.json', { create: true });
+    await writeTo(fh, text);
+    await remember(dir, fh);
+    return label();
+  }
   if (!(await ensureRW(state.file))) throw new Error('write permission denied');
   await writeTo(state.file, text);
   return label();
 }
 
-// Save As — pick the folder (the picker's `id` makes the browser reopen the
-// current session folder by default), name the file, and remember both as
-// the NEW session target. Returns null when the user cancels.
+// Save As — ONE native save dialog (browse + name in the same window),
+// opening in the session folder by default (picker id + startIn). The
+// folder chip survives when the new file lands inside the known folder
+// (resolve() proves it); elsewhere the chip shows just the file name.
 export async function saveAs(text) {
-  const dir = await window.showDirectoryPicker({
-    id: 'edqms-session', mode: 'readwrite', startIn: state.dir || undefined,
-  });
-  let name = window.prompt('File name for this session:',
-    (state.file && state.file.name) || 'edqms_session.json');
-  if (name == null) return null;
-  name = name.trim() || 'edqms_session.json';
-  if (!/\.json$/i.test(name)) name += '.json';
-  const fh = await dir.getFileHandle(name, { create: true });
+  const opts = {
+    id: 'edqms-session',
+    suggestedName: (state.file && state.file.name) || 'edqms_session.json',
+    types: [{ description: 'EDQMS session', accept: { 'application/json': ['.json'] } }],
+  };
+  if (state.dir) opts.startIn = state.dir;
+  const fh = await window.showSaveFilePicker(opts);
   await writeTo(fh, text);
-  state.dir = dir;
-  state.file = fh;
-  await idbSet('dir', dir);
-  await idbSet('file', fh);
+  let insideDir = false;
+  if (state.dir) {
+    try { insideDir = (await state.dir.resolve(fh)) != null; } catch { /* permission — assume outside */ }
+  }
+  await remember(insideDir ? state.dir : null, fh);
   return label();
 }
 
