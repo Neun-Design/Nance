@@ -17,7 +17,13 @@ The session lives in a **real local file** (File System Access API, Chromium):
 - The **header chip** (`📄 folder/file.json`) always shows what Save will overwrite; a
   footer toast confirms every save. The target survives reloads (IndexedDB) — the
   browser just re-asks permission on the next Save.
-- Non-Chromium browsers fall back to downloading a copy (no in-place writes).
+- Non-Chromium browsers fall back to downloading a copy (no in-place writes). The same
+  fallback fires when a Chromium browser **blocks** the pickers — typical on managed
+  **Microsoft Edge** (enterprise policy `DefaultFileSystemWriteGuardSetting`, or Edge's
+  *Enhanced Security Mode* restricting the API on unfamiliar sites). Edge checklist when
+  Save downloads instead of writing in place: `edge://policy` → search *FileSystem*;
+  `edge://settings/content/filesystem` → site not blocked; Enhanced Security → add the
+  site as an exception.
 
 ## How it works
 
