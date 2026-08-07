@@ -81,20 +81,22 @@ async function main() {
     const save = mkBtn('Save', 'Overwrite the session file shown in the chip (first save asks for the folder)');
     const saveAs = mkBtn('Save As', 'Save a new version — the picker opens in the current session folder');
 
-    save.addEventListener('click', async () => {
+    // a BLOCKED picker (Edge enterprise policy DefaultFileSystemWriteGuard,
+    // Edge Enhanced Security Mode, permission denial) is not a user cancel —
+    // fall back to downloading the file so the session is never lost
+    const saveVia = (fn) => async () => {
       if (!sessionFile.supported) return legacyDownload();
       try {
-        const lbl = await sessionFile.save(snapshotText());
+        const lbl = await fn(snapshotText());
         if (lbl) { setChip(lbl); toast(`Saved ${lbl}`); }
-      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.name}: ${e.message}`); }
-    });
-    saveAs.addEventListener('click', async () => {
-      if (!sessionFile.supported) return legacyDownload();
-      try {
-        const lbl = await sessionFile.saveAs(snapshotText());
-        if (lbl) { setChip(lbl); toast(`Saved ${lbl}`); }
-      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.name}: ${e.message}`); }
-    });
+      } catch (e) {
+        if (aborted(e)) return;
+        legacyDownload();
+        toast(`Direct file access blocked by the browser (${e.name}) — downloaded a copy instead; use Import to resume from it`);
+      }
+    };
+    save.addEventListener('click', saveVia(sessionFile.save));
+    saveAs.addEventListener('click', saveVia(sessionFile.saveAs));
 
     const applyImport = (name, raw) => {
       const fileVer = (raw._meta && raw._meta.schemaVersion) ?? null;
