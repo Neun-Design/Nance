@@ -127,7 +127,16 @@ async function main() {
           setChip(picked.label);
           toast(`Session file: ${picked.label || picked.name}`);
         }
-      } catch (e) { if (!aborted(e)) alert(`Import failed: ${e.message}`); }
+      } catch (e) {
+        if (aborted(e)) return;
+        if (e instanceof SyntaxError) return alert(`Import failed: ${e.message}`);
+        // picker blocked (managed Edge read-guard policy / Enhanced
+        // Security) — fall back to the classic file input, which policies
+        // don't touch; Save will then use the download fallback symmetrically
+        toast(`Direct file access blocked by the browser (${e.name}) — using the classic file chooser`);
+        file.value = '';
+        file.click();
+      }
     });
 
     const avatar = document.getElementById('avatar');
