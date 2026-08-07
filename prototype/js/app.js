@@ -59,7 +59,9 @@ async function main() {
     sessionFile.restoreHandles().then((lbl) => { if (lbl) setChip(lbl); });
 
     const snapshotText = () => JSON.stringify(exportSnapshot(), null, 1);
-    const aborted = (e) => e && (e.name === 'AbortError' || e.name === 'NotAllowedError');
+    // only a real user-cancel stays silent — every other failure (blocked
+    // picker, permission denial, write error) must surface (2026-08-07 fix)
+    const aborted = (e) => e && e.name === 'AbortError';
     // non-Chromium fallback: in-place writes are impossible — download a copy
     const legacyDownload = () => {
       const a = document.createElement('a');
@@ -84,14 +86,14 @@ async function main() {
       try {
         const lbl = await sessionFile.save(snapshotText());
         if (lbl) { setChip(lbl); toast(`Saved ${lbl}`); }
-      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.message}`); }
+      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.name}: ${e.message}`); }
     });
     saveAs.addEventListener('click', async () => {
       if (!sessionFile.supported) return legacyDownload();
       try {
         const lbl = await sessionFile.saveAs(snapshotText());
         if (lbl) { setChip(lbl); toast(`Saved ${lbl}`); }
-      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.message}`); }
+      } catch (e) { if (!aborted(e)) toast(`Save failed: ${e.name}: ${e.message}`); }
     });
 
     const applyImport = (name, raw) => {
