@@ -41,8 +41,10 @@ Values); `Products *` (multi) the spec applies to.
 Voltage Rate: <=145").
 **Register when:** after Product Specs.
 **Key fields:** Class Code; `Business Unit` → unlocks `Product *` (the unit's products) → the
-form grows one input per spec assigned to that product; the values become the group's SPECS
-summary shown everywhere. The segment derives from the unit — there is no segment input.
+form grows one input per spec assigned to that product. **Expanding a group row lists its
+specs** (name + value); the one-line SPECS summary column is hidden by default (Customize
+Columns brings it back) but still feeds the group displays elsewhere. The segment derives
+from the unit — there is no segment input.
 
 ## Requirements
 
