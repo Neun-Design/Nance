@@ -243,6 +243,22 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
   if (opts.viaThrough) {
     rows = viaThroughJoin(parentTable, pkVal, childTable, opts.viaThrough);
   }
+  // "(map: field)" — the parent row carries an object map { childId: value };
+  // children are the mapped child records, each cloned with its value as
+  // __mapValue (Product Groups → Product Specs, issue #161). Missing child
+  // records keep the raw id so stale maps stay visible instead of vanishing.
+  if (rows == null && opts.mapField) {
+    const cCat = getCatalog(childTable);
+    const obj = parentRow[opts.mapField];
+    rows = obj && typeof obj === 'object' && !Array.isArray(obj)
+      ? Object.entries(obj)
+          .filter(([, v]) => v != null && v !== '')
+          .map(([id, v]) => {
+            const rec = getById(childTable, id);
+            return { ...(rec || { [cCat.pk]: id, [cCat.label]: id }), __mapValue: v };
+          })
+      : [];
+  }
   if (rows == null && opts.throughField) {
     rows = throughFieldJoin(parentTable, parentRow, childTable, opts.throughField);
   }

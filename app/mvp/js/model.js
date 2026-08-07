@@ -119,13 +119,18 @@ export function parseSubitem(entry) {
   const chain = entry.split('->').map((s) => s.trim());
   const parseOne = (txt) => {
     const out = { table: '', orderBy: null, viaThrough: null, only: null,
-      via: null, throughField: null, label: null };
+      via: null, throughField: null, mapField: null, label: null };
     // parenthetical directives come out first — they may contain ':'
     const t = txt.replace(/\(([^)]*)\)/g, (_, inner) => {
       let m = inner.match(/via:?\s*([A-Za-z]+)/i);
       if (m) out.via = m[1];
       m = inner.match(/grouped by\s+([A-Za-z]+)/i);
       if (m) out.throughField = m[1];
+      // "(map: specValues)" — children synthesize from the PARENT row's
+      // object map { childId: value } joined to the child table, each row
+      // carrying its value as __mapValue (Product Groups specs, issue #161)
+      m = inner.match(/map:?\s*([A-Za-z]+)/i);
+      if (m) out.mapField = m[1];
       return '';
     }).trim();
     const [namePart, directive] = t.split(':').map((s) => s.trim());

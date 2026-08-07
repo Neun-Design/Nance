@@ -59,5 +59,18 @@ console.log('== derives and cascade ==');
   eq(opts.target, 'Business Units', 'Unit select sourced from Business Units');
 }
 
+console.log('== specs expand as a subitem (issue #161) ==');
+{
+  const si = catalog['Product Groups'].subitems[0];
+  eq([si.table, si.mapField], ['Product Specs', 'specValues'], 'map directive parsed');
+  eq(catalog['Product Groups'].byName['specsSummary']['table-display'], false,
+    'SPECS summary column hidden by default');
+  const pg = data.getById('Product Groups', 'PG01');
+  const kids = resolve.childrenOf('Product Groups', pg, 'Product Specs', { mapField: 'specValues' });
+  eq(kids.length, Object.keys(pg.specValues || {}).length, 'one row per spec value');
+  eq(kids.every((k) => k.specName && k.__mapValue != null), true,
+    `rows carry SPEC NAME + VALUES (${kids.map((k) => k.specName + '=' + k.__mapValue).join(', ')})`);
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');
 process.exit(fails ? 1 : 0);
