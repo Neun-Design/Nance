@@ -85,6 +85,11 @@
     } else if (act === 'edit') {
       const row = d.querySelector('#tab-body table.dt tbody tr.row-clickable');
       if (row) row.click();
+    } else if (act === 'subedit') {
+      // issue #175: expand the first rollup, then click a subitem row —
+      // the CHILD entity's edit drawer must open on that record
+      clickIn('.rollup-toggle');
+      setTimeout(() => clickIn('.rollup-row tr.row-clickable'), 500);
     }
   };
   f.addEventListener('load', () => setTimeout(run, 600));

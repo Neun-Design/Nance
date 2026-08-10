@@ -36,11 +36,12 @@ function fillCell(td, col, r) {
   if (td.textContent.length > 60) td.title = td.textContent;
 }
 
-// opts: { columns, rows, pk, rollups, selectable, onSelectionChange, initialHidden }
+// opts: { columns, rows, pk, rollups, selectable, onSelectionChange, onRowClick,
+//         onSubRowClick(childEntity, row), initialHidden }
 // rollup rl: { label, childEntity, childKey?, resolve?(row), columns, orderBy?, nested? }
 // Returns an API: { getSelected, clearSelection, setColumnHidden, isColumnHidden, redraw }
 export function renderTable(container, opts) {
-  const { columns, rows, pk, rollups = [], selectable = false, onSelectionChange, onRowClick } = opts;
+  const { columns, rows, pk, rollups = [], selectable = false, onSelectionChange, onRowClick, onSubRowClick } = opts;
   const hasRollups = rollups.length > 0;
   let sortKey = null, sortDir = 1;
   let page = 0, pageSize = PAGE_SIZES[0];
@@ -318,6 +319,15 @@ export function renderTable(container, opts) {
     kids.forEach(k => {
       const ktr = document.createElement('tr');
       rl.columns.forEach(c => { const ktd = document.createElement('td'); fillCell(ktd, c, k); ktr.appendChild(ktd); });
+      // issue #175: subitem rows edit like main-table rows — a plain cell
+      // click opens the CHILD entity's drawer on that record
+      if (onSubRowClick && rl.childEntity) {
+        ktr.classList.add('row-clickable');
+        ktr.addEventListener('click', (e) => {
+          if (e.target.closest('input, button, a')) return;
+          onSubRowClick(rl.childEntity, k);
+        });
+      }
       tb.appendChild(ktr);
     });
     mini.appendChild(tb); scroll.appendChild(mini); host.appendChild(scroll);
