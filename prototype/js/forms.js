@@ -757,6 +757,19 @@ export function productScopesForEvent(eventId) {
   }).map(psOption);
 }
 
+// Spec definitions offered for a product selection: the UNION of every
+// selected product's specs (issue #176 — the group's products may carry
+// different spec sets; intersecting would hide specs mandatory for one
+// of them). `key` is the Product Specs FK naming the products.
+export function specsForProducts(selIds, key = 'productID') {
+  const specTable = resolveTable('Product Specs');
+  if (!specTable || !selIds || !selIds.length) return [];
+  return getEntity(specTable).filter((s) => {
+    const p = Array.isArray(s[key]) ? s[key] : [s[key]];
+    return selIds.some((id) => p.includes(id));
+  });
+}
+
 // Product scopes of a PROCESS: its stored list; an empty list means the
 // process covers every product scope of its event.
 export function productScopesForProcess(processId) {
@@ -1308,10 +1321,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         const depAttr = dep && spec.fields[dep[0]] && spec.fields[dep[0]].attribute;
         const depTarget = depAttr ? specOptions(entity, depAttr, '').target : null;
         const key = (depTarget && childKeyFor(specTable, depTarget)) || 'productID';
-        const specs = getEntity(specTable).filter((s) => {
-          const p = Array.isArray(s[key]) ? s[key] : [s[key]];
-          return selIds.some((id) => p.includes(id));
-        });
+        const specs = specsForProducts(selIds, key);
         if (!specs.length) { note('No specs assigned to this product'); return; }
         for (const s of specs) {
           let ctl, getVal;

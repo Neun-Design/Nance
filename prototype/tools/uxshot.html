@@ -43,8 +43,17 @@
       const applyNext = () => {
         if (i >= pairs.length) return;
         const [lab, val] = pairs[i++].split(':');
-        const sel = (fieldByLabel(lab) || d).querySelector('select');
+        const fld = fieldByLabel(lab) || d;
+        const sel = fld.querySelector('select');
         if (sel) { sel.value = val; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+        // multivalued fields render as checkbox lists — "Label:v1|v2" clicks
+        // the matching rows (click fires the change events cascades listen to)
+        else {
+          const want = val.split('|');
+          [...fld.querySelectorAll('.form-multicheck input')].forEach((cb) => {
+            if (want.includes(cb.value) && !cb.checked) cb.click();
+          });
+        }
         window.__setlog = (window.__setlog || []);
         window.__setlog.push(lab + ': set=' + val + ' readback=' + (sel ? JSON.stringify(sel.value) : 'nosel')
           + ' opts=' + (sel ? sel.options.length : 0)
