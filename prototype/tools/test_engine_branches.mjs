@@ -36,7 +36,7 @@ console.log('== Branches seeded from branch customers ==');
 {
   const br = data.getById('Branches', 'BR01');
   eq([br.branchName, br.cityName, br.countryName, br.regionID, br.businessUnitID],
-    ['PN', 'Nuremberg', 'Germany', 'RG03', 'BU01'], 'BR01 mirrors FC01');
+    ['PN', 'Nuremberg', 'Germany', 'RG03', ['BU01']], 'BR01 mirrors FC01 (unit multivalued since #168)');
   eq(data.getEntity('Branches').length >= 6, true, 'branches present in both copies');
   const usa = data.getEntity('Branches').filter((b) => b.countryName === 'USA');
   eq(usa.length, 0, 'legacy USA spelling normalized to United States');
@@ -146,11 +146,11 @@ console.log('== drill-down subitems: Regions -> Units -> Branches -> Departments
   eq(catalog['Business Units'].subitems.map((s) => s.table), ['Branches'],
     'Business Units drills into Branches');
   const brSi = catalog['Branches'].subitems[0];
-  eq([brSi.table, brSi.via], ['Departments', 'businessUnitID'],
-    'Branches -> Departments joined via businessUnitID');
+  eq([brSi.table, brSi.via], ['Departments', 'departmentID'],
+    'Branches -> Departments joined via the stored departmentID (#169)');
   const br = data.getById('Branches', 'BR01');
   eq(resolve.childrenOf('Branches', br, 'Departments', { via: brSi.via }).map((d) => d.departmentID),
-    ['DPT01'], 'BR01 resolves the departments of its unit');
+    ['DPT01'], 'BR01 resolves its selected departments');
   const bu = data.getById('Business Units', 'BU01');
   eq(resolve.childrenOf('Business Units', bu, 'Branches').length > 0, true,
     'BU01 resolves its branches');

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 21,
+    "schemaVersion": 22,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -766,7 +766,7 @@
           "description": "Physical branches (internal factories/sites) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
           "dashboard-order": 7,
           "subitem-tables": [
-            "Departments (via: businessUnitID)"
+            "Departments (via: departmentID)"
           ],
           "attributes": [
             {
@@ -791,7 +791,7 @@
               "name": "businessSegmentID",
               "type": "FK",
               "rule": "FK → Business Segments (display: businessSegmentName)",
-              "notes": null,
+              "notes": "multivalued — a branch can host multiple segments (issue #168)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "NOT NULL"
@@ -800,10 +800,19 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": null,
+              "notes": "multivalued — a branch can host multiple units (issue #168)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "NOT NULL"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "multivalued — user-selected departments present at the branch; options limited to the selected Units' departments (issue #169, replaces inheritance from the business unit)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
               "name": "customerID",
@@ -862,7 +871,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "multivalued"
               },
               "Unit": {
                 "field-type": {
@@ -872,7 +881,17 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Segment IS NOT NULL",
-                "field-rule": "filtered by businessSegmentID selected"
+                "field-rule": "filtered by Segment selected"
+              },
+              "Departments": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Only departments of the selected Units are offered",
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": "filtered by Unit selected"
               },
               "Name": {
                 "field-type": {
