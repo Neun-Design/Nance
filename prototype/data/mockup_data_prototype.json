@@ -22311,7 +22311,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "A.2",
@@ -22322,7 +22323,8 @@
     "businessUnitID": [
      "BU01"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "A.3",
@@ -22334,7 +22336,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "A.4",
@@ -22346,7 +22349,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "B",
@@ -22357,7 +22361,8 @@
     "businessUnitID": [
      "BU01"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "C",
@@ -22369,7 +22374,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "D",
@@ -22381,7 +22387,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "E",
@@ -22393,7 +22400,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "F",
@@ -22405,7 +22413,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "G",
@@ -22416,7 +22425,8 @@
     "businessUnitID": [
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    }
   ],
   "Products": [

@@ -132,7 +132,8 @@ console.log('== Issues classify by Unit again (2026-08-03 reversal, hidden regis
 console.log('== Scopes: order, Opportunity matching, Classification ==');
 {
   eq(Object.keys(catalog['Scopes'].form.fields),
-    ['Code', 'Name', 'Business Unit', 'Opportunity', 'Classification'], 'field order per spec');
+    ['Code', 'Name', 'Description', 'Business Unit', 'Opportunity', 'Classification'],
+    'field order per spec (Description added by #181)');
   eq(catalog['Scopes'].form.fields.Opportunity['field-rule'],
     'SelectLabel = issueType; filtered by Business Unit.businessSegmentID selected',
     'issues record-matched on the unit segments, grouped by issueType');
