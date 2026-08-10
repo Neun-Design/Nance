@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 22,
+    "schemaVersion": 23,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -6335,6 +6335,24 @@
               "constraints": "FK, NOT NULL"
             },
             {
+              "name": "countryName",
+              "type": "FK",
+              "rule": "FK → Countries (display: countryName)",
+              "notes": "Person's location country (issues #170/#167) — picker sourced from the hidden Countries registry, limited to the selected Region's countries; seeded from the branch, editable independently (the branch is optional, the location is not)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "cityName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "nullable — city of the person's location (issue #170); seeded from the branch when present",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "isActive",
               "type": "ENUM",
               "rule": "enum: ['Active', 'Inactive']",
@@ -6374,7 +6392,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "nullable — branch (internal factory) this person is stationed at",
+              "notes": "nullable — branch (internal factory) this person is stationed at; since #170 the geographic location lives on the person (region → country → city), the branch is organisational only",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -6431,7 +6449,7 @@
               "rule": "Count of active People grouped by functionID",
               "filters": [
                 "departmentID",
-                "locationID",
+                "countryName",
                 "isActive"
               ]
             },
@@ -6446,6 +6464,26 @@
                 },
                 "attribute": "regionID",
                 "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Country": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "countryName",
+                "tooltip": "Only countries registered on the selected Region are offered",
+                "step": null,
+                "check": "Region IS NOT NULL",
+                "field-rule": "SelectLabel = continent; filtered by Region.countryName selected"
+              },
+              "City": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "cityName",
+                "tooltip": "Optional — city of the person's location",
                 "step": null,
                 "check": null,
                 "field-rule": null
