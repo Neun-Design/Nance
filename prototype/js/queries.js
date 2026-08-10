@@ -204,9 +204,9 @@ export const REPORT_QUERIES = {
     bar('Headcount by Function', groupAgg(getEntity('Roles'),
       (r) => lookup('Functions', r.functionID, 'functionName') || r.functionID, 'quantity'), null),
 
-  'Graduation::Report-A': (rows) =>
-    donut('Headcount by Graduation Field', groupAgg(getEntity('Roles'),
-      (r) => lookup('Graduation', r.graduationID, 'field') || r.graduationID, 'quantity'), null),
+  'Job Family::Report-A': (rows) =>
+    donut('Headcount by Job Family Field', groupAgg(getEntity('Roles'),
+      (r) => lookup('Job Family', r.jobFamilyID, 'field') || r.jobFamilyID, 'quantity'), null),
 
   'People::Report-A': (rows) =>
     bar('Active People by Function', groupAgg(rows.filter((p) => p.isActive === 'Active' || p.isActive === true), 'functionID'),
