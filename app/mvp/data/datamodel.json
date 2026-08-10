@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 21,
+    "schemaVersion": 27,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -766,7 +766,7 @@
           "description": "Physical branches (internal factories/sites) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
           "dashboard-order": 7,
           "subitem-tables": [
-            "Departments (via: businessUnitID)"
+            "Departments (via: departmentID)"
           ],
           "attributes": [
             {
@@ -791,7 +791,7 @@
               "name": "businessSegmentID",
               "type": "FK",
               "rule": "FK → Business Segments (display: businessSegmentName)",
-              "notes": null,
+              "notes": "multivalued — a branch can host multiple segments (issue #168)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "NOT NULL"
@@ -800,10 +800,19 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": null,
+              "notes": "multivalued — a branch can host multiple units (issue #168)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "NOT NULL"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "multivalued — user-selected departments present at the branch; options limited to the selected Units' departments (issue #169, replaces inheritance from the business unit)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
               "name": "customerID",
@@ -862,7 +871,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": null
+                "field-rule": "multivalued"
               },
               "Unit": {
                 "field-type": {
@@ -872,7 +881,17 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Segment IS NOT NULL",
-                "field-rule": "filtered by businessSegmentID selected"
+                "field-rule": "filtered by Segment selected"
+              },
+              "Departments": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Only departments of the selected Units are offered",
+                "step": null,
+                "check": "Unit IS NOT NULL",
+                "field-rule": "filtered by Unit selected"
               },
               "Name": {
                 "field-type": {
@@ -3613,10 +3632,19 @@
               "constraints": null
             },
             {
+              "name": "scopeDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": "nullable — what activities the scope involves, so users understand it before applying it (issue #181)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "scopeOpportunity",
               "type": "FK",
               "rule": "FK: Issues (display: issueName)",
-              "notes": "Opportunity tags; multivalued",
+              "notes": "Opportunity tags; multivalued; form input HIDDEN since issue #174 — the Issue/Opportunity concept confuses stakeholders and awaits reframing in the decision workflow; stored values and the Issues rollup stay intact",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3682,6 +3710,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Description": {
+                "field-type": {
+                  "field": "shadcn-input"
+                },
+                "attribute": "scopeDescription",
+                "tooltip": "What activities does this scope involve?",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Business Unit": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -3691,16 +3729,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
-              },
-              "Opportunity": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "scopeOpportunity",
-                "tooltip": null,
-                "step": null,
-                "check": "Business Unit IS NOT NULL",
-                "field-rule": "SelectLabel = issueType; filtered by Business Unit.businessSegmentID selected"
               },
               "Classification": {
                 "field-type": {
@@ -3966,9 +3994,9 @@
             },
             {
               "name": "productGroupName",
-              "type": "INT",
-              "rule": "computed: CONCAT(productName from productID)",
-              "notes": null,
+              "type": "mirror",
+              "rule": "computed: Products via: productID (display: productName)",
+              "notes": "Derived — the selected products’ names, joined (issue #176: the legacy \"CONCAT(productName from productID)\" spelling was unparseable and the stored mockup copy went stale with 2+ products, so the name is now always derived)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -3995,7 +4023,7 @@
               "name": "productID",
               "type": "FK",
               "rule": "FK -> Product (display: productName)",
-              "notes": "Single valued, not multivalued",
+              "notes": "multivalued — a product group can apply to several products; the group’s specs then serve all of them (issue #176). Spec fields offered in the form are the UNION of the selected products’ specs",
               "table-display": true,
               "subitem-display": true,
               "constraints": "NOT NULL"
@@ -5802,10 +5830,10 @@
               "constraints": "FK"
             },
             {
-              "name": "graduationID",
+              "name": "jobFamilyID",
               "type": "FK",
-              "rule": "FK → Graduation (display: graduationName)",
-              "notes": "Multivalued — required educational background(s); a role may accept more than one graduation (2026-08-03)",
+              "rule": "FK → Job Family (display: jobFamilyName)",
+              "notes": "Multivalued — job families a role can draw from; a role may accept more than one (issue #166 — was graduationID)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5910,11 +5938,11 @@
                 "check": null,
                 "field-rule": null
               },
-              "Graduation": {
+              "Job Family": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "graduationID",
+                "attribute": "jobFamilyID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -6138,124 +6166,6 @@
           "cards": [],
           "table-filters": true
         },
-        "Graduation": {
-          "visibility": "show",
-          "dashboard-order": 5,
-          "description": "Qualification or education level required or held by a resource (ISO §7.2).",
-          "attributes": [
-            {
-              "name": "graduationID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "graduationTitle",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., Electrical Engineering, Mechanical Engineering",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "field",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., Engineering, Technical",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "institutionName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "nullable",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "graduationName",
-              "type": "VARCHAR",
-              "rule": "computed: CONCAT(graduationTitle + institutionName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "roles",
-              "type": "rollup",
-              "rule": "rollup → Roles (via: graduationID)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "graduationOwner",
-              "type": "FK",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "donut",
-              "rule": "SUM(Roles.quantity) grouped by field",
-              "filters": []
-            },
-            "Report-B": null
-          },
-          "form": {
-            "steps": null,
-            "fields": {
-              "Title": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "graduationTitle",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Field": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "field",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Institution": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "institutionName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            }
-          },
-          "cards": null,
-          "table-filters": true,
-          "subitem-tables": [
-            "people"
-          ]
-        },
         "People": {
           "visibility": "show",
           "dashboard-order": 6,
@@ -6316,6 +6226,24 @@
               "constraints": "FK, NOT NULL"
             },
             {
+              "name": "countryName",
+              "type": "FK",
+              "rule": "FK → Countries (display: countryName)",
+              "notes": "Person's location country (issues #170/#167) — picker sourced from the hidden Countries registry, limited to the selected Region's countries; seeded from the branch, editable independently (the branch is optional, the location is not)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "cityName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "nullable — city of the person's location (issue #170); seeded from the branch when present",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "isActive",
               "type": "ENUM",
               "rule": "enum: ['Active', 'Inactive']",
@@ -6355,15 +6283,15 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "nullable — branch (internal factory) this person is stationed at",
+              "notes": "nullable — branch (internal factory) this person is stationed at; since #170 the geographic location lives on the person (region → country → city), the branch is organisational only",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
             },
             {
-              "name": "graduationID",
+              "name": "jobFamilyID",
               "type": "FK",
-              "rule": "FK → Graduation (display: graduationName)",
+              "rule": "FK → Job Family (display: jobFamilyName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -6412,7 +6340,7 @@
               "rule": "Count of active People grouped by functionID",
               "filters": [
                 "departmentID",
-                "locationID",
+                "countryName",
                 "isActive"
               ]
             },
@@ -6427,6 +6355,26 @@
                 },
                 "attribute": "regionID",
                 "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Country": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "countryName",
+                "tooltip": "Only countries registered on the selected Region are offered",
+                "step": null,
+                "check": "Region IS NOT NULL",
+                "field-rule": "SelectLabel = continent; filtered by Region.countryName selected"
+              },
+              "City": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "cityName",
+                "tooltip": "Optional — city of the person's location",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -6521,11 +6469,11 @@
                 "check": null,
                 "field-rule": null
               },
-              "Graduation": {
+              "Job Family": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
                 },
-                "attribute": "graduationID",
+                "attribute": "jobFamilyID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -7073,6 +7021,96 @@
           },
           "cards": null,
           "table-filters": true
+        },
+        "Job Family": {
+          "visibility": "show",
+          "dashboard-order": 5,
+          "description": "Job family a role or resource belongs to — the HR-management standard grouping (ISO §7.2). Renamed from Graduation (issue #166): education titles/institutions added no value to the model.",
+          "attributes": [
+            {
+              "name": "jobFamilyID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "jobFamilyName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., Electrical Design, Mechanical Design (issue #166 — was graduationTitle)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "field",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., Engineering, Technical",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "roles",
+              "type": "rollup",
+              "rule": "rollup → Roles (via: jobFamilyID)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "jobFamilyOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "SUM(Roles.quantity) grouped by field",
+              "filters": []
+            },
+            "Report-B": null
+          },
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "jobFamilyName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Field": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "field",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "people"
+          ]
         }
       }
     }

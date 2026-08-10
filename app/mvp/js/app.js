@@ -499,6 +499,14 @@ function renderBodyOnly() {
     // stakeholder round 2026-07-31: clicking a row opens its edit drawer
     onRowClick: (!cfg.readonly && supportsEdit(cfg.entity))
       ? (r) => openForm(cfg, renderBodyOnly, r) : null,
+    // issue #175: subitem rows open the child entity's edit drawer; saving
+    // re-renders the parent tab so rollups pick the change up
+    onSubRowClick: !cfg.readonly ? (childEntity, r) => {
+      const childCfg = engineCfg(childEntity);
+      if (!supportsEdit(childEntity)) return;
+      const rec = getById(childEntity, r[childCfg.pk]);
+      if (rec) openForm(childCfg, renderBodyOnly, rec);
+    } : null,
     onSelectionChange: (ids) => {
       if (editBtn) editBtn.disabled = ids.length !== 1 || !supportsEdit(cfg.entity);
       if (delBtn) delBtn.disabled = ids.length === 0;

@@ -180,190 +180,309 @@
   "Branches": [
    {
     "branchID": "BR01",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "PN",
     "cityName": "Nuremberg",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC01"
+    "customerID": "FC01",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR02",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "TUSA",
     "cityName": "Jundiaí",
     "regionID": "RG01",
     "countryName": "Brazil",
     "userID": null,
-    "customerID": "FC02"
+    "customerID": "FC02",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR03",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STW",
     "cityName": "Weiz",
     "regionID": "RG03",
     "countryName": "Austria",
     "userID": null,
-    "customerID": "FC03"
+    "customerID": "FC03",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR04",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "KPT",
     "cityName": "Zagreb",
     "regionID": "RG03",
     "countryName": "Croatia",
     "userID": null,
-    "customerID": "FC04"
+    "customerID": "FC04",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR05",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STGZ",
     "cityName": "Guangzhou",
     "regionID": "RG02",
     "countryName": "China",
     "userID": null,
-    "customerID": "FC05"
+    "customerID": "FC05",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR06",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STDD",
     "cityName": "Dresden",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC06"
+    "customerID": "FC06",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR07",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STL",
     "cityName": "Linz",
     "regionID": "RG03",
     "countryName": "Austria",
     "userID": null,
-    "customerID": "FC07"
+    "customerID": "FC07",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR08",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STN",
     "cityName": "Trento",
     "regionID": "RG03",
     "countryName": "Italy",
     "userID": null,
-    "customerID": "FC08"
+    "customerID": "FC08",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR09",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STCK",
     "cityName": "Jinan",
     "regionID": "RG02",
     "countryName": "China",
     "userID": null,
-    "customerID": "FC09"
+    "customerID": "FC09",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR10",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STWH",
     "cityName": "Wuhan",
     "regionID": "RG02",
     "countryName": "China",
     "userID": null,
-    "customerID": "FC10"
+    "customerID": "FC10",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR11",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STM",
     "cityName": "Guanajuato",
     "regionID": "RG01",
     "countryName": "Mexico",
     "userID": null,
-    "customerID": "FC11"
+    "customerID": "FC11",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR12",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "DB",
     "cityName": "Budapest",
     "regionID": "RG03",
     "countryName": "Hungary",
     "userID": null,
-    "customerID": "FC12"
+    "customerID": "FC12",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR13",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "DK",
     "cityName": "Kirchheim",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC13"
+    "customerID": "FC13",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR14",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "TN",
     "cityName": "Nuremberg",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC14"
+    "customerID": "FC14",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR15",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "JXN",
     "cityName": "Jackson",
     "regionID": "RG01",
     "countryName": "United States",
     "userID": null,
-    "customerID": "FC15"
+    "customerID": "FC15",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR16",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "SAT",
     "cityName": "Bogotá",
     "regionID": "RG01",
     "countryName": "Colombia",
     "userID": null,
-    "customerID": "FC16"
+    "customerID": "FC16",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR17",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "STCA",
     "cityName": "Trois-Rivières",
     "regionID": "RG01",
     "countryName": "Canada",
     "userID": null,
-    "customerID": "FC17"
+    "customerID": "FC17",
+    "departmentID": [
+     "DPT03"
+    ]
    }
   ],
   "Issues": [
@@ -20411,120 +20530,120 @@
     "roleName": "JR Electrical Designer",
     "functionID": "F1",
     "skillLevelID": "SL1",
-    "graduationID": [
-     "G1"
-    ],
     "quantity": 6,
     "squadID": "SQ1",
-    "roleOwner": "U01"
+    "roleOwner": "U01",
+    "jobFamilyID": [
+     "G1"
+    ]
    },
    {
     "roleID": "R02",
     "roleName": "SR Electrical Designer",
     "functionID": "F1",
     "skillLevelID": "SL2",
-    "graduationID": [
-     "G1"
-    ],
     "quantity": 4,
     "squadID": "SQ2",
-    "roleOwner": "U02"
+    "roleOwner": "U02",
+    "jobFamilyID": [
+     "G1"
+    ]
    },
    {
     "roleID": "R03",
     "roleName": "JR Mechanical Designer",
     "functionID": "F2",
     "skillLevelID": "SL1",
-    "graduationID": [
-     "G2"
-    ],
     "quantity": 5,
     "squadID": "SQ3",
-    "roleOwner": "U03"
+    "roleOwner": "U03",
+    "jobFamilyID": [
+     "G2"
+    ]
    },
    {
     "roleID": "R04",
     "roleName": "SR Mechanical Designer",
     "functionID": "F2",
     "skillLevelID": "SL2",
-    "graduationID": [
-     "G2"
-    ],
     "quantity": 4,
     "squadID": "SQ1",
-    "roleOwner": "U04"
+    "roleOwner": "U04",
+    "jobFamilyID": [
+     "G2"
+    ]
    },
    {
     "roleID": "R05",
     "roleName": "Expert Mechanical Designer",
     "functionID": "F2",
     "skillLevelID": "SL3",
-    "graduationID": [
-     "G2"
-    ],
     "quantity": 2,
     "squadID": "SQ2",
-    "roleOwner": "U05"
+    "roleOwner": "U05",
+    "jobFamilyID": [
+     "G2"
+    ]
    },
    {
     "roleID": "R06",
     "roleName": "Analyst",
     "functionID": "F3",
     "skillLevelID": "SL2",
-    "graduationID": [
-     "G3"
-    ],
     "quantity": 3,
     "squadID": "SQ3",
-    "roleOwner": "U06"
+    "roleOwner": "U06",
+    "jobFamilyID": [
+     "G3"
+    ]
    },
    {
     "roleID": "R07",
     "roleName": "SR Analyst",
     "functionID": "F3",
     "skillLevelID": "SL3",
-    "graduationID": [
-     "G3"
-    ],
     "quantity": 2,
     "squadID": "SQ1",
-    "roleOwner": "U07"
+    "roleOwner": "U07",
+    "jobFamilyID": [
+     "G3"
+    ]
    },
    {
     "roleID": "R08",
     "roleName": "Planner",
     "functionID": "F4",
     "skillLevelID": "SL2",
-    "graduationID": [
-     "G3"
-    ],
     "quantity": 3,
     "squadID": "SQ2",
-    "roleOwner": "U08"
+    "roleOwner": "U08",
+    "jobFamilyID": [
+     "G3"
+    ]
    },
    {
     "roleID": "R09",
     "roleName": "Quality Engineer",
     "functionID": "F5",
     "skillLevelID": "SL2",
-    "graduationID": [
-     "G1"
-    ],
     "quantity": 2,
     "squadID": "SQ3",
-    "roleOwner": "U09"
+    "roleOwner": "U09",
+    "jobFamilyID": [
+     "G1"
+    ]
    },
    {
     "roleID": "R10",
     "roleName": "Quality Manager",
     "functionID": "F5",
     "skillLevelID": "SL4",
-    "graduationID": [
-     "G1"
-    ],
     "quantity": 1,
     "squadID": "SQ1",
-    "roleOwner": "U10"
+    "roleOwner": "U10",
+    "jobFamilyID": [
+     "G1"
+    ]
    }
   ],
   "Skill Levels": [
@@ -20607,40 +20726,6 @@
     "businessUnitID": "BU01"
    }
   ],
-  "Graduation": [
-   {
-    "graduationID": "G1",
-    "graduationTitle": "Electrical Engineering",
-    "field": "Engineering",
-    "institutionName": "TU München",
-    "graduationName": "Electrical Engineering",
-    "graduationOwner": "U01"
-   },
-   {
-    "graduationID": "G2",
-    "graduationTitle": "Mechanical Engineering",
-    "field": "Engineering",
-    "institutionName": "USP",
-    "graduationName": "Mechanical Engineering",
-    "graduationOwner": "U02"
-   },
-   {
-    "graduationID": "G3",
-    "graduationTitle": "Industrial Engineering",
-    "field": "Engineering",
-    "institutionName": "TU Wien",
-    "graduationName": "Industrial Engineering",
-    "graduationOwner": "U03"
-   },
-   {
-    "graduationID": "G4",
-    "graduationTitle": "Technical Diploma",
-    "field": "Technical",
-    "institutionName": "Zhejiang U",
-    "graduationName": "Technical Diploma",
-    "graduationOwner": "U04"
-   }
-  ],
   "People": [
    {
     "userID": "U01",
@@ -20655,9 +20740,11 @@
     "personOwner": "U02",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U02",
@@ -20672,9 +20759,11 @@
     "personOwner": "U03",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG01",
-    "branchID": "BR02"
+    "branchID": "BR02",
+    "countryName": "Brazil",
+    "cityName": "Jundiaí",
+    "jobFamilyID": null
    },
    {
     "userID": "U03",
@@ -20689,9 +20778,11 @@
     "personOwner": "U04",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U04",
@@ -20706,9 +20797,11 @@
     "personOwner": "U05",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U05",
@@ -20723,9 +20816,11 @@
     "personOwner": "U06",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    },
    {
     "userID": "U06",
@@ -20740,9 +20835,11 @@
     "personOwner": "U07",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U07",
@@ -20757,9 +20854,11 @@
     "personOwner": "U08",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U08",
@@ -20774,9 +20873,11 @@
     "personOwner": "U09",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U09",
@@ -20791,9 +20892,11 @@
     "personOwner": "U10",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    },
    {
     "userID": "U10",
@@ -20808,9 +20911,11 @@
     "personOwner": "U11",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    },
    {
     "userID": "U11",
@@ -20825,9 +20930,11 @@
     "personOwner": "U12",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG01",
-    "branchID": "BR02"
+    "branchID": "BR02",
+    "countryName": "Brazil",
+    "cityName": "Jundiaí",
+    "jobFamilyID": null
    },
    {
     "userID": "U12",
@@ -20842,9 +20949,11 @@
     "personOwner": "U13",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U13",
@@ -20859,9 +20968,11 @@
     "personOwner": "U14",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U14",
@@ -20876,9 +20987,11 @@
     "personOwner": "U15",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U15",
@@ -20893,9 +21006,11 @@
     "personOwner": "U16",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG01",
-    "branchID": "BR02"
+    "branchID": "BR02",
+    "countryName": "Brazil",
+    "cityName": "Jundiaí",
+    "jobFamilyID": null
    },
    {
     "userID": "U16",
@@ -20910,9 +21025,11 @@
     "personOwner": "U17",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG01",
-    "branchID": "BR02"
+    "branchID": "BR02",
+    "countryName": "Brazil",
+    "cityName": "Jundiaí",
+    "jobFamilyID": null
    },
    {
     "userID": "U17",
@@ -20927,9 +21044,11 @@
     "personOwner": "U18",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG01",
-    "branchID": "BR02"
+    "branchID": "BR02",
+    "countryName": "Brazil",
+    "cityName": "Jundiaí",
+    "jobFamilyID": null
    },
    {
     "userID": "U18",
@@ -20944,9 +21063,11 @@
     "personOwner": "U19",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U19",
@@ -20961,9 +21082,11 @@
     "personOwner": "U20",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG01",
-    "branchID": "BR02"
+    "branchID": "BR02",
+    "countryName": "Brazil",
+    "cityName": "Jundiaí",
+    "jobFamilyID": null
    },
    {
     "userID": "U20",
@@ -20978,9 +21101,11 @@
     "personOwner": "U21",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U21",
@@ -20995,9 +21120,11 @@
     "personOwner": "U22",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U22",
@@ -21012,9 +21139,11 @@
     "personOwner": "U23",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    },
    {
     "userID": "U23",
@@ -21029,9 +21158,11 @@
     "personOwner": "U24",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U24",
@@ -21046,9 +21177,11 @@
     "personOwner": "U01",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U25",
@@ -21063,9 +21196,11 @@
     "personOwner": "U25",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U26",
@@ -21080,9 +21215,11 @@
     "personOwner": "U25",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U27",
@@ -21097,9 +21234,11 @@
     "personOwner": "U25",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG03",
-    "branchID": "BR01"
+    "branchID": "BR01",
+    "countryName": "Germany",
+    "cityName": "Nuremberg",
+    "jobFamilyID": null
    },
    {
     "userID": "U28",
@@ -21114,9 +21253,11 @@
     "personOwner": "U28",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    },
    {
     "userID": "U29",
@@ -21131,9 +21272,11 @@
     "personOwner": "U28",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    },
    {
     "userID": "U30",
@@ -21148,9 +21291,11 @@
     "personOwner": "U28",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "graduationID": null,
     "regionID": "RG02",
-    "branchID": "BR05"
+    "branchID": "BR05",
+    "countryName": "China",
+    "cityName": "Guangzhou",
+    "jobFamilyID": null
    }
   ],
   "Onboarding": [
@@ -21944,6 +22089,32 @@
     ],
     "productScopeID": "PS01"
    }
+  ],
+  "Job Family": [
+   {
+    "field": "Engineering",
+    "jobFamilyID": "G1",
+    "jobFamilyName": "Electrical Engineering",
+    "jobFamilyOwner": "U01"
+   },
+   {
+    "field": "Engineering",
+    "jobFamilyID": "G2",
+    "jobFamilyName": "Mechanical Engineering",
+    "jobFamilyOwner": "U02"
+   },
+   {
+    "field": "Engineering",
+    "jobFamilyID": "G3",
+    "jobFamilyName": "Industrial Engineering",
+    "jobFamilyOwner": "U03"
+   },
+   {
+    "field": "Technical",
+    "jobFamilyID": "G4",
+    "jobFamilyName": "Technical Diploma",
+    "jobFamilyOwner": "U04"
+   }
   ]
  },
  "Portfolio": {
@@ -22140,7 +22311,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "A.2",
@@ -22151,7 +22323,8 @@
     "businessUnitID": [
      "BU01"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "A.3",
@@ -22163,7 +22336,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "A.4",
@@ -22175,7 +22349,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "B",
@@ -22186,7 +22361,8 @@
     "businessUnitID": [
      "BU01"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "C",
@@ -22198,7 +22374,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "D",
@@ -22210,7 +22387,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "E",
@@ -22222,7 +22400,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "F",
@@ -22234,7 +22413,8 @@
      "BU01",
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    },
    {
     "scopeID": "G",
@@ -22245,7 +22425,8 @@
     "businessUnitID": [
      "BU02"
     ],
-    "scopeClassID": []
+    "scopeClassID": [],
+    "scopeDescription": null
    }
   ],
   "Products": [
@@ -22417,8 +22598,9 @@
   "Product Groups": [
    {
     "productGroupID": "PG01",
-    "productGroupName": "LPT",
-    "productID": "P01",
+    "productID": [
+     "P01"
+    ],
     "productGroupOwner": "U01",
     "specValues": {
      "SPEC01": "<=145",
@@ -22429,8 +22611,9 @@
    },
    {
     "productGroupID": "PG02",
-    "productGroupName": "Autotransformer",
-    "productID": "P02",
+    "productID": [
+     "P02"
+    ],
     "productGroupOwner": "U02",
     "specValues": {
      "SPEC01": "<=550",
@@ -22441,8 +22624,9 @@
    },
    {
     "productGroupID": "PG03",
-    "productGroupName": "Phase Shifter",
-    "productID": "P03",
+    "productID": [
+     "P03"
+    ],
     "productGroupOwner": "U03",
     "specValues": {
      "SPEC01": ">550",
@@ -22453,8 +22637,9 @@
    },
    {
     "productGroupID": "PG04",
-    "productGroupName": "HVDC",
-    "productID": "P04",
+    "productID": [
+     "P04"
+    ],
     "productGroupOwner": "U04",
     "specValues": {
      "SPEC01": "ALL",
@@ -22465,8 +22650,9 @@
    },
    {
     "productGroupID": "PG05",
-    "productGroupName": "Reactors",
-    "productID": "P05",
+    "productID": [
+     "P05"
+    ],
     "productGroupOwner": "U05",
     "specValues": {
      "SPEC01": "ALL",
@@ -22477,8 +22663,9 @@
    },
    {
     "productGroupID": "PG06",
-    "productGroupName": "MPT",
-    "productID": "P06",
+    "productID": [
+     "P06"
+    ],
     "productGroupOwner": "U06",
     "specValues": {
      "SPEC01": "ALL",
@@ -22489,8 +22676,9 @@
    },
    {
     "productGroupID": "PG07",
-    "productGroupName": "IND",
-    "productID": "P07",
+    "productID": [
+     "P07"
+    ],
     "productGroupOwner": "U07",
     "specValues": {
      "SPEC01": "ALL",
@@ -22501,8 +22689,9 @@
    },
    {
     "productGroupID": "PG08",
-    "productGroupName": "LDT",
-    "productID": "P08",
+    "productID": [
+     "P08"
+    ],
     "productGroupOwner": "U08",
     "specValues": {
      "SPEC01": "<=36",
@@ -22513,8 +22702,9 @@
    },
    {
     "productGroupID": "PG09",
-    "productGroupName": "CRT",
-    "productID": "P09",
+    "productID": [
+     "P09"
+    ],
     "productGroupOwner": "U09",
     "specValues": {
      "SPEC01": "<=72.5",
@@ -22525,8 +22715,9 @@
    },
    {
     "productGroupID": "PG10",
-    "productGroupName": "LIDT",
-    "productID": "P10",
+    "productID": [
+     "P10"
+    ],
     "productGroupOwner": "U10",
     "specValues": {
      "SPEC01": "ALL",
@@ -22537,8 +22728,9 @@
    },
    {
     "productGroupID": "PG11",
-    "productGroupName": "TRAC",
-    "productID": "P11",
+    "productID": [
+     "P11"
+    ],
     "productGroupOwner": "U11",
     "specValues": {
      "SPEC01": "ALL",
@@ -22549,8 +22741,9 @@
    },
    {
     "productGroupID": "PG12",
-    "productGroupName": "VR",
-    "productID": "P12",
+    "productID": [
+     "P12"
+    ],
     "productGroupOwner": "U12",
     "specValues": {
      "SPEC01": "ALL",
@@ -22561,8 +22754,9 @@
    },
    {
     "productGroupID": "PG13",
-    "productGroupName": "CP",
-    "productID": "P13",
+    "productID": [
+     "P13"
+    ],
     "productGroupOwner": "U13",
     "specValues": {
      "SPEC01": "ALL",
@@ -22573,8 +22767,9 @@
    },
    {
     "productGroupID": "PG14",
-    "productGroupName": "RENEW",
-    "productID": "P14",
+    "productID": [
+     "P14"
+    ],
     "productGroupOwner": "U14",
     "specValues": {
      "SPEC01": "ALL",
