@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 24,
+    "schemaVersion": 25,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5821,10 +5821,10 @@
               "constraints": "FK"
             },
             {
-              "name": "graduationID",
+              "name": "jobFamilyID",
               "type": "FK",
-              "rule": "FK → Graduation (display: graduationName)",
-              "notes": "Multivalued — required educational background(s); a role may accept more than one graduation (2026-08-03)",
+              "rule": "FK → Job Family (display: jobFamilyName)",
+              "notes": "Multivalued — job families a role can draw from; a role may accept more than one (issue #166 — was graduationID)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5929,11 +5929,11 @@
                 "check": null,
                 "field-rule": null
               },
-              "Graduation": {
+              "Job Family": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "graduationID",
+                "attribute": "jobFamilyID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -6157,124 +6157,6 @@
           "cards": [],
           "table-filters": true
         },
-        "Graduation": {
-          "visibility": "show",
-          "dashboard-order": 5,
-          "description": "Qualification or education level required or held by a resource (ISO §7.2).",
-          "attributes": [
-            {
-              "name": "graduationID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "graduationTitle",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., Electrical Engineering, Mechanical Engineering",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "field",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., Engineering, Technical",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "institutionName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "nullable",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "graduationName",
-              "type": "VARCHAR",
-              "rule": "computed: CONCAT(graduationTitle + institutionName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "roles",
-              "type": "rollup",
-              "rule": "rollup → Roles (via: graduationID)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "graduationOwner",
-              "type": "FK",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "donut",
-              "rule": "SUM(Roles.quantity) grouped by field",
-              "filters": []
-            },
-            "Report-B": null
-          },
-          "form": {
-            "steps": null,
-            "fields": {
-              "Title": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "graduationTitle",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Field": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "field",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Institution": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "institutionName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            }
-          },
-          "cards": null,
-          "table-filters": true,
-          "subitem-tables": [
-            "people"
-          ]
-        },
         "People": {
           "visibility": "show",
           "dashboard-order": 6,
@@ -6398,9 +6280,9 @@
               "constraints": "FK"
             },
             {
-              "name": "graduationID",
+              "name": "jobFamilyID",
               "type": "FK",
-              "rule": "FK → Graduation (display: graduationName)",
+              "rule": "FK → Job Family (display: jobFamilyName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -6578,11 +6460,11 @@
                 "check": null,
                 "field-rule": null
               },
-              "Graduation": {
+              "Job Family": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
                 },
-                "attribute": "graduationID",
+                "attribute": "jobFamilyID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
@@ -7130,6 +7012,96 @@
           },
           "cards": null,
           "table-filters": true
+        },
+        "Job Family": {
+          "visibility": "show",
+          "dashboard-order": 5,
+          "description": "Job family a role or resource belongs to — the HR-management standard grouping (ISO §7.2). Renamed from Graduation (issue #166): education titles/institutions added no value to the model.",
+          "attributes": [
+            {
+              "name": "jobFamilyID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "jobFamilyName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., Electrical Design, Mechanical Design (issue #166 — was graduationTitle)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "field",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., Engineering, Technical",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "roles",
+              "type": "rollup",
+              "rule": "rollup → Roles (via: jobFamilyID)",
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "jobFamilyOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "donut",
+              "rule": "SUM(Roles.quantity) grouped by field",
+              "filters": []
+            },
+            "Report-B": null
+          },
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "jobFamilyName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Field": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "field",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            "people"
+          ]
         }
       }
     }
