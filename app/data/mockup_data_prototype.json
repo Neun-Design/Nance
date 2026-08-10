@@ -180,190 +180,309 @@
   "Branches": [
    {
     "branchID": "BR01",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "PN",
     "cityName": "Nuremberg",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC01"
+    "customerID": "FC01",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR02",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "TUSA",
     "cityName": "Jundiaí",
     "regionID": "RG01",
     "countryName": "Brazil",
     "userID": null,
-    "customerID": "FC02"
+    "customerID": "FC02",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR03",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STW",
     "cityName": "Weiz",
     "regionID": "RG03",
     "countryName": "Austria",
     "userID": null,
-    "customerID": "FC03"
+    "customerID": "FC03",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR04",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "KPT",
     "cityName": "Zagreb",
     "regionID": "RG03",
     "countryName": "Croatia",
     "userID": null,
-    "customerID": "FC04"
+    "customerID": "FC04",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR05",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STGZ",
     "cityName": "Guangzhou",
     "regionID": "RG02",
     "countryName": "China",
     "userID": null,
-    "customerID": "FC05"
+    "customerID": "FC05",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR06",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STDD",
     "cityName": "Dresden",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC06"
+    "customerID": "FC06",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR07",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STL",
     "cityName": "Linz",
     "regionID": "RG03",
     "countryName": "Austria",
     "userID": null,
-    "customerID": "FC07"
+    "customerID": "FC07",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR08",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STN",
     "cityName": "Trento",
     "regionID": "RG03",
     "countryName": "Italy",
     "userID": null,
-    "customerID": "FC08"
+    "customerID": "FC08",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR09",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STCK",
     "cityName": "Jinan",
     "regionID": "RG02",
     "countryName": "China",
     "userID": null,
-    "customerID": "FC09"
+    "customerID": "FC09",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR10",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STWH",
     "cityName": "Wuhan",
     "regionID": "RG02",
     "countryName": "China",
     "userID": null,
-    "customerID": "FC10"
+    "customerID": "FC10",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR11",
-    "businessSegmentID": "BS01",
-    "businessUnitID": "BU01",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
     "branchName": "STM",
     "cityName": "Guanajuato",
     "regionID": "RG01",
     "countryName": "Mexico",
     "userID": null,
-    "customerID": "FC11"
+    "customerID": "FC11",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "branchID": "BR12",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "DB",
     "cityName": "Budapest",
     "regionID": "RG03",
     "countryName": "Hungary",
     "userID": null,
-    "customerID": "FC12"
+    "customerID": "FC12",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR13",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "DK",
     "cityName": "Kirchheim",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC13"
+    "customerID": "FC13",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR14",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "TN",
     "cityName": "Nuremberg",
     "regionID": "RG03",
     "countryName": "Germany",
     "userID": null,
-    "customerID": "FC14"
+    "customerID": "FC14",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR15",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "JXN",
     "cityName": "Jackson",
     "regionID": "RG01",
     "countryName": "United States",
     "userID": null,
-    "customerID": "FC15"
+    "customerID": "FC15",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR16",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "SAT",
     "cityName": "Bogotá",
     "regionID": "RG01",
     "countryName": "Colombia",
     "userID": null,
-    "customerID": "FC16"
+    "customerID": "FC16",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "branchID": "BR17",
-    "businessSegmentID": "BS03",
-    "businessUnitID": "BU02",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU02"
+    ],
     "branchName": "STCA",
     "cityName": "Trois-Rivières",
     "regionID": "RG01",
     "countryName": "Canada",
     "userID": null,
-    "customerID": "FC17"
+    "customerID": "FC17",
+    "departmentID": [
+     "DPT03"
+    ]
    }
   ],
   "Issues": [
