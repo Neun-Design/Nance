@@ -22596,8 +22596,9 @@
   "Product Groups": [
    {
     "productGroupID": "PG01",
-    "productGroupName": "LPT",
-    "productID": "P01",
+    "productID": [
+     "P01"
+    ],
     "productGroupOwner": "U01",
     "specValues": {
      "SPEC01": "<=145",
@@ -22608,8 +22609,9 @@
    },
    {
     "productGroupID": "PG02",
-    "productGroupName": "Autotransformer",
-    "productID": "P02",
+    "productID": [
+     "P02"
+    ],
     "productGroupOwner": "U02",
     "specValues": {
      "SPEC01": "<=550",
@@ -22620,8 +22622,9 @@
    },
    {
     "productGroupID": "PG03",
-    "productGroupName": "Phase Shifter",
-    "productID": "P03",
+    "productID": [
+     "P03"
+    ],
     "productGroupOwner": "U03",
     "specValues": {
      "SPEC01": ">550",
@@ -22632,8 +22635,9 @@
    },
    {
     "productGroupID": "PG04",
-    "productGroupName": "HVDC",
-    "productID": "P04",
+    "productID": [
+     "P04"
+    ],
     "productGroupOwner": "U04",
     "specValues": {
      "SPEC01": "ALL",
@@ -22644,8 +22648,9 @@
    },
    {
     "productGroupID": "PG05",
-    "productGroupName": "Reactors",
-    "productID": "P05",
+    "productID": [
+     "P05"
+    ],
     "productGroupOwner": "U05",
     "specValues": {
      "SPEC01": "ALL",
@@ -22656,8 +22661,9 @@
    },
    {
     "productGroupID": "PG06",
-    "productGroupName": "MPT",
-    "productID": "P06",
+    "productID": [
+     "P06"
+    ],
     "productGroupOwner": "U06",
     "specValues": {
      "SPEC01": "ALL",
@@ -22668,8 +22674,9 @@
    },
    {
     "productGroupID": "PG07",
-    "productGroupName": "IND",
-    "productID": "P07",
+    "productID": [
+     "P07"
+    ],
     "productGroupOwner": "U07",
     "specValues": {
      "SPEC01": "ALL",
@@ -22680,8 +22687,9 @@
    },
    {
     "productGroupID": "PG08",
-    "productGroupName": "LDT",
-    "productID": "P08",
+    "productID": [
+     "P08"
+    ],
     "productGroupOwner": "U08",
     "specValues": {
      "SPEC01": "<=36",
@@ -22692,8 +22700,9 @@
    },
    {
     "productGroupID": "PG09",
-    "productGroupName": "CRT",
-    "productID": "P09",
+    "productID": [
+     "P09"
+    ],
     "productGroupOwner": "U09",
     "specValues": {
      "SPEC01": "<=72.5",
@@ -22704,8 +22713,9 @@
    },
    {
     "productGroupID": "PG10",
-    "productGroupName": "LIDT",
-    "productID": "P10",
+    "productID": [
+     "P10"
+    ],
     "productGroupOwner": "U10",
     "specValues": {
      "SPEC01": "ALL",
@@ -22716,8 +22726,9 @@
    },
    {
     "productGroupID": "PG11",
-    "productGroupName": "TRAC",
-    "productID": "P11",
+    "productID": [
+     "P11"
+    ],
     "productGroupOwner": "U11",
     "specValues": {
      "SPEC01": "ALL",
@@ -22728,8 +22739,9 @@
    },
    {
     "productGroupID": "PG12",
-    "productGroupName": "VR",
-    "productID": "P12",
+    "productID": [
+     "P12"
+    ],
     "productGroupOwner": "U12",
     "specValues": {
      "SPEC01": "ALL",
@@ -22740,8 +22752,9 @@
    },
    {
     "productGroupID": "PG13",
-    "productGroupName": "CP",
-    "productID": "P13",
+    "productID": [
+     "P13"
+    ],
     "productGroupOwner": "U13",
     "specValues": {
      "SPEC01": "ALL",
@@ -22752,8 +22765,9 @@
    },
    {
     "productGroupID": "PG14",
-    "productGroupName": "RENEW",
-    "productID": "P14",
+    "productID": [
+     "P14"
+    ],
     "productGroupOwner": "U14",
     "specValues": {
      "SPEC01": "ALL",
