@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 26,
+    "schemaVersion": 27,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3644,7 +3644,7 @@
               "name": "scopeOpportunity",
               "type": "FK",
               "rule": "FK: Issues (display: issueName)",
-              "notes": "Opportunity tags; multivalued",
+              "notes": "Opportunity tags; multivalued; form input HIDDEN since issue #174 — the Issue/Opportunity concept confuses stakeholders and awaits reframing in the decision workflow; stored values and the Issues rollup stay intact",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3729,16 +3729,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
-              },
-              "Opportunity": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "scopeOpportunity",
-                "tooltip": null,
-                "step": null,
-                "check": "Business Unit IS NOT NULL",
-                "field-rule": "SelectLabel = issueType; filtered by Business Unit.businessSegmentID selected"
               },
               "Classification": {
                 "field-type": {

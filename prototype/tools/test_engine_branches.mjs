@@ -129,14 +129,15 @@ console.log('== Issues classify by Unit again (2026-08-03 reversal, hidden regis
   eq(bu.length, 1, 'single businessUnitID attribute (duplicate merged)');
 }
 
-console.log('== Scopes: order, Opportunity matching, Classification ==');
+console.log('== Scopes: order, Opportunity hidden, Classification ==');
 {
   eq(Object.keys(catalog['Scopes'].form.fields),
-    ['Code', 'Name', 'Description', 'Business Unit', 'Opportunity', 'Classification'],
-    'field order per spec (Description added by #181)');
-  eq(catalog['Scopes'].form.fields.Opportunity['field-rule'],
-    'SelectLabel = issueType; filtered by Business Unit.businessSegmentID selected',
-    'issues record-matched on the unit segments, grouped by issueType');
+    ['Code', 'Name', 'Description', 'Business Unit', 'Classification'],
+    'field order per spec (Description added by #181, Opportunity hidden by #174)');
+  // #174: the Issue/Opportunity concept awaits reframing — the INPUT is gone
+  // but the stored attribute (and existing values) survive
+  eq('Opportunity' in catalog['Scopes'].form.fields, false, 'Opportunity input removed');
+  eq(!!catalog['Scopes'].byName['scopeOpportunity'], true, 'scopeOpportunity attr kept');
   eq(forms.optionsForAttr('Scopes', 'scopeClassID').target, 'Classes', 'Classification lists Classes');
 }
 
