@@ -10350,411 +10350,6 @@
     "taskOwner": "U19"
    }
   ],
-  "Events": [
-   {
-    "eventID": "EV01",
-    "eventTitle": "Opportunity Development",
-    "eventDescription": "Sales create the opprtunity and notifies the offer manager",
-    "eventCreatedAt": "2026-01-05",
-    "customerName": "PN",
-    "productName": "LPT",
-    "scopeName": "Temperature Reduction",
-    "eventOwner": "U01",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV02",
-    "eventTitle": "Offer Calculation Requested",
-    "eventDescription": "Engineering receives a demand for creating an offer calculation",
-    "eventCreatedAt": "2026-01-08",
-    "customerName": "TUSA",
-    "productName": "Autotransformer",
-    "scopeName": "Uprating",
-    "eventOwner": "U02",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV03",
-    "eventTitle": "Analyse Request",
-    "eventDescription": "check if request is meeting minimum information requirements for forwarding the activity (Transformer drawings, nameplate, technical specification or/and any other relevant information).",
-    "eventCreatedAt": "2026-01-11",
-    "customerName": "STW",
-    "productName": "Phase Shifter",
-    "scopeName": "Uprating with Windings Replacement",
-    "eventOwner": "U03",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV04",
-    "eventTitle": "Offer Calculation Documentation Requested",
-    "eventDescription": "Engineering needs more information about the scope to be able to develop the offer calculation",
-    "eventCreatedAt": "2026-01-14",
-    "customerName": "KPT",
-    "productName": "HVDC",
-    "scopeName": "Repair with Windings Replacement",
-    "eventOwner": "U04",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV05",
-    "eventTitle": "Offer Calculation Documentation Released",
-    "eventDescription": "Costumer or/and Local Engineering releases the documentation requested",
-    "eventCreatedAt": "2026-01-17",
-    "customerName": "STGZ",
-    "productName": "Reactors",
-    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "eventOwner": "U05",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV06",
-    "eventTitle": "Offer Calculation Released",
-    "eventDescription": "Engineering releases the documentation necessary for the offer team to finish the proposal",
-    "eventCreatedAt": "2026-01-20",
-    "customerName": "STDD",
-    "productName": "MPT",
-    "scopeName": "Renewal of the paper/oil insulation system",
-    "eventOwner": "U06",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV07",
-    "eventTitle": "Offer Calculation Revision Requested",
-    "eventDescription": "Sales or the offer manager asks engineering to modify the offer calculation",
-    "eventCreatedAt": "2026-01-23",
-    "customerName": "STL",
-    "productName": "IND",
-    "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
-    "eventOwner": "U07",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV08",
-    "eventTitle": "Offer Rejected",
-    "eventDescription": "The Final Offer is rejected by the customer",
-    "eventCreatedAt": "2026-01-26",
-    "customerName": "STN",
-    "productName": "LDT",
-    "scopeName": "Renovation of External Parts",
-    "eventOwner": "U08",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV09",
-    "eventTitle": "Offer Approved",
-    "eventDescription": "The Final Offer is approved and enters the queue for Handover",
-    "eventCreatedAt": "2026-01-29",
-    "customerName": "STCK",
-    "productName": "CRT",
-    "scopeName": "Replacement of bushings, shields/electrodes and CTs",
-    "eventOwner": "U09",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV10",
-    "eventTitle": "Order Handover",
-    "eventDescription": "Offer and Order managers hands the offer proposal to the Project Manager and Engineering Manager",
-    "eventCreatedAt": "2026-02-01",
-    "customerName": "STWH",
-    "productName": "LIDT",
-    "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "eventOwner": "U10",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV11",
-    "eventTitle": "Order Created",
-    "eventDescription": "Project Manager creates the Order Structure in the systems",
-    "eventCreatedAt": "2026-02-04",
-    "customerName": "STM",
-    "productName": "TRAC",
-    "scopeName": "Temperature Reduction",
-    "eventOwner": "U11",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV12",
-    "eventTitle": "Work Order Released",
-    "eventDescription": "A list with all main project items for customer approval and manufacturing",
-    "eventCreatedAt": "2026-02-07",
-    "customerName": "DB",
-    "productName": "VR",
-    "scopeName": "Uprating",
-    "eventOwner": "U12",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV13",
-    "eventTitle": "Project Planning Created",
-    "eventDescription": "A detailed activity and task roadmap based on the Work Order",
-    "eventCreatedAt": "2026-02-10",
-    "customerName": "DK",
-    "productName": "CP",
-    "scopeName": "Uprating with Windings Replacement",
-    "eventOwner": "U13",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV14",
-    "eventTitle": "Approval Documentation Released",
-    "eventDescription": "Drawings, Instructions, Procedures that needs customer approval before moving on with the project",
-    "eventCreatedAt": "2026-02-13",
-    "customerName": "TN",
-    "productName": "RENEW",
-    "scopeName": "Repair with Windings Replacement",
-    "eventOwner": "U14",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV15",
-    "eventTitle": "Approval Documentation Revision Requested",
-    "eventDescription": "Customer asks for clarifications or changes in the project or documentation sent",
-    "eventCreatedAt": "2026-02-16",
-    "customerName": "JXN",
-    "productName": "LPT",
-    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "eventOwner": "U15",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV16",
-    "eventTitle": "Approval Documentation Approved",
-    "eventDescription": "Customer approves the project and the documentation sent",
-    "eventCreatedAt": "2026-02-19",
-    "customerName": "SAT",
-    "productName": "Autotransformer",
-    "scopeName": "Renewal of the paper/oil insulation system",
-    "eventOwner": "U16",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV17",
-    "eventTitle": "Critical Material List Released",
-    "eventDescription": "List of materials with high delivery time deadlines",
-    "eventCreatedAt": "2026-02-22",
-    "customerName": "STCA",
-    "productName": "Phase Shifter",
-    "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
-    "eventOwner": "U17",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV18",
-    "eventTitle": "Manufacturing Documentation Released",
-    "eventDescription": "Drawings, instruction, procedures necessary to produce the scope",
-    "eventCreatedAt": "2026-02-25",
-    "customerName": "PN",
-    "productName": "HVDC",
-    "scopeName": "Renovation of External Parts",
-    "eventOwner": "U18",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV19",
-    "eventTitle": "Manufacturing Documentation Revision Request",
-    "eventDescription": "External or Internal Suppliers can ask for revisions about documentation errors or manufacturing improvements",
-    "eventCreatedAt": "2026-02-28",
-    "customerName": "TUSA",
-    "productName": "Reactors",
-    "scopeName": "Replacement of bushings, shields/electrodes and CTs",
-    "eventOwner": "U19",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV20",
-    "eventTitle": "Project Documentation Request",
-    "eventDescription": "Information needed for developing the project scope",
-    "eventCreatedAt": "2026-03-03",
-    "customerName": "STW",
-    "productName": "MPT",
-    "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "eventOwner": "U20",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV21",
-    "eventTitle": "Project Documentation Released",
-    "eventDescription": "Documentation that supports project development (eg: Technical Specifications, Original Drawings, etc)",
-    "eventCreatedAt": "2026-03-06",
-    "customerName": "KPT",
-    "productName": "IND",
-    "scopeName": "Temperature Reduction",
-    "eventOwner": "U21",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV22",
-    "eventTitle": "BOM Released",
-    "eventDescription": "Build Of Material list prepared to be inserted in the system",
-    "eventCreatedAt": "2026-03-09",
-    "customerName": "STGZ",
-    "productName": "LDT",
-    "scopeName": "Uprating",
-    "eventOwner": "U22",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV23",
-    "eventTitle": "BOM Revision Requested",
-    "eventDescription": "Material code update review requested from purchase department",
-    "eventCreatedAt": "2026-03-12",
-    "customerName": "STDD",
-    "productName": "CRT",
-    "scopeName": "Uprating with Windings Replacement",
-    "eventOwner": "U23",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV24",
-    "eventTitle": "Project Released",
-    "eventDescription": "Project is released for production or delivered to internal customers",
-    "eventCreatedAt": "2026-03-15",
-    "customerName": "STL",
-    "productName": "LIDT",
-    "scopeName": "Repair with Windings Replacement",
-    "eventOwner": "U24",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV25",
-    "eventTitle": "Project Inspection Scope Request",
-    "eventDescription": "If equipment is repaired at a location remote from the design engineering team, an inspection scope is required to capture all necessary information",
-    "eventCreatedAt": "2026-03-18",
-    "customerName": "STN",
-    "productName": "TRAC",
-    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
-    "eventOwner": "U01",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV26",
-    "eventTitle": "Project Inspection Scope Released",
-    "eventDescription": "The inspection scope is issued to the local engineering leader where the transformer is located",
-    "eventCreatedAt": "2026-03-21",
-    "customerName": "STCK",
-    "productName": "VR",
-    "scopeName": "Renewal of the paper/oil insulation system",
-    "eventOwner": "U02",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV27",
-    "eventTitle": "Project Inspection Scope Report Released",
-    "eventDescription": "The local engineering team sends back the inspection report so that the designers can develop the project",
-    "eventCreatedAt": "2026-03-24",
-    "customerName": "STWH",
-    "productName": "CP",
-    "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
-    "eventOwner": "U03",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV28",
-    "eventTitle": "Inspection Scope Released",
-    "eventDescription": "Equipment and accessories inspections as well as tests necessaries to develop technical scope, project and studies",
-    "eventCreatedAt": "2026-03-27",
-    "customerName": "STM",
-    "productName": "RENEW",
-    "scopeName": "Renovation of External Parts",
-    "eventOwner": "U04",
-    "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV29",
-    "eventTitle": "Inspection Report Released",
-    "eventDescription": "Field Service engineering develop report accordingly with the scope",
-    "eventCreatedAt": "2026-03-30",
-    "customerName": "DB",
-    "productName": "LPT",
-    "scopeName": "Replacement of bushings, shields/electrodes and CTs",
-    "eventOwner": "U05",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV30",
-    "eventTitle": "FIA Requested",
-    "eventDescription": "Finding investigation Abalysis requested by the sales or offer manager",
-    "eventCreatedAt": "2026-04-02",
-    "customerName": "DK",
-    "productName": "Autotransformer",
-    "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
-    "eventOwner": "U06",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   },
-   {
-    "eventID": "EV31",
-    "eventTitle": "FIA Report Released",
-    "eventDescription": "Findings investigation Analysis Report",
-    "eventCreatedAt": "2026-04-05",
-    "customerName": "TN",
-    "productName": "Phase Shifter",
-    "scopeName": "Temperature Reduction",
-    "eventOwner": "U07",
-    "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": []
-   }
-  ],
   "Processes": [
    {
     "processID": "PR1",
@@ -12305,6 +11900,267 @@
     "procedureOwner": "U19",
     "executionTime": 8,
     "productScopeID": []
+   }
+  ],
+  "Requirements": [
+   {
+    "requirementID": "CN1",
+    "requirementName": "IEC 60076 Compliance",
+    "requirementDescription": "General power transformer standard",
+    "requirementTypeID": "RT4",
+    "scopeID": [
+     "A.1",
+     "A.2",
+     "A.3",
+     "A.4"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "IEC 60076-1",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN2",
+    "requirementName": "Max Tank Weight",
+    "requirementDescription": "Transport weight limit",
+    "requirementTypeID": "RT2",
+    "scopeID": [
+     "A.2",
+     "A.3"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG03",
+     "PG05"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN3",
+    "requirementName": "Short-circuit Withstand",
+    "requirementDescription": "Mechanical withstand under fault",
+    "requirementTypeID": "RT3",
+    "scopeID": [
+     "A.2",
+     "A.3",
+     "A.4"
+    ],
+    "productGroupID": [
+     "PG02",
+     "PG03",
+     "PG06"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "IEC 60076-5",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN4",
+    "requirementName": "Delivery Lead Time",
+    "requirementDescription": "Contractual delivery window",
+    "requirementTypeID": "RT5",
+    "scopeID": [
+     "A.1",
+     "B"
+    ],
+    "productGroupID": [
+     "PG02",
+     "PG03"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN5",
+    "requirementName": "Noise Level Limit",
+    "requirementDescription": "Acoustic emission cap",
+    "requirementTypeID": "RT1",
+    "scopeID": [
+     "G"
+    ],
+    "productGroupID": [
+     "PG04"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "IEC 60076-10",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN6",
+    "requirementName": "Temperature Rise Limit",
+    "requirementDescription": "Thermal rise limit",
+    "requirementTypeID": "RT4",
+    "scopeID": [
+     "A.1",
+     "A.2"
+    ],
+    "productGroupID": [
+     "PG05"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "IEC 60076-2",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN7",
+    "requirementName": "Insulation Level",
+    "requirementDescription": "Dielectric design level",
+    "requirementTypeID": "RT2",
+    "scopeID": [
+     "A.1",
+     "A.2",
+     "A.3",
+     "A.4",
+     "B",
+     "C",
+     "D",
+     "E",
+     "F",
+     "G"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN8",
+    "requirementName": "Budget Cap",
+    "requirementDescription": "Offer budget ceiling",
+    "requirementTypeID": "RT5",
+    "scopeID": [
+     "A.1",
+     "A.2",
+     "A.3",
+     "A.4",
+     "B",
+     "C",
+     "D",
+     "E",
+     "F",
+     "G"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "isActive": "Inactive",
+    "regulatoryReference": "",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": []
+   },
+   {
+    "requirementID": "CN9",
+    "requirementName": "Grid Code DE Compliance",
+    "requirementDescription": "German grid-connection rules for transformer repairs delivered to DE sites",
+    "requirementTypeID": "RT4",
+    "scopeID": [
+     "A.1",
+     "A.2"
+    ],
+    "productGroupID": [
+     "PG01"
+    ],
+    "isActive": "Active",
+    "regulatoryReference": "VDE-AR-N 4130",
+    "regionID": [],
+    "businessUnitID": [],
+    "regulatoryURL": null,
+    "branchID": [
+     "BR01"
+    ]
+   }
+  ],
+  "Requirement Type": [
+   {
+    "requirementTypeID": "RT1",
+    "requirementTypeName": "Operational",
+    "requirementTypeDescription": "Constraints arising from operating conditions and site limits",
+    "requirementTypeOwner": "U01"
+   },
+   {
+    "requirementTypeID": "RT2",
+    "requirementTypeName": "Design",
+    "requirementTypeDescription": "Engineering design rules and dimensional limits",
+    "requirementTypeOwner": "U02"
+   },
+   {
+    "requirementTypeID": "RT3",
+    "requirementTypeName": "Testing",
+    "requirementTypeDescription": "Test, inspection and acceptance criteria",
+    "requirementTypeOwner": "U03"
+   },
+   {
+    "requirementTypeID": "RT4",
+    "requirementTypeName": "Technical",
+    "requirementTypeDescription": "Normative technical standards (IEC, IEEE, ...)",
+    "requirementTypeOwner": "U04"
+   },
+   {
+    "requirementTypeID": "RT5",
+    "requirementTypeName": "Commercial",
+    "requirementTypeDescription": "Contractual and commercial obligations",
+    "requirementTypeOwner": "U05"
    }
   ]
  },
@@ -22779,267 +22635,411 @@
     "businessUnitID": "BU02"
    }
   ],
-  "Requirements": [
+  "Classes": [],
+  "Events": [
    {
-    "requirementID": "CN1",
-    "requirementName": "IEC 60076 Compliance",
-    "requirementDescription": "General power transformer standard",
-    "requirementTypeID": "RT4",
-    "scopeID": [
-     "A.1",
-     "A.2",
-     "A.3",
-     "A.4"
-    ],
-    "productGroupID": [
-     "PG01",
-     "PG02",
-     "PG03",
-     "PG04",
-     "PG05",
-     "PG06"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "IEC 60076-1",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV01",
+    "eventTitle": "Opportunity Development",
+    "eventDescription": "Sales create the opprtunity and notifies the offer manager",
+    "eventCreatedAt": "2026-01-05",
+    "customerName": "PN",
+    "productName": "LPT",
+    "scopeName": "Temperature Reduction",
+    "eventOwner": "U01",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN2",
-    "requirementName": "Max Tank Weight",
-    "requirementDescription": "Transport weight limit",
-    "requirementTypeID": "RT2",
-    "scopeID": [
-     "A.2",
-     "A.3"
-    ],
-    "productGroupID": [
-     "PG01",
-     "PG03",
-     "PG05"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV02",
+    "eventTitle": "Offer Calculation Requested",
+    "eventDescription": "Engineering receives a demand for creating an offer calculation",
+    "eventCreatedAt": "2026-01-08",
+    "customerName": "TUSA",
+    "productName": "Autotransformer",
+    "scopeName": "Uprating",
+    "eventOwner": "U02",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN3",
-    "requirementName": "Short-circuit Withstand",
-    "requirementDescription": "Mechanical withstand under fault",
-    "requirementTypeID": "RT3",
-    "scopeID": [
-     "A.2",
-     "A.3",
-     "A.4"
-    ],
-    "productGroupID": [
-     "PG02",
-     "PG03",
-     "PG06"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "IEC 60076-5",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV03",
+    "eventTitle": "Analyse Request",
+    "eventDescription": "check if request is meeting minimum information requirements for forwarding the activity (Transformer drawings, nameplate, technical specification or/and any other relevant information).",
+    "eventCreatedAt": "2026-01-11",
+    "customerName": "STW",
+    "productName": "Phase Shifter",
+    "scopeName": "Uprating with Windings Replacement",
+    "eventOwner": "U03",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN4",
-    "requirementName": "Delivery Lead Time",
-    "requirementDescription": "Contractual delivery window",
-    "requirementTypeID": "RT5",
-    "scopeID": [
-     "A.1",
-     "B"
-    ],
-    "productGroupID": [
-     "PG02",
-     "PG03"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV04",
+    "eventTitle": "Offer Calculation Documentation Requested",
+    "eventDescription": "Engineering needs more information about the scope to be able to develop the offer calculation",
+    "eventCreatedAt": "2026-01-14",
+    "customerName": "KPT",
+    "productName": "HVDC",
+    "scopeName": "Repair with Windings Replacement",
+    "eventOwner": "U04",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN5",
-    "requirementName": "Noise Level Limit",
-    "requirementDescription": "Acoustic emission cap",
-    "requirementTypeID": "RT1",
-    "scopeID": [
-     "G"
-    ],
-    "productGroupID": [
-     "PG04"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "IEC 60076-10",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV05",
+    "eventTitle": "Offer Calculation Documentation Released",
+    "eventDescription": "Costumer or/and Local Engineering releases the documentation requested",
+    "eventCreatedAt": "2026-01-17",
+    "customerName": "STGZ",
+    "productName": "Reactors",
+    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
+    "eventOwner": "U05",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN6",
-    "requirementName": "Temperature Rise Limit",
-    "requirementDescription": "Thermal rise limit",
-    "requirementTypeID": "RT4",
-    "scopeID": [
-     "A.1",
-     "A.2"
-    ],
-    "productGroupID": [
-     "PG05"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "IEC 60076-2",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV06",
+    "eventTitle": "Offer Calculation Released",
+    "eventDescription": "Engineering releases the documentation necessary for the offer team to finish the proposal",
+    "eventCreatedAt": "2026-01-20",
+    "customerName": "STDD",
+    "productName": "MPT",
+    "scopeName": "Renewal of the paper/oil insulation system",
+    "eventOwner": "U06",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN7",
-    "requirementName": "Insulation Level",
-    "requirementDescription": "Dielectric design level",
-    "requirementTypeID": "RT2",
-    "scopeID": [
-     "A.1",
-     "A.2",
-     "A.3",
-     "A.4",
-     "B",
-     "C",
-     "D",
-     "E",
-     "F",
-     "G"
-    ],
-    "productGroupID": [
-     "PG01",
-     "PG02",
-     "PG03",
-     "PG04",
-     "PG05",
-     "PG06",
-     "PG07",
-     "PG08",
-     "PG09",
-     "PG10",
-     "PG11",
-     "PG12",
-     "PG13",
-     "PG14"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV07",
+    "eventTitle": "Offer Calculation Revision Requested",
+    "eventDescription": "Sales or the offer manager asks engineering to modify the offer calculation",
+    "eventCreatedAt": "2026-01-23",
+    "customerName": "STL",
+    "productName": "IND",
+    "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
+    "eventOwner": "U07",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN8",
-    "requirementName": "Budget Cap",
-    "requirementDescription": "Offer budget ceiling",
-    "requirementTypeID": "RT5",
-    "scopeID": [
-     "A.1",
-     "A.2",
-     "A.3",
-     "A.4",
-     "B",
-     "C",
-     "D",
-     "E",
-     "F",
-     "G"
-    ],
-    "productGroupID": [
-     "PG01",
-     "PG02",
-     "PG03",
-     "PG04",
-     "PG05",
-     "PG06",
-     "PG07",
-     "PG08",
-     "PG09",
-     "PG10",
-     "PG11",
-     "PG12",
-     "PG13",
-     "PG14"
-    ],
-    "isActive": "Inactive",
-    "regulatoryReference": "",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": []
+    "eventID": "EV08",
+    "eventTitle": "Offer Rejected",
+    "eventDescription": "The Final Offer is rejected by the customer",
+    "eventCreatedAt": "2026-01-26",
+    "customerName": "STN",
+    "productName": "LDT",
+    "scopeName": "Renovation of External Parts",
+    "eventOwner": "U08",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
    },
    {
-    "requirementID": "CN9",
-    "requirementName": "Grid Code DE Compliance",
-    "requirementDescription": "German grid-connection rules for transformer repairs delivered to DE sites",
-    "requirementTypeID": "RT4",
-    "scopeID": [
-     "A.1",
-     "A.2"
-    ],
-    "productGroupID": [
-     "PG01"
-    ],
-    "isActive": "Active",
-    "regulatoryReference": "VDE-AR-N 4130",
-    "regionID": [],
-    "businessUnitID": [],
-    "regulatoryURL": null,
-    "branchID": [
-     "BR01"
-    ]
+    "eventID": "EV09",
+    "eventTitle": "Offer Approved",
+    "eventDescription": "The Final Offer is approved and enters the queue for Handover",
+    "eventCreatedAt": "2026-01-29",
+    "customerName": "STCK",
+    "productName": "CRT",
+    "scopeName": "Replacement of bushings, shields/electrodes and CTs",
+    "eventOwner": "U09",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV10",
+    "eventTitle": "Order Handover",
+    "eventDescription": "Offer and Order managers hands the offer proposal to the Project Manager and Engineering Manager",
+    "eventCreatedAt": "2026-02-01",
+    "customerName": "STWH",
+    "productName": "LIDT",
+    "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
+    "eventOwner": "U10",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV11",
+    "eventTitle": "Order Created",
+    "eventDescription": "Project Manager creates the Order Structure in the systems",
+    "eventCreatedAt": "2026-02-04",
+    "customerName": "STM",
+    "productName": "TRAC",
+    "scopeName": "Temperature Reduction",
+    "eventOwner": "U11",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV12",
+    "eventTitle": "Work Order Released",
+    "eventDescription": "A list with all main project items for customer approval and manufacturing",
+    "eventCreatedAt": "2026-02-07",
+    "customerName": "DB",
+    "productName": "VR",
+    "scopeName": "Uprating",
+    "eventOwner": "U12",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV13",
+    "eventTitle": "Project Planning Created",
+    "eventDescription": "A detailed activity and task roadmap based on the Work Order",
+    "eventCreatedAt": "2026-02-10",
+    "customerName": "DK",
+    "productName": "CP",
+    "scopeName": "Uprating with Windings Replacement",
+    "eventOwner": "U13",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV14",
+    "eventTitle": "Approval Documentation Released",
+    "eventDescription": "Drawings, Instructions, Procedures that needs customer approval before moving on with the project",
+    "eventCreatedAt": "2026-02-13",
+    "customerName": "TN",
+    "productName": "RENEW",
+    "scopeName": "Repair with Windings Replacement",
+    "eventOwner": "U14",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV15",
+    "eventTitle": "Approval Documentation Revision Requested",
+    "eventDescription": "Customer asks for clarifications or changes in the project or documentation sent",
+    "eventCreatedAt": "2026-02-16",
+    "customerName": "JXN",
+    "productName": "LPT",
+    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
+    "eventOwner": "U15",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV16",
+    "eventTitle": "Approval Documentation Approved",
+    "eventDescription": "Customer approves the project and the documentation sent",
+    "eventCreatedAt": "2026-02-19",
+    "customerName": "SAT",
+    "productName": "Autotransformer",
+    "scopeName": "Renewal of the paper/oil insulation system",
+    "eventOwner": "U16",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV17",
+    "eventTitle": "Critical Material List Released",
+    "eventDescription": "List of materials with high delivery time deadlines",
+    "eventCreatedAt": "2026-02-22",
+    "customerName": "STCA",
+    "productName": "Phase Shifter",
+    "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
+    "eventOwner": "U17",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV18",
+    "eventTitle": "Manufacturing Documentation Released",
+    "eventDescription": "Drawings, instruction, procedures necessary to produce the scope",
+    "eventCreatedAt": "2026-02-25",
+    "customerName": "PN",
+    "productName": "HVDC",
+    "scopeName": "Renovation of External Parts",
+    "eventOwner": "U18",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV19",
+    "eventTitle": "Manufacturing Documentation Revision Request",
+    "eventDescription": "External or Internal Suppliers can ask for revisions about documentation errors or manufacturing improvements",
+    "eventCreatedAt": "2026-02-28",
+    "customerName": "TUSA",
+    "productName": "Reactors",
+    "scopeName": "Replacement of bushings, shields/electrodes and CTs",
+    "eventOwner": "U19",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV20",
+    "eventTitle": "Project Documentation Request",
+    "eventDescription": "Information needed for developing the project scope",
+    "eventCreatedAt": "2026-03-03",
+    "customerName": "STW",
+    "productName": "MPT",
+    "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
+    "eventOwner": "U20",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV21",
+    "eventTitle": "Project Documentation Released",
+    "eventDescription": "Documentation that supports project development (eg: Technical Specifications, Original Drawings, etc)",
+    "eventCreatedAt": "2026-03-06",
+    "customerName": "KPT",
+    "productName": "IND",
+    "scopeName": "Temperature Reduction",
+    "eventOwner": "U21",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV22",
+    "eventTitle": "BOM Released",
+    "eventDescription": "Build Of Material list prepared to be inserted in the system",
+    "eventCreatedAt": "2026-03-09",
+    "customerName": "STGZ",
+    "productName": "LDT",
+    "scopeName": "Uprating",
+    "eventOwner": "U22",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV23",
+    "eventTitle": "BOM Revision Requested",
+    "eventDescription": "Material code update review requested from purchase department",
+    "eventCreatedAt": "2026-03-12",
+    "customerName": "STDD",
+    "productName": "CRT",
+    "scopeName": "Uprating with Windings Replacement",
+    "eventOwner": "U23",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV24",
+    "eventTitle": "Project Released",
+    "eventDescription": "Project is released for production or delivered to internal customers",
+    "eventCreatedAt": "2026-03-15",
+    "customerName": "STL",
+    "productName": "LIDT",
+    "scopeName": "Repair with Windings Replacement",
+    "eventOwner": "U24",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV25",
+    "eventTitle": "Project Inspection Scope Request",
+    "eventDescription": "If equipment is repaired at a location remote from the design engineering team, an inspection scope is required to capture all necessary information",
+    "eventCreatedAt": "2026-03-18",
+    "customerName": "STN",
+    "productName": "TRAC",
+    "scopeName": "Reduction of the volume of gases and moisture in the insulating oil",
+    "eventOwner": "U01",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV26",
+    "eventTitle": "Project Inspection Scope Released",
+    "eventDescription": "The inspection scope is issued to the local engineering leader where the transformer is located",
+    "eventCreatedAt": "2026-03-21",
+    "customerName": "STCK",
+    "productName": "VR",
+    "scopeName": "Renewal of the paper/oil insulation system",
+    "eventOwner": "U02",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV27",
+    "eventTitle": "Project Inspection Scope Report Released",
+    "eventDescription": "The local engineering team sends back the inspection report so that the designers can develop the project",
+    "eventCreatedAt": "2026-03-24",
+    "customerName": "STWH",
+    "productName": "CP",
+    "scopeName": "Protection devices, wiring/cabling, cubicles, monitoring",
+    "eventOwner": "U03",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV28",
+    "eventTitle": "Inspection Scope Released",
+    "eventDescription": "Equipment and accessories inspections as well as tests necessaries to develop technical scope, project and studies",
+    "eventCreatedAt": "2026-03-27",
+    "customerName": "STM",
+    "productName": "RENEW",
+    "scopeName": "Renovation of External Parts",
+    "eventOwner": "U04",
+    "businessUnitID": "BU01",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV29",
+    "eventTitle": "Inspection Report Released",
+    "eventDescription": "Field Service engineering develop report accordingly with the scope",
+    "eventCreatedAt": "2026-03-30",
+    "customerName": "DB",
+    "productName": "LPT",
+    "scopeName": "Replacement of bushings, shields/electrodes and CTs",
+    "eventOwner": "U05",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV30",
+    "eventTitle": "FIA Requested",
+    "eventDescription": "Finding investigation Abalysis requested by the sales or offer manager",
+    "eventCreatedAt": "2026-04-02",
+    "customerName": "DK",
+    "productName": "Autotransformer",
+    "scopeName": "Electrical and/or materials testing, inspection, evaluation and diagnosis",
+    "eventOwner": "U06",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
+   },
+   {
+    "eventID": "EV31",
+    "eventTitle": "FIA Report Released",
+    "eventDescription": "Findings investigation Analysis Report",
+    "eventCreatedAt": "2026-04-05",
+    "customerName": "TN",
+    "productName": "Phase Shifter",
+    "scopeName": "Temperature Reduction",
+    "eventOwner": "U07",
+    "businessUnitID": "BU02",
+    "scopeID": [],
+    "productID": []
    }
-  ],
-  "Requirement Type": [
-   {
-    "requirementTypeID": "RT1",
-    "requirementTypeName": "Operational",
-    "requirementTypeDescription": "Constraints arising from operating conditions and site limits",
-    "requirementTypeOwner": "U01"
-   },
-   {
-    "requirementTypeID": "RT2",
-    "requirementTypeName": "Design",
-    "requirementTypeDescription": "Engineering design rules and dimensional limits",
-    "requirementTypeOwner": "U02"
-   },
-   {
-    "requirementTypeID": "RT3",
-    "requirementTypeName": "Testing",
-    "requirementTypeDescription": "Test, inspection and acceptance criteria",
-    "requirementTypeOwner": "U03"
-   },
-   {
-    "requirementTypeID": "RT4",
-    "requirementTypeName": "Technical",
-    "requirementTypeDescription": "Normative technical standards (IEC, IEEE, ...)",
-    "requirementTypeOwner": "U04"
-   },
-   {
-    "requirementTypeID": "RT5",
-    "requirementTypeName": "Commercial",
-    "requirementTypeDescription": "Contractual and commercial obligations",
-    "requirementTypeOwner": "U05"
-   }
-  ],
-  "Classes": []
+  ]
  }
 }
