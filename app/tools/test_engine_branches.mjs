@@ -29,7 +29,10 @@ console.log('== module map & dashboard order ==');
     'Squads', 'Branches'], 'Organization order (Issues a hidden registry, Regions tab 2 — 2026-08-03)');
   const pf = model.getModules().find((m) => m.name === 'Portfolio');
   eq(pf.tables, ['Classes', 'Scopes', 'Products', 'Product Specs', 'Product Groups',
-    'Requirements', 'Product Scopes'], 'Portfolio order (Issues moved out)');
+    'Events', 'Product Scopes'], 'Portfolio order (Events in from Operation, 2026-08-12 swap)');
+  const opMod = model.getModules().find((m) => m.name === 'Operation');
+  eq(opMod.tables, ['Tasks', 'Requirements', 'Processes', 'Workflows', 'Handouts',
+    'Procedures'], 'Operation order (Requirements in from Portfolio, Events out)');
 }
 
 console.log('== Branches seeded from branch customers ==');
