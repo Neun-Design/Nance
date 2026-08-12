@@ -6,23 +6,23 @@ purpose: "What to register in the Operation module and in which order"
 
 # Operation
 
-The QMS process chain (ISO 9001:2015 §4.4): events trigger processes, processes decompose into
-workflow steps, steps carry tasks with inputs and outputs.
+The QMS process chain (ISO 9001:2015 §4.4): events (registered in Portfolio) trigger
+processes, processes decompose into workflow steps, steps carry tasks with inputs and outputs.
 
-## Events
+## Requirements
 
-**What it is:** the business occurrences that drive the QMS — the architectural pivot of the
-model.
-**Register when:** first in the module; Competence (phase 6) also anchors on events.
-**Key fields:** Title, Description; `Business Unit *` → unlocks **Scopes** and **Products**
-(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
-apply to all). The department is not registered here anymore — it moved down to the Process.
-Expanding an event lists its Processes and the Product Scopes its applicability admits.
+**What it is:** the regulatory/design/commercial limits that bind scopes and product groups
+(e.g. "IEC 60076 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
+multi-dimensional: region, unit, branch, customer, scope, product group — **an empty
+dimension means "applies to all"**.
+**Register when:** after Scopes and Product Groups (Portfolio module).
+**Key fields:** Name, Type (create new types inline with the "+" button); the applicability
+cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory reference/URL.
 
 ## Processes
 
 **What it is:** a top-level flow triggered by an event, run by a squad.
-**Register when:** after Events.
+**Register when:** after Events (Portfolio module).
 **Key fields:** Registry number, Name, Description; `Event *` → unlocks **Department**
 (departments of the event's unit) and **Product Scopes** (multi — offered from the event's
 applicability, empty = covers all); Department → unlocks Squad (squads of the process's own

@@ -46,14 +46,16 @@ specs** (name + value); the one-line SPECS summary column is hidden by default (
 Columns brings it back) but still feeds the group displays elsewhere. The segment derives
 from the unit — there is no segment input.
 
-## Requirements
+## Events
 
-**What it is:** the regulatory/design/commercial limits that bind scopes and product groups
-(e.g. "IEC 60076 Compliance"). Applicability is multi-dimensional: region, unit, branch,
-customer, scope, product group — **an empty dimension means "applies to all"**.
-**Register when:** after Scopes and Product Groups.
-**Key fields:** Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory reference/URL.
+**What it is:** the business occurrences that drive the QMS — the architectural pivot of the
+model (moved here from Operation, 2026-08-12).
+**Register when:** after Product Groups — Processes (Operation module) and Competence
+(phase 6) anchor on events.
+**Key fields:** Title, Description; `Business Unit *` → unlocks **Scopes** and **Products**
+(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
+apply to all). The department is not registered here anymore — it moved down to the Process.
+Expanding an event lists its Processes and the Product Scopes its applicability admits.
 
 ## Product Scopes
 
