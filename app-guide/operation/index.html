@@ -1562,10 +1562,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#events" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Events
+        Requirements
       
     </span>
   </a>
@@ -2026,10 +2026,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#events" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Events
+        Requirements
       
     </span>
   </a>
@@ -2127,19 +2127,19 @@
 
 
 <h1 id="operation">Operation<a class="headerlink" href="#operation" title="Permanent link">&para;</a></h1>
-<p>The QMS process chain (ISO 9001:2015 §4.4): events trigger processes, processes decompose into
-workflow steps, steps carry tasks with inputs and outputs.</p>
-<h2 id="events">Events<a class="headerlink" href="#events" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> the business occurrences that drive the QMS — the architectural pivot of the
-model.
-<strong>Register when:</strong> first in the module; Competence (phase 6) also anchors on events.
-<strong>Key fields:</strong> Title, Description; <code>Business Unit *</code> → unlocks <strong>Scopes</strong> and <strong>Products</strong>
-(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
-apply to all). The department is not registered here anymore — it moved down to the Process.
-Expanding an event lists its Processes and the Product Scopes its applicability admits.</p>
+<p>The QMS process chain (ISO 9001:2015 §4.4): events (registered in Portfolio) trigger
+processes, processes decompose into workflow steps, steps carry tasks with inputs and outputs.</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p><strong>What it is:</strong> the regulatory/design/commercial limits that bind scopes and product groups
+(e.g. "IEC 60076 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
+multi-dimensional: region, unit, branch, customer, scope, product group — <strong>an empty
+dimension means "applies to all"</strong>.
+<strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).
+<strong>Key fields:</strong> Name, Type (create new types inline with the "+" button); the applicability
+cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory reference/URL.</p>
 <h2 id="processes">Processes<a class="headerlink" href="#processes" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> a top-level flow triggered by an event, run by a squad.
-<strong>Register when:</strong> after Events.
+<strong>Register when:</strong> after Events (Portfolio module).
 <strong>Key fields:</strong> Registry number, Name, Description; <code>Event *</code> → unlocks <strong>Department</strong>
 (departments of the event's unit) and <strong>Product Scopes</strong> (multi — offered from the event's
 applicability, empty = covers all); Department → unlocks Squad (squads of the process's own

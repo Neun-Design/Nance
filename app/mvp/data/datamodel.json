@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 27,
+    "schemaVersion": 28,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2017,255 +2017,6 @@
             }
           ]
         },
-        "Events": {
-          "visibility": "show",
-          "dashboard-order": 2,
-          "description": "An Event is an aggregator of processes; it is not executed itself but triggers a defined execution. Forecasts group which events and execution parameters (forecastScopes) they contain. Corrective-action and nonconformity linkage is deferred to a future module.",
-          "attributes": [
-            {
-              "name": "eventID",
-              "type": "INT",
-              "rule": null,
-              "notes": "Auto-generated primary key",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "eventTitle",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "Dynamic — set at creation",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "eventDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "NOT NULL"
-            },
-            {
-              "name": "scopeID",
-              "type": "FK",
-              "rule": "FK → Scopes (display: scopeName)",
-              "notes": "Multivalued — scopes this event applies to (Payload distribution, issue #159). EMPTY = applies to every scope (Q1 wildcard).",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "productID",
-              "type": "FK",
-              "rule": "FK → Products (display: productName)",
-              "notes": "Multivalued — products this event applies to (issue #159). EMPTY = applies to every product (Q1 wildcard).",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "productGroupID",
-              "type": "mirror",
-              "rule": "rollup → Product Groups (via: productID) (display: productGroupName)",
-              "notes": "Derived — product groups of the event's products (shared-field join on productID); no form input, available via Customize Columns",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "eventCreatedAt",
-              "type": "DATETIME",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "processID",
-              "type": "rollup",
-              "rule": "rollup → Processes (via: eventID) display: processName",
-              "notes": "multivalued",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "tasks",
-              "type": "rollup",
-              "rule": "rollup → Tasks (via: eventID)",
-              "notes": "Tasks existing for each process triggered by this event",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "executionTime",
-              "type": "rollup",
-              "rule": "computed: SUM(tasks.executionTime)",
-              "notes": "Sum over the event's tasks — each task in turn sums its procedures (nested derived sum)",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "forecastScopes",
-              "type": "rollup",
-              "rule": "rollup → Forecast Scopes (via: eventID)",
-              "notes": "Forecast Scopes that use this event to estimate workload",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "ticketID",
-              "type": "rollup",
-              "rule": "rollup → Tickets (via: eventID)",
-              "notes": "Open tickets for each event",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "customerName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"customerName\")",
-              "notes": "From ticketID rollup",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "productName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"products\")",
-              "notes": "From ticketID rollup",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "scopeName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"scopes\")",
-              "notes": "From ticketID rollup",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "eventOwner",
-              "type": "FK",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": {
-            "Report-A": {
-              "graph_type": "bar",
-              "rule": "Total executionTime per Event",
-              "filters": null
-            },
-            "Report-B": {
-              "graph_type": "bar",
-              "rule": "Tasks count by Events",
-              "filters": null
-            }
-          },
-          "form": {
-            "steps": null,
-            "fields": {
-              "Event": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "eventTitle",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Description": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "eventDescription",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Business Unit": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "businessUnitID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Scopes": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "scopeID",
-                "tooltip": "Scopes this event applies to — leave empty when it applies to all",
-                "step": null,
-                "check": "Business Unit IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by businessUnitID selected"
-                ]
-              },
-              "Products": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "productID",
-                "tooltip": "Products this event applies to — leave empty when it applies to all",
-                "step": null,
-                "check": "Scope IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by businessUnitID selected"
-                ]
-              }
-            }
-          },
-          "cards": null,
-          "table-filters": true,
-          "subitem-tables": [
-            {
-              "tab-order": 1,
-              "rule": null,
-              "tab-name": "processes",
-              "tab-table": "Processes"
-            },
-            {
-              "tab-order": 2,
-              "rule": "(via: scopeID)",
-              "tab-name": "product scopes",
-              "tab-table": "Product Scopes"
-            }
-          ]
-        },
         "Processes": {
           "visibility": "show",
           "dashboard-order": 3,
@@ -3401,6 +3152,325 @@
               "tab-table": "Product Scopes"
             }
           ]
+        },
+        "Requirements": {
+          "visibility": "show",
+          "dashboard-order": 2,
+          "description": "Requirements applicable to scopes and product groups — regulatory, design and commercial obligations any engineering department can register and reuse (ISO 9001:2015 §4.3, §8.2).",
+          "attributes": [
+            {
+              "name": "requirementID",
+              "type": "INT",
+              "rule": null,
+              "notes": null,
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "requirementName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "requirementDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "regionID",
+              "type": "FK",
+              "rule": "FK → Regions (display: regionName)",
+              "notes": "multivalued — regions this requirement applies to; empty = applies to all regions (Q1 wildcard)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "multivalued — units this requirement applies to; empty = applies to all units (Q1 wildcard)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "requirementTypeID",
+              "type": "FK",
+              "rule": "FK → Requirement Type (display: requirementTypeName)",
+              "notes": "Type registry lives in the hidden Requirement Type table (dashboard-order 0)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "branchID",
+              "type": "FK",
+              "rule": "FK → Branches (display: branchName)",
+              "notes": "multivalued — scopes this requirement applies to",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "scopeID",
+              "type": "FK",
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": "multivalued — scopes this requirement applies to",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "FK",
+              "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
+              "notes": "multivalued — product groups this requirement applies to",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "requirementTitle",
+              "type": "mirror",
+              "rule": "computed: CONCAT(requirementName,'-',requirementTypeName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "isActive",
+              "type": "ENUM",
+              "rule": "enum: ['Active', 'Inactive']",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "regulatoryReference",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "e.g., IEC standard code (nullable)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "regulatoryURL",
+              "type": "LINK",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "requirementName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "requirementDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Type": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "requirementTypeID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Region": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "regionID",
+                "tooltip": "Regions this requirement applies to — leave empty for all regions",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
+              },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Units this requirement applies to — leave empty for all units",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by Region selected"
+              },
+              "Branch": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "branchID",
+                "tooltip": null,
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
+              },
+              "Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "scopeID",
+                "tooltip": "Scopes this requirement applies to",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
+              },
+              "Product Group": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productGroupID",
+                "tooltip": "Product groups this requirement applies to",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
+              },
+              "Activate": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isActive",
+                "tooltip": "Make this requirement available to be applied accross the operation",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Regulatory Reference": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "regulatoryReference",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Reference Link": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "regulatoryURL",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            },
+            "subitem-tables": [
+              "Product Scopes"
+            ]
+          },
+          "cards": [],
+          "table-filters": true,
+          "subitem-tables": [
+            "Product Scopes"
+          ]
+        },
+        "Requirement Type": {
+          "visibility": "show",
+          "dashboard-order": 0,
+          "description": "Registry of requirement types selectable when creating a Requirement (created inline via the \"+\" on the Type select).",
+          "attributes": [
+            {
+              "name": "requirementTypeID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "requirementTypeName",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "requirementTypeDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "requirementTypeOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Name": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "requirementTypeName",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "field": "shadcn-textarea"
+                },
+                "attribute": "requirementTypeDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": false
         }
       }
     },
@@ -4109,325 +4179,6 @@
             "Product Specs (map: specValues)"
           ]
         },
-        "Requirements": {
-          "visibility": "show",
-          "dashboard-order": 6,
-          "description": "Requirements applicable to scopes and product groups — regulatory, design and commercial obligations any engineering department can register and reuse (ISO 9001:2015 §4.3, §8.2).",
-          "attributes": [
-            {
-              "name": "requirementID",
-              "type": "INT",
-              "rule": null,
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "requirementName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "requirementDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "regionID",
-              "type": "FK",
-              "rule": "FK → Regions (display: regionName)",
-              "notes": "multivalued — regions this requirement applies to; empty = applies to all regions (Q1 wildcard)",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "multivalued — units this requirement applies to; empty = applies to all units (Q1 wildcard)",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "requirementTypeID",
-              "type": "FK",
-              "rule": "FK → Requirement Type (display: requirementTypeName)",
-              "notes": "Type registry lives in the hidden Requirement Type table (dashboard-order 0)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "branchID",
-              "type": "FK",
-              "rule": "FK → Branches (display: branchName)",
-              "notes": "multivalued — scopes this requirement applies to",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "scopeID",
-              "type": "FK",
-              "rule": "FK → Scopes (display: scopeName)",
-              "notes": "multivalued — scopes this requirement applies to",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "productGroupID",
-              "type": "FK",
-              "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
-              "notes": "multivalued — product groups this requirement applies to",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "requirementTitle",
-              "type": "mirror",
-              "rule": "computed: CONCAT(requirementName,'-',requirementTypeName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "isActive",
-              "type": "ENUM",
-              "rule": "enum: ['Active', 'Inactive']",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "regulatoryReference",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": "e.g., IEC standard code (nullable)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "regulatoryURL",
-              "type": "LINK",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            }
-          ],
-          "reports": null,
-          "form": {
-            "steps": null,
-            "fields": {
-              "Name": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "requirementName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Description": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "requirementDescription",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Type": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "requirementTypeID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Region": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "regionID",
-                "tooltip": "Regions this requirement applies to — leave empty for all regions",
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values"
-              },
-              "Business Unit": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "businessUnitID",
-                "tooltip": "Units this requirement applies to — leave empty for all units",
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by Region selected"
-              },
-              "Branch": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "branchID",
-                "tooltip": null,
-                "step": null,
-                "check": "Business Unit IS NOT NULL",
-                "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
-              },
-              "Scope": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "scopeID",
-                "tooltip": "Scopes this requirement applies to",
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
-              },
-              "Product Group": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "productGroupID",
-                "tooltip": "Product groups this requirement applies to",
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
-              },
-              "Activate": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "isActive",
-                "tooltip": "Make this requirement available to be applied accross the operation",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Regulatory Reference": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "regulatoryReference",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Reference Link": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "regulatoryURL",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            },
-            "subitem-tables": [
-              "Product Scopes"
-            ]
-          },
-          "cards": [],
-          "table-filters": true,
-          "subitem-tables": [
-            "Product Scopes"
-          ]
-        },
-        "Requirement Type": {
-          "visibility": "show",
-          "dashboard-order": 0,
-          "description": "Registry of requirement types selectable when creating a Requirement (created inline via the \"+\" on the Type select).",
-          "attributes": [
-            {
-              "name": "requirementTypeID",
-              "type": "INT",
-              "rule": null,
-              "notes": "Auto-generated primary key",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "PK"
-            },
-            {
-              "name": "requirementTypeName",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "requirementTypeDescription",
-              "type": "TEXT",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "requirementTypeOwner",
-              "type": "FK",
-              "rule": "FK → People (display: userName)",
-              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            }
-          ],
-          "reports": null,
-          "form": {
-            "steps": null,
-            "fields": {
-              "Name": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "requirementTypeName",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Description": {
-                "field-type": {
-                  "field": "shadcn-textarea"
-                },
-                "attribute": "requirementTypeDescription",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              }
-            }
-          },
-          "cards": null,
-          "table-filters": false
-        },
         "Classes": {
           "description": "Scope classification registry (stakeholder round 2026-08-01) — each class ties scopes to the Issue it addresses",
           "dashboard-order": 1,
@@ -4488,6 +4239,255 @@
               }
             }
           }
+        },
+        "Events": {
+          "visibility": "show",
+          "dashboard-order": 6,
+          "description": "An Event is an aggregator of processes; it is not executed itself but triggers a defined execution. Forecasts group which events and execution parameters (forecastScopes) they contain. Corrective-action and nonconformity linkage is deferred to a future module.",
+          "attributes": [
+            {
+              "name": "eventID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "eventTitle",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Dynamic — set at creation",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "eventDescription",
+              "type": "TEXT",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "scopeID",
+              "type": "FK",
+              "rule": "FK → Scopes (display: scopeName)",
+              "notes": "Multivalued — scopes this event applies to (Payload distribution, issue #159). EMPTY = applies to every scope (Q1 wildcard).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productID",
+              "type": "FK",
+              "rule": "FK → Products (display: productName)",
+              "notes": "Multivalued — products this event applies to (issue #159). EMPTY = applies to every product (Q1 wildcard).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productGroupID",
+              "type": "mirror",
+              "rule": "rollup → Product Groups (via: productID) (display: productGroupName)",
+              "notes": "Derived — product groups of the event's products (shared-field join on productID); no form input, available via Customize Columns",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "eventCreatedAt",
+              "type": "DATETIME",
+              "rule": null,
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "processID",
+              "type": "rollup",
+              "rule": "rollup → Processes (via: eventID) display: processName",
+              "notes": "multivalued",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "tasks",
+              "type": "rollup",
+              "rule": "rollup → Tasks (via: eventID)",
+              "notes": "Tasks existing for each process triggered by this event",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "executionTime",
+              "type": "rollup",
+              "rule": "computed: SUM(tasks.executionTime)",
+              "notes": "Sum over the event's tasks — each task in turn sums its procedures (nested derived sum)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "forecastScopes",
+              "type": "rollup",
+              "rule": "rollup → Forecast Scopes (via: eventID)",
+              "notes": "Forecast Scopes that use this event to estimate workload",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "ticketID",
+              "type": "rollup",
+              "rule": "rollup → Tickets (via: eventID)",
+              "notes": "Open tickets for each event",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "customerName",
+              "type": "VARCHAR",
+              "rule": "mirror: DISTINCT(\"Tickets\".\"customerName\")",
+              "notes": "From ticketID rollup",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "productName",
+              "type": "VARCHAR",
+              "rule": "mirror: DISTINCT(\"Tickets\".\"products\")",
+              "notes": "From ticketID rollup",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "scopeName",
+              "type": "VARCHAR",
+              "rule": "mirror: DISTINCT(\"Tickets\".\"scopes\")",
+              "notes": "From ticketID rollup",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "eventOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": {
+            "Report-A": {
+              "graph_type": "bar",
+              "rule": "Total executionTime per Event",
+              "filters": null
+            },
+            "Report-B": {
+              "graph_type": "bar",
+              "rule": "Tasks count by Events",
+              "filters": null
+            }
+          },
+          "form": {
+            "steps": null,
+            "fields": {
+              "Event": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "eventTitle",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Description": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "eventDescription",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Scopes": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "scopeID",
+                "tooltip": "Scopes this event applies to — leave empty when it applies to all",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by businessUnitID selected"
+                ]
+              },
+              "Products": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productID",
+                "tooltip": "Products this event applies to — leave empty when it applies to all",
+                "step": null,
+                "check": "Scope IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by businessUnitID selected"
+                ]
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": [
+            {
+              "tab-order": 1,
+              "rule": null,
+              "tab-name": "processes",
+              "tab-table": "Processes"
+            },
+            {
+              "tab-order": 2,
+              "rule": "(via: scopeID)",
+              "tab-name": "product scopes",
+              "tab-table": "Product Scopes"
+            }
+          ]
         }
       }
     },

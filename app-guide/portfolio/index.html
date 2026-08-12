@@ -1561,10 +1561,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#events" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        Events
       
     </span>
   </a>
@@ -2081,10 +2081,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#events" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        Events
       
     </span>
   </a>
@@ -2156,13 +2156,15 @@ form grows one input per spec assigned to that product. <strong>Expanding a grou
 specs</strong> (name + value); the one-line SPECS summary column is hidden by default (Customize
 Columns brings it back) but still feeds the group displays elsewhere. The segment derives
 from the unit — there is no segment input.</p>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> the regulatory/design/commercial limits that bind scopes and product groups
-(e.g. "IEC 60076 Compliance"). Applicability is multi-dimensional: region, unit, branch,
-customer, scope, product group — <strong>an empty dimension means "applies to all"</strong>.
-<strong>Register when:</strong> after Scopes and Product Groups.
-<strong>Key fields:</strong> Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory reference/URL.</p>
+<h2 id="events">Events<a class="headerlink" href="#events" title="Permanent link">&para;</a></h2>
+<p><strong>What it is:</strong> the business occurrences that drive the QMS — the architectural pivot of the
+model (moved here from Operation, 2026-08-12).
+<strong>Register when:</strong> after Product Groups — Processes (Operation module) and Competence
+(phase 6) anchor on events.
+<strong>Key fields:</strong> Title, Description; <code>Business Unit *</code> → unlocks <strong>Scopes</strong> and <strong>Products</strong>
+(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
+apply to all). The department is not registered here anymore — it moved down to the Process.
+Expanding an event lists its Processes and the Product Scopes its applicability admits.</p>
 <h2 id="product-scopes">Product Scopes<a class="headerlink" href="#product-scopes" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> the executable combination scope × product group for a business unit — the
 thing Forecast Scopes and Workflows point at.
