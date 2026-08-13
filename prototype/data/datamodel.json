@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 32,
+    "schemaVersion": 33,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -4793,6 +4793,15 @@
               "constraints": "PK"
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "single valued — anchors the Customer/Event cascade (issue #192); seeded from the ticket's customer",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "projectID",
               "type": "FK",
               "rule": "FK → Projects (display: projectRegistryID)",
@@ -4822,17 +4831,26 @@
             {
               "name": "eventID",
               "type": "FK",
-              "rule": "FK → Events (display: eventName)",
-              "notes": null,
+              "rule": "FK → Events (display: eventTitle)",
+              "notes": "The Event select only offers events covered by the customer's SLAs (issue #179 rationale — eventsForCustomerSLAs in forms.js; no SLA = every event, lenient wildcard). Display fixed to eventTitle (eventName never existed).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
             },
             {
-              "name": "forecastScopeID",
+              "name": "payloadID",
               "type": "rollup",
-              "rule": "rollup → Forecast Scopes (via: customerID, eventID) (display: productScopeName))",
-              "notes": "Forecast Scope this ticket contributes to",
+              "rule": "rollup → Payload (via: eventID) (display: payloadCode)",
+              "notes": "dispatch package(s) carrying this ticket's event (issue #192) — derives, never stored",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "slaID",
+              "type": "rollup",
+              "rule": "rollup → SLA (via: customerID) (display: slaCode)",
+              "notes": "the customer's contracts — the governing SLA in the demo dataset (one per customer)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4849,8 +4867,8 @@
             {
               "name": "processID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"processID\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Processes\".\"processName\")",
+              "notes": "Via eventID — stored snapshot re-seeded by migrate_workspace_activation.py (issue #192); events without processes keep their prior value",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4858,8 +4876,8 @@
             {
               "name": "products",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"products\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Product Scopes\".\"productName\")",
+              "notes": "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4867,8 +4885,8 @@
             {
               "name": "scopes",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"scopes\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Product Scopes\".\"scopeName\")",
+              "notes": "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4876,8 +4894,8 @@
             {
               "name": "requirementName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"requirementName\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Requirements\".\"requirementName\")",
+              "notes": "Via the payload product scopes + the ticket's customer (Q1 AND-semantics across scope/product-group/unit/customer — the #180 customer dimension bites here); stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4978,45 +4996,45 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Unit receiving the ticket — filters the customers",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
               "Customer": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "customerID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
               },
               "Project": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "projectID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = clientName"
+                "check": "Customer IS NOT NULL",
+                "field-rule": "filtered by Customer selected"
               },
               "Event": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "eventID",
-                "tooltip": null,
+                "tooltip": "Only events covered by the customer's SLAs are offered",
                 "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Forecast Scope": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "forecastScopeID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Customer IS NOT NULL",
+                "field-rule": "filtered by Customer selected"
               },
               "Details": {
                 "field-type": {
@@ -5104,13 +5122,22 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "single valued — anchors the Customer/SLA cascade (issue #192); seeded from the project's customer",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "customerID",
               "type": "FK",
               "rule": "FK -> Customers (display: customerName)",
               "notes": "Name of the final/external client",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerName",
@@ -5118,6 +5145,24 @@
               "rule": "mirror: Customers via: customerID (display: customerName)",
               "notes": "Merged with the former Client field — resolved from customerID; kept for downstream mirrors (Tickets, Jobs)",
               "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "slaID",
+              "type": "FK",
+              "rule": "FK → SLA (display: slaCode)",
+              "notes": "multivalued — the contracts this project executes under (issue #192); options = the customer's SLAs",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productScopeName",
+              "type": "mirror",
+              "rule": "computed → SLA (via: slaID) (display: productScopeName)",
+              "notes": "coverage — the product scopes the linked contracts purchase, derived through the SLAs' payloads",
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
@@ -5218,15 +5263,35 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Unit executing the project — filters the customers",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
               "Customer": {
                 "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
+                  "select": "shadcn-select"
                 },
                 "attribute": "customerID",
                 "tooltip": "Final Northwind Energy Client",
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
+              },
+              "SLA": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "slaID",
+                "tooltip": "Contracts this project executes under",
+                "step": null,
+                "check": "Customer IS NOT NULL",
+                "field-rule": "Allow multiple values; filtered by Customer selected"
               },
               "Owner": {
                 "field-type": {
