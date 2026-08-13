@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 31,
+    "schemaVersion": 32,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -817,7 +817,7 @@
             {
               "name": "customerID",
               "type": "FK",
-              "rule": "FK → Customers (display: customerName) (filtered by customerType='branch')",
+              "rule": "FK → Customers (display: customerName) (filtered by customerType='Internal Client')",
               "notes": "Written from the CUSTOMER form (2026-08-03): registering a customer selects its branches and the save stamps customerID here — the Branches form has no Customer input. Nullable: a branch may have no customer yet.",
               "table-display": true,
               "subitem-display": false,
@@ -1002,15 +1002,6 @@
               "constraints": null
             },
             {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "NOT NULL"
-            },
-            {
               "name": "businessSegmentID",
               "type": "FK",
               "rule": "FK -> Business Segments (display: businessSegmentName)",
@@ -1020,49 +1011,31 @@
               "constraints": "NOT NULL"
             },
             {
-              "name": "customerType",
-              "type": "ENUM",
-              "rule": "enum: ['branch', 'client', 'supplier']",
-              "notes": "Relationship of this customer to the organisation — branch (internal), client (external) or supplier",
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
+              "notes": "multivalued — user-selected, filtered by the chosen segments (PR #96 cascade)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "branchID",
+              "type": "mirror",
+              "rule": "rollup → Branches (via: customerID) (display: branchName)",
+              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record. Geography (city/country/region) lives on the Branches since issue #191 dropped the redundant Customer copies.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "city",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
+              "name": "customerType",
+              "type": "ENUM",
+              "rule": "enum: ['Internal Client', 'External Client', 'Supplier']",
+              "notes": "Relationship of this customer to the organisation (issue #191 relabel — was branch/client/supplier)",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "customerTitle",
-              "type": "mirror",
-              "rule": "computed: CONCAT(customerName,'-',city)",
-              "notes": "Short code, e.g. \"PN\"",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "country",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "regionID",
-              "type": "FK",
-              "rule": "FK → Regions (display: regionName)",
-              "notes": "Geographical grouping",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "NOT NULL"
             },
             {
               "name": "isActive",
@@ -1099,15 +1072,6 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
-            },
-            {
-              "name": "branchID",
-              "type": "mirror",
-              "rule": "rollup → Branches (via: customerID) (display: branchName)",
-              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record.",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
             }
           ],
           "reports": {
@@ -1176,37 +1140,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerType",
-                "tooltip": "Relationship to the organisation: branch (internal), client (external) or supplier",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "City": {
-                "field-type": {
-                  "field": "shadcn-input"
-                },
-                "attribute": "city",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Country": {
-                "field-type": {
-                  "combobox": "shadcn-combobox"
-                },
-                "attribute": "country",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Region": {
-                "field-type": {
-                  "combobox": "shadcn-combobox"
-                },
-                "attribute": "regionID",
-                "tooltip": null,
+                "tooltip": "Relationship to the organisation: internal client, external client or supplier",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -1457,8 +1391,8 @@
             {
               "name": "customerTitle",
               "type": "mirror",
-              "rule": "mirror → Customers via: customerID",
-              "notes": "Customer submitting this forecast",
+              "rule": "mirror → Customers via: customerID (display: customerName)",
+              "notes": "Customer submitting this forecast (resolves customerName — the CONCAT customerTitle left Customers with the geography attrs, issue #191)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4870,8 +4804,8 @@
             {
               "name": "customerID",
               "type": "FK",
-              "rule": "FK → Customers (display: customerTitle)",
-              "notes": "Customer / requester factory — PK-keyed since v3-review R3 (was the name-valued customerName); customerTitle = CONCAT(customerName,'-',city)",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "Customer / requester factory — PK-keyed since v3-review R3; displays customerName since the geography attrs (and the customerTitle CONCAT) left Customers (issue #191)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -5052,7 +4986,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = country"
+                "field-rule": "SelectLabel = businessUnitName"
               },
               "Project": {
                 "field-type": {
