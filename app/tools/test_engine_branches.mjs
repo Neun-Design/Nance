@@ -31,8 +31,8 @@ console.log('== module map & dashboard order ==');
   eq(pf.tables, ['Classes', 'Scopes', 'Products', 'Product Specs', 'Product Groups',
     'Events', 'Product Scopes'], 'Portfolio order (Events in from Operation, 2026-08-12 swap)');
   const opMod = model.getModules().find((m) => m.name === 'Operation');
-  eq(opMod.tables, ['Tasks', 'Requirements', 'Processes', 'Workflows', 'Handouts',
-    'Procedures'], 'Operation order (Requirements in from Portfolio, Events out)');
+  eq(opMod.tables, ['Tasks', 'Requirements', 'Processes', 'Workflows', 'Payload', 'Handouts',
+    'Procedures'], 'Operation order (Requirements in from Portfolio, Events out; Payload at 7 — issue #190)');
 }
 
 console.log('== Branches seeded from branch customers ==');
