@@ -28,11 +28,14 @@ console.log('== Regions table (migrate_regions.py) ==');
 {
   const rows = data.getEntity('Regions');
   eq(rows.map((r) => r.regionName).sort(), ['APAC', 'Americas', 'EMEA'], 'three regions from the legacy enum');
-  const stored = data.getEntity('Customers').every((c) => 'regionID' in c && !('region' in c));
-  eq(stored, true, 'customers store regionID, legacy region field dropped');
-  const shown = resolve.derivedValue('Customers', catalog['Customers'].byName['regionID'],
-    data.getEntity('Customers')[0]);
-  eq(/^(EMEA|Americas|APAC)$/.test(String(shown)), true, 'Customers.regionID renders the region NAME');
+  // geography single-sourced on Branches since issue #191 — the Customers
+  // regionID/city/country copies are gone; the region lives on the branch
+  eq(catalog['Customers'].byName['regionID'], undefined, 'Customers no longer declare regionID (issue #191)');
+  eq(data.getEntity('Customers').every((c) => !('regionID' in c) && !('region' in c)), true,
+    'customer seeds carry no region keys');
+  const shown = resolve.derivedValue('Branches', catalog['Branches'].byName['regionID'],
+    data.getEntity('Branches')[0]);
+  eq(/^(EMEA|Americas|APAC)$/.test(String(shown)), true, 'Branches.regionID renders the region NAME');
 }
 
 console.log('== Regions → Business Units (Requirements form cascade join) ==');
