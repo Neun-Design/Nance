@@ -525,8 +525,6 @@
    {
     "customerID": "FC01",
     "customerName": "PN",
-    "city": "Nuremberg",
-    "country": "Germany",
     "isActive": true,
     "customerOwner": "U01",
     "businessUnitID": "BU01",
@@ -534,14 +532,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC02",
     "customerName": "TUSA",
-    "city": "Jundiaí",
-    "country": "Brazil",
     "isActive": true,
     "customerOwner": "U02",
     "businessUnitID": "BU01",
@@ -549,14 +544,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG01",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC03",
     "customerName": "STW",
-    "city": "Weiz",
-    "country": "Austria",
     "isActive": true,
     "customerOwner": "U03",
     "businessUnitID": "BU01",
@@ -564,14 +556,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC04",
     "customerName": "KPT",
-    "city": "Zagreb",
-    "country": "Croatia",
     "isActive": true,
     "customerOwner": "U04",
     "businessUnitID": "BU01",
@@ -579,14 +568,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC05",
     "customerName": "STGZ",
-    "city": "Guangzhou",
-    "country": "China",
     "isActive": true,
     "customerOwner": "U05",
     "businessUnitID": "BU01",
@@ -594,14 +580,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG02",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC06",
     "customerName": "STDD",
-    "city": "Dresden",
-    "country": "Germany",
     "isActive": true,
     "customerOwner": "U06",
     "businessUnitID": "BU01",
@@ -609,14 +592,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC07",
     "customerName": "STL",
-    "city": "Linz",
-    "country": "Austria",
     "isActive": true,
     "customerOwner": "U07",
     "businessUnitID": "BU01",
@@ -624,14 +604,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC08",
     "customerName": "STN",
-    "city": "Trento",
-    "country": "Italy",
     "isActive": true,
     "customerOwner": "U08",
     "businessUnitID": "BU01",
@@ -639,14 +616,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC09",
     "customerName": "STCK",
-    "city": "Jinan",
-    "country": "China",
     "isActive": true,
     "customerOwner": "U09",
     "businessUnitID": "BU01",
@@ -654,14 +628,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG02",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC10",
     "customerName": "STWH",
-    "city": "Wuhan",
-    "country": "China",
     "isActive": true,
     "customerOwner": "U10",
     "businessUnitID": "BU01",
@@ -669,14 +640,11 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG02",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC11",
     "customerName": "STM",
-    "city": "Guanajuato",
-    "country": "Mexico",
     "isActive": true,
     "customerOwner": "U11",
     "businessUnitID": "BU01",
@@ -684,92 +652,73 @@
      "BS01",
      "BS02"
     ],
-    "regionID": "RG01",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC12",
     "customerName": "DB",
-    "city": "Budapest",
-    "country": "Hungary",
     "isActive": true,
     "customerOwner": "U12",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC13",
     "customerName": "DK",
-    "city": "Kirchheim",
-    "country": "Germany",
     "isActive": true,
     "customerOwner": "U13",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC14",
     "customerName": "TN",
-    "city": "Nuremberg",
-    "country": "Germany",
     "isActive": true,
     "customerOwner": "U14",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG03",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC15",
     "customerName": "JXN",
-    "city": "Jackson",
-    "country": "United States",
     "isActive": true,
     "customerOwner": "U15",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG01",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC16",
     "customerName": "SAT",
-    "city": "Bogotá",
-    "country": "Colombia",
     "isActive": true,
     "customerOwner": "U16",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG01",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    },
    {
     "customerID": "FC17",
     "customerName": "STCA",
-    "city": "Trois-Rivières",
-    "country": "Canada",
     "isActive": true,
     "customerOwner": "U17",
     "businessUnitID": "BU02",
     "businessSegmentID": [
      "BS03"
     ],
-    "regionID": "RG01",
-    "customerType": "branch"
+    "customerType": "Internal Client"
    }
   ],
   "Forecasts": [
