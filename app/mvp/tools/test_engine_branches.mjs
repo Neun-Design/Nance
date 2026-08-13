@@ -31,8 +31,8 @@ console.log('== module map & dashboard order ==');
   eq(pf.tables, ['Classes', 'Scopes', 'Products', 'Product Specs', 'Product Groups',
     'Events', 'Product Scopes'], 'Portfolio order (Events in from Operation, 2026-08-12 swap)');
   const opMod = model.getModules().find((m) => m.name === 'Operation');
-  eq(opMod.tables, ['Tasks', 'Requirements', 'Processes', 'Workflows', 'Handouts',
-    'Procedures'], 'Operation order (Requirements in from Portfolio, Events out)');
+  eq(opMod.tables, ['Tasks', 'Requirements', 'Processes', 'Workflows', 'Payload', 'Handouts',
+    'Procedures'], 'Operation order (Requirements in from Portfolio, Events out; Payload at 7 — issue #190)');
 }
 
 console.log('== Branches seeded from branch customers ==');
@@ -96,20 +96,19 @@ console.log('== Branches <-> Customers link (v3-review D1, option 1) ==');
   eq(data.getById('Branches', 'BR01').customerID, 'FC01', 'BR01 linked to its mirror customer');
   eq(data.getEntity('Branches').every((b) => b.customerID), true, 'all demo branches linked');
   const r = model.parseRule(catalog['Branches'].byName['customerID'].rule);
-  eq([r.target, r.filter], ['Customers', { field: 'customerType', value: 'branch' }],
-    'FK filtered to branch-type customers');
+  eq([r.target, r.filter], ['Customers', { field: 'customerType', value: 'Internal Client' }],
+    'FK filtered to Internal Client customers (issue #191 relabel)');
   const opt = forms.optionsForAttr('Branches', 'customerID',
     catalog['Branches'].byName['customerID'].rule);
-  eq(opt.options.every((o) => data.getById('Customers', o.value).customerType === 'branch'),
-    true, 'option list only offers branch-type customers');
-  // geography agreement (the validator warns on drift; here it must hold)
-  const drift = data.getEntity('Branches').filter((b) => {
-    const c = data.getById('Customers', b.customerID);
-    return c && (String(b.cityName) !== String(c.city)
-      || String(b.countryName) !== String(c.country)
-      || String(b.regionID) !== String(c.regionID));
-  });
-  eq(drift.map((b) => b.branchID), [], 'linked pairs agree on city/country/region');
+  eq(opt.options.every((o) => data.getById('Customers', o.value).customerType === 'Internal Client'),
+    true, 'option list only offers Internal Client customers');
+  // geography is single-sourced on Branches since issue #191 — the customer
+  // copies (city/country/regionID/customerTitle) are gone, so there is no
+  // drift to check; assert the legacy keys really left the seeds
+  const geoLeft = data.getEntity('Customers')
+    .filter((c) => !['FCT1', 'FCR1'].includes(c.customerID)) // org/regions probe rows
+    .flatMap((c) => ['city', 'country', 'regionID', 'customerTitle'].filter((k) => k in c));
+  eq(geoLeft, [], 'Customers carry no legacy geography keys (Branches own them)');
 }
 
 console.log('== Branches Owner: everyone, grouped by function ==');

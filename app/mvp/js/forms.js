@@ -757,6 +757,45 @@ export function productScopesForEvent(eventId) {
   }).map(psOption);
 }
 
+// Product scopes a PAYLOAD packages: the event's applicability narrowed
+// to the selected business unit (issue #190). Items label as the product
+// group (name | specs); the form groups them by scope via SelectLabel.
+export function productScopesForPayload(eventId, businessUnitId) {
+  const base = productScopesForEvent(eventId);
+  const kept = !businessUnitId ? base : base.filter((o) => {
+    const ps = getById('Product Scopes', o.value);
+    return ps && arrOverlap(ps.businessUnitID, businessUnitId);
+  });
+  return kept.map((o) => {
+    const ps = getById('Product Scopes', o.value);
+    const label = ps && [resolveDisplay('Product Scopes', ps, 'productGroupName'),
+      resolveDisplay('Product Scopes', ps, 'productSpecName')]
+      .filter((x) => x != null && x !== '').join(' | ');
+    return label ? { value: o.value, label } : o;
+  });
+}
+
+// Events a ticket may trigger for a CUSTOMER: the union of the events
+// packaged by the payloads of the customer's active SLAs (issue #179
+// rationale, wired on Tickets by issue #192). No customer or no SLAs →
+// every event (lenient wildcard, same posture as tasksForJob).
+export function eventsForCustomerSLAs(customerId) {
+  const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
+  const all = getEntity('Events');
+  if (!customerId) return all.map(evOption);
+  const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
+    && String(s.isActive || 'Active') !== 'Inactive');
+  if (!slas.length) return all.map(evOption);
+  const covered = new Set();
+  for (const s of slas) {
+    for (const pid of asList(s.payloadID)) {
+      const p = getById('Payload', pid);
+      if (p && p.eventID != null) covered.add(String(p.eventID));
+    }
+  }
+  return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+}
+
 // Spec definitions offered for a product selection: the UNION of every
 // selected product's specs (issue #176 — the group's products may carry
 // different spec sets; intersecting would hide specs mandatory for one
@@ -1215,6 +1254,23 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
             return;
           }
+          // Tickets "Event": only events covered by the customer's SLAs
+          // (issue #179 rationale, wired by #192) — see eventsForCustomerSLAs
+          if (entity === 'Tickets' && attrName === 'eventID') {
+            const dep = findDep('Customer');
+            applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null));
+            return;
+          }
+          // Payload "Product Scope": the event's applicability narrowed to
+          // the payload's unit (issue #190); items show the product group,
+          // headers group by scope (SelectLabel = scopeName)
+          if (entity === 'Payload' && attrName === 'productScopeID') {
+            const evDep = findDep('Event');
+            const buDep = findDep('Business Unit');
+            applyOpts(productScopesForPayload(evDep ? evDep[1].get() : null,
+              buDep ? buDep[1].get() : null));
+            return;
+          }
           // Procedures/Competence "Product Scope(s)": the selected process's
           // list (empty list = every product scope of the process's event)
           if ((entity === 'Procedures' || entity === 'Competence') && attrName === 'productScopeID') {
@@ -1413,6 +1469,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       get = () => (node.type === 'number' ? (node.value === '' ? null : Number(node.value)) : node.value);
     }
 
+    // field-rule "disabled" (issue #180): the control renders locked — the
+    // value never comes from user input, so save keeps the record's stored
+    // value ('' from an untouchable select must not erase a seeded FK)
+    if (/(^|;)\s*disabled\s*(;|$)/i.test(ruleText)) {
+      node.disabled = true;
+      const kept = record ? record[attrName] : null;
+      get = () => (kept === undefined ? null : kept);
+    }
+
     if (record && attrName && !node._skipSet) {
       const preset = record[attrName] !== undefined ? record[attrName] : presetFor(entity, attrName, record);
       setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, preset);
@@ -1423,7 +1488,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     // wireframe drawer parity: every rollup select (single or multi-check)
     // can create its target item without leaving the form
     let control = node;
-    if (addNew && (node.tagName === 'SELECT' || node._rebuild)) {
+    if (addNew && !node.disabled && (node.tagName === 'SELECT' || node._rebuild)) {
       const { target } = specOptions(entity, attrName, ruleText);
       // system registries (Countries) are predefined — no "+" create button
       if (target && !getCatalog(target)?.systemRegistry) {

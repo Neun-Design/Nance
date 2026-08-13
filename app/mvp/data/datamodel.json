@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 28,
+    "schemaVersion": 33,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -817,7 +817,7 @@
             {
               "name": "customerID",
               "type": "FK",
-              "rule": "FK → Customers (display: customerName) (filtered by customerType='branch')",
+              "rule": "FK → Customers (display: customerName) (filtered by customerType='Internal Client')",
               "notes": "Written from the CUSTOMER form (2026-08-03): registering a customer selects its branches and the save stamps customerID here — the Branches form has no Customer input. Nullable: a branch may have no customer yet.",
               "table-display": true,
               "subitem-display": false,
@@ -1002,15 +1002,6 @@
               "constraints": null
             },
             {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
-              "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "NOT NULL"
-            },
-            {
               "name": "businessSegmentID",
               "type": "FK",
               "rule": "FK -> Business Segments (display: businessSegmentName)",
@@ -1020,49 +1011,31 @@
               "constraints": "NOT NULL"
             },
             {
-              "name": "customerType",
-              "type": "ENUM",
-              "rule": "enum: ['branch', 'client', 'supplier']",
-              "notes": "Relationship of this customer to the organisation — branch (internal), client (external) or supplier",
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK -> Business Units (display: businessUnitName)",
+              "notes": "multivalued — user-selected, filtered by the chosen segments (PR #96 cascade)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "branchID",
+              "type": "mirror",
+              "rule": "rollup → Branches (via: customerID) (display: branchName)",
+              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record. Geography (city/country/region) lives on the Branches since issue #191 dropped the redundant Customer copies.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
             {
-              "name": "city",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
+              "name": "customerType",
+              "type": "ENUM",
+              "rule": "enum: ['Internal Client', 'External Client', 'Supplier']",
+              "notes": "Relationship of this customer to the organisation (issue #191 relabel — was branch/client/supplier)",
               "table-display": true,
-              "subitem-display": true,
+              "subitem-display": false,
               "constraints": null
-            },
-            {
-              "name": "customerTitle",
-              "type": "mirror",
-              "rule": "computed: CONCAT(customerName,'-',city)",
-              "notes": "Short code, e.g. \"PN\"",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "country",
-              "type": "VARCHAR",
-              "rule": null,
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "regionID",
-              "type": "FK",
-              "rule": "FK → Regions (display: regionName)",
-              "notes": "Geographical grouping",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "NOT NULL"
             },
             {
               "name": "isActive",
@@ -1099,15 +1072,6 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
-            },
-            {
-              "name": "branchID",
-              "type": "mirror",
-              "rule": "rollup → Branches (via: customerID) (display: branchName)",
-              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record.",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
             }
           ],
           "reports": {
@@ -1176,37 +1140,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerType",
-                "tooltip": "Relationship to the organisation: branch (internal), client (external) or supplier",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "City": {
-                "field-type": {
-                  "field": "shadcn-input"
-                },
-                "attribute": "city",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Country": {
-                "field-type": {
-                  "combobox": "shadcn-combobox"
-                },
-                "attribute": "country",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Region": {
-                "field-type": {
-                  "combobox": "shadcn-combobox"
-                },
-                "attribute": "regionID",
-                "tooltip": null,
+                "tooltip": "Relationship to the organisation: internal client, external client or supplier",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -1230,12 +1164,210 @@
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "Forecasts: display status=Approved only"
+            "SLA"
           ]
+        },
+        "SLA": {
+          "visibility": "show",
+          "dashboard-order": 2,
+          "description": "Service Level Agreement (ISO §8.2) — the contract by which a Customer of a branch purchases Payloads from a Department: tickets the customer opens can only trigger events covered by an SLA with that department (issue #179).",
+          "attributes": [
+            {
+              "name": "slaID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "slaCode",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Contract ID or code, e.g. \"SLA-0001\"",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "single valued — the providing unit",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "the contracting customer — join anchor for the Customers subitem and the Projects chain (#192)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "branchID",
+              "type": "FK",
+              "rule": "FK → Branches (display: branchName)",
+              "notes": "the customer's contracting branch — nullable, a customer may have no branch",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "the providing department (spec gated this on Branch — normalized to the unit's departments, Departments carry no branch key)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "slaTitle",
+              "type": "mirror",
+              "rule": "computed: CONCAT(slaCode,'-',businessUnitName,'-',departmentName)",
+              "notes": "display helper (label attr) — downstream FK displays resolve it (Projects/Tickets, #192)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "payloadID",
+              "type": "FK",
+              "rule": "FK → Payload (display: payloadCode)",
+              "notes": "multivalued — the payloads the customer purchases (spec wrote a rollup — normalized to a stored FK, the picker must store PKs)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "eventID",
+              "type": "mirror",
+              "rule": "computed → Payload (via: payloadID) (display: eventTitle)",
+              "notes": "events the customer can open tickets for — derives through the purchased payloads",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "productScopeName",
+              "type": "mirror",
+              "rule": "computed → Payload (via: payloadID) (display: productScopeName)",
+              "notes": "product scopes covered — derives through the payloads",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "isActive",
+              "type": "ENUM",
+              "rule": "enum: ['Active', 'Inactive']",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "slaOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "ISO §5.3 — seeded from the providing unit's quality manager, no form input",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Code": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "slaCode",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "The unit providing the service",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
+              "Customer": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": "The contracting customer",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
+              },
+              "Branch": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "branchID",
+                "tooltip": "The customer's contracting branch — optional",
+                "step": null,
+                "check": "Customer IS NOT NULL",
+                "field-rule": "filtered by Customer selected"
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "The department providing the service",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
+              },
+              "Payloads": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "payloadID",
+                "tooltip": "Payloads this SLA purchases — tickets may only trigger these events",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "SelectLabel = eventTitle",
+                  "filtered by businessUnitID selected"
+                ]
+              },
+              "Activate": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isActive",
+                "tooltip": "Make this SLA available across the operation",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": null
         },
         "Forecasts": {
           "visibility": "show",
-          "dashboard-order": 2,
+          "dashboard-order": 3,
           "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Customer (factory) can project to global engineering its intended use of role resources for a given planning period.",
           "attributes": [
             {
@@ -1259,8 +1391,8 @@
             {
               "name": "customerTitle",
               "type": "mirror",
-              "rule": "mirror → Customers via: customerID",
-              "notes": "Customer submitting this forecast",
+              "rule": "mirror → Customers via: customerID (display: customerName)",
+              "notes": "Customer submitting this forecast (resolves customerName — the CONCAT customerTitle left Customers with the geography attrs, issue #191)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -1500,7 +1632,7 @@
         },
         "Forecast Scopes": {
           "visibility": "show",
-          "dashboard-order": 3,
+          "dashboard-order": 4,
           "description": "The atomic unit of a Forecast (ISO §6.1/§6.2). Specifies one Event × Product Scope combination; the Event determines the triggered Process and therefore the Tasks whose roles and execution times drive estimatedHours.",
           "attributes": [
             {
@@ -3222,6 +3354,15 @@
               "constraints": "FK"
             },
             {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "Customer-specific requirement (issue #180) — form input is disabled; empty = applies to all customers (Q1 wildcard)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
@@ -3339,6 +3480,16 @@
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
+              },
+              "Customer": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": "Customer this requirement applies to — e.g. a customer-specific design-approval template",
+                "step": null,
+                "check": null,
+                "field-rule": "disabled"
               },
               "Scope": {
                 "field-type": {
@@ -3471,6 +3622,139 @@
           },
           "cards": null,
           "table-filters": false
+        },
+        "Payload": {
+          "visibility": "show",
+          "dashboard-order": 7,
+          "description": "A Payload packages one Event × Product Scopes combination — the dispatch unit that will carry the customer/SLA requirement chain into Tickets (ER-model Payload materialized, issue #190).",
+          "attributes": [
+            {
+              "name": "payloadID",
+              "type": "INT",
+              "rule": null,
+              "notes": "Auto-generated primary key",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "PK"
+            },
+            {
+              "name": "payloadCode",
+              "type": "VARCHAR",
+              "rule": null,
+              "notes": "Registry code, e.g. \"PLC-0001\"",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "single valued — the unit whose events this payload dispatches",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "eventID",
+              "type": "FK",
+              "rule": "FK → Events (display: eventTitle)",
+              "notes": "user-selected, filtered by the business unit (spec wrote a rollup — normalized to a stored FK, the select must store the PK)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "notes": "multivalued — user-selected from the event's applicability (scopeID × productID, issue #190); empty = every product scope the event admits (Q1 wildcard)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "isActive",
+              "type": "ENUM",
+              "rule": "enum: ['Active', 'Inactive']",
+              "notes": null,
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "payloadOwner",
+              "type": "FK",
+              "rule": "FK → People (display: userName)",
+              "notes": "Broker role (ISO §5.3) — accountable for wiring the event to its product scopes; seeded from the event's owner, no form input",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            }
+          ],
+          "reports": null,
+          "form": {
+            "steps": null,
+            "fields": {
+              "Code": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "payloadCode",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Unit whose events this payload dispatches",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
+              "Event": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "eventID",
+                "tooltip": "The event this payload packages",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
+              },
+              "Product Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes the event applies to — leave empty for all",
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "SelectLabel = scopeName",
+                  "filtered by Event + Business Unit selected"
+                ]
+              },
+              "Activate": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isActive",
+                "tooltip": "Make this payload available across the operation",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              }
+            }
+          },
+          "cards": null,
+          "table-filters": true,
+          "subitem-tables": null
         }
       }
     },
@@ -4509,6 +4793,15 @@
               "constraints": "PK"
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "single valued — anchors the Customer/Event cascade (issue #192); seeded from the ticket's customer",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "projectID",
               "type": "FK",
               "rule": "FK → Projects (display: projectRegistryID)",
@@ -4520,8 +4813,8 @@
             {
               "name": "customerID",
               "type": "FK",
-              "rule": "FK → Customers (display: customerTitle)",
-              "notes": "Customer / requester factory — PK-keyed since v3-review R3 (was the name-valued customerName); customerTitle = CONCAT(customerName,'-',city)",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "Customer / requester factory — PK-keyed since v3-review R3; displays customerName since the geography attrs (and the customerTitle CONCAT) left Customers (issue #191)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -4538,17 +4831,26 @@
             {
               "name": "eventID",
               "type": "FK",
-              "rule": "FK → Events (display: eventName)",
-              "notes": null,
+              "rule": "FK → Events (display: eventTitle)",
+              "notes": "The Event select only offers events covered by the customer's SLAs (issue #179 rationale — eventsForCustomerSLAs in forms.js; no SLA = every event, lenient wildcard). Display fixed to eventTitle (eventName never existed).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
             },
             {
-              "name": "forecastScopeID",
+              "name": "payloadID",
               "type": "rollup",
-              "rule": "rollup → Forecast Scopes (via: customerID, eventID) (display: productScopeName))",
-              "notes": "Forecast Scope this ticket contributes to",
+              "rule": "rollup → Payload (via: eventID) (display: payloadCode)",
+              "notes": "dispatch package(s) carrying this ticket's event (issue #192) — derives, never stored",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "slaID",
+              "type": "rollup",
+              "rule": "rollup → SLA (via: customerID) (display: slaCode)",
+              "notes": "the customer's contracts — the governing SLA in the demo dataset (one per customer)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4565,8 +4867,8 @@
             {
               "name": "processID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"processID\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Processes\".\"processName\")",
+              "notes": "Via eventID — stored snapshot re-seeded by migrate_workspace_activation.py (issue #192); events without processes keep their prior value",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4574,8 +4876,8 @@
             {
               "name": "products",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"products\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Product Scopes\".\"productName\")",
+              "notes": "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4583,8 +4885,8 @@
             {
               "name": "scopes",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"scopes\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Product Scopes\".\"scopeName\")",
+              "notes": "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4592,8 +4894,8 @@
             {
               "name": "requirementName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecast Scopes\".\"requirementName\")",
-              "notes": "Via forecastScopeID",
+              "rule": "mirror: DISTINCT(\"Requirements\".\"requirementName\")",
+              "notes": "Via the payload product scopes + the ticket's customer (Q1 AND-semantics across scope/product-group/unit/customer — the #180 customer dimension bites here); stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -4694,45 +4996,45 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Unit receiving the ticket — filters the customers",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
               "Customer": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "customerID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = country"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
               },
               "Project": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "projectID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = clientName"
+                "check": "Customer IS NOT NULL",
+                "field-rule": "filtered by Customer selected"
               },
               "Event": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "eventID",
-                "tooltip": null,
+                "tooltip": "Only events covered by the customer's SLAs are offered",
                 "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Forecast Scope": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "forecastScopeID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Customer IS NOT NULL",
+                "field-rule": "filtered by Customer selected"
               },
               "Details": {
                 "field-type": {
@@ -4820,13 +5122,22 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "single valued — anchors the Customer/SLA cascade (issue #192); seeded from the project's customer",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "customerID",
               "type": "FK",
               "rule": "FK -> Customers (display: customerName)",
               "notes": "Name of the final/external client",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerName",
@@ -4834,6 +5145,24 @@
               "rule": "mirror: Customers via: customerID (display: customerName)",
               "notes": "Merged with the former Client field — resolved from customerID; kept for downstream mirrors (Tickets, Jobs)",
               "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "slaID",
+              "type": "FK",
+              "rule": "FK → SLA (display: slaCode)",
+              "notes": "multivalued — the contracts this project executes under (issue #192); options = the customer's SLAs",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "productScopeName",
+              "type": "mirror",
+              "rule": "computed → SLA (via: slaID) (display: productScopeName)",
+              "notes": "coverage — the product scopes the linked contracts purchase, derived through the SLAs' payloads",
+              "table-display": true,
               "subitem-display": false,
               "constraints": null
             },
@@ -4934,15 +5263,35 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Unit executing the project — filters the customers",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = businessSegmentName"
+              },
               "Customer": {
                 "field-type": {
-                  "combobox": "shadcn-comboboxGroups"
+                  "select": "shadcn-select"
                 },
                 "attribute": "customerID",
                 "tooltip": "Final Northwind Energy Client",
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by businessUnitID selected"
+              },
+              "SLA": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "slaID",
+                "tooltip": "Contracts this project executes under",
+                "step": null,
+                "check": "Customer IS NOT NULL",
+                "field-rule": "Allow multiple values; filtered by Customer selected"
               },
               "Owner": {
                 "field-type": {

@@ -99,24 +99,16 @@ for mname, m in DM['modules'].items():
                 fail(f'{tname}.{attr}: {len(bad)} row(s) empty (NOT NULL) — e.g. {ids}')
 if not req_failures: ok('every NOT NULL anchor is filled on all seed rows')
 
-# ---------- 1c. branch-customer geography drift ----------
-# v3-review D1: a linked branch mirrors an internal customer; until geography
-# is single-sourced, warn (not fail) when the two records disagree — the drift
-# this link exists to prevent.
-print('\n== branch-customer geography ==')
-_cust = {c.get('customerID'): c for c in flat.get('Customers', [])}
-_drifted = 0
-for b in flat.get('Branches', []):
-    c = _cust.get(b.get('customerID'))
-    if not c:
-        continue
-    diffs = [f'{bf}={b.get(bf)!r} vs {cf}={c.get(cf)!r}'
-             for bf, cf in (('cityName', 'city'), ('countryName', 'country'), ('regionID', 'regionID'))
-             if str(b.get(bf) or '') != str(c.get(cf) or '')]
-    if diffs:
-        _drifted += 1
-        warn(f"{b.get('branchID')} vs {c.get('customerID')}: {'; '.join(diffs)}")
-if not _drifted: ok('linked branches agree with their customers on city/country/region')
+# ---------- 1c. geography single-sourcing ----------
+# Geography became single-sourced on Branches (issue #191): Customers no
+# longer declare city/country/regionID, so the old branch-vs-customer drift
+# check is moot — instead assert the legacy copies are really gone.
+print('\n== geography single-sourced on Branches ==')
+_geo_left = sorted({k for c in flat.get('Customers', []) for k in ('city', 'country', 'regionID', 'customerTitle') if k in c})
+if _geo_left:
+    fail(f'Customers rows still carry legacy geography keys {_geo_left} (run migrate_crm_activation.py)')
+else:
+    ok('Customers carry no legacy geography keys (Branches own city/country/region)')
 
 # ---------- 2. FK resolvability ----------
 print('\n== FK resolvability ==')
