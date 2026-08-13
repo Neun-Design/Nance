@@ -41,7 +41,7 @@ The prototype's `Requirements` table (Portfolio module) is the former `Constrain
 | `requirementTypeID` | FK → Requirement Type | Type registry (Operational / Design / Testing / Technical / Commercial as seed data) |
 | `scopeID` | FK → Scopes, **multivalued** | Scopes this requirement applies to |
 | `productGroupID` | FK → Product Groups, **multivalued** | Product groups it applies to; displayed as `productName \| SPECS` (CONCAT with the computed `specsSummary`) |
-| `customerID` | FK → Customers, **multivalued** | Customers it applies to (2026-07-29). **Empty = applies to all customers** — the multivalued applicability keys are the flattened associative entity (decision Q1, `prototype/prototype_v2-review.md`) |
+| `customerID` | FK → Customers | Customer-specific requirement (issue #180, 2026-08-13 — re-introduced single-valued after leaving in the Branches round): the form select renders **disabled** (`field-rule: "disabled"`, engine support in `forms.js`) until the SLA chain populates it (#179/#191). **Empty = applies to all customers** (decision Q1, `prototype/prototype_v2-review.md`) |
 | `isActive`, `regulatoryReference` | BOOLEAN / VARCHAR | Lifecycle flag and external norm code |
 
 `Requirement Type` is a hidden registry (`dashboard-order: 0` — catalogued but kept out of the tab strip); new types are created inline via the "+" button on the Type select of the Requirements form.
