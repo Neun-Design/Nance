@@ -1413,6 +1413,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       get = () => (node.type === 'number' ? (node.value === '' ? null : Number(node.value)) : node.value);
     }
 
+    // field-rule "disabled" (issue #180): the control renders locked — the
+    // value never comes from user input, so save keeps the record's stored
+    // value ('' from an untouchable select must not erase a seeded FK)
+    if (/(^|;)\s*disabled\s*(;|$)/i.test(ruleText)) {
+      node.disabled = true;
+      const kept = record ? record[attrName] : null;
+      get = () => (kept === undefined ? null : kept);
+    }
+
     if (record && attrName && !node._skipSet) {
       const preset = record[attrName] !== undefined ? record[attrName] : presetFor(entity, attrName, record);
       setControlValue(node, { type: (node.multiple || node._setMulti) ? 'multiselect' : 'text' }, preset);
@@ -1423,7 +1432,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     // wireframe drawer parity: every rollup select (single or multi-check)
     // can create its target item without leaving the form
     let control = node;
-    if (addNew && (node.tagName === 'SELECT' || node._rebuild)) {
+    if (addNew && !node.disabled && (node.tagName === 'SELECT' || node._rebuild)) {
       const { target } = specOptions(entity, attrName, ruleText);
       // system registries (Countries) are predefined — no "+" create button
       if (target && !getCatalog(target)?.systemRegistry) {

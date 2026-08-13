@@ -11927,7 +11927,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN2",
@@ -11948,7 +11949,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN3",
@@ -11970,7 +11972,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN4",
@@ -11990,7 +11993,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN5",
@@ -12008,7 +12012,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN6",
@@ -12027,7 +12032,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN7",
@@ -12067,7 +12073,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN8",
@@ -12107,7 +12114,8 @@
     "regionID": [],
     "businessUnitID": [],
     "regulatoryURL": null,
-    "branchID": []
+    "branchID": [],
+    "customerID": null
    },
    {
     "requirementID": "CN9",
@@ -12128,7 +12136,8 @@
     "regulatoryURL": null,
     "branchID": [
      "BR01"
-    ]
+    ],
+    "customerID": null
    }
   ],
   "Requirement Type": [

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 28,
+    "schemaVersion": 29,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3222,6 +3222,15 @@
               "constraints": "FK"
             },
             {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "Customer-specific requirement (issue #180) — form input is disabled; empty = applies to all customers (Q1 wildcard)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
@@ -3339,6 +3348,16 @@
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
+              },
+              "Customer": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": "Customer this requirement applies to — e.g. a customer-specific design-approval template",
+                "step": null,
+                "check": null,
+                "field-rule": "disabled"
               },
               "Scope": {
                 "field-type": {
