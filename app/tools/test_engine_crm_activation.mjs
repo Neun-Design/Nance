@@ -45,8 +45,8 @@ console.log('== displays follow the slim-down ==');
 {
   const r = model.parseRule(catalog['Tickets'].byName['customerID'].rule);
   eq(r.display, 'customerName', 'Tickets customer displays customerName (customerTitle is gone)');
-  eq(catalog['Tickets'].form.fields.Customer['field-rule'], 'SelectLabel = businessUnitName',
-    'Tickets Customer grouping no longer names the dropped country attr');
+  eq(/country/i.test(String(catalog['Tickets'].form.fields.Customer['field-rule'])), false,
+    'Tickets Customer rule no longer names the dropped country attr (P5 evolved it to the unit-gated cascade)');
   const fc = data.getEntity('Forecasts')[0];
   const v = String(resolve.derivedValue('Forecasts', catalog['Forecasts'].byName['customerTitle'], fc));
   const cust = data.getById('Customers', fc.customerID);
@@ -71,8 +71,8 @@ console.log('== MVP walkthrough gating (app.js) ==');
   const app = fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
   const modules = app.match(/BLANK_DISABLED_MODULES = new Set\(\[([^\]]*)\]\)/)[1];
   eq(/'CRM'/.test(modules), false, 'CRM no longer in BLANK_DISABLED_MODULES');
-  eq(/'Overview'/.test(modules) && /'Workspace'/.test(modules) && /'Control'/.test(modules), true,
-    'Overview/Workspace/Control stay out of the walkthrough');
+  eq(/'Overview'/.test(modules) && /'Control'/.test(modules), true,
+    'Overview/Control stay out of the walkthrough (Workspace joined in P5/#192)');
   const tabs = app.match(/BLANK_DISABLED_TABS = (\{[^;]*\});/)[1];
   eq(/CRM/.test(tabs) && /'Forecasts'/.test(tabs) && /'Forecast Scopes'/.test(tabs), true,
     'Forecasts pair gated per-tab in the CRM walkthrough');
