@@ -171,12 +171,16 @@ const FALLBACK_ICON = svgIcon('<rect x="3" y="3" width="18" height="18" rx="2"/>
 // Blank-walkthrough scope: analytics modules/dashboards need seeded data, so
 // in blank mode they stay visible in the navigation but inert (opaque, not
 // selectable) — stakeholder sessions focus on the creation chain.
-// CRM joined the walkthrough with the SLA chain (issue #191); its Forecasts
-// pair stays out via tab-level gating, which keeps the tables catalogued —
+// CRM joined the walkthrough with the SLA chain (issue #191) and Workspace
+// with the ticket chain (issue #192); the Forecasts pair and Jobs stay out
+// via tab-level gating, which keeps the tables catalogued —
 // visibility:"disabled" would drop them from the catalog and break their
-// rollup targets (Customers.forecastID, Capacity).
-const BLANK_DISABLED_MODULES = new Set(['Overview', 'Workspace', 'Control']);
-const BLANK_DISABLED_TABS = { CRM: new Set(['Forecasts', 'Forecast Scopes']) };
+// rollup targets (Customers.forecastID, Capacity, Tickets.jobs).
+const BLANK_DISABLED_MODULES = new Set(['Overview', 'Control']);
+const BLANK_DISABLED_TABS = {
+  CRM: new Set(['Forecasts', 'Forecast Scopes']),
+  Workspace: new Set(['Jobs']),
+};
 const DISABLED_TIP = 'Not available in this walkthrough';
 const moduleDisabled = (name) => BLANK_MODE && BLANK_DISABLED_MODULES.has(name);
 const tabDisabled = (modName, table) => BLANK_MODE && !!BLANK_DISABLED_TABS[modName]?.has(table);

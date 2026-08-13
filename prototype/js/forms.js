@@ -775,6 +775,27 @@ export function productScopesForPayload(eventId, businessUnitId) {
   });
 }
 
+// Events a ticket may trigger for a CUSTOMER: the union of the events
+// packaged by the payloads of the customer's active SLAs (issue #179
+// rationale, wired on Tickets by issue #192). No customer or no SLAs →
+// every event (lenient wildcard, same posture as tasksForJob).
+export function eventsForCustomerSLAs(customerId) {
+  const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
+  const all = getEntity('Events');
+  if (!customerId) return all.map(evOption);
+  const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
+    && String(s.isActive || 'Active') !== 'Inactive');
+  if (!slas.length) return all.map(evOption);
+  const covered = new Set();
+  for (const s of slas) {
+    for (const pid of asList(s.payloadID)) {
+      const p = getById('Payload', pid);
+      if (p && p.eventID != null) covered.add(String(p.eventID));
+    }
+  }
+  return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+}
+
 // Spec definitions offered for a product selection: the UNION of every
 // selected product's specs (issue #176 — the group's products may carry
 // different spec sets; intersecting would hide specs mandatory for one
@@ -1231,6 +1252,13 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Processes' && attrName === 'productScopeID') {
             const dep = findDep('Event');
             applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
+            return;
+          }
+          // Tickets "Event": only events covered by the customer's SLAs
+          // (issue #179 rationale, wired by #192) — see eventsForCustomerSLAs
+          if (entity === 'Tickets' && attrName === 'eventID') {
+            const dep = findDep('Customer');
+            applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null));
             return;
           }
           // Payload "Product Scope": the event's applicability narrowed to
