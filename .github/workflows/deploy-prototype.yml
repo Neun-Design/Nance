@@ -26,3 +26,18 @@ jobs:
           destination_dir: app
           keep_files: true
           commit_message: "deploy: prototype from ${{ github.sha }}"
+
+      # MVP walkthrough (ux-review U8): the SAME app served under /app/mvp/ —
+      # data.js detects the /mvp/ path and boots blank. It is a separate full
+      # copy on gh-pages, so it must deploy too or it drifts behind /app/
+      # (bit us on 2026-08-13: five schema versions stale until a manual
+      # ./deploy_pages.sh run).
+      - name: Deploy MVP walkthrough copy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: prototype
+          publish_branch: gh-pages
+          destination_dir: app/mvp
+          keep_files: true
+          commit_message: "deploy: mvp walkthrough from ${{ github.sha }}"
