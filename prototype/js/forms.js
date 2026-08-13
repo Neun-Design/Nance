@@ -757,6 +757,24 @@ export function productScopesForEvent(eventId) {
   }).map(psOption);
 }
 
+// Product scopes a PAYLOAD packages: the event's applicability narrowed
+// to the selected business unit (issue #190). Items label as the product
+// group (name | specs); the form groups them by scope via SelectLabel.
+export function productScopesForPayload(eventId, businessUnitId) {
+  const base = productScopesForEvent(eventId);
+  const kept = !businessUnitId ? base : base.filter((o) => {
+    const ps = getById('Product Scopes', o.value);
+    return ps && arrOverlap(ps.businessUnitID, businessUnitId);
+  });
+  return kept.map((o) => {
+    const ps = getById('Product Scopes', o.value);
+    const label = ps && [resolveDisplay('Product Scopes', ps, 'productGroupName'),
+      resolveDisplay('Product Scopes', ps, 'productSpecName')]
+      .filter((x) => x != null && x !== '').join(' | ');
+    return label ? { value: o.value, label } : o;
+  });
+}
+
 // Spec definitions offered for a product selection: the UNION of every
 // selected product's specs (issue #176 — the group's products may carry
 // different spec sets; intersecting would hide specs mandatory for one
@@ -1213,6 +1231,16 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Processes' && attrName === 'productScopeID') {
             const dep = findDep('Event');
             applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
+            return;
+          }
+          // Payload "Product Scope": the event's applicability narrowed to
+          // the payload's unit (issue #190); items show the product group,
+          // headers group by scope (SelectLabel = scopeName)
+          if (entity === 'Payload' && attrName === 'productScopeID') {
+            const evDep = findDep('Event');
+            const buDep = findDep('Business Unit');
+            applyOpts(productScopesForPayload(evDep ? evDep[1].get() : null,
+              buDep ? buDep[1].get() : null));
             return;
           }
           // Procedures/Competence "Product Scope(s)": the selected process's

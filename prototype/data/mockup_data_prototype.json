@@ -12171,6 +12171,609 @@
     "requirementTypeDescription": "Contractual and commercial obligations",
     "requirementTypeOwner": "U05"
    }
+  ],
+  "Payload": [
+   {
+    "payloadID": "PLD01",
+    "payloadCode": "PLC-0001",
+    "businessUnitID": "BU01",
+    "eventID": "EV01",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U01"
+   },
+   {
+    "payloadID": "PLD02",
+    "payloadCode": "PLC-0002",
+    "businessUnitID": "BU01",
+    "eventID": "EV02",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U02"
+   },
+   {
+    "payloadID": "PLD03",
+    "payloadCode": "PLC-0003",
+    "businessUnitID": "BU01",
+    "eventID": "EV03",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U03"
+   },
+   {
+    "payloadID": "PLD04",
+    "payloadCode": "PLC-0004",
+    "businessUnitID": "BU01",
+    "eventID": "EV04",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U04"
+   },
+   {
+    "payloadID": "PLD05",
+    "payloadCode": "PLC-0005",
+    "businessUnitID": "BU01",
+    "eventID": "EV05",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U05"
+   },
+   {
+    "payloadID": "PLD06",
+    "payloadCode": "PLC-0006",
+    "businessUnitID": "BU01",
+    "eventID": "EV06",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U06"
+   },
+   {
+    "payloadID": "PLD07",
+    "payloadCode": "PLC-0007",
+    "businessUnitID": "BU01",
+    "eventID": "EV07",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U07"
+   },
+   {
+    "payloadID": "PLD08",
+    "payloadCode": "PLC-0008",
+    "businessUnitID": "BU01",
+    "eventID": "EV08",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U08"
+   },
+   {
+    "payloadID": "PLD09",
+    "payloadCode": "PLC-0009",
+    "businessUnitID": "BU01",
+    "eventID": "EV09",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U09"
+   },
+   {
+    "payloadID": "PLD10",
+    "payloadCode": "PLC-0010",
+    "businessUnitID": "BU01",
+    "eventID": "EV10",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U10"
+   },
+   {
+    "payloadID": "PLD11",
+    "payloadCode": "PLC-0011",
+    "businessUnitID": "BU01",
+    "eventID": "EV11",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U11"
+   },
+   {
+    "payloadID": "PLD12",
+    "payloadCode": "PLC-0012",
+    "businessUnitID": "BU02",
+    "eventID": "EV12",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U12"
+   },
+   {
+    "payloadID": "PLD13",
+    "payloadCode": "PLC-0013",
+    "businessUnitID": "BU02",
+    "eventID": "EV13",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U13"
+   },
+   {
+    "payloadID": "PLD14",
+    "payloadCode": "PLC-0014",
+    "businessUnitID": "BU02",
+    "eventID": "EV14",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U14"
+   },
+   {
+    "payloadID": "PLD15",
+    "payloadCode": "PLC-0015",
+    "businessUnitID": "BU02",
+    "eventID": "EV15",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U15"
+   },
+   {
+    "payloadID": "PLD16",
+    "payloadCode": "PLC-0016",
+    "businessUnitID": "BU02",
+    "eventID": "EV16",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U16"
+   },
+   {
+    "payloadID": "PLD17",
+    "payloadCode": "PLC-0017",
+    "businessUnitID": "BU02",
+    "eventID": "EV17",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U17"
+   },
+   {
+    "payloadID": "PLD18",
+    "payloadCode": "PLC-0018",
+    "businessUnitID": "BU01",
+    "eventID": "EV18",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U18"
+   },
+   {
+    "payloadID": "PLD19",
+    "payloadCode": "PLC-0019",
+    "businessUnitID": "BU01",
+    "eventID": "EV19",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U19"
+   },
+   {
+    "payloadID": "PLD20",
+    "payloadCode": "PLC-0020",
+    "businessUnitID": "BU01",
+    "eventID": "EV20",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U20"
+   },
+   {
+    "payloadID": "PLD21",
+    "payloadCode": "PLC-0021",
+    "businessUnitID": "BU01",
+    "eventID": "EV21",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U21"
+   },
+   {
+    "payloadID": "PLD22",
+    "payloadCode": "PLC-0022",
+    "businessUnitID": "BU01",
+    "eventID": "EV22",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U22"
+   },
+   {
+    "payloadID": "PLD23",
+    "payloadCode": "PLC-0023",
+    "businessUnitID": "BU01",
+    "eventID": "EV23",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U23"
+   },
+   {
+    "payloadID": "PLD24",
+    "payloadCode": "PLC-0024",
+    "businessUnitID": "BU01",
+    "eventID": "EV24",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U24"
+   },
+   {
+    "payloadID": "PLD25",
+    "payloadCode": "PLC-0025",
+    "businessUnitID": "BU01",
+    "eventID": "EV25",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U01"
+   },
+   {
+    "payloadID": "PLD26",
+    "payloadCode": "PLC-0026",
+    "businessUnitID": "BU01",
+    "eventID": "EV26",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U02"
+   },
+   {
+    "payloadID": "PLD27",
+    "payloadCode": "PLC-0027",
+    "businessUnitID": "BU01",
+    "eventID": "EV27",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U03"
+   },
+   {
+    "payloadID": "PLD28",
+    "payloadCode": "PLC-0028",
+    "businessUnitID": "BU01",
+    "eventID": "EV28",
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS04",
+     "PS05",
+     "PS07",
+     "PS08",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U04"
+   },
+   {
+    "payloadID": "PLD29",
+    "payloadCode": "PLC-0029",
+    "businessUnitID": "BU02",
+    "eventID": "EV29",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U05"
+   },
+   {
+    "payloadID": "PLD30",
+    "payloadCode": "PLC-0030",
+    "businessUnitID": "BU02",
+    "eventID": "EV30",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U06"
+   },
+   {
+    "payloadID": "PLD31",
+    "payloadCode": "PLC-0031",
+    "businessUnitID": "BU02",
+    "eventID": "EV31",
+    "productScopeID": [
+     "PS03",
+     "PS06",
+     "PS09"
+    ],
+    "isActive": "Active",
+    "payloadOwner": "U07"
+   }
   ]
  },
  "Workspace": {
