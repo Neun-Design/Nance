@@ -26,12 +26,12 @@ the rest of the model. The order below follows those anchors:
 |---|---|---|
 | 1 — Structure | [Organization](organization.md) | Business Segments → Business Units → Regions → Departments → Branches → Squads |
 | 2 — Interested parties | [CRM](crm.md) | Customers — **after the Branches they will contract with** (internal sites first, then clients/suppliers) |
-| 3 — What you sell | [Portfolio](portfolio.md) | Issues → Classes → Scopes → Products → Product Specs → Product Groups → Requirements → Product Scopes |
-| 4 — Who works | [Talent](talent.md) | Skill Levels → Graduation → Functions → Roles → People |
-| 5 — How you work | [Operation](operation.md) | Events → Processes → Workflows → Actions/Channels/Handouts → Tasks |
+| 3 — What you sell | [Portfolio](portfolio.md) | Issues → Classes → Scopes → Products → Product Specs → Product Groups → Product Scopes |
+| 4 — Who works | [Talent](talent.md) | Skill Levels → Job Family → Functions → Roles → People |
+| 5 — How you work | [Operation](operation.md) | Events *(Portfolio tab)* → Requirements → Processes → Workflows → Actions/Handouts → Tasks → Procedures → Payload |
 | 6 — Certification | [Talent](talent.md) | Competence → Onboarding *(needs phase 5's Events)* |
-| 7 — Demand | [CRM](crm.md) | Forecasts → Forecast Scopes |
-| 8 — Execution | [Workspace](workspace.md) | Projects → Tickets → Jobs |
+| 7 — Contracts | [CRM](crm.md) | SLA — **after phase 5's Payloads** *(the Forecasts pair sits outside the MVP walkthrough)* |
+| 8 — Execution | [Workspace](workspace.md) | Projects → Tickets *(Jobs: full prototype only)* |
 | 9 — Monitoring | [Control](control.md) | Nothing to register — query views computed from phases 1–8 |
 
 !!! note "Why this order"

@@ -18,7 +18,7 @@ competence (Skill Rank 1–3 on the Competence form; rank 3 across all of a leve
 competences signals readiness to move up).
 **Register when:** first in the module.
 
-## Graduation
+## Job Family
 
 **What it is:** formal education records (title, field, institution).
 **Register when:** before People (each person picks one).
@@ -34,7 +34,7 @@ competences signals readiness to move up).
 **What it is:** a function at a skill level with a graduation — the unit of competence
 requirements.
 **Register when:** after Functions and Skill Levels.
-**Key fields:** Name; `Function *`; Skill Level; Graduation (multi — a role may accept more
+**Key fields:** Name; `Function *`; Skill Level; Job Family (multi — a role may accept more
 than one educational background).
 
 ## People
@@ -43,7 +43,7 @@ than one educational background).
 **Register when:** end of phase 4 (many earlier owner fields become richer once people exist —
 it is fine to register a few key people early and return).
 **Key fields:** the cascade `Region *` → `Unit *` → `Department *` → Squad; Branch; Name,
-Email; `Function *`; Graduation.
+Email; `Function *`; Job Family.
 
 ## Competence
 
