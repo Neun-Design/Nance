@@ -17,7 +17,9 @@ multi-dimensional: region, unit, branch, customer, scope, product group — **an
 dimension means "applies to all"**.
 **Register when:** after Scopes and Product Groups (Portfolio module).
 **Key fields:** Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory reference/URL.
+cascade Region → Business Unit → Branch/Scope/Product Group; regulatory reference/URL. The
+**Customer** select shows disabled — customer-specific requirements are wired through the
+[SLA](crm.md#sla) chain and surface on the customer's [Tickets](workspace.md#tickets).
 
 ## Processes
 
@@ -35,6 +37,17 @@ are computed from each step's parent and indentation rule; you never type them.
 **Register when:** after Processes.
 **Key fields:** `Process *` → unlocks Activity and Parent Step (steps of the same process);
 Indentation Rule (start-to-finish = next number, start-to-start = sub-number under the parent).
+
+## Payload
+
+**What it is:** the dispatch package — one **event × the product scopes it applies to**.
+Payloads are what [SLAs](crm.md#sla) purchase, and the chain that carries the applicable
+requirements into the customer's [Tickets](workspace.md#tickets). Defining them is the
+Broker's job (typically the quality or process manager).
+**Register when:** after Processes and the Portfolio's Product Scopes; before the CRM SLAs.
+**Key fields:** Code; `Unit *` (grouped by segment) → unlocks `Event *` (the unit's events)
+→ **Product Scopes** (multi — the event's applicability narrowed to the unit, grouped by
+scope; empty = every scope the event admits); Activate.
 
 ## Actions
 
