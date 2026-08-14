@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1595,6 +1595,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#actions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2059,6 +2070,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#actions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2136,7 +2158,9 @@ multi-dimensional: region, unit, branch, customer, scope, product group — <str
 dimension means "applies to all"</strong>.
 <strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).
 <strong>Key fields:</strong> Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory reference/URL.</p>
+cascade Region → Business Unit → Branch/Scope/Product Group; regulatory reference/URL. The
+<strong>Customer</strong> select shows disabled — customer-specific requirements are wired through the
+<a href="../crm/#sla">SLA</a> chain and surface on the customer's <a href="../workspace/#tickets">Tickets</a>.</p>
 <h2 id="processes">Processes<a class="headerlink" href="#processes" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> a top-level flow triggered by an event, run by a squad.
 <strong>Register when:</strong> after Events (Portfolio module).
@@ -2150,6 +2174,15 @@ are computed from each step's parent and indentation rule; you never type them.
 <strong>Register when:</strong> after Processes.
 <strong>Key fields:</strong> <code>Process *</code> → unlocks Activity and Parent Step (steps of the same process);
 Indentation Rule (start-to-finish = next number, start-to-start = sub-number under the parent).</p>
+<h2 id="payload">Payload<a class="headerlink" href="#payload" title="Permanent link">&para;</a></h2>
+<p><strong>What it is:</strong> the dispatch package — one <strong>event × the product scopes it applies to</strong>.
+Payloads are what <a href="../crm/#sla">SLAs</a> purchase, and the chain that carries the applicable
+requirements into the customer's <a href="../workspace/#tickets">Tickets</a>. Defining them is the
+Broker's job (typically the quality or process manager).
+<strong>Register when:</strong> after Processes and the Portfolio's Product Scopes; before the CRM SLAs.
+<strong>Key fields:</strong> Code; <code>Unit *</code> (grouped by segment) → unlocks <code>Event *</code> (the unit's events)
+→ <strong>Product Scopes</strong> (multi — the event's applicability narrowed to the unit, grouped by
+scope; empty = every scope the event admits); Activate.</p>
 <h2 id="actions">Actions<a class="headerlink" href="#actions" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> discrete quality interventions a task executes (approval, verification…).
 <strong>Register when:</strong> before Tasks. Actions has <strong>no dashboard tab</strong> — register them inline with
@@ -2306,7 +2339,7 @@ chain; accountable owner. Expanding a procedure shows its handout tabs and produ
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
   
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../javascripts/chatbot.js"></script>
       

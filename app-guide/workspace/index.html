@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2039,20 +2039,29 @@
 
 
 <h1 id="workspace">Workspace<a class="headerlink" href="#workspace" title="Permanent link">&para;</a></h1>
-<p>Execution: customer demand turned into projects, tickets and staffed jobs.</p>
+<p>Execution: customer demand turned into projects, tickets and staffed jobs. The module is
+part of the MVP walkthrough with Tickets and Projects active; the Jobs tab is available in
+the full prototype only.</p>
 <h2 id="projects">Projects<a class="headerlink" href="#projects" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> a customer engagement grouping tickets.
-<strong>Register when:</strong> phase 8, once CRM and Portfolio exist.
-<strong>Key fields:</strong> Name; <code>Customer *</code>; dates.</p>
+<p><strong>What it is:</strong> a customer engagement grouping tickets, executed under the customer's
+contracts.
+<strong>Register when:</strong> phase 8, once CRM (including <a href="../crm/#sla">SLAs</a>) exists.
+<strong>Key fields:</strong> Registry ID; Name; <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code>
+(the unit's customers) → <strong>SLA</strong> (multi — the customer's contracts this project executes
+under); Owner; Status. The coverage column (product scopes) derives from the linked SLAs.</p>
 <h2 id="tickets">Tickets<a class="headerlink" href="#tickets" title="Permanent link">&para;</a></h2>
-<p><strong>What it is:</strong> a request inside a project — carries the customer, scope and products the work
-is about.
+<p><strong>What it is:</strong> a request inside a project — the entry point of execution. The ticket
+carries its dispatch context: the payload of the chosen event, the governing SLA, the
+processes it triggers and the applicable requirement set.
 <strong>Register when:</strong> after its Project.
-<strong>Key fields:</strong> <code>Project *</code>; the customer/scope/product context that downstream Jobs will
-match against.</p>
+<strong>Key fields:</strong> <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code> → unlocks <code>Project *</code>
+(the customer's projects) and <code>Event *</code> — <strong>only events covered by the customer's SLAs are
+offered</strong>; Details; Target date; Status. The payload, SLA, process, product/scope and
+requirement columns are derived from that chain — nothing to select. The requirement set
+includes customer-specific requirements registered against this customer.</p>
 <h2 id="jobs">Jobs<a class="headerlink" href="#jobs" title="Permanent link">&para;</a></h2>
 <p><strong>What it is:</strong> the staffed execution unit: a task assigned to a certified person, with real
-execution tracking.
+execution tracking. The tab is <strong>not part of the MVP walkthrough</strong> (full prototype only).
 <strong>Register when:</strong> after Tickets (and phase 6 — Jobs only offer certified responsibles).
 <strong>Key fields:</strong> <code>Project *</code> → unlocks <code>Ticket *</code> (grouped by customer) → unlocks Task (tasks
 matching the ticket's customer, product group and scope) and Responsible (onboarded people
@@ -2183,7 +2192,7 @@ time accrues as buffer and the real execution time is computed on Done.</p>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
   
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../javascripts/chatbot.js"></script>
       
