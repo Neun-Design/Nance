@@ -348,13 +348,15 @@ function render() {
   renderTabShell(currentCfg);
 }
 
-// App Guide links (v3-review D10 phase 2): every module/dashboard opens its
-// guide page. The deployed layout serves this app under /app/ with the docs
+// Docs links (v3-review D10 phase 2; re-pointed 2026-08-19 when the docs site
+// was restructured to one page per entity): every module/dashboard opens its
+// own guide page — `<module>/<table>/` instead of an anchor inside a long
+// module page. The deployed layout serves this app under /app/ with the docs
 // at the site root; local runs fall back to the published site.
 const GUIDE_BASE = location.pathname.includes('/app/mvp/')
-  ? '../../app-guide/'
+  ? '../../'
   : location.pathname.includes('/app/')
-    ? '../app-guide/' : 'https://bovarafa.github.io/EDQMS/app-guide/';
+    ? '../' : 'https://bovarafa.github.io/EDQMS/';
 const guideSlug = (s) => String(s).toLowerCase().replace(/\s+/g, '-');
 function guideLink(moduleName, tableName = null) {
   const a = document.createElement('a');
@@ -362,7 +364,7 @@ function guideLink(moduleName, tableName = null) {
   a.target = '_blank';
   a.rel = 'noopener';
   a.href = moduleName
-    ? `${GUIDE_BASE}${guideSlug(moduleName)}/${tableName ? '#' + guideSlug(tableName) : ''}`
+    ? `${GUIDE_BASE}${guideSlug(moduleName)}/${tableName ? guideSlug(tableName) + '/' : ''}`
     : GUIDE_BASE;
   a.title = 'Open the App Guide for this page — what it is, when to register, key fields';
   a.textContent = '📖 Guide';
