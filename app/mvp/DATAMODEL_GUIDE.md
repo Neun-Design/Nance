@@ -281,7 +281,7 @@ their `step` parameter. `steps: null` ⇒ single flat form.
 | `attribute` | **Binding to §3**: which attribute `name` this field writes. The attribute's `type`/`rule` determine value handling (FK ⇒ options come from the target table, displayed by the `display:` field). |
 | `tooltip` | Hover/inline hint on the control. |
 | `step` | Which §6.1 step the field belongs to. |
-| `check` | **Enable/visibility condition** in prose — the field is disabled (or hidden) until the condition holds, e.g. `"Scope IS NOT NULL"`, `"Disable this field until the Ticket field has been selected"`. This is how cascading forms are declared. |
+| `check` | **Enable/visibility condition** in prose — the field is disabled (or hidden) until the condition holds, e.g. `"Scope IS NOT NULL"` (presence, `A && B` allowed), `"Input Type = Choice\|List"` (equality; `\|` separates accepted values), `"Disable this field until the Ticket field has been selected"`. This is how cascading forms are declared. |
 | `field-rule` | **Data behaviour**: how to populate/filter/derive the field's options or value — e.g. `"filtered by Scope selected"` (cascade), `rollup -> …` chains, `FK -> Events (display: eventName): Multivalued field`. `Multivalued field` ⇒ multi-select. |
 
 **Select options** derive from the bound attribute's rule (§3.3): labels are display

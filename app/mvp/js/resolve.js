@@ -30,6 +30,10 @@ function domainByName(attrName) {
 
 const dedupe = (arr) => [...new Set(arr)];
 
+// spec value map entries (Product Groups specValues): Checkbox specs store
+// booleans (issue #205) — shown Yes/No wherever the map renders
+const specValueLabel = (v) => (v === true ? 'Yes' : v === false ? 'No' : v);
+
 // ---- STEPORDER (identation-rule.md): derived outline numbers for process
 // steps. Rows are numbered in insertion order, parents before children:
 //   - no parent (or parent outside the set) → next major number (1, 2, 3…)
@@ -255,7 +259,7 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
           .filter(([, v]) => v != null && v !== '')
           .map(([id, v]) => {
             const rec = getById(childTable, id);
-            return { ...(rec || { [cCat.pk]: id, [cCat.label]: id }), __mapValue: v };
+            return { ...(rec || { [cCat.pk]: id, [cCat.label]: id }), __mapValue: specValueLabel(v) };
           })
       : [];
   }
@@ -748,7 +752,7 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
           if (d !== '') name = String(d);
         }
       }
-      parts.push(`${name}: ${v}`);
+      parts.push(`${name}: ${specValueLabel(v)}`);
     }
     return parts.length ? parts.join(', ') : '—';
   }
