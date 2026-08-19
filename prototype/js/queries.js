@@ -231,16 +231,21 @@ function stackedScopeHours(rows) {
 // each returns { main, trendPct (± number | null), detail, list? }
 export const CARD_QUERIES = {
   'Tasks::Card 1-1': () => {
-    const byName = new Map();
+    // actions recurring across processes (issue #216, option B): the honest
+    // taskName re-seed (#214) left no task NAME spanning processes, so the
+    // card counts the ACTION dimension of the same dependency question
+    const byAction = new Map();
     for (const t of getEntity('Tasks')) {
-      if (!byName.has(t.taskName)) byName.set(t.taskName, new Set());
-      byName.get(t.taskName).add(t.processID);
+      const name = lookup('Actions', t.actionID) || t.actionID;
+      if (name == null || name === '') continue;
+      if (!byAction.has(name)) byAction.set(name, new Set());
+      byAction.get(name).add(t.processID);
     }
-    const top = [...byName.entries()].map(([n, s]) => [n, s.size])
+    const top = [...byAction.entries()].map(([n, s]) => [n, s.size])
       .filter(([, c]) => c >= 2).sort((a, b) => b[1] - a[1]).slice(0, 3);
     return { main: top.length ? `${top.length} recurrent` : '0',
       trendPct: null,
-      detail: 'tasks appearing in multiple processes',
+      detail: 'actions appearing in multiple processes',
       list: top.map(([n, c]) => `${n} — ${c} processes`) };
   },
 
