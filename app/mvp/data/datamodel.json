@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 37,
+    "schemaVersion": 38,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3879,7 +3879,7 @@
               "name": "isActive",
               "type": "BOOLEAN",
               "rule": null,
-              "notes": null,
+              "notes": "BOOLEAN-select convention (issue #218): the form renders fixed Yes/No options and stores a real boolean.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6953,7 +6953,7 @@
               "name": "isCertified",
               "type": "BOOLEAN",
               "rule": null,
-              "notes": null,
+              "notes": "Certification gate — a person only qualifies for the Tasks Users column (CERTIFIED-USERS, issue #214) and the Jobs Responsible control when this is true. BOOLEAN-select convention (issue #218): the form renders fixed Yes/No options and stores a real boolean.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
