@@ -1,127 +1,181 @@
 ---
 title: "Q&A"
 audience: stakeholder
-purpose: "List of questions for users to read after following the reading guideline"
+purpose: "Common questions about nance.it — what it is, how it works, and how to use this documentation"
 ---
 
 # Questions and Answers
 
-This page answers the questions most commonly asked by stakeholders at different stages of involvement with the EDQMS project. If you have followed the Managers reading track on the [How to use this site](../how-to-use-this-site.md) page, these answers give you the context needed to participate in project governance discussions without reading the full documentation.
+The questions stakeholders ask most often when they first meet nance.it. If something you
+need is not answered here, the module tabs above carry the operational detail.
 
 ---
 
-## Why did this project begin, and when will I know it ended?
+## What is nance.it, in one paragraph?
 
-The project began in January 2026, when Northwind Energy engaged Neun Design to support the Global Engineering Hub for power transformer repair. The initial mandate was to map process gaps and define engineering roles.
-
-During the discovery work, a more fundamental problem surfaced: the hub's teams could not reliably answer, for any given operational event, what they should do, what was required of them, and how to execute it. That finding reframed the entire engagement.
-
-The project will be complete when the hub has a fully operational, ISO 9001:2015 ***aligned*** [^1] quality management system embedded in its daily engineering workflows — one that can be maintained and extended by the hub's own team without external dependency. That is the outcome of Phase 3.
-
-[^1]: 
-    This project does not aim to implement ISO 9001 directly. Instead, it uses the standard as a foundational reference for developing a management system, ensuring that, when certification becomes necessary, the path to compliance is significantly simplified.
+An open-source platform where governance, quality management and operational knowledge are
+**executed**, not just documented. Obligations, processes, procedures and people's competences
+are registered as connected objects, so that every task is executed by certified people under
+the right procedure — and the audit evidence is produced by the execution itself rather than
+reconstructed afterwards.
 
 ---
 
-## What problem is this project actually solving?
+## What does "Knowledge Driven Governance" actually mean?
 
-The core problem is an execution architecture gap. The hub has engineering processes defined at a high level, but those processes are not connected to the specific events that trigger them or to the detailed procedures that tell team members exactly what to do.
+It means the governance system runs on knowledge that has been made **explicit** — written
+down, owned, and linked to the work it governs — instead of knowledge that lives in a few
+experienced heads.
 
-The result is that knowledge is or, most certainly, will be held individually — in the heads of experienced engineers — rather than documented in a shared, structured system. When something happens in the operation, the response depends on who happens to be available and what they remember, rather than on a defined, auditable procedure.
-
-EDQMS solves this by making every operational event the entry point to a traceable chain: event triggers process, process requires activities, activities are executed through documented procedures.
-
----
-
-## How does EDQMS improve engineering operation in practice?
-
-Let’s use the planner role as an example to illustrate a practical use case.
-
-Without the proposed **governance framework**, the planner would rely heavily on experienced designers to identify the correct processes and activities for each request, with limited visibility into role eligibility or execution time. This makes planning slow, inconsistent, and dependent on individual knowledge.
-
-With the implementation of EDQMS, the planner gains autonomy through structured and standardized data. Activities, procedures, and roles can be filtered using defined criteria—such as identifying which tasks can be performed by a specific role—while also providing visibility into execution effort. This reduces dependency on experts and enables more consistent planning decisions.
-
-As a result, the organization benefits from faster response times, clearer communication with stakeholders, and the ability to create reusable execution templates, making the overall engineering process more scalable and efficient.
-
----
-## How can I explain the value of this project to someone who has not been involved?
-
-Frame it in terms of three operational risks that a system like EDQMS directly reduces:
-
-**Onboarding risk** — without documented procedures, every new engineer is a period of degraded quality while they learn informally from colleagues. With EDQMS, new team members have a system to reference from day one.
-
-**Continuity risk** — when experienced team members leave or change roles, undocumented knowledge leaves with them. EDQMS converts that knowledge into explicit, reusable procedures before it walks out the door.
-
-**Scale risk** — as the hub grows across more regions and serves more business units, informal coordination becomes increasingly unreliable. EDQMS provides the governance layer that makes coordinated quality management possible at scale.
+The practical test is simple: can someone who joined last month execute a critical task
+correctly, without asking a colleague? If the answer depends on who is available that day,
+the knowledge is not explicit and the governance is not real.
 
 ---
 
-## Why does this feel like a Quality Department project?
+## Why event-driven, and not a periodic audit cycle?
 
-Because the underlying problem is, at its core, a governance problem.
+A purely reactive operation responds to problems after they occur. A purely predictive one
+tries to anticipate every scenario in advance, which in practice produces process libraries
+nobody uses.
 
-ISO 9001:2015 is the framework being used to structure that governance. It provides the architectural reference: risk-based thinking, process decomposition, knowledge management, and accountability at every operational node. But the standard is the means, not the objective.
-
-The objective is governance at organisational scale — the ability to onboard new engineers without losing execution fidelity, to maintain cross-regional consistency without relying on institutional memory, and to adapt operations to internal or external change without rebuilding from scratch. That set of outcomes would be necessary even if ISO certification were never on the agenda.
-
-Traditional quality programmes treat ISO 9001 as the primary goal. They produce documentation for audits, layer compliance checks on top of existing operations, and create a parallel structure that does not change how work is actually done.
-
-EDQMS inverts that logic. Governance is built into the execution architecture. When an engineer responds to an operational event, they are not consulting the quality management system — they are using it. ISO 9001 alignment is a consequence of a well-designed governance structure, not its cause.
-
----
-
-## Can I use this site to track project progress?
-Yes.
-
-To understand what has been completed, what is currently in progress, and what is planned next, please refer to the [Project Status](../project-status.md) page.
+nance.it enables a third mode: **structured reactivity**. When an operational event occurs —
+a customer request, a technical deviation, a handover between teams — the system already
+knows which process applies, what requirements are in scope, and who is certified to execute
+the response. Controls fire when the work happens, not at the next quarterly audit.
 
 ---
 
-## What is a prototype and why not build the real system now?
+## How is this different from a document management system?
 
-The prototype tests whether the solution design is sound before committing the investment required to build the full system.
+A DMS stores the procedure. nance.it **connects** it: to the requirement that makes it
+mandatory, to the task it governs, to the competence that certifies who may run it, and to
+the execution record that proves it was followed.
 
-The core question the prototype answers is: can a single, unified [SOP template](https://bovarafa.github.io/EDQMS/prototype/data-model/#procedure){ data-preview } structure accommodate all the variations of engineering events in the hub's offer process? That question cannot be answered by design alone — it can only be answered by applying the template to real operational data.
-
-Building the full production system before that question is answered would risk discovering structural limitations only after a significant Phase 3 investment has been made, at which point corrections are far more expensive.
-
-The [prototype](https://bovarafa.github.io/EDQMS/prototype/prototype/#accessing-the-prototype){ data-preview} is the investment that protects the larger investment.
-
----
-
-## What happens after the prototype validation is complete?
-
-Two deliverables will be produced:
-
-- **Prototype Implementation Assessment** — a comprehensive report identifying all structural improvements required to transition from prototype to MVP, derived from the non-conformity log generated during the validation exercise
-- **Target-State Solution Architecture** — a system architecture blueprint defining the structure, integrations, and capabilities required for the production implementation
-
-These two documents will define the scope, timeline, and investment for the final [Implementation Phase](https://bovarafa.github.io/EDQMS/implementation/).
+That difference is what turns a document library into governance. A procedure sitting in a
+folder cannot stop an uncertified person from being staffed on critical work; a procedure
+linked into the staffing chain can.
 
 ---
 
-## What will it take to manage this system after Implementation?
+## What is the chain from obligation to evidence?
 
-The handover design for Implementation is that the hub's quality management function — supported by the [Quality Manager](https://neundesign.sharepoint.com/:b:/r/sites/Northwind-Offer/Documentos%20Compartilhados/BPM/Deliverables/Recruitment/recruitment-quality-manager.pdf?csf=1&web=1&e=V2s0uT) or an equivalent role — can operate, maintain, and extend the system without ongoing external dependency.
+```
+Requirement  →  Procedure  →  Competence  →  Execution  →  Evidence
+```
 
-Specifically, this means:
+- **[Requirement](../operation/requirements.md)** — norms, contracts and design limits registered per scope and product
+- **[Procedure](../operation/procedures.md)** — the documented method for each task under its requirement set
+- **[Competence](../talent/competence.md)** — who is certified to execute each procedure
+- **[Execution](../workspace/tickets.md)** — tickets staffed only with certified people
+- **Evidence** — who, when, under which procedure, captured automatically
 
-- The Broker role (the function responsible for connecting events to processes and defining the business rules that govern procedure activation) should be staffed internally, ideally by the Quality Manager or a designated process manager
-- The procedure library will require ongoing maintenance as processes evolve, new case types emerge, and the hub expands to new regions
-- New procedure definitions will follow the same template structure validated in [Phase 2](https://bovarafa.github.io/EDQMS/project/second-phase/), ensuring consistency as the library grows
-
-The system is designed so that maintaining it is part of the quality management function — not an additional overhead.
+Every module in this documentation is a segment of that chain.
 
 ---
 
-## What could cause this project to fail or stall?
+## Is this an ISO 9001 certification project?
 
-Three conditions represent the primary execution risks:
+No. ISO 9001:2015 is used as the **architectural reference**, not the objective: risk-based
+thinking, process decomposition, knowledge management, and accountability at every
+operational node.
 
-1. **Stakeholder and SME availability** — the validation work depends on domain experts being available to develop and review procedure definitions. Delays in scheduling or access to key personnel directly extend the validation timeline.
+Traditional quality programmes treat the standard as the goal. They produce documentation for
+audits, layer compliance checks on top of existing operations, and create a parallel structure
+that does not change how work is actually done. nance.it inverts that logic — governance is
+built into the execution architecture, so when an engineer responds to an event they are not
+*consulting* the quality system, they are *using* it. ISO alignment becomes a consequence of a
+well-designed governance structure rather than its cause, and the path to certification is
+significantly shorter when it is needed.
 
-2. **Scope creep during validation** — the prototype is intentionally minimal. Attempting to add production-level features (automation, integrations, access control) before the template structure is validated would undermine the purpose of the validation phase.
+---
 
-3. **Unclear ownership at Implementation Phase** — for Phase 3 to produce a sustainable system, the client organisation must designate clear ownership of the EDQMS function before deployment begins. A system deployed without an internal owner is a system that will gradually become unused.
+## Why does the documentation insist on a registration order?
 
-All three risks are manageable with appropriate governance and scheduling discipline.
+Because the data model does. Every mandatory field in a form points at something registered
+earlier — a Branch needs its Business Unit, a Process needs its triggering Event, a Competence
+needs the Product Scope it certifies.
+
+Follow the order on the **[Start here](../start-here.md)** page and no selector will ever be
+unexpectedly empty. You can always come back and add more records to an earlier module; the
+order only matters for the first pass.
+
+---
+
+## Why is each module tab organised entity by entity?
+
+Because that is how you will use it. When you are filling in a form in the app, you have one
+question: *what is this dashboard for, when do I create a record here, and which field
+unlocks which?* Each entity page answers exactly those three, and the "📖 Guide" link inside
+the app opens the matching page directly.
+
+---
+
+## What is MVP mode, and where is my data stored?
+
+Opening the app at `/app/mvp/` starts from a blank system so you can model your own
+operation instead of browsing demo data.
+
+Your records live in the **browser**, which is a cache and not a database. Use the `Save`
+button in the top bar at every milestone and keep the downloaded file in a shared folder;
+`Import` loads a saved session back. The app warns you if a file was saved under a different
+schema version.
+
+---
+
+## Who owns what inside the system?
+
+Every object carries an owner. That is deliberate — ISO 9001:2015 §5.3 requires
+accountability at each node, and an unowned procedure is a procedure nobody maintains.
+
+Some owners are chosen by you, others are seeded from the structure around them: a Payload
+takes the Broker role from its event's owner, an SLA takes the quality manager of its
+business unit. The module pages state which is which.
+
+---
+
+## How does the system improve itself?
+
+Through the [Control](../control/index.md) module — the PDCA cycle of the governance system
+itself. [Capacity](../control/capacity.md) and [Performance](../control/performance.md) show
+what actually happened; investigating the gaps produces an [Issue](../control/issues.md), a
+mapped opportunity or risk; and that Issue justifies the next new Scope, Requirement, Event
+or revised Procedure.
+
+A task that consistently overruns its planned time, for instance, is rarely a people problem —
+it usually means the procedure does not describe the work as it is really done. That
+conclusion is what gets registered, and the model changes because of it.
+
+---
+
+## Is the platform open source?
+
+Yes — Apache 2.0. The code and the roadmap are public, so your IT organisation can inspect,
+audit, extend and integrate everything, and it runs on a standard web stack that fits an
+existing automation landscape. There is no per-seat cost and no vendor lock-in.
+
+Neun Design maintains the open project and provides implementation, engineering and quality
+management services around it. Features funded through that support are shipped to the open
+core and maintained there for everyone.
+
+---
+
+## Why does this matter for AI?
+
+You cannot delegate to AI what is not structured. A language model pointed at scattered PDFs
+hallucinates with confidence; an agent operating over nance.it works on a **governed graph**
+of requirements, procedures, competences and evidence.
+
+That structure is the substrate every AI initiative needs, and the skeleton that frameworks
+like ISO/IEC 42001 and the EU AI Act ask for. Modelling your system now is what makes the
+useful cases — an internal audit agent, a compliance check before execution, an onboarding
+tutor answering from *your* procedures — possible later.
+
+---
+
+## Where can I see it running?
+
+A live demo with sample data is published at
+[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — login `se-admin`,
+password `@NorthwindEnergy2026`. The platform is in implementation at Northwind Energy's Power
+Transformer Repairs & Services business unit.

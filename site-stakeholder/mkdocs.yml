@@ -1,6 +1,6 @@
-site_name: Engineering Hub Governance
+site_name: nance.it
 site_url: https://bovarafa.github.io/EDQMS/
-site_description: Event Driven Quality Management System — ISO 9001:2015 aligned
+site_description: Knowledge Driven Governance — the open-source platform where governance, quality management and operational knowledge are executed, not just documented. ISO 9001:2015 aligned.
 docs_dir: docs
 
 theme:
@@ -37,7 +37,7 @@ theme:
     - content.footnote.tooltips
     - navigation.footer
     - navigation.top
-    - navigation.expand
+    - navigation.sections
     - navigation.instant
     - navigation.path
     - navigation.tabs
@@ -67,6 +67,8 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
   - toc:
       permalink: true
   - tables
@@ -79,43 +81,68 @@ extra_javascript:
 
 nav:
   - Home:
-    - Welcome: index.md
-    - How to use this site: how-to-use-this-site.md
-    - Project Status: 
-      - Timeline: timeline.md
-      - Deliverables: deliverables.md
-      - Roadmap: roadmap.md
-      - Kanban: kanban.md
-  - The Project:
-    - Intro: project/intro.md
-    - First Phase: project/first-phase.md
-    - Second Phase: project/second-phase.md
-    - Third Phase: project/third-phase.md
-  - Discovery:
-    - Intro: discovery/intro.md
-    - Assumptions: discovery/assumptions.md
-    - Workshop: discovery/workshop.md
-    - Problem Statement: discovery/problem-statement.md
-  - Prototyping:
-    - Intro: prototype/intro.md
-    - Grounding: prototype/grounding.md
-    - Data Model: prototype/data-model.md
-    - Prototype: prototype/prototype.md
-    - Power Apps Guide: prototype/power-apps-guide.md
-  - App Guide:
-    - Start here: app-guide/index.md
-    - Organization: app-guide/organization.md
-    - CRM: app-guide/crm.md
-    - Portfolio: app-guide/portfolio.md
-    - Talent: app-guide/talent.md
-    - Operation: app-guide/operation.md
-    - Workspace: app-guide/workspace.md
-    - Control: app-guide/control.md
-  - Validation:
-    - Intro: audit/intro.md
-    - End-to-End Case: audit/end-to-end-case.md
-    - MVP Assessment: audit/mvp-assessment.md
-  - Develop and Deploy:
-    - Develop and Deploy: implementation/index.md
+    - Overview: index.md
+    - Where Nance comes from: home/origin.md
+    - The governance gap: home/gap.md
+    - How it works: home/how-it-works.md
+    - The business model: home/business-model.md
+    - The shared roadmap: home/roadmap.md
+    - The return: home/roi.md
+    - AI readiness: home/ai-readiness.md
+    - What it means for you: home/roles.md
+    - Implementation: home/implementation.md
+    - Start here: start-here.md
+  - Organization:
+    - Organization: organization/index.md
+    - Business Segments: organization/business-segments.md
+    - Business Units: organization/business-units.md
+    - Regions: organization/regions.md
+    - Departments: organization/departments.md
+    - Branches: organization/branches.md
+    - Squads: organization/squads.md
+  - Portfolio:
+    - Portfolio: portfolio/index.md
+    - Classes: portfolio/classes.md
+    - Scopes: portfolio/scopes.md
+    - Products: portfolio/products.md
+    - Product Specs: portfolio/product-specs.md
+    - Product Groups: portfolio/product-groups.md
+    - Events: portfolio/events.md
+    - Product Scopes: portfolio/product-scopes.md
+  - CRM:
+    - CRM: crm/index.md
+    - Customers: crm/customers.md
+    - SLA: crm/sla.md
+    - Forecasts: crm/forecasts.md
+    - Forecast Scopes: crm/forecast-scopes.md
+  - Talent:
+    - Talent: talent/index.md
+    - Skill Levels: talent/skill-levels.md
+    - Job Family: talent/job-family.md
+    - Functions: talent/functions.md
+    - Roles: talent/roles.md
+    - People: talent/people.md
+    - Competence: talent/competence.md
+    - Onboarding: talent/onboarding.md
+  - Operation:
+    - Operation: operation/index.md
+    - Requirements: operation/requirements.md
+    - Processes: operation/processes.md
+    - Workflows: operation/workflows.md
+    - Payload: operation/payload.md
+    - Actions: operation/actions.md
+    - Handouts: operation/handouts.md
+    - Tasks: operation/tasks.md
+    - Procedures: operation/procedures.md
+  - Workspace:
+    - Workspace: workspace/index.md
+    - Projects: workspace/projects.md
+    - Tickets: workspace/tickets.md
+    - Jobs: workspace/jobs.md
+  - Control:
+    - Control: control/index.md
+    - Capacity: control/capacity.md
+    - Performance: control/performance.md
+    - Issues: control/issues.md
   - Q&A:
     - Q&A: questions/index.md
