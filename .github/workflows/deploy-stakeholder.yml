@@ -36,11 +36,21 @@ jobs:
         working-directory: site-stakeholder
         run: mkdocs build
 
+      # The prototype (app/ + app/mvp/) lives in the same gh-pages branch as
+      # the docs root. Carrying it into the build output lets the deploy below
+      # do a full replace — retired doc pages stop lingering as orphans —
+      # without wiping the app.
+      - name: Carry over the prototype app from gh-pages
+        run: |
+          git fetch origin gh-pages || exit 0
+          if [ -n "$(git ls-tree origin/gh-pages app)" ]; then
+            git archive origin/gh-pages app | tar -x -C site-stakeholder/site
+          fi
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: site-stakeholder/site
           publish_branch: gh-pages
-          keep_files: true
           commit_message: "docs: deploy stakeholder site from ${{ github.sha }}"
