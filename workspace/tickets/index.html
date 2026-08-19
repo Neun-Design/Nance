@@ -2625,9 +2625,13 @@ processes it triggers and the applicable requirement set.
 <strong>Register when:</strong> after its Project.
 <strong>Key fields:</strong> <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code> → unlocks <code>Project *</code>
 (the customer's projects) and <code>Event *</code> — <strong>only events covered by the customer's SLAs are
-offered</strong>; Details; Target date; Status. The payload, SLA, process, product/scope and
-requirement columns are derived from that chain — nothing to select. The requirement set
-includes customer-specific requirements registered against this customer.</p>
+offered</strong>; <code>Product Scope</code> — narrows the ticket to one of the scopes packaged by the
+event's payloads under those SLAs (leave it empty to target every scope they admit);
+Details; Target date; Status. The payload, SLA, product/scope and requirement columns are
+derived from that chain — nothing else to select. The requirement set includes
+customer-specific requirements registered against this customer.
+Expanding a ticket row opens two tabs — the <strong>Processes</strong> the event dispatches into
+(narrowed by the chosen product scope) and the <strong>Tasks</strong> of those processes.</p>
 
 
 
