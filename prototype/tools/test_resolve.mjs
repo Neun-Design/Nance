@@ -38,10 +38,11 @@ function expectName(table, attrName, re, r) {
 }
 
 console.log('== review nonconformities: table/subitem cells ==');
-// Forecasts CUSTOMER: customerID shows the plain customerName; customerTitle carries
-// the CONCAT(customerName,'-',city) display.
+// Forecasts CUSTOMER: customerID shows the plain customerName; customerTitle
+// mirrors it too since the CRM activation round (#191) — the CONCAT with
+// geography left Customers when city/country moved to Branches (issue #207).
 expectName('Forecasts', 'customerID', /^(?!FC\d)[A-Za-zÀ-ú]/);
-expectName('Forecasts', 'customerTitle', /^[A-Za-zÀ-ú].*-.+/);
+expectName('Forecasts', 'customerTitle', /^(?!FC\d)[A-Za-zÀ-ú]/);
 // Forecast Scopes: names, not ids / 0 (requirementName → requirementID,
 // computed via forecastID.customerID + scopeID + productGroupID, 2026-07-30)
 expectName('Forecast Scopes', 'requirementID', /[A-Za-z]{3,}/);
@@ -117,13 +118,18 @@ function subitemsOf(table, r = row(table)) {
   });
 }
 {
-  // Customers → Forecasts, Approved only
-  if (!row('Customers')) fail('Customers→Forecasts: no Customers rows (mockup migration #77 pending)');
+  // Customers → SLA (the subitem swapped Forecasts → SLA in the SLA round,
+  // #179): every kid is a contract owned by THIS customer (issue #207)
+  if (!row('Customers')) fail('Customers→SLA: no Customers rows (mockup migration #77 pending)');
   else {
-    const [f] = subitemsOf('Customers');
-    const statuses = [...new Set(f.kids.map((k) => k.status))];
-    if (f.kids.length && statuses.join() === 'Approved') ok(`Customers→Forecasts: ${f.kids.length} kids, all Approved`);
-    else fail(`Customers→Forecasts: ${f.kids.length} kids, statuses=${statuses}`);
+    const cust = row('Customers');
+    const f = subitemsOf('Customers').find((g) => g.child === 'SLA');
+    if (!f) fail('Customers→SLA: no SLA subitem group declared');
+    else if (f.kids.length && f.kids.every((k) => k.customerID === cust.customerID)) {
+      ok(`Customers→SLA: ${f.kids.length} kid(s), all owned by ${cust.customerID}`);
+    } else {
+      fail(`Customers→SLA: ${f.kids.length} kids, owners=${[...new Set(f.kids.map((k) => k.customerID))]}`);
+    }
   }
 
   // Procedures → Handouts grouped by inputs / outputs (moved from Tasks in
