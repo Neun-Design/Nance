@@ -188,12 +188,25 @@ else: fail('budget-vs-estimated inputs incomplete')
 
 # ---------- 5. card computability ----------
 print('\n== card computability ==')
-byname = defaultdict(set)
+# taskName derives `activityName-actionName` since issue #214 (schemaVersion
+# 36). The pre-36 seeds carried decorative names whose cross-process
+# recurrence the old check asserted; the honest re-seed killed it (no
+# activity+action pair spans two processes in the demo data), so the check
+# now keeps the stored names true to their chains instead — the top-3 card
+# still renders, with process counts of 1 (stale-check retirement pattern,
+# issue #207).
+wf_by_id = {w['workflowID']: w for w in flat['Workflows']}
+activity_by_id = {a['activityID']: a for a in flat['Activities']}
+action_by_id = {a['actionID']: a for a in flat['Actions']}
+drift = []
 for t in flat['Tasks']:
-    byname[t['taskName']].add(t['processID'])
-recur = [n for n, procs in byname.items() if len(procs) >= 2]
-if len(recur) >= 3: ok(f'{len(recur)} task names recur across ≥2 processes (top-3 card non-degenerate)')
-else: fail('too few recurring task names')
+    activity = activity_by_id.get((wf_by_id.get(t.get('workflowID')) or {}).get('activityID')) or {}
+    action_name = (action_by_id.get(t.get('actionID')) or {}).get('actionName')
+    if activity.get('activityName') and action_name \
+            and t['taskName'] != f"{activity['activityName']}-{action_name}":
+        drift.append(t['taskID'])
+if not drift: ok('taskName matches the activityName-actionName chain (issue #214 re-seed)')
+else: fail(f'taskName drift from the activity-action chain: {drift[:5]}')
 half = len(flat['Capacity']) // 2
 a1 = sum(r['allocatedHours'] for r in flat['Capacity'][:half])
 a2 = sum(r['allocatedHours'] for r in flat['Capacity'][half:])

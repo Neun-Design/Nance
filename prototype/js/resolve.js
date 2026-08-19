@@ -682,12 +682,85 @@ function sameVal(a, b) {
   return A.some((x) => B.includes(x));
 }
 
+// Requirements a competence certifies — via its procedures since the
+// Procedures round (v3-review Iterations): the union of the linked
+// procedures' requirement sets. A procedure with an EMPTY set applies to
+// every requirement (Q1 wildcard → null = no restriction). Rows that still
+// carry a legacy stored requirementID keep working. Shared with the Jobs
+// certified-responsible control (forms.js) since issue #214.
+export function competenceRequirements(comp) {
+  const pT = resolveTable('Procedures');
+  const ids = Array.isArray(comp.procedureID) ? comp.procedureID
+    : comp.procedureID != null && comp.procedureID !== '' ? [comp.procedureID] : [];
+  if (!pT || !ids.length) return comp.requirementID || null;
+  const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
+  if (!procs.length) return comp.requirementID || null;
+  const set = [];
+  for (const p of procs) {
+    const reqs = Array.isArray(p.requirementID) ? p.requirementID
+      : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
+    if (!reqs.length) return null; // wildcard procedure — certifies all
+    reqs.forEach((r) => { if (!set.includes(r)) set.push(r); });
+  }
+  return set;
+}
+
+// CERTIFIED-USERS(taskField) — People eligible to execute a task (issue #214,
+// the certified-responsible doctrine at the Tasks level): a user qualifies
+// when they hold at least one CERTIFIED Onboarding (isCertified) on a
+// task-compatible competence (a competence without taskID is generic; one
+// with it must name the task), and the union of those competences' requirement
+// coverage (competenceRequirements — null = wildcard, covers everything)
+// includes EVERY requirement the task derives from its procedures (AND
+// semantics; a wildcard procedure adds no requirement to the task's set).
+export function certifiedUsersForTask(taskId) {
+  if (taskId == null || taskId === '') return [];
+  const list = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
+  const obT = resolveTable('Onboarding');
+  const compT = resolveTable('Competence');
+  const procT = resolveTable('Procedures');
+  if (!obT || !compT) return [];
+  const taskReqs = [];
+  if (procT) {
+    for (const p of getEntity(procT)) {
+      if (!list(p.taskID).includes(taskId)) continue;
+      list(p.requirementID).forEach((r) => { if (!taskReqs.includes(r)) taskReqs.push(r); });
+    }
+  }
+  // union each user's certified, task-compatible coverage before testing —
+  // two partial competences may cover the task's set together
+  const cover = new Map(); // userID → { all, reqs:Set }
+  for (const ob of getEntity(obT)) {
+    if (ob.isCertified !== true) continue;
+    const comp = getById(compT, ob.competenceID);
+    if (!comp || ob.userID == null || ob.userID === '') continue;
+    const compTasks = list(comp.taskID);
+    if (compTasks.length && !compTasks.includes(taskId)) continue;
+    const cur = cover.get(ob.userID) || { all: false, reqs: new Set() };
+    const reqs = competenceRequirements(comp);
+    if (reqs == null) cur.all = true;
+    else list(reqs).forEach((r) => cur.reqs.add(r));
+    cover.set(ob.userID, cur);
+  }
+  const out = [];
+  for (const [uid, c] of cover) {
+    if (c.all || taskReqs.every((r) => c.reqs.has(r))) out.push(uid);
+  }
+  return out;
+}
+
 // derived attribute value for a table cell.
 // `displayOverride` forces a display field (used by resolveDisplay hops).
 export function derivedValue(tableName, attr, row, depth = 0, displayOverride = null) {
   const r = parseRule(attr.rule);
   if (!r || r.kind === 'enum') return row[attr.name] ?? '—';
   if (r.kind === 'steporder') return stepOrderValue(tableName, r, row);
+  if (r.kind === 'certifiedusers') {
+    const ids = certifiedUsersForTask(row[r.srcField]);
+    if (!ids.length) return '—';
+    const s = idsToDisplay(ids, [resolveTable('People')], r.display, depth + 1);
+    return s || '—';
+  }
   if (r.kind === 'fk') {
     const table = (r.target && resolveTable(r.target)) || domainByName(attr.name);
     if (!table) return row[attr.name] ?? '—';

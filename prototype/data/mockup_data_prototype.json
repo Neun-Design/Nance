@@ -10209,7 +10209,7 @@
     "functionID": "F1",
     "competenceID": "CMP01",
     "roles": "R01",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Requirement Capture-Approval",
     "taskOwner": "U01"
    },
    {
@@ -10221,7 +10221,7 @@
     "functionID": "F2",
     "competenceID": "CMP02",
     "roles": "R04",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Electrical Sizing-Assignment",
     "taskOwner": "U02"
    },
    {
@@ -10233,7 +10233,7 @@
     "functionID": "F3",
     "competenceID": "CMP03",
     "roles": "R03",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Offer Costing-Check",
     "taskOwner": "U03"
    },
    {
@@ -10245,7 +10245,7 @@
     "functionID": "F4",
     "competenceID": "CMP04",
     "roles": "R04",
-    "taskName": "Execution — Mechanical Sizing",
+    "taskName": "Mechanical Sizing-Execution",
     "taskOwner": "U04"
    },
    {
@@ -10257,7 +10257,7 @@
     "functionID": "F5",
     "competenceID": "CMP05",
     "roles": "R02",
-    "taskName": "Followup — Electrical Design",
+    "taskName": "Mechanical Layout-Followup",
     "taskOwner": "U05"
    },
    {
@@ -10269,7 +10269,7 @@
     "functionID": "F1",
     "competenceID": "CMP06",
     "roles": "R04",
-    "taskName": "Registration — Mechanical Layout",
+    "taskName": "Design Documentation-Registration",
     "taskOwner": "U06"
    },
    {
@@ -10281,7 +10281,7 @@
     "functionID": "F2",
     "competenceID": "CMP07",
     "roles": "R03",
-    "taskName": "Release — Design Documentation",
+    "taskName": "Electrical Design-Release",
     "taskOwner": "U07"
    },
    {
@@ -10293,7 +10293,7 @@
     "functionID": "F3",
     "competenceID": "CMP08",
     "roles": "R06",
-    "taskName": "Approval — Load Assessment",
+    "taskName": "Thermal Study-Approval",
     "taskOwner": "U08"
    },
    {
@@ -10305,7 +10305,7 @@
     "functionID": "F4",
     "competenceID": "CMP09",
     "roles": "R07",
-    "taskName": "Assignment — Thermal Study",
+    "taskName": "Uprating Report-Assignment",
     "taskOwner": "U09"
    },
    {
@@ -10317,7 +10317,7 @@
     "functionID": "F5",
     "competenceID": "CMP10",
     "roles": "R06",
-    "taskName": "Check — Uprating Report",
+    "taskName": "Load Assessment-Check",
     "taskOwner": "U10"
    },
    {
@@ -10329,7 +10329,7 @@
     "functionID": "F1",
     "competenceID": "CMP11",
     "roles": "R01",
-    "taskName": "Execution — Requirement Capture",
+    "taskName": "Offer Costing-Execution",
     "taskOwner": "U11"
    },
    {
@@ -10341,7 +10341,7 @@
     "functionID": "F2",
     "competenceID": "CMP12",
     "roles": "R04",
-    "taskName": "Followup — Electrical Sizing",
+    "taskName": "Mechanical Sizing-Followup",
     "taskOwner": "U12"
    },
    {
@@ -10353,7 +10353,7 @@
     "functionID": "F3",
     "competenceID": "CMP01",
     "roles": "R03",
-    "taskName": "Registration — Offer Costing",
+    "taskName": "Requirement Capture-Registration",
     "taskOwner": "U13"
    },
    {
@@ -10365,7 +10365,7 @@
     "functionID": "F4",
     "competenceID": "CMP02",
     "roles": "R04",
-    "taskName": "Release — Mechanical Sizing",
+    "taskName": "Electrical Sizing-Release",
     "taskOwner": "U14"
    },
    {
@@ -10377,7 +10377,7 @@
     "functionID": "F5",
     "competenceID": "CMP03",
     "roles": "R02",
-    "taskName": "Approval — Electrical Design",
+    "taskName": "Design Documentation-Approval",
     "taskOwner": "U15"
    },
    {
@@ -10389,7 +10389,7 @@
     "functionID": "F1",
     "competenceID": "CMP04",
     "roles": "R04",
-    "taskName": "Assignment — Mechanical Layout",
+    "taskName": "Electrical Design-Assignment",
     "taskOwner": "U16"
    },
    {
@@ -10401,7 +10401,7 @@
     "functionID": "F2",
     "competenceID": "CMP05",
     "roles": "R03",
-    "taskName": "Check — Design Documentation",
+    "taskName": "Mechanical Layout-Check",
     "taskOwner": "U17"
    },
    {
@@ -10413,7 +10413,7 @@
     "functionID": "F3",
     "competenceID": "CMP06",
     "roles": "R05",
-    "taskName": "Execution — Peer Review",
+    "taskName": "Compliance Check-Execution",
     "taskOwner": "U18"
    },
    {
@@ -10425,7 +10425,7 @@
     "functionID": "F4",
     "competenceID": "CMP07",
     "roles": "R09",
-    "taskName": "Followup — Compliance Check",
+    "taskName": "Peer Review-Followup",
     "taskOwner": "U19"
    },
    {
@@ -10437,7 +10437,7 @@
     "functionID": "F5",
     "competenceID": "CMP08",
     "roles": "R07",
-    "taskName": "Registration — Root Cause Analysis",
+    "taskName": "Corrective Proposal-Registration",
     "taskOwner": "U20"
    },
    {
@@ -10449,7 +10449,7 @@
     "functionID": "F1",
     "competenceID": "CMP09",
     "roles": "R06",
-    "taskName": "Release — Corrective Proposal",
+    "taskName": "Root Cause Analysis-Release",
     "taskOwner": "U21"
    },
    {
@@ -10461,7 +10461,7 @@
     "functionID": "F2",
     "competenceID": "CMP10",
     "roles": "R01",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Electrical Sizing-Approval",
     "taskOwner": "U22"
    },
    {
@@ -10473,7 +10473,7 @@
     "functionID": "F3",
     "competenceID": "CMP11",
     "roles": "R04",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Offer Costing-Assignment",
     "taskOwner": "U23"
    },
    {
@@ -10485,7 +10485,7 @@
     "functionID": "F4",
     "competenceID": "CMP12",
     "roles": "R03",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Mechanical Sizing-Check",
     "taskOwner": "U24"
    },
    {
@@ -10497,7 +10497,7 @@
     "functionID": "F5",
     "competenceID": "CMP01",
     "roles": "R04",
-    "taskName": "Execution — Mechanical Sizing",
+    "taskName": "Requirement Capture-Execution",
     "taskOwner": "U01"
    },
    {
@@ -10509,7 +10509,7 @@
     "functionID": "F1",
     "competenceID": "CMP02",
     "roles": "R06",
-    "taskName": "Followup — Load Assessment",
+    "taskName": "Thermal Study-Followup",
     "taskOwner": "U02"
    },
    {
@@ -10521,7 +10521,7 @@
     "functionID": "F2",
     "competenceID": "CMP03",
     "roles": "R07",
-    "taskName": "Registration — Thermal Study",
+    "taskName": "Uprating Report-Registration",
     "taskOwner": "U03"
    },
    {
@@ -10533,7 +10533,7 @@
     "functionID": "F3",
     "competenceID": "CMP04",
     "roles": "R06",
-    "taskName": "Release — Uprating Report",
+    "taskName": "Load Assessment-Release",
     "taskOwner": "U04"
    },
    {
@@ -10545,7 +10545,7 @@
     "functionID": "F4",
     "competenceID": "CMP05",
     "roles": "R02",
-    "taskName": "Approval — Electrical Design",
+    "taskName": "Mechanical Layout-Approval",
     "taskOwner": "U05"
    },
    {
@@ -10557,7 +10557,7 @@
     "functionID": "F5",
     "competenceID": "CMP06",
     "roles": "R04",
-    "taskName": "Assignment — Mechanical Layout",
+    "taskName": "Design Documentation-Assignment",
     "taskOwner": "U06"
    },
    {
@@ -10569,7 +10569,7 @@
     "functionID": "F1",
     "competenceID": "CMP07",
     "roles": "R03",
-    "taskName": "Check — Design Documentation",
+    "taskName": "Electrical Design-Check",
     "taskOwner": "U07"
    },
    {
@@ -10581,7 +10581,7 @@
     "functionID": "F2",
     "competenceID": "CMP08",
     "roles": "R01",
-    "taskName": "Execution — Requirement Capture",
+    "taskName": "Mechanical Sizing-Execution",
     "taskOwner": "U08"
    },
    {
@@ -10593,7 +10593,7 @@
     "functionID": "F3",
     "competenceID": "CMP09",
     "roles": "R04",
-    "taskName": "Followup — Electrical Sizing",
+    "taskName": "Requirement Capture-Followup",
     "taskOwner": "U09"
    },
    {
@@ -10605,7 +10605,7 @@
     "functionID": "F4",
     "competenceID": "CMP10",
     "roles": "R03",
-    "taskName": "Registration — Offer Costing",
+    "taskName": "Electrical Sizing-Registration",
     "taskOwner": "U10"
    },
    {
@@ -10617,7 +10617,7 @@
     "functionID": "F5",
     "competenceID": "CMP11",
     "roles": "R04",
-    "taskName": "Release — Mechanical Sizing",
+    "taskName": "Offer Costing-Release",
     "taskOwner": "U11"
    },
    {
@@ -10629,7 +10629,7 @@
     "functionID": "F1",
     "competenceID": "CMP12",
     "roles": "R07",
-    "taskName": "Approval — Root Cause Analysis",
+    "taskName": "Corrective Proposal-Approval",
     "taskOwner": "U12"
    },
    {
@@ -10641,7 +10641,7 @@
     "functionID": "F2",
     "competenceID": "CMP01",
     "roles": "R06",
-    "taskName": "Assignment — Corrective Proposal",
+    "taskName": "Root Cause Analysis-Assignment",
     "taskOwner": "U13"
    },
    {
@@ -10653,7 +10653,7 @@
     "functionID": "F3",
     "competenceID": "CMP02",
     "roles": "R01",
-    "taskName": "Check — Allocation",
+    "taskName": "Technical Clarification-Check",
     "taskOwner": "U14"
    },
    {
@@ -10665,7 +10665,7 @@
     "functionID": "F4",
     "competenceID": "CMP03",
     "roles": "R02",
-    "taskName": "Execution — Technical Assessment",
+    "taskName": "Data Collection-Execution",
     "taskOwner": "U15"
    },
    {
@@ -10677,7 +10677,7 @@
     "functionID": "F5",
     "competenceID": "CMP04",
     "roles": "R01",
-    "taskName": "Followup — Technical Clarification",
+    "taskName": "Offer Design-Followup",
     "taskOwner": "U16"
    },
    {
@@ -10689,7 +10689,7 @@
     "functionID": "F1",
     "competenceID": "CMP05",
     "roles": "R01",
-    "taskName": "Registration — Data Collection",
+    "taskName": "Operational Clarification-Registration",
     "taskOwner": "U17"
    },
    {
@@ -10701,7 +10701,7 @@
     "functionID": "F2",
     "competenceID": "CMP06",
     "roles": "R02",
-    "taskName": "Release — Offer Design",
+    "taskName": "Technical Specification-Release",
     "taskOwner": "U18"
    },
    {
@@ -10713,7 +10713,7 @@
     "functionID": "F3",
     "competenceID": "CMP07",
     "roles": "R01",
-    "taskName": "Approval — Operational Clarification",
+    "taskName": "Allocation-Approval",
     "taskOwner": "U19"
    },
    {
@@ -10725,7 +10725,7 @@
     "functionID": "F4",
     "competenceID": "CMP08",
     "roles": "R02",
-    "taskName": "Assignment — Technical Specification",
+    "taskName": "Technical Assessment-Assignment",
     "taskOwner": "U20"
    },
    {
@@ -10737,7 +10737,7 @@
     "functionID": "F1",
     "competenceID": "CMP01",
     "roles": "R01",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Mechanical Layout-Approval",
     "taskOwner": "U14"
    },
    {
@@ -10749,7 +10749,7 @@
     "functionID": "F1",
     "competenceID": "CMP01",
     "roles": "R01",
-    "taskName": "Approval — Requirement Capture",
+    "taskName": "Peer Review-Approval",
     "taskOwner": "U15"
    },
    {
@@ -10761,7 +10761,7 @@
     "functionID": "F2",
     "competenceID": "CMP02",
     "roles": "R04",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Electrical Design-Assignment",
     "taskOwner": "U16"
    },
    {
@@ -10773,7 +10773,7 @@
     "functionID": "F2",
     "competenceID": "CMP02",
     "roles": "R04",
-    "taskName": "Assignment — Electrical Sizing",
+    "taskName": "Peer Review-Assignment",
     "taskOwner": "U17"
    },
    {
@@ -10785,7 +10785,7 @@
     "functionID": "F3",
     "competenceID": "CMP03",
     "roles": "R03",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Design Documentation-Check",
     "taskOwner": "U18"
    },
    {
@@ -10797,7 +10797,7 @@
     "functionID": "F3",
     "competenceID": "CMP03",
     "roles": "R03",
-    "taskName": "Check — Offer Costing",
+    "taskName": "Peer Review-Check",
     "taskOwner": "U19"
    }
   ],
@@ -13245,7 +13245,8 @@
     "ticketClosedAt": "2026-02-28",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "016",
@@ -13263,7 +13264,8 @@
     "ticketClosedAt": "2026-02-28",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "017",
@@ -13281,7 +13283,8 @@
     "ticketClosedAt": "2026-01-15",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "018",
@@ -13299,7 +13302,8 @@
     "ticketClosedAt": "2026-01-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "019",
@@ -13317,7 +13321,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "020",
@@ -13335,7 +13340,8 @@
     "ticketClosedAt": "2026-02-05",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "021",
@@ -13353,7 +13359,8 @@
     "ticketClosedAt": "2026-02-28",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "022",
@@ -13371,7 +13378,8 @@
     "ticketClosedAt": "2026-02-28",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "023",
@@ -13389,7 +13397,8 @@
     "ticketClosedAt": "2026-01-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "024",
@@ -13407,7 +13416,8 @@
     "ticketClosedAt": "2025-12-18",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "025",
@@ -13425,7 +13435,8 @@
     "ticketClosedAt": "2025-12-19",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "029",
@@ -13443,7 +13454,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "030",
@@ -13461,7 +13473,8 @@
     "ticketClosedAt": "2025-12-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "031",
@@ -13479,7 +13492,8 @@
     "ticketClosedAt": "2026-01-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "032",
@@ -13497,7 +13511,8 @@
     "ticketClosedAt": "2026-02-26",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "033",
@@ -13515,7 +13530,8 @@
     "ticketClosedAt": "2026-02-26",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "034",
@@ -13533,7 +13549,8 @@
     "ticketClosedAt": "2026-02-28",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "035",
@@ -13551,7 +13568,8 @@
     "ticketClosedAt": "2026-01-16",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "036",
@@ -13569,7 +13587,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "037",
@@ -13587,7 +13606,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "038",
@@ -13605,7 +13625,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "039",
@@ -13623,7 +13644,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "040",
@@ -13641,7 +13663,8 @@
     "ticketClosedAt": "2026-01-22",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC08",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "041",
@@ -13659,7 +13682,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "042",
@@ -13677,7 +13701,8 @@
     "ticketClosedAt": "2026-02-09",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "043",
@@ -13695,7 +13720,8 @@
     "ticketClosedAt": "2026-02-28",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "044",
@@ -13713,7 +13739,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "045",
@@ -13731,7 +13758,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "046",
@@ -13749,7 +13777,8 @@
     "ticketClosedAt": "2026-02-15",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "047",
@@ -13767,7 +13796,8 @@
     "ticketClosedAt": "2026-01-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "048",
@@ -13785,7 +13815,8 @@
     "ticketClosedAt": "2026-02-26",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "049",
@@ -13803,7 +13834,8 @@
     "ticketClosedAt": "2026-02-26",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "050",
@@ -13821,7 +13853,8 @@
     "ticketClosedAt": "2026-02-12",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "051",
@@ -13839,7 +13872,8 @@
     "ticketClosedAt": "2026-03-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "052",
@@ -13857,7 +13891,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "053",
@@ -13875,7 +13910,8 @@
     "ticketClosedAt": "2026-02-26",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC04",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "054",
@@ -13893,7 +13929,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "055",
@@ -13911,7 +13948,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "056",
@@ -13929,7 +13967,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "057",
@@ -13947,7 +13986,8 @@
     "ticketClosedAt": "2026-02-16",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "058",
@@ -13965,7 +14005,8 @@
     "ticketClosedAt": "2026-02-13",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "059",
@@ -13983,7 +14024,8 @@
     "ticketClosedAt": "2026-02-19",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "060",
@@ -14001,7 +14043,8 @@
     "ticketClosedAt": "2026-02-27",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "061",
@@ -14019,7 +14062,8 @@
     "ticketClosedAt": "2026-04-23",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "062",
@@ -14037,7 +14081,8 @@
     "ticketClosedAt": "2026-02-22",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "063",
@@ -14055,7 +14100,8 @@
     "ticketClosedAt": "2026-02-20",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "064",
@@ -14073,7 +14119,8 @@
     "ticketClosedAt": "2026-02-25",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC08",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "065",
@@ -14091,7 +14138,8 @@
     "ticketClosedAt": "2026-03-03",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "066",
@@ -14109,7 +14157,8 @@
     "ticketClosedAt": "2026-02-25",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "067",
@@ -14127,7 +14176,8 @@
     "ticketClosedAt": "2026-04-03",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "068",
@@ -14145,7 +14195,8 @@
     "ticketClosedAt": "2026-08-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "069",
@@ -14163,7 +14214,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "070",
@@ -14181,7 +14233,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "071",
@@ -14199,7 +14252,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "072",
@@ -14217,7 +14271,8 @@
     "ticketClosedAt": "2026-03-12",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "073",
@@ -14235,7 +14290,8 @@
     "ticketClosedAt": "2026-03-06",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "074",
@@ -14253,7 +14309,8 @@
     "ticketClosedAt": "2026-03-20",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "075",
@@ -14271,7 +14328,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "076",
@@ -14289,7 +14347,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "077",
@@ -14307,7 +14366,8 @@
     "ticketClosedAt": "2026-04-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "078",
@@ -14325,7 +14385,8 @@
     "ticketClosedAt": "2026-03-13",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "080",
@@ -14343,7 +14404,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "081",
@@ -14361,7 +14423,8 @@
     "ticketClosedAt": "2026-04-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "082",
@@ -14379,7 +14442,8 @@
     "ticketClosedAt": "2026-03-20",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "083",
@@ -14397,7 +14461,8 @@
     "ticketClosedAt": "2026-04-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "084",
@@ -14415,7 +14480,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "085",
@@ -14433,7 +14499,8 @@
     "ticketClosedAt": "2026-03-24",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "086",
@@ -14451,7 +14518,8 @@
     "ticketClosedAt": "2026-03-27",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "087",
@@ -14469,7 +14537,8 @@
     "ticketClosedAt": "2026-04-02",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "088",
@@ -14487,7 +14556,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "089",
@@ -14505,7 +14575,8 @@
     "ticketClosedAt": "2026-03-31",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "090",
@@ -14523,7 +14594,8 @@
     "ticketClosedAt": "2026-04-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "091",
@@ -14541,7 +14613,8 @@
     "ticketClosedAt": "2026-06-19",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "092",
@@ -14559,7 +14632,8 @@
     "ticketClosedAt": "2026-04-16",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "097",
@@ -14577,7 +14651,8 @@
     "ticketClosedAt": "2026-04-13",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "098",
@@ -14595,7 +14670,8 @@
     "ticketClosedAt": "2026-05-29",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "099",
@@ -14613,7 +14689,8 @@
     "ticketClosedAt": "2026-04-26",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "100",
@@ -14631,7 +14708,8 @@
     "ticketClosedAt": "2026-04-21",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "101",
@@ -14649,7 +14727,8 @@
     "ticketClosedAt": "2026-04-27",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "104",
@@ -14667,7 +14746,8 @@
     "ticketClosedAt": "2026-04-23",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "105",
@@ -14685,7 +14765,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "107",
@@ -14703,7 +14784,8 @@
     "ticketClosedAt": "2026-04-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "108",
@@ -14721,7 +14803,8 @@
     "ticketClosedAt": "2026-05-07",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "109",
@@ -14739,7 +14822,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "110",
@@ -14757,7 +14841,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "111",
@@ -14775,7 +14860,8 @@
     "ticketClosedAt": "2026-05-11",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "112",
@@ -14793,7 +14879,8 @@
     "ticketClosedAt": "2026-05-04",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC08",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "113",
@@ -14811,7 +14898,8 @@
     "ticketClosedAt": "2026-04-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "114",
@@ -14829,7 +14917,8 @@
     "ticketClosedAt": "2026-04-29",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "115",
@@ -14847,7 +14936,8 @@
     "ticketClosedAt": "2026-05-12",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "116",
@@ -14865,7 +14955,8 @@
     "ticketClosedAt": "2026-05-29",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "117",
@@ -14883,7 +14974,8 @@
     "ticketClosedAt": "2026-05-25",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "118",
@@ -14901,7 +14993,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "119",
@@ -14919,7 +15012,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "120",
@@ -14937,7 +15031,8 @@
     "ticketClosedAt": "2026-05-22",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "121",
@@ -14955,7 +15050,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "122",
@@ -14973,7 +15069,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "123",
@@ -14991,7 +15088,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "124",
@@ -15009,7 +15107,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "125",
@@ -15027,7 +15126,8 @@
     "ticketClosedAt": "2026-05-22",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "126",
@@ -15045,7 +15145,8 @@
     "ticketClosedAt": "2026-06-11",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "127",
@@ -15063,7 +15164,8 @@
     "ticketClosedAt": "2026-06-24",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "128",
@@ -15081,7 +15183,8 @@
     "ticketClosedAt": "2026-06-05",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "129",
@@ -15099,7 +15202,8 @@
     "ticketClosedAt": "2026-06-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "130",
@@ -15117,7 +15221,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "131",
@@ -15135,7 +15240,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "132",
@@ -15153,7 +15259,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "143",
@@ -15171,7 +15278,8 @@
     "ticketClosedAt": "2026-07-02",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "144",
@@ -15189,7 +15297,8 @@
     "ticketClosedAt": "2026-06-18",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "145",
@@ -15207,7 +15316,8 @@
     "ticketClosedAt": "2026-06-15",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "146",
@@ -15225,7 +15335,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "147",
@@ -15243,7 +15354,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "148",
@@ -15261,7 +15373,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "149",
@@ -15279,7 +15392,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "150",
@@ -15297,7 +15411,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "151",
@@ -15315,7 +15430,8 @@
     "ticketClosedAt": "2026-06-16",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "152",
@@ -15333,7 +15449,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "153",
@@ -15351,7 +15468,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "154",
@@ -15369,7 +15487,8 @@
     "ticketClosedAt": "2026-06-19",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC17",
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "productScopeID": null
    },
    {
     "ticketID": "155",
@@ -15387,7 +15506,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "156",
@@ -15405,7 +15525,8 @@
     "ticketClosedAt": "2026-06-29",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "157",
@@ -15423,7 +15544,8 @@
     "ticketClosedAt": "2026-06-30",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "158",
@@ -15441,7 +15563,8 @@
     "ticketClosedAt": "2026-06-11",
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "159",
@@ -15459,7 +15582,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC02",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "160",
@@ -15477,7 +15601,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "161",
@@ -15495,7 +15620,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "162",
@@ -15513,7 +15639,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "163",
@@ -15531,7 +15658,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "175",
@@ -15549,7 +15677,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "176",
@@ -15567,7 +15696,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "177",
@@ -15585,7 +15715,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "178",
@@ -15603,7 +15734,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "180",
@@ -15621,7 +15753,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "181",
@@ -15639,7 +15772,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC01",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    },
    {
     "ticketID": "182",
@@ -15657,7 +15791,8 @@
     "ticketClosedAt": null,
     "requirementName": "IEC 60076 Compliance, Max Tank Weight, Short-circuit Withstand, Delivery Lead Time, Temperature Rise Limit, Insulation Level, Budget Cap, Grid Code DE Compliance",
     "customerID": "FC03",
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "productScopeID": null
    }
   ],
   "Projects": [
