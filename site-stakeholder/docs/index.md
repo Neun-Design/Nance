@@ -1,53 +1,80 @@
 ---
-title: "Welcome"
+title: "Overview"
 audience: stakeholder
-purpose: "General greetings for the stakeholder site and its purpose"
+purpose: "What nance.it is, what it connects, and where it is running today"
 ---
 
-# Welcome
+# nance.it — Knowledge Driven Governance
 
-<video controls style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
-  <source src="assets/EDQMS__Governance_Gap.mp4" type="video/mp4">
-</video>
+**The open-source platform where governance, quality management and operational knowledge are
+executed — not just documented.**
 
-This site serves as the stakeholder‑facing documentation for the **EDQMS project**—an Event‑Driven Quality Management System developed by Neun Design for Northwind Energy. The initiative is designed to establish EDQMS as the **governance framework** for the Global Power Transformer Repair Engineering Hub, enabling structured, scalable, and traceable engineering operations.
+One platform where obligations, processes, procedures and people's competences are connected,
+so that governance runs on explicit knowledge instead of memory.
 
-Whether you are a project sponsor, a process owner, an operations manager, or a engineer trying to figured it out what you supposed to do, this site gives you everything you need to understand what we are building, why it matters, and the current status of where we are in the roadmap.
+The result: every task executed by certified people, under the right procedure — with audit
+evidence generated automatically.
 
-## Why This Initiative Matters
+## The three pillars
 
-If you’ve worked long enough in the power transformer industry, you know the uneasy moment when a customer calls and says: “We would like to repeat the project you delivered five years ago, with the same scope and outcomes.”
-The concern is immediate: will the organization be able to reproduce it—or will significant re‑engineering be required? No one can confidently say whether the operation can still deliver the same result, let alone faster and more cost‑effectively, as the customer expects from a repeat order.
-This gap between what was delivered and what can be reliably reproduced is one of the most critical failure modes in engineering organizations: the lack of a consistent and intelligible record of the decisions made and findings captured throughout the process.
+=== "Governance"
 
-Drawing on more than fifteen years of experience developing engineering solutions for power transformer manufacturers and repair shops — including building and training product design squads — Neun Design was engaged by Northwind Energy to support the implementation of a global engineering hub. That hub is responsible for designing the projects for two new repair shops being built in the United States and Europe.
+    - A **requirements register**: norms, contracts, SLAs — registered per scope and product,
+      not filed in a drive
+    - A **named owner** on every object, because an unowned procedure is a procedure nobody
+      maintains
+    - **Evidence produced by execution itself**, rather than reconstructed before an audit
 
-During the [discovery phase](./discovery/intro.md), a clear picture emerged about the engineering team assembled to kick-start the design work:
+=== "Quality"
 
-- All members had advanced knowledge of transformer product design.
-- Not all had hands-on experience with transformer repair operations.
-- Most had never worked for Northwind Energy before.
-- Those who were already Northwind employees working in repair operations had done so for the specific contexts of the local factories where they were based.
+    - An **event-driven QMS** aligned to ISO 9001:2015
+    - Controls **fire when work happens** — not at quarterly audits
+    - Risks and actions **traceable end to end**
 
-These characteristics made two things evident:
+=== "Knowledge"
 
-- The as-is processes from existing repair operations could not simply be adopted by the global team. Those processes are deeply tied to the regional context where they evolved and would not translate reliably across the different geographies this team would serve.
-- Any future-state process map would need to be tested, audited, and iterated — even where it built on existing practice, it would require adaptation and improvement before it could be relied upon.
+    - **Procedures linked to every task**, under the requirement set that applies
+    - **Competence and certification per person**, gating who may execute what
+    - **Onboarding and training built into the flow**, not bolted on afterwards
 
-For all these reasons, the proposed strategy is to first develop the system through which the entire process of discovering, validating, and evolving best practices will be recorded and managed — and only then begin to define and register the operational procedures the engineering team will use in their day-to-day work.
+## Why the three belong together
 
-## What is EDQMS?
+Each pillar on its own already exists as a product category: governance registers, eQMS
+platforms, document management systems. What none of them does is connect the three.
 
-EDQMS stands for **Event Driven Quality Management System**. It is a methodology and data architecture that enables an organisation to manage quality operations reactively and proactively — not through calendar-based audits alone, but through structured responses to the events that occur in daily operations.
+A requirement that is not linked to a procedure is a claim. A procedure that is not linked to
+a competence cannot stop the wrong person from being staffed on critical work. A competence
+that is not linked to execution produces a training certificate, not a control. It is the
+connection that turns three libraries into a governance system — and that connection is what
+nance.it models.
 
-!!! Tip
+Follow it on the [How it works](home/how-it-works.md) page.
 
-    A purely reactive operation responds to problems after they occur. A purely predictive one attempts to anticipate all scenarios in advance — which, in practice, produces process libraries that are never used.
+## Not a concept — live today
 
-EDQMS enables a third mode: **structured reactivity**. When an operational event occurs, the system already knows which process applies, what requirements are in scope, and how to execute the response. Changes to internal structure or external conditions are handled not by rebuilding from scratch, but by updating the specific nodes — a customer request arrives, a technical deviation is detected, a handover between teams takes place — the system knows what to do, who is responsible, and how to execute it. All of it is traceable, auditable, and aligned with ISO 9001:2015.
+**In implementation now.** The Power Transformer Repairs & Services business unit at Northwind
+Energy, with modules being configured together with its key users.
 
-## Who this site is for
+**A complete governance portal.** Organization, Portfolio, CRM (SLAs), Talent, Operation and
+Workspace — one connected model, described module by module in the tabs above.
 
-This documentation is written for stakeholders: individuals with domain expertise who contribute to project development or hold decision-making authority. The content is structured to give you the right level of detail depending on your role — whether you need a strategic overview, a roadmap to follow, or enough depth to take action.
+**Try it yourself.** A public demo with sample data runs at
+[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — login `se-admin`,
+password `@NorthwindEnergy2026`. To model your own operation from a blank system, open
+[/app/mvp/](https://bovarafa.github.io/EDQMS/app/mvp/) instead and follow
+[Start here](start-here.md).
 
-Refer to the [How to use this site](how-to-use-this-site.md) page for a reading guide tailored to your involvement level.
+## Where to go next
+
+| If you want to know… | Read |
+|---|---|
+| Why this platform exists at all | [Where Nance comes from](home/origin.md) |
+| The problem it closes | [The governance gap](home/gap.md) |
+| How the model actually works | [How it works](home/how-it-works.md) |
+| What it costs and who maintains it | [The business model](home/business-model.md) |
+| Why joining early matters | [The shared roadmap](home/roadmap.md) |
+| What the return looks like | [The return](home/roi.md) |
+| Why this matters for AI | [AI readiness](home/ai-readiness.md) |
+| What changes for your role | [What it means for you](home/roles.md) |
+| How a rollout runs | [Implementation](home/implementation.md) |
+| How to start modelling | [Start here](start-here.md) |
