@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 35,
+    "schemaVersion": 36,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2013,6 +2013,15 @@
               "constraints": null
             },
             {
+              "name": "userID",
+              "type": "mirror",
+              "rule": "computed: CERTIFIED-USERS(taskID) (display: userName)",
+              "notes": "multivalued — derived live (issue #214): People holding a CERTIFIED Onboarding (isCertified==true) on a task-compatible competence, whose combined competences cover ALL the requirements the task derives from its procedures (union of the requirement sets; a wildcard procedure covers everything) — the certified-responsible doctrine at the Tasks level. Authored 2026-08-19 as prose ('users that have the competences that matches all the requirements for the procedure applied to the task', constraint isCertified==true); normalized to the CERTIFIED-USERS rule kind (certifiedUsersForTask in resolve.js).",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "roles",
               "type": "VARCHAR",
               "rule": "computed: taskID → Competence.roleID (display: roleName)",
@@ -2051,7 +2060,7 @@
             {
               "name": "taskName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(actionName, activityName, processName)",
+              "rule": "computed: CONCAT(activityName, '-',actionName)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -3049,6 +3058,24 @@
               "constraints": "NOT NULL"
             },
             {
+              "name": "processID",
+              "type": "FK",
+              "rule": "FK → Processes (display: processName)",
+              "notes": "Form filter — narrows the Task options",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "taskID",
+              "type": "FK",
+              "rule": "FK → Tasks (display: taskName)",
+              "notes": "Task this procedure executes — join anchor for the Tasks → Procedures subitem tab",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "procedureURL",
               "type": "LINK",
               "rule": null,
@@ -3065,24 +3092,6 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
-            },
-            {
-              "name": "processID",
-              "type": "FK",
-              "rule": "FK → Processes (display: processName)",
-              "notes": "Form filter — narrows the Task options",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "taskID",
-              "type": "FK",
-              "rule": "FK → Tasks (display: taskName)",
-              "notes": "Task this procedure executes — join anchor for the Tasks → Procedures subitem tab",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": "FK, NOT NULL"
             },
             {
               "name": "productScopeID",
@@ -4847,6 +4856,15 @@
               "constraints": null
             },
             {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "notes": "Product scope this ticket targets (issue #214) — single-valued, picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs). EMPTY = every scope the payloads admit (Q1 wildcard). Stores the id — the display CONCAT resolves the names (normalized from the authored producScopeID name-mirror: selects bound to name-mirrors store names and break joins).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "slaID",
               "type": "rollup",
               "rule": "rollup → SLA (via: customerID) (display: slaCode)",
@@ -4868,8 +4886,8 @@
               "name": "processID",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Processes\".\"processName\")",
-              "notes": "Via eventID — stored snapshot re-seeded by migrate_workspace_activation.py (issue #192); events without processes keep their prior value",
-              "table-display": true,
+              "notes": "Via eventID and productScopeID (issue #214): stored snapshot of process ids — the event's processes narrowed by the chosen product scope (a process with an empty productScopeID list covers every scope; no scope chosen = all of the event's processes, Q1). Re-seeded by migrate_ticket_scope_round.py, derived on save for UI-created tickets (applyDerivedUnits in forms.js). Drives the Processes/Tasks subitem tabs (via: processID); display resolves id → processName.",
+              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -5036,6 +5054,16 @@
                 "check": "Customer IS NOT NULL",
                 "field-rule": "filtered by Customer selected"
               },
+              "Product Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Only product scopes covered by the customer's SLAs are offered",
+                "step": null,
+                "check": "Project IS NOT NULL",
+                "field-rule": "filtered by Event selected"
+              },
               "Details": {
                 "field-type": {
                   "input": "shadcn-input"
@@ -5066,10 +5094,7 @@
                 "check": null,
                 "field-rule": null
               }
-            },
-            "subitem-tables": [
-              "Jobs"
-            ]
+            }
           },
           "cards": {
             "Card 1-1": {
@@ -5086,7 +5111,18 @@
           },
           "table-filters": true,
           "subitem-tables": [
-            "Jobs: only jobStatus=Active|Queued"
+            {
+              "tab-order": 1,
+              "rule": "(via: processID)",
+              "tab-name": "Processes",
+              "tab-table": "Processes"
+            },
+            {
+              "tab-order": 2,
+              "rule": "(via: processID)",
+              "tab-name": "Tasks",
+              "tab-table": "Tasks"
+            }
           ]
         },
         "Projects": {

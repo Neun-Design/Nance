@@ -7,7 +7,7 @@
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
-import { resolveDisplay, computedConcat, childrenOf } from './resolve.js';
+import { resolveDisplay, computedConcat, childrenOf, competenceRequirements } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -463,6 +463,12 @@ export function applyDerivedUnits(entity, rec) {
     const pr = rec.processID && getById('Processes', rec.processID);
     const e = rec.eventID && getById('Events', rec.eventID);
     rec.departmentID = (pr && pr.departmentID) ?? (e && e.departmentID) ?? null;
+  } else if (entity === 'Tickets') {
+    // processID snapshot = the event's processes narrowed by the chosen
+    // product scope (issue #214) — drives the Processes/Tasks subitem tabs.
+    // Events without processes keep the prior snapshot (#192 migration posture)
+    const derived = ticketProcesses(rec.eventID, rec.productScopeID);
+    if (derived.length || !rec.processID) rec.processID = derived;
   }
 }
 
@@ -500,27 +506,8 @@ function arrOverlap(a, b) {
 // Competence matches the selected Ticket's scope / product group / linked
 // requirements, and the selected Task when present. Conditions the Competence
 // record doesn't declare are skipped (lenient — demo data is sparse).
-// Requirements a competence certifies — via its procedures since the
-// Procedures round (v3-review Iterations): the union of the linked
-// procedures' requirement sets. A procedure with an EMPTY set applies to
-// every requirement (Q1 wildcard → null = no restriction). Rows that still
-// carry a legacy stored requirementID keep working.
-function competenceRequirements(comp) {
-  const pT = resolveTable('Procedures');
-  const ids = Array.isArray(comp.procedureID) ? comp.procedureID
-    : comp.procedureID != null && comp.procedureID !== '' ? [comp.procedureID] : [];
-  if (!pT || !ids.length) return comp.requirementID || null;
-  const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
-  if (!procs.length) return comp.requirementID || null;
-  const set = [];
-  for (const p of procs) {
-    const reqs = Array.isArray(p.requirementID) ? p.requirementID
-      : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
-    if (!reqs.length) return null; // wildcard procedure — certifies all
-    reqs.forEach((r) => { if (!set.includes(r)) set.push(r); });
-  }
-  return set;
-}
+// competenceRequirements moved to resolve.js (shared with the Tasks
+// CERTIFIED-USERS column since issue #214).
 
 // Scope + product group of a competence — via its certified PRODUCT SCOPE
 // since the #159 follow-up (legacy stored keys honoured for old snapshots;
@@ -794,6 +781,52 @@ export function eventsForCustomerSLAs(customerId) {
     }
   }
   return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+}
+
+// Product scopes a TICKET may target (issue #214): the scopes packaged by the
+// selected event's payloads, narrowed to the payloads purchased by the
+// customer's active SLAs. No customer / no matching SLA payload → every
+// payload of the event (lenient, eventsForCustomerSLAs posture — the Event
+// select already restricts to SLA-covered events). A payload with an EMPTY
+// productScopeID packages every scope the event admits (Q1) — it widens the
+// offer to the event's full applicability.
+export function productScopesForTicket(eventId, customerId) {
+  if (!eventId) return productScopesForEvent(null);
+  let payloads = getEntity('Payload').filter((p) => arrOverlap(p.eventID, eventId));
+  if (customerId) {
+    const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
+      && String(s.isActive || 'Active') !== 'Inactive');
+    if (slas.length) {
+      const bought = new Set();
+      slas.forEach((s) => asList(s.payloadID).forEach((id) => bought.add(String(id))));
+      const kept = payloads.filter((p) => bought.has(String(p.payloadID)));
+      if (kept.length) payloads = kept;
+    }
+  }
+  const ids = [];
+  for (const p of payloads) {
+    const scopes = asList(p.productScopeID);
+    if (!scopes.length) return productScopesForEvent(eventId); // wildcard payload
+    scopes.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
+  }
+  return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+}
+
+// Processes a ticket dispatches into (issue #214): the event's processes
+// narrowed by the chosen product scope — a process with an EMPTY
+// productScopeID list covers every scope of its event, and no chosen scope
+// keeps all of the event's processes (Q1 both ways). Stored as the ticket's
+// processID snapshot on save (applyDerivedUnits) and by the migration.
+export function ticketProcesses(eventId, productScopeId) {
+  if (!eventId) return [];
+  const out = [];
+  for (const p of getEntity('Processes')) {
+    if (!arrOverlap(p.eventID, eventId)) continue;
+    const scopes = asList(p.productScopeID);
+    if (productScopeId && scopes.length && !scopes.includes(productScopeId)) continue;
+    out.push(p.processID);
+  }
+  return out;
 }
 
 // Spec definitions offered for a product selection: the UNION of every
@@ -1273,6 +1306,16 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Tickets' && attrName === 'eventID') {
             const dep = findDep('Customer');
             applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null));
+            return;
+          }
+          // Tickets "Product Scope": the scopes packaged by the selected
+          // event's payloads under the customer's SLAs (issue #214) — see
+          // productScopesForTicket
+          if (entity === 'Tickets' && attrName === 'productScopeID') {
+            const evDep = findDep('Event');
+            const custDep = findDep('Customer');
+            applyOpts(productScopesForTicket(evDep ? evDep[1].get() : null,
+              custDep ? custDep[1].get() : null));
             return;
           }
           // Payload "Product Scope": the event's applicability narrowed to

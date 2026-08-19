@@ -12,6 +12,10 @@ processes it triggers and the applicable requirement set.
 **Register when:** after its Project.
 **Key fields:** `Unit *` (grouped by segment) → unlocks `Customer *` → unlocks `Project *`
 (the customer's projects) and `Event *` — **only events covered by the customer's SLAs are
-offered**; Details; Target date; Status. The payload, SLA, process, product/scope and
-requirement columns are derived from that chain — nothing to select. The requirement set
-includes customer-specific requirements registered against this customer.
+offered**; `Product Scope` — narrows the ticket to one of the scopes packaged by the
+event's payloads under those SLAs (leave it empty to target every scope they admit);
+Details; Target date; Status. The payload, SLA, product/scope and requirement columns are
+derived from that chain — nothing else to select. The requirement set includes
+customer-specific requirements registered against this customer.
+Expanding a ticket row opens two tabs — the **Processes** the event dispatches into
+(narrowed by the chosen product scope) and the **Tasks** of those processes.

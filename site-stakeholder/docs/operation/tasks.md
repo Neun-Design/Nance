@@ -11,4 +11,7 @@ against. Its execution time is not registered here: it derives from the task's p
 given requirement set lives in its Procedures.
 **Register when:** after Actions, before Procedures.
 **Key fields:** `Event *` → `Process *` → Activity (the process's steps) → `Action *`;
-execution time. Expanding a task row lists its registered procedures.
+execution time. The task's name derives from that chain (`Activity-Action`), and the
+**Users** column derives live the certified people eligible for the task — those whose
+certified competences cover all the requirements of its procedures. Expanding a task row
+lists its registered procedures.
