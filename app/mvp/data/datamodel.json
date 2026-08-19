@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 36,
+    "schemaVersion": 37,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2137,14 +2137,14 @@
           "cards": [
             {
               "Card 1-1": {
-                "title": "Recurrent tasks acrros Processes",
+                "title": "Recurrent Actions across Processes",
                 "card-rules": {
-                  "main-data": "Top 3 tasks that appears in multiple processes",
+                  "main-data": "Top 3 actions that appear in multiple processes",
                   "trend-data": null,
-                  "detail-data": "this card must be a list with two columns: taskID | process count"
+                  "detail-data": "this card must be a list with two columns: actionName | process count"
                 },
                 "card-component": "shadcn-card",
-                "card-tooltip": "Most recurring tasks across the process landscape, indicating key operational dependencies."
+                "card-tooltip": "Most recurring actions across the process landscape, indicating key operational dependencies. Redefined from task-name recurrence (issue #216, option B): taskName derives activityName-actionName since issue #214 and no honest task name spans two processes in the demo data — the action dimension answers the same dependency question."
               }
             }
           ],

@@ -40,13 +40,8 @@ for (const [tname, cat] of Object.entries(catalog)) {
 }
 
 // ---- every declared card has a query with a computable main value ----
-// Tasks::Card 1-1 ("recurrent tasks across processes") is legitimately "0"
-// since issue #214: taskName derives `activityName-actionName` and the honest
-// re-seed killed the decorative cross-process recurrence the pre-36 seeds
-// carried (no activity+action pair spans two processes in the demo data).
-// The card still renders; only its degeneracy gate is waived (stale-check
-// retirement pattern, issue #207).
-const DEGENERATE_OK = new Set(['Tasks::Card 1-1']);
+// (the Tasks::Card 1-1 degeneracy waiver from issue #214 was re-armed by
+// issue #216: the card now counts ACTIONS recurring across processes)
 console.log('== cards ==');
 for (const [tname, cat] of Object.entries(catalog)) {
   const entries = Array.isArray(cat.cards) ? cat.cards : (cat.cards ? [cat.cards] : []);
@@ -59,7 +54,7 @@ for (const [tname, cat] of Object.entries(catalog)) {
       if (!q) { fail(`${id}: no card query implemented`); continue; }
       let out;
       try { out = q(); } catch (err) { fail(`${id}: throws ${err.message}`); continue; }
-      if (out && out.main != null && out.main !== '—' && (out.main !== '0' || DEGENERATE_OK.has(id))) {
+      if (out && out.main != null && out.main !== '—' && out.main !== '0') {
         ok(`${id}: main=${JSON.stringify(out.main)} trend=${out.trendPct ?? '–'} detail=${JSON.stringify((out.detail || '').slice(0, 40))}`);
       } else fail(`${id}: degenerate main value ${JSON.stringify(out && out.main)}`);
     }
