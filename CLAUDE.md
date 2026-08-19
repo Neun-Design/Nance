@@ -112,10 +112,10 @@ Models the QMS process hierarchy at four levels of decomposition.
 |---|---|---|
 | `productSpecID` | PK (auto) | |
 | `specName` | VARCHAR | Becomes the attribute label in the Product Group form |
-| `specInputType` | ENUM: `INT` \| `DECIMAL` \| `String` \| `List` | Controls the input control rendered for the attribute |
+| `specInputType` | ENUM: `Number` \| `Text` \| `Choice` \| `List` \| `Checkbox` | Controls the input control rendered for the attribute (issue #205 relabel of `INT`/`DECIMAL`/`String`/`List`): Number = decimal input, Text = string, Choice = single pick from `specOptions`, List = **multiple** picks stored semicolon-separated (`"A; B"`), Checkbox = boolean rendered Yes/No in the SPECS displays. Legacy spellings from pre-v34 snapshots still resolve in `specInputKind()` (`forms.js`); old single-choice `List` rows were migrated to `Choice` (`tools/migrate_spec_input_types.py`). The Allowed Values field gate uses the eq-check alternatives spelling `check: "Input Type = Choice\|List"` |
 | `specDescription` | TEXT | Shown as the field hint |
 | `productID` | FK → Products, **multivalued** | Products this spec applies to |
-| `specOptions` | VARCHAR | Semicolon/comma-separated allowed values; only used when `specInputType = List` |
+| `specOptions` | VARCHAR | Semicolon/comma-separated allowed values; only used when `specInputType` is `Choice` or `List` |
 
 **Dispatch into Product Groups:** when a Product Group is created/edited, selecting the Product enables exactly the spec fields assigned to that product, each typed per `specInputType`. The entered values are stored on the Product Group record as a `specValues` object map (`productSpecID → value`) and surfaced in tables through a computed **SPECS** summary column (`computed: MAP(specValues → Product Specs display: specName)` in the prototype rule mini-DSL), rendering e.g. `Voltage Rate: <=145, Power Rating: <=100`.
 
