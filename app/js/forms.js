@@ -809,6 +809,20 @@ export function specsForProducts(selIds, key = 'productID') {
   });
 }
 
+// Control kind for a Product Spec's specInputType (issue #205 relabel:
+// Number/Text/Choice/List/Checkbox). Legacy spellings from pre-v34
+// snapshots still resolve: INT/DECIMAL → number, String → text. 'List'
+// is the one semantic break — it now means MULTIPLE choice (the old
+// single-choice List rows were migrated to 'Choice').
+export function specInputKind(t) {
+  const s = String(t || '').toLowerCase();
+  if (s === 'number' || s === 'int' || s === 'decimal') return 'number';
+  if (s === 'choice') return 'choice';
+  if (s === 'list') return 'multi';
+  if (s === 'checkbox') return 'checkbox';
+  return 'text';
+}
+
 // Product scopes of a PROCESS: its stored list; an empty list means the
 // process covers every product scope of its event.
 export function productScopesForProcess(processId) {
@@ -1380,23 +1394,40 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         const specs = specsForProducts(selIds, key);
         if (!specs.length) { note('No specs assigned to this product'); return; }
         for (const s of specs) {
-          let ctl, getVal;
-          const t = String(s.specInputType || '').toLowerCase();
-          if (t === 'int' || t === 'decimal') {
-            ctl = mkInput('number'); ctl.step = t === 'int' ? '1' : 'any';
+          let ctl, getVal, setVal = null;
+          const kind = specInputKind(s.specInputType);
+          const allowed = () => String(s.specOptions || '').split(/[;,]/)
+            .map((x) => x.trim()).filter(Boolean)
+            .map((x) => ({ value: x, label: x }));
+          if (kind === 'number') {
+            ctl = mkInput('number'); ctl.step = 'any';
             getVal = () => (ctl.value === '' ? null : Number(ctl.value));
-          } else if (t === 'list') {
-            const opts = String(s.specOptions || '').split(/[;,]/)
-              .map((x) => x.trim()).filter(Boolean)
-              .map((x) => ({ value: x, label: x }));
-            ctl = mkSelect([{ value: '', label: '— select —' }, ...opts]);
+          } else if (kind === 'choice') {
+            ctl = mkSelect([{ value: '', label: '— select —' }, ...allowed()]);
             getVal = () => ctl.value;
+          } else if (kind === 'multi') {
+            // multiple choice — stored semicolon-separated ("A; B"), which the
+            // SPECS summary and __mapValue column render without special casing
+            const m = mkMultiCheck(allowed());
+            ctl = m.node;
+            getVal = () => m.get().join('; ');
+            setVal = (prev) => m.set(String(prev).split(/[;,]/)
+              .map((x) => x.trim()).filter(Boolean));
+          } else if (kind === 'checkbox') {
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            ctl = document.createElement('label');
+            ctl.className = 'form-multicheck-row';
+            const sp = document.createElement('span'); sp.textContent = 'Yes';
+            ctl.append(cb, sp);
+            getVal = () => cb.checked; // boolean — always stored (No is an answer)
+            setVal = (prev) => { cb.checked = prev === true || /^(true|yes)$/i.test(String(prev)); };
           } else {
             ctl = mkInput('text'); getVal = () => ctl.value;
           }
           const id = String(s[sCat.pk]);
           const prev = pending[id];
-          if (prev != null && prev !== '') ctl.value = String(prev);
+          if (prev != null && prev !== '') { if (setVal) setVal(prev); else ctl.value = String(prev); }
           live.set(id, getVal);
           wrap.appendChild(fieldRow(s[sCat.label] || id, ctl, String(s.specDescription || '').trim()));
         }
@@ -1536,7 +1567,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
   }
 
   // ---- check conditions: "<Label> IS NOT NULL" (presence, "A && B" allowed)
-  // or "<Label> = Value" (equality) gate this field on others ----
+  // or "<Label> = Value" (equality, "V1|V2" alternatives) gate this field ----
   for (const [label, fv] of entries) {
     const raw = fv.check && String(fv.check).trim();
     const chk = raw && raw.match(/^(.+?)\s+IS NOT NULL$/i);
@@ -1545,6 +1576,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     const depLabels = (chk ? chk[1] : eq[1]).split(/\s*&&\s*/).map((s) => s.trim()).filter(Boolean);
     const deps = depLabels.map(findDep).filter(Boolean);
     if (!deps.length) continue;
+    const wanted = eq ? eq[2].split('|').map((s) => s.trim()).filter(Boolean) : [];
     const target = byLabel[label].node;
     const filled = (v) => v != null && String(v).length > 0 && !(Array.isArray(v) && !v.length);
     // ux-review U5: a bare disabled select doesn't say what unlocks it — the
@@ -1553,13 +1585,13 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     gateHint.className = 'form-hint';
     gateHint.textContent = chk
       ? `Select ${deps.map((dep) => dep[0]).join(' and ')} first`
-      : `Requires ${deps[0][0]} = "${eq[2].trim()}"`;
+      : `Requires ${deps[0][0]} = ${wanted.map((w) => `"${w}"`).join(' or ')}`;
     const fieldEl = target.closest('.form-field');
     if (fieldEl) fieldEl.appendChild(gateHint);
     const update = () => {
       const has = chk
         ? deps.every((dep) => filled(dep[1].get()))
-        : String(deps[0][1].get() ?? '').trim().toLowerCase() === eq[2].trim().toLowerCase();
+        : wanted.some((w) => String(deps[0][1].get() ?? '').trim().toLowerCase() === w.toLowerCase());
       target.disabled = !has;
       gateHint.style.display = has ? 'none' : '';
       // dynamic containers re-render even when the gate closes (to empty out);

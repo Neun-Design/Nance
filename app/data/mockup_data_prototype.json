@@ -23633,7 +23633,7 @@
    {
     "productSpecID": "SPEC01",
     "specName": "Voltage Rate",
-    "specInputType": "String",
+    "specInputType": "Text",
     "specDescription": "Rated voltage range in kV",
     "productID": [
      "P01",
@@ -23658,7 +23658,7 @@
    {
     "productSpecID": "SPEC02",
     "specName": "Power Rating",
-    "specInputType": "String",
+    "specInputType": "Text",
     "specDescription": "Rated power range in MVA",
     "productID": [
      "P01",
