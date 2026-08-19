@@ -1117,6 +1117,17 @@ function specOptions(entity, attrName, ruleText) {
   };
 }
 
+// Fixed options + value coercion for a select bound to a BOOLEAN attribute
+// (Onboarding.isCertified, Product Scopes.isActive — issue #218): the
+// distinct-from-data fallback labels raw true/false on the demo dataset and
+// offers NOTHING on a blank one, and the DOM select would commit the STRING
+// "true" — but the certified gates (certifiedUsersForTask, the Jobs
+// certified-responsible control) compare isCertified === true, so the raw
+// select value must never reach the record.
+export const BOOLEAN_OPTIONS = [{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }];
+export const booleanFromSelect = (v) =>
+  (v == null || v === '' ? null : v === true || v === 'true');
+
 // grouped variant for checkbox pickers: interleave {header} rows per the
 // group field resolved on each option's target record ("SelectLabel = X"
 // parity for multi-selects, e.g. Scopes.Opportunity grouped by issueType)
@@ -1237,6 +1248,10 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         const picker = mkRadioList(withGroupHeaders(options, target, groupField));
         node = picker.node; node.classList.add('form-input');
         get = picker.get;
+      } else if (((getCatalog(entity) || {}).byName || {})[attrName]?.type === 'BOOLEAN') {
+        node = document.createElement('select'); node.className = 'form-input';
+        fillOptions(node, BOOLEAN_OPTIONS);
+        get = () => booleanFromSelect(node.value);
       } else {
         node = document.createElement('select'); node.className = 'form-input';
         fillOptions(node, options, groupField, target, undefined);
