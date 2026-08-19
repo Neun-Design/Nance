@@ -8,6 +8,15 @@ on:
       - "prototype/**"
   workflow_dispatch:
 
+# Serialize every gh-pages writer (shared with deploy-stakeholder.yml):
+# overlapping runs race on the branch head — the later checkout pushes
+# non-fast-forward and is rejected (issue #209, PRs #206+#208 merged 3s
+# apart). cancel-in-progress stays false so the running deploy finishes
+# and only the newest pending run stays queued.
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
 permissions:
   contents: write
 

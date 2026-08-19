@@ -6,6 +6,14 @@ on:
       - docs/stakeholder
   workflow_dispatch:
 
+# Serialize every gh-pages writer (shared with deploy-prototype.yml, issue
+# #209). Extra protection here: the carry-over step below READS app/ from
+# gh-pages before the full-replace push — a prototype deploy landing in
+# that window would be clobbered by the stale carried copy.
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
