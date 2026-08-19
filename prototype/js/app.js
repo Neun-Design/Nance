@@ -177,12 +177,16 @@ const FALLBACK_ICON = svgIcon('<rect x="3" y="3" width="18" height="18" rx="2"/>
 // visibility:"disabled" would drop them from the catalog and break their
 // rollup targets (Customers.forecastID, Capacity, Tickets.jobs).
 const BLANK_DISABLED_MODULES = new Set(['Overview', 'Control']);
+// Demo mode gates Control in the navigation only — its tables stay
+// catalogued, so rollups and reports that read them keep working.
+const DEMO_DISABLED_MODULES = new Set(['Control']);
 const BLANK_DISABLED_TABS = {
   CRM: new Set(['Forecasts', 'Forecast Scopes']),
   Workspace: new Set(['Jobs']),
 };
 const DISABLED_TIP = 'Not available in this walkthrough';
-const moduleDisabled = (name) => BLANK_MODE && BLANK_DISABLED_MODULES.has(name);
+const moduleDisabled = (name) =>
+  (BLANK_MODE ? BLANK_DISABLED_MODULES : DEMO_DISABLED_MODULES).has(name);
 const tabDisabled = (modName, table) => BLANK_MODE && !!BLANK_DISABLED_TABS[modName]?.has(table);
 
 // Route guard: never land on (or stay in) a disabled module/dashboard.
