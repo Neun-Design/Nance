@@ -12,6 +12,7 @@ multi-dimensional: region, unit, branch, customer, scope, product group — **an
 dimension means "applies to all"**.
 **Register when:** after Scopes and Product Groups (Portfolio module).
 **Key fields:** Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Scope/Product Group; regulatory reference/URL. The
-**Customer** select shows disabled — customer-specific requirements are wired through the
-[SLA](../crm/sla.md) chain and surface on the customer's [Tickets](../workspace/tickets.md).
+cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regulatory
+reference/URL. The **Customer** select unlocks after picking a Business Unit and offers that
+unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
+the customer's [Tickets](../workspace/tickets.md) through the [SLA](../crm/sla.md) chain.
