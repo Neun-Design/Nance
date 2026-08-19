@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 34,
+    "schemaVersion": 35,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3357,7 +3357,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "Customer-specific requirement (issue #180) — form input is disabled; empty = applies to all customers (Q1 wildcard)",
+              "notes": "Customer-specific requirement (issue #180; select enabled by #212) — unit-gated form select, options = the selected units' customers grouped by unit; empty = applies to all customers (Q1 wildcard)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3486,10 +3486,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerID",
-                "tooltip": "Customer this requirement applies to — e.g. a customer-specific design-approval template",
+                "tooltip": "Customer this requirement applies to — e.g. a customer-specific design-approval template; leave empty to apply to all customers",
                 "step": null,
-                "check": null,
-                "field-rule": "disabled"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
               },
               "Scope": {
                 "field-type": {

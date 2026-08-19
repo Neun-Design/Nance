@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 // test_engine_requirement_customer.mjs — proof suite for issue #180
-// (Sponsors Presentation P1): Requirements gains a customerID FK →
-// Customers shown in the form as a DISABLED select (customer-specific
-// requirements arrive with the SLA chain, #179/#191). Empty = applies
+// (Sponsors Presentation P1) updated for issue #212: Requirements gains
+// a customerID FK → Customers. The select shipped DISABLED until the
+// SLA chain landed (#179/#191); since #212 it is ENABLED mirroring the
+// sibling Branch field — gated on Business Unit, options filtered to
+// the selected units' customers, grouped by unit name. Empty = applies
 // to all customers (Q1 wildcard); mockup rows seed the key as null.
 // Run from prototype/:  node tools/test_engine_requirement_customer.mjs
 
@@ -33,7 +35,7 @@ console.log('== schema: Requirements.customerID stored FK ==');
   eq(model.getSchemaVersion() >= 29, true, 'schemaVersion bumped to at least 29');
 }
 
-console.log('== form spec: Customer select rendered disabled ==');
+console.log('== form spec: Customer select enabled, unit-gated (issue #212) ==');
 {
   const dmRaw = JSON.parse(fs.readFileSync(new URL('../data/datamodel.json', import.meta.url)));
   const req = dmRaw.modules.Operation.tables.Requirements;
@@ -41,7 +43,26 @@ console.log('== form spec: Customer select rendered disabled ==');
   eq(!!field, true, 'Requirements form declares a Customer field');
   eq(field && field.attribute, 'customerID', 'Customer field binds customerID (the FK, not a display name)');
   const rule = field && (Array.isArray(field['field-rule']) ? field['field-rule'].join('; ') : field['field-rule'] || '');
-  eq(/(^|;)\s*disabled\s*(;|$)/i.test(rule), true, 'field-rule carries the disabled token');
+  eq(/(^|;)\s*disabled\s*(;|$)/i.test(rule), false, 'the disabled token is gone');
+  eq(field.check, 'Business Unit IS NOT NULL', 'gated until a Business Unit is picked');
+  eq(rule, 'SelectLabel = businessUnitName; filtered by businessUnitID selected',
+    'options filtered to the selected units, grouped by unit name (Branch-field mirror)');
+}
+
+console.log('== cascade join: a unit offers exactly its own customers ==');
+{
+  const resolve = await import('../js/resolve.js');
+  const bu = data.getEntity('Business Units').find((u) => data.getEntity('Customers')
+    .some((c) => (Array.isArray(c.businessUnitID) ? c.businessUnitID : [c.businessUnitID]).includes(u.businessUnitID)));
+  eq(!!bu, true, `a unit with customers exists (${bu && bu.businessUnitID})`);
+  const kids = resolve.childrenOf('Business Units', bu, 'Customers').map((c) => c.customerID);
+  const want = data.getEntity('Customers')
+    .filter((c) => (Array.isArray(c.businessUnitID) ? c.businessUnitID : [c.businessUnitID]).includes(bu.businessUnitID))
+    .map((c) => c.customerID);
+  eq(kids.length > 0 && kids.length === want.length && want.every((id) => kids.includes(id)), true,
+    `childrenOf(unit → Customers) = the unit's customers (${kids.length}), array-aware businessUnitID`);
+  const all = data.getEntity('Customers').length;
+  eq(kids.length < all, true, `filter is selective (${kids.length} of ${all} customers)`);
 }
 
 console.log('== seeds: mockup rows carry the key, all wildcard ==');
