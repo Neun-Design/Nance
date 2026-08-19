@@ -118,6 +118,7 @@ A mini-DSL declaring where values come from. Grammar patterns in use:
 | `mirror: <source>` | Value mirrored from related records, e.g. `mirror: DISTINCT("Tasks"."actionName")` or `mirror: Competence (via: competenceID) (display: roleName)`. |
 | `computed: <expression>` | Calculated value, e.g. `computed: SUM(forecastScopes.estimatedHours)`. |
 | `computed → <Table> (via: <path.chain>)` | Calculated by walking a relationship path (dots = hops through stored FKs), then displaying the final ids against the last segment's domain — `Tasks.scopeID = computed: Workflows via: workflowID.productScopeID.scopeID (display: scopeName)`. |
+| `computed: CERTIFIED-USERS(<taskField>) (display: userName)` | **Certified eligible people** (issue #214, Tasks.userID): People holding a CERTIFIED Onboarding (`isCertified`) on a task-compatible competence (no `taskID` on the competence = generic; with one it must name the task), whose **combined** competences cover **ALL** the requirements the task derives from its procedures (union of the requirement sets; a wildcard procedure covers everything — the Jobs `certified-responsible` doctrine as a derived column). Resolved live by `certifiedUsersForTask` in `resolve.js`. |
 | `enum: A/B/C` | The closed value list for an `ENUM` type. |
 
 **Tolerant parsing.** The rules are hand-written prose in many spellings; the parser
@@ -295,12 +296,16 @@ read-only input whose value is **derived live** from the sibling controls throug
 attribute's rule and never stored (Customers.Segment auto-fills from the chosen
 Business Unit — decision Q4). Cascades whose option records don't store the dependency
 key fall back to a **join-engine membership** test (Squads.Owner lists the chosen
-Department's People through the shared business-unit domain). Two chains are bespoke
+Department's People through the shared business-unit domain). Three chains are bespoke
 controls rather than generic joins: the Jobs **Responsible** select
 (`certified-responsible`: Onboarding-certified people matching the ticket's
-scope/product-group/requirements) and the Jobs **Task** select (`tasksForJob`: tasks
+scope/product-group/requirements), the Jobs **Task** select (`tasksForJob`: tasks
 whose workflow matches the ticket's customer + product group + scope, empty workflow
-keys meaning "applies to all" — Q1).
+keys meaning "applies to all" — Q1), and the Tickets **Product Scope** select
+(`productScopesForTicket`, issue #214: the scopes packaged by the selected event's
+payloads narrowed to the payloads purchased by the customer's active SLAs; a payload
+with an empty scope list widens to the event's full applicability, no SLA = every
+payload of the event — lenient).
 
 **Selection fields that reference another table** offer a **"+" (create new item)
 button** beside the select: it pushes a nested drawer tab for the referenced table onto
@@ -308,9 +313,11 @@ the spine; on save the select refreshes its options and picks the new record
 (wireframe pattern — implemented for every rollup select, spec-driven and generic).
 
 ### 6.3 `form.subitem-tables`
-Related child tables to expose **inside the form** as "New \<child\>" sections (e.g. the
-Tickets form offers Jobs creation; Roles offers Competence). Same resolution rules as
-§9, but rendered as nested-form launchers rather than dropdown tables.
+Related child tables to expose **inside the form** as "New \<child\>" sections (e.g.
+Roles offers Competence; the Tickets → Jobs launcher was retired in issue #214). String
+entries only — the tabbed object form belongs to the dashboard-level §9 key. Same
+resolution rules as §9, but rendered as nested-form launchers rather than dropdown
+tables.
 
 ---
 
@@ -374,7 +381,7 @@ that row (matched through the FK/rollup relationship between the two entities).
 | `"Forecast Scopes"` | Plain child table, joined via the obvious FK (or the §3.3 join ladder when no direct FK exists — incl. the reverse derived join: Requirements → Product Scopes). | Forecasts → their Forecast Scopes |
 | `"Workflows: ordered by identationID"` | `:` suffix adds a **directive** — here a sort order (WBS-style `1, 2, 2.1, 2.2…`). | Processes → Workflows |
 | `"Actions: rollup via Tasks.activityID"` | Directive declaring the **join path** when it isn't a direct FK (Actions relate to Activities through Tasks). | Activities → Actions |
-| `"Jobs: only jobStatus=Active\|Queued"` | **Status-filtered children** — only rows whose field matches one of the `\|`-separated values. | Tickets → Jobs |
+| `"Jobs: only jobStatus=Active\|Queued"` | **Status-filtered children** — only rows whose field matches one of the `\|`-separated values. | (the Tickets → Jobs reference retired in issue #214 — Tickets now expand into Processes/Tasks tabs `(via: processID)`; the spelling stays engine-supported) |
 | `"Forecasts: display status=Approved only"` | Same filter, review spelling. | Customers → Approved Forecasts |
 | `"Scopes (via: scopeID)"` | The join field named inline (parenthetical directive). | Product Scopes → Scopes |
 | `"Handouts (grouped by inputs)"` | Children named by a **through-table field** (Tasks → Workflows.inputs → Handouts). Each group renders as its **own labelled list** — declaring both `inputs` and `outputs` yields "Handouts - Inputs" and "Handouts - Outputs" under one expanded row. | Tasks → Handouts |

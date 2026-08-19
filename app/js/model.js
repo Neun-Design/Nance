@@ -43,6 +43,11 @@ export function parseRule(rule) {
   // rows sharing groupField, so it never scans beyond one process.
   m = txt.match(/^computed:\s*STEPORDER\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s+per\s+([A-Za-z_][A-Za-z0-9_]*))?$/i);
   if (m) return { kind: 'steporder', parentField: m[1], ruleField: m[2], groupField: m[3] || null };
+  // CERTIFIED-USERS(taskField) — People eligible to execute a task: certified
+  // Onboarding on a task-compatible competence covering ALL the task's derived
+  // requirements (issue #214, certifiedUsersForTask in resolve.js)
+  m = txt.match(/^computed:\s*CERTIFIED-USERS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
+  if (m) return { kind: 'certifiedusers', srcField: m[1], display: m[2] || null };
   m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)/i);
   if (m) return { kind: 'sum', childAttr: m[1], field: m[2] };
   // MAP(objField → Table display: field) — an object map whose keys are ids in
