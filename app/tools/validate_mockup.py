@@ -207,6 +207,15 @@ for t in flat['Tasks']:
         drift.append(t['taskID'])
 if not drift: ok('taskName matches the activityName-actionName chain (issue #214 re-seed)')
 else: fail(f'taskName drift from the activity-action chain: {drift[:5]}')
+# card premise re-armed (issue #216, option B): the Tasks card counts ACTIONS
+# recurring across processes — the top-3 list needs at least 3 of them
+by_action = defaultdict(set)
+for t in flat['Tasks']:
+    n = (action_by_id.get(t.get('actionID')) or {}).get('actionName')
+    if n: by_action[n].add(t['processID'])
+recur_actions = [n for n, procs in by_action.items() if len(procs) >= 2]
+if len(recur_actions) >= 3: ok(f'{len(recur_actions)} actions recur across ≥2 processes (top-3 card non-degenerate)')
+else: fail('too few recurring actions (Tasks card degenerate)')
 half = len(flat['Capacity']) // 2
 a1 = sum(r['allocatedHours'] for r in flat['Capacity'][:half])
 a2 = sum(r['allocatedHours'] for r in flat['Capacity'][half:])
