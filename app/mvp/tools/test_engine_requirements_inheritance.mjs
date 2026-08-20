@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// test_engine_requirements_inheritance.mjs — proof suite for issue #226
-// (schemaVersion 41): requirements inheritance. Tickets.requirementName is
+// test_engine_requirements_inheritance.mjs — proof suite for issues #226/#231
+// (schemaVersion 41/42): requirements inheritance. Tickets.requirementName is
 // live-derived (INHERITED-REQUIREMENTS — the admitted payload chain AND-matched
 // with the ticket's unit, its served regions and its customer, Q1 wildcards,
-// Active only), and Competence.requirementID is the UNION of the linked
-// procedures' sets with the context-aligned Active requirements
-// (COMPETENCE-REQUIREMENTS — productScopeID anchor + the event's unit and its
-// served regions, customer-agnostic per Q5). A new aligned requirement surfaces
-// on existing tickets and competences with no re-seed.
+// Active only). Competence follows the #231 doctrine (reverting the #226
+// union): a requirement NEVER enters a competence automatically — the quality
+// manager binds it to the Procedure (whose Requirements picker offers the
+// context-aligned options), and the competence inherits the set of its SINGLE
+// certified procedure (1:1).
 // Run from prototype/:  node tools/test_engine_requirements_inheritance.mjs
 
 import fs from 'fs';
@@ -19,6 +19,7 @@ const { catalog } = await model.loadModel();
 data.initMeta(catalog);
 await data.loadData();
 const resolve = await import('../js/resolve.js');
+const forms = await import('../js/forms.js');
 
 let fails = 0;
 const ok = (m) => console.log(`  ✓ ${m}`);
@@ -28,23 +29,28 @@ const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
 
 console.log('== schema: requirements inheritance round ==');
 {
-  eq(model.getSchemaVersion() >= 41, true, 'schemaVersion bumped to at least 41');
+  eq(model.getSchemaVersion() >= 42, true, 'schemaVersion bumped to at least 42');
   const tk = catalog['Tickets'].byName['requirementName'];
   eq(tk.type, 'mirror', 'Tickets.requirementName typed mirror (derived, no seed)');
   const tr = model.parseRule(tk.rule);
   eq([tr.kind, tr.srcField, tr.display], ['inheritedreqs', 'eventID', 'requirementName'],
     'requirementName rule parses as INHERITED-REQUIREMENTS(eventID)');
   const cr = model.parseRule(catalog['Competence'].byName['requirementID'].rule);
-  eq([cr.kind, cr.srcField, cr.display], ['competencereqs', 'procedureID', 'requirementName'],
-    'Competence.requirementID rule parses as COMPETENCE-REQUIREMENTS(procedureID)');
+  eq([cr.kind, cr.target, cr.via, cr.display], ['computed', 'Procedures', 'procedureID', 'requirementName'],
+    'Competence.requirementID derives through the procedure (#231 — no COMPETENCE-REQUIREMENTS kind)');
+  const pf = catalog['Competence'].form.fields['Procedure'];
+  eq(/multiple/i.test(JSON.stringify(pf['field-rule'])), false,
+    'Procedure select is single-valued (1:1, issue #231)');
 }
 
-console.log('== seeds: stored snapshots dropped ==');
+console.log('== seeds: stored snapshots dropped, 1:1 unwrapped ==');
 {
   eq(data.getEntity('Tickets').every((t) => !('requirementName' in t)), true,
     'no ticket carries a stored requirementName (the rule would lose to it)');
   eq(data.getEntity('Competence').every((c) => !('requirementID' in c)), true,
     'no competence carries a stored requirementID');
+  eq(data.getEntity('Competence').every((c) => !Array.isArray(c.procedureID)), true,
+    'every competence certifies a single procedure (arrays unwrapped, issue #231)');
 }
 
 // probe chain: unit BU01 (serves RG01-03), one event, one payload packaging
@@ -90,46 +96,48 @@ console.log('== tickets inherit live (Q1 AND semantics) ==');
     'the requirementName cell renders inherited names live');
 }
 
-console.log('== competence set: procedures ∪ context-aligned ==');
+console.log('== competence doctrine (#231): the procedure decides, the competence inherits ==');
 {
   data.addRecord('Tasks', { taskID: 'TSK-TI', taskName: 'Inheritance Task (t)', processID: 'PR1' });
   data.addRecord('Procedures', { procedureID: 'PROC-TI', procedureRegistry: 'PROC-TI (t)',
-    taskID: 'TSK-TI', requirementID: ['RQ-TC'] });
+    taskID: 'TSK-TI', productScopeID: ['PS-T1'], requirementID: ['RQ-TC'] });
   data.addRecord('Procedures', { procedureID: 'PROC-TW', procedureRegistry: 'PROC-TW (t)',
     taskID: 'TSK-TI', requirementID: [] });
   const comp = { competenceID: 'CMP-TI', eventID: 'EV-TI', productScopeID: 'PS-T1',
-    procedureID: ['PROC-TI'] };
-  const got = resolve.competenceRequirements(comp);
-  eq(got.includes('RQ-TC'), true, "the procedure's explicit set is kept");
-  eq(got.includes('RQ-TA') && got.includes('RQ-TD'), true,
-    'context-aligned requirements join the set (event unit + served regions)');
-  eq(got.includes('RQ-TF') && got.includes('RQ-TG'), true,
-    'customer-specific requirements still align (customer-agnostic, Q5)');
-  eq([got.includes('RQ-TB'), got.includes('RQ-TE'), got.includes('RQ-TH')], [false, false, false],
-    'foreign region / Inactive / foreign scope stay out of the aligned side');
-  eq(resolve.competenceRequirements({ ...comp, procedureID: ['PROC-TW'] }), null,
-    'a wildcard procedure still certifies ALL (null — the union never narrows)');
-  eq(resolve.competenceRequirements({ ...comp, productScopeID: null }), ['RQ-TC'],
-    'no productScopeID anchor — no aligned set, procedures only');
-  eq(resolve.competenceAlignedRequirements(comp).includes('RQ-TA'), true,
-    'competenceAlignedRequirements exposes the aligned side on its own');
+    procedureID: 'PROC-TI' };
+  eq(resolve.competenceRequirements(comp), ['RQ-TC'],
+    "the competence set IS the procedure's set — aligned requirements do NOT auto-join");
+  // the human path: the aligned requirement is OFFERED on the procedure...
+  const offered = forms.requirementsForProductScopes(['PS-T1']).map((o) => o.value);
+  eq(offered.includes('RQ-TA'), true,
+    "…the Procedures form Requirements picker offers the context-aligned option");
+  eq(offered.includes('RQ-TE'), false, 'Inactive requirements are not offered');
+  // …and once the quality manager binds it, the competence inherits it
+  data.updateRecord('Procedures', 'PROC-TI', { requirementID: ['RQ-TC', 'RQ-TA'] });
+  eq(resolve.competenceRequirements(comp), ['RQ-TC', 'RQ-TA'],
+    'binding the requirement to the procedure flows into the competence');
+  eq(resolve.competenceRequirements({ ...comp, procedureID: 'PROC-TW' }), null,
+    'a wildcard procedure still certifies ALL (null, Q1)');
 }
 
-console.log('== staffing widens through the union ==');
+console.log('== staffing follows the procedure decision ==');
 {
   data.addRecord('Tasks', { taskID: 'TSK-TU', taskName: 'Union Task (t)', processID: 'PR1' });
   data.addRecord('Procedures', { procedureID: 'PROC-TU', procedureRegistry: 'PROC-TU (t)',
     taskID: 'TSK-TU', requirementID: ['RQ-TC', 'RQ-TA'] });
-  data.addRecord('Competence', { competenceID: 'CMP-TU', taskID: 'TSK-TU', eventID: 'EV-TI',
-    productScopeID: 'PS-T1', procedureID: ['PROC-TC'] });
   data.addRecord('Procedures', { procedureID: 'PROC-TC', procedureRegistry: 'PROC-TC (t)',
     taskID: 'TSK-TU', requirementID: ['RQ-TC'] });
+  data.addRecord('Competence', { competenceID: 'CMP-TU', taskID: 'TSK-TU', eventID: 'EV-TI',
+    productScopeID: 'PS-T1', procedureID: 'PROC-TC' });
   data.addRecord('Onboarding', { onboardID: 'OB-TU', userID: 'U-TU', competenceID: 'CMP-TU',
     isCertified: true });
-  // procedures alone cover only RQ-TC; the competence context aligns RQ-TA —
-  // before #226 this user was ineligible for a task requiring both
+  // the task derives {RQ-TC, RQ-TA}; CMP-TU's procedure covers only RQ-TC —
+  // context alignment does NOT widen coverage (#231 doctrine)
+  eq(resolve.certifiedUsersForTask('TSK-TU').includes('U-TU'), false,
+    'aligned-but-unbound requirements do not widen staffing coverage');
+  data.updateRecord('Procedures', 'PROC-TC', { requirementID: ['RQ-TC', 'RQ-TA'] });
   eq(resolve.certifiedUsersForTask('TSK-TU').includes('U-TU'), true,
-    'context-aligned coverage completes the AND requirement set');
+    "updating the procedure's set is what makes the holder eligible");
 }
 
 console.log('== demo regression ==');
@@ -137,9 +145,9 @@ console.log('== demo regression ==');
   const cmp = data.getById('Competence', 'CMP01');
   const cell = String(resolve.derivedValue('Competence', catalog['Competence'].byName['requirementID'], cmp));
   eq(/IEC 60076 Compliance/.test(cell) && /Delivery Lead Time/.test(cell), true,
-    "CMP01 renders its procedure set (PRC01: CN1+CN4) — union keeps it");
-  eq(/Insulation Level/.test(cell), true,
-    'CMP01 gains CN7 through its certified context (PS03: A.1 | PG02)');
+    "CMP01 renders its procedure set (PRC01: CN1+CN4)");
+  eq(/Insulation Level/.test(cell), false,
+    'CMP01 does NOT gain CN7 from context alignment (#231 revert of the #226 union)');
   const t0 = data.getEntity('Tickets')[0];
   const reqs = resolve.ticketRequirements(t0);
   eq(reqs.length > 0, true, `first demo ticket derives a live set (${reqs.length})`);

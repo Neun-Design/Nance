@@ -120,8 +120,14 @@ A mini-DSL declaring where values come from. Grammar patterns in use:
 | `computed → <Table> (via: <path.chain>)` | Calculated by walking a relationship path (dots = hops through stored FKs), then displaying the final ids against the last segment's domain — `Tasks.scopeID = computed: Workflows via: workflowID.productScopeID.scopeID (display: scopeName)`. |
 | `computed: CERTIFIED-USERS(<taskField>) (display: userName)` | **Certified eligible people** (issue #214, Tasks.userID): People holding a CERTIFIED Onboarding (`isCertified`) on a task-compatible competence (no `taskID` on the competence = generic; with one it must name the task), whose **combined** competences cover **ALL** the requirements the task derives from its procedures (union of the requirement sets; a wildcard procedure covers everything — the Jobs `certified-responsible` doctrine as a derived column). Resolved live by `certifiedUsersForTask` in `resolve.js`. |
 | `computed: INHERITED-REQUIREMENTS(<eventField>) (display: requirementName)` | **Live requirements inheritance** (issue #226, Tickets.requirementName — replaces the #192 stored snapshot): the Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient `productScopesForTicket` posture) → product scopes (∩ the ticket's `productScopeID` when set) — plus the ticket's unit, that unit's served regions (`Business Units.regionID`) and the ticket's customer. Requirement keys left empty apply to all (Q1); Inactive requirements never inherit. Resolved live by `ticketRequirements` in `resolve.js` — a new aligned requirement surfaces on existing tickets with no re-seed. |
-| `computed: COMPETENCE-REQUIREMENTS(<procedureField>) (display: requirementName)` | **Union requirement set** (issue #226, Competence.requirementID): the linked procedures' requirement sets (a wildcard procedure still certifies ALL — null, never narrowed) ∪ the Active requirements aligned to the competence context — the scope + product group of the certified `productScopeID` (the anchor: without it there is no aligned side), the event's unit and its served regions. Customer-agnostic (Q5). Resolved by `competenceRequirements` in `resolve.js`, shared with `certifiedUsersForTask` and the Jobs `certified-responsible` control — context-aligned coverage widens staffing eligibility automatically. |
 | `enum: A/B/C` | The closed value list for an `ENUM` type. |
+
+> **Competence doctrine (issue #231, reverting the #226 union):** a requirement NEVER
+> enters a competence automatically. The quality manager binds requirements to the
+> **Procedure** (its Requirements picker offers only **Active**, context-aligned options),
+> and the competence — 1:1 with its certified procedure since #231 — inherits the
+> procedure's set (`computed → Procedures (via: procedureID)`, `competenceRequirements`
+> in `resolve.js`). Tickets keep the live INHERITED-REQUIREMENTS chain above.
 
 **Tolerant parsing.** The rules are hand-written prose in many spellings; the parser
 (`model.js parseRule`) extracts *kind / target / via / display* rather than demanding

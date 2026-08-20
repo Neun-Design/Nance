@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 41,
+    "schemaVersion": 42,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -7264,7 +7264,7 @@
               "name": "procedureID",
               "type": "FK",
               "rule": "FK → Procedures (display: procedureRegistry)",
-              "notes": "Multivalued — procedures this competence certifies (a procedure can be held by many competences)",
+              "notes": "Single-valued since issue #231 (1:1 — the competence certifies ONE procedure; a procedure can still be held by many competences). The quality manager's requirement decision lives on the Procedure; the competence inherits its set through this key.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -7272,8 +7272,8 @@
             {
               "name": "requirementID",
               "type": "mirror",
-              "rule": "computed: COMPETENCE-REQUIREMENTS(procedureID) (display: requirementName)",
-              "notes": "Union (issue #226): the linked procedures' requirement sets (a procedure with an empty set still certifies ALL, Q1 — null, unchanged) ∪ the Active requirements aligned to the competence context — scope + product group of the certified productScopeID (anchor: no productScopeID = no aligned set), the event's businessUnitID and that unit's served regions. Customer-agnostic (Q5). Legacy stored requirementID still honoured as fallback when no procedures are linked.",
+              "rule": "computed → Procedures (via: procedureID) (display: requirementName)",
+              "notes": "Derived — requirements certified through the linked procedure (a procedure with an empty set applies to all, Q1). Doctrine (issue #231, reverting the #226 union): a requirement NEVER enters a competence automatically — the quality manager decides on the Procedure (its Requirements picker already offers the context-aligned options), and the competence inherits the procedure's set. Legacy stored requirementID still honoured as fallback when no procedure is linked.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -7394,11 +7394,10 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "procedureID",
-                "tooltip": "Procedures of the selected task that this competence certifies",
+                "tooltip": "The procedure of the selected task that this competence certifies (1:1) — its requirement set is inherited",
                 "step": null,
                 "check": "Task IS NOT NULL",
                 "field-rule": [
-                  "Allow multiple values",
                   "filtered by Task selected"
                 ]
               },
