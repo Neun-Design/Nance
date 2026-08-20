@@ -2658,7 +2658,10 @@ processes it triggers and the applicable requirement set.
 offered</strong>; <code>Product Scope</code> — narrows the ticket to one of the scopes packaged by the
 event's payloads under those SLAs (leave it empty to target every scope they admit);
 Details; Target date; Status. The payload, SLA, product/scope and requirement columns are
-derived from that chain — nothing else to select. The requirement set includes
+derived from that chain — nothing else to select. The requirement set is <strong>live</strong>
+(2026-08-20): registering a new Active requirement whose applicability matches the ticket's
+scopes, unit, served regions or customer makes it appear on existing tickets immediately —
+no re-entry; inactivating a requirement removes it everywhere. The set includes
 customer-specific requirements registered against this customer.
 Expanding a ticket row opens two tabs — the <strong>Processes</strong> the event dispatches into
 (narrowed by the chosen product scope) and the <strong>Tasks</strong> of those processes.</p>
