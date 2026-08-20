@@ -76,8 +76,13 @@ console.log('== seeds: unit anchors + payload-chain snapshots ==');
     const units = Array.isArray(c.businessUnitID) ? c.businessUnitID : [c.businessUnitID];
     return units.includes(t.businessUnitID);
   }), true, 'ticket unit matches its customer');
-  eq(tickets.every((t) => t.requirementName != null && t.requirementName !== ''), true,
-    'requirement snapshots re-seeded (payload chain, Q1 semantics)');
+  // requirementName is live-derived since issue #226 (INHERITED-REQUIREMENTS):
+  // the stored #192 snapshots were dropped and the payload chain resolves at
+  // render time — new aligned requirements surface with no re-seed
+  eq(tickets.every((t) => !('requirementName' in t)), true,
+    'requirement snapshots dropped (live derivation, issue #226)');
+  eq(resolve.ticketRequirements(tickets[0]).length > 0, true,
+    'the payload chain still yields a requirement set, now live');
   const projects = data.getEntity('Projects');
   eq(projects.every((p) => p.businessUnitID != null && Array.isArray(p.slaID)), true,
     'projects seed unit + contract list');
