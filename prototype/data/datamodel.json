@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 39,
+    "schemaVersion": 40,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3961,10 +3961,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "isActive",
-                "tooltip": null,
+                "tooltip": "Soft-delete flag — inactive product scopes stay registered but are retired from operation",
                 "step": null,
                 "check": null,
-                "field-rule": "enum: Active, Inactive"
+                "field-rule": "default: Yes"
               }
             }
           },
