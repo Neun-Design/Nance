@@ -100,8 +100,9 @@ expectOptions('Requirements', 'productGroupID', /\|/, { wantMulti: true });
 expectOptions('Competence', 'roleID', /^(?!R\d+$)./);
 expectOptions('Competence', 'taskID', /^(?!T\d+$)./);
 // (Competence.requirementID became derived in the Procedures round — the
-// form input is the multivalued Procedure select, requirements follow it.)
-expectOptions('Competence', 'procedureID', /[A-Za-z]{3,}/, { wantMulti: true });
+// form input is the Procedure select, single-valued since #231 (1:1), and
+// the requirement set follows the chosen procedure.)
+expectOptions('Competence', 'procedureID', /[A-Za-z]{3,}/, { wantMulti: false });
 expectOptions('Onboarding', 'roleID', /^(?!R\d+$)./);
 expectOptions('Onboarding', 'competenceID', /^(?!CMP\d+$)./);
 
