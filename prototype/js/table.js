@@ -7,16 +7,18 @@ import { getEntity, lookup } from './data.js';
 const PAGE_SIZES = [10, 25, 50, 100];
 
 // col: { key, label, lookup:[entity,field], accessor, mirror, num, pill }
-function resolveVal(col, r) {
-  if (col.accessor) return col.accessor(r);
+// `parent` (issue #233) is the expanded row a subitem cell renders under —
+// context-aware accessors (the ticket Tasks tab Users column) read it.
+function resolveVal(col, r, parent = null) {
+  if (col.accessor) return col.accessor(r, parent);
   if (col.lookup) return lookup(col.lookup[0], r[col.key], col.lookup[1]);
   return r[col.key];
 }
 
 const CELL_LIST_CAP = 2; // multivalued cells show this many items + a "+n" badge (ux-review U2)
 
-function cellHtml(col, r) {
-  const v = resolveVal(col, r);
+function cellHtml(col, r, parent = null) {
+  const v = resolveVal(col, r, parent);
   if (col.pill) {
     const cls = col.pill(v, r) || 'neutral';
     return `<span class="pill ${cls}">${escapeHtml(v ?? '')}</span>`;
@@ -31,8 +33,8 @@ function cellHtml(col, r) {
 
 // derived columns join their lists internally — the CSS ellipsis cap keeps
 // the row scannable, the title carries the full text (ux-review U2)
-function fillCell(td, col, r) {
-  td.innerHTML = cellHtml(col, r);
+function fillCell(td, col, r, parent = null) {
+  td.innerHTML = cellHtml(col, r, parent);
   if (td.textContent.length > 60) td.title = td.textContent;
 }
 
@@ -266,7 +268,7 @@ export function renderTable(container, opts) {
     // tabbed subitem groups (guide §9 object entries, Squads reference):
     // one tab per child list beats stacked lists once a row has 2+ of them
     if (rollups.length > 1 && rollups.every(rl => rl.tab)) renderSubTabs(td, r);
-    else for (const rl of rollups) renderGroup(td, rl, childrenOf(rl, r));
+    else for (const rl of rollups) renderGroup(td, rl, childrenOf(rl, r), 0, true, r);
     tr.appendChild(td);
     return tr;
   }
@@ -286,7 +288,7 @@ export function renderTable(container, opts) {
         pane.appendChild(el('div', 'No records.', { class: 'empty-note' }));
         return;
       }
-      renderGroup(pane, g.rl, g.kids, 0, false); // the tab already names the group
+      renderGroup(pane, g.rl, g.kids, 0, false, r); // the tab already names the group
     };
     groups.forEach((g, i) => {
       const b = document.createElement('button');
@@ -298,7 +300,7 @@ export function renderTable(container, opts) {
     drawPane();
   }
 
-  function renderGroup(host, rl, kids, depth = 0, header = true) {
+  function renderGroup(host, rl, kids, depth = 0, header = true, parent = null) {
     if (header) {
       const h = document.createElement('div');
       if (depth) h.style.marginLeft = `${depth * 18}px`;
@@ -318,7 +320,7 @@ export function renderTable(container, opts) {
     const tb = document.createElement('tbody');
     kids.forEach(k => {
       const ktr = document.createElement('tr');
-      rl.columns.forEach(c => { const ktd = document.createElement('td'); fillCell(ktd, c, k); ktr.appendChild(ktd); });
+      rl.columns.forEach(c => { const ktd = document.createElement('td'); fillCell(ktd, c, k, parent); ktr.appendChild(ktd); });
       // issue #175: subitem rows edit like main-table rows — a plain cell
       // click opens the CHILD entity's drawer on that record
       if (onSubRowClick && rl.childEntity) {
@@ -335,7 +337,7 @@ export function renderTable(container, opts) {
     if (rl.nested) {
       kids.forEach(k => {
         const nkids = childrenOfRow(rl.nested, k, rl.childEntity);
-        if (nkids.length) renderGroup(host, { ...rl.nested, label: `${labelOf(k, rl)} › ${rl.nested.label}` }, nkids, depth + 1);
+        if (nkids.length) renderGroup(host, { ...rl.nested, label: `${labelOf(k, rl)} › ${rl.nested.label}` }, nkids, depth + 1, true, k);
       });
     }
   }

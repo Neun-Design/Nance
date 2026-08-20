@@ -29,7 +29,7 @@ const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
 
 console.log('== schema: requirements inheritance round ==');
 {
-  eq(model.getSchemaVersion() >= 42, true, 'schemaVersion bumped to at least 42');
+  eq(model.getSchemaVersion() >= 43, true, 'schemaVersion bumped to at least 43');
   const tk = catalog['Tickets'].byName['requirementName'];
   eq(tk.type, 'mirror', 'Tickets.requirementName typed mirror (derived, no seed)');
   const tr = model.parseRule(tk.rule);
@@ -138,6 +138,29 @@ console.log('== staffing follows the procedure decision ==');
   data.updateRecord('Procedures', 'PROC-TC', { requirementID: ['RQ-TC', 'RQ-TA'] });
   eq(resolve.certifiedUsersForTask('TSK-TU').includes('U-TU'), true,
     "updating the procedure's set is what makes the holder eligible");
+}
+
+console.log('== ticket context (#233): coverage must span the ticket set ==');
+{
+  const tk = { ticketID: 'TK-TC', eventID: 'EV-TI', businessUnitID: 'BU01', customerID: null };
+  const tkReqs = resolve.ticketRequirements(tk);
+  eq(tkReqs.includes('RQ-TD') && tkReqs.includes('RQ-TA'), true,
+    'the probe ticket inherits wildcard + aligned requirements');
+  eq(resolve.certifiedUsersForTask('TSK-TU').includes('U-TU'), true,
+    'task-level column: U-TU stays eligible (procedure set covered)');
+  eq(resolve.certifiedUsersForTask('TSK-TU', tkReqs).includes('U-TU'), false,
+    "ticket context: the ticket's inherited set is not fully covered — U-TU drops out");
+  data.addRecord('Procedures', { procedureID: 'PROC-TX', procedureRegistry: 'PROC-TX (t)',
+    taskID: 'TSK-TU', requirementID: [] });
+  data.addRecord('Competence', { competenceID: 'CMP-TX', taskID: 'TSK-TU', eventID: 'EV-TI',
+    productScopeID: 'PS-T1', procedureID: 'PROC-TX' });
+  data.addRecord('Onboarding', { onboardID: 'OB-TX', userID: 'U-TX', competenceID: 'CMP-TX',
+    isCertified: true });
+  data.addRecord('People', { userID: 'U-TX', userName: 'Wildcard Probe (t)' });
+  eq(resolve.certifiedUsersForTask('TSK-TU', tkReqs).includes('U-TX'), true,
+    'a wildcard-procedure competence still covers the ticket context (Q1)');
+  eq(/Wildcard Probe \(t\)/.test(String(resolve.certifiedUsersDisplay('TSK-TU', tkReqs, 'userName'))),
+    true, 'certifiedUsersDisplay renders the context-narrowed cell');
 }
 
 console.log('== demo regression ==');
