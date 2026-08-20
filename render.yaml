@@ -1,0 +1,23 @@
+# Render Blueprint for the EDQMS chatbot API (site-stakeholder/api/server.py).
+# The whole repo is cloned on deploy, so the server finds CLAUDE.md,
+# sourceFiles/*.md and site-stakeholder/docs/**/*.md at their usual paths.
+# Deploy guide: site-stakeholder/api/README.md
+services:
+  - type: web
+    name: edqms-chat-api
+    runtime: python
+    plan: free
+    rootDir: site-stakeholder
+    buildCommand: pip install -r api/requirements.txt
+    startCommand: uvicorn api.server:app --host 0.0.0.0 --port $PORT --proxy-headers
+    healthCheckPath: /healthz
+    buildFilter:
+      paths:
+        - site-stakeholder/**
+        - sourceFiles/**
+        - CLAUDE.md
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false # set in the Render dashboard — never committed
+      - key: PYTHON_VERSION
+        value: "3.12"

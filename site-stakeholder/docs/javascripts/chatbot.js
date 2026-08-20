@@ -1,6 +1,12 @@
 /* EDQMS Ask AI chat widget */
 (function () {
-  const API_URL = "http://localhost:8001/api/chat";
+  // Local dev talks to the uvicorn instance started by start.sh; the published
+  // site talks to the hosted API (see site-stakeholder/api/README.md — update
+  // PUBLIC_API_URL if the service is deployed under a different host).
+  const LOCAL_API_URL = "http://localhost:8001/api/chat";
+  const PUBLIC_API_URL = "https://edqms-chat-api.onrender.com/api/chat";
+  const IS_LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const API_URL = IS_LOCAL ? LOCAL_API_URL : PUBLIC_API_URL;
 
   let messages = [];
   let busy = false;
@@ -78,8 +84,13 @@
       thinking.remove();
 
       if (!res.ok) {
-        const err = await res.text();
-        appendMessage("error", `Error ${res.status}: ${err}`);
+        let detail = await res.text();
+        try {
+          detail = JSON.parse(detail).detail || detail;
+        } catch (_) {
+          // keep the raw text
+        }
+        appendMessage("error", `Error ${res.status}: ${detail}`);
       } else {
         const data = await res.json();
         messages.push({ role: "assistant", content: data.reply });
@@ -87,7 +98,12 @@
       }
     } catch (e) {
       thinking.remove();
-      appendMessage("error", "Could not reach the AI server. Make sure it is running on port 8001.");
+      appendMessage(
+        "error",
+        IS_LOCAL
+          ? "Could not reach the AI server. Make sure it is running on port 8001."
+          : "The AI assistant is temporarily unavailable. Please try again later."
+      );
     } finally {
       busy = false;
       sendBtn.disabled = false;
