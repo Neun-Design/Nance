@@ -58,7 +58,7 @@ console.log('== migration: seeds and links ==');
 console.log('== Competence: certifies procedures, requirements derive ==');
 {
   const comp = data.getById('Competence', 'CMP01');
-  eq(comp.procedureID, ['PRC01'], 'CMP01 links its task\'s procedure');
+  eq(comp.procedureID, 'PRC01', 'CMP01 links its task\'s procedure (single-valued since #231)');
   eq('requirementID' in comp, false, 'stored requirementID dropped');
   const attr = catalog['Competence'].byName['requirementID'];
   const names = String(resolve.derivedValue('Competence', attr, comp));
@@ -78,7 +78,11 @@ console.log('== staffing: certified-responsible still resolves via procedures ==
 console.log('== requirementsForTask: options follow the task\'s derived set ==');
 {
   const all = forms.requirementsForTask(null);
-  eq(all.length, data.getEntity('Requirements').length, 'no task -> every requirement offered');
+  // the picker is the requirement decision point since #231 — Inactive
+  // requirements (CN8 in the demo) are never offered
+  const active = data.getEntity('Requirements')
+    .filter((r) => String(r.isActive || 'Active') !== 'Inactive');
+  eq(all.length, active.length, 'no task -> every ACTIVE requirement offered');
   const task = data.getEntity('Tasks').find((t) => t.workflowID);
   const opts = forms.requirementsForTask(task.taskID);
   eq(opts.length > 0, true, `task ${task.taskID} offers ${opts.length} requirement(s)`);

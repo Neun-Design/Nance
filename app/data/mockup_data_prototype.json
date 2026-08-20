@@ -22917,9 +22917,7 @@
     "taskID": "012",
     "levelRank": 1,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC01"
-    ],
+    "procedureID": "PRC01",
     "productScopeID": "PS03"
    },
    {
@@ -22940,9 +22938,7 @@
     "taskID": "032",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC02"
-    ],
+    "procedureID": "PRC02",
     "productScopeID": "PS01"
    },
    {
@@ -22963,9 +22959,7 @@
     "taskID": "033",
     "levelRank": 1,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC03"
-    ],
+    "procedureID": "PRC03",
     "productScopeID": "PS02"
    },
    {
@@ -22986,9 +22980,7 @@
     "taskID": "045",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC04"
-    ],
+    "procedureID": "PRC04",
     "productScopeID": "PS11"
    },
    {
@@ -23009,9 +23001,7 @@
     "taskID": "101",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC05"
-    ],
+    "procedureID": "PRC05",
     "productScopeID": "PS05"
    },
    {
@@ -23032,9 +23022,7 @@
     "taskID": "102",
     "levelRank": 3,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC06"
-    ],
+    "procedureID": "PRC06",
     "productScopeID": "PS12"
    },
    {
@@ -23055,9 +23043,7 @@
     "taskID": "103",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC07"
-    ],
+    "procedureID": "PRC07",
     "productScopeID": "PS13"
    },
    {
@@ -23078,9 +23064,7 @@
     "taskID": "104",
     "levelRank": 3,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC08"
-    ],
+    "procedureID": "PRC08",
     "productScopeID": "PS14"
    },
    {
@@ -23101,9 +23085,7 @@
     "taskID": "105",
     "levelRank": 3,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC09"
-    ],
+    "procedureID": "PRC09",
     "productScopeID": "PS15"
    },
    {
@@ -23124,9 +23106,7 @@
     "taskID": "106",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC10"
-    ],
+    "procedureID": "PRC10",
     "productScopeID": "PS06"
    },
    {
@@ -23147,9 +23127,7 @@
     "taskID": "107",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC11"
-    ],
+    "procedureID": "PRC11",
     "productScopeID": "PS03"
    },
    {
@@ -23170,9 +23148,7 @@
     "taskID": "108",
     "levelRank": 2,
     "departmentID": "DPT01",
-    "procedureID": [
-     "PRC12"
-    ],
+    "procedureID": "PRC12",
     "productScopeID": "PS01"
    }
   ],
