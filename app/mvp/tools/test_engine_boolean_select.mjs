@@ -45,6 +45,10 @@ console.log('== spec guard: the BOOLEAN+select pairings ==');
   const psField = Object.values(catalog['Product Scopes'].form.fields)
     .find((f) => f.attribute === 'isActive');
   eq(psField && 'select' in psField['field-type'], true, 'Active is a select field');
+  // issue #222: defaults Yes like Customers; the stale "enum: Active,
+  // Inactive" field-rule (dead text since the #219 BOOLEAN branch) is gone
+  eq(forms.booleanDefault(psField && psField['field-rule']), 'true', 'Product Scopes Active defaults Yes (issue #222)');
+  eq(/enum:/i.test(String(psField && psField['field-rule'])), false, 'stale enum field-rule dropped');
   // issue #220: the Customers soft-delete flag joined the form, defaulting Yes
   eq(catalog['Customers'].byName['isActive'].type, 'BOOLEAN', 'Customers.isActive typed BOOLEAN');
   const cField = Object.values(catalog['Customers'].form.fields)
