@@ -1127,6 +1127,15 @@ function specOptions(entity, attrName, ruleText) {
 export const BOOLEAN_OPTIONS = [{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }];
 export const booleanFromSelect = (v) =>
   (v == null || v === '' ? null : v === true || v === 'true');
+// "default: Yes|No" field-rule — the boolean select's preselected option on
+// NEW records (issue #220, Customers.Active): a soft-delete flag should start
+// Yes. Returns the option-value spelling; edit prefill overwrites it with the
+// stored value. Fields without the rule keep starting at the placeholder
+// (defaulting isCertified would be a semantic claim).
+export const booleanDefault = (ruleText) => {
+  const m = String(ruleText || '').match(/default:\s*(yes|true|no|false)\b/i);
+  return m ? String(/^(yes|true)$/i.test(m[1])) : null;
+};
 
 // grouped variant for checkbox pickers: interleave {header} rows per the
 // group field resolved on each option's target record ("SelectLabel = X"
@@ -1251,6 +1260,8 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       } else if (((getCatalog(entity) || {}).byName || {})[attrName]?.type === 'BOOLEAN') {
         node = document.createElement('select'); node.className = 'form-input';
         fillOptions(node, BOOLEAN_OPTIONS);
+        const dflt = booleanDefault(ruleText);
+        if (!record && dflt != null) node.value = dflt;
         get = () => booleanFromSelect(node.value);
       } else {
         node = document.createElement('select'); node.className = 'form-input';
