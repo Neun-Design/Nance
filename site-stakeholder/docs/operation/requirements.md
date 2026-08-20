@@ -16,3 +16,7 @@ cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regula
 reference/URL. The **Customer** select unlocks after picking a Business Unit and offers that
 unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
 the customer's [Tickets](../workspace/tickets.md) through the [SLA](../crm/sla.md) chain.
+**Applicability propagates live** (2026-08-20): an **Active** requirement is inherited
+automatically by every ticket and [competence](../talent/competence.md) whose parameters
+align (scope, product group, unit, served region, customer) the moment it is saved;
+switching it to Inactive withdraws it from those derived sets everywhere.

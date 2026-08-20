@@ -682,26 +682,154 @@ function sameVal(a, b) {
   return A.some((x) => B.includes(x));
 }
 
+// ---- Requirements inheritance (issue #226) ----
+const asIds = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
+
+// Product scopes an EVENT's applicability admits (id-level core of the
+// productScopesForEvent picker in forms.js): scope overlap AND the product
+// group's product among the event's products (each empty = all, Q1).
+export function eventProductScopeIds(eventId) {
+  const pk = ENTITY_META['Product Scopes'].pk;
+  const all = getEntity('Product Scopes');
+  const ev = eventId != null && eventId !== '' ? getById('Events', eventId) : null;
+  if (!ev) return all.map((ps) => ps[pk]);
+  const scopes = asIds(ev.scopeID);
+  const products = asIds(ev.productID);
+  return all.filter((ps) => {
+    if (scopes.length && !sameVal(ps.scopeID, scopes)) return false;
+    if (products.length) {
+      const pg = ps.productGroupID && getById('Product Groups', ps.productGroupID);
+      if (!pg || !sameVal(pg.productID, products)) return false;
+    }
+    return true;
+  }).map((ps) => ps[pk]);
+}
+
+// Product scopes a TICKET's payload chain admits (id-level core of the
+// productScopesForTicket picker — the issue #214 posture kept intact): the
+// event's payloads narrowed to the payloads purchased by the customer's
+// ACTIVE SLAs (lenient fallbacks: no customer / no SLA / empty intersection
+// keeps every payload of the event); a payload with an EMPTY productScopeID
+// packages every scope the event admits (Q1 — widens to full applicability).
+export function admittedProductScopeIds(eventId, customerId) {
+  if (!eventId) return eventProductScopeIds(null);
+  let payloads = getEntity('Payload').filter((p) => sameVal(p.eventID, eventId));
+  if (customerId) {
+    const slas = getEntity('SLA').filter((s) => sameVal(s.customerID, customerId)
+      && String(s.isActive || 'Active') !== 'Inactive');
+    if (slas.length) {
+      const bought = new Set();
+      slas.forEach((s) => asIds(s.payloadID).forEach((id) => bought.add(String(id))));
+      const kept = payloads.filter((p) => bought.has(String(p.payloadID)));
+      if (kept.length) payloads = kept;
+    }
+  }
+  const ids = [];
+  for (const p of payloads) {
+    const scopes = asIds(p.productScopeID);
+    if (!scopes.length) return eventProductScopeIds(eventId); // wildcard payload
+    scopes.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
+  }
+  return ids;
+}
+
+// regions served by a set of business units (Business Units.regionID, union)
+function servedRegionIds(unitIds) {
+  const out = [];
+  for (const u of unitIds) {
+    const bu = getById('Business Units', u);
+    if (bu) asIds(bu.regionID).forEach((rg) => { if (!out.includes(rg)) out.push(rg); });
+  }
+  return out;
+}
+
+// AND-match Active requirements against an applicability context (issue #226).
+// Gate order: lifecycle (blank isActive counts as Active — issue #222 default
+// posture), customer (skipped entirely when customerId === undefined — the
+// competence side is customer-agnostic, Q5), unit, region, then scope +
+// product group paired per product scope (the #192 requirement_names pairing).
+// A requirement key left EMPTY matches everything (Q1); a context side left
+// blank skips its dimension (multiViaJoin posture — a unit serving no region
+// still admits region-specific requirements).
+function matchRequirements({ psRows, unitIds, regionIds, customerId }) {
+  const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+  const out = [];
+  for (const r of getEntity('Requirements')) {
+    if (String(r.isActive || 'Active') === 'Inactive') continue;
+    if (customerId !== undefined && !blank(r.customerID) && !sameVal(r.customerID, customerId)) continue;
+    if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
+    if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+    const needScope = !blank(r.scopeID);
+    const needPg = !blank(r.productGroupID);
+    if (needScope || needPg) {
+      const hit = psRows.some((ps) => (!needScope || sameVal(r.scopeID, ps.scopeID))
+        && (!needPg || sameVal(r.productGroupID, ps.productGroupID)));
+      if (!hit) continue;
+    }
+    out.push(r.requirementID);
+  }
+  return out;
+}
+
+// Requirements a TICKET inherits live (issue #226 — replaces the #192 stored
+// snapshot): the admitted payload-chain product scopes (∩ the ticket's
+// productScopeID when set) AND-matched with the ticket's unit, that unit's
+// served regions and the ticket's customer. Deliberate divergence from the
+// #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID.
+export function ticketRequirements(ticket) {
+  if (!ticket) return [];
+  let ids = admittedProductScopeIds(ticket.eventID, ticket.customerID);
+  const chosen = asIds(ticket.productScopeID);
+  if (chosen.length) ids = ids.filter((id) => chosen.includes(id));
+  const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
+  const unitIds = asIds(ticket.businessUnitID);
+  return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
+    customerId: ticket.customerID ?? null });
+}
+
+// Active requirements aligned to a COMPETENCE's certified context (issue
+// #226): the scope + product group of its productScopeID anchor, the event's
+// unit(s) and their served regions. No productScopeID = no aligned set — the
+// anchor keeps context-free rows (test probes, drafts) from widening every
+// coverage. Customer-agnostic (Q5): customer-specific requirements still align.
+export function competenceAlignedRequirements(comp) {
+  const psRows = asIds(comp && comp.productScopeID)
+    .map((id) => getById('Product Scopes', id)).filter(Boolean);
+  if (!psRows.length) return [];
+  const ev = comp.eventID != null && comp.eventID !== '' ? getById('Events', comp.eventID) : null;
+  const unitIds = asIds(ev && ev.businessUnitID);
+  return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
+    customerId: undefined });
+}
+
 // Requirements a competence certifies — via its procedures since the
 // Procedures round (v3-review Iterations): the union of the linked
 // procedures' requirement sets. A procedure with an EMPTY set applies to
 // every requirement (Q1 wildcard → null = no restriction). Rows that still
 // carry a legacy stored requirementID keep working. Shared with the Jobs
-// certified-responsible control (forms.js) since issue #214.
+// certified-responsible control (forms.js) since issue #214. Since issue #226
+// the set is the UNION with the context-aligned Active requirements
+// (competenceAlignedRequirements) — the union only ever widens: a wildcard
+// (null) already certifies everything and stays null.
 export function competenceRequirements(comp) {
   const pT = resolveTable('Procedures');
   const ids = Array.isArray(comp.procedureID) ? comp.procedureID
     : comp.procedureID != null && comp.procedureID !== '' ? [comp.procedureID] : [];
-  if (!pT || !ids.length) return comp.requirementID || null;
-  const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
-  if (!procs.length) return comp.requirementID || null;
-  const set = [];
-  for (const p of procs) {
-    const reqs = Array.isArray(p.requirementID) ? p.requirementID
-      : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
-    if (!reqs.length) return null; // wildcard procedure — certifies all
-    reqs.forEach((r) => { if (!set.includes(r)) set.push(r); });
+  let base;
+  const procs = pT && ids.length ? ids.map((id) => getById(pT, id)).filter(Boolean) : [];
+  if (!procs.length) base = comp.requirementID || null;
+  else {
+    base = [];
+    for (const p of procs) {
+      const reqs = Array.isArray(p.requirementID) ? p.requirementID
+        : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
+      if (!reqs.length) { base = null; break; } // wildcard procedure — certifies all
+      reqs.forEach((r) => { if (!base.includes(r)) base.push(r); });
+    }
   }
+  if (base == null) return null;
+  const set = Array.isArray(base) ? [...base] : [base];
+  for (const r of competenceAlignedRequirements(comp)) if (!set.includes(r)) set.push(r);
   return set;
 }
 
@@ -759,6 +887,18 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
     const ids = certifiedUsersForTask(row[r.srcField]);
     if (!ids.length) return '—';
     const s = idsToDisplay(ids, [resolveTable('People')], r.display, depth + 1);
+    return s || '—';
+  }
+  if (r.kind === 'inheritedreqs') {
+    const ids = ticketRequirements(row);
+    if (!ids.length) return '—';
+    const s = idsToDisplay(ids, [resolveTable('Requirements')], r.display, depth + 1);
+    return s || '—';
+  }
+  if (r.kind === 'competencereqs') {
+    const ids = competenceRequirements(row);
+    if (ids == null || !asIds(ids).length) return '—'; // wildcard renders as before
+    const s = idsToDisplay(asIds(ids), [resolveTable('Requirements')], r.display, depth + 1);
     return s || '—';
   }
   if (r.kind === 'fk') {

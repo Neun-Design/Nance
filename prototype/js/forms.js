@@ -7,7 +7,8 @@
 import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
-import { resolveDisplay, computedConcat, childrenOf, competenceRequirements } from './resolve.js';
+import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
+  eventProductScopeIds, admittedProductScopeIds } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -728,20 +729,11 @@ const psOption = (ps) => {
 
 // Product scopes an EVENT's applicability admits: scope overlap AND the
 // product-group's product among the event's products (each empty = all).
+// Id-level core lives in resolve.js (eventProductScopeIds) since issue #226 —
+// the live requirements chain shares it.
 export function productScopesForEvent(eventId) {
-  const all = getEntity('Product Scopes');
-  const ev = eventId && getById('Events', eventId);
-  if (!ev) return all.map(psOption);
-  const scopes = asList(ev.scopeID);
-  const products = asList(ev.productID);
-  return all.filter((ps) => {
-    if (scopes.length && !arrOverlap(ps.scopeID, scopes)) return false;
-    if (products.length) {
-      const pg = ps.productGroupID && getById('Product Groups', ps.productGroupID);
-      if (!pg || !arrOverlap(pg.productID, products)) return false;
-    }
-    return true;
-  }).map(psOption);
+  return eventProductScopeIds(eventId)
+    .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
 // Product scopes a PAYLOAD packages: the event's applicability narrowed
@@ -791,25 +783,8 @@ export function eventsForCustomerSLAs(customerId) {
 // productScopeID packages every scope the event admits (Q1) — it widens the
 // offer to the event's full applicability.
 export function productScopesForTicket(eventId, customerId) {
-  if (!eventId) return productScopesForEvent(null);
-  let payloads = getEntity('Payload').filter((p) => arrOverlap(p.eventID, eventId));
-  if (customerId) {
-    const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
-      && String(s.isActive || 'Active') !== 'Inactive');
-    if (slas.length) {
-      const bought = new Set();
-      slas.forEach((s) => asList(s.payloadID).forEach((id) => bought.add(String(id))));
-      const kept = payloads.filter((p) => bought.has(String(p.payloadID)));
-      if (kept.length) payloads = kept;
-    }
-  }
-  const ids = [];
-  for (const p of payloads) {
-    const scopes = asList(p.productScopeID);
-    if (!scopes.length) return productScopesForEvent(eventId); // wildcard payload
-    scopes.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
-  }
-  return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+  return admittedProductScopeIds(eventId, customerId)
+    .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
 // Processes a ticket dispatches into (issue #214): the event's processes
