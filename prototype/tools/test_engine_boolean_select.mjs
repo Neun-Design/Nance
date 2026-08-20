@@ -45,6 +45,25 @@ console.log('== spec guard: the BOOLEAN+select pairings ==');
   const psField = Object.values(catalog['Product Scopes'].form.fields)
     .find((f) => f.attribute === 'isActive');
   eq(psField && 'select' in psField['field-type'], true, 'Active is a select field');
+  // issue #220: the Customers soft-delete flag joined the form, defaulting Yes
+  eq(catalog['Customers'].byName['isActive'].type, 'BOOLEAN', 'Customers.isActive typed BOOLEAN');
+  const cField = Object.values(catalog['Customers'].form.fields)
+    .find((f) => f.attribute === 'isActive');
+  eq(cField && 'select' in cField['field-type'], true, 'Customers Active is a select field (issue #220)');
+  eq(forms.booleanDefault(cField && cField['field-rule']), 'true', 'Customers Active defaults Yes on new records');
+}
+
+console.log('== booleanDefault: the "default: Yes|No" spelling ==');
+{
+  eq(forms.booleanDefault('default: Yes'), 'true', 'Yes → preselect true');
+  eq(forms.booleanDefault('default: no'), 'false', 'No → preselect false');
+  eq(forms.booleanDefault('default: true'), 'true', 'true spelling accepted');
+  eq(forms.booleanDefault('filtered by Unit selected'), null, 'no default rule → placeholder start');
+  eq(forms.booleanDefault(null), null, 'null rule → placeholder start');
+  const obField = Object.values(catalog['Onboarding'].form.fields)
+    .find((f) => f.attribute === 'isCertified');
+  eq(forms.booleanDefault(obField && obField['field-rule']), null,
+    'isCertified carries NO default — certifying by default would be a semantic claim');
 }
 
 console.log('== integration: only a real boolean certifies ==');
