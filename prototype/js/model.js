@@ -53,11 +53,6 @@ export function parseRule(rule) {
   // unit/region/customer AND-match (issue #226, ticketRequirements in resolve.js)
   m = txt.match(/^computed:\s*INHERITED-REQUIREMENTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'inheritedreqs', srcField: m[1], display: m[2] || null };
-  // COMPETENCE-REQUIREMENTS(procedureField) — the linked procedures' sets ∪ the
-  // context-aligned Active requirements (issue #226, competenceRequirements in
-  // resolve.js; null = wildcard procedure, certifies all)
-  m = txt.match(/^computed:\s*COMPETENCE-REQUIREMENTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
-  if (m) return { kind: 'competencereqs', srcField: m[1], display: m[2] || null };
   m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)/i);
   if (m) return { kind: 'sum', childAttr: m[1], field: m[2] };
   // MAP(objField → Table display: field) — an object map whose keys are ids in

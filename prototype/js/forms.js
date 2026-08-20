@@ -665,7 +665,10 @@ export function requirementsForTask(taskId) {
     value: r[rMeta.pk],
     label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]),
   });
-  const all = getEntity(rT).map(asOption);
+  // the Procedure picker is the requirement DECISION point (issue #231) —
+  // only Active requirements are offered (blank = Active, #222 posture)
+  const active = (r) => String(r.isActive || 'Active') !== 'Inactive';
+  const all = getEntity(rT).filter(active).map(asOption);
   const tT = resolveTable('Tasks');
   const wT = resolveTable('Workflows');
   const task = taskId && tT ? getById(tT, taskId) : null;
@@ -675,7 +678,7 @@ export function requirementsForTask(taskId) {
   const attr = cat && cat.byName['requirements'];
   const rule = attr && parseRule(attr.rule);
   if (!rule || !rule.target) return all;
-  const kids = childrenOf(wT, wf, rT, { via: rule.via, viaList: rule.viaList });
+  const kids = childrenOf(wT, wf, rT, { via: rule.via, viaList: rule.viaList }).filter(active);
   return kids.length ? kids.map(asOption) : all;
 }
 
@@ -856,6 +859,8 @@ export function requirementsForProductScopes(psIds) {
     const ps = getById('Product Scopes', id);
     if (!ps) continue;
     for (const req of childrenOf('Product Scopes', ps, rT, { via: rule.via, viaList: rule.viaList })) {
+      // decision point (issue #231): Inactive requirements are not offered
+      if (String(req.isActive || 'Active') === 'Inactive') continue;
       const v = req[rMeta.pk];
       if (!seen.has(v)) {
         seen.set(v, { value: v, label: String(resolveDisplay(rT, req, rMeta.label) || v) });
