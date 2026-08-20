@@ -21,4 +21,8 @@ scopes, unit, served regions or customer makes it appear on existing tickets imm
 no re-entry; inactivating a requirement removes it everywhere. The set includes
 customer-specific requirements registered against this customer.
 Expanding a ticket row opens two tabs — the **Processes** the event dispatches into
-(narrowed by the chosen product scope) and the **Tasks** of those processes.
+(narrowed by the chosen product scope) and the **Tasks** of those processes. The Users
+column there is **ticket-aware** (2026-08-20): it lists only people whose certified
+competences cover **every** requirement the ticket inherits — a new requirement landing on
+the ticket clears the list until certifications catch up (bind it to the task's
+[Procedure](../operation/procedures.md) so the certified competences absorb it).

@@ -821,7 +821,10 @@ export function competenceRequirements(comp) {
 // coverage (competenceRequirements — null = wildcard, covers everything)
 // includes EVERY requirement the task derives from its procedures (AND
 // semantics; a wildcard procedure adds no requirement to the task's set).
-export function certifiedUsersForTask(taskId) {
+// `extraReqIds` (issue #233) narrows eligibility by context: inside a ticket's
+// Tasks tab the caller passes the ticket's inherited requirement set, so
+// coverage must span the task set ∪ the ticket set.
+export function certifiedUsersForTask(taskId, extraReqIds = []) {
   if (taskId == null || taskId === '') return [];
   const list = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
   const obT = resolveTable('Onboarding');
@@ -835,6 +838,7 @@ export function certifiedUsersForTask(taskId) {
       list(p.requirementID).forEach((r) => { if (!taskReqs.includes(r)) taskReqs.push(r); });
     }
   }
+  list(extraReqIds).forEach((r) => { if (!taskReqs.includes(r)) taskReqs.push(r); });
   // union each user's certified, task-compatible coverage before testing —
   // two partial competences may cover the task's set together
   const cover = new Map(); // userID → { all, reqs:Set }
@@ -857,6 +861,14 @@ export function certifiedUsersForTask(taskId) {
   return out;
 }
 
+// CERTIFIED-USERS cell text — shared by derivedValue and the ticket-context
+// subitem accessor (issue #233, mapSubitem in app.js).
+export function certifiedUsersDisplay(taskId, extraReqIds = [], display = null, depth = 1) {
+  const ids = certifiedUsersForTask(taskId, extraReqIds);
+  if (!ids.length) return '—';
+  return idsToDisplay(ids, [resolveTable('People')], display, depth) || '—';
+}
+
 // derived attribute value for a table cell.
 // `displayOverride` forces a display field (used by resolveDisplay hops).
 export function derivedValue(tableName, attr, row, depth = 0, displayOverride = null) {
@@ -864,10 +876,7 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
   if (!r || r.kind === 'enum') return row[attr.name] ?? '—';
   if (r.kind === 'steporder') return stepOrderValue(tableName, r, row);
   if (r.kind === 'certifiedusers') {
-    const ids = certifiedUsersForTask(row[r.srcField]);
-    if (!ids.length) return '—';
-    const s = idsToDisplay(ids, [resolveTable('People')], r.display, depth + 1);
-    return s || '—';
+    return certifiedUsersDisplay(row[r.srcField], [], r.display, depth + 1);
   }
   if (r.kind === 'inheritedreqs') {
     const ids = ticketRequirements(row);
