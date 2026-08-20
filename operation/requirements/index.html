@@ -2659,10 +2659,13 @@ cascade Region → Business Unit → Branch/Customer/Scope/Product Group; regula
 reference/URL. The <strong>Customer</strong> select unlocks after picking a Business Unit and offers that
 unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
 the customer's <a href="../../workspace/tickets/">Tickets</a> through the <a href="../../crm/sla/">SLA</a> chain.
-<strong>Applicability propagates live</strong> (2026-08-20): an <strong>Active</strong> requirement is inherited
-automatically by every ticket and <a href="../../talent/competence/">competence</a> whose parameters
-align (scope, product group, unit, served region, customer) the moment it is saved;
-switching it to Inactive withdraws it from those derived sets everywhere.</p>
+<strong>Applicability propagates live to tickets</strong> (2026-08-20): an <strong>Active</strong> requirement is
+inherited automatically by every <a href="../../workspace/tickets/">Ticket</a> whose parameters align
+(scope, product group, unit, served region, customer) the moment it is saved; switching it
+to Inactive withdraws it everywhere. <strong>Competences never inherit automatically</strong> — the new
+requirement becomes an option on the <a href="../procedures/">Procedure</a>'s Requirements picker, the
+quality manager binds it there, and the <a href="../../talent/competence/">competences</a> certifying
+that procedure inherit the decision.</p>
 
 
 
