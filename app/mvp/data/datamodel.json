@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 40,
+    "schemaVersion": 41,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -4921,9 +4921,9 @@
             },
             {
               "name": "requirementName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Requirements\".\"requirementName\")",
-              "notes": "Via the payload product scopes + the ticket's customer (Q1 AND-semantics across scope/product-group/unit/customer — the #180 customer dimension bites here); stored snapshot re-seeded by migrate_workspace_activation.py",
+              "type": "mirror",
+              "rule": "computed: INHERITED-REQUIREMENTS(eventID) (display: requirementName)",
+              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID) and the ticket's customer. Requirement keys left empty apply to all (Q1). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. New requirements surface on existing tickets automatically.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -7272,8 +7272,8 @@
             {
               "name": "requirementID",
               "type": "mirror",
-              "rule": "computed → Procedures (via: procedureID) (display: requirementName)",
-              "notes": "Derived — requirements certified through the linked procedures (a procedure with an empty set applies to all, Q1)",
+              "rule": "computed: COMPETENCE-REQUIREMENTS(procedureID) (display: requirementName)",
+              "notes": "Union (issue #226): the linked procedures' requirement sets (a procedure with an empty set still certifies ALL, Q1 — null, unchanged) ∪ the Active requirements aligned to the competence context — scope + product group of the certified productScopeID (anchor: no productScopeID = no aligned set), the event's businessUnitID and that unit's served regions. Customer-agnostic (Q5). Legacy stored requirementID still honoured as fallback when no procedures are linked.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
