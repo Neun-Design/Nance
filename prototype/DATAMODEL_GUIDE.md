@@ -293,6 +293,9 @@ attribute whose `notes` contain `multivalued` renders as a multi-select even wit
 options** and commits a real boolean (issue #218 — `BOOLEAN_OPTIONS`/`booleanFromSelect`
 in `forms.js`): the distinct-from-data fallback offers nothing on a blank dataset, and a
 string `"true"` would never pass the strict certified gates (`isCertified === true`).
+A boolean field-rule may carry **`default: Yes|No`** (issue #220, Customers.Active):
+the option is preselected on NEW records only — edit prefill overwrites it with the
+stored value, and fields without the rule keep starting at the placeholder.
 
 **2026-07-29 Organization/CRM constructs.** `field-type {"readonly": …}` renders a
 read-only input whose value is **derived live** from the sibling controls through the
