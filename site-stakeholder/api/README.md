@@ -10,6 +10,10 @@ matches the repo state at deploy time:
 | `sourceFiles/*.md` (top level only) | Technical reference documents |
 | `CLAUDE.md` (repo root) | Project knowledge base — architecture and design-decision history |
 
+**Live service:** <https://edqms-chat-api.onrender.com> (Render free plan, since
+2026-08-20). The published site's Ask AI widget talks to it; check
+[`/healthz`](https://edqms-chat-api.onrender.com/healthz) if it seems down.
+
 ## Endpoints
 
 | Route | Method | Purpose |
@@ -41,7 +45,8 @@ uvicorn api.server:app --port 8001
 
 ## Deploy — Render (default)
 
-The repo root carries a `render.yaml` blueprint:
+The production service `edqms-chat-api` is already running from the `render.yaml`
+blueprint at the repo root. To recreate it (new account or fork):
 
 1. In Render: **New → Blueprint**, connect the `BOVArafa/EDQMS` repo. It creates
    the `edqms-chat-api` web service (free plan, Python 3.12).
@@ -52,8 +57,9 @@ The repo root carries a `render.yaml` blueprint:
 
 The widget (`docs/javascripts/chatbot.js`) points at
 `https://edqms-chat-api.onrender.com/api/chat` when the page is not served from
-localhost. If Render assigns a different hostname, update `PUBLIC_API_URL` there
-and republish the stakeholder site (`gh workflow run deploy-stakeholder.yml`).
+localhost — this matches the live service, so no widget change is needed. If a
+recreated service gets a different hostname, update `PUBLIC_API_URL` there and
+republish the stakeholder site (`gh workflow run deploy-stakeholder.yml`).
 
 > Free-plan note: the service spins down when idle; the first question after a
 > quiet period takes ~30–60 s while it wakes up. Upgrade the plan if that
