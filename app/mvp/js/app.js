@@ -4,8 +4,9 @@
 
 import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta,
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
-import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion } from './model.js';
-import { fkDisplay, childrenOf, derivedValue } from './resolve.js';
+import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
+  parseRule } from './model.js';
+import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -281,6 +282,19 @@ function mapSubitem(si, parentEntity) {
     orderBy: si.orderBy,
     resolve: (row, parentOverride) => childrenOf(parentOverride || parentEntity, row, child, opts),
   };
+  // issue #233: inside a TICKET's tabs the Users column (CERTIFIED-USERS) is
+  // ticket-contextual — coverage must span the task's procedure set ∪ the
+  // ticket's live inherited requirement set (#226). The standalone Tasks
+  // dashboard keeps the task-level column (no parent, extras = []).
+  if (parentEntity === 'Tickets') {
+    for (const c of rl.columns) {
+      const rule = c.attr && parseRule(c.attr.rule);
+      if (rule && rule.kind === 'certifiedusers') {
+        c.accessor = (row, ticket) => certifiedUsersDisplay(row[rule.srcField],
+          ticket ? ticketRequirements(ticket) : [], rule.display);
+      }
+    }
+  }
   if (si.nested) rl.nested = mapSubitem(si.nested, child);
   return rl;
 }
