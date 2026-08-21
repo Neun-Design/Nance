@@ -1,0 +1,553 @@
+# clinic.yaml — Vitalis Health Network domain pack (MOCKUP_DEMO_PLAN.md F1)
+# ---------------------------------------------------------------------------
+# The domain dictionary + generation parameters for the public-demo dataset:
+# a fictitious network of diagnostic-imaging and clinical-analysis clinics.
+# Consumed by tools/seed/build_seed.py (F2). Every catalogue table of
+# data/datamodel.json has an entry here — the F1 acceptance rule ("no table
+# left over"). Capacity and Performance are deliberately ABSENT from the
+# vocabulary: they are outputs of tools/derive_control.py (R6, issue #246),
+# never dictionary material (plan §10, note 3).
+#
+# Session decisions baked in (21/08/2026):
+#   - network scale: 12 branches across Brazil + Argentina (2 countries)
+#   - brand: neutralized — "Vitalis Governance Portal"; SE design tokens stay
+#   - data language: English; names 100% fictitious; e-mails @example.com
+#
+# Post-R6 semantics this dictionary is written against (plan "próximo passo"):
+#   - SLA = THE INSURER CONTRACT: which exams (product scopes) are covered,
+#     at which unit/department — and the parent of Forecasts (SLA 1:N).
+#   - Forecast Scope = one CONTRACTED "Exam × Scope" pair (a payload product
+#     scope) plus the FUNCTION that executes it — "radiologist hours for
+#     urgent CT" is exactly how a clinic manager talks.
+#   - Jobs/Tickets close the demand→execution→consumption cycle (issue #243).
+
+meta:
+  domain: clinic
+  organization: Vitalis Health Network
+  portalTitle: Vitalis Governance Portal          # header (brand neutralized)
+  headerBadge: "DEMO DATA · Vitalis Health Network"
+  brandMark: VG
+  language: en
+  seed: 20260821                                  # random.Random(seed) — determinism
+  anchorDate: 2026-08-21                          # _meta.anchorDate; dates stored as offsets
+  monthsOfHistory: 12
+  about: >
+    Vitalis Health Network is a fictitious chain of diagnostic-imaging and
+    clinical-analysis clinics. Its Clinical Operations & Quality division
+    standardizes how every exam is performed, certifies who may perform it,
+    projects demand per insurer contract and measures what was actually
+    consumed. All data is fictitious, generated for demonstration. The
+    platform itself was born in an industrial engineering division and is
+    sector-agnostic.
+
+  # Validator fixture counts (plan §5.5 — FIX moves from validate_mockup.py
+  # to the domain pack). The generator writes them; the validator reads them.
+  fixtures:
+    Customers: 18
+    Actions: 8
+    Scopes: 8
+    Products: 12
+    Product Groups: 14
+    Product Specs: 8
+    Events: 20
+    Tickets: 160
+
+  # Seed hygiene the generator must guarantee BY CONSTRUCTION (plan §7.1 —
+  # each line also becomes an assert in the validator's `== narrative ==`).
+  hygiene:
+    ticketLinkRate: 0.55            # ≥55% of tickets consume a demand line…
+    ticketLinkSpreadMin: 60         # …spread over ≥60 distinct forecast scopes
+    consumptionWithinQuantity: true # consumption ≤ forecastScopeQuantity per line
+    noRealDatesAfterAnchor: true    # in ANY job status
+    realTimeOnlyOnDone: true        # realExecutionTime ⇒ jobStatus = Done
+    stopedShape: true               # Stoped ⇒ stoppedAt set, buffer > 0, no realEndDate
+    forecastPeriodMasses: { Month: 144, Quarter: 8, Annual: 4 }
+
+# ===========================================================================
+# Layer 1 — Organization & geography (plan §5.3)
+# ===========================================================================
+
+countries:
+  - { name: Brazil, code: BR }
+  - { name: Argentina, code: AR }
+
+regions:
+  - { name: Southeast Brazil, description: "São Paulo, Rio de Janeiro and Minas Gerais units", country: Brazil }
+  - { name: South Brazil, description: "Paraná, Santa Catarina and Rio Grande do Sul units", country: Brazil }
+  - { name: Río de la Plata, description: "Argentine units — Buenos Aires, Córdoba and Rosario", country: Argentina }
+
+businessSegments:
+  - { name: Diagnostic Imaging, code: IMG, description: "CT, MRI, X-Ray, ultrasound and mammography services" }
+  - { name: Clinical Analysis, code: LAB, description: "Laboratory tests — hematology, biochemistry and molecular panels" }
+  - { name: Outpatient Care, code: OUT, description: "Ambulatory procedures, cardiology exams and home collection" }
+
+businessUnits:
+  - { name: Imaging São Paulo, segment: Diagnostic Imaging, regions: [Southeast Brazil] }
+  - { name: Imaging South Cone, segment: Diagnostic Imaging, regions: [South Brazil, Río de la Plata] }
+  - { name: Laboratory Network, segment: Clinical Analysis, regions: [Southeast Brazil, South Brazil, Río de la Plata] }
+  - { name: Outpatient & Homecare, segment: Outpatient Care, regions: [Southeast Brazil, South Brazil] }
+
+departments:                       # the SERVICE PROVIDERS — SLAs are signed with them
+  - { name: Radiology Operations, unit: Imaging São Paulo, description: "Runs the imaging rooms — acquisition, contrast and patient safety" }
+  - { name: Diagnostic Reporting, unit: Imaging São Paulo, description: "Elaborates, double-checks and signs the exam reports" }
+  - { name: Imaging South Operations, unit: Imaging South Cone, description: "Imaging acquisition and reporting for the South Cone units" }
+  - { name: Laboratory Processing, unit: Laboratory Network, description: "Sample reception, analysis and result release" }
+  - { name: Nursing & Collection, unit: Outpatient & Homecare, description: "Nursing procedures, sample collection and homecare visits" }
+  - { name: Quality & Compliance, unit: Imaging São Paulo, description: "Audits, accreditation upkeep and regulatory watch" }
+
+squads:
+  - { name: CT Day Shift, department: Radiology Operations, sourcing: internal }
+  - { name: MR & Mammo Team, department: Radiology Operations, sourcing: internal }
+  - { name: Report Desk, department: Diagnostic Reporting, sourcing: internal }
+  - { name: Teleradiology Partners, department: Diagnostic Reporting, sourcing: outsource }
+  - { name: Core Lab Team, department: Laboratory Processing, sourcing: internal }
+  - { name: Mobile Collection, department: Nursing & Collection, sourcing: internal }
+
+branches:                          # 12 physical clinics — 9 BR + 3 AR
+  - { name: Vitalis Paulista, city: São Paulo, country: Brazil, region: Southeast Brazil }
+  - { name: Vitalis Campinas, city: Campinas, country: Brazil, region: Southeast Brazil }
+  - { name: Vitalis Santos, city: Santos, country: Brazil, region: Southeast Brazil }
+  - { name: Vitalis Rio Botafogo, city: Rio de Janeiro, country: Brazil, region: Southeast Brazil }
+  - { name: Vitalis Belo Horizonte, city: Belo Horizonte, country: Brazil, region: Southeast Brazil }
+  - { name: Vitalis Curitiba, city: Curitiba, country: Brazil, region: South Brazil }
+  - { name: Vitalis Porto Alegre, city: Porto Alegre, country: Brazil, region: South Brazil }
+  - { name: Vitalis Florianópolis, city: Florianópolis, country: Brazil, region: South Brazil }
+  - { name: Vitalis Joinville, city: Joinville, country: Brazil, region: South Brazil }
+  - { name: Vitalis Palermo, city: Buenos Aires, country: Argentina, region: Río de la Plata }
+  - { name: Vitalis Córdoba, city: Córdoba, country: Argentina, region: Río de la Plata }
+  - { name: Vitalis Rosario, city: Rosario, country: Argentina, region: Río de la Plata }
+
+issues:                            # top-down opportunities / bottom-up risks (v3-review doctrine)
+  - { title: Report backlog above 48h at peak, type: Risk, unit: Imaging São Paulo }
+  - { title: Teleradiology expansion to night shifts, type: Opportunity, unit: Imaging South Cone }
+  - { title: Contrast media supply shortage, type: Risk, unit: Imaging São Paulo }
+  - { title: AI-assisted screening triage, type: Opportunity, unit: Imaging São Paulo }
+  - { title: Sample transport delays in winter, type: Risk, unit: Laboratory Network }
+  - { title: Home collection subscription plan, type: Opportunity, unit: Outpatient & Homecare }
+
+# ===========================================================================
+# Layer 2 — Structural talent
+# ===========================================================================
+
+jobFamilies:
+  - { name: Clinical, description: "Physicians and licensed clinical professionals" }
+  - { name: Technical, description: "Imaging and laboratory technicians" }
+  - { name: Care & Support, description: "Nursing, collection and front-desk staff" }
+  - { name: Management & Quality, description: "Coordination, quality and compliance staff" }
+
+functions:                         # the capacity/aggregation axis (Capacity grain)
+  - { name: Radiologist, family: Clinical }
+  - { name: Radiology Technician, family: Technical }
+  - { name: Lab Analyst, family: Technical }
+  - { name: Nurse, family: Care & Support }
+  - { name: Front Desk, family: Care & Support }
+  - { name: Quality Analyst, family: Management & Quality }
+
+skillLevels:
+  - { name: Trainee, rank: 1 }
+  - { name: Junior, rank: 2 }
+  - { name: Senior, rank: 3 }
+  - { name: Expert, rank: 4 }
+
+roles:                             # 12 — two per function on average, levels vary
+  - { name: CT Radiologist, function: Radiologist }
+  - { name: MRI Radiologist, function: Radiologist }
+  - { name: Report Reviewer, function: Radiologist }
+  - { name: CT Technician, function: Radiology Technician }
+  - { name: MRI Technician, function: Radiology Technician }
+  - { name: Mammography Technician, function: Radiology Technician }
+  - { name: Hematology Analyst, function: Lab Analyst }
+  - { name: Molecular Analyst, function: Lab Analyst }
+  - { name: Collection Nurse, function: Nurse }
+  - { name: Contrast Nurse, function: Nurse }
+  - { name: Scheduling Agent, function: Front Desk }
+  - { name: Compliance Auditor, function: Quality Analyst }
+
+people:
+  count: 36
+  weeklyHours: [30, 36, 40]        # workingHours distribution
+  namePools:                       # fictitious, mixed origins; e-mails @example.com
+    first: [Ana, Bruno, Carla, Diego, Elena, Felipe, Gabriela, Hugo, Inés, João,
+            Karen, Lucas, Mariana, Nicolás, Olivia, Pedro, Queila, Rafael, Sofia,
+            Tomás, Úrsula, Valentina, Wagner, Ximena, Yara, Zeca, Agustín, Beatriz,
+            Camilo, Daniela, Esteban, Fernanda, Gustavo, Helena, Ignacio, Julia]
+    last: [Almeida, Barros, Castro, Duarte, Esposito, Ferreyra, Gómez, Herrera,
+           Ibarra, Junqueira, Klein, Lima, Moreira, Nunes, Ortega, Pereira,
+           Quiroga, Rocha, Santos, Torres, Uribe, Vega, Weber, Zanetti]
+
+# ===========================================================================
+# Layer 3 — Portfolio (what × how far)
+# ===========================================================================
+
+products:                          # exams and procedures — "what"
+  - { name: CT Scan, description: "Computed tomography acquisition" }
+  - { name: MRI, description: "Magnetic resonance imaging" }
+  - { name: X-Ray, description: "Conventional radiography" }
+  - { name: Ultrasound, description: "Diagnostic ultrasound" }
+  - { name: Mammography, description: "Breast screening and diagnostic imaging" }
+  - { name: Bone Densitometry, description: "Bone mineral density measurement" }
+  - { name: Complete Blood Count, description: "Hematology panel" }
+  - { name: Lipid Panel, description: "Cholesterol and triglycerides panel" }
+  - { name: Molecular PCR Panel, description: "Molecular biology respiratory panel" }
+  - { name: Urinalysis, description: "Urine chemical and microscopic analysis" }
+  - { name: Resting ECG, description: "Electrocardiogram at rest" }
+  - { name: Echocardiogram, description: "Cardiac doppler ultrasound" }
+
+productSpecs:                      # DYNAMIC attribute definitions (issue #205 input types)
+  - { name: Contrast, inputType: Checkbox, appliesTo: [CT Scan, MRI], description: "Contrast media administration required" }
+  - { name: Sedation, inputType: Checkbox, appliesTo: [MRI, Echocardiogram], description: "Performed under sedation" }
+  - { name: Age Group, inputType: Choice, options: [Pediatric, Adult, Senior], appliesTo: [CT Scan, MRI, X-Ray, Ultrasound, Resting ECG], description: "Patient age group the protocol targets" }
+  - { name: Room Time, inputType: Number, appliesTo: [CT Scan, MRI, Mammography, Ultrasound], description: "Scheduled room occupation in minutes" }
+  - { name: Equipment Class, inputType: Choice, options: [16-slice CT, 64-slice CT, 1.5T MR, 3T MR], appliesTo: [CT Scan, MRI], description: "Machine class the protocol requires" }
+  - { name: Body Region, inputType: List, options: [Head, Chest, Abdomen, Spine, Limbs], appliesTo: [CT Scan, MRI, X-Ray], description: "Anatomical regions covered" }
+  - { name: Fasting, inputType: Checkbox, appliesTo: [Complete Blood Count, Lipid Panel, Ultrasound], description: "Requires patient fasting" }
+  - { name: Report Priority, inputType: Choice, options: [Routine, Urgent], appliesTo: [CT Scan, MRI, X-Ray, Molecular PCR Panel], description: "Default reporting priority of the protocol" }
+
+productGroups:                     # product + spec values — 14 protocols
+  - { name: CT Contrast Adult, product: CT Scan, specs: { Contrast: true, Age Group: Adult, Room Time: 30, Equipment Class: 64-slice CT, Body Region: [Head, Chest], Report Priority: Urgent } }
+  - { name: CT Plain Pediatric, product: CT Scan, specs: { Contrast: false, Age Group: Pediatric, Room Time: 20, Equipment Class: 16-slice CT, Body Region: [Head], Report Priority: Routine } }
+  - { name: MRI 3T Sedation, product: MRI, specs: { Contrast: true, Sedation: true, Age Group: Adult, Room Time: 50, Equipment Class: 3T MR, Body Region: [Spine], Report Priority: Routine } }
+  - { name: MRI 1.5T Routine, product: MRI, specs: { Contrast: false, Sedation: false, Age Group: Adult, Room Time: 40, Equipment Class: 1.5T MR, Body Region: [Head, Spine], Report Priority: Routine } }
+  - { name: Chest X-Ray, product: X-Ray, specs: { Age Group: Adult, Body Region: [Chest], Report Priority: Routine } }
+  - { name: Obstetric Ultrasound, product: Ultrasound, specs: { Age Group: Adult, Room Time: 30, Fasting: false } }
+  - { name: Abdominal Ultrasound, product: Ultrasound, specs: { Age Group: Adult, Room Time: 25, Fasting: true } }
+  - { name: Screening Mammography, product: Mammography, specs: { Room Time: 20 } }
+  - { name: Standard Densitometry, product: Bone Densitometry, specs: {} }
+  - { name: CBC Standard, product: Complete Blood Count, specs: { Fasting: false } }
+  - { name: Lipid Panel Fasting, product: Lipid Panel, specs: { Fasting: true } }
+  - { name: Respiratory PCR, product: Molecular PCR Panel, specs: { Report Priority: Urgent } }
+  - { name: Resting ECG Standard, product: Resting ECG, specs: { Age Group: Senior } }
+  - { name: Doppler Echo, product: Echocardiogram, specs: { Sedation: false } }
+
+scopes:                            # "how far the work goes"
+  - { name: Routine, description: "Standard turnaround service" }
+  - { name: Urgent, description: "Priority lane — report within hours" }
+  - { name: Second Opinion, description: "Independent re-read of an existing exam" }
+  - { name: 24h Report, description: "Contracted next-day report delivery" }
+  - { name: Reprocessing, description: "Re-acquisition or re-analysis after a quality flag" }
+  - { name: Home Collection, description: "Sample collected at the patient's home" }
+  - { name: Screening Campaign, description: "High-volume preventive campaign work" }
+  - { name: Audit Support, description: "Exams re-checked to support quality audits" }
+
+classes:                           # scope classification — fills the empty tab (plan §5.5)
+  - { name: Assistential, description: "Direct patient-care delivery" }
+  - { name: Regulatory, description: "Work mandated by regulation or accreditation" }
+  - { name: Improvement, description: "Quality-improvement and rework flows" }
+  - { name: Preventive, description: "Screening and preventive campaigns" }
+  - { name: Commercial, description: "Contract-driven differentiated service levels" }
+
+productScopes:                     # 24 contracted pairs "Exam protocol × Scope"
+  pairs:
+    - [CT Contrast Adult, Urgent]
+    - [CT Contrast Adult, Routine]
+    - [CT Plain Pediatric, Routine]
+    - [MRI 3T Sedation, Routine]
+    - [MRI 1.5T Routine, Routine]
+    - [MRI 1.5T Routine, Second Opinion]
+    - [Chest X-Ray, Routine]
+    - [Chest X-Ray, Urgent]
+    - [Obstetric Ultrasound, Routine]
+    - [Abdominal Ultrasound, Routine]
+    - [Screening Mammography, Screening Campaign]
+    - [Screening Mammography, Routine]
+    - [Standard Densitometry, Routine]
+    - [CBC Standard, Routine]
+    - [CBC Standard, Home Collection]
+    - [Lipid Panel Fasting, Routine]
+    - [Lipid Panel Fasting, Home Collection]
+    - [Respiratory PCR, Urgent]
+    - [Respiratory PCR, Routine]
+    - [Resting ECG Standard, Routine]
+    - [Doppler Echo, Routine]
+    - [CT Contrast Adult, Audit Support]
+    - [MRI 1.5T Routine, Reprocessing]
+    - [Chest X-Ray, 24h Report]
+
+events:                            # 20 execution triggers
+  - { title: Medical Order Received, description: "A physician's order for an exam arrives" }
+  - { title: Urgent Case Flagged, description: "An order is escalated to the priority lane" }
+  - { title: Second Opinion Requested, description: "An insurer or physician asks for a re-read" }
+  - { title: Screening Campaign Launched, description: "A preventive campaign opens volume" }
+  - { title: Home Collection Requested, description: "A patient schedules collection at home" }
+  - { title: Sample Batch Arrived, description: "A transport batch reaches the laboratory" }
+  - { title: Image Quality Flagged, description: "QA flags an acquisition for reprocessing" }
+  - { title: Report Deadline At Risk, description: "A contracted report deadline approaches breach" }
+  - { title: Contrast Incident Reported, description: "An adverse contrast reaction is registered" }
+  - { title: Equipment Calibration Due, description: "A machine reaches its calibration window" }
+  - { title: Accreditation Audit Scheduled, description: "An external accreditation audit is booked" }
+  - { title: New Insurer Onboarded, description: "A new payer contract enters operation" }
+  - { title: Protocol Update Published, description: "A clinical protocol revision is released" }
+  - { title: Regulatory Change Notified, description: "A regulator publishes a new requirement" }
+  - { title: Complaint Registered, description: "A patient or insurer complaint is filed" }
+  - { title: Teleradiology Shift Opened, description: "An outsourced reporting shift starts" }
+  - { title: Result Recheck Requested, description: "A released result is questioned" }
+  - { title: Stock Below Minimum, description: "Contrast or reagent stock hits the floor" }
+  - { title: Night Shift Handover, description: "Open urgent work hands over between shifts" }
+  - { title: Homecare Route Planned, description: "A day's home-collection route is assembled" }
+
+# ===========================================================================
+# Layer 4 — Requirements (regional axis: ANVISA vs ANMAT — session decision)
+# ===========================================================================
+
+requirementTypes:
+  - { name: Regulatory, description: "Imposed by a health authority" }
+  - { name: Clinical Protocol, description: "Clinical practice mandated internally or by councils" }
+  - { name: Data Privacy, description: "Patient-data protection obligations" }
+  - { name: Accreditation, description: "Certification-body requirements" }
+  - { name: Contractual, description: "Insurer-specific contract obligations" }
+
+requirements:                      # 18 — applicability varies by region/customer/product/scope
+  - { name: ANVISA RDC 611 Compliance, type: Regulatory, regions: [Southeast Brazil, South Brazil], reference: RDC 611/2022, description: "Radiation protection requirements for diagnostic imaging (Brazil)" }
+  - { name: ANMAT Radiology Disposition, type: Regulatory, regions: [Río de la Plata], reference: ANMAT 2674, description: "Argentine radiology service requirements" }
+  - { name: CFM Teleradiology Resolution, type: Regulatory, regions: [Southeast Brazil, South Brazil], reference: CFM 2.107, description: "Rules for remote report elaboration (Brazil)" }
+  - { name: LGPD Patient Data Handling, type: Data Privacy, regions: [Southeast Brazil, South Brazil], reference: LGPD 13.709, description: "Patient data privacy — Brazilian units" }
+  - { name: PDPA Argentina Data Handling, type: Data Privacy, regions: [Río de la Plata], reference: Ley 25.326, description: "Patient data privacy — Argentine units" }
+  - { name: Contrast Administration Protocol, type: Clinical Protocol, products: [CT Scan, MRI], description: "Screening, consent and supervision for contrast media" }
+  - { name: Sedation Safety Protocol, type: Clinical Protocol, products: [MRI], description: "Anesthesist presence and recovery monitoring under sedation" }
+  - { name: Report Double Signature, type: Clinical Protocol, scopes: [Urgent, Second Opinion], description: "Urgent and second-opinion reports need two signatures" }
+  - { name: Radiation Dose Registry, type: Regulatory, products: [CT Scan, X-Ray, Mammography], description: "Per-exam dose logging and periodic review" }
+  - { name: ISO 15189 Lab Accreditation, type: Accreditation, products: [Complete Blood Count, Lipid Panel, Molecular PCR Panel, Urinalysis], description: "Medical-laboratory competence accreditation" }
+  - { name: PACS Retention Policy, type: Data Privacy, description: "20-year image retention with audit trail" }
+  - { name: Cold Chain Control, type: Clinical Protocol, scopes: [Home Collection], description: "Temperature-controlled sample transport" }
+  - { name: HealthFirst Reporting Template, type: Contractual, customers: [HealthFirst Insurance], description: "Insurer-mandated report layout and coding" }
+  - { name: Austral Prior Authorization, type: Contractual, customers: [Austral Seguros Médicos], description: "Pre-authorization required before high-cost exams" }
+  - { name: Screening Quality Sampling, type: Accreditation, scopes: [Screening Campaign], description: "Second-read sampling on campaign volume" }
+  - { name: Critical Value Notification, type: Clinical Protocol, products: [Complete Blood Count, Molecular PCR Panel], description: "Immediate physician notification on critical results" }
+  - { name: Equipment QC Daily Check, type: Regulatory, products: [CT Scan, MRI, Mammography], description: "Daily quality-control phantom checks" }
+  - { name: Interpreter Availability, type: Contractual, regions: [Río de la Plata], description: "Portuguese/Spanish report availability for cross-border insurers" }
+
+# ===========================================================================
+# Layer 5 — Process (Processes → Workflows → Activities × Actions → Tasks)
+# ===========================================================================
+
+actions:                           # 8 — recurring across processes feeds story 5
+  - Approval
+  - Assignment
+  - Execution
+  - Check
+  - Followup
+  - Registration
+  - Release
+  - Escalation
+
+processes:
+  - name: Imaging Exam Flow
+    description: "From medical order to released report for an imaging exam"
+    activities: [Schedule Exam, Prepare Patient, Acquire Images, Elaborate Report, Release Results]
+  - name: Laboratory Sample Flow
+    description: "From sample reception to validated result release"
+    activities: [Receive Samples, Process Samples, Validate Results, Release Results]
+  - name: Urgent Care Lane
+    description: "Priority path for flagged urgent orders"
+    activities: [Triage Order, Acquire Images, Elaborate Report, Notify Physician]
+  - name: Second Opinion Flow
+    description: "Independent re-read of an existing exam"
+    activities: [Retrieve Prior Study, Re-read Study, Reconcile Findings]
+  - name: Quality Audit Flow
+    description: "Sampling, re-check and corrective follow-up of released work"
+    activities: [Sample Cases, Re-check Reports, Log Findings, Follow Corrective Actions]
+  - name: Home Collection Flow
+    description: "Route planning, collection and sample hand-off at the lab"
+    activities: [Plan Route, Collect At Home, Transport Samples]
+  # ~22 activities total across the six processes; workflows (24) order them
+  # with the STEPORDER rules — acquisition steps sequential, QA checks parallel.
+
+tasks:
+  count: 48                        # taskName = "<activityName>-<actionName>" (issue #214 convention)
+  note: >
+    Generated as Activity × Action combinations that make clinical sense —
+    e.g. "Acquire Images-Execution", "Elaborate Report-Check", "Release
+    Results-Approval". The Check and Followup actions recur across at least
+    3 processes (story 5 anchor: "Elaborate Report-Check" exists in Imaging
+    Exam Flow, Urgent Care Lane and Second Opinion Flow).
+
+procedures:                        # the documented method + time — base of ALL capacity math
+  count: 52
+  executionTimeHours: { min: 0.5, max: 4.0, step: 0.25 }
+  registryPattern: "SOP-{n:03d}"
+  note: >
+    One-plus procedure per task; requirement sets bind HERE (Procedures
+    doctrine, 2026-08-03): the urgent variants carry Report Double Signature,
+    contrast tasks carry Contrast Administration Protocol, lab tasks carry
+    ISO 15189. Wildcard (empty requirement set) procedures exist for generic
+    tasks. executionTime examples: CT acquisition 0.75 h, MRI sedation 1.5 h,
+    report elaboration 0.5 h, campaign batch reading 4.0 h.
+
+handouts:                          # 14 controlled documents
+  - Medical Order
+  - Signed Report
+  - Acquisition Protocol Sheet
+  - Contrast Consent Form
+  - Sedation Consent Form
+  - Patient Preparation Leaflet
+  - Sample Manifest
+  - Chain of Custody Form
+  - QC Phantom Log
+  - Audit Findings Sheet
+  - Critical Value Call Record
+  - Home Collection Route Sheet
+  - Dose Registry Extract
+  - Second Opinion Dossier
+
+channels:
+  - { name: PACS, description: "Picture archiving and communication system" }
+  - { name: LIS, description: "Laboratory information system" }
+  - { name: Insurer Portal, description: "Payer integration portal" }
+  - { name: Patient App, description: "Scheduling and results app" }
+  - { name: Secure E-mail, description: "Encrypted mail for physician notification" }
+
+payloads:                          # 26 dispatch packages (Event × Product Scopes)
+  note: >
+    One payload per operationally meaningful trigger: "Medical Order
+    Received" packages the routine pairs of each imaging protocol; "Urgent
+    Case Flagged" packages the Urgent pairs; "Screening Campaign Launched"
+    packages Screening Mammography × Screening Campaign; lab events package
+    the lab pairs; wildcard payloads (empty product scope list) exist for
+    audit/administrative events (Q1 posture).
+
+# ===========================================================================
+# Layer 6 — CRM (Customers → SLA → Forecasts → Forecast Scopes)
+# ===========================================================================
+
+customers:                         # 18 = 8 insurers + 4 partner hospitals + 6 internal
+  insurers:                        # External Client — the paying convênios
+    - HealthFirst Insurance
+    - MedCare Plus
+    - Austral Seguros Médicos
+    - LifeBridge Health Plan
+    - Andina Salud
+    - Meridian Assistance
+    - Corporate Care Group
+    - Família Saúde Cooperative
+  partnerHospitals:                # External Client — hospitals buying capacity
+    - São Lucas General Hospital
+    - Santa Clara Maternity
+    - Hospital del Litoral
+    - Boa Vista Surgical Center
+  internal:                        # Internal Client — the network's own units buying from the division
+    - Vitalis Paulista Clinic
+    - Vitalis Campinas Clinic
+    - Vitalis Curitiba Clinic
+    - Vitalis Palermo Clinic
+    - Vitalis Home Collection
+    - Vitalis Screening Program
+
+slas:                              # 20 contracts — THE CONTRACT entity (SLA-as-Contract, R6)
+  count: 20
+  withForecasts: 14                # 12–16 per plan §7 — the temporal dimension
+  note: >
+    One or two contracts per major customer with a department: e.g.
+    "HealthFirst × Radiology Operations" covers the urgent and routine CT/MRI
+    payloads; "Vitalis Screening Program × Radiology Operations" covers the
+    mammography campaign payload; lab insurers contract with Laboratory
+    Processing. Branch nullable (network-wide contracts have none).
+    slaCode pattern "VHN-{year}-{n:03d}".
+
+forecasts:                         # SLA 1:N Forecasts — one per period per contract
+  monthly: 144                     # 12 contracts × 12 months
+  quarterly: 8                     # 2 contracts × 4 quarters (real mass, plan §7.1)
+  annual: 4                        # 4 contracts × 1 year
+  statusMix: { Approved: 0.75, Submitted: 0.1, Draft: 0.1, Archived: 0.05 }  # ≥3 Draft (validator)
+
+forecastScopes:                    # 360 demand lines: contracted pair + FUNCTION + quantity
+  count: 360
+  perForecast: { min: 2, max: 3 }
+  quantity: { min: 1, max: 40 }    # exams of that pair projected for the period
+  note: >
+    Each line = one contracted "Exam × Scope" pair (a product scope packaged
+    by the SLA's payloads — R6 narrowing) plus the FUNCTION whose hours it
+    projects: "Radiologist hours for urgent CT" (story-4 vocabulary).
+    estimatedHours = chained task hours × quantity where the event chains
+    tasks; the generator PLANTS full chains so no manual-fallback rows exist
+    in the clinic dataset (unlike the migrated transformer data).
+
+# ===========================================================================
+# Layer 7 — Competence & Onboarding (certification is THE Talent story here)
+# ===========================================================================
+
+competences:
+  count: 28
+  note: >
+    1:1 with a procedure (issue #231 doctrine): "certified to run SOP-014
+    (CT contrast acquisition, adult protocol)". Product scope = the pair the
+    procedure serves. The certification story (story 2) plants a NEW
+    tomography protocol with only 2 certified people.
+
+onboardings:
+  count: 60
+  certifiedRate: 0.75              # story 2 needs a visible uncertified cohort
+  note: >
+    Group semantics (issue #239): one onboarding certifies a GROUP of
+    competences under a title — "CT Suite Certification — Campinas",
+    "Molecular Bench Qualification". Titles name the group, not the person.
+
+# ===========================================================================
+# Layer 8 — Execution (Projects → Tickets → Jobs) — DERIVED, not drawn
+# ===========================================================================
+
+projects:                          # 10 — contracts/campaigns as containers
+  - { name: HealthFirst 2026 Service Contract, customer: HealthFirst Insurance }
+  - { name: MedCare Plus Imaging Program, customer: MedCare Plus }
+  - { name: Austral Cross-Border Coverage, customer: Austral Seguros Médicos }
+  - { name: Winter Respiratory Campaign, customer: Vitalis Screening Program }
+  - { name: Pink October Screening Drive, customer: Vitalis Screening Program }
+  - { name: São Lucas Overflow Agreement, customer: São Lucas General Hospital }
+  - { name: Corporate Checkup Season, customer: Corporate Care Group }
+  - { name: Home Collection Rollout, customer: Vitalis Home Collection }
+  - { name: Palermo Unit Ramp-up, customer: Vitalis Palermo Clinic }
+  - { name: Accreditation Renewal 2026, customer: Vitalis Paulista Clinic }
+
+tickets:                           # 160 — the exam/service requests
+  count: 160
+  linkedToForecastRate: 0.60       # ≥55% hygiene floor; ≈96 tickets consume demand lines
+  linkSpreadMin: 60                # across ≥60 distinct lines (no 2-line concentration)
+  statusMix: { Open: 0.15, InProgress: 0.25, Resolved: 0.6 }
+  note: "A ticket is the exam/service request under a project — NEVER a patient record."
+
+jobs:                              # 240 — person-level execution with real lifecycle
+  count: 240
+  statusMix: { Done: 0.55, Active: 0.2, Queued: 0.2, Stoped: 0.05 }
+  doneMonthsSpread: 12             # ≥10 months of completions (validator)
+  dependencyChainRate: 0.4         # predecessorJobID finish-to-start within tickets
+  note: >
+    plannedExecutionTime frozen from the task's procedures (issue #244);
+    realExecutionTime only on Done, equation closed (elapsed − buffer);
+    Stoped rows carry stoppedAt + buffer > 0; NO real date after the anchor.
+    Radiologist jobs at Vitalis Campinas overshoot plan in the last 3 months
+    (story 1); HealthFirst jobs consume 1180 h against 900 approved (story 4).
+
+# ===========================================================================
+# Control — Capacity & Performance: NOT dictionary material.
+# Derived by tools/derive_control.py as a build_seed.py stage (R6 #246) and
+# re-checked by the validator's `== control derivation ==` gate.
+# Expected sizes at this volumetry: Capacity 72 (6 functions × 12 months),
+# Performance ≈ 90–140 (function × customer × month with Done jobs).
+# ===========================================================================
+
+# ===========================================================================
+# Narrative anchors — parameters the stories assert against (see narrative.md)
+# ===========================================================================
+
+narrative:
+  story1_bottleneck:
+    function: Radiologist
+    branch: Vitalis Campinas
+    months: 3                      # last N months with allocated > available
+  story2_certification:
+    protocol: CT Contrast Adult    # new tomography protocol
+    certified: 2
+    inOnboarding: 6
+  story3_requirement:
+    name: ANVISA RDC 611 Compliance
+    effectiveMonthsBeforeAnchor: 2 # tickets opened after M inherit it live
+  story4_forecast_gap:
+    customer: HealthFirst Insurance
+    approvedHours: 900
+    executedHours: 1180
+  story5_recurring_action:
+    action: Check
+    task: Elaborate Report-Check
+    minProcesses: 3
+  story6_sla_balance:
+    sla: "HealthFirst × Radiology Operations"
+    consumedRate: 0.78             # 78% of quantity consumed at month 3 of the quarter

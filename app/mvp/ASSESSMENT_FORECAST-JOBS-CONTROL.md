@@ -1,7 +1,31 @@
 # EDQMS — Assessment de modelagem: Forecasts, Forecast Scopes, Jobs e Control
 
 **Division Governance Portal · rodada de schema pré-mockup**
-Versão 1.0 · 21/08/2026 · Pré-requisito da F1 do `MOCKUP_DEMO_PLAN.md`
+Versão 1.1 · 21/08/2026 · **ENCERRADO** — implementado na R6 (`schemaVersion` 44 → 49)
+
+> **Status de fechamento (21/08/2026, fim do dia).** Os 15 achados foram endereçados pelas issues
+> #241 a #246. **Uma decisão saiu diferente do proposto e para melhor:** a entidade `Contract`
+> (A4) **não foi criada** — o papel de contrato passou para a **`SLA`** (`Forecasts.slaID` NOT
+> NULL, `SLA 1:N Forecasts`, subitem `Forecasts`), o que fecha a mesma lacuna sem acrescentar
+> entidade. Verificação nesta sessão: `validate_mockup.py` **PASS** (0 falhas, 17 avisos, com
+> bloco novo `== control derivation ==`) e as suítes `sla_forecasts`, `forecast_scope_portfolio`,
+> `ticket_forecast_link`, `job_lifecycle`, `jobs_hygiene`, `control_derived`, `test_queries` e
+> `test_resolve` **todas verdes**.
+>
+> O que sobrou **não é modelagem, é higiene de seed** — 6 itens medidos e transferidos para a
+> §7.1 do `MOCKUP_DEMO_PLAN.md`, onde viram regra do gerador e assert do validador.
+> Este documento fica como registro da rodada.
+
+| Achado | Fechado por |
+|---|---|
+| A1 elo Ticket ↔ Forecast Scope · A2 `productScopeID` NOT NULL · `consumption` rollup + `remaining` | #243 |
+| A3 Capacity/Performance derivadas, grão novo, `tools/derive_control.py` | #246 |
+| A4 Contract | **#241 — resolvido como SLA-as-Contract** |
+| A5 ciclo de vida do Job (Start/Pause/Resume/Finish) | #245 |
+| A6 `predecessorJobID` + `dependencyType` · A8 `roleID` mirror · A9 `plannedExecutionTime` congelado · A13 notas · A14 `projectID` derivado | #244 |
+| A7 períodos do forecast · A10 enum `Month` · A12 gate do Product Scope | #242 / #241 |
+| A11 regra de form obsoleta (`Customers.region`) | #241 (o campo virou SLA) |
+| A15 botão *Details* do Overview | #246 — `SOURCE_REDIRECT`: Capacity → Forecast Scopes, Performance → Jobs |
 
 ---
 
@@ -257,20 +281,6 @@ As cinco histórias continuam, com duas correções e uma adição:
 ---
 
 ## 8. Decisões necessárias
-
-> **Decididas em 21/08/2026 (Rafael)** — implementação na rodada R6, milestone
-> "R6 — Forecast/Jobs/Control schema round", issues #241–#246:
->
-> 1. **Contract (A4):** o Contract **é a entidade SLA existente** — não nasce tabela nova.
->    Os Forecasts dão a dimensão temporal do contrato: **SLA 1:N Forecasts** (`Forecasts.slaID`,
->    issue #241). Forecast Scopes limitam Evento/Product Scope aos payloads do SLA.
-> 2. **Elo A1:** `Tickets.forecastScopeID` como **FK única nullable** (um ticket consome no
->    máximo um forecast scope — coerente com o `productScopeID` único do #214). Select leniente,
->    agrupado por período, sem travar por data (issue #243).
-> 3. **Ciclo de vida do Job (A5): nesta rodada** — ações Start/Pause/Resume/Finish no drawer
->    (issue #245).
-> 4. **Dependências (A6): modelar** `predecessorJobID` + `dependencyType` (issue #244).
-> 5. **Escopo: A1–A15 completo** (issues #241–#246).
 
 1. **Contract (A4)** — modelar agora (R1, recomendado) ou adiar (R2)?
 2. **Elo Ticket ↔ Forecast Scope (A1)** — `Tickets.forecastScopeID` como FK nullable é a forma
