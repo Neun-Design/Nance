@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 44,
+    "schemaVersion": 45,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1373,7 +1373,9 @@
           },
           "cards": null,
           "table-filters": true,
-          "subitem-tables": null
+          "subitem-tables": [
+            "Forecasts"
+          ]
         },
         "Forecasts": {
           "visibility": "show",
@@ -1390,10 +1392,19 @@
               "constraints": "PK"
             },
             {
+              "name": "slaID",
+              "type": "FK",
+              "rule": "FK → SLA (display: slaTitle)",
+              "notes": "The contract this forecast gives temporal dimension to (SLA 1:N Forecasts — SLA-as-Contract decision, issue #241). Customer derives from it on save.",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers",
-              "notes": "Customer submitting this forecast",
+              "notes": "Customer of the contract — stored anchor for the downstream join chains (the Forecast Scopes requirement path traverses it), derived on save from the SLA since issue #241; no form field",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -1402,7 +1413,7 @@
               "name": "customerTitle",
               "type": "mirror",
               "rule": "mirror → Customers via: customerID (display: customerName)",
-              "notes": "Customer submitting this forecast (resolves customerName — the CONCAT customerTitle left Customers with the geography attrs, issue #191)",
+              "notes": "Customer of the contract (resolves customerName — the CONCAT customerTitle left Customers with the geography attrs, issue #191)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -1410,8 +1421,8 @@
             {
               "name": "businessUnitName",
               "type": "mirror",
-              "rule": "mirror: Customers via: customerID (display: businessUnitName)",
-              "notes": "Business Unit of the submitting customer — groups the Forecast select on the Forecast Scopes form",
+              "rule": "mirror: SLA via: slaID (display: businessUnitName)",
+              "notes": "Business Unit of the contract (the SLA stores it single-valued — sharper than the customer's multivalued units, issue #241) — groups the Forecast select on the Forecast Scopes form",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -1592,15 +1603,15 @@
           "form": {
             "steps": null,
             "fields": {
-              "Customer": {
+              "SLA": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
-                "attribute": "customerID",
-                "tooltip": null,
+                "attribute": "slaID",
+                "tooltip": "The contract this forecast projects volume for — customer derives from it",
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Customers.region"
+                "field-rule": "SelectLabel = customerName"
               },
               "Forecast Period": {
                 "field-type": {
@@ -1881,10 +1892,10 @@
                   "Select": "shadcn-select"
                 },
                 "attribute": "eventID",
-                "tooltip": null,
+                "tooltip": "Events covered by the forecast's contract (SLA payloads)",
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Forecast IS NOT NULL",
+                "field-rule": "events covered by the forecast's SLA payloads"
               },
               "Scope": {
                 "field-type": {

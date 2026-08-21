@@ -725,7 +725,7 @@
    {
     "forecastID": "FRC001",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -735,12 +735,13 @@
     "createdBy": "U01",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC002",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -750,12 +751,13 @@
     "createdBy": "U02",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC003",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -765,12 +767,13 @@
     "createdBy": "U03",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC004",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -780,12 +783,13 @@
     "createdBy": "U04",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC005",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -795,12 +799,13 @@
     "createdBy": "U05",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC006",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -810,12 +815,13 @@
     "createdBy": "U06",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC007",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -825,12 +831,13 @@
     "createdBy": "U07",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC008",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -840,12 +847,13 @@
     "createdBy": "U08",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC009",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -855,12 +863,13 @@
     "createdBy": "U09",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC010",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -870,12 +879,13 @@
     "createdBy": "U10",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC011",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -885,12 +895,13 @@
     "createdBy": "U11",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC012",
     "customerID": "FC01",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -900,12 +911,13 @@
     "createdBy": "U12",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U01"
+    "forecastOwner": "U01",
+    "slaID": "SLA01"
    },
    {
     "forecastID": "FRC013",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -915,12 +927,13 @@
     "createdBy": "U02",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC014",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -930,12 +943,13 @@
     "createdBy": "U03",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC015",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -945,12 +959,13 @@
     "createdBy": "U04",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC016",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -960,12 +975,13 @@
     "createdBy": "U05",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC017",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -975,12 +991,13 @@
     "createdBy": "U06",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC018",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -990,12 +1007,13 @@
     "createdBy": "U07",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC019",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -1005,12 +1023,13 @@
     "createdBy": "U08",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC020",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -1020,12 +1039,13 @@
     "createdBy": "U09",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC021",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -1035,12 +1055,13 @@
     "createdBy": "U10",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC022",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -1050,12 +1071,13 @@
     "createdBy": "U11",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC023",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -1065,12 +1087,13 @@
     "createdBy": "U12",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC024",
     "customerID": "FC02",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -1080,12 +1103,13 @@
     "createdBy": "U13",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U02"
+    "forecastOwner": "U02",
+    "slaID": "SLA02"
    },
    {
     "forecastID": "FRC025",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -1095,12 +1119,13 @@
     "createdBy": "U03",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC026",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -1110,12 +1135,13 @@
     "createdBy": "U04",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC027",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -1125,12 +1151,13 @@
     "createdBy": "U05",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC028",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -1140,12 +1167,13 @@
     "createdBy": "U06",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC029",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -1155,12 +1183,13 @@
     "createdBy": "U07",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC030",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -1170,12 +1199,13 @@
     "createdBy": "U08",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC031",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -1185,12 +1215,13 @@
     "createdBy": "U09",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC032",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -1200,12 +1231,13 @@
     "createdBy": "U10",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC033",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -1215,12 +1247,13 @@
     "createdBy": "U11",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC034",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -1230,12 +1263,13 @@
     "createdBy": "U12",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC035",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -1245,12 +1279,13 @@
     "createdBy": "U13",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC036",
     "customerID": "FC03",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -1260,12 +1295,13 @@
     "createdBy": "U14",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U03"
+    "forecastOwner": "U03",
+    "slaID": "SLA03"
    },
    {
     "forecastID": "FRC037",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -1275,12 +1311,13 @@
     "createdBy": "U04",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC038",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -1290,12 +1327,13 @@
     "createdBy": "U05",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC039",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -1305,12 +1343,13 @@
     "createdBy": "U06",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC040",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -1320,12 +1359,13 @@
     "createdBy": "U07",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC041",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -1335,12 +1375,13 @@
     "createdBy": "U08",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC042",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -1350,12 +1391,13 @@
     "createdBy": "U09",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC043",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -1365,12 +1407,13 @@
     "createdBy": "U10",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC044",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -1380,12 +1423,13 @@
     "createdBy": "U11",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC045",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -1395,12 +1439,13 @@
     "createdBy": "U12",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC046",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -1410,12 +1455,13 @@
     "createdBy": "U13",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC047",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -1425,12 +1471,13 @@
     "createdBy": "U14",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC048",
     "customerID": "FC04",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -1440,12 +1487,13 @@
     "createdBy": "U15",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U04"
+    "forecastOwner": "U04",
+    "slaID": "SLA04"
    },
    {
     "forecastID": "FRC049",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -1455,12 +1503,13 @@
     "createdBy": "U05",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC050",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -1470,12 +1519,13 @@
     "createdBy": "U06",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC051",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -1485,12 +1535,13 @@
     "createdBy": "U07",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC052",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -1500,12 +1551,13 @@
     "createdBy": "U08",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC053",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -1515,12 +1567,13 @@
     "createdBy": "U09",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC054",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -1530,12 +1583,13 @@
     "createdBy": "U10",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC055",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -1545,12 +1599,13 @@
     "createdBy": "U11",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC056",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -1560,12 +1615,13 @@
     "createdBy": "U12",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC057",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -1575,12 +1631,13 @@
     "createdBy": "U13",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC058",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -1590,12 +1647,13 @@
     "createdBy": "U14",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC059",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -1605,12 +1663,13 @@
     "createdBy": "U15",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC060",
     "customerID": "FC05",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -1620,12 +1679,13 @@
     "createdBy": "U16",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U05"
+    "forecastOwner": "U05",
+    "slaID": "SLA05"
    },
    {
     "forecastID": "FRC061",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -1635,12 +1695,13 @@
     "createdBy": "U06",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC062",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -1650,12 +1711,13 @@
     "createdBy": "U07",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC063",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -1665,12 +1727,13 @@
     "createdBy": "U08",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC064",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -1680,12 +1743,13 @@
     "createdBy": "U09",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC065",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -1695,12 +1759,13 @@
     "createdBy": "U10",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC066",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -1710,12 +1775,13 @@
     "createdBy": "U11",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC067",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -1725,12 +1791,13 @@
     "createdBy": "U12",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC068",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -1740,12 +1807,13 @@
     "createdBy": "U13",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC069",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -1755,12 +1823,13 @@
     "createdBy": "U14",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC070",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -1770,12 +1839,13 @@
     "createdBy": "U15",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC071",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -1785,12 +1855,13 @@
     "createdBy": "U16",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC072",
     "customerID": "FC06",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -1800,12 +1871,13 @@
     "createdBy": "U17",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U06"
+    "forecastOwner": "U06",
+    "slaID": "SLA06"
    },
    {
     "forecastID": "FRC073",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -1815,12 +1887,13 @@
     "createdBy": "U07",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC074",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -1830,12 +1903,13 @@
     "createdBy": "U08",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC075",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -1845,12 +1919,13 @@
     "createdBy": "U09",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC076",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -1860,12 +1935,13 @@
     "createdBy": "U10",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC077",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -1875,12 +1951,13 @@
     "createdBy": "U11",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC078",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -1890,12 +1967,13 @@
     "createdBy": "U12",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC079",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -1905,12 +1983,13 @@
     "createdBy": "U13",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC080",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -1920,12 +1999,13 @@
     "createdBy": "U14",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC081",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -1935,12 +2015,13 @@
     "createdBy": "U15",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC082",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -1950,12 +2031,13 @@
     "createdBy": "U16",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC083",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -1965,12 +2047,13 @@
     "createdBy": "U17",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC084",
     "customerID": "FC07",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -1980,12 +2063,13 @@
     "createdBy": "U18",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U07"
+    "forecastOwner": "U07",
+    "slaID": "SLA07"
    },
    {
     "forecastID": "FRC085",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -1995,12 +2079,13 @@
     "createdBy": "U08",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC086",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -2010,12 +2095,13 @@
     "createdBy": "U09",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC087",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -2025,12 +2111,13 @@
     "createdBy": "U10",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC088",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -2040,12 +2127,13 @@
     "createdBy": "U11",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC089",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -2055,12 +2143,13 @@
     "createdBy": "U12",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC090",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -2070,12 +2159,13 @@
     "createdBy": "U13",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC091",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -2085,12 +2175,13 @@
     "createdBy": "U14",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC092",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -2100,12 +2191,13 @@
     "createdBy": "U15",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC093",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -2115,12 +2207,13 @@
     "createdBy": "U16",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC094",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -2130,12 +2223,13 @@
     "createdBy": "U17",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC095",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -2145,12 +2239,13 @@
     "createdBy": "U18",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC096",
     "customerID": "FC08",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -2160,12 +2255,13 @@
     "createdBy": "U19",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U08"
+    "forecastOwner": "U08",
+    "slaID": "SLA08"
    },
    {
     "forecastID": "FRC097",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -2175,12 +2271,13 @@
     "createdBy": "U09",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC098",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -2190,12 +2287,13 @@
     "createdBy": "U10",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC099",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -2205,12 +2303,13 @@
     "createdBy": "U11",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC100",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -2220,12 +2319,13 @@
     "createdBy": "U12",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC101",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -2235,12 +2335,13 @@
     "createdBy": "U13",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC102",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -2250,12 +2351,13 @@
     "createdBy": "U14",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC103",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -2265,12 +2367,13 @@
     "createdBy": "U15",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC104",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -2280,12 +2383,13 @@
     "createdBy": "U16",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC105",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -2295,12 +2399,13 @@
     "createdBy": "U17",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC106",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -2310,12 +2415,13 @@
     "createdBy": "U18",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC107",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -2325,12 +2431,13 @@
     "createdBy": "U19",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC108",
     "customerID": "FC09",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -2340,12 +2447,13 @@
     "createdBy": "U20",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U09"
+    "forecastOwner": "U09",
+    "slaID": "SLA09"
    },
    {
     "forecastID": "FRC109",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -2355,12 +2463,13 @@
     "createdBy": "U10",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC110",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -2370,12 +2479,13 @@
     "createdBy": "U11",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC111",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -2385,12 +2495,13 @@
     "createdBy": "U12",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC112",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -2400,12 +2511,13 @@
     "createdBy": "U13",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC113",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -2415,12 +2527,13 @@
     "createdBy": "U14",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC114",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -2430,12 +2543,13 @@
     "createdBy": "U15",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC115",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -2445,12 +2559,13 @@
     "createdBy": "U16",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC116",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -2460,12 +2575,13 @@
     "createdBy": "U17",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC117",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -2475,12 +2591,13 @@
     "createdBy": "U18",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC118",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -2490,12 +2607,13 @@
     "createdBy": "U19",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC119",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -2505,12 +2623,13 @@
     "createdBy": "U20",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC120",
     "customerID": "FC10",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -2520,12 +2639,13 @@
     "createdBy": "U21",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U10"
+    "forecastOwner": "U10",
+    "slaID": "SLA10"
    },
    {
     "forecastID": "FRC121",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -2535,12 +2655,13 @@
     "createdBy": "U11",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC122",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -2550,12 +2671,13 @@
     "createdBy": "U12",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC123",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -2565,12 +2687,13 @@
     "createdBy": "U13",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC124",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -2580,12 +2703,13 @@
     "createdBy": "U14",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC125",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -2595,12 +2719,13 @@
     "createdBy": "U15",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC126",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -2610,12 +2735,13 @@
     "createdBy": "U16",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC127",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -2625,12 +2751,13 @@
     "createdBy": "U17",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC128",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -2640,12 +2767,13 @@
     "createdBy": "U18",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC129",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -2655,12 +2783,13 @@
     "createdBy": "U19",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC130",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -2670,12 +2799,13 @@
     "createdBy": "U20",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC131",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -2685,12 +2815,13 @@
     "createdBy": "U21",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC132",
     "customerID": "FC11",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -2700,12 +2831,13 @@
     "createdBy": "U22",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U11"
+    "forecastOwner": "U11",
+    "slaID": "SLA11"
    },
    {
     "forecastID": "FRC133",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -2715,12 +2847,13 @@
     "createdBy": "U12",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC134",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -2730,12 +2863,13 @@
     "createdBy": "U13",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC135",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -2745,12 +2879,13 @@
     "createdBy": "U14",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC136",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -2760,12 +2895,13 @@
     "createdBy": "U15",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC137",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -2775,12 +2911,13 @@
     "createdBy": "U16",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC138",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -2790,12 +2927,13 @@
     "createdBy": "U17",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC139",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -2805,12 +2943,13 @@
     "createdBy": "U18",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 152.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC140",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -2820,12 +2959,13 @@
     "createdBy": "U19",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC141",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -2835,12 +2975,13 @@
     "createdBy": "U20",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 184.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC142",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -2850,12 +2991,13 @@
     "createdBy": "U21",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC143",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -2865,12 +3007,13 @@
     "createdBy": "U22",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 144.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC144",
     "customerID": "FC12",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -2880,12 +3023,13 @@
     "createdBy": "U23",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U12"
+    "forecastOwner": "U12",
+    "slaID": "SLA12"
    },
    {
     "forecastID": "FRC145",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-08-01",
     "periodFinish": "2025-08-31",
     "periodBusinessDays": 20,
@@ -2895,12 +3039,13 @@
     "createdBy": "U13",
     "createdAt": "2025-07-12",
     "totalEstimatedHours": 104.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC146",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-09-01",
     "periodFinish": "2025-09-30",
     "periodBusinessDays": 21,
@@ -2910,12 +3055,13 @@
     "createdBy": "U14",
     "createdAt": "2025-08-12",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC147",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-10-01",
     "periodFinish": "2025-10-31",
     "periodBusinessDays": 22,
@@ -2925,12 +3071,13 @@
     "createdBy": "U15",
     "createdAt": "2025-09-11",
     "totalEstimatedHours": 136.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC148",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-11-01",
     "periodFinish": "2025-11-30",
     "periodBusinessDays": 20,
@@ -2940,12 +3087,13 @@
     "createdBy": "U16",
     "createdAt": "2025-10-12",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC149",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2025-12-01",
     "periodFinish": "2025-12-31",
     "periodBusinessDays": 21,
@@ -2955,12 +3103,13 @@
     "createdBy": "U17",
     "createdAt": "2025-11-11",
     "totalEstimatedHours": 168.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC150",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-01-01",
     "periodFinish": "2026-01-31",
     "periodBusinessDays": 22,
@@ -2970,12 +3119,13 @@
     "createdBy": "U18",
     "createdAt": "2025-12-12",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC151",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-02-01",
     "periodFinish": "2026-02-28",
     "periodBusinessDays": 20,
@@ -2985,12 +3135,13 @@
     "createdBy": "U19",
     "createdAt": "2026-01-12",
     "totalEstimatedHours": 128.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC152",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-03-01",
     "periodFinish": "2026-03-31",
     "periodBusinessDays": 21,
@@ -3000,12 +3151,13 @@
     "createdBy": "U20",
     "createdAt": "2026-02-09",
     "totalEstimatedHours": 216.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC153",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-04-01",
     "periodFinish": "2026-04-30",
     "periodBusinessDays": 22,
@@ -3015,12 +3167,13 @@
     "createdBy": "U21",
     "createdAt": "2026-03-12",
     "totalEstimatedHours": 160.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC154",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-05-01",
     "periodFinish": "2026-05-31",
     "periodBusinessDays": 20,
@@ -3030,12 +3183,13 @@
     "createdBy": "U22",
     "createdAt": "2026-04-11",
     "totalEstimatedHours": 192.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC155",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-06-01",
     "periodFinish": "2026-06-30",
     "periodBusinessDays": 21,
@@ -3045,12 +3199,13 @@
     "createdBy": "U23",
     "createdAt": "2026-05-12",
     "totalEstimatedHours": 120.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
    },
    {
     "forecastID": "FRC156",
     "customerID": "FC13",
-    "forecastPeriod": "Monthly",
+    "forecastPeriod": "Month",
     "periodStart": "2026-07-01",
     "periodFinish": "2026-07-31",
     "periodBusinessDays": 22,
@@ -3060,7 +3215,72 @@
     "createdBy": "U24",
     "createdAt": "2026-06-11",
     "totalEstimatedHours": 240.0,
-    "forecastOwner": "U13"
+    "forecastOwner": "U13",
+    "slaID": "SLA13"
+   },
+   {
+    "forecastID": "FRC157",
+    "slaID": "SLA01",
+    "customerID": "FC01",
+    "forecastPeriod": "Quarter",
+    "periodStart": "2026-10-01",
+    "periodFinish": "2026-12-31",
+    "periodBusinessDays": 66,
+    "periodFrame": "2026-Q4",
+    "weeklyUsageQuota": 8,
+    "status": "Approved",
+    "createdBy": "U01",
+    "createdAt": "2025-07-12",
+    "totalEstimatedHours": 104.0,
+    "forecastOwner": "U01"
+   },
+   {
+    "forecastID": "FRC158",
+    "slaID": "SLA01",
+    "customerID": "FC01",
+    "forecastPeriod": "Annual",
+    "periodStart": "2026-01-01",
+    "periodFinish": "2026-12-31",
+    "periodBusinessDays": 261,
+    "periodFrame": "2026",
+    "weeklyUsageQuota": 2,
+    "status": "Approved",
+    "createdBy": "U01",
+    "createdAt": "2025-07-12",
+    "totalEstimatedHours": 104.0,
+    "forecastOwner": "U01"
+   },
+   {
+    "forecastID": "FRC159",
+    "slaID": "SLA02",
+    "customerID": "FC02",
+    "forecastPeriod": "Quarter",
+    "periodStart": "2026-10-01",
+    "periodFinish": "2026-12-31",
+    "periodBusinessDays": 66,
+    "periodFrame": "2026-Q4",
+    "weeklyUsageQuota": 12,
+    "status": "Approved",
+    "createdBy": "U02",
+    "createdAt": "2025-07-12",
+    "totalEstimatedHours": 152.0,
+    "forecastOwner": "U02"
+   },
+   {
+    "forecastID": "FRC160",
+    "slaID": "SLA02",
+    "customerID": "FC02",
+    "forecastPeriod": "Annual",
+    "periodStart": "2026-01-01",
+    "periodFinish": "2026-12-31",
+    "periodBusinessDays": 261,
+    "periodFrame": "2026",
+    "weeklyUsageQuota": 3,
+    "status": "Approved",
+    "createdBy": "U02",
+    "createdAt": "2025-07-12",
+    "totalEstimatedHours": 152.0,
+    "forecastOwner": "U02"
    }
   ],
   "Forecast Scopes": [
@@ -9691,6 +9911,142 @@
     "region": "APAC",
     "forecastScopeQuantity": 3,
     "consumption": 62,
+    "notes": "",
+    "forecastScopeOwner": "U14"
+   },
+   {
+    "forecastScopeID": "FS391",
+    "forecastScopeRegistry": "FSR-2026-0391",
+    "forecastID": "FRC157",
+    "scopeID": "A.1",
+    "productGroupID": "PG01",
+    "productScopeID": "PS01",
+    "eventID": "EV01",
+    "processID": "PR1",
+    "functionName": "Electrical Design",
+    "estimatedHours": 40.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 1,
+    "consumption": 24,
+    "notes": "",
+    "forecastScopeOwner": "U01"
+   },
+   {
+    "forecastScopeID": "FS392",
+    "forecastScopeRegistry": "FSR-2026-0392",
+    "forecastID": "FRC157",
+    "scopeID": "A.2",
+    "productGroupID": "PG02",
+    "productScopeID": "PS02",
+    "eventID": "EV06",
+    "processID": "PR2",
+    "functionName": "Mechanical Design",
+    "estimatedHours": 64.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 2,
+    "consumption": 38,
+    "notes": "",
+    "forecastScopeOwner": "U02"
+   },
+   {
+    "forecastScopeID": "FS393",
+    "forecastScopeRegistry": "FSR-2026-0393",
+    "forecastID": "FRC158",
+    "scopeID": "A.1",
+    "productGroupID": "PG01",
+    "productScopeID": "PS01",
+    "eventID": "EV01",
+    "processID": "PR1",
+    "functionName": "Electrical Design",
+    "estimatedHours": 40.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 1,
+    "consumption": 24,
+    "notes": "",
+    "forecastScopeOwner": "U01"
+   },
+   {
+    "forecastScopeID": "FS394",
+    "forecastScopeRegistry": "FSR-2026-0394",
+    "forecastID": "FRC158",
+    "scopeID": "A.2",
+    "productGroupID": "PG02",
+    "productScopeID": "PS02",
+    "eventID": "EV06",
+    "processID": "PR2",
+    "functionName": "Mechanical Design",
+    "estimatedHours": 64.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 2,
+    "consumption": 38,
+    "notes": "",
+    "forecastScopeOwner": "U02"
+   },
+   {
+    "forecastScopeID": "FS395",
+    "forecastScopeRegistry": "FSR-2026-0395",
+    "forecastID": "FRC159",
+    "scopeID": "A.3",
+    "productGroupID": "PG11",
+    "productScopeID": "PS03",
+    "eventID": "EV13",
+    "processID": "PR1",
+    "functionName": "Analysis",
+    "estimatedHours": 64.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 3,
+    "consumption": 38,
+    "notes": "",
+    "forecastScopeOwner": "U13"
+   },
+   {
+    "forecastScopeID": "FS396",
+    "forecastScopeRegistry": "FSR-2026-0396",
+    "forecastID": "FRC159",
+    "scopeID": "A.4",
+    "productGroupID": "PG12",
+    "productScopeID": "PS04",
+    "eventID": "EV18",
+    "processID": "PR2",
+    "functionName": "Quality",
+    "estimatedHours": 88.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 4,
+    "consumption": 52,
+    "notes": "",
+    "forecastScopeOwner": "U14"
+   },
+   {
+    "forecastScopeID": "FS397",
+    "forecastScopeRegistry": "FSR-2026-0397",
+    "forecastID": "FRC160",
+    "scopeID": "A.3",
+    "productGroupID": "PG11",
+    "productScopeID": "PS03",
+    "eventID": "EV13",
+    "processID": "PR1",
+    "functionName": "Analysis",
+    "estimatedHours": 64.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 3,
+    "consumption": 38,
+    "notes": "",
+    "forecastScopeOwner": "U13"
+   },
+   {
+    "forecastScopeID": "FS398",
+    "forecastScopeRegistry": "FSR-2026-0398",
+    "forecastID": "FRC160",
+    "scopeID": "A.4",
+    "productGroupID": "PG12",
+    "productScopeID": "PS04",
+    "eventID": "EV18",
+    "processID": "PR2",
+    "functionName": "Quality",
+    "estimatedHours": 88.0,
+    "region": "EMEA",
+    "forecastScopeQuantity": 4,
+    "consumption": 52,
     "notes": "",
     "forecastScopeOwner": "U14"
    }

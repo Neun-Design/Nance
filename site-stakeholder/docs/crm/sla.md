@@ -16,3 +16,5 @@ an SLA with that department are offered.
 none) and `Department *` (the unit's departments) → **Payloads** (multi — the unit's
 payloads, grouped by event); Activate. The events and product scopes the contract covers
 are derived from the purchased payloads — nothing to select.
+**Expand a row** to see the contract's [Forecasts](forecasts.md) — its temporal dimension:
+each forecast projects the SLA's volume for one period.
