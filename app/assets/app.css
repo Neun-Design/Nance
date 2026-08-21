@@ -463,6 +463,33 @@ select.form-input[multiple] { padding: 0; }
 .kpi { position: relative; }
 .kpi-details { position: absolute; top: var(--se-space-4); right: var(--se-space-4); }
 
+/* ---------- About-this-demo panel (MOCKUP_DEMO_PLAN F4) ---------- */
+.about-btn {
+  height: 24px; padding: 0 var(--se-space-3); margin-left: var(--se-space-3);
+  border: 1px solid var(--se-action-secondary-border); border-radius: var(--se-radius-1);
+  background: transparent; color: var(--se-text-secondary);
+  font-size: var(--se-font-size-caption); cursor: pointer; white-space: nowrap;
+}
+.about-btn:hover { background: var(--se-action-secondary-hover); color: var(--se-text-primary); }
+.about-overlay {
+  position: fixed; inset: 0; z-index: 90; display: flex; align-items: center;
+  justify-content: center; background: color-mix(in srgb, var(--se-base-0) 70%, transparent);
+}
+.about-panel {
+  width: 560px; max-width: 92vw; max-height: 84vh; overflow: auto;
+  background: var(--se-base-1); border: 1px solid var(--se-ui-4);
+  border-radius: var(--se-radius-2); box-shadow: var(--se-elevation-4);
+}
+.about-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--se-space-5) var(--se-space-6); border-bottom: 1px solid var(--se-ui-4);
+}
+.about-head h2 { margin: 0; font-size: var(--se-font-size-h3); font-weight: var(--se-weight-h3); }
+.about-body { padding: var(--se-space-5) var(--se-space-6); font-size: var(--se-font-size-body); color: var(--se-text-primary); }
+.about-body ul { padding-left: var(--se-space-6); margin: var(--se-space-4) 0; }
+.about-body li { margin: var(--se-space-2) 0; }
+.about-note { color: var(--se-text-secondary); font-size: var(--se-font-size-caption); }
+
 /* ---------- engine cards: trend arrows + detail lists ---------- */
 .kpi-trend { font-size: var(--se-font-size-body); font-weight: 700; margin-right: var(--se-space-2); }
 .trend-up { color: var(--se-text-success); }
