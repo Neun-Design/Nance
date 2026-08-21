@@ -3,7 +3,7 @@
      Serve prototype/ over http, then:
        chrome --headless=new --window-size=1680,1050 --virtual-time-budget=15000 \
          --screenshot=out.png "http://localhost:8123/tools/uxshot.html?hash=/1/0&act=expand"
-     Params: hash=/<module>/<tab> route · auth=0 keeps the login gate ·
+     Params: hash=/<module>/<tab> route ·
      act=expand|form|filters|edit · sub=<n> clicks the n-th subitem tab after expand ·
      app=<query> forwards a query string to the app (app=data%3Dempty for MVP mode) ·
      set=Label:value,… fills form selects sequentially (cascades fire between steps) ·
@@ -13,7 +13,6 @@
 <iframe id="f" style="width:100vw;height:100vh;border:0"></iframe>
 <script>
   const q = new URLSearchParams(location.search);
-  if (q.get('auth') !== '0') sessionStorage.setItem('edqms-auth', '1');
   const f = document.getElementById('f');
   f.src = '/index.html' + (q.get('app') ? '?' + q.get('app') : '')
     + (q.get('hash') ? '#' + q.get('hash') : '');
@@ -27,7 +26,7 @@
   const run = () => {
     tries += 1;
     const d = f.contentDocument;
-    const ready = d && d.querySelector('#tab-body table.dt, .login-card, .kpi-grid');
+    const ready = d && d.querySelector('#tab-body table.dt, .kpi-grid');
     if (!ready && tries < 60) return setTimeout(run, 250);
     // set=Label:value,Label2:value2 fills form selects (dispatching change so
     // cascades fire); probe=Label overlays that field's option list so the

@@ -43,7 +43,7 @@ Três lacunas são intrínsecas ao fato de ser um protótipo e definem trabalho 
 
 Primeiro, **persistência**: os dados vivem em memória e são reiniciados a cada reload (`data.js`). O MVP precisa de um banco real, transações, e create/update/delete duráveis.
 
-Segundo, **autenticação e autorização**: o login atual é fixo (`se-admin` / `@NorthwindEnergy2026` em `login.js`, com flag em `sessionStorage`). Precisa virar autenticação real por e-mail com restrição de domínio e, na sequência, controle de acesso por papel (RBAC).
+Segundo, **autenticação e autorização**: o protótipo não tem login (o gate de demonstração foi removido quando o projeto virou open source — nada sensível vive no cliente). O MVP precisa de autenticação real por e-mail com restrição de domínio e, na sequência, controle de acesso por papel (RBAC).
 
 Terceiro, **computação no cliente**: hoje todas as resoluções, joins, cards e reports são calculados no navegador sobre o dataset inteiro (585 KB de JSON carregados de uma vez). Isso não escala nem é seguro (todo o dado trafega para o cliente). No MVP, essa computação migra para o **servidor**, que devolve apenas o que a tela precisa e o que o usuário pode ver.
 
@@ -187,7 +187,7 @@ Toda a infra é descrita como código (**Bicep** ou Terraform) e publicada por *
 | SPA vanilla ES modules, sem build | Next.js + React + TypeScript, build/CI |
 | Tokens CSS do Northwind Energy DS | Tema Tailwind com os mesmos tokens; modo escuro padrão |
 | ECharts | shadcn charts (Recharts); ECharts como exceção |
-| `login.js` com credenciais fixas | Auth.js: e-mail OTP/magic link, domínio `@northwind-energy.com` |
+| Sem autenticação (acesso aberto) | Auth.js: e-mail OTP/magic link, domínio `@northwind-energy.com` |
 | `data.js` em memória (JSON) | PostgreSQL (Prisma) + seed do mockup |
 | `model/resolve/queries` no cliente | Pacote `@edqms/engine` em TS no servidor |
 | `forms.js` (drawers, cascata, wizard) | Drawers shadcn; lógica de cascata/dependência preservada |
