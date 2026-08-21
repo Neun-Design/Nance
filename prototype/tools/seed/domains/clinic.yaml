@@ -549,5 +549,10 @@ narrative:
     task: Elaborate Report-Check
     minProcesses: 3
   story6_sla_balance:
-    sla: "HealthFirst × Radiology Operations"
-    consumedRate: 0.78             # 78% of quantity consumed at month 3 of the quarter
+    # F2 correction: stories 4 and 6 cannot share the HealthFirst contract —
+    # 900 approved hours imply ~97 units of quantity, and 78% of that would
+    # need more tickets than one customer owns. The balance story anchors on
+    # the Screening Program's contract (2 projects → ticket mass) and reads
+    # the burn over the CURRENT QUARTER's lines, as the story text says.
+    sla: "VHN-SCREENING-2026"
+    consumedRate: 0.78             # 78% of the current-quarter quantity consumed

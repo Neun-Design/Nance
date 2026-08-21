@@ -91,18 +91,25 @@ approach without saying "ISO".
 
 ## Story 6 — The contract balance (born in R6)
 
-**What the visitor sees.** CRM → Forecast Scopes: the lines of the
-"HealthFirst × Radiology Operations" contract show `consumption` (a real
-COUNT of linked tickets) at **78% of quantity** in the third month of the
-quarter, `remaining` still positive — the most direct commercial reading the
-platform offers.
+**What the visitor sees.** CRM → Forecast Scopes: the current-quarter lines
+of the **Screening Program contract** (`VHN-SCREENING-2026`) show
+`consumption` (a real COUNT of linked tickets) at **78% of quantity** in the
+third month of the quarter, `remaining` still positive — the most direct
+commercial reading the platform offers.
 
 **Why it sells.** A commercial manager sees contract burn-down without a
 spreadsheet; and clicking a line shows exactly WHICH tickets consumed it.
 
-**Assert.** For the story-6 SLA's current-quarter lines:
-`Σ consumption / Σ forecastScopeQuantity` ∈ [0.7, 0.85] and every line has
-`remaining ≥ 0`.
+**Assert.** For the story-6 SLA's current-quarter lines (its 3 most recent
+approved monthly forecasts): `Σ consumption / Σ forecastScopeQuantity` ∈
+[0.7, 0.85] and every line has `remaining ≥ 0`.
+
+> **F2 correction (21/08).** The story originally anchored on the HealthFirst
+> contract — but stories 4 and 6 cannot share it: 900 approved hours imply
+> ~97 units of quantity, and 78% of that would need more tickets than one
+> customer owns in a 160-ticket dataset. The balance story moved to the
+> Screening Program's contract (two projects → ticket mass) and reads the
+> burn over the current quarter, as the story text always said.
 
 ---
 
