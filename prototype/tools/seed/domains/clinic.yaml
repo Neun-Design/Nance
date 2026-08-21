@@ -311,7 +311,7 @@ requirements:                      # 18 — applicability varies by region/custo
   - { name: Cold Chain Control, type: Clinical Protocol, scopes: [Home Collection], description: "Temperature-controlled sample transport" }
   - { name: HealthFirst Reporting Template, type: Contractual, customers: [HealthFirst Insurance], description: "Insurer-mandated report layout and coding" }
   - { name: Austral Prior Authorization, type: Contractual, customers: [Austral Seguros Médicos], description: "Pre-authorization required before high-cost exams" }
-  - { name: Screening Quality Sampling, type: Accreditation, scopes: [Screening Campaign], description: "Second-read sampling on campaign volume" }
+  - { name: Screening Quality Sampling, type: Accreditation, scopes: [Screening Campaign], products: [Mammography], description: "Second-read sampling on mammography campaign volume" }
   - { name: Critical Value Notification, type: Clinical Protocol, products: [Complete Blood Count, Molecular PCR Panel], description: "Immediate physician notification on critical results" }
   - { name: Equipment QC Daily Check, type: Regulatory, products: [CT Scan, MRI, Mammography], description: "Daily quality-control phantom checks" }
   - { name: Interpreter Availability, type: Contractual, regions: [Río de la Plata], description: "Portuguese/Spanish report availability for cross-border insurers" }

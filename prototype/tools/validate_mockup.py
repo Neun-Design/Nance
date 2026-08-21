@@ -223,11 +223,40 @@ if a1 != a2: ok('Capacity: two-period totals differ (trend arrows renderable)')
 else: fail('Capacity: flat trend')
 
 # ---------- 6. fixtures ----------
+# Since F3 (MOCKUP_DEMO_PLAN §5.5) the counts live in the DOMAIN PACK the
+# dataset declares in _meta.domain — the validator reads, never hard-codes.
+# Datasets without a domain (pre-Vitalis snapshots) fall back to the legacy
+# transformer counts.
 print('\n== fixtures ==')
-FIX = {'Customers': 17, 'Actions': 7, 'Scopes': 10, 'Products': 14, 'Product Groups': 14,
-       'Product Specs': 2, 'Events': 31, 'Tickets': 135}
+_domain_name = (MOCK.get('_meta') or {}).get('domain')
+DOMAIN = None
+if _domain_name:
+    import yaml
+    DOMAIN = yaml.safe_load(
+        (Path(__file__).parent / 'seed' / 'domains' / f'{_domain_name}.yaml')
+        .read_text(encoding='utf-8'))
+    FIX = DOMAIN['meta']['fixtures']
+    ok(f'fixture counts read from the {_domain_name} domain pack')
+else:
+    FIX = {'Customers': 17, 'Actions': 7, 'Scopes': 10, 'Products': 14, 'Product Groups': 14,
+           'Product Specs': 2, 'Events': 31, 'Tickets': 135}
 for t, n in FIX.items():
     (ok if len(flat[t]) == n else fail)(f'{t}: {len(flat[t])} rows (expected {n})')
+
+# ---------- 6b. narrative (F3 — plan §5.4/§7.1) ----------
+# The six planted stories and the H1–H6 seed hygiene are the demo's
+# regression contract: narrative.assert_narrative() is the same function the
+# seed build runs — a dataset that breaks a story fails the build here too.
+if DOMAIN is not None:
+    print('\n== narrative ==')
+    sys.path.insert(0, str(Path(__file__).parent / 'seed'))
+    import narrative as _narrative
+    _nfails = _narrative.assert_narrative(flat, DOMAIN)
+    if _nfails:
+        for f in _nfails:
+            fail(f'narrative: {f}')
+    else:
+        ok('all six stories and H1–H6 hold')
 
 # ---------- 7. Control derivation gate (issue #246, A3) ----------
 # Capacity and Performance are OUTPUTS of derive_control.py, never inputs:

@@ -4,10 +4,14 @@
 // `<Table>::<Report-X|Card R-C>`. Every function is asserted against the
 // mockup dataset by prototype/tools/test_queries.mjs.
 
-import { getEntity, getById, lookup } from './data.js';
+import { getEntity, getById, lookup, anchorToday } from './data.js';
 import { resolveDisplay } from './resolve.js';
 
-const TODAY = new Date('2026-07-19');
+// Anchored datasets (Vitalis, F3): "today" follows the shifted anchor, so
+// trend windows track the data month by month; pre-anchor snapshots keep the
+// frozen transformer-era date.
+const TODAY_FALLBACK = new Date('2026-07-19');
+const todayRef = () => anchorToday() || TODAY_FALLBACK;
 
 // ---------- aggregation helpers ----------
 const sum = (rows, f) => rows.reduce((s, r) => s + (Number(r[f]) || 0), 0);
@@ -258,13 +262,18 @@ export const CARD_QUERIES = {
 
   'Tickets::Card 1-1': () => {
     const tks = getEntity('Tickets');
+    const now = todayRef();
     const created = (t) => t.ticketCreatedAt ? new Date(t.ticketCreatedAt) : null;
-    const daysAgo = (n) => new Date(TODAY.getTime() - n * 86400000);
-    const last5 = tks.filter((t) => created(t) && created(t) >= daysAgo(5)).length;
-    const thisMonth = tks.filter((t) => monthKey(t.ticketCreatedAt) === '2026-07').length;
-    const prevMonth = tks.filter((t) => monthKey(t.ticketCreatedAt) === '2026-06').length;
+    const daysAgo = (n) => new Date(now.getTime() - n * 86400000);
+    const mk = (n) => {                       // month key n months before "today"
+      const d = new Date(now.getFullYear(), now.getMonth() - n, 1);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    };
+    const last7 = tks.filter((t) => created(t) && created(t) >= daysAgo(7)).length;
+    const thisMonth = tks.filter((t) => monthKey(t.ticketCreatedAt) === mk(0)).length;
+    const prevMonth = tks.filter((t) => monthKey(t.ticketCreatedAt) === mk(1)).length;
     const trendPct = prevMonth ? Math.round(((thisMonth - prevMonth) / prevMonth) * 100) : null;
-    return { main: String(last5), trendPct,
+    return { main: String(last7), trendPct,
       detail: `${thisMonth} created this month`, };
   },
 
@@ -272,8 +281,9 @@ export const CARD_QUERIES = {
     const rows = getEntity('Capacity');
     const util = (rs) => { const a = sum(rs, 'allocatedHours'), b = sum(rs, 'availableHours'); return b ? a / b : 0; };
     const total = util(rows);
+    const now = todayRef();
     const inWindow = (r, from, to) => { const d = new Date(r.periodStart); return d >= from && d < to; };
-    const m = (n) => new Date(TODAY.getFullYear(), TODAY.getMonth() - n, 1);
+    const m = (n) => new Date(now.getFullYear(), now.getMonth() - n, 1);
     const recent = rows.filter((r) => inWindow(r, m(3), m(0)));
     const prior = rows.filter((r) => inWindow(r, m(6), m(3)));
     const trendPct = prior.length ? Math.round(((util(recent) - util(prior)) / util(prior)) * 100) : null;
@@ -317,8 +327,10 @@ export const CARD_QUERIES = {
     const rows = getEntity('Performance');
     const eff = (rs) => { const p = sum(rs, 'plannedHours'), r = sum(rs, 'realExecutionTime'); return r ? ((p / r) - 1) * 100 : 0; };
     const total = eff(rows);
-    const recent = rows.filter((r) => new Date(r.periodYear, r.periodMonth - 1, 1) >= new Date(2026, 3, 1));
-    const prior = rows.filter((r) => { const d = new Date(r.periodYear, r.periodMonth - 1, 1); return d >= new Date(2026, 0, 1) && d < new Date(2026, 3, 1); });
+    const now = todayRef();
+    const m = (n) => new Date(now.getFullYear(), now.getMonth() - n, 1);
+    const recent = rows.filter((r) => new Date(r.periodYear, r.periodMonth - 1, 1) >= m(3));
+    const prior = rows.filter((r) => { const d = new Date(r.periodYear, r.periodMonth - 1, 1); return d >= m(6) && d < m(3); });
     const trendPct = prior.length ? Math.round(eff(recent) - eff(prior)) : null;
     return { main: `${total.toFixed(1)}%`, trendPct,
       detail: `${Math.round(sum(rows, 'plannedHours'))} planned / ${Math.round(sum(rows, 'realExecutionTime'))} real h` };
