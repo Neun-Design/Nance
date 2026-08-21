@@ -1,7 +1,18 @@
 # EDQMS — Plano de implementação do banco de dados demo (mockup de domínio)
 
 **Division Governance Portal · protótipo → demo pública**
-Versão 0.4 · 21/08/2026 · Documento de planejamento (decisões registradas na §10)
+Versão 1.0 · 21/08/2026 · **CONCLUÍDO** — F1–F6 executadas (decisões registradas na §10)
+
+> **Status de encerramento (21/08/2026).** As seis fases foram entregues no milestone
+> "Mockup Demo — Vitalis (F1–F6)": F1 dicionário+narrativa (#254/PR #255) · F2 pipeline
+> determinístico `tools/seed/` (#256/#257) · F3 swap com validador estendido, datas
+> ancoradas e tag `demo-transformers-v1` (#258/#259) · F4 copy+branding e painel "About
+> this demo" (#260/#261) · F5 varredura automatizada `tools/sweep_screens.mjs`, zero abas
+> vazias / zero cards degenerados (#262/#263) · F6 deploy + regressão no publicado +
+> screenshots de referência (`tools/reference-shots/`). A demo pública em `/app/` é a
+> **Vitalis Health Network**; o MVP em branco segue neutro e intacto. Gates permanentes:
+> paridade de catálogo no build (SeedError), `== narrative ==` e `== control derivation ==`
+> no validador, e a sweep de telas — um re-seed que quebre uma história derruba o build.
 
 > **Bloqueio liberado (21/08/2026, fim do dia).** A rodada de schema R6 foi implementada —
 > `schemaVersion` **44 → 49**, issues #241 a #246. As decisões da §8 do
