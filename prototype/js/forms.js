@@ -458,6 +458,11 @@ export function applyDerivedUnits(entity, rec) {
   } else if (entity === 'Onboarding') {
     const d = rec.departmentID && getById('Departments', rec.departmentID);
     rec.businessUnitID = (d && d.businessUnitID) ?? null;
+  } else if (entity === 'Forecasts') {
+    // the customer is the contract's customer (issue #241, SLA-as-Contract) —
+    // stored so the downstream join chains keep a real key to traverse
+    const s = rec.slaID && getById('SLA', rec.slaID);
+    rec.customerID = (s && s.customerID) ?? rec.customerID ?? null;
   } else if (entity === 'Competence') {
     // department moved DOWN to Processes (issue #159) — derive via the
     // selected process; legacy snapshots may still carry it on the event
@@ -783,6 +788,26 @@ export function eventsForCustomerSLAs(customerId) {
       if (p && p.eventID != null) covered.add(String(p.eventID));
     }
   }
+  return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+}
+
+// Events a FORECAST SCOPE may project (issue #241, SLA-as-Contract): the
+// events packaged by the payloads of the forecast's SLA — a forecast projects
+// what its contract covers. No forecast / no SLA / no payloads → every event
+// (lenient wildcard, eventsForCustomerSLAs posture).
+export function eventsForForecastSLA(forecastId) {
+  const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
+  const all = getEntity('Events');
+  if (!forecastId) return all.map(evOption);
+  const fc = getById('Forecasts', forecastId);
+  const sla = fc && fc.slaID != null && fc.slaID !== '' ? getById('SLA', fc.slaID) : null;
+  if (!sla) return all.map(evOption);
+  const covered = new Set();
+  for (const pid of asList(sla.payloadID)) {
+    const p = getById('Payload', pid);
+    if (p && p.eventID != null) covered.add(String(p.eventID));
+  }
+  if (!covered.size) return all.map(evOption);
   return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
 }
 
@@ -1320,6 +1345,14 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Tickets' && attrName === 'eventID') {
             const dep = findDep('Customer');
             applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null));
+            return;
+          }
+          // Forecast Scopes "Event": only events covered by the forecast's
+          // SLA payloads (issue #241 — a forecast projects what its contract
+          // covers); see eventsForForecastSLA
+          if (entity === 'Forecast Scopes' && attrName === 'eventID') {
+            const dep = findDep('Forecast');
+            applyOpts(eventsForForecastSLA(dep ? dep[1].get() : null));
             return;
           }
           // Tickets "Product Scope": the scopes packaged by the selected
