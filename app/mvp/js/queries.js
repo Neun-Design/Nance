@@ -124,8 +124,11 @@ export const REPORT_QUERIES = {
       'Planned', cats.map((c) => Math.round(planned.get(c) || 0)),
       'Real', cats.map((c) => Math.round(real.get(c) || 0)));
   },
+  // roleID is a mirror of the person since issue #244 (A8) — resolve the
+  // group key through the allocated person's stored role
   'Jobs::Report-B': (rows) =>
-    bar('Real Execution Hours by Role', groupAgg(rows, 'roleID', 'realExecutionTime'),
+    bar('Real Execution Hours by Role',
+      groupAgg(rows, (r) => lookup('People', r.userID, 'roleID') || '—', 'realExecutionTime'),
       (k) => lookup('Roles', k, 'roleName') || k),
 
   // Capacity vs demand by FUNCTION (datamodel Capacity::Report-A):
@@ -169,7 +172,7 @@ export const REPORT_QUERIES = {
       .map((f) => f.forecastID));
     const alloc = groupAgg(
       getEntity('Forecast Scopes').filter((s) => fcIds.has(s.forecastID)),
-      'functionName', 'estimatedHours');
+      (s) => fnName(s.functionID), 'estimatedHours');
 
     const cats = [...new Set([...availWeekly.keys(), ...alloc.keys()])].sort();
     const title = 'Available vs Allocated Hours by Function'
@@ -179,18 +182,20 @@ export const REPORT_QUERIES = {
       'Allocated', cats.map((c) => Math.round(alloc.get(c) || 0)));
   },
 
+  // Performance grain = functionID × customerID × month since issue #246 —
+  // names resolve through the stored FKs, and variance groups by FUNCTION
+  // (the old per-ticket process hop left the grain with the A3 reshape)
   'Performance::Report-A': (rows) => {
-    const planned = groupAgg(rows, 'customerName', 'plannedHours');
-    const real = groupAgg(rows, 'customerName', 'realExecutionTime');
+    const planned = groupAgg(rows, (r) => custName(r.customerID), 'plannedHours');
+    const real = groupAgg(rows, (r) => custName(r.customerID), 'realExecutionTime');
     const cats = [...planned.keys()];
     return dual('Planned vs Real Hours by Customer', cats,
       'Planned', cats.map((c) => Math.round(planned.get(c) || 0)),
       'Real', cats.map((c) => Math.round(real.get(c) || 0)));
   },
   'Performance::Report-B': (rows) =>
-    bar('Variance by Process', groupAgg(rows, (r) => {
-      const t = getById('Tickets', r.ticketID); return t ? procName(t.processID) : null;
-    }, 'variance'), null),
+    bar('Variance by Function', groupAgg(rows, 'functionID', 'variance'),
+      (k) => lookup('Functions', k, 'functionName') || k),
 
   'Roles::Report-A': (rows) =>
     donut('Headcount by Function', groupAgg(rows, 'functionID', 'quantity'),
@@ -215,14 +220,16 @@ export const REPORT_QUERIES = {
 
 function stackedScopeHours(rows) {
   const scopeOf = (r) => lookup('Scopes', r.scopeID, 'scopeName') || r.scopeID;
+  // functionName is a mirror since issue #242 — resolve via the stored FK
+  const fnOf = (r) => lookup('Functions', r.functionID, 'functionName') || r.functionID;
   const cats = [...new Set(rows.map(scopeOf))];
-  const fns = [...new Set(rows.map((r) => r.functionName).filter(Boolean))];
+  const fns = [...new Set(rows.map(fnOf).filter(Boolean))];
   return {
     type: 'multibar', stacked: true, title: 'Estimated Hours by Scope (stacked by Function)',
     cats,
     series: fns.map((fn) => ({
       name: fn,
-      data: cats.map((c) => Math.round(sum(rows.filter((r) => scopeOf(r) === c && r.functionName === fn), 'estimatedHours'))),
+      data: cats.map((c) => Math.round(sum(rows.filter((r) => scopeOf(r) === c && fnOf(r) === fn), 'estimatedHours'))),
     })),
   };
 }

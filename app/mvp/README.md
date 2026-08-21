@@ -68,7 +68,8 @@ Hosted: `https://bovarafa.github.io/EDQMS/app/mvp/` (published by `deploy_pages.
   - **Task Templates** — Event → Process → Workflow → Activity cascade; each selection narrows
     the next dropdown (disabled with a "no options" message when empty), the Activity is
     auto-set, and Task Name / Role auto-populate.
-  - **Jobs** — a 4-step planning wizard (Select template → Schedule → Assign → Dependencies).
+  - **Jobs** — a single planning drawer (Ticket → Task → Responsible → dates → optional
+    predecessor with dependency type).
     The Assignee dropdown is filtered to people whose role matches the chosen task template, and
     Role / Squad / Job Name auto-fill from the selections.
 

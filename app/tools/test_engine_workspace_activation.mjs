@@ -29,7 +29,12 @@ console.log('== schema: SLA-aware ticket chain ==');
   const cat = catalog['Tickets'];
   eq(model.parseRule(cat.byName['businessUnitID'].rule).kind, 'fk', 'businessUnitID is a stored FK anchor');
   eq(model.parseRule(cat.byName['eventID'].rule).display, 'eventTitle', 'eventID displays eventTitle (eventName never existed)');
-  eq(cat.byName['forecastScopeID'], undefined, 'forecastScopeID left Tickets (Forecasts pair is out of the chain)');
+  // #192 removed forecastScopeID as a CHAIN INPUT; issue #243 reintroduced it
+  // with different semantics — a nullable CONSUMPTION link (A1). Stale absence
+  // assertion retired (issue #207 precedent); the new behavior is proven by
+  // test_engine_ticket_forecast_link.mjs.
+  eq(model.parseRule(cat.byName['forecastScopeID'].rule).target, 'Forecast Scopes',
+    'forecastScopeID is the #243 consumption link (not the pre-#192 chain input)');
   eq(model.parseRule(cat.byName['payloadID'].rule).target, 'Payload', 'payloadID derives from Payload via the event');
   eq(model.parseRule(cat.byName['slaID'].rule).target, 'SLA', 'slaID derives the customer contracts');
   const pj = catalog['Projects'];
@@ -41,7 +46,9 @@ console.log('== schema: SLA-aware ticket chain ==');
 console.log('== form spec: gated cascade ==');
 {
   const t = catalog['Tickets'].form.fields;
-  eq('Forecast Scope' in t, false, 'Forecast Scope input removed');
+  // the #192 "input removed" assertion retired — #243 added the field back as
+  // the nullable consumption link, gated on Event
+  eq(t['Forecast Scope'].check, 'Event IS NOT NULL', 'Forecast Scope is the #243 link, gated on Event');
   eq(t.Customer.check, 'Business Unit IS NOT NULL', 'Customer gated on the unit');
   eq(t.Project.check, 'Customer IS NOT NULL', 'Project gated on the customer');
   eq(t.Event.check, 'Customer IS NOT NULL', 'Event gated on the customer');

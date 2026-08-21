@@ -229,5 +229,17 @@ FIX = {'Customers': 17, 'Actions': 7, 'Scopes': 10, 'Products': 14, 'Product Gro
 for t, n in FIX.items():
     (ok if len(flat[t]) == n else fail)(f'{t}: {len(flat[t])} rows (expected {n})')
 
+# ---------- 7. Control derivation gate (issue #246, A3) ----------
+# Capacity and Performance are OUTPUTS of derive_control.py, never inputs:
+# recompute from the live sources and compare — any hand edit fails the build.
+print('\n== control derivation ==')
+sys.path.insert(0, str(Path(__file__).parent))
+import derive_control
+cap_d, perf_d = derive_control.derive(flat)
+if flat['Capacity'] == cap_d: ok(f'Capacity matches its derivation ({len(cap_d)} rows)')
+else: fail('Capacity diverges from derive_control — regenerate, never hand-edit')
+if flat['Performance'] == perf_d: ok(f'Performance matches its derivation ({len(perf_d)} rows)')
+else: fail('Performance diverges from derive_control — regenerate, never hand-edit')
+
 print(f'\nRESULT: {"FAIL" if fails else "PASS"} — {len(fails)} failures, {len(warns)} warnings')
 sys.exit(1 if fails else 0)

@@ -66,7 +66,9 @@ for (const [tname, cat] of Object.entries(catalog)) {
 console.log('== Capacity Report-A (available vs allocated by function) ==');
 {
   const spec = REPORT_QUERIES['Capacity::Report-A'](data.getEntity('Capacity'), {});
-  const funcs = new Set(data.getEntity('Capacity').map((c) => c.functionName));
+  // functionName is a mirror since issue #246 — resolve through the stored FK
+  const funcs = new Set(data.getEntity('Capacity')
+    .map((c) => (data.getById('Functions', c.functionID) || {}).functionName || c.functionID));
   const byFunc = spec.cats.length && spec.cats.every((c) => funcs.has(c));
   const [avail, alloc] = spec.series;
   const availPos = avail.data.every((v) => v > 0);

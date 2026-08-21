@@ -908,7 +908,13 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
         // task's Procedures since 2026-08-04) — nested sums resolve through
         // derivedValue instead of reading a raw key that no longer exists
         const childCat = getCatalog(child);
-        return kids.reduce((s, k) => {
+        // no chained children → the stored manual estimate stands (#192
+        // posture, issue #242: most demo events chain no tasks yet — the
+        // planner's number is the honest value until the chain exists)
+        if (!kids.length && row[attr.name] != null && row[attr.name] !== '') {
+          return row[attr.name];
+        }
+        const sum = kids.reduce((s, k) => {
           let v = Number(k[r.field]);
           if (k[r.field] == null || Number.isNaN(v)) {
             const ca = childCat && childCat.byName[r.field];
@@ -916,12 +922,32 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
           }
           return s + (Number.isNaN(v) ? 0 : v);
         }, 0);
+        // "SUM(...) * field" scales by the row's own field (issue #242);
+        // a blank multiplier counts as 1 so drafts don't zero out
+        if (r.multiplierField) {
+          const mv = Number(row[r.multiplierField]);
+          return sum * (Number.isNaN(mv) || row[r.multiplierField] == null
+            || row[r.multiplierField] === '' ? 1 : mv);
+        }
+        return sum;
       }
     }
     // stored fallback (generator may have precomputed it)
     return row[attr.name] ?? '—';
   }
 
+  if (r.kind === 'diff') {
+    // computed: a - b over the row's own attrs — a derived operand (e.g. the
+    // consumption rollup) resolves through derivedValue; a stored one reads raw
+    const cat = getCatalog(tableName);
+    const num = (name) => {
+      const a2 = cat && cat.byName[name];
+      const v = a2 && a2.rule ? derivedValue(tableName, a2, row, depth + 1) : row[name];
+      const n = Number(v);
+      return Number.isNaN(n) ? 0 : n;
+    };
+    return num(r.minuend) - num(r.subtrahend);
+  }
   if (r.kind === 'format') {
     // computed: FORMAT(dateField, 'YYYY-MonthName') — stored value wins so the
     // generator's precomputed labels are untouched; derives for new records
