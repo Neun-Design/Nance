@@ -6,7 +6,7 @@ purpose: "Branches — what it is, when to register one, and its key fields"
 
 # Branches
 
-**What it is:** the physical sites (factories/shops) of the organisation.
+**What it is:** the physical sites (clinics/offices) of the organisation.
 **Register when:** after Units and Regions.
 **Key fields:** `Segment *` → unlocks `Unit *`; Name; City; `Region *` → unlocks Country (only
 the region's registered countries are offered); Owner. The **customer link is not entered

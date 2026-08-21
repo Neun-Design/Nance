@@ -7,7 +7,7 @@ purpose: "Requirements — what it is, when to register one, and its key fields"
 # Requirements
 
 **What it is:** the regulatory/design/commercial limits that bind scopes and product groups
-(e.g. "IEC 60076 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
+(e.g. "ANVISA RDC 611 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
 multi-dimensional: region, unit, branch, customer, scope, product group — **an empty
 dimension means "applies to all"**.
 **Register when:** after Scopes and Product Groups (Portfolio module).

@@ -53,16 +53,20 @@ Follow it on the [How it works](home/how-it-works.md) page.
 ## Not a concept — live today
 
 **In implementation now.** The Power Transformer Repairs & Services business unit at Northwind
-Energy, with modules being configured together with its key users.
+Energy, with modules being configured together with its key users. The **public demo** shows a
+fictitious clinic network — **Vitalis Health Network** — so any visitor can navigate a fully
+populated system without industry background. The model is sector-agnostic; the demo is simply
+the most self-explanatory dataset to walk through.
 
 **A complete governance portal.** Organization, Portfolio, CRM (SLAs), Talent, Operation and
 Workspace — one connected model, described module by module in the tabs above.
 
-**Try it yourself.** A public demo with sample data runs at
-[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login
-required. To model your own operation from a blank system, open
-[/app/mvp/](https://bovarafa.github.io/EDQMS/app/mvp/) instead and follow
-[Start here](start-here.md).
+**Try it yourself.** A public demo runs at
+[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login required.
+The header reads **Vitalis Governance Portal** and carries a **DEMO DATA · VITALIS** badge; an
+"About this demo" panel in the header explains the fictitious dataset. To model your own
+operation from a blank system, open [/app/mvp/](https://bovarafa.github.io/EDQMS/app/mvp/)
+instead and follow [Start here](start-here.md).
 
 ## Where to go next
 

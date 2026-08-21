@@ -28,10 +28,12 @@ Features here are not invented in a product meeting. They are discovered when a 
 organisation tries to model something real and finds the model will not hold it.
 
 The Requirements architecture is the clearest example. It grew multi-dimensional
-applicability — region, business unit, customer, scope, product group — because a transformer
-repair department needed to express obligations that varied along all of those axes at once.
-That capability now exists for every adopter, including ones whose requirements are far
-simpler.
+applicability — region, business unit, customer, scope, product group — because the Power
+Transformer Repairs & Services unit at Northwind Energy needed to express obligations that varied
+along all of those axes at once. That capability now exists for every adopter, including ones
+whose requirements are far simpler — in the public demo, for instance, ANVISA RDC 611
+Compliance applies only to the Brazilian regions, while HealthFirst Insurance's reporting
+template applies only to that insurer's contracts.
 
 Your unit's modelling session is therefore not just implementation work. It is the product
 discovery that decides what the platform can express next.

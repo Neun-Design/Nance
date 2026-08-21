@@ -88,7 +88,7 @@ integrating with your identity and document infrastructure, and training the int
 that will own the system afterwards (the Broker and Quality Manager functions).
 
 This is the [7-week playbook](implementation.md), already proven in the Power Transformer
-Repairs & Services unit.
+Repairs & Services business unit at Northwind Energy.
 
 ### Support plans
 

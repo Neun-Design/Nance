@@ -17,10 +17,10 @@ a module you can open from the tabs above.
 
 **Norms, contracts and design limits, registered per scope and product.**
 
-An IEC standard, a customer's contractual clause, a maximum tank weight, a testing obligation.
-Requirements are not filed as documents — they are registered with an applicability: which
-regions, which business units, which scopes and which product groups they bind. Leave a
-dimension empty and the requirement applies to all of them.
+A regulatory norm, a customer's contractual clause, a clinical protocol, an accreditation
+requirement. Requirements are not filed as documents — they are registered with an
+applicability: which regions, which business units, which scopes and which product groups they
+bind. Leave a dimension empty and the requirement applies to all of them.
 
 → [Operation · Requirements](../operation/requirements.md)
 
