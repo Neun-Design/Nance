@@ -936,6 +936,18 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
     return row[attr.name] ?? '—';
   }
 
+  if (r.kind === 'diff') {
+    // computed: a - b over the row's own attrs — a derived operand (e.g. the
+    // consumption rollup) resolves through derivedValue; a stored one reads raw
+    const cat = getCatalog(tableName);
+    const num = (name) => {
+      const a2 = cat && cat.byName[name];
+      const v = a2 && a2.rule ? derivedValue(tableName, a2, row, depth + 1) : row[name];
+      const n = Number(v);
+      return Number.isNaN(n) ? 0 : n;
+    };
+    return num(r.minuend) - num(r.subtrahend);
+  }
   if (r.kind === 'format') {
     // computed: FORMAT(dateField, 'YYYY-MonthName') — stored value wins so the
     // generator's precomputed labels are untouched; derives for new records

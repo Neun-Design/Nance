@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 46,
+    "schemaVersion": 47,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1820,11 +1820,20 @@
             },
             {
               "name": "consumption",
-              "type": "INT",
-              "rule": "computed: every time an forecastScopeID is added to a Ticket this column should be added by 1",
-              "notes": "DEFAULT = forecastScopeQuantity",
+              "type": "rollup",
+              "rule": "rollup → Tickets (via: forecastScopeID)",
+              "notes": "How many tickets ran against this demand line (issue #243 — a real COUNT at last; the stored invented values were dropped by the migration)",
               "table-display": true,
               "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "remaining",
+              "type": "mirror",
+              "rule": "computed: forecastScopeQuantity - consumption",
+              "notes": "Forecast balance (issue #243) — a number the user can check by counting the linked tickets",
+              "table-display": true,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -4889,9 +4898,18 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "notes": "Product scope this ticket targets (issue #214) — single-valued, picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs). EMPTY = every scope the payloads admit (Q1 wildcard). Stores the id — the display CONCAT resolves the names (normalized from the authored producScopeID name-mirror: selects bound to name-mirrors store names and break joins).",
+              "notes": "Product scope this ticket targets — NOT NULL since issue #243 (A2: without it the Jobs task rollup collapsed); picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs). Stores the id — the display CONCAT resolves the names.",
               "table-display": false,
               "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "forecastScopeID",
+              "type": "FK",
+              "rule": "FK → Forecast Scopes (display: forecastScopeRegistry)",
+              "notes": "The demand line this ticket consumes (issue #243, link A1) — nullable: NULL = the ticket ran outside the forecast. Options: demand lines of the customer's SLA forecasts matching the ticket's event (and product scope when chosen), no date gating (lenient decision).",
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "FK"
             },
             {
@@ -5093,6 +5111,16 @@
                 "step": null,
                 "check": "Project IS NOT NULL",
                 "field-rule": "filtered by Event selected"
+              },
+              "Forecast Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "forecastScopeID",
+                "tooltip": "The demand line this ticket consumes — leave empty when the work was not forecast",
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": "demand lines of the customer's SLA forecasts matching event + product scope"
               },
               "Details": {
                 "field-type": {
@@ -5457,9 +5485,9 @@
             },
             {
               "name": "taskID",
-              "type": "INT",
-              "rule": "rollup → Tasks (via: customerID + productGroupID + scopeID) (display: taskName)",
-              "notes": "Task template; options filtered by the ticket's customer + product group + scope",
+              "type": "FK",
+              "rule": "FK → Tasks (display: taskName)",
+              "notes": "Stored task template (issue #243 — the value must be stable on the record, it anchors plannedExecutionTime; the old 3-key rollup collapsed to 6 tasks on the empty ticket scopes, A2). Options filtered by tasksForJob(ticket) in the form.",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"

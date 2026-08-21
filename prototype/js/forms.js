@@ -844,6 +844,37 @@ export function productScopesForForecastSLA(eventId, forecastId) {
   return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
+// Demand lines a TICKET may consume (issue #243, the A1 link): forecast
+// scopes of the customer's SLA forecasts matching the ticket's event (and
+// product scope when chosen). No date gating (lenient decision) — the label
+// leads with the period so the user picks the right one. No customer → the
+// event-matching lines (lenient); NULL stays valid ("outside the forecast").
+export function forecastScopesForTicket(eventId, productScopeId, customerId) {
+  const slaIds = customerId
+    ? new Set(getEntity('SLA')
+        .filter((s) => arrOverlap(s.customerID, customerId)
+          && String(s.isActive || 'Active') !== 'Inactive')
+        .map((s) => String(s.slaID)))
+    : null;
+  const out = [];
+  for (const fsc of getEntity('Forecast Scopes')) {
+    if (eventId != null && eventId !== '' && String(fsc.eventID) !== String(eventId)) continue;
+    if (productScopeId != null && productScopeId !== '' && fsc.productScopeID != null
+        && String(fsc.productScopeID) !== String(productScopeId)) continue;
+    if (slaIds) {
+      const fc = getById('Forecasts', fsc.forecastID);
+      if (fc && fc.slaID != null && fc.slaID !== '' && !slaIds.has(String(fc.slaID))) continue;
+    }
+    out.push(fsc);
+  }
+  return out.map((fsc) => {
+    const period = resolveDisplay('Forecast Scopes', fsc, 'periodFrame') || '?';
+    const reg = fsc.forecastScopeRegistry || fsc.forecastScopeID;
+    const scope = resolveDisplay('Forecast Scopes', fsc, 'productScopeName');
+    return { value: fsc.forecastScopeID, label: `${period} | ${reg}${scope ? ' | ' + scope : ''}` };
+  });
+}
+
 // Functions of the tasks the chosen event chains (issue #242) — the options
 // for the Forecast Scopes Function select. No event / no tasks → every
 // function (lenient).
@@ -1429,6 +1460,16 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             const custDep = findDep('Customer');
             applyOpts(productScopesForTicket(evDep ? evDep[1].get() : null,
               custDep ? custDep[1].get() : null));
+            return;
+          }
+          // Tickets "Forecast Scope": the demand lines this ticket may consume
+          // (issue #243) — see forecastScopesForTicket
+          if (entity === 'Tickets' && attrName === 'forecastScopeID') {
+            const evDep = findDep('Event');
+            const psDep = findDep('Product Scope');
+            const custDep = findDep('Customer');
+            applyOpts(forecastScopesForTicket(evDep ? evDep[1].get() : null,
+              psDep ? psDep[1].get() : null, custDep ? custDep[1].get() : null));
             return;
           }
           // Payload "Product Scope": the event's applicability narrowed to

@@ -12,9 +12,11 @@ processes it triggers and the applicable requirement set.
 **Register when:** after its Project.
 **Key fields:** `Unit *` (grouped by segment) → unlocks `Customer *` → unlocks `Project *`
 (the customer's projects) and `Event *` — **only events covered by the customer's SLAs are
-offered**; `Product Scope` — narrows the ticket to one of the scopes packaged by the
-event's payloads under those SLAs (leave it empty to target every scope they admit);
-Details; Target date; Status. The payload, SLA, product/scope and requirement columns are
+offered**; `Product Scope *` — the scope the ticket targets, among those packaged by the
+event's payloads under those SLAs; `Forecast Scope` — the demand line of the contract's
+[Forecasts](../crm/forecast-scopes.md) this ticket consumes (leave it empty when the work
+was not forecast — the line's consumption counts the linked tickets and its remaining
+balance follows); Details; Target date; Status. The payload, SLA, product/scope and requirement columns are
 derived from that chain — nothing else to select. The requirement set is **live**
 (2026-08-20): registering a new Active requirement whose applicability matches the ticket's
 scopes, unit, served regions or customer makes it appear on existing tickets immediately —
