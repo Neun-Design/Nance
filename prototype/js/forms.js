@@ -383,6 +383,33 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 
     // footer
     foot.innerHTML = '';
+    // Job lifecycle actions (issue #245, assessment A5): editing a Job offers
+    // the legal transition(s) for its CURRENT status. Each button applies the
+    // transition immediately through applyJobTransition — the same stamps the
+    // Status select gets on Save — then closes the drawer so the row shows
+    // the new state. Queued→Start, Active→Pause/Finish, Stoped→Resume.
+    if (ctx.entity === 'Jobs' && ctx.editing && activeIdx === 0) {
+      const cur = (getById('Jobs', ctx.newId) || {}).jobStatus;
+      for (const [label, target] of JOB_TRANSITIONS[cur] || []) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'btn-secondary job-transition';
+        b.textContent = label;
+        b.addEventListener('click', () => {
+          const prev = getById('Jobs', ctx.newId);
+          const rec = { jobStatus: target };
+          applyJobTransition('Jobs', rec, prev);
+          updateRecord('Jobs', ctx.newId, rec);
+          enrichAll();
+          toast(`${label}: ${ctx.newId} → ${target}`);
+          closeAll(); onSaved && onSaved();
+        });
+        foot.appendChild(b);
+      }
+      const spacer = document.createElement('div');
+      spacer.style.flex = '1';
+      foot.appendChild(spacer);
+    }
     const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'btn-secondary';
     cancel.textContent = activeIdx > 0 ? 'Discard' : 'Cancel';
     cancel.addEventListener('click', () => { if (activeIdx > 0) { stack.splice(activeIdx, 1); activeIdx -= 1; render(); } else closeAll(); });
@@ -995,6 +1022,14 @@ export function requirementsForProductScopes(psIds) {
   }
   return [...seen.values()].sort((a, b) => a.label.localeCompare(b.label));
 }
+
+// Legal lifecycle moves per current status (issue #245): the drawer's action
+// bar renders one button per entry. Exported for the proof suite.
+export const JOB_TRANSITIONS = {
+  Queued: [['Start', 'Active']],
+  Active: [['Pause', 'Stoped'], ['Finish', 'Done']],
+  Stoped: [['Resume', 'Active']],
+};
 
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
 // Queued→Active stamps realStartDate; entering Stoped stamps stoppedAt and
