@@ -182,18 +182,20 @@ export const REPORT_QUERIES = {
       'Allocated', cats.map((c) => Math.round(alloc.get(c) || 0)));
   },
 
+  // Performance grain = functionID × customerID × month since issue #246 —
+  // names resolve through the stored FKs, and variance groups by FUNCTION
+  // (the old per-ticket process hop left the grain with the A3 reshape)
   'Performance::Report-A': (rows) => {
-    const planned = groupAgg(rows, 'customerName', 'plannedHours');
-    const real = groupAgg(rows, 'customerName', 'realExecutionTime');
+    const planned = groupAgg(rows, (r) => custName(r.customerID), 'plannedHours');
+    const real = groupAgg(rows, (r) => custName(r.customerID), 'realExecutionTime');
     const cats = [...planned.keys()];
     return dual('Planned vs Real Hours by Customer', cats,
       'Planned', cats.map((c) => Math.round(planned.get(c) || 0)),
       'Real', cats.map((c) => Math.round(real.get(c) || 0)));
   },
   'Performance::Report-B': (rows) =>
-    bar('Variance by Process', groupAgg(rows, (r) => {
-      const t = getById('Tickets', r.ticketID); return t ? procName(t.processID) : null;
-    }, 'variance'), null),
+    bar('Variance by Function', groupAgg(rows, 'functionID', 'variance'),
+      (k) => lookup('Functions', k, 'functionName') || k),
 
   'Roles::Report-A': (rows) =>
     donut('Headcount by Function', groupAgg(rows, 'functionID', 'quantity'),

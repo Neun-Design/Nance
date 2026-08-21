@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 48,
+    "schemaVersion": 49,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5814,28 +5814,19 @@
               "constraints": "PK"
             },
             {
-              "name": "departmentID",
+              "name": "functionID",
               "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": null,
+              "rule": "FK → Functions (display: functionName)",
+              "notes": "The grain key (issue #246, A3): Capacity = functionID × year × month — the old department × role × function × customer mix was ambiguous. Rows are OUTPUTS of tools/derive_control.py, never hand-seeded; the validator recomputes and compares.",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "roleID",
-              "type": "FK",
-              "rule": "FK → Roles (display: roleName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "functionName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Roles\".\"functionID\" → \"Functions\".\"functionName\")",
-              "notes": "Function of the role (via roleID → Roles.functionID). Used by Report-A/B filters.",
+              "type": "mirror",
+              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "notes": "Display twin of functionID (issue #246). Used by Report-A/B filters.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5898,7 +5889,7 @@
               "name": "availableHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "computed: sum of People.workingHours (weekly) for the function, scaled to the number of weeks in the selected period (Σ periodBusinessDays/5). Factory-independent — used by Report-A as available capacity per function.",
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ People.workingHours (weekly) of the function × weeks of the month (periodBusinessDays/5). The validator recomputes and compares — divergence fails the build.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5906,8 +5897,8 @@
             {
               "name": "allocatedHours",
               "type": "DECIMAL",
-              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected customer + period",
-              "notes": "totalEstimatedHours decomposed by function (= its Forecast Scopes). Used by Report-A as allocated demand per function; responds to the factory + period filters and the Exclude-Draft radio.",
+              "rule": null,
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ Forecast Scopes.estimatedHours of the function in the month's forecasts — totalEstimatedHours decomposed by function, finally matching the live Report-A recomputation (A3 killed the 60/60 divergence).",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5925,7 +5916,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": null,
+              "notes": "Attribution, not grain (issue #246): the customer consuming the MOST of this function's allocated hours in the month — feeds Card 1-2's gap reading",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -6029,55 +6020,37 @@
               "constraints": "PK"
             },
             {
-              "name": "regionID",
+              "name": "functionID",
               "type": "FK",
-              "rule": "FK → Regions (display: regionName)",
-              "notes": null,
+              "rule": "FK → Functions (display: functionName)",
+              "notes": "Grain key (issue #246, A3): Performance = functionID × customerID × year × month over DONE jobs — the old region × department × ticket × squad mix was ambiguous. Rows are OUTPUTS of tools/derive_control.py; the validator recomputes and compares.",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "departmentID",
-              "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "ticketID",
-              "type": "FK",
-              "rule": "FK → Tickets",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "functionName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Jobs\".\"userID\" → \"People\".\"functionID\" → \"Functions\".\"functionName\")",
-              "notes": "Function of the people whose Jobs feed this usage row. Used by Report-A/B filters and series.",
+              "type": "mirror",
+              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "notes": "Display twin of functionID (issue #246). Used by Report-A/B filters and series.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "Grain key (issue #246): the customer whose jobs feed this row",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Jobs\".\"customerName\")",
-              "notes": "Customer factory of the Jobs feeding this usage row. Used by Report-A/B filters.",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "squadName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Jobs\".\"squadName\")",
-              "notes": "Squad of the people whose Jobs feed this usage row. Used by Report-A/B filters.",
+              "type": "mirror",
+              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "notes": "Display twin of customerID (issue #246). Used by Report-A/B filters.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6113,7 +6086,7 @@
               "name": "plannedHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Planned Execution Time (from Jobs.plannedExecutionTime)",
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ Jobs.plannedExecutionTime of the group's Done jobs in the month — the flat invented 516 h/month is gone (A3)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6122,7 +6095,7 @@
               "name": "realExecutionTime",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Actual hours consumed (from Jobs.realExecutionTime)",
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ Jobs.realExecutionTime of the group's Done jobs in the month",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6140,7 +6113,7 @@
               "name": "variance",
               "type": "DECIMAL",
               "rule": "computed: variance of realExecutionTime per job",
-              "notes": null,
+              "notes": "DERIVED by tools/derive_control.py (issue #246): population variance of the group's per-job real hours",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
