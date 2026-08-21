@@ -176,6 +176,6 @@ tutor answering from *your* procedures — possible later.
 ## Where can I see it running?
 
 A live demo with sample data is published at
-[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — login `se-admin`,
-password `@NorthwindEnergy2026`. The platform is in implementation at Northwind Energy's Power
+[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login
+required. The platform is in implementation at Northwind Energy's Power
 Transformer Repairs & Services business unit.

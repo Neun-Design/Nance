@@ -39,8 +39,8 @@ from a blank QMS, for continuity/usability testing:
   the header chip shows `folder/file.json` of the current target.
 - **`?reset=1`** wipes the saved session and starts over (remove it afterwards, or
   every reload starts blank again).
-- The header badge shows **MVP** (vs. DEMO DATA); the login gate is unchanged — and it
-  does not advertise the credentials the way the demo login note does.
+- The header badge shows **MVP** (vs. DEMO DATA). There is no login gate — the project
+  is open source and neither mode holds anything sensitive.
 - **Walkthrough scope:** the analytics surfaces that only make sense with seeded data —
   the **Overview**, **Workspace** and **Control** modules, plus the CRM **Forecasts** /
   **Forecast Scopes** dashboards — stay visible but disabled (opaque, not selectable);

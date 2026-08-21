@@ -15,7 +15,6 @@ import { renderOverview } from './overview.js';
 import { openForm, supportsEdit, toast } from './forms.js';
 import * as sessionFile from './session-file.js';
 import { parseHash, go, onRoute } from './router.js';
-import { requireLogin, logout } from './login.js';
 
 const sidebarEl = document.getElementById('sidebar');
 const tabScrollEl = document.getElementById('tab-scroll');
@@ -27,8 +26,6 @@ let searchTerm = '';
 let liveCharts = [];
 
 async function main() {
-  await requireLogin();
-  document.getElementById('avatar').addEventListener('click', logout);
   tabViewEl.innerHTML = '<div class="loading">Loading datamodel…</div>';
   try {
     const { catalog } = await loadModel();
