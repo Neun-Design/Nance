@@ -16,7 +16,7 @@ const REF_OVERRIDE = {
   sourceOwner: 'People', createdBy: 'People', changedBy: 'People', reportedBy: 'People',
   customerName: 'Customers', location: 'Customers', activities: 'Activities',
   products: 'Products', taskInput: 'Handouts', taskOutput: 'Handouts',
-  parentStepID: 'Workflows', parentProcessID: 'Processes', predecesorJob: 'Jobs',
+  parentStepID: 'Workflows', parentProcessID: 'Processes', predecessorJobID: 'Jobs',
   escalatedToEventID: 'Events',
 };
 const ENUM_FIELDS = new Set([
@@ -128,7 +128,7 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
 
   let tCat = getCatalog(target);
   // SELF-REFERENTIAL FKs (Workflows.parentStepID, Processes.parentProcessID,
-  // Jobs.predecesorJob): the attribute naturally exists on the target rows —
+  // Jobs.predecessorJobID): the attribute naturally exists on the target rows —
   // that must not trigger the stored-name heuristics below, or the option
   // values become each row's own parent id and parentless rows vanish
   // (the "empty Parent Step" bug, 2026-08-04)
@@ -383,6 +383,33 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
 
     // footer
     foot.innerHTML = '';
+    // Job lifecycle actions (issue #245, assessment A5): editing a Job offers
+    // the legal transition(s) for its CURRENT status. Each button applies the
+    // transition immediately through applyJobTransition — the same stamps the
+    // Status select gets on Save — then closes the drawer so the row shows
+    // the new state. Queued→Start, Active→Pause/Finish, Stoped→Resume.
+    if (ctx.entity === 'Jobs' && ctx.editing && activeIdx === 0) {
+      const cur = (getById('Jobs', ctx.newId) || {}).jobStatus;
+      for (const [label, target] of JOB_TRANSITIONS[cur] || []) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'btn-secondary job-transition';
+        b.textContent = label;
+        b.addEventListener('click', () => {
+          const prev = getById('Jobs', ctx.newId);
+          const rec = { jobStatus: target };
+          applyJobTransition('Jobs', rec, prev);
+          updateRecord('Jobs', ctx.newId, rec);
+          enrichAll();
+          toast(`${label}: ${ctx.newId} → ${target}`);
+          closeAll(); onSaved && onSaved();
+        });
+        foot.appendChild(b);
+      }
+      const spacer = document.createElement('div');
+      spacer.style.flex = '1';
+      foot.appendChild(spacer);
+    }
     const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'btn-secondary';
     cancel.textContent = activeIdx > 0 ? 'Discard' : 'Cancel';
     cancel.addEventListener('click', () => { if (activeIdx > 0) { stack.splice(activeIdx, 1); activeIdx -= 1; render(); } else closeAll(); });
@@ -463,6 +490,27 @@ export function applyDerivedUnits(entity, rec) {
     // stored so the downstream join chains keep a real key to traverse
     const s = rec.slaID && getById('SLA', rec.slaID);
     rec.customerID = (s && s.customerID) ?? rec.customerID ?? null;
+  } else if (entity === 'Forecast Scopes') {
+    // scope and product group follow the chosen Product Scope (issue #242) —
+    // stored because the requirement chain traverses them
+    const ps = rec.productScopeID && getById('Product Scopes', rec.productScopeID);
+    if (ps) {
+      rec.scopeID = ps.scopeID ?? rec.scopeID ?? null;
+      rec.productGroupID = ps.productGroupID ?? rec.productGroupID ?? null;
+    }
+  } else if (entity === 'Jobs') {
+    // A14: the project is the ticket's project — the Project select only
+    // narrows the ticket options (issue #244)
+    const tkt = rec.ticketID && getById('Tickets', rec.ticketID);
+    if (tkt && tkt.projectID != null && tkt.projectID !== '') rec.projectID = tkt.projectID;
+    // A9: the plan freezes from the task's procedures at planning time
+    if (rec.taskID != null && rec.taskID !== '') {
+      const total = getEntity('Procedures')
+        .filter((p) => (Array.isArray(p.taskID) ? p.taskID : [p.taskID])
+          .some((t) => String(t) === String(rec.taskID)))
+        .reduce((s, p) => s + (Number(p.executionTime) || 0), 0);
+      if (total) rec.plannedExecutionTime = total;
+    }
   } else if (entity === 'Competence') {
     // department moved DOWN to Processes (issue #159) — derive via the
     // selected process; legacy snapshots may still carry it on the event
@@ -811,6 +859,78 @@ export function eventsForForecastSLA(forecastId) {
   return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
 }
 
+// Product scopes a FORECAST SCOPE may project (issue #242): the scopes
+// packaged by the forecast's SLA payloads for the chosen event — the same
+// Event × Product Scope unit the SLA dispatches. Wildcard payload (empty
+// productScopeID) widens to the event's full applicability (Q1); no
+// forecast / no SLA → the event's applicability (lenient).
+export function productScopesForForecastSLA(eventId, forecastId) {
+  const fc = forecastId ? getById('Forecasts', forecastId) : null;
+  const sla = fc && fc.slaID != null && fc.slaID !== '' ? getById('SLA', fc.slaID) : null;
+  const fallback = () => eventProductScopeIds(eventId)
+    .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+  if (!sla) return fallback();
+  const ids = [];
+  let sawEventPayload = false;
+  for (const pid of asList(sla.payloadID)) {
+    const p = getById('Payload', pid);
+    if (!p || (eventId != null && eventId !== '' && String(p.eventID) !== String(eventId))) continue;
+    sawEventPayload = true;
+    const packaged = asList(p.productScopeID);
+    const scopeIds = packaged.length ? packaged : eventProductScopeIds(p.eventID);
+    scopeIds.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
+  }
+  if (!sawEventPayload) return fallback();
+  return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+}
+
+// Demand lines a TICKET may consume (issue #243, the A1 link): forecast
+// scopes of the customer's SLA forecasts matching the ticket's event (and
+// product scope when chosen). No date gating (lenient decision) — the label
+// leads with the period so the user picks the right one. No customer → the
+// event-matching lines (lenient); NULL stays valid ("outside the forecast").
+export function forecastScopesForTicket(eventId, productScopeId, customerId) {
+  const slaIds = customerId
+    ? new Set(getEntity('SLA')
+        .filter((s) => arrOverlap(s.customerID, customerId)
+          && String(s.isActive || 'Active') !== 'Inactive')
+        .map((s) => String(s.slaID)))
+    : null;
+  const out = [];
+  for (const fsc of getEntity('Forecast Scopes')) {
+    if (eventId != null && eventId !== '' && String(fsc.eventID) !== String(eventId)) continue;
+    if (productScopeId != null && productScopeId !== '' && fsc.productScopeID != null
+        && String(fsc.productScopeID) !== String(productScopeId)) continue;
+    if (slaIds) {
+      const fc = getById('Forecasts', fsc.forecastID);
+      if (fc && fc.slaID != null && fc.slaID !== '' && !slaIds.has(String(fc.slaID))) continue;
+    }
+    out.push(fsc);
+  }
+  return out.map((fsc) => {
+    const period = resolveDisplay('Forecast Scopes', fsc, 'periodFrame') || '?';
+    const reg = fsc.forecastScopeRegistry || fsc.forecastScopeID;
+    const scope = resolveDisplay('Forecast Scopes', fsc, 'productScopeName');
+    return { value: fsc.forecastScopeID, label: `${period} | ${reg}${scope ? ' | ' + scope : ''}` };
+  });
+}
+
+// Functions of the tasks the chosen event chains (issue #242) — the options
+// for the Forecast Scopes Function select. No event / no tasks → every
+// function (lenient).
+export function functionsForForecastEvent(eventId) {
+  const fnOption = (f) => ({ value: f.functionID, label: f.functionName || String(f.functionID) });
+  const all = getEntity('Functions');
+  if (!eventId) return all.map(fnOption);
+  const fnIds = new Set();
+  for (const t of getEntity('Tasks')) {
+    if (String(t.eventID) !== String(eventId)) continue;
+    if (t.functionID != null && t.functionID !== '') fnIds.add(String(t.functionID));
+  }
+  if (!fnIds.size) return all.map(fnOption);
+  return all.filter((f) => fnIds.has(String(f.functionID))).map(fnOption);
+}
+
 // Product scopes a TICKET may target (issue #214): the scopes packaged by the
 // selected event's payloads, narrowed to the payloads purchased by the
 // customer's active SLAs. No customer / no matching SLA payload → every
@@ -902,6 +1022,14 @@ export function requirementsForProductScopes(psIds) {
   }
   return [...seen.values()].sort((a, b) => a.label.localeCompare(b.label));
 }
+
+// Legal lifecycle moves per current status (issue #245): the drawer's action
+// bar renders one button per entry. Exported for the proof suite.
+export const JOB_TRANSITIONS = {
+  Queued: [['Start', 'Active']],
+  Active: [['Pause', 'Stoped'], ['Finish', 'Done']],
+  Stoped: [['Resume', 'Active']],
+};
 
 // Jobs status transitions drive the real-clock timestamps (restructure spec):
 // Queued→Active stamps realStartDate; entering Stoped stamps stoppedAt and
@@ -1355,6 +1483,23 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(eventsForForecastSLA(dep ? dep[1].get() : null));
             return;
           }
+          // Forecast Scopes "Product Scope": the scopes packaged by the
+          // contract's payloads for the chosen event (issue #242) — see
+          // productScopesForForecastSLA
+          if (entity === 'Forecast Scopes' && attrName === 'productScopeID') {
+            const evDep = findDep('Event');
+            const fcDep = findDep('Forecast');
+            applyOpts(productScopesForForecastSLA(evDep ? evDep[1].get() : null,
+              fcDep ? fcDep[1].get() : null));
+            return;
+          }
+          // Forecast Scopes "Function": the functions of the tasks the chosen
+          // event chains (issue #242) — see functionsForForecastEvent
+          if (entity === 'Forecast Scopes' && attrName === 'functionID') {
+            const evDep = findDep('Event');
+            applyOpts(functionsForForecastEvent(evDep ? evDep[1].get() : null));
+            return;
+          }
           // Tickets "Product Scope": the scopes packaged by the selected
           // event's payloads under the customer's SLAs (issue #214) — see
           // productScopesForTicket
@@ -1363,6 +1508,26 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             const custDep = findDep('Customer');
             applyOpts(productScopesForTicket(evDep ? evDep[1].get() : null,
               custDep ? custDep[1].get() : null));
+            return;
+          }
+          // Jobs "Predecessor": jobs of the same ticket (issue #244, A6)
+          if (entity === 'Jobs' && attrName === 'predecessorJobID') {
+            const dep = findDep('Ticket');
+            const tid = dep ? dep[1].get() : null;
+            const jobs = getEntity('Jobs')
+              .filter((j) => tid == null || tid === '' || String(j.ticketID) === String(tid));
+            applyOpts(jobs.map((j) => ({ value: j.jobID,
+              label: `${j.jobID} — ${lookup('Tasks', j.taskID) || j.jobID}` })));
+            return;
+          }
+          // Tickets "Forecast Scope": the demand lines this ticket may consume
+          // (issue #243) — see forecastScopesForTicket
+          if (entity === 'Tickets' && attrName === 'forecastScopeID') {
+            const evDep = findDep('Event');
+            const psDep = findDep('Product Scope');
+            const custDep = findDep('Customer');
+            applyOpts(forecastScopesForTicket(evDep ? evDep[1].get() : null,
+              psDep ? psDep[1].get() : null, custDep ? custDep[1].get() : null));
             return;
           }
           // Payload "Product Scope": the event's applicability narrowed to

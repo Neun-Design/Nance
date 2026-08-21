@@ -8,11 +8,19 @@ import { cardSpecs, renderCard } from './cards.js';
 import { reportSpecs, renderReportPanel } from './reports.js';
 import { go } from './router.js';
 
-function routeFor(entity) {
+// A15 (issue #246): Control is disabled in BOTH modes by design, so its
+// Overview items route to the LIVE source of their numbers — Capacity is
+// derived from Forecast Scopes, Performance from Jobs. "Click to
+// investigate" keeps its promise without opening a dead module.
+export const SOURCE_REDIRECT = { Capacity: 'Forecast Scopes', Performance: 'Jobs' };
+
+// Exported for tools/test_engine_control_derived.mjs.
+export function routeFor(entity) {
+  const target = SOURCE_REDIRECT[entity] || entity;
   const mods = getModules();
   for (let mi = 0; mi < mods.length; mi++) {
-    const ti = mods[mi].tables.indexOf(entity);
-    if (ti !== -1) return { mi, ti, label: `${mods[mi].name} › ${entity}` };
+    const ti = mods[mi].tables.indexOf(target);
+    if (ti !== -1) return { mi, ti, label: `${mods[mi].name} › ${target}` };
   }
   return null;
 }

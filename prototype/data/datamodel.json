@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 45,
+    "schemaVersion": 49,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1711,10 +1711,19 @@
               "constraints": "FK"
             },
             {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: productScopeName)",
+              "notes": "The portfolio anchor (issue #242) — the same Event × Product Scope unit the SLA's Payloads dispatch. Options: the product scopes packaged by the forecast's SLA payloads for the chosen event (Q1 wildcard payload = the event's full applicability). Scope and product group derive from it on save.",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
-              "notes": null,
+              "notes": "Derived on save from the Product Scope since issue #242 (stored — the requirement chain traverses it); no form field",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK, NOT NULL"
@@ -1723,7 +1732,7 @@
               "name": "productGroupID",
               "type": "FK",
               "rule": "FK → Product Groups (display: productGroupName)",
-              "notes": "filtered by",
+              "notes": "Derived on save from the Product Scope since issue #242 (stored — the requirement chain traverses it); no form field",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -1735,15 +1744,6 @@
               "notes": "Requirements linked to the row's scope + product group",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "productScopeID",
-              "type": "INT",
-              "rule": "computed → Product Scopes (via: eventID + productGroupID + scopeID + requirementName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1774,10 +1774,19 @@
               "constraints": null
             },
             {
+              "name": "functionID",
+              "type": "FK",
+              "rule": "FK → Functions (display: functionName)",
+              "notes": "The function this demand line projects hours for (issue #242 — was the free-string functionName, the aggregation key of Capacity::Report-A; D6 doctrine kills the name join). Options: the functions of the tasks chained by the chosen event.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "functionName",
-              "type": "VARCHAR",
-              "rule": "computed: DISTINCT(tasks.functionName)",
-              "notes": "Roles derived from Tasks in the triggered Process",
+              "type": "mirror",
+              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "notes": "Display twin of functionID (issue #242)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -1785,8 +1794,8 @@
             {
               "name": "estimatedHours",
               "type": "DECIMAL",
-              "rule": "computed: SUM(tasks.executionTime)",
-              "notes": "Total execution hours across all Tasks",
+              "rule": "computed: SUM(taskID.executionTime) * forecastScopeQuantity",
+              "notes": "Hours of the chained tasks × the projected quantity (issue #242 — quantity finally multiplies; tasks derive their time from Procedures). Stored values are re-stamped by the migration to the same equation.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -1811,11 +1820,20 @@
             },
             {
               "name": "consumption",
-              "type": "INT",
-              "rule": "computed: every time an forecastScopeID is added to a Ticket this column should be added by 1",
-              "notes": "DEFAULT = forecastScopeQuantity",
+              "type": "rollup",
+              "rule": "rollup → Tickets (via: forecastScopeID)",
+              "notes": "How many tickets ran against this demand line (issue #243 — a real COUNT at last; the stored invented values were dropped by the migration)",
               "table-display": true,
               "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "remaining",
+              "type": "mirror",
+              "rule": "computed: forecastScopeQuantity - consumption",
+              "notes": "Forecast balance (issue #243) — a number the user can check by counting the linked tickets",
+              "table-display": true,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -1897,25 +1915,25 @@
                 "check": "Forecast IS NOT NULL",
                 "field-rule": "events covered by the forecast's SLA payloads"
               },
-              "Scope": {
+              "Product Scope": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
-                "attribute": "scopeID",
-                "tooltip": null,
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes packaged by the contract's payloads for this event — scope and product group derive from it",
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Event IS NOT NULL",
+                "field-rule": "SelectLabel = scopeName; product scopes of the forecast's SLA payloads"
               },
-              "Product Group": {
+              "Function": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "productGroupID",
-                "tooltip": null,
+                "attribute": "functionID",
+                "tooltip": "The function this demand line projects hours for",
                 "step": null,
-                "check": "Scope IS NOT NULL",
-                "field-rule": "filtered by Scope selected"
+                "check": "Product Scope IS NOT NULL",
+                "field-rule": "functions of the tasks chained by the event"
               },
               "Notes": {
                 "field-type": {
@@ -4880,9 +4898,18 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "notes": "Product scope this ticket targets (issue #214) — single-valued, picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs). EMPTY = every scope the payloads admit (Q1 wildcard). Stores the id — the display CONCAT resolves the names (normalized from the authored producScopeID name-mirror: selects bound to name-mirrors store names and break joins).",
+              "notes": "Product scope this ticket targets — NOT NULL since issue #243 (A2: without it the Jobs task rollup collapsed); picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs). Stores the id — the display CONCAT resolves the names.",
               "table-display": false,
               "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "forecastScopeID",
+              "type": "FK",
+              "rule": "FK → Forecast Scopes (display: forecastScopeRegistry)",
+              "notes": "The demand line this ticket consumes (issue #243, link A1) — nullable: NULL = the ticket ran outside the forecast. Options: demand lines of the customer's SLA forecasts matching the ticket's event (and product scope when chosen), no date gating (lenient decision).",
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "FK"
             },
             {
@@ -5084,6 +5111,16 @@
                 "step": null,
                 "check": "Project IS NOT NULL",
                 "field-rule": "filtered by Event selected"
+              },
+              "Forecast Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "forecastScopeID",
+                "tooltip": "The demand line this ticket consumes — leave empty when the work was not forecast",
+                "step": null,
+                "check": "Event IS NOT NULL",
+                "field-rule": "demand lines of the customer's SLA forecasts matching event + product scope"
               },
               "Details": {
                 "field-type": {
@@ -5396,7 +5433,7 @@
               "name": "projectID",
               "type": "FK",
               "rule": "FK → Projects (display: projectName)",
-              "notes": "Project the job belongs to (via its ticket)",
+              "notes": "Project the job belongs to — derived on save from the ticket since issue #244 (A14: the stored duplicate could drift; the Project select only narrows the ticket options)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -5448,9 +5485,9 @@
             },
             {
               "name": "taskID",
-              "type": "INT",
-              "rule": "rollup → Tasks (via: customerID + productGroupID + scopeID) (display: taskName)",
-              "notes": "Task template; options filtered by the ticket's customer + product group + scope",
+              "type": "FK",
+              "rule": "FK → Tasks (display: taskName)",
+              "notes": "Stored task template (issue #243 — the value must be stable on the record, it anchors plannedExecutionTime; the old 3-key rollup collapsed to 6 tasks on the empty ticket scopes, A2). Options filtered by tasksForJob(ticket) in the form.",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -5475,9 +5512,9 @@
             },
             {
               "name": "roleID",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"People\".\"roleID\")",
-              "notes": "From userID",
+              "type": "mirror",
+              "rule": "mirror: People via: userID (display: roleID)",
+              "notes": "The allocated person's role (issue #244, A8 — a job has no role of its own: the old stored copy matched People in 0/187 rows and was dropped)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5486,7 +5523,7 @@
               "name": "deliveryDate",
               "type": "DATETIME",
               "rule": null,
-              "notes": "Planned start date",
+              "notes": "Planned delivery date (A13 unswap — the notes were inverted)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5494,8 +5531,8 @@
             {
               "name": "startDate",
               "type": "DATETIME",
-              "rule": "computed: use taskID.estimatedTime to calculate the start date",
-              "notes": "Planned end date",
+              "rule": null,
+              "notes": "Planned start date (A13 unswap — the notes were inverted; in the data it precedes deliveryDate, as it should)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -5503,8 +5540,8 @@
             {
               "name": "plannedExecutionTime",
               "type": "DECIMAL",
-              "rule": "computed: equals the executionTime of the task's procedure (stored at planning time)",
-              "notes": "The template execution",
+              "rule": "computed: frozen from SUM of the task's Procedures.executionTime at planning time",
+              "notes": "Stamped on save from the chosen task's procedures (issue #244, A9) — the plan Performance measures must have existed",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5570,6 +5607,24 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "predecessorJobID",
+              "type": "FK",
+              "rule": "FK → Jobs (display: jobName)",
+              "notes": "Self-FK, nullable (issue #244, A6 — the predecesorJob residue in forms.js finally has an attribute): the job that must run before this one. Options: jobs of the same ticket.",
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "dependencyType",
+              "type": "ENUM",
+              "rule": "enum: ['start-to-finish', 'start-to-start', 'finish-to-start', 'finish-to-finish']",
+              "notes": "How this job depends on its predecessor — reuses the Workflows.indentationRule enum (issue #244)",
+              "table-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -5712,6 +5767,26 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Predecessor": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "predecessorJobID",
+                "tooltip": "Job of the same ticket that must run before this one — optional",
+                "step": null,
+                "check": "Ticket IS NOT NULL",
+                "field-rule": "jobs of the same ticket"
+              },
+              "Dependency": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "dependencyType",
+                "tooltip": null,
+                "step": null,
+                "check": "Predecessor IS NOT NULL",
+                "field-rule": null
               }
             }
           },
@@ -5739,28 +5814,19 @@
               "constraints": "PK"
             },
             {
-              "name": "departmentID",
+              "name": "functionID",
               "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": null,
+              "rule": "FK → Functions (display: functionName)",
+              "notes": "The grain key (issue #246, A3): Capacity = functionID × year × month — the old department × role × function × customer mix was ambiguous. Rows are OUTPUTS of tools/derive_control.py, never hand-seeded; the validator recomputes and compares.",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "roleID",
-              "type": "FK",
-              "rule": "FK → Roles (display: roleName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "functionName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Roles\".\"functionID\" → \"Functions\".\"functionName\")",
-              "notes": "Function of the role (via roleID → Roles.functionID). Used by Report-A/B filters.",
+              "type": "mirror",
+              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "notes": "Display twin of functionID (issue #246). Used by Report-A/B filters.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5823,7 +5889,7 @@
               "name": "availableHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "computed: sum of People.workingHours (weekly) for the function, scaled to the number of weeks in the selected period (Σ periodBusinessDays/5). Factory-independent — used by Report-A as available capacity per function.",
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ People.workingHours (weekly) of the function × weeks of the month (periodBusinessDays/5). The validator recomputes and compares — divergence fails the build.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5831,8 +5897,8 @@
             {
               "name": "allocatedHours",
               "type": "DECIMAL",
-              "rule": "computed: sum of Forecast Scopes.estimatedHours grouped by functionName, for forecasts within the selected customer + period",
-              "notes": "totalEstimatedHours decomposed by function (= its Forecast Scopes). Used by Report-A as allocated demand per function; responds to the factory + period filters and the Exclude-Draft radio.",
+              "rule": null,
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ Forecast Scopes.estimatedHours of the function in the month's forecasts — totalEstimatedHours decomposed by function, finally matching the live Report-A recomputation (A3 killed the 60/60 divergence).",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5850,7 +5916,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": null,
+              "notes": "Attribution, not grain (issue #246): the customer consuming the MOST of this function's allocated hours in the month — feeds Card 1-2's gap reading",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5954,55 +6020,37 @@
               "constraints": "PK"
             },
             {
-              "name": "regionID",
+              "name": "functionID",
               "type": "FK",
-              "rule": "FK → Regions (display: regionName)",
-              "notes": null,
+              "rule": "FK → Functions (display: functionName)",
+              "notes": "Grain key (issue #246, A3): Performance = functionID × customerID × year × month over DONE jobs — the old region × department × ticket × squad mix was ambiguous. Rows are OUTPUTS of tools/derive_control.py; the validator recomputes and compares.",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "departmentID",
-              "type": "FK",
-              "rule": "FK → Departments (display: departmentName)",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "ticketID",
-              "type": "FK",
-              "rule": "FK → Tickets",
-              "notes": null,
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "functionName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Jobs\".\"userID\" → \"People\".\"functionID\" → \"Functions\".\"functionName\")",
-              "notes": "Function of the people whose Jobs feed this usage row. Used by Report-A/B filters and series.",
+              "type": "mirror",
+              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "notes": "Display twin of functionID (issue #246). Used by Report-A/B filters and series.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
+            },
+            {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "Grain key (issue #246): the customer whose jobs feed this row",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "customerName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Jobs\".\"customerName\")",
-              "notes": "Customer factory of the Jobs feeding this usage row. Used by Report-A/B filters.",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "squadName",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Jobs\".\"squadName\")",
-              "notes": "Squad of the people whose Jobs feed this usage row. Used by Report-A/B filters.",
+              "type": "mirror",
+              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "notes": "Display twin of customerID (issue #246). Used by Report-A/B filters.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6038,7 +6086,7 @@
               "name": "plannedHours",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Planned Execution Time (from Jobs.plannedExecutionTime)",
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ Jobs.plannedExecutionTime of the group's Done jobs in the month — the flat invented 516 h/month is gone (A3)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6047,7 +6095,7 @@
               "name": "realExecutionTime",
               "type": "DECIMAL",
               "rule": null,
-              "notes": "Actual hours consumed (from Jobs.realExecutionTime)",
+              "notes": "DERIVED by tools/derive_control.py (issue #246): Σ Jobs.realExecutionTime of the group's Done jobs in the month",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6065,7 +6113,7 @@
               "name": "variance",
               "type": "DECIMAL",
               "rule": "computed: variance of realExecutionTime per job",
-              "notes": null,
+              "notes": "DERIVED by tools/derive_control.py (issue #246): population variance of the group's per-job real hours",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
