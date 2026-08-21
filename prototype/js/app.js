@@ -40,6 +40,12 @@ async function main() {
     const badge = document.querySelector('.header-badge');
     badge.textContent = 'MVP';
     badge.title = 'MVP walkthrough — records you create persist in this browser; add ?reset=1 to the URL to start over';
+    // the MVP walkthrough builds a QMS from scratch — no fictitious network:
+    // the header goes neutral (F4; the Vitalis brand belongs to the demo data)
+    document.querySelector('.brand-mark').textContent = 'EQ';
+    document.querySelector('.brand-title').textContent = 'EDQMS GOVERNANCE PORTAL';
+    const aboutBtn = document.getElementById('about-demo');
+    if (aboutBtn) aboutBtn.remove();
     // offline-database workflow (consulting sessions): the session lives in a
     // REAL local file. Save OVERWRITES it in place (no timestamped copies);
     // Save As writes a new version; Import makes the picked file the new
@@ -143,12 +149,61 @@ async function main() {
     right.insertBefore(save, avatar);
     right.insertBefore(saveAs, avatar);
     document.body.appendChild(file);
+  } else {
+    initAboutPanel();
   }
   buildSidebar();
   onRoute(routeToActive);
   window.addEventListener('resize', () => liveCharts.forEach(c => c.resize()));
   searchEl.addEventListener('input', () => { searchTerm = searchEl.value.trim().toLowerCase(); renderBodyOnly(); });
   routeToActive();
+}
+
+// "About this demo" panel (MOCKUP_DEMO_PLAN F4/§8): who the fictitious
+// organization is, what it sells, and what to look at in each module —
+// the six lines that convert a cold visitor. Demo mode only.
+function initAboutPanel() {
+  const btn = document.getElementById('about-demo');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const overlay = document.createElement('div');
+    overlay.className = 'about-overlay';
+    overlay.innerHTML = `
+      <div class="about-panel" role="dialog" aria-label="About this demonstration">
+        <div class="about-head">
+          <h2>About this demonstration</h2>
+          <button class="drawer-x" type="button">✕</button>
+        </div>
+        <div class="about-body">
+          <p><strong>Vitalis Health Network</strong> is a fictitious chain of diagnostic-imaging
+          and clinical-analysis clinics — 12 branches across Brazil and Argentina. Its Clinical
+          Operations &amp; Quality division standardizes how every exam is performed, certifies who
+          may perform it, projects demand per insurer contract and measures what was consumed.</p>
+          <ul>
+            <li><strong>Organization / Portfolio</strong> — the network, its exam catalog and the
+            scopes each contract can buy.</li>
+            <li><strong>Operation</strong> — the standardized exam flows, their documented
+            procedures (with times) and the regulatory requirements that bind them
+            (ANVISA, ANMAT, LGPD…).</li>
+            <li><strong>Talent</strong> — certified people: an uncertified technician cannot be
+            scheduled on a protocol.</li>
+            <li><strong>CRM</strong> — insurer contracts (SLA) with their monthly demand
+            forecasts; watch a contract's consumption against plan.</li>
+            <li><strong>Workspace</strong> — the exams requested and executed, ticket by ticket,
+            job by job, plan vs. real.</li>
+            <li><strong>Overview</strong> — capacity and performance derived from the same
+            numbers, reconciled: every figure traces to a procedure time.</li>
+          </ul>
+          <p class="about-note">All data is fictitious and regenerated deterministically. The
+          platform was born in an industrial engineering division and is sector-agnostic —
+          this clinical network is one domain pack.</p>
+        </div>
+      </div>`;
+    const close = () => overlay.remove();
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    overlay.querySelector('.drawer-x').addEventListener('click', close);
+    document.body.appendChild(overlay);
+  });
 }
 
 // 20×20 stroke icons lifted from the standalone wireframe sidebar
