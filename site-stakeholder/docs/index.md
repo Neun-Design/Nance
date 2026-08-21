@@ -59,8 +59,8 @@ Energy, with modules being configured together with its key users.
 Workspace — one connected model, described module by module in the tabs above.
 
 **Try it yourself.** A public demo with sample data runs at
-[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — login `se-admin`,
-password `@NorthwindEnergy2026`. To model your own operation from a blank system, open
+[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login
+required. To model your own operation from a blank system, open
 [/app/mvp/](https://bovarafa.github.io/EDQMS/app/mvp/) instead and follow
 [Start here](start-here.md).
 
