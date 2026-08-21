@@ -1,7 +1,11 @@
 // data.js — load the mockup dataset, flatten entities, build id indexes and lookup helpers.
 // Entity metadata (pk + label) is derived from the datamodel via initMeta(catalog).
 
-const DATA_URL = 'data/mockup_data_prototype.json';
+// __MOCKUP_PATH__ is a TEST-ONLY override: the engine suites pinned to the
+// frozen transformer reference dataset (tools/testdata/) set it before
+// importing — the app always loads the live demo dataset.
+const DATA_URL = (typeof globalThis !== 'undefined' && globalThis.__MOCKUP_PATH__)
+  || 'data/mockup_data_prototype.json';
 // system registries: predefined datasets shipped with the app (never
 // user-registered) — loaded in every mode, blank walkthroughs included
 const COUNTRIES_URL = 'data/countries.json';
@@ -48,6 +52,74 @@ const store = {
 // Reverse map: a field named like another entity's PK is a foreign key to that entity.
 export const FK_MAP = {};
 
+// ---- anchored dates (MOCKUP_DEMO_PLAN §5.2, principle 4) ----
+// The seed stamps _meta.anchorDate; on load every date shifts forward by the
+// WHOLE MONTHS elapsed since the anchor, so the demo never ages — "the last
+// 12 months" always end in the current month. Period frames ("2026-August",
+// "2026-Q4", "2026") and the periodYear/periodMonth integer keys shift along;
+// days clamp to the target month's length. Datasets without an anchor
+// (pre-Vitalis snapshots) load untouched.
+const MONTH_NAMES_EN = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+let shiftedAnchor = null;
+
+export function anchorToday() {
+  return shiftedAnchor ? new Date(shiftedAnchor + 'T00:00:00') : null;
+}
+
+function shiftAnchoredDates(raw) {
+  const anchor = raw && raw._meta && raw._meta.anchorDate;
+  if (!anchor) return;
+  const a = new Date(String(anchor) + 'T00:00:00');
+  const now = new Date();
+  const delta = (now.getFullYear() * 12 + now.getMonth())
+    - (a.getFullYear() * 12 + a.getMonth());
+  const shiftYM = (y, m1) => {                 // m1 is 1-based; returns [y, m1]
+    const total = y * 12 + (m1 - 1) + delta;
+    return [Math.floor(total / 12), (total % 12 + 12) % 12 + 1];
+  };
+  const shiftISO = (s) => {
+    const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})(.*)$/);
+    if (!m) return s;
+    const [y, mo] = shiftYM(+m[1], +m[2]);
+    const day = Math.min(+m[3], new Date(y, mo, 0).getDate());
+    return `${y}-${String(mo).padStart(2, '0')}-${String(day).padStart(2, '0')}${m[4]}`;
+  };
+  if (delta) {
+    for (const [mod, entities] of Object.entries(raw)) {
+      if (mod === '_meta') continue;
+      for (const rows of Object.values(entities)) {
+        for (const r of rows) {
+          for (const [k, v] of Object.entries(r)) {
+            if (typeof v !== 'string') continue;
+            let m;
+            if (/^\d{4}-\d{2}-\d{2}/.test(v)) r[k] = shiftISO(v);
+            else if ((m = v.match(/^(\d{4})-(January|February|March|April|May|June|July|August|September|October|November|December)$/))) {
+              const [y, mo] = shiftYM(+m[1], MONTH_NAMES_EN.indexOf(m[2]) + 1);
+              r[k] = `${y}-${MONTH_NAMES_EN[mo - 1]}`;
+            } else if ((m = v.match(/^(\d{4})-Q([1-4])$/))) {
+              const [y, mo] = shiftYM(+m[1], (+m[2] - 1) * 3 + 1);
+              r[k] = `${y}-Q${Math.floor((mo - 1) / 3) + 1}`;
+            } else if (k === 'periodFrame' && (m = v.match(/^(\d{4})$/))) {
+              r[k] = String(shiftYM(+m[1], 1)[0]);
+            }
+          }
+          if (typeof r.periodYear === 'number' && typeof r.periodMonth === 'number') {
+            const [y, mo] = shiftYM(r.periodYear, r.periodMonth);
+            r.periodYear = y;
+            r.periodMonth = mo;
+            if (typeof r.periodQuarter === 'number') {
+              r.periodQuarter = Math.floor((mo - 1) / 3) + 1;
+            }
+          }
+        }
+      }
+    }
+    raw._meta.anchorDate = shiftISO(String(anchor));
+  }
+  shiftedAnchor = raw._meta.anchorDate;
+}
+
 export async function loadData() {
   let raw;
   if (BLANK_MODE) {
@@ -59,6 +131,7 @@ export async function loadData() {
     if (!res.ok) throw new Error(`Failed to load data (${res.status})`);
     raw = await res.json();
   }
+  shiftAnchoredDates(raw);
   store.raw = raw;
 
   for (const [mod, entities] of Object.entries(raw)) {

@@ -11,6 +11,11 @@
 // Run from prototype/:  node tools/test_engine_requirements_inheritance.mjs
 
 import fs from 'fs';
+// Pinned to the FROZEN transformer reference dataset (F3, Vitalis swap):
+// this suite asserts engine behavior against known reference rows — the live
+// demo dataset is guarded by validate_mockup (narrative block) instead.
+globalThis.__MOCKUP_PATH__ = 'tools/testdata/mockup_transformers.json';
+
 globalThis.fetch = async (p) => new Response(fs.readFileSync(p));
 
 const model = await import('../js/model.js');

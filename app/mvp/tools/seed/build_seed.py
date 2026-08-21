@@ -458,13 +458,21 @@ class Builder:
                          'Second Opinion Flow': 'Radiologist',
                          'Quality Audit Flow': 'Quality Analyst',
                          'Home Collection Flow': 'Nurse'}
+        # scheduling/routing is front-desk work — without this, the Front
+        # Desk function gets no demand lines and Capacity charts a zero bar
+        fn_of_activity = {'Schedule Exam': 'Front Desk', 'Plan Route': 'Front Desk',
+                          'Triage Order': 'Front Desk'}
         report_fn = {'Elaborate Report', 'Re-read Study', 'Validate Results'}
         tasks, t_n = [], 0
         for p in d['processes']:
             pid = self.id_of('Processes', p['name'])
             ev = next(r['eventID'] for r in processes if r['processID'] == pid)
             for j, aname in enumerate(p['activities']):
-                acts = ['Execution'] if j % 2 else ['Execution', 'Check']
+                # action diversity: Execution everywhere, a rotating second
+                # action per activity — several actions recur across ≥2
+                # processes (the Tasks recurrence card needs ≥3, story 5
+                # pins Check on the report activities)
+                acts = ['Execution', action_mix[1 + j % (len(action_mix) - 1)]]
                 if aname in report_fn:
                     acts = ['Execution', 'Check']
                 for act in acts:
@@ -472,7 +480,8 @@ class Builder:
                     wf = next(w['workflowID'] for w in workflows
                               if w['processID'] == pid
                               and w['activityID'] == self.id_of('Activities', aname))
-                    fn = 'Radiologist' if aname in report_fn else fn_of_process[p['name']]
+                    fn = ('Radiologist' if aname in report_fn
+                          else fn_of_activity.get(aname, fn_of_process[p['name']]))
                     tasks.append({'taskID': f'T{t_n:03d}', 'eventID': ev, 'processID': pid,
                                   'workflowID': wf,
                                   'actionID': self.id_of('Actions', act),
@@ -735,6 +744,12 @@ class Builder:
                      else non_story_pairs[n % len(non_story_pairs)]['productScopeID'])
             role = next((r for r in self.rows('Roles') if r['functionID'] == t['functionID']),
                         self.rows('Roles')[0])
+            # a competence certifies spec DEFINITIONS: the ones its product
+            # scope's protocol fills in (Product Specs refactor doctrine)
+            pair = next(p for p in pairs if p['productScopeID'] == ps_id)
+            group = next(g for g in self.rows('Product Groups')
+                         if g['productGroupID'] == pair['productGroupID'])
+            spec_ids = sorted(group['specValues'].keys())[:3]
             comp.append({'competenceID': f'CMP{n:02d}', 'eventID': t['eventID'],
                          'departmentID': pr['departmentID'], 'processID': t['processID'],
                          'productScopeID': ps_id, 'functionID': t['functionID'],
@@ -742,7 +757,7 @@ class Builder:
                          'levelRank': 1 + n % 3, 'taskID': t['taskID'],
                          'actionID': t['actionID'],
                          'activityID': workflows[t['workflowID']]['activityID'],
-                         'productSpecID': [], 'procedureID': proc['procedureID'],
+                         'productSpecID': spec_ids, 'procedureID': proc['procedureID'],
                          'resources': 'e-learning' if n % 2 else 'classroom',
                          'competenceOwner': None})
         self.put('Competence', comp)
@@ -838,7 +853,9 @@ class Builder:
             cid = proj['customerID']
             lines = lines_by_customer.get(cid) or []
             n += 1
-            created = self.anchor - timedelta(days=360 - (n * 2) % 355)
+            # 97 is coprime with 355 — creation dates sweep the FULL 12-month
+            # window including the anchor month (Performance needs 12 periods)
+            created = self.anchor - timedelta(days=3 + (n * 97) % 355)
             link = None
             if lines and (n % 10) < link_rate * 10:
                 cur = line_cursor.get(cid, 0)
