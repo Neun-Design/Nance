@@ -2654,13 +2654,16 @@
 <p>This dashboard exists in the full prototype but is disabled in the MVP mode used
 for the guided setup. Register it only if you are working in the full app.</p>
 </div>
-<p><strong>What it is:</strong> the breakdown of a forecast into scopes and product groups with quantities —
-the demand line items.
+<p><strong>What it is:</strong> the breakdown of a forecast into Event × Product Scope line items with
+quantities — the same dispatch unit the contract's <a href="../../operation/payload/">Payloads</a> use.
 <strong>Register when:</strong> right after its Forecast (full prototype only — the tab is disabled in
 the MVP walkthrough).
-<strong>Key fields:</strong> <code>Forecast *</code> (grouped by unit); <code>Scope *</code> → unlocks Product Group (only groups
-of that scope), Quantity and Notes. Requirements applicable to the scope + product group pair
-are derived automatically — nothing to select.</p>
+<strong>Key fields:</strong> <code>Forecast *</code> (grouped by unit) → <code>Event</code> (only events the contract covers) →
+<code>Product Scope *</code> (the scopes the contract's payloads package for that event — scope and
+product group derive from it) → Function (the function the demand line projects hours for),
+Quantity and Notes. Requirements applicable to the pair are derived automatically — nothing
+to select. Estimated hours multiply the event's task hours by the quantity; when the event
+chains no tasks yet, the value you type stands.</p>
 
 
 

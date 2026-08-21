@@ -2654,10 +2654,12 @@
 <p>This dashboard exists in the full prototype but is disabled in the MVP mode used
 for the guided setup. Register it only if you are working in the full app.</p>
 </div>
-<p><strong>What it is:</strong> a demand plan for a customer over a period.
-<strong>Register when:</strong> phase 7 of the full prototype, once Portfolio and Scopes exist. The tab
+<p><strong>What it is:</strong> the temporal dimension of a contract — a demand plan projecting an
+<a href="../sla/">SLA</a>'s volume over a period (an SLA has one forecast per planning period).
+<strong>Register when:</strong> phase 7 of the full prototype, once the SLA exists. The tab
 is <strong>not part of the MVP walkthrough</strong> (disabled at <code>/app/mvp/</code>).
-<strong>Key fields:</strong> <code>Customer *</code>, <code>Period *</code> → unlocks period start. Only forecasts whose period
+<strong>Key fields:</strong> <code>SLA *</code> (grouped by customer — the customer derives from the contract),
+<code>Period *</code> (Month, Quarter or Annual) → unlocks period start. Only forecasts whose period
 hasn't ended are offered downstream.</p>
 
 

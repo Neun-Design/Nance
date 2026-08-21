@@ -2657,9 +2657,12 @@ for the guided setup. Register it only if you are working in the full app.</p>
 <p><strong>What it is:</strong> the staffed execution unit: a task assigned to a certified person, with real
 execution tracking. The tab is <strong>not part of the MVP walkthrough</strong> (full prototype only).
 <strong>Register when:</strong> after Tickets (and phase 6 — Jobs only offer certified responsibles).
-<strong>Key fields:</strong> <code>Project *</code> → unlocks <code>Ticket *</code> (grouped by customer) → unlocks Task (tasks
-matching the ticket's customer, product group and scope) and Responsible (onboarded people
-whose competence matches the chain). Status transitions stamp real start/end times; <code>Stoped</code>
+<strong>Key fields:</strong> <code>Project *</code> (narrows the ticket options — the stored project always follows
+the ticket) → unlocks <code>Ticket *</code> (grouped by customer) → unlocks Task (tasks matching the
+ticket's chain) and Responsible (onboarded people whose competence matches the chain);
+Predecessor (a job of the same ticket that must run first) with its Dependency type. The
+planned execution time freezes from the task's procedures when you save; the Role column
+reads the responsible person's role. Status transitions stamp real start/end times; <code>Stoped</code>
 time accrues as buffer and the real execution time is computed on Done.</p>
 
 
