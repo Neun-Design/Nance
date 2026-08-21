@@ -12332,7 +12332,10 @@
     "taskID": "T001",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [
      "RQ06"
     ],
@@ -12352,7 +12355,10 @@
     "taskID": "T002",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [],
     "taskInput": [
      "H02"
@@ -12370,7 +12376,10 @@
     "taskID": "T003",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [
      "RQ06"
     ],
@@ -12390,7 +12399,10 @@
     "taskID": "T004",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [],
     "taskInput": [
      "H04"
@@ -12408,7 +12420,10 @@
     "taskID": "T005",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [
      "RQ06"
     ],
@@ -12428,7 +12443,10 @@
     "taskID": "T006",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [],
     "taskInput": [
      "H06"
@@ -12446,7 +12464,10 @@
     "taskID": "T007",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [
      "RQ06"
     ],
@@ -12466,7 +12487,10 @@
     "taskID": "T008",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [
      "RQ08"
     ],
@@ -12486,7 +12510,10 @@
     "taskID": "T009",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [
      "RQ06"
     ],
@@ -12506,7 +12533,10 @@
     "taskID": "T010",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
     "requirementID": [],
     "taskInput": [
      "H10"
@@ -12524,7 +12554,10 @@
     "taskID": "T011",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12544,7 +12577,10 @@
     "taskID": "T012",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12564,7 +12600,10 @@
     "taskID": "T013",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12584,7 +12623,10 @@
     "taskID": "T014",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12604,7 +12646,10 @@
     "taskID": "T015",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12624,7 +12669,10 @@
     "taskID": "T016",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12644,7 +12692,10 @@
     "taskID": "T017",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12664,7 +12715,10 @@
     "taskID": "T018",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
     "requirementID": [
      "RQ10"
     ],
@@ -12684,7 +12738,10 @@
     "taskID": "T019",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H05"
@@ -12702,7 +12759,10 @@
     "taskID": "T020",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H06"
@@ -12720,7 +12780,10 @@
     "taskID": "T021",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H07"
@@ -12738,7 +12801,10 @@
     "taskID": "T022",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H08"
@@ -12756,7 +12822,10 @@
     "taskID": "T023",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H09"
@@ -12774,7 +12843,10 @@
     "taskID": "T024",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [
      "RQ08"
     ],
@@ -12794,7 +12866,10 @@
     "taskID": "T025",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H11"
@@ -12812,7 +12887,10 @@
     "taskID": "T026",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "requirementID": [],
     "taskInput": [
      "H12"
@@ -12830,7 +12908,9 @@
     "taskID": "T027",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "requirementID": [],
     "taskInput": [
      "H13"
@@ -12848,7 +12928,9 @@
     "taskID": "T028",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "requirementID": [],
     "taskInput": [
      "H14"
@@ -12866,7 +12948,9 @@
     "taskID": "T029",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "requirementID": [],
     "taskInput": [
      "H01"
@@ -12884,7 +12968,9 @@
     "taskID": "T030",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "requirementID": [],
     "taskInput": [
      "H02"
@@ -12902,7 +12988,9 @@
     "taskID": "T031",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "requirementID": [],
     "taskInput": [
      "H03"
@@ -12920,7 +13008,9 @@
     "taskID": "T032",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "requirementID": [],
     "taskInput": [
      "H04"
@@ -12938,7 +13028,9 @@
     "taskID": "T033",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H05"
@@ -12956,7 +13048,9 @@
     "taskID": "T034",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H06"
@@ -12974,7 +13068,9 @@
     "taskID": "T035",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H07"
@@ -12992,7 +13088,9 @@
     "taskID": "T036",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H08"
@@ -13010,7 +13108,9 @@
     "taskID": "T037",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H09"
@@ -13028,7 +13128,9 @@
     "taskID": "T038",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H10"
@@ -13046,7 +13148,9 @@
     "taskID": "T039",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H11"
@@ -13064,7 +13168,9 @@
     "taskID": "T040",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "requirementID": [],
     "taskInput": [
      "H12"
@@ -13082,7 +13188,10 @@
     "taskID": "T041",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "requirementID": [],
     "taskInput": [
      "H13"
@@ -13100,7 +13209,10 @@
     "taskID": "T042",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "requirementID": [],
     "taskInput": [
      "H14"
@@ -13118,7 +13230,10 @@
     "taskID": "T043",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "requirementID": [],
     "taskInput": [
      "H01"
@@ -13136,7 +13251,10 @@
     "taskID": "T044",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "requirementID": [],
     "taskInput": [
      "H02"
@@ -13154,7 +13272,10 @@
     "taskID": "T045",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "requirementID": [],
     "taskInput": [
      "H03"
@@ -13172,7 +13293,10 @@
     "taskID": "T046",
     "procedureURL": null,
     "businessUnitID": "BU01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "requirementID": [],
     "taskInput": [
      "H04"

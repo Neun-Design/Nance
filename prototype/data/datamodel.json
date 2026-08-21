@@ -763,7 +763,7 @@
           ]
         },
         "Branches": {
-          "description": "Physical branches (internal factories/sites) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
+          "description": "Physical branches (sites/units) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
           "dashboard-order": 7,
           "subitem-tables": [
             "Departments (via: departmentID)"
@@ -1380,7 +1380,7 @@
         "Forecasts": {
           "visibility": "show",
           "dashboard-order": 3,
-          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes so that a Customer (factory) can project to global engineering its intended use of role resources for a given planning period.",
+          "description": "A Forecast (ISO §6.1) groups a set of Forecast Scopes — the temporal dimension of a contract (SLA): the customer projects its intended use of the division's role resources for a planning period.",
           "attributes": [
             {
               "name": "forecastID",
@@ -1804,7 +1804,7 @@
               "name": "region",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Customers\".\"regionName\")",
-              "notes": "Region of the factory that owns the parent forecast (via forecastID → Customers.regionID → Regions). Used by Report-B.",
+              "notes": "Region of the customer that owns the parent forecast (via forecastID → Customers.regionID → Regions). Used by Report-B.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -3336,7 +3336,7 @@
         "Requirements": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Requirements applicable to scopes and product groups — regulatory, design and commercial obligations any engineering department can register and reuse (ISO 9001:2015 §4.3, §8.2).",
+          "description": "Requirements applicable to scopes and product groups — regulatory, clinical/design and commercial obligations any service department can register and reuse (ISO 9001:2015 §4.3, §8.2).",
           "attributes": [
             {
               "name": "requirementID",
@@ -4829,7 +4829,7 @@
         "Tickets": {
           "visibility": "show",
           "dashboard-order": 1,
-          "description": "A Ticket is a project-linked work item capturing the execution context of a project's engineering process. It is the entry point for engineering jobs; Customers, Planners and Managers can create tickets (ISO §10.2).",
+          "description": "A Ticket is a project-linked work item capturing the execution context of a project's service process. It is the entry point for jobs; Customers, Planners and Managers can create tickets (ISO §10.2).",
           "attributes": [
             {
               "name": "ticketID",
@@ -4862,7 +4862,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "Customer / requester factory — PK-keyed since v3-review R3; displays customerName since the geography attrs (and the customerTitle CONCAT) left Customers (issue #191)",
+              "notes": "Customer / requester — PK-keyed since v3-review R3; displays customerName since the geography attrs (and the customerTitle CONCAT) left Customers (issue #191)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -5186,7 +5186,7 @@
         "Projects": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Engineering project with customer/factory, owner and status. Groups tickets and provides estimated vs. executed time roll-ups (ISO §8.3 / §8.4).",
+          "description": "A project (contract or campaign) with customer, owner and status. Groups tickets and provides estimated vs. executed time roll-ups (ISO §8.3 / §8.4).",
           "attributes": [
             {
               "name": "projectID",
@@ -5988,7 +5988,7 @@
                 "detail-data": "allocatedHours / availableHours "
               },
               "card-component": "shadcn-card",
-              "card-tooltip": "Percentage alignment between customer‑forecasted hours and planned engineering workload."
+              "card-tooltip": "Percentage alignment between customer‑forecasted hours and planned workload."
             },
             "Card 1-2": {
               "title": "Most Overestimated Customer",
@@ -6737,7 +6737,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "nullable — branch (internal factory) this person is stationed at; since #170 the geographic location lives on the person (region → country → city), the branch is organisational only",
+              "notes": "nullable — branch (site) this person is stationed at; since #170 the geographic location lives on the person (region → country → city), the branch is organisational only",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"

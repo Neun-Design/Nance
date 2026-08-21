@@ -448,6 +448,22 @@ class Builder:
         self.index('Processes', 'processName', 'processID')
         self.put('Workflows', workflows)
 
+        # what each trigger event PACKAGES (used by procedures' served pairs,
+        # event applicability and the payloads below)
+        img_pairs = [p for p in self.rows('Product Scopes')
+                     if p['businessSegment'] == 'Diagnostic Imaging']
+        lab_pairs = [p for p in self.rows('Product Scopes')
+                     if p['businessSegment'] == 'Clinical Analysis']
+        out_pairs = [p for p in self.rows('Product Scopes')
+                     if p['businessSegment'] == 'Outpatient Care']
+        pack_of = {'Medical Order Received': [p for p in img_pairs if 'Urgent' not in p['productScopeName']],
+                   'Urgent Case Flagged': [p for p in img_pairs if 'Urgent' in p['productScopeName']],
+                   'Second Opinion Requested': [p for p in img_pairs if 'Second Opinion' in p['productScopeName']],
+                   'Sample Batch Arrived': lab_pairs,
+                   'Home Collection Requested': [p for p in lab_pairs + out_pairs
+                                                 if 'Home Collection' in p['productScopeName']] or out_pairs,
+                   'Accreditation Audit Scheduled': [p for p in img_pairs if 'Audit' in p['productScopeName']]}
+
         # tasks: activity × action pairs that make clinical sense; the Check
         # action recurs across processes (story 5)
         action_mix = ['Execution', 'Check', 'Approval', 'Registration', 'Assignment',
@@ -508,33 +524,24 @@ class Builder:
             elif t['processID'] == self.id_of('Processes', 'Imaging Exam Flow') and i % 2 == 0:
                 reqs = [req_ix['Contrast Administration Protocol']]
             base = time_of_fn[fn_names[t['functionID']]]
+            # the SOP names the pair(s) it serves — the process's packaged
+            # pairs (F5: the Product-scopes subitem tab must not be empty)
+            ev_title = next(e['eventTitle'] for e in self.rows('Events')
+                            if e['eventID'] == t['eventID'])
+            served = [p['productScopeID'] for p in pack_of.get(ev_title, [])][:2]
             procedures.append({'procedureID': f'PRC{i+1:02d}',
                                'procedureRegistry': f'SOP-{i+1:03d}',
                                'processID': t['processID'], 'taskID': t['taskID'],
                                'procedureURL': None,
                                'businessUnitID': self.rows('Business Units')[0]['businessUnitID'],
-                               'productScopeID': [], 'requirementID': reqs,
+                               'productScopeID': served, 'requirementID': reqs,
                                'taskInput': [self.rows('Handouts')[i % 14]['handoutID']],
                                'taskOutput': [self.rows('Handouts')[(i + 1) % 14]['handoutID']],
                                'executionTime': base + 0.25 * (i % 3),
                                'procedureOwner': None})
         self.put('Procedures', procedures)
 
-        # event applicability = the scopes/products its process's tasks serve;
-        # payloads package Event × Product Scopes for the SLAs
-        img_pairs = [p for p in self.rows('Product Scopes')
-                     if p['businessSegment'] == 'Diagnostic Imaging']
-        lab_pairs = [p for p in self.rows('Product Scopes')
-                     if p['businessSegment'] == 'Clinical Analysis']
-        out_pairs = [p for p in self.rows('Product Scopes')
-                     if p['businessSegment'] == 'Outpatient Care']
-        pack_of = {'Medical Order Received': [p for p in img_pairs if 'Urgent' not in p['productScopeName']],
-                   'Urgent Case Flagged': [p for p in img_pairs if 'Urgent' in p['productScopeName']],
-                   'Second Opinion Requested': [p for p in img_pairs if 'Second Opinion' in p['productScopeName']],
-                   'Sample Batch Arrived': lab_pairs,
-                   'Home Collection Requested': [p for p in lab_pairs + out_pairs
-                                                 if 'Home Collection' in p['productScopeName']] or out_pairs,
-                   'Accreditation Audit Scheduled': [p for p in img_pairs if 'Audit' in p['productScopeName']]}
+        # event applicability = the scopes/products its process's tasks serve
         groups_by_id = {g['productGroupID']: g for g in self.rows('Product Groups')}
         for ev in self.rows('Events'):
             pairs = pack_of.get(ev['eventTitle'], [])
