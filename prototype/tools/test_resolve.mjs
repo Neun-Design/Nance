@@ -56,8 +56,11 @@ expectName('Tasks', 'actionID', /^(?!A\d)[A-Za-z]/);
 // Portfolio
 expectName('Product Scopes', 'requirementID', /[A-Za-z]{3,}/); // compound via: productGroupID + scopeID
 expectName('Product Groups', 'productID', /^(?!P\d)[A-Za-z]/);
-// Requirements: concat display resolves the computed specsSummary part
-expectName('Requirements', 'productGroupID', /\|/);
+// Requirements: concat display resolves the computed specsSummary part —
+// parametrized (F3, plan §5.5): the first requirement that HAS product
+// groups, whatever the domain calls it
+expectName('Requirements', 'productGroupID', /\|/,
+  data.getEntity('Requirements').find((r) => Array.isArray(r.productGroupID) && r.productGroupID.length));
 // specsSummary renders the specValues map as "Spec Name: value" pairs
 expectName('Product Groups', 'specsSummary', /[A-Za-z]{3,}[^:]*: /);
 // Competence certifies spec DEFINITIONS now — names, not SPECxx ids
@@ -153,11 +156,16 @@ function subitemsOf(table, r = row(table)) {
     ok(`Tasks→Procedures: ${tp.kids.length} kid(s) for the first task`);
   } else fail(`Tasks→Procedures: ${tp.kids.length} kids`);
 
-  // Requirements → Product Scopes (reverse of the compound requirementID rollup)
-  const req = data.getEntity('Requirements').find((c) => c.requirementName === 'Max Tank Weight');
+  // Requirements → Product Scopes (reverse of the compound requirementID
+  // rollup) — parametrized (F3, plan §5.5): the ONE domain-coupled assertion
+  // ('Max Tank Weight') becomes "the first requirement carrying BOTH a
+  // product group and a scope", whatever the domain names it
+  const req = data.getEntity('Requirements').find((c) =>
+    Array.isArray(c.productGroupID) && c.productGroupID.length
+    && Array.isArray(c.scopeID) && c.scopeID.length);
   const [cps] = subitemsOf('Requirements', req);
-  if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Requirements→Product Scopes: ${cps.kids.length} kids for Max Tank Weight`);
-  else fail(`Requirements→Product Scopes: ${cps.kids.length} kids`);
+  if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Requirements→Product Scopes: ${cps.kids.length} kids for ${req.requirementName}`);
+  else fail(`Requirements→Product Scopes: ${cps.kids.length} kids (probe: ${req && req.requirementName})`);
 
   // Roles → Competence
   const [rc] = subitemsOf('Roles');
