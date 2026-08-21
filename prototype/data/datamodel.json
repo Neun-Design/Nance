@@ -70,7 +70,7 @@
               "name": "businessUnitCode",
               "type": "VARCHAR",
               "rule": null,
-              "notes": "Short code, e.g. \"LMPT\"",
+              "notes": "Short code, e.g. \"IMG\"",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -202,7 +202,7 @@
               "name": "businessSegmentCode",
               "type": "VARCHAR",
               "rule": null,
-              "notes": "Short code, e.g. \"LPT\"",
+              "notes": "Short code, e.g. \"ISP\"",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -981,7 +981,7 @@
         "Customers": {
           "visibility": "show",
           "dashboard-order": 1,
-          "description": "Manufacturing site entity (ISO §4.1 organisational context) with business segment classification: LPT (Large Power Transformers), MT (Medium Transformers), or DT (Distribution Transformers).",
+          "description": "Interested parties the division serves (ISO §4.1/§4.2): paying customers (insurers, partner hospitals) and internal clients (the network's own units), classified by business segment and unit.",
           "attributes": [
             {
               "name": "customerID",
@@ -4004,7 +4004,7 @@
         "Scopes": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Defines the work scope boundaries applicable to products (e.g., Uprating, Temperature Reduction, Redesign) — ISO §4.3.",
+          "description": "Defines the work scope boundaries applicable to products — how far the service goes (e.g., Routine, Urgent, Second Opinion) — ISO §4.3.",
           "attributes": [
             {
               "name": "scopeID",
@@ -4028,7 +4028,7 @@
               "name": "scopeName",
               "type": "VARCHAR",
               "rule": null,
-              "notes": "e.g., Uprating, Temperature Reduction, Redesign",
+              "notes": "e.g., Routine, Urgent, Second Opinion",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -4153,7 +4153,7 @@
         "Products": {
           "visibility": "show",
           "dashboard-order": 3,
-          "description": "Power transformer products and services tracked through quality and forecasting cycles (ISO §8.1).",
+          "description": "The products and services the division delivers (exams and procedures in the demo domain), tracked through quality and forecasting cycles (ISO §8.1).",
           "attributes": [
             {
               "name": "productID",
@@ -4407,7 +4407,7 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "Unit this product group belongs to (2026-08-03 — replaces the LPT/MPT/DT segment enum)",
+              "notes": "Unit this product group belongs to (2026-08-03 — replaces the former hard-coded segment enum)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5372,7 +5372,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerID",
-                "tooltip": "Final Northwind Energy Client",
+                "tooltip": "The paying customer of the contract",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"

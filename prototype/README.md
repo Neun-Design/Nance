@@ -1,9 +1,15 @@
-# EDQMS — Division Governance Portal (Interactive Prototype)
+# EDQMS — Vitalis Governance Portal (Interactive Prototype)
 
 A **data-driven** prototype of the EDQMS portal. Every table, chart and KPI is computed
 **live in the browser** from `data/mockup_data_prototype.json` — nothing is a static image.
 Filters recompute both the datasets (tables) and the graphics together. The database is
 **non-persistent**: data lives in memory and resets on reload.
+
+The public demo dataset is the **Vitalis Health Network** — a fictitious chain of
+diagnostic clinics generated deterministically by `tools/seed/build_seed.py` from the
+`tools/seed/domains/clinic.yaml` domain pack (dates are anchored: the demo never ages).
+The original power-transformers dataset remains republishable from the
+`demo-transformers-v1` git tag.
 
 ## Run locally
 
