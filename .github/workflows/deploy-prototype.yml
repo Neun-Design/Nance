@@ -26,27 +26,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy prototype to gh-pages
+      # MVP walkthrough (ux-review U8): the SAME app served under /app/mvp/ —
+      # data.js detects the /mvp/ path and boots blank. Staging both copies
+      # here keeps them in lockstep (drifted on 2026-08-13: five schema
+      # versions stale until a manual ./deploy_pages.sh run).
+      - name: Assemble app + mvp mirror
+        run: |
+          cp -R prototype stage
+          cp -R prototype stage/mvp
+
+      # Full replace scoped to app/ — no keep_files. With keep_files: true,
+      # files DELETED from prototype/ stayed published forever (issue #237:
+      # login.js with the old demo credentials outlived the login-gate
+      # removal and needed a manual gh-pages cleanup). The action's cleanup
+      # is `git rm -r *` inside destination_dir only, so the stakeholder
+      # docs at the branch root are untouched.
+      - name: Deploy prototype + MVP to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: prototype
+          publish_dir: stage
           publish_branch: gh-pages
           destination_dir: app
-          keep_files: true
-          commit_message: "deploy: prototype from ${{ github.sha }}"
-
-      # MVP walkthrough (ux-review U8): the SAME app served under /app/mvp/ —
-      # data.js detects the /mvp/ path and boots blank. It is a separate full
-      # copy on gh-pages, so it must deploy too or it drifts behind /app/
-      # (bit us on 2026-08-13: five schema versions stale until a manual
-      # ./deploy_pages.sh run).
-      - name: Deploy MVP walkthrough copy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: prototype
-          publish_branch: gh-pages
-          destination_dir: app/mvp
-          keep_files: true
-          commit_message: "deploy: mvp walkthrough from ${{ github.sha }}"
+          commit_message: "deploy: prototype + mvp from ${{ github.sha }}"
