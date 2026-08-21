@@ -169,7 +169,7 @@ export const REPORT_QUERIES = {
       .map((f) => f.forecastID));
     const alloc = groupAgg(
       getEntity('Forecast Scopes').filter((s) => fcIds.has(s.forecastID)),
-      'functionName', 'estimatedHours');
+      (s) => fnName(s.functionID), 'estimatedHours');
 
     const cats = [...new Set([...availWeekly.keys(), ...alloc.keys()])].sort();
     const title = 'Available vs Allocated Hours by Function'
@@ -215,14 +215,16 @@ export const REPORT_QUERIES = {
 
 function stackedScopeHours(rows) {
   const scopeOf = (r) => lookup('Scopes', r.scopeID, 'scopeName') || r.scopeID;
+  // functionName is a mirror since issue #242 — resolve via the stored FK
+  const fnOf = (r) => lookup('Functions', r.functionID, 'functionName') || r.functionID;
   const cats = [...new Set(rows.map(scopeOf))];
-  const fns = [...new Set(rows.map((r) => r.functionName).filter(Boolean))];
+  const fns = [...new Set(rows.map(fnOf).filter(Boolean))];
   return {
     type: 'multibar', stacked: true, title: 'Estimated Hours by Scope (stacked by Function)',
     cats,
     series: fns.map((fn) => ({
       name: fn,
-      data: cats.map((c) => Math.round(sum(rows.filter((r) => scopeOf(r) === c && r.functionName === fn), 'estimatedHours'))),
+      data: cats.map((c) => Math.round(sum(rows.filter((r) => scopeOf(r) === c && fnOf(r) === fn), 'estimatedHours'))),
     })),
   };
 }

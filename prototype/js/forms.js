@@ -463,6 +463,14 @@ export function applyDerivedUnits(entity, rec) {
     // stored so the downstream join chains keep a real key to traverse
     const s = rec.slaID && getById('SLA', rec.slaID);
     rec.customerID = (s && s.customerID) ?? rec.customerID ?? null;
+  } else if (entity === 'Forecast Scopes') {
+    // scope and product group follow the chosen Product Scope (issue #242) —
+    // stored because the requirement chain traverses them
+    const ps = rec.productScopeID && getById('Product Scopes', rec.productScopeID);
+    if (ps) {
+      rec.scopeID = ps.scopeID ?? rec.scopeID ?? null;
+      rec.productGroupID = ps.productGroupID ?? rec.productGroupID ?? null;
+    }
   } else if (entity === 'Competence') {
     // department moved DOWN to Processes (issue #159) — derive via the
     // selected process; legacy snapshots may still carry it on the event
@@ -809,6 +817,47 @@ export function eventsForForecastSLA(forecastId) {
   }
   if (!covered.size) return all.map(evOption);
   return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+}
+
+// Product scopes a FORECAST SCOPE may project (issue #242): the scopes
+// packaged by the forecast's SLA payloads for the chosen event — the same
+// Event × Product Scope unit the SLA dispatches. Wildcard payload (empty
+// productScopeID) widens to the event's full applicability (Q1); no
+// forecast / no SLA → the event's applicability (lenient).
+export function productScopesForForecastSLA(eventId, forecastId) {
+  const fc = forecastId ? getById('Forecasts', forecastId) : null;
+  const sla = fc && fc.slaID != null && fc.slaID !== '' ? getById('SLA', fc.slaID) : null;
+  const fallback = () => eventProductScopeIds(eventId)
+    .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+  if (!sla) return fallback();
+  const ids = [];
+  let sawEventPayload = false;
+  for (const pid of asList(sla.payloadID)) {
+    const p = getById('Payload', pid);
+    if (!p || (eventId != null && eventId !== '' && String(p.eventID) !== String(eventId))) continue;
+    sawEventPayload = true;
+    const packaged = asList(p.productScopeID);
+    const scopeIds = packaged.length ? packaged : eventProductScopeIds(p.eventID);
+    scopeIds.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
+  }
+  if (!sawEventPayload) return fallback();
+  return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+}
+
+// Functions of the tasks the chosen event chains (issue #242) — the options
+// for the Forecast Scopes Function select. No event / no tasks → every
+// function (lenient).
+export function functionsForForecastEvent(eventId) {
+  const fnOption = (f) => ({ value: f.functionID, label: f.functionName || String(f.functionID) });
+  const all = getEntity('Functions');
+  if (!eventId) return all.map(fnOption);
+  const fnIds = new Set();
+  for (const t of getEntity('Tasks')) {
+    if (String(t.eventID) !== String(eventId)) continue;
+    if (t.functionID != null && t.functionID !== '') fnIds.add(String(t.functionID));
+  }
+  if (!fnIds.size) return all.map(fnOption);
+  return all.filter((f) => fnIds.has(String(f.functionID))).map(fnOption);
 }
 
 // Product scopes a TICKET may target (issue #214): the scopes packaged by the
@@ -1353,6 +1402,23 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Forecast Scopes' && attrName === 'eventID') {
             const dep = findDep('Forecast');
             applyOpts(eventsForForecastSLA(dep ? dep[1].get() : null));
+            return;
+          }
+          // Forecast Scopes "Product Scope": the scopes packaged by the
+          // contract's payloads for the chosen event (issue #242) — see
+          // productScopesForForecastSLA
+          if (entity === 'Forecast Scopes' && attrName === 'productScopeID') {
+            const evDep = findDep('Event');
+            const fcDep = findDep('Forecast');
+            applyOpts(productScopesForForecastSLA(evDep ? evDep[1].get() : null,
+              fcDep ? fcDep[1].get() : null));
+            return;
+          }
+          // Forecast Scopes "Function": the functions of the tasks the chosen
+          // event chains (issue #242) — see functionsForForecastEvent
+          if (entity === 'Forecast Scopes' && attrName === 'functionID') {
+            const evDep = findDep('Event');
+            applyOpts(functionsForForecastEvent(evDep ? evDep[1].get() : null));
             return;
           }
           // Tickets "Product Scope": the scopes packaged by the selected

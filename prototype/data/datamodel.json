@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 45,
+    "schemaVersion": 46,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1711,10 +1711,19 @@
               "constraints": "FK"
             },
             {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: productScopeName)",
+              "notes": "The portfolio anchor (issue #242) — the same Event × Product Scope unit the SLA's Payloads dispatch. Options: the product scopes packaged by the forecast's SLA payloads for the chosen event (Q1 wildcard payload = the event's full applicability). Scope and product group derive from it on save.",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
-              "notes": null,
+              "notes": "Derived on save from the Product Scope since issue #242 (stored — the requirement chain traverses it); no form field",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK, NOT NULL"
@@ -1723,7 +1732,7 @@
               "name": "productGroupID",
               "type": "FK",
               "rule": "FK → Product Groups (display: productGroupName)",
-              "notes": "filtered by",
+              "notes": "Derived on save from the Product Scope since issue #242 (stored — the requirement chain traverses it); no form field",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -1735,15 +1744,6 @@
               "notes": "Requirements linked to the row's scope + product group",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null
-            },
-            {
-              "name": "productScopeID",
-              "type": "INT",
-              "rule": "computed → Product Scopes (via: eventID + productGroupID + scopeID + requirementName)",
-              "notes": null,
-              "table-display": false,
-              "subitem-display": false,
               "constraints": null
             },
             {
@@ -1774,10 +1774,19 @@
               "constraints": null
             },
             {
+              "name": "functionID",
+              "type": "FK",
+              "rule": "FK → Functions (display: functionName)",
+              "notes": "The function this demand line projects hours for (issue #242 — was the free-string functionName, the aggregation key of Capacity::Report-A; D6 doctrine kills the name join). Options: the functions of the tasks chained by the chosen event.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "functionName",
-              "type": "VARCHAR",
-              "rule": "computed: DISTINCT(tasks.functionName)",
-              "notes": "Roles derived from Tasks in the triggered Process",
+              "type": "mirror",
+              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "notes": "Display twin of functionID (issue #242)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -1785,8 +1794,8 @@
             {
               "name": "estimatedHours",
               "type": "DECIMAL",
-              "rule": "computed: SUM(tasks.executionTime)",
-              "notes": "Total execution hours across all Tasks",
+              "rule": "computed: SUM(taskID.executionTime) * forecastScopeQuantity",
+              "notes": "Hours of the chained tasks × the projected quantity (issue #242 — quantity finally multiplies; tasks derive their time from Procedures). Stored values are re-stamped by the migration to the same equation.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -1897,25 +1906,25 @@
                 "check": "Forecast IS NOT NULL",
                 "field-rule": "events covered by the forecast's SLA payloads"
               },
-              "Scope": {
+              "Product Scope": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
-                "attribute": "scopeID",
-                "tooltip": null,
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes packaged by the contract's payloads for this event — scope and product group derive from it",
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Event IS NOT NULL",
+                "field-rule": "SelectLabel = scopeName; product scopes of the forecast's SLA payloads"
               },
-              "Product Group": {
+              "Function": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "productGroupID",
-                "tooltip": null,
+                "attribute": "functionID",
+                "tooltip": "The function this demand line projects hours for",
                 "step": null,
-                "check": "Scope IS NOT NULL",
-                "field-rule": "filtered by Scope selected"
+                "check": "Product Scope IS NOT NULL",
+                "field-rule": "functions of the tasks chained by the event"
               },
               "Notes": {
                 "field-type": {
