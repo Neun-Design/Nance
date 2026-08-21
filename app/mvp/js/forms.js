@@ -528,7 +528,8 @@ export function competenceProductScope(comp) {
   return { scope: flat('scopeID'), pg: flat('productGroupID') };
 }
 
-function certifiedResponsibles(ticketId, taskId) {
+// Exported for tools/test_engine_onboarding_competences.mjs.
+export function certifiedResponsibles(ticketId, taskId) {
   const tickets = resolveTable('Tickets');
   const ticket = ticketId && tickets ? getById(tickets, ticketId) : null;
   let scope = null, pg = null, reqIds = null;
@@ -551,18 +552,25 @@ function certifiedResponsibles(ticketId, taskId) {
   if (!obTable || !compTable) return out;
   for (const ob of getEntity(obTable)) {
     if (ob.isCertified !== true) continue;
-    const comp = getById(compTable, ob.competenceID);
-    if (!comp) continue;
-    const compPS = competenceProductScope(comp);
-    if (scope && compPS.scope && !arrOverlap(compPS.scope, scope)) continue;
-    if (pg && compPS.pg && !arrOverlap(compPS.pg, pg)) continue;
-    const compReqs = competenceRequirements(comp);
-    if (reqIds && reqIds.length && compReqs && !arrOverlap(compReqs, reqIds)) continue;
-    if (taskId && comp.taskID && !arrOverlap(comp.taskID, taskId)) continue;
-    const uid = ob.userID;
-    if (!uid || seen.has(uid)) continue;
-    seen.add(uid);
-    out.push({ value: uid, label: lookup('People', uid) || uid });
+    // competenceID is the onboarding's competence GROUP (multivalued since
+    // issue #239) — any matching competence in the group qualifies the person
+    const compIds = Array.isArray(ob.competenceID) ? ob.competenceID
+      : ob.competenceID != null && ob.competenceID !== '' ? [ob.competenceID] : [];
+    for (const compId of compIds) {
+      const comp = getById(compTable, compId);
+      if (!comp) continue;
+      const compPS = competenceProductScope(comp);
+      if (scope && compPS.scope && !arrOverlap(compPS.scope, scope)) continue;
+      if (pg && compPS.pg && !arrOverlap(compPS.pg, pg)) continue;
+      const compReqs = competenceRequirements(comp);
+      if (reqIds && reqIds.length && compReqs && !arrOverlap(compReqs, reqIds)) continue;
+      if (taskId && comp.taskID && !arrOverlap(comp.taskID, taskId)) continue;
+      const uid = ob.userID;
+      if (!uid || seen.has(uid)) break;
+      seen.add(uid);
+      out.push({ value: uid, label: lookup('People', uid) || uid });
+      break;
+    }
   }
   return out;
 }

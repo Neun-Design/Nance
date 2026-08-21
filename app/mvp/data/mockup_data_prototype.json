@@ -22394,12 +22394,15 @@
     "productName": "LPT",
     "resources": "e-learning",
     "onboardingOwner": "U01",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB002",
@@ -22410,12 +22413,15 @@
     "productName": "Autotransformer",
     "resources": "mentoring",
     "onboardingOwner": "U02",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "Max Tank Weight",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    },
    {
     "onboardID": "ONB003",
@@ -22426,12 +22432,15 @@
     "productName": "Phase Shifter",
     "resources": "workshop",
     "onboardingOwner": "U03",
-    "competenceID": "CMP03",
+    "competenceID": [
+     "CMP03"
+    ],
     "requirementName": "Short-circuit Withstand",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Offer Costing-Check"
    },
    {
     "onboardID": "ONB004",
@@ -22442,12 +22451,15 @@
     "productName": "HVDC",
     "resources": "e-learning",
     "onboardingOwner": "U04",
-    "competenceID": "CMP04",
+    "competenceID": [
+     "CMP04"
+    ],
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Sizing-Execution"
    },
    {
     "onboardID": "ONB005",
@@ -22458,12 +22470,15 @@
     "productName": "Reactors",
     "resources": "mentoring",
     "onboardingOwner": "U05",
-    "competenceID": "CMP05",
+    "competenceID": [
+     "CMP05"
+    ],
     "requirementName": "Noise Level Limit",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Layout-Followup"
    },
    {
     "onboardID": "ONB006",
@@ -22474,12 +22489,15 @@
     "productName": "MPT",
     "resources": "workshop",
     "onboardingOwner": "U06",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "Temperature Rise Limit",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB007",
@@ -22490,12 +22508,15 @@
     "productName": "IND",
     "resources": "e-learning",
     "onboardingOwner": "U07",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "Insulation Level",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    },
    {
     "onboardID": "ONB008",
@@ -22506,12 +22527,15 @@
     "productName": "LDT",
     "resources": "mentoring",
     "onboardingOwner": "U08",
-    "competenceID": "CMP03",
+    "competenceID": [
+     "CMP03"
+    ],
     "requirementName": "Budget Cap",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Offer Costing-Check"
    },
    {
     "onboardID": "ONB009",
@@ -22522,12 +22546,15 @@
     "productName": "CRT",
     "resources": "workshop",
     "onboardingOwner": "U09",
-    "competenceID": "CMP04",
+    "competenceID": [
+     "CMP04"
+    ],
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Sizing-Execution"
    },
    {
     "onboardID": "ONB010",
@@ -22538,12 +22565,15 @@
     "productName": "LIDT",
     "resources": "e-learning",
     "onboardingOwner": "U10",
-    "competenceID": "CMP05",
+    "competenceID": [
+     "CMP05"
+    ],
     "requirementName": "Max Tank Weight",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Layout-Followup"
    },
    {
     "onboardID": "ONB011",
@@ -22554,12 +22584,15 @@
     "productName": "TRAC",
     "resources": "mentoring",
     "onboardingOwner": "U11",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "Short-circuit Withstand",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB012",
@@ -22570,12 +22603,15 @@
     "productName": "VR",
     "resources": "workshop",
     "onboardingOwner": "U12",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    },
    {
     "onboardID": "ONB013",
@@ -22586,12 +22622,15 @@
     "productName": "CP",
     "resources": "e-learning",
     "onboardingOwner": "U13",
-    "competenceID": "CMP03",
+    "competenceID": [
+     "CMP03"
+    ],
     "requirementName": "Noise Level Limit",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Offer Costing-Check"
    },
    {
     "onboardID": "ONB014",
@@ -22602,12 +22641,15 @@
     "productName": "RENEW",
     "resources": "mentoring",
     "onboardingOwner": "U14",
-    "competenceID": "CMP04",
+    "competenceID": [
+     "CMP04"
+    ],
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Sizing-Execution"
    },
    {
     "onboardID": "ONB015",
@@ -22618,12 +22660,15 @@
     "productName": "LPT",
     "resources": "workshop",
     "onboardingOwner": "U15",
-    "competenceID": "CMP05",
+    "competenceID": [
+     "CMP05"
+    ],
     "requirementName": "Insulation Level",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Layout-Followup"
    },
    {
     "onboardID": "ONB016",
@@ -22634,12 +22679,15 @@
     "productName": "Autotransformer",
     "resources": "e-learning",
     "onboardingOwner": "U16",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "Budget Cap",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB017",
@@ -22650,12 +22698,15 @@
     "productName": "Phase Shifter",
     "resources": "mentoring",
     "onboardingOwner": "U17",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    },
    {
     "onboardID": "ONB018",
@@ -22666,12 +22717,15 @@
     "productName": "HVDC",
     "resources": "workshop",
     "onboardingOwner": "U18",
-    "competenceID": "CMP03",
+    "competenceID": [
+     "CMP03"
+    ],
     "requirementName": "Max Tank Weight",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Offer Costing-Check"
    },
    {
     "onboardID": "ONB019",
@@ -22682,12 +22736,15 @@
     "productName": "Reactors",
     "resources": "e-learning",
     "onboardingOwner": "U19",
-    "competenceID": "CMP04",
+    "competenceID": [
+     "CMP04"
+    ],
     "requirementName": "Short-circuit Withstand",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Sizing-Execution"
    },
    {
     "onboardID": "ONB020",
@@ -22698,12 +22755,15 @@
     "productName": "MPT",
     "resources": "mentoring",
     "onboardingOwner": "U20",
-    "competenceID": "CMP05",
+    "competenceID": [
+     "CMP05"
+    ],
     "requirementName": "Delivery Lead Time",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Layout-Followup"
    },
    {
     "onboardID": "ONB021",
@@ -22714,12 +22774,15 @@
     "productName": "IND",
     "resources": "workshop",
     "onboardingOwner": "U21",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "Noise Level Limit",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB022",
@@ -22730,12 +22793,15 @@
     "productName": "LDT",
     "resources": "e-learning",
     "onboardingOwner": "U22",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    },
    {
     "onboardID": "ONB023",
@@ -22746,12 +22812,15 @@
     "productName": "CRT",
     "resources": "mentoring",
     "onboardingOwner": "U23",
-    "competenceID": "CMP03",
+    "competenceID": [
+     "CMP03"
+    ],
     "requirementName": "Insulation Level",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Offer Costing-Check"
    },
    {
     "onboardID": "ONB024",
@@ -22762,12 +22831,15 @@
     "productName": "LIDT",
     "resources": "workshop",
     "onboardingOwner": "U24",
-    "competenceID": "CMP04",
+    "competenceID": [
+     "CMP04"
+    ],
     "requirementName": "Budget Cap",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Sizing-Execution"
    },
    {
     "onboardID": "ONB025",
@@ -22778,12 +22850,15 @@
     "productName": "TRAC",
     "resources": "e-learning",
     "onboardingOwner": "U01",
-    "competenceID": "CMP05",
+    "competenceID": [
+     "CMP05"
+    ],
     "requirementName": "IEC 60076 Compliance",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Layout-Followup"
    },
    {
     "onboardID": "ONB026",
@@ -22794,12 +22869,15 @@
     "productName": "VR",
     "resources": "mentoring",
     "onboardingOwner": "U02",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "Max Tank Weight",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB027",
@@ -22810,12 +22888,15 @@
     "productName": "CP",
     "resources": "workshop",
     "onboardingOwner": "U03",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "Short-circuit Withstand",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    },
    {
     "onboardID": "ONB028",
@@ -22826,12 +22907,15 @@
     "productName": "RENEW",
     "resources": "e-learning",
     "onboardingOwner": "U04",
-    "competenceID": "CMP03",
+    "competenceID": [
+     "CMP03"
+    ],
     "requirementName": "Delivery Lead Time",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Offer Costing-Check"
    },
    {
     "onboardID": "ONB029",
@@ -22842,12 +22926,15 @@
     "productName": "LPT",
     "resources": "mentoring",
     "onboardingOwner": "U05",
-    "competenceID": "CMP04",
+    "competenceID": [
+     "CMP04"
+    ],
     "requirementName": "Noise Level Limit",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Sizing-Execution"
    },
    {
     "onboardID": "ONB030",
@@ -22858,12 +22945,15 @@
     "productName": "Autotransformer",
     "resources": "workshop",
     "onboardingOwner": "U06",
-    "competenceID": "CMP05",
+    "competenceID": [
+     "CMP05"
+    ],
     "requirementName": "Temperature Rise Limit",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Mechanical Layout-Followup"
    },
    {
     "onboardID": "ONB031",
@@ -22874,12 +22964,15 @@
     "productName": "Phase Shifter",
     "resources": "e-learning",
     "onboardingOwner": "U07",
-    "competenceID": "CMP01",
+    "competenceID": [
+     "CMP01"
+    ],
     "requirementName": "Insulation Level",
     "levelRank": 1,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Requirement Capture-Approval"
    },
    {
     "onboardID": "ONB032",
@@ -22890,12 +22983,15 @@
     "productName": "HVDC",
     "resources": "mentoring",
     "onboardingOwner": "U08",
-    "competenceID": "CMP02",
+    "competenceID": [
+     "CMP02"
+    ],
     "requirementName": "Budget Cap",
     "levelRank": 2,
     "trainingURL": null,
     "businessUnitID": "BU01",
-    "departmentID": "DPT01"
+    "departmentID": "DPT01",
+    "onboardingTitle": "Electrical Sizing-Assignment"
    }
   ],
   "Competence": [

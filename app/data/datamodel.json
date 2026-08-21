@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 43,
+    "schemaVersion": 44,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -6897,6 +6897,15 @@
               "constraints": "PK"
             },
             {
+              "name": "onboardingTitle",
+              "type": "VARCHAR",
+              "rule": "user input",
+              "notes": "Context label for the certified competence GROUP (issue #239) — first *Title attr, so it is the table label (and therefore required in the form)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
               "name": "departmentID",
               "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
@@ -6954,7 +6963,7 @@
               "name": "competenceID",
               "type": "FK",
               "rule": "FK → Competence (display: competenceName)",
-              "notes": "Stores the competence PK; role/rank/department narrowing lives in the form cascade (the old 'via: roleID + levelRank' spelling made the select store roleIDs)",
+              "notes": "multivalued — the competence GROUP this onboarding certifies (1:many since issue #239; isCertified covers the whole group). Stores competence PKs; role/rank/department narrowing lives in the form cascade (the old 'via: roleID + levelRank' spelling made the select store roleIDs)",
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -7036,6 +7045,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Title": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "onboardingTitle",
+                "tooltip": "Names the competence group this onboarding certifies",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Department": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -7101,7 +7120,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "isCertified",
-                "tooltip": null,
+                "tooltip": "Certifies the whole competence group of this onboarding",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -7109,7 +7128,15 @@
             }
           },
           "cards": null,
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            {
+              "tab-order": 1,
+              "rule": "(via: competenceID)",
+              "tab-name": "Competences",
+              "tab-table": "Competence"
+            }
+          ]
         },
         "Competence": {
           "visibility": "show",

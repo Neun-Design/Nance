@@ -840,19 +840,24 @@ export function certifiedUsersForTask(taskId, extraReqIds = []) {
   }
   list(extraReqIds).forEach((r) => { if (!taskReqs.includes(r)) taskReqs.push(r); });
   // union each user's certified, task-compatible coverage before testing —
-  // two partial competences may cover the task's set together
+  // two partial competences may cover the task's set together, whether they
+  // sit on separate onboardings or in one onboarding's competence GROUP
+  // (competenceID multivalued since issue #239; isCertified covers the group)
   const cover = new Map(); // userID → { all, reqs:Set }
   for (const ob of getEntity(obT)) {
     if (ob.isCertified !== true) continue;
-    const comp = getById(compT, ob.competenceID);
-    if (!comp || ob.userID == null || ob.userID === '') continue;
-    const compTasks = list(comp.taskID);
-    if (compTasks.length && !compTasks.includes(taskId)) continue;
-    const cur = cover.get(ob.userID) || { all: false, reqs: new Set() };
-    const reqs = competenceRequirements(comp);
-    if (reqs == null) cur.all = true;
-    else list(reqs).forEach((r) => cur.reqs.add(r));
-    cover.set(ob.userID, cur);
+    if (ob.userID == null || ob.userID === '') continue;
+    for (const compId of list(ob.competenceID)) {
+      const comp = getById(compT, compId);
+      if (!comp) continue;
+      const compTasks = list(comp.taskID);
+      if (compTasks.length && !compTasks.includes(taskId)) continue;
+      const cur = cover.get(ob.userID) || { all: false, reqs: new Set() };
+      const reqs = competenceRequirements(comp);
+      if (reqs == null) cur.all = true;
+      else list(reqs).forEach((r) => cur.reqs.add(r));
+      cover.set(ob.userID, cur);
+    }
   }
   const out = [];
   for (const [uid, c] of cover) {
