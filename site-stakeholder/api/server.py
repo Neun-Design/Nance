@@ -16,6 +16,9 @@ _ROOT = Path(__file__).parent.parent.parent
 SITE_DOCS_DIR = _ROOT / "site-stakeholder" / "docs"
 SOURCES_DIR = _ROOT / "sourceFiles"
 PROJECT_KNOWLEDGE_FILE = _ROOT / "CLAUDE.md"
+# The public demo's domain pack (Vitalis Health Network) — lets the assistant
+# explain exactly what a visitor is looking at in the demo, entity by entity.
+DEMO_DOMAIN_DIR = _ROOT / "prototype" / "tools" / "seed"
 
 # Comma-separated list; overridable so a fork or a new host can allow its own origin.
 _DEFAULT_ORIGINS = (
@@ -81,14 +84,30 @@ def _load_project_knowledge() -> str:
     return ""
 
 
+def _load_demo_domain() -> str:
+    chunks = []
+    for name in ("domains/clinic.yaml", "narrative.md"):
+        f = DEMO_DOMAIN_DIR / name
+        if f.exists():
+            chunks.append(f"### {name}\n\n{f.read_text(encoding='utf-8')}")
+    return "\n\n---\n\n".join(chunks)
+
+
 _SITE_CONTENT = _load_site_content()
 _REFERENCE_SOURCES = _load_reference_sources()
 _PROJECT_KNOWLEDGE = _load_project_knowledge()
+_DEMO_DOMAIN = _load_demo_domain()
 
 _SYSTEM_PROMPT = f"""You are an expert assistant for EDQMS (Event Driven Quality Management System), \
-an ISO 9001:2015-aligned quality management framework built for Northwind Energy stakeholders. \
+an open-source, ISO 9001:2015-aligned quality management platform. \
 Answer questions clearly and concisely using the documentation provided below. \
 The stakeholder site content is your primary source. \
+The PUBLIC DEMO at /app/ shows the Vitalis Health Network — a FICTITIOUS chain of diagnostic \
+clinics generated for demonstration; when a visitor asks about something they see in the demo \
+(an exam, an insurer contract, a requirement like ANVISA RDC 611, one of the planted stories), \
+answer from the demo domain pack below and make clear the data is fictitious. \
+The platform itself is sector-agnostic and is in real implementation at Northwind Energy's Power \
+Transformer Repairs & Services business unit — keep that project fact distinct from the demo domain. \
 Use the reference documents only to provide additional technical depth or to resolve gaps not covered by the site. \
 The project knowledge base is the engineering log of the system — its data model, design decisions and their \
 rationale; draw on it when the stakeholder asks how or why something works the way it does, but never expose \
@@ -98,6 +117,10 @@ If a question falls outside the documentation, say so honestly and suggest the s
 <primary_source title="Stakeholder Site Content">
 {_SITE_CONTENT}
 </primary_source>
+
+<demo_domain title="Public Demo Domain Pack — Vitalis Health Network (fictitious)">
+{_DEMO_DOMAIN}
+</demo_domain>
 
 <reference_sources title="Technical Reference Documents">
 {_REFERENCE_SOURCES}
