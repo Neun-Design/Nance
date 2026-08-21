@@ -16,7 +16,7 @@ const REF_OVERRIDE = {
   sourceOwner: 'People', createdBy: 'People', changedBy: 'People', reportedBy: 'People',
   customerName: 'Customers', location: 'Customers', activities: 'Activities',
   products: 'Products', taskInput: 'Handouts', taskOutput: 'Handouts',
-  parentStepID: 'Workflows', parentProcessID: 'Processes', predecesorJob: 'Jobs',
+  parentStepID: 'Workflows', parentProcessID: 'Processes', predecessorJobID: 'Jobs',
   escalatedToEventID: 'Events',
 };
 const ENUM_FIELDS = new Set([
@@ -128,7 +128,7 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
 
   let tCat = getCatalog(target);
   // SELF-REFERENTIAL FKs (Workflows.parentStepID, Processes.parentProcessID,
-  // Jobs.predecesorJob): the attribute naturally exists on the target rows —
+  // Jobs.predecessorJobID): the attribute naturally exists on the target rows —
   // that must not trigger the stored-name heuristics below, or the option
   // values become each row's own parent id and parentless rows vanish
   // (the "empty Parent Step" bug, 2026-08-04)
@@ -470,6 +470,19 @@ export function applyDerivedUnits(entity, rec) {
     if (ps) {
       rec.scopeID = ps.scopeID ?? rec.scopeID ?? null;
       rec.productGroupID = ps.productGroupID ?? rec.productGroupID ?? null;
+    }
+  } else if (entity === 'Jobs') {
+    // A14: the project is the ticket's project — the Project select only
+    // narrows the ticket options (issue #244)
+    const tkt = rec.ticketID && getById('Tickets', rec.ticketID);
+    if (tkt && tkt.projectID != null && tkt.projectID !== '') rec.projectID = tkt.projectID;
+    // A9: the plan freezes from the task's procedures at planning time
+    if (rec.taskID != null && rec.taskID !== '') {
+      const total = getEntity('Procedures')
+        .filter((p) => (Array.isArray(p.taskID) ? p.taskID : [p.taskID])
+          .some((t) => String(t) === String(rec.taskID)))
+        .reduce((s, p) => s + (Number(p.executionTime) || 0), 0);
+      if (total) rec.plannedExecutionTime = total;
     }
   } else if (entity === 'Competence') {
     // department moved DOWN to Processes (issue #159) — derive via the
@@ -1460,6 +1473,16 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             const custDep = findDep('Customer');
             applyOpts(productScopesForTicket(evDep ? evDep[1].get() : null,
               custDep ? custDep[1].get() : null));
+            return;
+          }
+          // Jobs "Predecessor": jobs of the same ticket (issue #244, A6)
+          if (entity === 'Jobs' && attrName === 'predecessorJobID') {
+            const dep = findDep('Ticket');
+            const tid = dep ? dep[1].get() : null;
+            const jobs = getEntity('Jobs')
+              .filter((j) => tid == null || tid === '' || String(j.ticketID) === String(tid));
+            applyOpts(jobs.map((j) => ({ value: j.jobID,
+              label: `${j.jobID} — ${lookup('Tasks', j.taskID) || j.jobID}` })));
             return;
           }
           // Tickets "Forecast Scope": the demand lines this ticket may consume

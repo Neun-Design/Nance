@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 47,
+    "schemaVersion": 48,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5433,7 +5433,7 @@
               "name": "projectID",
               "type": "FK",
               "rule": "FK → Projects (display: projectName)",
-              "notes": "Project the job belongs to (via its ticket)",
+              "notes": "Project the job belongs to — derived on save from the ticket since issue #244 (A14: the stored duplicate could drift; the Project select only narrows the ticket options)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -5512,9 +5512,9 @@
             },
             {
               "name": "roleID",
-              "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"People\".\"roleID\")",
-              "notes": "From userID",
+              "type": "mirror",
+              "rule": "mirror: People via: userID (display: roleID)",
+              "notes": "The allocated person's role (issue #244, A8 — a job has no role of its own: the old stored copy matched People in 0/187 rows and was dropped)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5523,7 +5523,7 @@
               "name": "deliveryDate",
               "type": "DATETIME",
               "rule": null,
-              "notes": "Planned start date",
+              "notes": "Planned delivery date (A13 unswap — the notes were inverted)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5531,8 +5531,8 @@
             {
               "name": "startDate",
               "type": "DATETIME",
-              "rule": "computed: use taskID.estimatedTime to calculate the start date",
-              "notes": "Planned end date",
+              "rule": null,
+              "notes": "Planned start date (A13 unswap — the notes were inverted; in the data it precedes deliveryDate, as it should)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -5540,8 +5540,8 @@
             {
               "name": "plannedExecutionTime",
               "type": "DECIMAL",
-              "rule": "computed: equals the executionTime of the task's procedure (stored at planning time)",
-              "notes": "The template execution",
+              "rule": "computed: frozen from SUM of the task's Procedures.executionTime at planning time",
+              "notes": "Stamped on save from the chosen task's procedures (issue #244, A9) — the plan Performance measures must have existed",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5607,6 +5607,24 @@
               "notes": null,
               "table-display": true,
               "subitem-display": false,
+              "constraints": null
+            },
+            {
+              "name": "predecessorJobID",
+              "type": "FK",
+              "rule": "FK → Jobs (display: jobName)",
+              "notes": "Self-FK, nullable (issue #244, A6 — the predecesorJob residue in forms.js finally has an attribute): the job that must run before this one. Options: jobs of the same ticket.",
+              "table-display": false,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
+              "name": "dependencyType",
+              "type": "ENUM",
+              "rule": "enum: ['start-to-finish', 'start-to-start', 'finish-to-start', 'finish-to-finish']",
+              "notes": "How this job depends on its predecessor — reuses the Workflows.indentationRule enum (issue #244)",
+              "table-display": false,
+              "subitem-display": true,
               "constraints": null
             },
             {
@@ -5748,6 +5766,26 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
+                "field-rule": null
+              },
+              "Predecessor": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "predecessorJobID",
+                "tooltip": "Job of the same ticket that must run before this one — optional",
+                "step": null,
+                "check": "Ticket IS NOT NULL",
+                "field-rule": "jobs of the same ticket"
+              },
+              "Dependency": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "dependencyType",
+                "tooltip": null,
+                "step": null,
+                "check": "Predecessor IS NOT NULL",
                 "field-rule": null
               }
             }

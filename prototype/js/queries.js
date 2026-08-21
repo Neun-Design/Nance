@@ -124,8 +124,11 @@ export const REPORT_QUERIES = {
       'Planned', cats.map((c) => Math.round(planned.get(c) || 0)),
       'Real', cats.map((c) => Math.round(real.get(c) || 0)));
   },
+  // roleID is a mirror of the person since issue #244 (A8) — resolve the
+  // group key through the allocated person's stored role
   'Jobs::Report-B': (rows) =>
-    bar('Real Execution Hours by Role', groupAgg(rows, 'roleID', 'realExecutionTime'),
+    bar('Real Execution Hours by Role',
+      groupAgg(rows, (r) => lookup('People', r.userID, 'roleID') || '—', 'realExecutionTime'),
       (k) => lookup('Roles', k, 'roleName') || k),
 
   // Capacity vs demand by FUNCTION (datamodel Capacity::Report-A):
