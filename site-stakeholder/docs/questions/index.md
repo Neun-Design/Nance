@@ -176,6 +176,10 @@ tutor answering from *your* procedures — possible later.
 ## Where can I see it running?
 
 A live demo with sample data is published at
-[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login
-required. The platform is in implementation at Northwind Energy's Power
-Transformer Repairs & Services business unit.
+[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login required.
+The demo shows **Vitalis Health Network**, a fictitious chain of diagnostic-imaging and
+clinical-analysis clinics (12 branches across Brazil and Argentina), so any visitor can
+navigate a fully populated system without industry background. The platform itself is
+sector-agnostic: it is in implementation at Northwind Energy's Power Transformer Repairs &
+Services business unit. The previous transformer dataset is preserved under the git tag
+`demo-transformers-v1`.

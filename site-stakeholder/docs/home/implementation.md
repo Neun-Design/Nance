@@ -7,7 +7,8 @@ purpose: "The 7-week playbook, what happens each week, and what is expected from
 # Running in 7 weeks — the proven playbook
 
 Fixed scope, key users trained, MVP live. The same playbook now running in the Power
-Transformer Repairs & Services unit can be mirrored for your department.
+Transformer Repairs & Services business unit at Northwind Energy can be mirrored for your
+department.
 
 ## Three steps to get started
 

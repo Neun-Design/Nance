@@ -14,9 +14,9 @@ technical specifications and the requirements that bind them.
 Listed in registration order. Each page answers three questions: *what it is*, *when to register one*, and *the key fields* — including which selection unlocks which.
 
 - [**Classes**](classes.md) — a registry classifying scopes (e.g. Thermal).
-- [**Scopes**](scopes.md) — the work scope boundaries applicable to products (e.g. Uprating, Redesign).
-- [**Products**](products.md) — the product/service families quality events refer to (e.g. Autotransformer).
+- [**Scopes**](scopes.md) — the work scope boundaries applicable to products (e.g. Routine, Urgent, Second Opinion).
+- [**Products**](products.md) — the product/service families quality events refer to (e.g. CT Scan, MRI, Complete Blood Count).
 - [**Product Specs**](product-specs.md) — dynamic attribute definitions — each row defines a field (name, input type, allowed values) that Product Groups of the chosen products must fill in.
-- [**Product Groups**](product-groups.md) — a product variant defined by concrete spec values (e.g. "Autotransformer | Voltage Rate: <=145").
+- [**Product Groups**](product-groups.md) — a product variant defined by concrete spec values (e.g. "CT Contrast Adult | Contrast: Yes, Age Group: Adult, Room Time: 30 min").
 - [**Events**](events.md) — the business occurrences that drive the QMS — the architectural pivot of the model (moved here from Operation, 2026-08-12).
 - [**Product Scopes**](product-scopes.md) — the executable combination scope × product group for a business unit — the thing Forecast Scopes and Workflows point at.
