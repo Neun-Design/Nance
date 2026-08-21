@@ -16,6 +16,7 @@ services:
         - site-stakeholder/**
         - sourceFiles/**
         - CLAUDE.md
+        - prototype/tools/seed/** # demo domain pack embedded in the prompt
     envVars:
       - key: ANTHROPIC_API_KEY
         sync: false # set in the Render dashboard — never committed
