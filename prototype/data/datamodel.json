@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 51,
+    "schemaVersion": 52,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1759,8 +1759,8 @@
             {
               "name": "requirementID",
               "type": "computed",
-              "rule": "computed → Requirements (via: forecastID.customerID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID) (display: requirementName)",
-              "notes": "Requirements linked to the row's scope + product group",
+              "rule": "computed → Requirements (via: forecastID.customerID.businessUnitID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID) (display: requirementName)",
+              "notes": "Requirements linked to the row's scope + product group. Region leg = the customer's units' SERVED regions (Business Units.regionID — issue #230: Customers stopped storing regionID at #191, so the old customerID.regionID path resolved empty and the region dimension was dormant; units posture matches the #226 ticket inheritance)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
