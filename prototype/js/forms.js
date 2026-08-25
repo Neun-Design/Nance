@@ -821,14 +821,20 @@ export function productScopesForPayload(eventId, businessUnitId) {
 // Events a ticket may trigger for a CUSTOMER: the union of the events
 // packaged by the payloads of the customer's active SLAs (issue #179
 // rationale, wired on Tickets by issue #192). No customer or no SLAs →
-// every event (lenient wildcard, same posture as tasksForJob).
-export function eventsForCustomerSLAs(customerId) {
+// every event (lenient wildcard, same posture as tasksForJob). A SUPPLIER
+// narrows the SLA set to the (customer, supplier) contracts (issue #272);
+// lenient when no SLA matches the pair.
+export function eventsForCustomerSLAs(customerId, supplierId = null) {
   const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
   const all = getEntity('Events');
   if (!customerId) return all.map(evOption);
-  const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
+  let slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
     && String(s.isActive || 'Active') !== 'Inactive');
   if (!slas.length) return all.map(evOption);
+  if (supplierId) {
+    const bySup = slas.filter((s) => String(s.supplierID) === String(supplierId));
+    if (bySup.length) slas = bySup; // lenient on empty match — existing posture
+  }
   const covered = new Set();
   for (const s of slas) {
     for (const pid of asList(s.payloadID)) {
@@ -837,6 +843,27 @@ export function eventsForCustomerSLAs(customerId) {
     }
   }
   return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+}
+
+// Suppliers a ticket may declare for a CUSTOMER (issue #272): the distinct
+// supplierID of the customer's ACTIVE SLAs. No customer → [] (the field is
+// gated on Customer); customer without SLAs → [] (nothing to narrow by —
+// leaving Supplier empty keeps the lenient wildcard). Grouping by
+// customerType happens via the field's SelectLabel rule.
+export function suppliersForTicketCustomer(customerId) {
+  if (!customerId) return [];
+  const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
+    && String(s.isActive || 'Active') !== 'Inactive');
+  const seen = new Set();
+  const out = [];
+  for (const s of slas) {
+    const supId = s.supplierID;
+    if (supId == null || supId === '' || seen.has(String(supId))) continue;
+    seen.add(String(supId));
+    const sup = getById('Customers', supId);
+    if (sup) out.push({ value: sup.customerID, label: sup.customerName || String(sup.customerID) });
+  }
+  return out;
 }
 
 // Events a FORECAST SCOPE may project (issue #241, SLA-as-Contract): the
@@ -937,9 +964,10 @@ export function functionsForForecastEvent(eventId) {
 // payload of the event (lenient, eventsForCustomerSLAs posture — the Event
 // select already restricts to SLA-covered events). A payload with an EMPTY
 // productScopeID packages every scope the event admits (Q1) — it widens the
-// offer to the event's full applicability.
-export function productScopesForTicket(eventId, customerId) {
-  return admittedProductScopeIds(eventId, customerId)
+// offer to the event's full applicability. A SUPPLIER narrows the SLA set to
+// the (customer, supplier) contracts (issue #272), lenient on empty match.
+export function productScopesForTicket(eventId, customerId, supplierId = null) {
+  return admittedProductScopeIds(eventId, customerId, supplierId)
     .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
@@ -1468,11 +1496,21 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
             return;
           }
+          // Tickets "Supplier": the suppliers of the customer's active SLAs
+          // (issue #272) — see suppliersForTicketCustomer
+          if (entity === 'Tickets' && attrName === 'supplierID') {
+            const dep = findDep('Customer');
+            applyOpts(suppliersForTicketCustomer(dep ? dep[1].get() : null));
+            return;
+          }
           // Tickets "Event": only events covered by the customer's SLAs
-          // (issue #179 rationale, wired by #192) — see eventsForCustomerSLAs
+          // (issue #179 rationale, wired by #192), narrowed by the chosen
+          // Supplier (#272) — see eventsForCustomerSLAs
           if (entity === 'Tickets' && attrName === 'eventID') {
             const dep = findDep('Customer');
-            applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null));
+            const supDep = findDep('Supplier');
+            applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null,
+              supDep ? supDep[1].get() : null));
             return;
           }
           // Forecast Scopes "Event": only events covered by the forecast's
@@ -1501,13 +1539,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             return;
           }
           // Tickets "Product Scope": the scopes packaged by the selected
-          // event's payloads under the customer's SLAs (issue #214) — see
-          // productScopesForTicket
+          // event's payloads under the customer's SLAs (issue #214), narrowed
+          // by the chosen Supplier (#272) — see productScopesForTicket
           if (entity === 'Tickets' && attrName === 'productScopeID') {
             const evDep = findDep('Event');
             const custDep = findDep('Customer');
+            const supDep = findDep('Supplier');
             applyOpts(productScopesForTicket(evDep ? evDep[1].get() : null,
-              custDep ? custDep[1].get() : null));
+              custDep ? custDep[1].get() : null,
+              supDep ? supDep[1].get() : null));
             return;
           }
           // Jobs "Predecessor": jobs of the same ticket (issue #244, A6)

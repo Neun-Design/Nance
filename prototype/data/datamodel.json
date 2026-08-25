@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 49,
+    "schemaVersion": 50,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1213,7 +1213,16 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "the contracting customer — join anchor for the Customers subitem and the Projects chain (#192)",
+              "notes": "the contracting customer — join anchor for the Customers subitem and the Projects chain (#192); see supplierID for the supplying side (#272)",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
+              "name": "supplierID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "the supplying party of the contract (issue #272) — any customerType may supply: an Internal Client clinic branch can be the supplying side of another unit's SLA; the form offers every customer, grouped by type",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -1324,6 +1333,16 @@
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
+              },
+              "Supplier": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "supplierID",
+                "tooltip": "The supplying party — every customer is offered, grouped by type (an internal clinic can supply another)",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = customerType"
               },
               "Branch": {
                 "field-type": {
@@ -4877,10 +4896,19 @@
               "constraints": null
             },
             {
+              "name": "supplierID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "the supplying-party filter (issue #272) — offered from the suppliers of the customer's ACTIVE SLAs (suppliersForTicketCustomer in forms.js); nullable: no supplier = lenient wildcard (#192 posture) and Event/Product Scope follow every active SLA of the customer",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "eventID",
               "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
-              "notes": "The Event select only offers events covered by the customer's SLAs (issue #179 rationale — eventsForCustomerSLAs in forms.js; no SLA = every event, lenient wildcard). Display fixed to eventTitle (eventName never existed).",
+              "notes": "The Event select only offers events covered by the customer's SLAs (issue #179 rationale — eventsForCustomerSLAs in forms.js; no SLA = every event, lenient wildcard), narrowed further by the chosen Supplier (#272). Display fixed to eventTitle (eventName never existed).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -4898,7 +4926,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "notes": "Product scope this ticket targets — NOT NULL since issue #243 (A2: without it the Jobs task rollup collapsed); picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs). Stores the id — the display CONCAT resolves the names.",
+              "notes": "Product scope this ticket targets — NOT NULL since issue #243 (A2: without it the Jobs task rollup collapsed); picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs), narrowed further by the chosen Supplier (#272). Stores the id — the display CONCAT resolves the names.",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -4916,7 +4944,7 @@
               "name": "slaID",
               "type": "rollup",
               "rule": "rollup → SLA (via: customerID) (display: slaCode)",
-              "notes": "the customer's contracts — the governing SLA in the demo dataset (one per customer)",
+              "notes": "the customer's contracts — the governing SLA in the demo dataset (one per customer); still keyed via customerID (single-key rollup): the (customer, supplier) pair narrows the pickers (#272), not this display rollup",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -5092,25 +5120,38 @@
                 "check": "Customer IS NOT NULL",
                 "field-rule": "filtered by Customer selected"
               },
+              "Supplier": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "supplierID",
+                "tooltip": "The supplying party of the governing SLA — narrows the events and scopes offered; leave empty to follow every active SLA",
+                "step": null,
+                "check": "Customer IS NOT NULL",
+                "field-rule": [
+                  "SelectLabel = customerType",
+                  "filtered by Customer selected"
+                ]
+              },
               "Event": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "eventID",
-                "tooltip": "Only events covered by the customer's SLAs are offered",
+                "tooltip": "Only events covered by the customer's SLAs are offered — narrowed by the Supplier when one is chosen",
                 "step": null,
                 "check": "Customer IS NOT NULL",
-                "field-rule": "filtered by Customer selected"
+                "field-rule": "filtered by Customer + Supplier selected"
               },
               "Product Scope": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Only product scopes covered by the customer's SLAs are offered",
+                "tooltip": "Only product scopes covered by the customer's SLAs are offered — narrowed by the Supplier when one is chosen",
                 "step": null,
                 "check": "Project IS NOT NULL",
-                "field-rule": "filtered by Event selected"
+                "field-rule": "filtered by Event + Supplier selected"
               },
               "Forecast Scope": {
                 "field-type": {

@@ -217,7 +217,8 @@ class Builder:
         d = self.domain
         cust_specs = ([(n, 'External Client') for n in d['customers']['insurers']]
                       + [(n, 'External Client') for n in d['customers']['partnerHospitals']]
-                      + [(n, 'Internal Client') for n in d['customers']['internal']])
+                      + [(n, 'Internal Client') for n in d['customers']['internal']]
+                      + [(n, 'Supplier') for n in d['customers'].get('suppliers', [])])
         seg_ids = [s['businessSegmentID'] for s in self.rows('Business Segments')]
         unit_rows = self.rows('Business Units')
         customers = []
@@ -575,13 +576,41 @@ class Builder:
         self.put('Payload', payloads)
 
     # ---- layer 6: CRM ----
+    # Supplying party of an SLA (issue #272) — shared deterministic rule,
+    # mirrored by tools/migrate_sla_supplier.py: an Internal Client customer
+    # is supplied by another Internal Client of the SLA's unit; everyone else
+    # by the unit's Supplier-type customer (fallback chain keeps it total).
+    def _sla_supplier(self, cust_id, unit):
+        customers = self.rows('Customers')
+        by_type = lambda t: sorted((c for c in customers if c['customerType'] == t),
+                                   key=lambda c: c['customerID'])
+        cust = next((c for c in customers if c['customerID'] == cust_id), None)
+        internals, sups = by_type('Internal Client'), by_type('Supplier')
+        if cust and cust['customerType'] == 'Internal Client':
+            for c in internals:
+                if c['customerID'] != cust_id and unit in c['businessUnitID']:
+                    return c['customerID']
+        for pool in (
+            [c for c in sups if unit in c['businessUnitID']],
+            sups,
+            [c for c in internals if unit in c['businessUnitID']],
+            [c for c in sorted(customers, key=lambda c: c['customerID'])
+             if c['customerID'] != cust_id],
+        ):
+            if pool:
+                return pool[0]['customerID']
+        return None
+
     def build_crm(self):
         d = self.domain
         payloads = self.rows('Payload')
         deps_by_unit = {}
         for dep in self.rows('Departments'):
             deps_by_unit.setdefault(dep['businessUnitID'], []).append(dep)
-        cust_rows = self.rows('Customers')
+        # suppliers are the supplying side of contracts, never the contracting
+        # customer — keeping them out of the rotation preserves the pre-#272
+        # customer sequence (story anchors below index into it)
+        cust_rows = [c for c in self.rows('Customers') if c['customerType'] != 'Supplier']
         slas = []
         for i in range(d['slas']['count']):
             cust = cust_rows[i % len(cust_rows)]
@@ -601,6 +630,9 @@ class Builder:
         screening = self.id_of('Customers', 'Vitalis Screening Program')
         s6_sla = next(s for s in slas if s['customerID'] == screening)
         s6_sla['slaCode'] = d['narrative']['story6_sla_balance']['sla']
+        # supplying party (issue #272) — after the story-anchor customer swaps
+        for s in slas:
+            s['supplierID'] = self._sla_supplier(s['customerID'], s['businessUnitID'])
         self.put('SLA', slas)
         self.s6_sla_id = s6_sla['slaID']
 
@@ -893,9 +925,14 @@ class Builder:
                          if g['productGroupID'] == pair['productGroupID'])
             status = statuses[n % len(statuses)]
             exec_hours = round(sum(hours_by_event.get(ev_id, {}).values()) or 2.0, 2)
+            # supplying-party filter (issue #272): the governing SLA's supplier
+            # on most tickets, with a visible wildcard cohort (n % 3 == 0)
+            gov_sla = slas.get((proj['slaID'] or [None])[0])
+            sup_id = gov_sla.get('supplierID') if (gov_sla and n % 3) else None
             tickets.append({'ticketID': f'TK{n:03d}',
                             'businessUnitID': cust[cid]['businessUnitID'][0],
                             'projectID': proj['projectID'], 'customerID': cid,
+                            'supplierID': sup_id,
                             'eventID': ev_id, 'productScopeID': ps_id,
                             'forecastScopeID': link['forecastScopeID'] if link else None,
                             'ticketDescription': f'{pair["productScopeName"]} request',
