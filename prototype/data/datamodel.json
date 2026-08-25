@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 54,
+    "schemaVersion": 55,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -4179,10 +4179,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "scopeClassID",
-                "tooltip": null,
+                "tooltip": "Classes offered follow the selected Business Unit (issue #204); no unit selected = every class",
                 "step": null,
                 "check": null,
-                "field-rule": "Allow multiple values"
+                "field-rule": "Allow multiple values; filtered by Business Unit selected"
               }
             }
           },
@@ -4586,6 +4586,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "multivalued — units this class applies to (issue #204). Seeded as the union of the units of the scopes carrying the class (migrate_class_units.py; the seed builder backfills the same rule). Drives the Scopes form Classification narrowing: a selected Business Unit offers only its classes.",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
             }
           ],
           "form": {
@@ -4610,6 +4619,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Business Units": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Units this class applies to — a class left without units stays out of unit-filtered pickers",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values"
               }
             }
           }
