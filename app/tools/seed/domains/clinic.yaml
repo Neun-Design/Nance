@@ -43,7 +43,7 @@ meta:
   # Validator fixture counts (plan §5.5 — FIX moves from validate_mockup.py
   # to the domain pack). The generator writes them; the validator reads them.
   fixtures:
-    Customers: 18
+    Customers: 21
     Actions: 8
     Scopes: 8
     Products: 12
@@ -409,7 +409,7 @@ payloads:                          # 26 dispatch packages (Event × Product Scop
 # Layer 6 — CRM (Customers → SLA → Forecasts → Forecast Scopes)
 # ===========================================================================
 
-customers:                         # 18 = 8 insurers + 4 partner hospitals + 6 internal
+customers:                         # 21 = 8 insurers + 4 partner hospitals + 6 internal + 3 suppliers
   insurers:                        # External Client — the paying convênios
     - HealthFirst Insurance
     - MedCare Plus
@@ -431,6 +431,12 @@ customers:                         # 18 = 8 insurers + 4 partner hospitals + 6 i
     - Vitalis Palermo Clinic
     - Vitalis Home Collection
     - Vitalis Screening Program
+  suppliers:                       # Supplier — labs/medical suppliers (issue #272);
+                                   # order matters: the builder's unit modulo (i % 4)
+                                   # lands them on BU03/BU04/BU01 respectively
+    - ClinLab Reagents & Diagnostics
+    - HomeCare Medical Equipment
+    - Contrast & Radiopharma Supply Co.
 
 slas:                              # 20 contracts — THE CONTRACT entity (SLA-as-Contract, R6)
   count: 20
@@ -441,7 +447,10 @@ slas:                              # 20 contracts — THE CONTRACT entity (SLA-a
     payloads; "Vitalis Screening Program × Radiology Operations" covers the
     mammography campaign payload; lab insurers contract with Laboratory
     Processing. Branch nullable (network-wide contracts have none).
-    slaCode pattern "VHN-{year}-{n:03d}".
+    slaCode pattern "VHN-{year}-{n:03d}". Every contract binds a
+    (customer, supplier) pair (issue #272): the supplying party is another
+    customer record — an internal clinic supplying another unit, or one of
+    the Supplier-type medical suppliers.
 
 forecasts:                         # SLA 1:N Forecasts — one per period per contract
   monthly: 144                     # 12 contracts × 12 months

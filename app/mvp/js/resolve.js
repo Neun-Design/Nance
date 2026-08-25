@@ -709,14 +709,20 @@ export function eventProductScopeIds(eventId) {
 // productScopesForTicket picker — the issue #214 posture kept intact): the
 // event's payloads narrowed to the payloads purchased by the customer's
 // ACTIVE SLAs (lenient fallbacks: no customer / no SLA / empty intersection
-// keeps every payload of the event); a payload with an EMPTY productScopeID
-// packages every scope the event admits (Q1 — widens to full applicability).
-export function admittedProductScopeIds(eventId, customerId) {
+// keeps every payload of the event), narrowed to the supplier's contracts
+// when the ticket declares one (issue #272 — lenient on empty match); a
+// payload with an EMPTY productScopeID packages every scope the event admits
+// (Q1 — widens to full applicability).
+export function admittedProductScopeIds(eventId, customerId, supplierId = null) {
   if (!eventId) return eventProductScopeIds(null);
   let payloads = getEntity('Payload').filter((p) => sameVal(p.eventID, eventId));
   if (customerId) {
-    const slas = getEntity('SLA').filter((s) => sameVal(s.customerID, customerId)
+    let slas = getEntity('SLA').filter((s) => sameVal(s.customerID, customerId)
       && String(s.isActive || 'Active') !== 'Inactive');
+    if (supplierId) {
+      const bySup = slas.filter((s) => String(s.supplierID) === String(supplierId));
+      if (bySup.length) slas = bySup; // lenient on empty match — existing posture
+    }
     if (slas.length) {
       const bought = new Set();
       slas.forEach((s) => asIds(s.payloadID).forEach((id) => bought.add(String(id))));
@@ -777,7 +783,7 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId }) {
 // #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID.
 export function ticketRequirements(ticket) {
   if (!ticket) return [];
-  let ids = admittedProductScopeIds(ticket.eventID, ticket.customerID);
+  let ids = admittedProductScopeIds(ticket.eventID, ticket.customerID, ticket.supplierID ?? null);
   const chosen = asIds(ticket.productScopeID);
   if (chosen.length) ids = ids.filter((id) => chosen.includes(id));
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
