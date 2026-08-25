@@ -880,6 +880,38 @@ export function certifiedUsersDisplay(taskId, extraReqIds = [], display = null, 
   return idsToDisplay(ids, [resolveTable('People')], display, depth) || '—';
 }
 
+// The single procedure a requirement context selects for a task (issue #270):
+// candidates = the task's procedures whose requirement set COVERS every id in
+// `reqIds` — AND semantics, the engine-wide coverage posture of
+// certifiedUsersForTask; an EMPTY procedure set is the Q1 wildcard and covers
+// everything. Exactly one candidate → that procedure row; zero or several →
+// null (the GAP tag: no unambiguous documented method for the combination —
+// including a wildcard procedure coexisting with a specific one, which is a
+// genuine ambiguity the quality manager must resolve).
+export function ticketProcedureForTask(taskId, reqIds = []) {
+  if (taskId == null || taskId === '') return null;
+  const pT = resolveTable('Procedures');
+  if (!pT) return null;
+  const need = asIds(reqIds).map(String);
+  const hits = getEntity(pT).filter((p) => matches(p.taskID, taskId))
+    .filter((p) => {
+      const set = asIds(p.requirementID).map(String);
+      return !set.length || need.every((r) => set.includes(r));
+    });
+  return hits.length === 1 ? hits[0] : null;
+}
+
+// TICKET-PROCEDURE cell text — shared by derivedValue (task-level fallback,
+// no context: unique procedure or GAP) and the ticket-context subitem
+// accessor (mapSubitem in app.js), which passes the ticket's live inherited
+// requirement set (#226).
+export function ticketProcedureDisplay(taskId, reqIds = [], display = null) {
+  const p = ticketProcedureForTask(taskId, reqIds);
+  if (!p) return 'GAP';
+  const v = p[display || 'procedureRegistry'];
+  return v == null || v === '' ? String(p.procedureID) : String(v);
+}
+
 // derived attribute value for a table cell.
 // `displayOverride` forces a display field (used by resolveDisplay hops).
 export function derivedValue(tableName, attr, row, depth = 0, displayOverride = null) {
@@ -894,6 +926,9 @@ export function derivedValue(tableName, attr, row, depth = 0, displayOverride = 
     if (!ids.length) return '—';
     const s = idsToDisplay(ids, [resolveTable('Requirements')], r.display, depth + 1);
     return s || '—';
+  }
+  if (r.kind === 'ticketprocedure') {
+    return ticketProcedureDisplay(row[r.srcField], [], r.display);
   }
   if (r.kind === 'fk') {
     const table = (r.target && resolveTable(r.target)) || domainByName(attr.name);

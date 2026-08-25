@@ -53,6 +53,13 @@ export function parseRule(rule) {
   // unit/region/customer AND-match (issue #226, ticketRequirements in resolve.js)
   m = txt.match(/^computed:\s*INHERITED-REQUIREMENTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'inheritedreqs', srcField: m[1], display: m[2] || null };
+  // TICKET-PROCEDURE(taskField) — the single procedure a requirement context
+  // selects for a task (issue #270): the task's procedures whose requirement
+  // set covers ALL the context requirements (AND semantics; empty set = Q1
+  // wildcard). Exactly one candidate renders its registry, else GAP
+  // (ticketProcedureForTask in resolve.js)
+  m = txt.match(/^computed:\s*TICKET-PROCEDURE\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
+  if (m) return { kind: 'ticketprocedure', srcField: m[1], display: m[2] || null };
   // optional multiplier: "SUM(taskID.executionTime) * forecastScopeQuantity"
   // scales the child sum by one of the row's own fields (issue #242)
   m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)(?:\s*[*×]\s*([A-Za-z_][A-Za-z0-9_]*))?/i);
