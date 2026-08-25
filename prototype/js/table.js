@@ -19,9 +19,11 @@ const CELL_LIST_CAP = 2; // multivalued cells show this many items + a "+n" badg
 
 function cellHtml(col, r, parent = null) {
   const v = resolveVal(col, r, parent);
+  // a falsy pill class opts the value OUT of pill styling (issue #271: only
+  // the GAP tag is a pill, eligible-user lists render plain)
   if (col.pill) {
-    const cls = col.pill(v, r) || 'neutral';
-    return `<span class="pill ${cls}">${escapeHtml(v ?? '')}</span>`;
+    const cls = col.pill(v, r);
+    if (cls) return `<span class="pill ${cls}">${escapeHtml(v ?? '')}</span>`;
   }
   if (Array.isArray(v)) {
     if (v.length <= CELL_LIST_CAP) return escapeHtml(v.join(', '));

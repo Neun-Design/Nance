@@ -310,6 +310,11 @@ function withAccessors(entity, cols) {
       return fkDisplay(c.fk, v);
     };
     else if (c.derived) c.accessor = (r) => derivedValue(entity, c.attr, r);
+    // issue #271: gap-tag attrs render GAP (derivedValue wrapper) — style it
+    // as a caution pill; other values render plain (falsy class falls through)
+    if (c.attr && c.attr['gap-tag'] === true) {
+      c.pill = (v) => (v === 'GAP' ? 'caution' : null);
+    }
     return c;
   });
 }
