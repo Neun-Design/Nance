@@ -2650,15 +2650,19 @@
 
 <h1 id="sla">SLA<a class="headerlink" href="#sla" title="Permanent link">&para;</a></h1>
 <p><strong>What it is:</strong> the Service Level Agreement (ISO §8.2) — the contract by which a customer
-of a branch purchases <a href="../../operation/payload/">Payloads</a> from a department. It is the gate on
-execution: when the customer opens a <a href="../../workspace/tickets/">Ticket</a>, only events covered by
-an SLA with that department are offered.
+of a branch purchases <a href="../../operation/payload/">Payloads</a> from a department. Every contract
+binds two parties: the contracting <strong>Customer</strong> and the <strong>Supplier</strong> that fulfils it. It is
+the gate on execution: when the customer opens a <a href="../../workspace/tickets/">Ticket</a>, only
+events covered by an SLA with that department are offered.
 <strong>Register when:</strong> phase 7, after the Operation module's Payloads exist.
 <strong>Key fields:</strong> Code (the contract id); <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code>
 (the unit's customers), <strong>Branch</strong> (the customer's branches — optional, a customer may have
 none) and <code>Department *</code> (the unit's departments) → <strong>Payloads</strong> (multi — the unit's
-payloads, grouped by event); Activate. The events and product scopes the contract covers
-are derived from the purchased payloads — nothing to select.
+payloads, grouped by event); <code>Supplier *</code> — the supplying party, offered from <strong>every</strong>
+customer grouped by type: an internal clinic can supply another unit's contract, or a
+Supplier-type customer (labs, medical equipment) fulfils it; Activate. The events and
+product scopes the contract covers are derived from the purchased payloads — nothing to
+select.
 <strong>Expand a row</strong> to see the contract's <a href="../forecasts/">Forecasts</a> — its temporal dimension:
 each forecast projects the SLA's volume for one period.</p>
 
