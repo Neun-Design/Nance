@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 52,
+    "schemaVersion": 53,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2076,6 +2076,16 @@
               "rule": "computed: CERTIFIED-USERS(taskID) (display: userName)",
               "notes": "multivalued — derived live (issue #214): People holding a CERTIFIED Onboarding (isCertified==true) on a task-compatible competence, whose combined competences cover ALL the requirements the task derives from its procedures (union of the requirement sets; a wildcard procedure covers everything) — the certified-responsible doctrine at the Tasks level. Authored 2026-08-19 as prose ('users that have the competences that matches all the requirements for the procedure applied to the task', constraint isCertified==true); normalized to the CERTIFIED-USERS rule kind (certifiedUsersForTask in resolve.js). Ticket context (issue #233): rendered inside a Ticket's Tasks tab, coverage must ALSO span the ticket's live inherited requirement set (#226) — the subitem accessor passes ticketRequirements(ticket) as extra ids; the standalone Tasks dashboard stays task-level.",
               "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
+              "name": "procedureRegistry",
+              "type": "mirror",
+              "rule": "computed: TICKET-PROCEDURE(taskID) (display: procedureRegistry)",
+              "display-name": "Procedure",
+              "notes": "The single procedure the requirement context selects for the task (issue #270): inside a Ticket's Tasks tab the context is the ticket's live inherited requirement set (#226) — candidates are the task's procedures whose requirementID[] covers ALL the ticket requirements (AND semantics, not OR; an empty set is the Q1 wildcard and covers everything). Exactly one candidate renders its procedureRegistry as a pill tag; zero or several render GAP (no unambiguous documented method for the combination — including a wildcard procedure coexisting with a specific one). The subitem accessor passes ticketRequirements(ticket) (mapSubitem in app.js, the #233 pattern); the standalone Tasks drawer falls back to the task-level set (unique procedure or GAP). ticketProcedureForTask in resolve.js.",
+              "table-display": false,
               "subitem-display": true,
               "constraints": null
             },
