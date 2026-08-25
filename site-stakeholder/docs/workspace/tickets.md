@@ -16,7 +16,9 @@ SLAs: choosing one narrows Event and Product Scope to the contracts of that
 (customer, supplier) pair, leaving it empty follows every active SLA — and `Event *` —
 **only events covered by the customer's SLAs are offered**; `Product Scope *` — the scope
 the ticket targets, among those packaged by the event's payloads under those SLAs; `Forecast Scope` — the demand line of the contract's
-[Forecasts](../crm/forecast-scopes.md) this ticket consumes (leave it empty when the work
+[Forecasts](../crm/forecast-scopes.md) this ticket consumes, following the same
+(customer, supplier) narrowing as Event and Product Scope when a Supplier is declared
+(leave it empty when the work
 was not forecast — the line's consumption counts the linked tickets and its remaining
 balance follows); Details; Target date; Status. The payload, SLA, product/scope and requirement columns are
 derived from that chain — nothing else to select. The requirement set is **live**
