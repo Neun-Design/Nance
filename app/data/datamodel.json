@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 50,
+    "schemaVersion": 51,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -4935,7 +4935,7 @@
               "name": "forecastScopeID",
               "type": "FK",
               "rule": "FK → Forecast Scopes (display: forecastScopeRegistry)",
-              "notes": "The demand line this ticket consumes (issue #243, link A1) — nullable: NULL = the ticket ran outside the forecast. Options: demand lines of the customer's SLA forecasts matching the ticket's event (and product scope when chosen), no date gating (lenient decision).",
+              "notes": "The demand line this ticket consumes (issue #243, link A1) — nullable: NULL = the ticket ran outside the forecast. Options: demand lines of the customer's SLA forecasts matching the ticket's event (and product scope when chosen), narrowed to the (customer, supplier) contracts when a Supplier is declared (issue #274), no date gating (lenient decision). The #274 round also fixed the cascade wiring: the #243 field-rule lacked the 'filtered by' spelling, so the forecastScopesForTicket dispatch never attached and the select offered every demand line unfiltered.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5161,7 +5161,10 @@
                 "tooltip": "The demand line this ticket consumes — leave empty when the work was not forecast",
                 "step": null,
                 "check": "Event IS NOT NULL",
-                "field-rule": "demand lines of the customer's SLA forecasts matching event + product scope"
+                "field-rule": [
+                  "filtered by Event + Product Scope + Customer + Supplier selected",
+                  "demand lines of the customer's SLA forecasts matching event + product scope, narrowed by the Supplier when one is chosen"
+                ]
               },
               "Details": {
                 "field-type": {
