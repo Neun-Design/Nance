@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 54,
+  "schemaVersion": 55,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -29225,27 +29225,44 @@
    {
     "scopeClassID": "CLS01",
     "scopeClassName": "Assistential",
-    "scopeClassDefinition": "Direct patient-care delivery"
+    "scopeClassDefinition": "Direct patient-care delivery",
+    "businessUnitID": [
+     "BU01",
+     "BU02"
+    ]
    },
    {
     "scopeClassID": "CLS02",
     "scopeClassName": "Regulatory",
-    "scopeClassDefinition": "Work mandated by regulation or accreditation"
+    "scopeClassDefinition": "Work mandated by regulation or accreditation",
+    "businessUnitID": [
+     "BU04"
+    ]
    },
    {
     "scopeClassID": "CLS03",
     "scopeClassName": "Improvement",
-    "scopeClassDefinition": "Quality-improvement and rework flows"
+    "scopeClassDefinition": "Quality-improvement and rework flows",
+    "businessUnitID": [
+     "BU01"
+    ]
    },
    {
     "scopeClassID": "CLS04",
     "scopeClassName": "Preventive",
-    "scopeClassDefinition": "Screening and preventive campaigns"
+    "scopeClassDefinition": "Screening and preventive campaigns",
+    "businessUnitID": [
+     "BU03"
+    ]
    },
    {
     "scopeClassID": "CLS05",
     "scopeClassName": "Commercial",
-    "scopeClassDefinition": "Contract-driven differentiated service levels"
+    "scopeClassDefinition": "Contract-driven differentiated service levels",
+    "businessUnitID": [
+     "BU03",
+     "BU04"
+    ]
    }
   ],
   "Scopes": [
