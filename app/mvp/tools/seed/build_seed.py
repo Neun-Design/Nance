@@ -315,6 +315,17 @@ class Builder:
         self.put('Scopes', scopes)
         self.index('Scopes', 'scopeName', 'scopeID')
 
+        # Classes.businessUnitID (issue #204) — union of the units of the
+        # scopes carrying each class, first-seen order (the migration rule in
+        # tools/migrate_class_units.py: regenerated and migrated copies agree)
+        units_of_class = {}
+        for s in scopes:
+            bucket = units_of_class.setdefault(s['scopeClassID'], [])
+            if s['businessUnitID'] not in bucket:
+                bucket.append(s['businessUnitID'])
+        for c in classes:
+            c['businessUnitID'] = units_of_class.get(c['scopeClassID'], [])
+
         prod_of_group = {g['name']: g['product'] for g in d['productGroups']}
         pss = []
         for i, (gname, sname) in enumerate(d['productScopes']['pairs']):
