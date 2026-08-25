@@ -880,6 +880,31 @@ export function certifiedUsersDisplay(taskId, extraReqIds = [], display = null, 
   return idsToDisplay(ids, [resolveTable('People')], display, depth) || '—';
 }
 
+// Users eligible to execute a PROCEDURE (issue #271): holders of a CERTIFIED
+// Onboarding (isCertified) on a competence bound to this procedure
+// (Competence.procedureID, 1:1 since #231; legacy array rows still match).
+// Strict association, no wildcard — a competence WITHOUT a procedure widens
+// staffing coverage (competenceRequirements → null), but it does not staff a
+// specific procedure's Users column: the issue asks for "the competence
+// associated with the specified procedure".
+export function certifiedUsersForProcedure(procId) {
+  if (procId == null || procId === '') return [];
+  const obT = resolveTable('Onboarding');
+  const compT = resolveTable('Competence');
+  if (!obT || !compT) return [];
+  const out = [];
+  for (const ob of getEntity(obT)) {
+    if (ob.isCertified !== true) continue;
+    if (ob.userID == null || ob.userID === '') continue;
+    if (out.includes(ob.userID)) continue;
+    for (const compId of asIds(ob.competenceID)) {
+      const comp = getById(compT, compId);
+      if (comp && matches(comp.procedureID, procId)) { out.push(ob.userID); break; }
+    }
+  }
+  return out;
+}
+
 // The single procedure a requirement context selects for a task (issue #270):
 // candidates = the task's procedures whose requirement set COVERS every id in
 // `reqIds` — AND semantics, the engine-wide coverage posture of
@@ -912,13 +937,35 @@ export function ticketProcedureDisplay(taskId, reqIds = [], display = null) {
   return v == null || v === '' ? String(p.procedureID) : String(v);
 }
 
-// derived attribute value for a table cell.
+// derived attribute value for a table cell. Attrs flagged `gap-tag` in the
+// datamodel render an EMPTY derived value as the GAP tag (issue #271): the
+// system points at the hole — a procedure nobody is certified to execute, a
+// task with no documented method — instead of a silent dash. The caution-pill
+// styling lives in withAccessors (app.js); every other consumer (drawer,
+// subitem cells) inherits the tag through this wrapper.
 // `displayOverride` forces a display field (used by resolveDisplay hops).
 export function derivedValue(tableName, attr, row, depth = 0, displayOverride = null) {
+  const v = derivedValueInner(tableName, attr, row, depth, displayOverride);
+  if (attr && attr['gap-tag'] === true
+      && (v == null || v === '' || v === '—' || (Array.isArray(v) && !v.length))) {
+    return 'GAP';
+  }
+  return v;
+}
+
+function derivedValueInner(tableName, attr, row, depth = 0, displayOverride = null) {
   const r = parseRule(attr.rule);
   if (!r || r.kind === 'enum') return row[attr.name] ?? '—';
   if (r.kind === 'steporder') return stepOrderValue(tableName, r, row);
   if (r.kind === 'certifiedusers') {
+    // srcField picks the chain (issue #271): taskID = task-level eligibility
+    // (certifiedUsersForTask); procedureID = holders of a certified competence
+    // bound to THIS procedure (certifiedUsersForProcedure, strict association)
+    if (r.srcField === 'procedureID') {
+      const ids = certifiedUsersForProcedure(row[r.srcField]);
+      if (!ids.length) return '—';
+      return idsToDisplay(ids, [resolveTable('People')], r.display, depth + 1) || '—';
+    }
     return certifiedUsersDisplay(row[r.srcField], [], r.display, depth + 1);
   }
   if (r.kind === 'inheritedreqs') {
