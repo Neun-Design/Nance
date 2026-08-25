@@ -6,7 +6,7 @@ import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
   parseRule } from './model.js';
-import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay } from './resolve.js';
+import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay, ticketProcedureDisplay } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -338,12 +338,20 @@ function mapSubitem(si, parentEntity) {
   // ticket-contextual — coverage must span the task's procedure set ∪ the
   // ticket's live inherited requirement set (#226). The standalone Tasks
   // dashboard keeps the task-level column (no parent, extras = []).
+  // issue #270: same context drives the Procedure column (TICKET-PROCEDURE) —
+  // the ticket's requirement set must narrow the task's procedures to exactly
+  // one (AND coverage); the unique registry renders as a pill, GAP otherwise.
   if (parentEntity === 'Tickets') {
     for (const c of rl.columns) {
       const rule = c.attr && parseRule(c.attr.rule);
       if (rule && rule.kind === 'certifiedusers') {
         c.accessor = (row, ticket) => certifiedUsersDisplay(row[rule.srcField],
           ticket ? ticketRequirements(ticket) : [], rule.display);
+      }
+      if (rule && rule.kind === 'ticketprocedure') {
+        c.accessor = (row, ticket) => ticketProcedureDisplay(row[rule.srcField],
+          ticket ? ticketRequirements(ticket) : [], rule.display);
+        c.pill = (v) => (v === 'GAP' ? 'caution' : 'info');
       }
     }
   }
