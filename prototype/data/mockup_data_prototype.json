@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 49,
+  "schemaVersion": 50,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -632,6 +632,47 @@
     "customerType": "Internal Client",
     "isActive": "Active",
     "customerOwner": "U32"
+   },
+   {
+    "customerID": "CUST19",
+    "customerName": "ClinLab Reagents & Diagnostics",
+    "businessSegmentID": [
+     "BS02",
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU03",
+     "BU04"
+    ],
+    "customerType": "Supplier",
+    "isActive": "Active",
+    "customerOwner": "U11"
+   },
+   {
+    "customerID": "CUST20",
+    "customerName": "HomeCare Medical Equipment",
+    "businessSegmentID": [
+     "BS03"
+    ],
+    "businessUnitID": [
+     "BU04"
+    ],
+    "customerType": "Supplier",
+    "isActive": "Active",
+    "customerOwner": "U13"
+   },
+   {
+    "customerID": "CUST21",
+    "customerName": "Contrast & Radiopharma Supply Co.",
+    "businessSegmentID": [
+     "BS01"
+    ],
+    "businessUnitID": [
+     "BU01"
+    ],
+    "customerType": "Supplier",
+    "isActive": "Active",
+    "customerOwner": "U07"
    }
   ],
   "SLA": [
@@ -668,7 +709,8 @@
      "PLD26"
     ],
     "isActive": "Active",
-    "slaOwner": "U33"
+    "slaOwner": "U33",
+    "supplierID": "CUST21"
    },
    {
     "slaID": "SLA02",
@@ -681,7 +723,8 @@
      "PLD02"
     ],
     "isActive": "Active",
-    "slaOwner": "U34"
+    "slaOwner": "U34",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA03",
@@ -696,7 +739,8 @@
      "PLD09"
     ],
     "isActive": "Active",
-    "slaOwner": "U35"
+    "slaOwner": "U35",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA04",
@@ -709,7 +753,8 @@
      "PLD04"
     ],
     "isActive": "Active",
-    "slaOwner": "U36"
+    "slaOwner": "U36",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA05",
@@ -744,7 +789,8 @@
      "PLD26"
     ],
     "isActive": "Active",
-    "slaOwner": "U01"
+    "slaOwner": "U01",
+    "supplierID": "CUST21"
    },
    {
     "slaID": "SLA06",
@@ -757,7 +803,8 @@
      "PLD06"
     ],
     "isActive": "Active",
-    "slaOwner": "U02"
+    "slaOwner": "U02",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA07",
@@ -772,7 +819,8 @@
      "PLD09"
     ],
     "isActive": "Active",
-    "slaOwner": "U03"
+    "slaOwner": "U03",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA08",
@@ -785,7 +833,8 @@
      "PLD08"
     ],
     "isActive": "Active",
-    "slaOwner": "U04"
+    "slaOwner": "U04",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA09",
@@ -820,7 +869,8 @@
      "PLD26"
     ],
     "isActive": "Active",
-    "slaOwner": "U05"
+    "slaOwner": "U05",
+    "supplierID": "CUST21"
    },
    {
     "slaID": "SLA10",
@@ -833,7 +883,8 @@
      "PLD10"
     ],
     "isActive": "Active",
-    "slaOwner": "U06"
+    "slaOwner": "U06",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA11",
@@ -848,7 +899,8 @@
      "PLD09"
     ],
     "isActive": "Active",
-    "slaOwner": "U07"
+    "slaOwner": "U07",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA12",
@@ -861,7 +913,8 @@
      "PLD12"
     ],
     "isActive": "Active",
-    "slaOwner": "U08"
+    "slaOwner": "U08",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA13",
@@ -896,7 +949,8 @@
      "PLD26"
     ],
     "isActive": "Active",
-    "slaOwner": "U09"
+    "slaOwner": "U09",
+    "supplierID": "CUST16"
    },
    {
     "slaID": "SLA14",
@@ -909,7 +963,8 @@
      "PLD14"
     ],
     "isActive": "Active",
-    "slaOwner": "U10"
+    "slaOwner": "U10",
+    "supplierID": "CUST13"
    },
    {
     "slaID": "SLA15",
@@ -924,7 +979,8 @@
      "PLD09"
     ],
     "isActive": "Active",
-    "slaOwner": "U11"
+    "slaOwner": "U11",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA16",
@@ -937,7 +993,8 @@
      "PLD16"
     ],
     "isActive": "Active",
-    "slaOwner": "U12"
+    "slaOwner": "U12",
+    "supplierID": "CUST19"
    },
    {
     "slaID": "SLA17",
@@ -972,7 +1029,8 @@
      "PLD26"
     ],
     "isActive": "Active",
-    "slaOwner": "U13"
+    "slaOwner": "U13",
+    "supplierID": "CUST13"
    },
    {
     "slaID": "SLA18",
@@ -985,7 +1043,8 @@
      "PLD18"
     ],
     "isActive": "Active",
-    "slaOwner": "U14"
+    "slaOwner": "U14",
+    "supplierID": "CUST13"
    },
    {
     "slaID": "SLA19",
@@ -1020,7 +1079,8 @@
      "PLD26"
     ],
     "isActive": "Active",
-    "slaOwner": "U15"
+    "slaOwner": "U15",
+    "supplierID": "CUST21"
    },
    {
     "slaID": "SLA20",
@@ -1033,7 +1093,8 @@
      "PLD20"
     ],
     "isActive": "Active",
-    "slaOwner": "U16"
+    "slaOwner": "U16",
+    "supplierID": "CUST19"
    }
   ],
   "Forecasts": [
@@ -13820,7 +13881,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-27",
     "ticketCreatedAt": "2026-05-13",
-    "ticketClosedAt": "2026-05-23"
+    "ticketClosedAt": "2026-05-23",
+    "supplierID": null
    },
    {
     "ticketID": "TK002",
@@ -13845,7 +13907,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-19",
     "ticketCreatedAt": "2026-02-05",
-    "ticketClosedAt": "2026-02-15"
+    "ticketClosedAt": "2026-02-15",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK003",
@@ -13870,7 +13933,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-14",
     "ticketCreatedAt": "2025-10-31",
-    "ticketClosedAt": "2025-11-10"
+    "ticketClosedAt": "2025-11-10",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK004",
@@ -13895,7 +13959,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-30",
     "ticketCreatedAt": "2026-07-16",
-    "ticketClosedAt": "2026-07-26"
+    "ticketClosedAt": "2026-07-26",
+    "supplierID": null
    },
    {
     "ticketID": "TK005",
@@ -13920,7 +13985,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-24",
     "ticketCreatedAt": "2026-04-10",
-    "ticketClosedAt": "2026-04-20"
+    "ticketClosedAt": "2026-04-20",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK006",
@@ -13945,7 +14011,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-01-17",
     "ticketCreatedAt": "2026-01-03",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK007",
@@ -13970,7 +14037,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-10-12",
     "ticketCreatedAt": "2025-09-28",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK008",
@@ -13995,7 +14063,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-06-27",
     "ticketCreatedAt": "2026-06-13",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK009",
@@ -14020,7 +14089,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-03-22",
     "ticketCreatedAt": "2026-03-08",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK010",
@@ -14045,7 +14115,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-15",
     "ticketCreatedAt": "2025-12-01",
-    "ticketClosedAt": "2025-12-11"
+    "ticketClosedAt": "2025-12-11",
+    "supplierID": null
    },
    {
     "ticketID": "TK011",
@@ -14070,7 +14141,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-30",
     "ticketCreatedAt": "2026-08-16",
-    "ticketClosedAt": "2026-08-26"
+    "ticketClosedAt": "2026-08-26",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK012",
@@ -14095,7 +14167,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-25",
     "ticketCreatedAt": "2026-05-11",
-    "ticketClosedAt": "2026-05-21"
+    "ticketClosedAt": "2026-05-21",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK013",
@@ -14120,7 +14193,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-17",
     "ticketCreatedAt": "2026-02-03",
-    "ticketClosedAt": "2026-02-13"
+    "ticketClosedAt": "2026-02-13",
+    "supplierID": null
    },
    {
     "ticketID": "TK014",
@@ -14145,7 +14219,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-12",
     "ticketCreatedAt": "2025-10-29",
-    "ticketClosedAt": "2025-11-08"
+    "ticketClosedAt": "2025-11-08",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK015",
@@ -14170,7 +14245,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-28",
     "ticketCreatedAt": "2026-07-14",
-    "ticketClosedAt": "2026-07-24"
+    "ticketClosedAt": "2026-07-24",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK016",
@@ -14195,7 +14271,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-04-22",
     "ticketCreatedAt": "2026-04-08",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK017",
@@ -14220,7 +14297,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-01-15",
     "ticketCreatedAt": "2026-01-01",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK018",
@@ -14245,7 +14323,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-10-10",
     "ticketCreatedAt": "2025-09-26",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK019",
@@ -14270,7 +14349,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-06-25",
     "ticketCreatedAt": "2026-06-11",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK020",
@@ -14295,7 +14375,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-03-20",
     "ticketCreatedAt": "2026-03-06",
-    "ticketClosedAt": "2026-03-16"
+    "ticketClosedAt": "2026-03-16",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK021",
@@ -14320,7 +14401,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-13",
     "ticketCreatedAt": "2025-11-29",
-    "ticketClosedAt": "2025-12-09"
+    "ticketClosedAt": "2025-12-09",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK022",
@@ -14345,7 +14427,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-28",
     "ticketCreatedAt": "2026-08-14",
-    "ticketClosedAt": "2026-08-24"
+    "ticketClosedAt": "2026-08-24",
+    "supplierID": null
    },
    {
     "ticketID": "TK023",
@@ -14370,7 +14453,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-23",
     "ticketCreatedAt": "2026-05-09",
-    "ticketClosedAt": "2026-05-19"
+    "ticketClosedAt": "2026-05-19",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK024",
@@ -14395,7 +14479,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-15",
     "ticketCreatedAt": "2026-02-01",
-    "ticketClosedAt": "2026-02-11"
+    "ticketClosedAt": "2026-02-11",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK025",
@@ -14420,7 +14505,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-10",
     "ticketCreatedAt": "2025-10-27",
-    "ticketClosedAt": "2025-11-06"
+    "ticketClosedAt": "2025-11-06",
+    "supplierID": null
    },
    {
     "ticketID": "TK026",
@@ -14445,7 +14531,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-07-26",
     "ticketCreatedAt": "2026-07-12",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK027",
@@ -14470,7 +14557,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-04-20",
     "ticketCreatedAt": "2026-04-06",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK028",
@@ -14495,7 +14583,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-01-13",
     "ticketCreatedAt": "2025-12-30",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK029",
@@ -14520,7 +14609,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-10-08",
     "ticketCreatedAt": "2025-09-24",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK030",
@@ -14545,7 +14635,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-23",
     "ticketCreatedAt": "2026-06-09",
-    "ticketClosedAt": "2026-06-19"
+    "ticketClosedAt": "2026-06-19",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK031",
@@ -14570,7 +14661,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-03-18",
     "ticketCreatedAt": "2026-03-04",
-    "ticketClosedAt": "2026-03-14"
+    "ticketClosedAt": "2026-03-14",
+    "supplierID": null
    },
    {
     "ticketID": "TK032",
@@ -14595,7 +14687,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-11",
     "ticketCreatedAt": "2025-11-27",
-    "ticketClosedAt": "2025-12-07"
+    "ticketClosedAt": "2025-12-07",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK033",
@@ -14620,7 +14713,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-26",
     "ticketCreatedAt": "2026-08-12",
-    "ticketClosedAt": "2026-08-22"
+    "ticketClosedAt": "2026-08-22",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK034",
@@ -14645,7 +14739,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-21",
     "ticketCreatedAt": "2026-05-07",
-    "ticketClosedAt": "2026-05-17"
+    "ticketClosedAt": "2026-05-17",
+    "supplierID": null
    },
    {
     "ticketID": "TK035",
@@ -14670,7 +14765,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-13",
     "ticketCreatedAt": "2026-01-30",
-    "ticketClosedAt": "2026-02-09"
+    "ticketClosedAt": "2026-02-09",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK036",
@@ -14695,7 +14791,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-11-08",
     "ticketCreatedAt": "2025-10-25",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK037",
@@ -14720,7 +14817,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-07-24",
     "ticketCreatedAt": "2026-07-10",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK038",
@@ -14745,7 +14843,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-04-18",
     "ticketCreatedAt": "2026-04-04",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK039",
@@ -14770,7 +14869,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-01-11",
     "ticketCreatedAt": "2025-12-28",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK040",
@@ -14795,7 +14895,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-06",
     "ticketCreatedAt": "2025-09-22",
-    "ticketClosedAt": "2025-10-02"
+    "ticketClosedAt": "2025-10-02",
+    "supplierID": null
    },
    {
     "ticketID": "TK041",
@@ -14820,7 +14921,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-21",
     "ticketCreatedAt": "2026-06-07",
-    "ticketClosedAt": "2026-06-17"
+    "ticketClosedAt": "2026-06-17",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK042",
@@ -14845,7 +14947,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-03-16",
     "ticketCreatedAt": "2026-03-02",
-    "ticketClosedAt": "2026-03-12"
+    "ticketClosedAt": "2026-03-12",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK043",
@@ -14870,7 +14973,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-09",
     "ticketCreatedAt": "2025-11-25",
-    "ticketClosedAt": "2025-12-05"
+    "ticketClosedAt": "2025-12-05",
+    "supplierID": null
    },
    {
     "ticketID": "TK044",
@@ -14895,7 +14999,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-24",
     "ticketCreatedAt": "2026-08-10",
-    "ticketClosedAt": "2026-08-20"
+    "ticketClosedAt": "2026-08-20",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK045",
@@ -14920,7 +15025,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-19",
     "ticketCreatedAt": "2026-05-05",
-    "ticketClosedAt": "2026-05-15"
+    "ticketClosedAt": "2026-05-15",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK046",
@@ -14945,7 +15051,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-02-11",
     "ticketCreatedAt": "2026-01-28",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK047",
@@ -14970,7 +15077,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-11-06",
     "ticketCreatedAt": "2025-10-23",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK048",
@@ -14995,7 +15103,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-07-22",
     "ticketCreatedAt": "2026-07-08",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK049",
@@ -15020,7 +15129,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-04-16",
     "ticketCreatedAt": "2026-04-02",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK050",
@@ -15045,7 +15155,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-09",
     "ticketCreatedAt": "2025-12-26",
-    "ticketClosedAt": "2026-01-05"
+    "ticketClosedAt": "2026-01-05",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK051",
@@ -15070,7 +15181,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-04",
     "ticketCreatedAt": "2025-09-20",
-    "ticketClosedAt": "2025-09-30"
+    "ticketClosedAt": "2025-09-30",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK052",
@@ -15095,7 +15207,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-19",
     "ticketCreatedAt": "2026-06-05",
-    "ticketClosedAt": "2026-06-15"
+    "ticketClosedAt": "2026-06-15",
+    "supplierID": null
    },
    {
     "ticketID": "TK053",
@@ -15120,7 +15233,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-03-14",
     "ticketCreatedAt": "2026-02-28",
-    "ticketClosedAt": "2026-03-10"
+    "ticketClosedAt": "2026-03-10",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK054",
@@ -15145,7 +15259,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-07",
     "ticketCreatedAt": "2025-11-23",
-    "ticketClosedAt": "2025-12-03"
+    "ticketClosedAt": "2025-12-03",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK055",
@@ -15170,7 +15285,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-22",
     "ticketCreatedAt": "2026-08-08",
-    "ticketClosedAt": "2026-08-18"
+    "ticketClosedAt": "2026-08-18",
+    "supplierID": null
    },
    {
     "ticketID": "TK056",
@@ -15195,7 +15311,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-05-17",
     "ticketCreatedAt": "2026-05-03",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK057",
@@ -15220,7 +15337,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-02-09",
     "ticketCreatedAt": "2026-01-26",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK058",
@@ -15245,7 +15363,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-11-04",
     "ticketCreatedAt": "2025-10-21",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK059",
@@ -15270,7 +15389,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-07-20",
     "ticketCreatedAt": "2026-07-06",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK060",
@@ -15295,7 +15415,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-14",
     "ticketCreatedAt": "2026-03-31",
-    "ticketClosedAt": "2026-04-10"
+    "ticketClosedAt": "2026-04-10",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK061",
@@ -15320,7 +15441,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-07",
     "ticketCreatedAt": "2025-12-24",
-    "ticketClosedAt": "2026-01-03"
+    "ticketClosedAt": "2026-01-03",
+    "supplierID": null
    },
    {
     "ticketID": "TK062",
@@ -15345,7 +15467,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-02",
     "ticketCreatedAt": "2025-09-18",
-    "ticketClosedAt": "2025-09-28"
+    "ticketClosedAt": "2025-09-28",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK063",
@@ -15370,7 +15493,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-17",
     "ticketCreatedAt": "2026-06-03",
-    "ticketClosedAt": "2026-06-13"
+    "ticketClosedAt": "2026-06-13",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK064",
@@ -15395,7 +15519,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-03-12",
     "ticketCreatedAt": "2026-02-26",
-    "ticketClosedAt": "2026-03-08"
+    "ticketClosedAt": "2026-03-08",
+    "supplierID": null
    },
    {
     "ticketID": "TK065",
@@ -15420,7 +15545,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-05",
     "ticketCreatedAt": "2025-11-21",
-    "ticketClosedAt": "2025-12-01"
+    "ticketClosedAt": "2025-12-01",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK066",
@@ -15445,7 +15571,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-08-20",
     "ticketCreatedAt": "2026-08-06",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK067",
@@ -15470,7 +15597,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-05-15",
     "ticketCreatedAt": "2026-05-01",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK068",
@@ -15495,7 +15623,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-02-07",
     "ticketCreatedAt": "2026-01-24",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK069",
@@ -15520,7 +15649,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-11-02",
     "ticketCreatedAt": "2025-10-19",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK070",
@@ -15545,7 +15675,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-18",
     "ticketCreatedAt": "2026-07-04",
-    "ticketClosedAt": "2026-07-14"
+    "ticketClosedAt": "2026-07-14",
+    "supplierID": null
    },
    {
     "ticketID": "TK071",
@@ -15570,7 +15701,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-12",
     "ticketCreatedAt": "2026-03-29",
-    "ticketClosedAt": "2026-04-08"
+    "ticketClosedAt": "2026-04-08",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK072",
@@ -15595,7 +15727,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-05",
     "ticketCreatedAt": "2025-12-22",
-    "ticketClosedAt": "2026-01-01"
+    "ticketClosedAt": "2026-01-01",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK073",
@@ -15620,7 +15753,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-09-30",
     "ticketCreatedAt": "2025-09-16",
-    "ticketClosedAt": "2025-09-26"
+    "ticketClosedAt": "2025-09-26",
+    "supplierID": null
    },
    {
     "ticketID": "TK074",
@@ -15645,7 +15779,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-15",
     "ticketCreatedAt": "2026-06-01",
-    "ticketClosedAt": "2026-06-11"
+    "ticketClosedAt": "2026-06-11",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK075",
@@ -15670,7 +15805,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-03-10",
     "ticketCreatedAt": "2026-02-24",
-    "ticketClosedAt": "2026-03-06"
+    "ticketClosedAt": "2026-03-06",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK076",
@@ -15695,7 +15831,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-12-03",
     "ticketCreatedAt": "2025-11-19",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK077",
@@ -15720,7 +15857,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-08-18",
     "ticketCreatedAt": "2026-08-04",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK078",
@@ -15745,7 +15883,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-05-13",
     "ticketCreatedAt": "2026-04-29",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK079",
@@ -15770,7 +15909,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-02-05",
     "ticketCreatedAt": "2026-01-22",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK080",
@@ -15795,7 +15935,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-31",
     "ticketCreatedAt": "2025-10-17",
-    "ticketClosedAt": "2025-10-27"
+    "ticketClosedAt": "2025-10-27",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK081",
@@ -15820,7 +15961,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-16",
     "ticketCreatedAt": "2026-07-02",
-    "ticketClosedAt": "2026-07-12"
+    "ticketClosedAt": "2026-07-12",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK082",
@@ -15845,7 +15987,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-10",
     "ticketCreatedAt": "2026-03-27",
-    "ticketClosedAt": "2026-04-06"
+    "ticketClosedAt": "2026-04-06",
+    "supplierID": null
    },
    {
     "ticketID": "TK083",
@@ -15870,7 +16013,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-03",
     "ticketCreatedAt": "2025-12-20",
-    "ticketClosedAt": "2025-12-30"
+    "ticketClosedAt": "2025-12-30",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK084",
@@ -15895,7 +16039,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-09-28",
     "ticketCreatedAt": "2025-09-14",
-    "ticketClosedAt": "2025-09-24"
+    "ticketClosedAt": "2025-09-24",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK085",
@@ -15920,7 +16065,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-13",
     "ticketCreatedAt": "2026-05-30",
-    "ticketClosedAt": "2026-06-09"
+    "ticketClosedAt": "2026-06-09",
+    "supplierID": null
    },
    {
     "ticketID": "TK086",
@@ -15945,7 +16091,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-03-08",
     "ticketCreatedAt": "2026-02-22",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK087",
@@ -15970,7 +16117,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-12-01",
     "ticketCreatedAt": "2025-11-17",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK088",
@@ -15995,7 +16143,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-08-16",
     "ticketCreatedAt": "2026-08-02",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK089",
@@ -16020,7 +16169,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-05-11",
     "ticketCreatedAt": "2026-04-27",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK090",
@@ -16045,7 +16195,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-03",
     "ticketCreatedAt": "2026-01-20",
-    "ticketClosedAt": "2026-01-30"
+    "ticketClosedAt": "2026-01-30",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK091",
@@ -16070,7 +16221,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-29",
     "ticketCreatedAt": "2025-10-15",
-    "ticketClosedAt": "2025-10-25"
+    "ticketClosedAt": "2025-10-25",
+    "supplierID": null
    },
    {
     "ticketID": "TK092",
@@ -16095,7 +16247,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-14",
     "ticketCreatedAt": "2026-06-30",
-    "ticketClosedAt": "2026-07-10"
+    "ticketClosedAt": "2026-07-10",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK093",
@@ -16120,7 +16273,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-08",
     "ticketCreatedAt": "2026-03-25",
-    "ticketClosedAt": "2026-04-04"
+    "ticketClosedAt": "2026-04-04",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK094",
@@ -16145,7 +16299,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-01",
     "ticketCreatedAt": "2025-12-18",
-    "ticketClosedAt": "2025-12-28"
+    "ticketClosedAt": "2025-12-28",
+    "supplierID": null
    },
    {
     "ticketID": "TK095",
@@ -16170,7 +16325,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-09-26",
     "ticketCreatedAt": "2025-09-12",
-    "ticketClosedAt": "2025-09-22"
+    "ticketClosedAt": "2025-09-22",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK096",
@@ -16195,7 +16351,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-06-11",
     "ticketCreatedAt": "2026-05-28",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK097",
@@ -16220,7 +16377,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-03-06",
     "ticketCreatedAt": "2026-02-20",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK098",
@@ -16245,7 +16403,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-11-29",
     "ticketCreatedAt": "2025-11-15",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK099",
@@ -16270,7 +16429,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-08-14",
     "ticketCreatedAt": "2026-07-31",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK100",
@@ -16295,7 +16455,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-09",
     "ticketCreatedAt": "2026-04-25",
-    "ticketClosedAt": "2026-05-05"
+    "ticketClosedAt": "2026-05-05",
+    "supplierID": null
    },
    {
     "ticketID": "TK101",
@@ -16320,7 +16481,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-01",
     "ticketCreatedAt": "2026-01-18",
-    "ticketClosedAt": "2026-01-28"
+    "ticketClosedAt": "2026-01-28",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK102",
@@ -16345,7 +16507,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-27",
     "ticketCreatedAt": "2025-10-13",
-    "ticketClosedAt": "2025-10-23"
+    "ticketClosedAt": "2025-10-23",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK103",
@@ -16370,7 +16533,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-12",
     "ticketCreatedAt": "2026-06-28",
-    "ticketClosedAt": "2026-07-08"
+    "ticketClosedAt": "2026-07-08",
+    "supplierID": null
    },
    {
     "ticketID": "TK104",
@@ -16395,7 +16559,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-06",
     "ticketCreatedAt": "2026-03-23",
-    "ticketClosedAt": "2026-04-02"
+    "ticketClosedAt": "2026-04-02",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK105",
@@ -16420,7 +16585,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-30",
     "ticketCreatedAt": "2025-12-16",
-    "ticketClosedAt": "2025-12-26"
+    "ticketClosedAt": "2025-12-26",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK106",
@@ -16445,7 +16611,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-09-24",
     "ticketCreatedAt": "2025-09-10",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK107",
@@ -16470,7 +16637,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-06-09",
     "ticketCreatedAt": "2026-05-26",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK108",
@@ -16495,7 +16663,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-03-04",
     "ticketCreatedAt": "2026-02-18",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK109",
@@ -16520,7 +16689,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-11-27",
     "ticketCreatedAt": "2025-11-13",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK110",
@@ -16545,7 +16715,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-12",
     "ticketCreatedAt": "2026-07-29",
-    "ticketClosedAt": "2026-08-08"
+    "ticketClosedAt": "2026-08-08",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK111",
@@ -16570,7 +16741,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-07",
     "ticketCreatedAt": "2026-04-23",
-    "ticketClosedAt": "2026-05-03"
+    "ticketClosedAt": "2026-05-03",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK112",
@@ -16595,7 +16767,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-30",
     "ticketCreatedAt": "2026-01-16",
-    "ticketClosedAt": "2026-01-26"
+    "ticketClosedAt": "2026-01-26",
+    "supplierID": null
    },
    {
     "ticketID": "TK113",
@@ -16620,7 +16793,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-25",
     "ticketCreatedAt": "2025-10-11",
-    "ticketClosedAt": "2025-10-21"
+    "ticketClosedAt": "2025-10-21",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK114",
@@ -16645,7 +16819,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-10",
     "ticketCreatedAt": "2026-06-26",
-    "ticketClosedAt": "2026-07-06"
+    "ticketClosedAt": "2026-07-06",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK115",
@@ -16670,7 +16845,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-04",
     "ticketCreatedAt": "2026-03-21",
-    "ticketClosedAt": "2026-03-31"
+    "ticketClosedAt": "2026-03-31",
+    "supplierID": null
    },
    {
     "ticketID": "TK116",
@@ -16695,7 +16871,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-12-28",
     "ticketCreatedAt": "2025-12-14",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK117",
@@ -16720,7 +16897,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-09-22",
     "ticketCreatedAt": "2025-09-08",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK118",
@@ -16745,7 +16923,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-06-07",
     "ticketCreatedAt": "2026-05-24",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK119",
@@ -16770,7 +16949,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-03-02",
     "ticketCreatedAt": "2026-02-16",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK120",
@@ -16795,7 +16975,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-25",
     "ticketCreatedAt": "2025-11-11",
-    "ticketClosedAt": "2025-11-21"
+    "ticketClosedAt": "2025-11-21",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK121",
@@ -16820,7 +17001,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-10",
     "ticketCreatedAt": "2026-07-27",
-    "ticketClosedAt": "2026-08-06"
+    "ticketClosedAt": "2026-08-06",
+    "supplierID": null
    },
    {
     "ticketID": "TK122",
@@ -16845,7 +17027,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-05",
     "ticketCreatedAt": "2026-04-21",
-    "ticketClosedAt": "2026-05-01"
+    "ticketClosedAt": "2026-05-01",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK123",
@@ -16870,7 +17053,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-28",
     "ticketCreatedAt": "2026-01-14",
-    "ticketClosedAt": "2026-01-24"
+    "ticketClosedAt": "2026-01-24",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK124",
@@ -16895,7 +17079,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-23",
     "ticketCreatedAt": "2025-10-09",
-    "ticketClosedAt": "2025-10-19"
+    "ticketClosedAt": "2025-10-19",
+    "supplierID": null
    },
    {
     "ticketID": "TK125",
@@ -16920,7 +17105,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-07-08",
     "ticketCreatedAt": "2026-06-24",
-    "ticketClosedAt": "2026-07-04"
+    "ticketClosedAt": "2026-07-04",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK126",
@@ -16945,7 +17131,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-04-02",
     "ticketCreatedAt": "2026-03-19",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK127",
@@ -16970,7 +17157,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-12-26",
     "ticketCreatedAt": "2025-12-12",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK128",
@@ -16995,7 +17183,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-09-20",
     "ticketCreatedAt": "2025-09-06",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK129",
@@ -17020,7 +17209,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-06-05",
     "ticketCreatedAt": "2026-05-22",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK130",
@@ -17045,7 +17235,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-28",
     "ticketCreatedAt": "2026-02-14",
-    "ticketClosedAt": "2026-02-24"
+    "ticketClosedAt": "2026-02-24",
+    "supplierID": null
    },
    {
     "ticketID": "TK131",
@@ -17070,7 +17261,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-23",
     "ticketCreatedAt": "2025-11-09",
-    "ticketClosedAt": "2025-11-19"
+    "ticketClosedAt": "2025-11-19",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK132",
@@ -17095,7 +17287,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-08",
     "ticketCreatedAt": "2026-07-25",
-    "ticketClosedAt": "2026-08-04"
+    "ticketClosedAt": "2026-08-04",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK133",
@@ -17120,7 +17313,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-03",
     "ticketCreatedAt": "2026-04-19",
-    "ticketClosedAt": "2026-04-29"
+    "ticketClosedAt": "2026-04-29",
+    "supplierID": null
    },
    {
     "ticketID": "TK134",
@@ -17145,7 +17339,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-26",
     "ticketCreatedAt": "2026-01-12",
-    "ticketClosedAt": "2026-01-22"
+    "ticketClosedAt": "2026-01-22",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK135",
@@ -17170,7 +17365,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-10-21",
     "ticketCreatedAt": "2025-10-07",
-    "ticketClosedAt": "2025-10-17"
+    "ticketClosedAt": "2025-10-17",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK136",
@@ -17195,7 +17391,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-07-06",
     "ticketCreatedAt": "2026-06-22",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK137",
@@ -17220,7 +17417,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-03-31",
     "ticketCreatedAt": "2026-03-17",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK138",
@@ -17245,7 +17443,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-12-24",
     "ticketCreatedAt": "2025-12-10",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK139",
@@ -17270,7 +17469,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-09-18",
     "ticketCreatedAt": "2025-09-04",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK140",
@@ -17295,7 +17495,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-03",
     "ticketCreatedAt": "2026-05-20",
-    "ticketClosedAt": "2026-05-30"
+    "ticketClosedAt": "2026-05-30",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK141",
@@ -17320,7 +17521,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-26",
     "ticketCreatedAt": "2026-02-12",
-    "ticketClosedAt": "2026-02-22"
+    "ticketClosedAt": "2026-02-22",
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK142",
@@ -17345,7 +17547,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-21",
     "ticketCreatedAt": "2025-11-07",
-    "ticketClosedAt": "2025-11-17"
+    "ticketClosedAt": "2025-11-17",
+    "supplierID": null
    },
    {
     "ticketID": "TK143",
@@ -17370,7 +17573,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-06",
     "ticketCreatedAt": "2026-07-23",
-    "ticketClosedAt": "2026-08-02"
+    "ticketClosedAt": "2026-08-02",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK144",
@@ -17395,7 +17599,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-05-01",
     "ticketCreatedAt": "2026-04-17",
-    "ticketClosedAt": "2026-04-27"
+    "ticketClosedAt": "2026-04-27",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK145",
@@ -17420,7 +17625,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-01-24",
     "ticketCreatedAt": "2026-01-10",
-    "ticketClosedAt": "2026-01-20"
+    "ticketClosedAt": "2026-01-20",
+    "supplierID": null
    },
    {
     "ticketID": "TK146",
@@ -17445,7 +17651,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-10-19",
     "ticketCreatedAt": "2025-10-05",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK147",
@@ -17470,7 +17677,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-07-04",
     "ticketCreatedAt": "2026-06-20",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK148",
@@ -17495,7 +17703,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-03-29",
     "ticketCreatedAt": "2026-03-15",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK149",
@@ -17520,7 +17729,8 @@
     "ticketStatus": "Open",
     "targetDate": "2025-12-22",
     "ticketCreatedAt": "2025-12-08",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK150",
@@ -17545,7 +17755,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-09-16",
     "ticketCreatedAt": "2025-09-02",
-    "ticketClosedAt": "2025-09-12"
+    "ticketClosedAt": "2025-09-12",
+    "supplierID": "CUST16"
    },
    {
     "ticketID": "TK151",
@@ -17570,7 +17781,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-06-01",
     "ticketCreatedAt": "2026-05-18",
-    "ticketClosedAt": "2026-05-28"
+    "ticketClosedAt": "2026-05-28",
+    "supplierID": null
    },
    {
     "ticketID": "TK152",
@@ -17595,7 +17807,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-02-24",
     "ticketCreatedAt": "2026-02-10",
-    "ticketClosedAt": "2026-02-20"
+    "ticketClosedAt": "2026-02-20",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK153",
@@ -17620,7 +17833,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-11-19",
     "ticketCreatedAt": "2025-11-05",
-    "ticketClosedAt": "2025-11-15"
+    "ticketClosedAt": "2025-11-15",
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK154",
@@ -17645,7 +17859,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-08-04",
     "ticketCreatedAt": "2026-07-21",
-    "ticketClosedAt": "2026-07-31"
+    "ticketClosedAt": "2026-07-31",
+    "supplierID": null
    },
    {
     "ticketID": "TK155",
@@ -17670,7 +17885,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2026-04-29",
     "ticketCreatedAt": "2026-04-15",
-    "ticketClosedAt": "2026-04-25"
+    "ticketClosedAt": "2026-04-25",
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK156",
@@ -17695,7 +17911,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2026-01-22",
     "ticketCreatedAt": "2026-01-08",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST21"
    },
    {
     "ticketID": "TK157",
@@ -17720,7 +17937,8 @@
     "ticketStatus": "InProgress",
     "targetDate": "2025-10-17",
     "ticketCreatedAt": "2025-10-03",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": null
    },
    {
     "ticketID": "TK158",
@@ -17745,7 +17963,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-07-02",
     "ticketCreatedAt": "2026-06-18",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST13"
    },
    {
     "ticketID": "TK159",
@@ -17770,7 +17989,8 @@
     "ticketStatus": "Open",
     "targetDate": "2026-03-27",
     "ticketCreatedAt": "2026-03-13",
-    "ticketClosedAt": null
+    "ticketClosedAt": null,
+    "supplierID": "CUST19"
    },
    {
     "ticketID": "TK160",
@@ -17795,7 +18015,8 @@
     "ticketStatus": "Resolved",
     "targetDate": "2025-12-20",
     "ticketCreatedAt": "2025-12-06",
-    "ticketClosedAt": "2025-12-16"
+    "ticketClosedAt": "2025-12-16",
+    "supplierID": null
    }
   ],
   "Jobs": [
