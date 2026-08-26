@@ -2654,9 +2654,10 @@ carries its dispatch context: the payload of the chosen event, the governing SLA
 processes it triggers and the applicable requirement set.
 <strong>Register when:</strong> after its Project.
 <strong>Key fields:</strong> <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code> → unlocks <code>Project *</code>
-(the customer's projects), <strong>Supplier</strong> — the suppliers present in the customer's active
-SLAs: choosing one narrows Event and Product Scope to the contracts of that
-(customer, supplier) pair, leaving it empty follows every active SLA — and <code>Event *</code> —
+(the customer's projects), <strong>Supplier</strong> — the party responsible for resolving the issue,
+picked among the unit's customers grouped by type (unlocked by the Unit): choosing one
+narrows Event and Product Scope to the contracts of that (customer, supplier) pair,
+leaving it empty follows every active SLA — and <code>Event *</code> —
 <strong>only events covered by the customer's SLAs are offered</strong>; <code>Product Scope *</code> — the scope
 the ticket targets, among those packaged by the event's payloads under those SLAs; <code>Forecast Scope</code> — the demand line of the contract's
 <a href="../../crm/forecast-scopes/">Forecasts</a> this ticket consumes, following the same
