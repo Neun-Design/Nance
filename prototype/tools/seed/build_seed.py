@@ -814,14 +814,25 @@ class Builder:
             group = next(g for g in self.rows('Product Groups')
                          if g['productGroupID'] == pair['productGroupID'])
             spec_ids = sorted(group['specValues'].keys())[:3]
-            comp.append({'competenceID': f'CMP{n:02d}', 'eventID': t['eventID'],
+            # competenceTitle (issue #284) — same deterministic rule as
+            # migrate_competence_procedure_group.py, so regenerated and
+            # migrated datasets agree: "<task name> | <scope name>"
+            scope = next(s for s in self.rows('Scopes')
+                         if s['scopeID'] == pair['scopeID'])
+            comp.append({'competenceID': f'CMP{n:02d}',
+                         'competenceTitle': f"{t['taskName']} | {scope['scopeName']}",
+                         'eventID': t['eventID'],
                          'departmentID': pr['departmentID'], 'processID': t['processID'],
                          'productScopeID': ps_id, 'functionID': t['functionID'],
                          'skillLevelID': role['skillLevelID'], 'roleID': role['roleID'],
                          'levelRank': 1 + n % 3, 'taskID': t['taskID'],
                          'actionID': t['actionID'],
                          'activityID': workflows[t['workflowID']]['activityID'],
-                         'productSpecID': spec_ids, 'procedureID': proc['procedureID'],
+                         'productSpecID': spec_ids,
+                         # procedure GROUP (issue #284, 1:many) — honest
+                         # singleton: the demo certifies one procedure per
+                         # competence, grouping is a UI decision
+                         'procedureID': [proc['procedureID']],
                          'resources': 'e-learning' if n % 2 else 'classroom',
                          'competenceOwner': None})
         self.put('Competence', comp)

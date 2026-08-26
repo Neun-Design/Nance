@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 57,
+    "schemaVersion": 58,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -7141,8 +7141,8 @@
             {
               "name": "competenceID",
               "type": "FK",
-              "rule": "FK → Competence (display: competenceName)",
-              "notes": "multivalued — the competence GROUP this onboarding certifies (1:many since issue #239; isCertified covers the whole group). Stores competence PKs; role/rank/department narrowing lives in the form cascade (the old 'via: roleID + levelRank' spelling made the select store roleIDs)",
+              "rule": "FK → Competence (display: competenceTitle)",
+              "notes": "multivalued — the competence GROUP this onboarding certifies (1:many since issue #239; isCertified covers the whole group). Stores competence PKs; displayed by the user-given competenceTitle since issue #284. Role/rank/department narrowing lives in the form cascade (the old 'via: roleID + levelRank' spelling made the select store roleIDs)",
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -7332,6 +7332,15 @@
               "constraints": "PK"
             },
             {
+              "name": "competenceTitle",
+              "type": "VARCHAR",
+              "rule": "user input",
+              "notes": "User-given label for the competence (issue #284) — with the procedure GROUP cardinality the title is what distinguishes and groups competences; first *Title attr, so it is the table label (and therefore required in the form)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "NOT NULL"
+            },
+            {
               "name": "eventID",
               "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
@@ -7470,7 +7479,7 @@
               "name": "procedureID",
               "type": "FK",
               "rule": "FK → Procedures (display: procedureRegistry)",
-              "notes": "Single-valued since issue #231 (1:1 — the competence certifies ONE procedure; a procedure can still be held by many competences). The quality manager's requirement decision lives on the Procedure; the competence inherits its set through this key.",
+              "notes": "multivalued — the procedure GROUP this competence certifies (1:many since issue #284, reverting the #231 1:1; group restricted to the competence's TASK — the picker filters by Task). The quality manager's requirement decision lives on the Procedure; the competence inherits the UNION of its procedures' sets, and a procedure with an EMPTY set (Q1 wildcard) in the group makes the competence certify every requirement (decision kept in #284).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -7479,7 +7488,7 @@
               "name": "requirementID",
               "type": "mirror",
               "rule": "computed → Procedures (via: procedureID) (display: requirementName)",
-              "notes": "Derived — requirements certified through the linked procedure (a procedure with an empty set applies to all, Q1). Doctrine (issue #231, reverting the #226 union): a requirement NEVER enters a competence automatically — the quality manager decides on the Procedure (its Requirements picker already offers the context-aligned options), and the competence inherits the procedure's set. Legacy stored requirementID still honoured as fallback when no procedure is linked.",
+              "notes": "Derived — requirements certified through the linked procedure GROUP: the UNION of the procedures' sets (1:many since issue #284; a procedure with an empty set applies to all, Q1 — one wildcard procedure in the group certifies everything). Doctrine (issue #231, kept in #284): a requirement NEVER enters a competence automatically — the quality manager decides on the Procedure (its Requirements picker already offers the context-aligned options), and the competence inherits the procedures' sets. Legacy stored requirementID still honoured as fallback when no procedure is linked.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -7525,6 +7534,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Title": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "competenceTitle",
+                "tooltip": "Names the competence — distinguishes and groups competences now that one competence certifies a group of procedures",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Function": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -7600,7 +7619,7 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "procedureID",
-                "tooltip": "The procedure of the selected task that this competence certifies (1:1) — its requirement set is inherited",
+                "tooltip": "The procedures of the selected task that this competence certifies (group, 1:many — the union of their requirement sets is inherited)",
                 "step": null,
                 "check": "Task IS NOT NULL",
                 "field-rule": [

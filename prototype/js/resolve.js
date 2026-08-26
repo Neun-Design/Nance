@@ -792,16 +792,18 @@ export function ticketRequirements(ticket) {
     customerId: ticket.customerID ?? null });
 }
 
-// Requirements a competence certifies — via its procedure since the
-// Procedures round (v3-review Iterations): the linked procedure's requirement
-// set (single-valued since issue #231, 1:1; legacy multi-value rows still
-// union). A procedure with an EMPTY set applies to every requirement (Q1
-// wildcard → null = no restriction). Rows that still carry a legacy stored
-// requirementID keep working. Shared with the Jobs certified-responsible
-// control (forms.js) since issue #214. Doctrine (issue #231, reverting the
-// #226 union): a requirement NEVER enters a competence automatically — the
-// quality manager binds it to the Procedure, and the competence inherits
-// the procedure's set through this function.
+// Requirements a competence certifies — via its procedures since the
+// Procedures round (v3-review Iterations): the UNION of the linked
+// procedures' requirement sets (multivalued again since issue #284, 1:many —
+// the group is restricted to the competence's task; legacy scalar rows still
+// resolve). A procedure with an EMPTY set applies to every requirement (Q1
+// wildcard → null = no restriction) — one wildcard procedure in the group
+// certifies everything (decision kept in #284). Rows that still carry a
+// legacy stored requirementID keep working. Shared with the Jobs
+// certified-responsible control (forms.js) since issue #214. Doctrine
+// (issue #231, kept in #284): a requirement NEVER enters a competence
+// automatically — the quality manager binds it to the Procedure, and the
+// competence inherits the procedures' sets through this function.
 export function competenceRequirements(comp) {
   const pT = resolveTable('Procedures');
   const ids = Array.isArray(comp.procedureID) ? comp.procedureID
@@ -882,7 +884,7 @@ export function certifiedUsersDisplay(taskId, extraReqIds = [], display = null, 
 
 // Users eligible to execute a PROCEDURE (issue #271): holders of a CERTIFIED
 // Onboarding (isCertified) on a competence bound to this procedure
-// (Competence.procedureID, 1:1 since #231; legacy array rows still match).
+// (Competence.procedureID, 1:many since #284; legacy scalar rows still match).
 // Strict association, no wildcard — a competence WITHOUT a procedure widens
 // staffing coverage (competenceRequirements → null), but it does not staff a
 // specific procedure's Users column: the issue asks for "the competence

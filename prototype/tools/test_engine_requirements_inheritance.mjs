@@ -43,19 +43,19 @@ console.log('== schema: requirements inheritance round ==');
   const cr = model.parseRule(catalog['Competence'].byName['requirementID'].rule);
   eq([cr.kind, cr.target, cr.via, cr.display], ['computed', 'Procedures', 'procedureID', 'requirementName'],
     'Competence.requirementID derives through the procedure (#231 — no COMPETENCE-REQUIREMENTS kind)');
-  const pf = catalog['Competence'].form.fields['Procedure'];
-  eq(/multiple/i.test(JSON.stringify(pf['field-rule'])), false,
-    'Procedure select is single-valued (1:1, issue #231)');
+  const pa = catalog['Competence'].byName['procedureID'];
+  eq(/multivalued/i.test(pa.notes || ''), true,
+    'procedureID is a multivalued procedure GROUP again (1:many, issue #284)');
 }
 
-console.log('== seeds: stored snapshots dropped, 1:1 unwrapped ==');
+console.log('== seeds: stored snapshots dropped, legacy scalars tolerated ==');
 {
   eq(data.getEntity('Tickets').every((t) => !('requirementName' in t)), true,
     'no ticket carries a stored requirementName (the rule would lose to it)');
   eq(data.getEntity('Competence').every((c) => !('requirementID' in c)), true,
     'no competence carries a stored requirementID');
   eq(data.getEntity('Competence').every((c) => !Array.isArray(c.procedureID)), true,
-    'every competence certifies a single procedure (arrays unwrapped, issue #231)');
+    'frozen reference keeps the #231 scalar rows (legacy shape, tolerated since #284)');
 }
 
 // probe chain: unit BU01 (serves RG01-03), one event, one payload packaging
