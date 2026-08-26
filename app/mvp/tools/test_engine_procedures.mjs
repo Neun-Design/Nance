@@ -63,7 +63,8 @@ console.log('== migration: seeds and links ==');
 console.log('== Competence: certifies procedures, requirements derive ==');
 {
   const comp = data.getById('Competence', 'CMP01');
-  eq(comp.procedureID, 'PRC01', 'CMP01 links its task\'s procedure (single-valued since #231)');
+  eq(comp.procedureID, 'PRC01',
+    'CMP01 keeps the frozen scalar link (legacy shape, tolerated since #284)');
   eq('requirementID' in comp, false, 'stored requirementID dropped');
   const attr = catalog['Competence'].byName['requirementID'];
   const names = String(resolve.derivedValue('Competence', attr, comp));

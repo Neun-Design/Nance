@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 57,
+  "schemaVersion": 58,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -27031,9 +27031,12 @@
      "SPEC03",
      "SPEC04"
     ],
-    "procedureID": "PRC01",
+    "procedureID": [
+     "PRC01"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U35"
+    "competenceOwner": "U35",
+    "competenceTitle": "Schedule Exam-Execution | Routine"
    },
    {
     "competenceID": "CMP02",
@@ -27053,9 +27056,12 @@
      "SPEC03",
      "SPEC04"
     ],
-    "procedureID": "PRC02",
+    "procedureID": [
+     "PRC02"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U36"
+    "competenceOwner": "U36",
+    "competenceTitle": "Schedule Exam-Check | Audit Support"
    },
    {
     "competenceID": "CMP03",
@@ -27075,9 +27081,12 @@
      "SPEC03",
      "SPEC04"
     ],
-    "procedureID": "PRC03",
+    "procedureID": [
+     "PRC03"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U01"
+    "competenceOwner": "U01",
+    "competenceTitle": "Prepare Patient-Execution | Urgent"
    },
    {
     "competenceID": "CMP04",
@@ -27097,9 +27106,12 @@
      "SPEC03",
      "SPEC04"
     ],
-    "procedureID": "PRC04",
+    "procedureID": [
+     "PRC04"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U02"
+    "competenceOwner": "U02",
+    "competenceTitle": "Prepare Patient-Approval | Routine"
    },
    {
     "competenceID": "CMP05",
@@ -27119,9 +27131,12 @@
      "SPEC06",
      "SPEC08"
     ],
-    "procedureID": "PRC05",
+    "procedureID": [
+     "PRC05"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U03"
+    "competenceOwner": "U03",
+    "competenceTitle": "Acquire Images-Execution | Urgent"
    },
    {
     "competenceID": "CMP06",
@@ -27141,9 +27156,12 @@
      "SPEC04",
      "SPEC07"
     ],
-    "procedureID": "PRC06",
+    "procedureID": [
+     "PRC06"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U04"
+    "competenceOwner": "U04",
+    "competenceTitle": "Acquire Images-Registration | Routine"
    },
    {
     "competenceID": "CMP07",
@@ -27163,9 +27181,12 @@
      "SPEC04",
      "SPEC07"
     ],
-    "procedureID": "PRC07",
+    "procedureID": [
+     "PRC07"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U05"
+    "competenceOwner": "U05",
+    "competenceTitle": "Elaborate Report-Execution | Routine"
    },
    {
     "competenceID": "CMP08",
@@ -27183,9 +27204,12 @@
     "productSpecID": [
      "SPEC04"
     ],
-    "procedureID": "PRC08",
+    "procedureID": [
+     "PRC08"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U06"
+    "competenceOwner": "U06",
+    "competenceTitle": "Elaborate Report-Check | Screening Campaign"
    },
    {
     "competenceID": "CMP09",
@@ -27203,9 +27227,12 @@
     "productSpecID": [
      "SPEC04"
     ],
-    "procedureID": "PRC09",
+    "procedureID": [
+     "PRC09"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U07"
+    "competenceOwner": "U07",
+    "competenceTitle": "Release Results-Execution | Routine"
    },
    {
     "competenceID": "CMP10",
@@ -27221,9 +27248,12 @@
     "actionID": "AC07",
     "activityID": "A05",
     "productSpecID": [],
-    "procedureID": "PRC10",
+    "procedureID": [
+     "PRC10"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U08"
+    "competenceOwner": "U08",
+    "competenceTitle": "Release Results-Release | Routine"
    },
    {
     "competenceID": "CMP11",
@@ -27241,9 +27271,12 @@
     "productSpecID": [
      "SPEC07"
     ],
-    "procedureID": "PRC11",
+    "procedureID": [
+     "PRC11"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U09"
+    "competenceOwner": "U09",
+    "competenceTitle": "Receive Samples-Execution | Routine"
    },
    {
     "competenceID": "CMP12",
@@ -27261,9 +27294,12 @@
     "productSpecID": [
      "SPEC07"
     ],
-    "procedureID": "PRC12",
+    "procedureID": [
+     "PRC12"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U10"
+    "competenceOwner": "U10",
+    "competenceTitle": "Receive Samples-Check | Home Collection"
    },
    {
     "competenceID": "CMP13",
@@ -27281,9 +27317,12 @@
     "productSpecID": [
      "SPEC07"
     ],
-    "procedureID": "PRC13",
+    "procedureID": [
+     "PRC13"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U11"
+    "competenceOwner": "U11",
+    "competenceTitle": "Process Samples-Execution | Routine"
    },
    {
     "competenceID": "CMP14",
@@ -27301,9 +27340,12 @@
     "productSpecID": [
      "SPEC07"
     ],
-    "procedureID": "PRC14",
+    "procedureID": [
+     "PRC14"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U12"
+    "competenceOwner": "U12",
+    "competenceTitle": "Process Samples-Approval | Home Collection"
    },
    {
     "competenceID": "CMP15",
@@ -27321,9 +27363,12 @@
     "productSpecID": [
      "SPEC08"
     ],
-    "procedureID": "PRC15",
+    "procedureID": [
+     "PRC15"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U13"
+    "competenceOwner": "U13",
+    "competenceTitle": "Validate Results-Execution | Urgent"
    },
    {
     "competenceID": "CMP16",
@@ -27341,9 +27386,12 @@
     "productSpecID": [
      "SPEC08"
     ],
-    "procedureID": "PRC16",
+    "procedureID": [
+     "PRC16"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U14"
+    "competenceOwner": "U14",
+    "competenceTitle": "Validate Results-Check | Routine"
    },
    {
     "competenceID": "CMP17",
@@ -27361,9 +27409,12 @@
     "productSpecID": [
      "SPEC03"
     ],
-    "procedureID": "PRC17",
+    "procedureID": [
+     "PRC17"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U15"
+    "competenceOwner": "U15",
+    "competenceTitle": "Release Results-Execution | Routine"
    },
    {
     "competenceID": "CMP18",
@@ -27381,9 +27432,12 @@
     "productSpecID": [
      "SPEC02"
     ],
-    "procedureID": "PRC18",
+    "procedureID": [
+     "PRC18"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U16"
+    "competenceOwner": "U16",
+    "competenceTitle": "Release Results-Assignment | Routine"
    },
    {
     "competenceID": "CMP19",
@@ -27403,9 +27457,12 @@
      "SPEC02",
      "SPEC03"
     ],
-    "procedureID": "PRC19",
+    "procedureID": [
+     "PRC19"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U17"
+    "competenceOwner": "U17",
+    "competenceTitle": "Triage Order-Execution | Reprocessing"
    },
    {
     "competenceID": "CMP20",
@@ -27425,9 +27482,12 @@
      "SPEC06",
      "SPEC08"
     ],
-    "procedureID": "PRC20",
+    "procedureID": [
+     "PRC20"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U18"
+    "competenceOwner": "U18",
+    "competenceTitle": "Triage Order-Check | 24h Report"
    },
    {
     "competenceID": "CMP21",
@@ -27447,9 +27507,12 @@
      "SPEC03",
      "SPEC04"
     ],
-    "procedureID": "PRC21",
+    "procedureID": [
+     "PRC21"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U19"
+    "competenceOwner": "U19",
+    "competenceTitle": "Acquire Images-Execution | Routine"
    },
    {
     "competenceID": "CMP22",
@@ -27469,9 +27532,12 @@
      "SPEC02",
      "SPEC03"
     ],
-    "procedureID": "PRC22",
+    "procedureID": [
+     "PRC22"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U20"
+    "competenceOwner": "U20",
+    "competenceTitle": "Acquire Images-Approval | Routine"
    },
    {
     "competenceID": "CMP23",
@@ -27491,9 +27557,12 @@
      "SPEC02",
      "SPEC03"
     ],
-    "procedureID": "PRC23",
+    "procedureID": [
+     "PRC23"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U21"
+    "competenceOwner": "U21",
+    "competenceTitle": "Elaborate Report-Execution | Routine"
    },
    {
     "competenceID": "CMP24",
@@ -27513,9 +27582,12 @@
      "SPEC02",
      "SPEC03"
     ],
-    "procedureID": "PRC24",
+    "procedureID": [
+     "PRC24"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U22"
+    "competenceOwner": "U22",
+    "competenceTitle": "Elaborate Report-Check | Second Opinion"
    },
    {
     "competenceID": "CMP25",
@@ -27535,9 +27607,12 @@
      "SPEC06",
      "SPEC08"
     ],
-    "procedureID": "PRC25",
+    "procedureID": [
+     "PRC25"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U23"
+    "competenceOwner": "U23",
+    "competenceTitle": "Notify Physician-Execution | Routine"
    },
    {
     "competenceID": "CMP26",
@@ -27557,9 +27632,12 @@
      "SPEC06",
      "SPEC08"
     ],
-    "procedureID": "PRC26",
+    "procedureID": [
+     "PRC26"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U24"
+    "competenceOwner": "U24",
+    "competenceTitle": "Notify Physician-Assignment | Urgent"
    },
    {
     "competenceID": "CMP27",
@@ -27579,9 +27657,12 @@
      "SPEC04",
      "SPEC07"
     ],
-    "procedureID": "PRC27",
+    "procedureID": [
+     "PRC27"
+    ],
     "resources": "e-learning",
-    "competenceOwner": "U25"
+    "competenceOwner": "U25",
+    "competenceTitle": "Retrieve Prior Study-Execution | Routine"
    },
    {
     "competenceID": "CMP28",
@@ -27601,9 +27682,12 @@
      "SPEC04",
      "SPEC07"
     ],
-    "procedureID": "PRC28",
+    "procedureID": [
+     "PRC28"
+    ],
     "resources": "classroom",
-    "competenceOwner": "U26"
+    "competenceOwner": "U26",
+    "competenceTitle": "Retrieve Prior Study-Check | Routine"
    }
   ],
   "Onboarding": [
