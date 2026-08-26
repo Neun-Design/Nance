@@ -11,9 +11,10 @@ carries its dispatch context: the payload of the chosen event, the governing SLA
 processes it triggers and the applicable requirement set.
 **Register when:** after its Project.
 **Key fields:** `Unit *` (grouped by segment) → unlocks `Customer *` → unlocks `Project *`
-(the customer's projects), **Supplier** — the suppliers present in the customer's active
-SLAs: choosing one narrows Event and Product Scope to the contracts of that
-(customer, supplier) pair, leaving it empty follows every active SLA — and `Event *` —
+(the customer's projects), **Supplier** — the party responsible for resolving the issue,
+picked among the unit's customers grouped by type (unlocked by the Unit): choosing one
+narrows Event and Product Scope to the contracts of that (customer, supplier) pair,
+leaving it empty follows every active SLA — and `Event *` —
 **only events covered by the customer's SLAs are offered**; `Product Scope *` — the scope
 the ticket targets, among those packaged by the event's payloads under those SLAs; `Forecast Scope` — the demand line of the contract's
 [Forecasts](../crm/forecast-scopes.md) this ticket consumes, following the same

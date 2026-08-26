@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 55,
+  "schemaVersion": 56,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -642,7 +642,8 @@
     ],
     "businessUnitID": [
      "BU03",
-     "BU04"
+     "BU04",
+     "BU02"
     ],
     "customerType": "Supplier",
     "isActive": "Active",
