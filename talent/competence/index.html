@@ -2651,17 +2651,20 @@
 <h1 id="competence">Competence<a class="headerlink" href="#competence" title="Permanent link">&para;</a></h1>
 <p><em>(phase 6)</em> <strong>What it is:</strong> a certified capability: a role/level certified for a task chain
 (event → process → task) on a <strong>product scope</strong> (the scope × product-group pair in one key —
-the separate Scope / Product Group selects are gone). The competence certifies <strong>one
-procedure</strong> of the task (1:1, 2026-08-20) and inherits its requirement set — a requirement
-never joins a competence automatically: the quality manager decides on the
-<a href="../../operation/procedures/">Procedure</a> (whose Requirements picker offers the Active
+the separate Scope / Product Group selects are gone). The competence certifies a <strong>group of
+procedures</strong> of its task (1:many, 2026-08-26) and inherits the <strong>union</strong> of their requirement
+sets — a requirement never joins a competence automatically: the quality manager decides on
+each <a href="../../operation/procedures/">Procedure</a> (whose Requirements picker offers the Active
 requirements aligned to the product scopes), and every competence certifying that procedure
-inherits the decision.
+inherits the decision. A user-given <strong>Title</strong> names the competence — with the group
+cardinality, the title is what distinguishes and groups competences (it is the label shown
+wherever a competence is listed, e.g. the Onboarding picker).
 <strong>Register when:</strong> after Operation exists (including the task's Procedures).
-<strong>Key fields:</strong> <code>Function *</code> + <code>Skill Level *</code> → unlock Role; <code>Event *</code> → unlocks Process →
-<strong>Product Scope</strong> (offered from the process's list; scope and product group derive from it)
-→ Task → Procedure (multi — the task's procedures this competence certifies). The
-competence's department derives from the chosen process automatically.</p>
+<strong>Key fields:</strong> <code>Title *</code> (free text); <code>Function *</code> + <code>Skill Level *</code> → unlock Role;
+<code>Event *</code> → unlocks Process → <strong>Product Scope</strong> (offered from the process's list; scope and
+product group derive from it) → Task → Procedure (multi — the task's procedures this
+competence certifies, restricted to the selected task). The competence's department derives
+from the chosen process automatically.</p>
 
 
 
