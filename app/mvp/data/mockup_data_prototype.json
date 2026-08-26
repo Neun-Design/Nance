@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 56,
+  "schemaVersion": 57,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -10978,7 +10978,8 @@
     "createdAt": "2024-12-29",
     "channelID": "CH01",
     "templateName": "Medical Order v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": true
    },
    {
     "handoutID": "H02",
@@ -10987,7 +10988,8 @@
     "createdAt": "2024-12-28",
     "channelID": "CH02",
     "templateName": "Signed Report v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H03",
@@ -10996,7 +10998,8 @@
     "createdAt": "2024-12-27",
     "channelID": "CH03",
     "templateName": "Acquisition Protocol Sheet v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H04",
@@ -11005,7 +11008,8 @@
     "createdAt": "2024-12-26",
     "channelID": "CH04",
     "templateName": "Contrast Consent Form v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": true
    },
    {
     "handoutID": "H05",
@@ -11014,7 +11018,8 @@
     "createdAt": "2024-12-25",
     "channelID": "CH05",
     "templateName": "Sedation Consent Form v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": true
    },
    {
     "handoutID": "H06",
@@ -11023,7 +11028,8 @@
     "createdAt": "2024-12-24",
     "channelID": "CH01",
     "templateName": "Patient Preparation Leaflet v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H07",
@@ -11032,7 +11038,8 @@
     "createdAt": "2024-12-23",
     "channelID": "CH02",
     "templateName": "Sample Manifest v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": true
    },
    {
     "handoutID": "H08",
@@ -11041,7 +11048,8 @@
     "createdAt": "2024-12-22",
     "channelID": "CH03",
     "templateName": "Chain of Custody Form v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H09",
@@ -11050,7 +11058,8 @@
     "createdAt": "2024-12-21",
     "channelID": "CH04",
     "templateName": "QC Phantom Log v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H10",
@@ -11059,7 +11068,8 @@
     "createdAt": "2024-12-20",
     "channelID": "CH05",
     "templateName": "Audit Findings Sheet v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H11",
@@ -11068,7 +11078,8 @@
     "createdAt": "2024-12-19",
     "channelID": "CH01",
     "templateName": "Critical Value Call Record v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H12",
@@ -11077,7 +11088,8 @@
     "createdAt": "2024-12-18",
     "channelID": "CH02",
     "templateName": "Home Collection Route Sheet v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H13",
@@ -11086,7 +11098,8 @@
     "createdAt": "2024-12-17",
     "channelID": "CH03",
     "templateName": "Dose Registry Extract v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    },
    {
     "handoutID": "H14",
@@ -11095,7 +11108,8 @@
     "createdAt": "2024-12-16",
     "channelID": "CH04",
     "templateName": "Second Opinion Dossier v1",
-    "templateURL": null
+    "templateURL": null,
+    "customerFlag": false
    }
   ],
   "Actions": [

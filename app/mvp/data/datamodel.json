@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 56,
+    "schemaVersion": 57,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2901,6 +2901,15 @@
               "constraints": "FK"
             },
             {
+              "name": "customerFlag",
+              "type": "BOOLEAN",
+              "rule": null,
+              "notes": "TRUE = this input is defined/provided by the CUSTOMER upon ticket creation (issue #280) — surfaces on the ticket's Inputs tab so remote teams know what to collect before starting; real boolean (#218 strict-gate posture)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "taskID",
               "type": "rollup",
               "rule": "rollup → Tasks",
@@ -2985,6 +2994,16 @@
                 },
                 "attribute": "channelID",
                 "tooltip": "Tool, app or system used to store or manage the handout",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Customer Input": {
+                "field-type": {
+                  "switch": "shadcn-switch"
+                },
+                "attribute": "customerFlag",
+                "tooltip": "Select this checkbox if the provided input should be defined by the customer upon ticket creation.",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -5010,6 +5029,15 @@
               "constraints": null
             },
             {
+              "name": "inputHandoutID",
+              "type": "mirror",
+              "rule": "computed: TICKET-INPUTS(processID) (display: handoutName)",
+              "notes": "LIVE-derived, never stored (issue #280): the customer-provided inputs of this ticket — for each task of the ticket's processes, the ticket's inherited requirement set (#226) narrows the procedures to exactly ONE (#270 AND coverage; GAP/ambiguous tasks contribute nothing), and that procedure's input handouts flagged customerFlag = TRUE are collected, deduped. Drives the Inputs subitem tab (via: inputHandoutID — ticketInputHandouts in resolve.js, wired by mapSubitem).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "products",
               "type": "VARCHAR",
               "rule": "mirror: DISTINCT(\"Product Scopes\".\"productName\")",
@@ -5266,6 +5294,12 @@
               "rule": "(via: processID)",
               "tab-name": "Tasks",
               "tab-table": "Tasks"
+            },
+            {
+              "tab-order": 3,
+              "rule": "(via: inputHandoutID)",
+              "tab-name": "Inputs",
+              "tab-table": "Handouts"
             }
           ]
         },

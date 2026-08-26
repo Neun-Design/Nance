@@ -65,10 +65,11 @@ console.log('== form spec: Product Scope select ==');
 console.log('== subitem tabs: Processes/Tasks replace Jobs ==');
 {
   const subs = catalog['Tickets'].subitems;
-  eq(subs.length, 2, 'two subitem groups');
-  eq(subs.map((s) => s.table), ['Processes', 'Tasks'], 'tabs target Processes and Tasks');
-  eq(subs.map((s) => s.via), ['processID', 'processID'], 'both join via the processID snapshot');
-  eq(subs.every((s) => s.tab), true, 'both are tabbed entries (tab strip renders)');
+  // three since issue #280 added the Inputs tab (Handouts via inputHandoutID)
+  eq(subs.length, 3, 'three subitem groups');
+  eq(subs.slice(0, 2).map((s) => s.table), ['Processes', 'Tasks'], 'first tabs target Processes and Tasks');
+  eq(subs.slice(0, 2).map((s) => s.via), ['processID', 'processID'], 'both join via the processID snapshot');
+  eq(subs.every((s) => s.tab), true, 'all are tabbed entries (tab strip renders)');
   eq(subs.some((s) => s.table === 'Jobs'), false, 'Jobs tab gone');
   const tkRow = { ticketID: 'TK-PROBE', processID: ['PR1'] };
   const procs = resolve.childrenOf('Tickets', tkRow, 'Processes', { via: 'processID' });
