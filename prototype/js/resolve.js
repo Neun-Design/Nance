@@ -937,6 +937,37 @@ export function ticketProcedureDisplay(taskId, reqIds = [], display = null) {
   return v == null || v === '' ? String(p.procedureID) : String(v);
 }
 
+// Customer-provided INPUTS of a ticket (issue #280): for each task of the
+// ticket's processes, the ticket's live inherited requirement set (#226)
+// narrows the task's procedures to exactly ONE (#270 AND coverage — a GAP
+// or ambiguous task contributes nothing: while the method is unresolved its
+// inputs are unknowable), and that procedure's input handouts flagged
+// customerFlag === true (real boolean, #218 strict-gate posture) collect,
+// deduped in first-seen order. Returns Handout ROWS — the Tickets Inputs
+// subitem tab renders them directly (mapSubitem in app.js).
+export function ticketInputHandouts(ticket) {
+  const hT = resolveTable('Handouts');
+  const tT = resolveTable('Tasks');
+  if (!hT || !tT || !ticket) return [];
+  const procIds = asIds(ticket.processID);
+  if (!procIds.length) return [];
+  const need = ticketRequirements(ticket);
+  const seen = new Set();
+  const out = [];
+  for (const task of getEntity(tT)) {
+    if (!procIds.some((p) => matches(task.processID, p))) continue;
+    const proc = ticketProcedureForTask(task.taskID, need);
+    if (!proc) continue;
+    for (const hid of asIds(proc.taskInput)) {
+      if (seen.has(String(hid))) continue;
+      seen.add(String(hid));
+      const h = getById(hT, hid);
+      if (h && h.customerFlag === true) out.push(h);
+    }
+  }
+  return out;
+}
+
 // derived attribute value for a table cell. Attrs flagged `gap-tag` in the
 // datamodel render an EMPTY derived value as the GAP tag (issue #271): the
 // system points at the hole — a procedure nobody is certified to execute, a
@@ -976,6 +1007,14 @@ function derivedValueInner(tableName, attr, row, depth = 0, displayOverride = nu
   }
   if (r.kind === 'ticketprocedure') {
     return ticketProcedureDisplay(row[r.srcField], [], r.display);
+  }
+  if (r.kind === 'ticketinputs') {
+    const rows = ticketInputHandouts(row);
+    if (!rows.length) return '—';
+    return rows.map((h) => {
+      const v = h[r.display || 'handoutName'];
+      return v == null || v === '' ? String(h.handoutID) : String(v);
+    }).join(', ');
   }
   if (r.kind === 'fk') {
     const table = (r.target && resolveTable(r.target)) || domainByName(attr.name);

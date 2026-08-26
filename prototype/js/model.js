@@ -60,6 +60,13 @@ export function parseRule(rule) {
   // (ticketProcedureForTask in resolve.js)
   m = txt.match(/^computed:\s*TICKET-PROCEDURE\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'ticketprocedure', srcField: m[1], display: m[2] || null };
+  // TICKET-INPUTS(processField) — the customer-provided inputs of a ticket
+  // (issue #280): for each task of the ticket's processes the requirement
+  // context narrows the procedures to exactly one (#270 posture; GAP tasks
+  // contribute nothing) and that procedure's customerFlag = TRUE input
+  // handouts collect, deduped (ticketInputHandouts in resolve.js)
+  m = txt.match(/^computed:\s*TICKET-INPUTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
+  if (m) return { kind: 'ticketinputs', srcField: m[1], display: m[2] || null };
   // optional multiplier: "SUM(taskID.executionTime) * forecastScopeQuantity"
   // scales the child sum by one of the row's own fields (issue #242)
   m = txt.match(/^computed:\s*SUM\(([A-Za-z]+)\.([A-Za-z]+)\)(?:\s*[*×]\s*([A-Za-z_][A-Za-z0-9_]*))?/i);

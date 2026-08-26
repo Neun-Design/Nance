@@ -389,6 +389,12 @@ handouts:                          # 14 controlled documents
   - Dose Registry Extract
   - Second Opinion Dossier
 
+customer_inputs:                   # handouts the CUSTOMER provides upon
+  - Medical Order                  # ticket creation (issue #280) — must
+  - Contrast Consent Form          # match tools/migrate_ticket_input_flag.py
+  - Sedation Consent Form
+  - Sample Manifest
+
 channels:
   - { name: PACS, description: "Picture archiving and communication system" }
   - { name: LIS, description: "Laboratory information system" }

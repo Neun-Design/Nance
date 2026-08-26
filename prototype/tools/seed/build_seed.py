@@ -396,10 +396,15 @@ class Builder:
                     for i, c in enumerate(d['channels'])]
         self.put('Channels', channels)
 
+        # customerFlag (issue #280): the documents the CUSTOMER provides upon
+        # ticket creation, listed by name in the domain's `customer_inputs`
+        # (mirrored by tools/migrate_ticket_input_flag.py)
+        customer_inputs = set(d.get('customer_inputs', []))
         handouts = [{'handoutID': f'H{i+1:02d}', 'handoutName': h,
                      'handoutDescription': f'{h} — controlled document',
                      'createdAt': (self.anchor - timedelta(days=600 + i)).isoformat(),
                      'channelID': channels[i % len(channels)]['channelID'],
+                     'customerFlag': h in customer_inputs,
                      'templateName': f'{h} v1', 'templateURL': None}
                     for i, h in enumerate(d['handouts'])]
         self.put('Handouts', handouts)
