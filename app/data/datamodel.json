@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 55,
+    "schemaVersion": 56,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -4941,7 +4941,7 @@
               "name": "supplierID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "the supplying-party filter (issue #272) — offered from the suppliers of the customer's ACTIVE SLAs (suppliersForTicketCustomer in forms.js); nullable: no supplier = lenient wildcard (#192 posture) and Event/Product Scope follow every active SLA of the customer",
+              "notes": "the supplying-party filter (issue #272; re-sourced by issue #281) — offered from the unit's customers grouped by customerType (generic stored-key cascade on Customers.businessUnitID; the #272 active-SLA sourcing via suppliersForTicketCustomer is retired); nullable: no supplier = lenient wildcard (#192 posture) and Event/Product Scope follow every active SLA of the customer",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -5167,12 +5167,12 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "supplierID",
-                "tooltip": "The supplying party of the governing SLA — narrows the events and scopes offered; leave empty to follow every active SLA",
+                "tooltip": "The party responsible for resolving the issue — any customer of the unit; narrows the events and scopes to the (customer, supplier) contracts; leave empty to follow every active SLA",
                 "step": null,
-                "check": "Customer IS NOT NULL",
+                "check": "Business Unit IS NOT NULL",
                 "field-rule": [
                   "SelectLabel = customerType",
-                  "filtered by Customer selected"
+                  "filtered by Business Unit selected"
                 ]
               },
               "Event": {

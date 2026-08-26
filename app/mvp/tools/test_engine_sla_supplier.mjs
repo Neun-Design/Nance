@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // test_engine_sla_supplier.mjs — unit-test the SLA supplying party (issue
 // #272): SLA.supplierID stored FK NOT NULL (form select = every customer,
-// grouped by customerType), Tickets.supplierID nullable FK offered from the
-// customer's active-SLA suppliers (suppliersForTicketCustomer), and the
+// grouped by customerType), Tickets.supplierID nullable FK, and the
 // supplier-narrowed Event / Product Scope chain (eventsForCustomerSLAs,
-// admittedProductScopeIds — lenient wildcard posture kept).
+// admittedProductScopeIds — lenient wildcard posture kept). The Ticket
+// Supplier picker sourcing moved to the unit's customers in issue #281 —
+// see test_engine_ticket_supplier.mjs.
 // Run from prototype/:  node tools/test_engine_sla_supplier.mjs
 
 import fs from 'fs';
@@ -53,7 +54,8 @@ console.log('== form spec: grouped select + supplier-aware cascade ==');
   const tf = catalog['Tickets'].form.fields;
   const tKeys = Object.keys(tf);
   eq(tf['Supplier'].attribute, 'supplierID', 'Ticket Supplier field binds supplierID');
-  eq(tf['Supplier'].check, 'Customer IS NOT NULL', 'Ticket Supplier gated on Customer');
+  eq(tf['Supplier'].check, 'Business Unit IS NOT NULL',
+    'Ticket Supplier gated on Business Unit (re-sourced by #281)');
   eq(tKeys.indexOf('Supplier') - tKeys.indexOf('Project'), 1, 'Ticket Supplier sits after Project');
   eq(tKeys.indexOf('Event') - tKeys.indexOf('Supplier'), 1, 'Event follows Supplier');
   eq(String(tf['Event']['field-rule']).includes('Customer + Supplier'), true,
@@ -95,19 +97,10 @@ console.log('== seeds: every contract supplied, both postures demoed ==');
   eq(bad.length, 0, 'every declared supplier belongs to an active SLA of the ticket\'s customer');
 }
 
-console.log('== picker: the customer\'s active-SLA suppliers ==');
+console.log('== picker: sourcing retired in favour of the unit\'s customers (issue #281) ==');
 {
-  eq(forms.suppliersForTicketCustomer(null), [], 'no customer → no options (field is gated)');
-  const slas = data.getEntity('SLA');
-  const cust = slas[0].customerID;
-  const want = [...new Set(slas
-    .filter((s) => asList(s.customerID).map(String).includes(String(cust))
-      && String(s.isActive || 'Active') !== 'Inactive')
-    .map((s) => String(s.supplierID)))];
-  const got = forms.suppliersForTicketCustomer(cust).map((o) => String(o.value));
-  eq(got.sort(), want.sort(), 'options = the distinct suppliers of the customer\'s active SLAs');
-  const label = forms.suppliersForTicketCustomer(cust)[0].label;
-  eq(typeof label === 'string' && label.length > 0, true, `labels resolve customerName ("${label}")`);
+  eq(forms.suppliersForTicketCustomer === undefined, true,
+    'suppliersForTicketCustomer export removed — the generic Business Unit cascade sources the Supplier select');
 }
 
 console.log('== narrowing: the (customer, supplier) pair filters the chain ==');

@@ -644,6 +644,15 @@ class Builder:
         # supplying party (issue #272) — after the story-anchor customer swaps
         for s in slas:
             s['supplierID'] = self._sla_supplier(s['customerID'], s['businessUnitID'])
+        # a supplier serving a unit's contracts serves that unit (issue #281):
+        # union the supplier's units with its SLAs' — the Ticket Supplier
+        # picker filters by unit and must keep offering the seeded pair
+        # (mirrored by tools/migrate_ticket_supplier_decision.py)
+        cust_by_id = {c['customerID']: c for c in self.rows('Customers')}
+        for s in slas:
+            sup = cust_by_id.get(s['supplierID'])
+            if sup and s['businessUnitID'] not in sup['businessUnitID']:
+                sup['businessUnitID'].append(s['businessUnitID'])
         self.put('SLA', slas)
         self.s6_sla_id = s6_sla['slaID']
 
