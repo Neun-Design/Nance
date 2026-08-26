@@ -1234,6 +1234,11 @@ function refillSelect(node, options, target, newId) {
 // Prefill a control built by buildControl with an existing record's value (edit mode).
 function setControlValue(node, c, v) {
   if (v == null) return;
+  // single switch (input[type=checkbox], the `switch` field-type): the value
+  // is a real boolean and lives on .checked — the generic .value assignment
+  // below would leave the box unchecked and save would silently flip a
+  // stored TRUE back to false (issue #280)
+  if (node.type === 'checkbox') { node.checked = v === true || v === 'true'; return; }
   if (node.type === 'datetime-local') { node.value = String(v).slice(0, 16); return; }
   if (c.type === 'bool') { node.value = String(v); return; }
   if (c.type === 'multiselect') {

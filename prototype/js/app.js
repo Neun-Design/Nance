@@ -6,7 +6,7 @@ import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
   parseRule } from './model.js';
-import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay, ticketProcedureDisplay } from './resolve.js';
+import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -358,6 +358,15 @@ function mapSubitem(si, parentEntity) {
           ticket ? ticketRequirements(ticket) : [], rule.display);
         c.pill = (v) => (v === 'GAP' ? 'caution' : 'info');
       }
+    }
+    // issue #280: the Inputs tab lists the ticket's customer-provided
+    // handouts — a LIVE-derived set (never stored on the ticket row), so the
+    // generic via-join can't resolve it; the tab's via names the TICKET-INPUTS
+    // attr and the resolve computes the chain per expansion.
+    const viaAttr = si.via && getCatalog(parentEntity).byName[si.via];
+    const viaRule = viaAttr && parseRule(viaAttr.rule);
+    if (viaRule && viaRule.kind === 'ticketinputs') {
+      rl.resolve = (row) => ticketInputHandouts(row);
     }
   }
   if (si.nested) rl.nested = mapSubitem(si.nested, child);

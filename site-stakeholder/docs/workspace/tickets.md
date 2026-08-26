@@ -27,9 +27,15 @@ derived from that chain — nothing else to select. The requirement set is **liv
 scopes, unit, served regions or customer makes it appear on existing tickets immediately —
 no re-entry; inactivating a requirement removes it everywhere. The set includes
 customer-specific requirements registered against this customer.
-Expanding a ticket row opens two tabs — the **Processes** the event dispatches into
-(narrowed by the chosen product scope) and the **Tasks** of those processes. The Users
-column there is **ticket-aware** (2026-08-20): it lists only people whose certified
+Expanding a ticket row opens three tabs — the **Processes** the event dispatches into
+(narrowed by the chosen product scope), the **Tasks** of those processes, and **Inputs**
+(2026-08-26): the [Handouts](../operation/handouts.md) marked **Customer Input** among the
+inputs of the ticket's resolved procedures — for each task, the ticket's requirement set
+narrows the procedures to exactly one, and that procedure's customer-provided inputs are
+listed. It is the collection checklist for ticket intake: what the customer must hand over
+before remote teams can start (a task whose procedure is ambiguous or missing contributes
+nothing until the gap is closed). The Users
+column on Tasks is **ticket-aware** (2026-08-20): it lists only people whose certified
 competences cover **every** requirement the ticket inherits — a new requirement landing on
 the ticket clears the list until certifications catch up (bind it to the task's
 [Procedure](../operation/procedures.md) so the certified competences absorb it).
