@@ -845,27 +845,6 @@ export function eventsForCustomerSLAs(customerId, supplierId = null) {
   return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
 }
 
-// Suppliers a ticket may declare for a CUSTOMER (issue #272): the distinct
-// supplierID of the customer's ACTIVE SLAs. No customer → [] (the field is
-// gated on Customer); customer without SLAs → [] (nothing to narrow by —
-// leaving Supplier empty keeps the lenient wildcard). Grouping by
-// customerType happens via the field's SelectLabel rule.
-export function suppliersForTicketCustomer(customerId) {
-  if (!customerId) return [];
-  const slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
-    && String(s.isActive || 'Active') !== 'Inactive');
-  const seen = new Set();
-  const out = [];
-  for (const s of slas) {
-    const supId = s.supplierID;
-    if (supId == null || supId === '' || seen.has(String(supId))) continue;
-    seen.add(String(supId));
-    const sup = getById('Customers', supId);
-    if (sup) out.push({ value: sup.customerID, label: sup.customerName || String(sup.customerID) });
-  }
-  return out;
-}
-
 // Events a FORECAST SCOPE may project (issue #241, SLA-as-Contract): the
 // events packaged by the payloads of the forecast's SLA — a forecast projects
 // what its contract covers. No forecast / no SLA / no payloads → every event
@@ -1502,13 +1481,9 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(productScopesForEvent(dep ? dep[1].get() : null));
             return;
           }
-          // Tickets "Supplier": the suppliers of the customer's active SLAs
-          // (issue #272) — see suppliersForTicketCustomer
-          if (entity === 'Tickets' && attrName === 'supplierID') {
-            const dep = findDep('Customer');
-            applyOpts(suppliersForTicketCustomer(dep ? dep[1].get() : null));
-            return;
-          }
+          // Tickets "Supplier" needs no bespoke branch since issue #281: the
+          // unit's customers (grouped by customerType) come from the generic
+          // stored-key cascade below — Customers store businessUnitID.
           // Tickets "Event": only events covered by the customer's SLAs
           // (issue #179 rationale, wired by #192), narrowed by the chosen
           // Supplier (#272) — see eventsForCustomerSLAs
