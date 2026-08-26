@@ -556,6 +556,25 @@ class Builder:
                                'taskOutput': [self.rows('Handouts')[(i + 1) % 14]['handoutID']],
                                'executionTime': base + 0.25 * (i % 3),
                                'procedureOwner': None})
+        # variant SOPs (issue #284 follow-up) — same deterministic rule as
+        # migrate_demo_procedure_groups.py, so regenerated and migrated
+        # datasets agree: a variant copies its base SOP (same task — the
+        # group stays task-scoped) with its own id/registry/requirement set.
+        # PRC47/PRC49 are GENERAL (wildcard) variants of specific SOPs (their
+        # tickets resolve again under the #270 ⊇ coverage); PRC48 is a
+        # contrast-specific variant of a wildcard SOP (standalone ambiguity,
+        # tickets untouched). Appended LAST — the competence build slices
+        # procedures[:count] and story anchors index the base sequence.
+        proc_by_id = {p['procedureID']: p for p in procedures}
+        for vid, suffix, base_id, req_names in [
+                ('PRC47', '-G', 'PRC01', []),
+                ('PRC48', '-C', 'PRC02', ['Contrast Administration Protocol']),
+                ('PRC49', '-G', 'PRC11', [])]:
+            variant = dict(proc_by_id[base_id])
+            variant['procedureID'] = vid
+            variant['procedureRegistry'] = f"{proc_by_id[base_id]['procedureRegistry']}{suffix}"
+            variant['requirementID'] = [req_ix[n] for n in req_names]
+            procedures.append(variant)
         self.put('Procedures', procedures)
 
         # event applicability = the scopes/products its process's tasks serve
@@ -835,6 +854,12 @@ class Builder:
                          'procedureID': [proc['procedureID']],
                          'resources': 'e-learning' if n % 2 else 'classroom',
                          'competenceOwner': None})
+        # procedure GROUPS (issue #284 follow-up) — the certified competences
+        # of the variant SOPs hold both method variants of their task; same
+        # deterministic rule as migrate_demo_procedure_groups.py
+        comp_by_id = {c['competenceID']: c for c in comp}
+        for comp_id, vid in [('CMP01', 'PRC47'), ('CMP02', 'PRC48'), ('CMP11', 'PRC49')]:
+            comp_by_id[comp_id]['procedureID'].append(vid)
         self.put('Competence', comp)
 
         # onboarding groups (issue #239): story 2 plants 2 certified + 6 pending
