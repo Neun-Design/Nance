@@ -10,10 +10,13 @@ purpose: "Product Scopes — what it is, when to register one, and its key field
 thing Forecast Scopes and Workflows point at.
 **Register when:** last in the module.
 **Key fields:** `Business Unit *` (grouped by segment) → unlocks `Product Group *` (shown as
-product | SPECS) and `Scope *`; **Requirements** (2026-08-27) — the
+product | SPECS), `Scope *` and **Requirements** (2026-08-27) — the
 [Requirements](../operation/requirements.md) that apply to this specific combination, picked
 directly at registration (multi-select grouped by type; inactive requirements are not
-offered). The **REQUIREMENTS** column and the **Requirements** tab on the expanded row show
+offered). The picker is **unit-exclusive**: it offers only requirements registered
+exclusively for the selected Business Unit — a requirement listing several units, or none
+("applies to all"), must be narrowed to this unit on its own registration before it can be
+picked here. The **REQUIREMENTS** column and the **Requirements** tab on the expanded row show
 the comprehensive set: the ones picked here **plus** every requirement explicitly connected
 to the chosen scope or product group on its own registration. A requirement registered with
 empty scope and product-group dimensions appears only where it is picked — that is the point

@@ -28,5 +28,7 @@ that procedure inherit the decision.
 picked directly on the Product Scope form plus the ones whose scope or product-group
 dimension **names** that combination — a requirement leaving those two dimensions empty
 appears there only where it is picked, so one requirement can govern exactly the
-combinations it belongs to without being registered once per pair. Ticket inheritance
-keeps the wildcard reading above.
+combinations it belongs to without being registered once per pair. The Product Scope
+picker is **unit-exclusive**: to make a requirement pickable there, register it with the
+Business Unit dimension naming exactly that unit, alone. Ticket inheritance keeps the
+wildcard reading above.
