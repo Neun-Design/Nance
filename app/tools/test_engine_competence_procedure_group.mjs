@@ -116,5 +116,52 @@ console.log('== staffing: one competence staffs every procedure of its group =='
     'strict association survives — no membership, no staffing (#271 posture)');
 }
 
+console.log('== demo groups: variant SOPs exercise both sides of #270 coverage ==');
+{
+  const list = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
+  eq(data.getById('Competence', 'CMP01').procedureID, ['PRC01', 'PRC47'],
+    'CMP01 groups the contrast SOP with its GENERAL variant');
+  eq(data.getById('Competence', 'CMP02').procedureID, ['PRC02', 'PRC48'],
+    'CMP02 groups the wildcard SOP with its CONTRAST variant');
+  eq(data.getById('Competence', 'CMP11').procedureID, ['PRC11', 'PRC49'],
+    'CMP11 groups the lab SOP with its GENERAL variant');
+  const contrast = data.getEntity('Requirements')
+    .find((r) => r.requirementName === 'Contrast Administration Protocol').requirementID;
+  eq([data.getById('Procedures', 'PRC47').requirementID,
+    data.getById('Procedures', 'PRC48').requirementID,
+    data.getById('Procedures', 'PRC49').requirementID], [[], [contrast], []],
+    'variants carry the designed requirement sets (general / contrast / general)');
+  eq(data.getById('Procedures', 'PRC47').taskID, data.getById('Procedures', 'PRC01').taskID,
+    'variants stay on their base SOP\'s task (the group is task-scoped, #284)');
+  // ticket context: a rich requirement set is only covered by the wildcard —
+  // T001 flips GAP → SOP-001-G, T002 keeps resolving to its base SOP
+  const byProcess = new Map();
+  for (const t of data.getEntity('Tasks')) {
+    if (!byProcess.has(t.processID)) byProcess.set(t.processID, []);
+    byProcess.get(t.processID).push(t.taskID);
+  }
+  const reaches = (taskId) => data.getEntity('Tickets').find((tk) =>
+    list(tk.processID).some((pid) => (byProcess.get(pid) || []).includes(taskId)));
+  const tk1 = reaches('T001');
+  const reqs1 = resolve.ticketRequirements(tk1) || [];
+  eq(reqs1.length > 1, true, `probe ticket ${tk1.ticketID} carries a rich context (${reqs1.length} reqs)`);
+  eq((resolve.ticketProcedureForTask('T001', reqs1) || {}).procedureID, 'PRC47',
+    'T001 resolves to the general variant in ticket context (GAP rescued)');
+  const tk2 = reaches('T002');
+  eq((resolve.ticketProcedureForTask('T002', resolve.ticketRequirements(tk2) || []) || {}).procedureID, 'PRC02',
+    'T002 keeps resolving to its base SOP (the specific variant never covers)');
+  eq(resolve.ticketProcedureForTask('T002', []), null,
+    'standalone (no context) T002 is now ambiguous — two procedures, honest GAP');
+  // group effects: wildcard in the group certifies everything; the certified
+  // holder staffs BOTH variants' Users columns
+  eq(resolve.competenceRequirements(data.getById('Competence', 'CMP01')), null,
+    'CMP01 certifies every requirement (wildcard variant in the group — decision kept)');
+  const holder = data.getEntity('Onboarding').find((ob) => ob.isCertified === true
+    && list(ob.competenceID).includes('CMP01'));
+  eq(holder != null, true, `CMP01 has a certified holder (${holder && holder.userID})`);
+  eq(resolve.certifiedUsersForProcedure('PRC47').includes(holder.userID), true,
+    'the holder staffs the variant\'s Users column too (#271, staffing spread)');
+}
+
 console.log(fails ? `\n${fails} FAILED` : '\nall green');
 process.exit(fails ? 1 : 0);

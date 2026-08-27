@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 58,
+  "schemaVersion": 59,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -13382,6 +13382,71 @@
     ],
     "executionTime": 0.75,
     "procedureOwner": "U26"
+   },
+   {
+    "procedureID": "PRC47",
+    "procedureRegistry": "SOP-001-G",
+    "processID": "PR1",
+    "taskID": "T001",
+    "procedureURL": null,
+    "businessUnitID": "BU01",
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
+    "requirementID": [],
+    "taskInput": [
+     "H01"
+    ],
+    "taskOutput": [
+     "H02"
+    ],
+    "executionTime": 0.25,
+    "procedureOwner": "U17"
+   },
+   {
+    "procedureID": "PRC48",
+    "procedureRegistry": "SOP-002-C",
+    "processID": "PR1",
+    "taskID": "T002",
+    "procedureURL": null,
+    "businessUnitID": "BU01",
+    "productScopeID": [
+     "PS02",
+     "PS03"
+    ],
+    "requirementID": [
+     "RQ06"
+    ],
+    "taskInput": [
+     "H02"
+    ],
+    "taskOutput": [
+     "H03"
+    ],
+    "executionTime": 0.5,
+    "procedureOwner": "U18"
+   },
+   {
+    "procedureID": "PRC49",
+    "procedureRegistry": "SOP-011-G",
+    "processID": "PR2",
+    "taskID": "T011",
+    "procedureURL": null,
+    "businessUnitID": "BU01",
+    "productScopeID": [
+     "PS14",
+     "PS15"
+    ],
+    "requirementID": [],
+    "taskInput": [
+     "H11"
+    ],
+    "taskOutput": [
+     "H12"
+    ],
+    "executionTime": 0.75,
+    "procedureOwner": "U27"
    }
   ],
   "Payload": [
@@ -18045,7 +18110,7 @@
     "userID": "U01",
     "deliveryDate": "2026-05-18",
     "startDate": "2026-05-15",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-05-15T08:00:00",
     "realEndDate": "2026-05-16T21:28:48",
     "realExecutionTime": 36.98,
@@ -18275,7 +18340,7 @@
     "userID": "U11",
     "deliveryDate": "2025-10-04",
     "startDate": "2025-10-01",
-    "plannedExecutionTime": 0.75,
+    "plannedExecutionTime": 1.5,
     "realStartDate": "2025-10-01T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -18344,7 +18409,7 @@
     "userID": "U01",
     "deliveryDate": "2026-03-14",
     "startDate": "2026-03-11",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-03-11T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -18367,7 +18432,7 @@
     "userID": "U01",
     "deliveryDate": "2025-12-06",
     "startDate": "2025-12-03",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -18390,7 +18455,7 @@
     "userID": "U01",
     "deliveryDate": "2026-08-21",
     "startDate": "2026-08-18",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -18689,7 +18754,7 @@
     "userID": "U01",
     "deliveryDate": "2026-06-17",
     "startDate": "2026-06-14",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-06-14T08:00:00",
     "realEndDate": "2026-06-14T09:13:48",
     "realExecutionTime": 0.23,
@@ -18712,7 +18777,7 @@
     "userID": "U01",
     "deliveryDate": "2026-03-11",
     "startDate": "2026-03-08",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-03-08T08:00:00",
     "realEndDate": "2026-03-08T08:14:24",
     "realExecutionTime": 0.24,
@@ -18735,7 +18800,7 @@
     "userID": "U01",
     "deliveryDate": "2025-12-04",
     "startDate": "2025-12-01",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2025-12-01T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -19034,7 +19099,7 @@
     "userID": "U01",
     "deliveryDate": "2025-09-30",
     "startDate": "2025-09-27",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-09-27T08:00:00",
     "realEndDate": "2025-09-27T09:18:00",
     "realExecutionTime": 0.3,
@@ -19057,7 +19122,7 @@
     "userID": "U01",
     "deliveryDate": "2026-06-14",
     "startDate": "2026-06-11",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-06-11T08:00:00",
     "realEndDate": "2026-06-11T08:12:00",
     "realExecutionTime": 0.2,
@@ -19080,7 +19145,7 @@
     "userID": "U01",
     "deliveryDate": "2026-03-09",
     "startDate": "2026-03-06",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-03-06T08:00:00",
     "realEndDate": "2026-03-07T21:28:48",
     "realExecutionTime": 36.98,
@@ -19379,7 +19444,7 @@
     "userID": "U01",
     "deliveryDate": "2026-01-03",
     "startDate": "2025-12-31",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-12-31T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -19402,7 +19467,7 @@
     "userID": "U01",
     "deliveryDate": "2025-09-27",
     "startDate": "2025-09-24",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-09-24T08:00:00",
     "realEndDate": "2025-09-24T08:16:48",
     "realExecutionTime": 0.28,
@@ -19425,7 +19490,7 @@
     "userID": "U01",
     "deliveryDate": "2026-06-12",
     "startDate": "2026-06-09",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-06-09T08:00:00",
     "realEndDate": "2026-06-11T10:22:48",
     "realExecutionTime": 49.88,
@@ -19724,7 +19789,7 @@
     "userID": "U01",
     "deliveryDate": "2026-04-08",
     "startDate": "2026-04-05",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-04-05T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -19747,7 +19812,7 @@
     "userID": "U01",
     "deliveryDate": "2025-12-31",
     "startDate": "2025-12-28",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -19770,7 +19835,7 @@
     "userID": "U01",
     "deliveryDate": "2025-09-25",
     "startDate": "2025-09-22",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -20069,7 +20134,7 @@
     "userID": "U01",
     "deliveryDate": "2026-07-12",
     "startDate": "2026-07-09",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-07-09T08:00:00",
     "realEndDate": "2026-07-09T09:18:00",
     "realExecutionTime": 0.3,
@@ -20092,7 +20157,7 @@
     "userID": "U01",
     "deliveryDate": "2026-04-05",
     "startDate": "2026-04-02",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-04-02T08:00:00",
     "realEndDate": "2026-04-02T08:12:00",
     "realExecutionTime": 0.2,
@@ -20115,7 +20180,7 @@
     "userID": "U01",
     "deliveryDate": "2025-12-29",
     "startDate": "2025-12-26",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2025-12-26T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -20207,7 +20272,7 @@
     "userID": "U11",
     "deliveryDate": "2026-06-09",
     "startDate": "2026-06-06",
-    "plannedExecutionTime": 0.75,
+    "plannedExecutionTime": 1.5,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -20414,7 +20479,7 @@
     "userID": "U01",
     "deliveryDate": "2025-10-25",
     "startDate": "2025-10-22",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-10-22T08:00:00",
     "realEndDate": "2025-10-22T09:15:36",
     "realExecutionTime": 0.26,
@@ -20437,7 +20502,7 @@
     "userID": "U01",
     "deliveryDate": "2026-07-09",
     "startDate": "2026-07-06",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-07-06T08:00:00",
     "realEndDate": "2026-07-06T08:16:48",
     "realExecutionTime": 0.28,
@@ -20460,7 +20525,7 @@
     "userID": "U01",
     "deliveryDate": "2026-04-03",
     "startDate": "2026-03-31",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-03-31T08:00:00",
     "realEndDate": "2026-04-02T10:22:48",
     "realExecutionTime": 49.88,
@@ -20759,7 +20824,7 @@
     "userID": "U01",
     "deliveryDate": "2026-01-28",
     "startDate": "2026-01-25",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-01-25T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -20782,7 +20847,7 @@
     "userID": "U01",
     "deliveryDate": "2025-10-22",
     "startDate": "2025-10-19",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-10-19T08:00:00",
     "realEndDate": "2025-10-19T08:14:24",
     "realExecutionTime": 0.24,
@@ -20805,7 +20870,7 @@
     "userID": "U01",
     "deliveryDate": "2026-07-07",
     "startDate": "2026-07-04",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-07-04T08:00:00",
     "realEndDate": "2026-07-06T03:30:00",
     "realExecutionTime": 43.0,
@@ -21035,7 +21100,7 @@
     "userID": "U11",
     "deliveryDate": "2025-11-23",
     "startDate": "2025-11-20",
-    "plannedExecutionTime": 0.75,
+    "plannedExecutionTime": 1.5,
     "realStartDate": "2025-11-20T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -21104,7 +21169,7 @@
     "userID": "U01",
     "deliveryDate": "2026-05-03",
     "startDate": "2026-04-30",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-04-30T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -21127,7 +21192,7 @@
     "userID": "U01",
     "deliveryDate": "2026-01-25",
     "startDate": "2026-01-22",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -21150,7 +21215,7 @@
     "userID": "U01",
     "deliveryDate": "2025-10-20",
     "startDate": "2025-10-17",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -21449,7 +21514,7 @@
     "userID": "U01",
     "deliveryDate": "2026-08-06",
     "startDate": "2026-08-03",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-08-03T08:00:00",
     "realEndDate": "2026-08-03T09:15:36",
     "realExecutionTime": 0.26,
@@ -21472,7 +21537,7 @@
     "userID": "U01",
     "deliveryDate": "2026-04-30",
     "startDate": "2026-04-27",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-04-27T08:00:00",
     "realEndDate": "2026-04-27T08:16:48",
     "realExecutionTime": 0.28,
@@ -21495,7 +21560,7 @@
     "userID": "U01",
     "deliveryDate": "2026-01-23",
     "startDate": "2026-01-20",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-01-20T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -21794,7 +21859,7 @@
     "userID": "U01",
     "deliveryDate": "2025-11-19",
     "startDate": "2025-11-16",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-11-16T08:00:00",
     "realEndDate": "2025-11-16T09:13:48",
     "realExecutionTime": 0.23,
@@ -21817,7 +21882,7 @@
     "userID": "U01",
     "deliveryDate": "2026-08-03",
     "startDate": "2026-07-31",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-07-31T08:00:00",
     "realEndDate": "2026-07-31T08:14:24",
     "realExecutionTime": 0.24,
@@ -21840,7 +21905,7 @@
     "userID": "U01",
     "deliveryDate": "2026-04-28",
     "startDate": "2026-04-25",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-04-25T08:00:00",
     "realEndDate": "2026-04-27T03:30:00",
     "realExecutionTime": 43.0,
@@ -22139,7 +22204,7 @@
     "userID": "U01",
     "deliveryDate": "2026-02-22",
     "startDate": "2026-02-19",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-02-19T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -22162,7 +22227,7 @@
     "userID": "U01",
     "deliveryDate": "2025-11-16",
     "startDate": "2025-11-13",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-11-13T08:00:00",
     "realEndDate": "2025-11-13T08:12:00",
     "realExecutionTime": 0.2,
@@ -22185,7 +22250,7 @@
     "userID": "U01",
     "deliveryDate": "2026-08-01",
     "startDate": "2026-07-29",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": "2026-07-29T08:00:00",
     "realEndDate": "2026-07-30T21:28:48",
     "realExecutionTime": 36.98,
@@ -22415,7 +22480,7 @@
     "userID": "U11",
     "deliveryDate": "2025-12-18",
     "startDate": "2025-12-15",
-    "plannedExecutionTime": 0.75,
+    "plannedExecutionTime": 1.5,
     "realStartDate": "2025-12-15T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -22484,7 +22549,7 @@
     "userID": "U01",
     "deliveryDate": "2026-05-28",
     "startDate": "2026-05-25",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-05-25T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -22507,7 +22572,7 @@
     "userID": "U01",
     "deliveryDate": "2026-02-19",
     "startDate": "2026-02-16",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -22530,7 +22595,7 @@
     "userID": "U01",
     "deliveryDate": "2025-11-14",
     "startDate": "2025-11-11",
-    "plannedExecutionTime": 0.5,
+    "plannedExecutionTime": 1.0,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -22829,7 +22894,7 @@
     "userID": "U01",
     "deliveryDate": "2025-09-10",
     "startDate": "2025-09-07",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-09-07T08:00:00",
     "realEndDate": "2025-09-07T09:13:48",
     "realExecutionTime": 0.23,
@@ -22852,7 +22917,7 @@
     "userID": "U01",
     "deliveryDate": "2026-05-25",
     "startDate": "2026-05-22",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-05-22T08:00:00",
     "realEndDate": "2026-05-22T08:14:24",
     "realExecutionTime": 0.24,
@@ -22967,7 +23032,7 @@
     "userID": "U11",
     "deliveryDate": "2026-07-29",
     "startDate": "2026-07-26",
-    "plannedExecutionTime": 0.75,
+    "plannedExecutionTime": 1.5,
     "realStartDate": null,
     "realEndDate": null,
     "realExecutionTime": null,
@@ -23174,7 +23239,7 @@
     "userID": "U01",
     "deliveryDate": "2025-12-14",
     "startDate": "2025-12-11",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-12-11T08:00:00",
     "realEndDate": "2025-12-11T09:18:00",
     "realExecutionTime": 0.3,
@@ -23197,7 +23262,7 @@
     "userID": "U01",
     "deliveryDate": "2025-09-07",
     "startDate": "2025-09-04",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-09-04T08:00:00",
     "realEndDate": "2025-09-04T08:12:00",
     "realExecutionTime": 0.2,
@@ -23519,7 +23584,7 @@
     "userID": "U01",
     "deliveryDate": "2026-03-19",
     "startDate": "2026-03-16",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2026-03-16T08:00:00",
     "realEndDate": null,
     "realExecutionTime": null,
@@ -23542,7 +23607,7 @@
     "userID": "U01",
     "deliveryDate": "2025-12-11",
     "startDate": "2025-12-08",
-    "plannedExecutionTime": 0.25,
+    "plannedExecutionTime": 0.5,
     "realStartDate": "2025-12-08T08:00:00",
     "realEndDate": "2025-12-08T08:16:48",
     "realExecutionTime": 0.28,
@@ -24648,9 +24713,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 9,
-    "plannedHours": 0.5,
+    "plannedHours": 1.0,
     "realExecutionTime": 0.48,
-    "efficiency": 4.17,
+    "efficiency": 108.33,
     "variance": 0.0,
     "reportedAt": "2025-09-30",
     "reportedBy": "U02",
@@ -24663,9 +24728,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 9,
-    "plannedHours": 0.5,
+    "plannedHours": 1.0,
     "realExecutionTime": 0.53,
-    "efficiency": -5.66,
+    "efficiency": 88.68,
     "variance": 0.0,
     "reportedAt": "2025-09-30",
     "reportedBy": "U02",
@@ -24783,9 +24848,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 10,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.24,
-    "efficiency": 4.17,
+    "efficiency": 108.33,
     "variance": 0.0,
     "reportedAt": "2025-10-31",
     "reportedBy": "U02",
@@ -24798,9 +24863,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 10,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.26,
-    "efficiency": -3.85,
+    "efficiency": 92.31,
     "variance": 0.0,
     "reportedAt": "2025-10-31",
     "reportedBy": "U02",
@@ -24918,9 +24983,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 11,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.2,
-    "efficiency": 25.0,
+    "efficiency": 150.0,
     "variance": 0.0,
     "reportedAt": "2025-11-30",
     "reportedBy": "U02",
@@ -24933,9 +24998,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 11,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.23,
-    "efficiency": 8.7,
+    "efficiency": 117.39,
     "variance": 0.0,
     "reportedAt": "2025-11-30",
     "reportedBy": "U02",
@@ -25068,9 +25133,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 12,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.28,
-    "efficiency": -10.71,
+    "efficiency": 78.57,
     "variance": 0.0,
     "reportedAt": "2025-12-31",
     "reportedBy": "U02",
@@ -25083,9 +25148,9 @@
     "periodType": "Month",
     "periodYear": 2025,
     "periodMonth": 12,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.3,
-    "efficiency": -16.67,
+    "efficiency": 66.67,
     "variance": 0.0,
     "reportedAt": "2025-12-31",
     "reportedBy": "U02",
@@ -25398,9 +25463,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 3,
-    "plannedHours": 1.75,
+    "plannedHours": 2.25,
     "realExecutionTime": 133.31,
-    "efficiency": -98.69,
+    "efficiency": -98.31,
     "variance": 880.61,
     "reportedAt": "2026-03-31",
     "reportedBy": "U02",
@@ -25428,9 +25493,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 3,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.24,
-    "efficiency": 4.17,
+    "efficiency": 108.33,
     "variance": 0.0,
     "reportedAt": "2026-03-31",
     "reportedBy": "U02",
@@ -25503,9 +25568,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 4,
-    "plannedHours": 2.25,
+    "plannedHours": 3.25,
     "realExecutionTime": 221.89,
-    "efficiency": -98.99,
+    "efficiency": -98.54,
     "variance": 1522.96,
     "reportedAt": "2026-04-30",
     "reportedBy": "U02",
@@ -25548,9 +25613,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 4,
-    "plannedHours": 0.5,
+    "plannedHours": 1.0,
     "realExecutionTime": 0.48,
-    "efficiency": 4.17,
+    "efficiency": 108.33,
     "variance": 0.0,
     "reportedAt": "2026-04-30",
     "reportedBy": "U02",
@@ -25638,9 +25703,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 5,
-    "plannedHours": 3.0,
+    "plannedHours": 3.5,
     "realExecutionTime": 245.98,
-    "efficiency": -98.78,
+    "efficiency": -98.58,
     "variance": 1057.6,
     "reportedAt": "2026-05-31",
     "reportedBy": "U02",
@@ -25668,9 +25733,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 5,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.24,
-    "efficiency": 4.17,
+    "efficiency": 108.33,
     "variance": 0.0,
     "reportedAt": "2026-05-31",
     "reportedBy": "U02",
@@ -25773,9 +25838,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 6,
-    "plannedHours": 1.75,
+    "plannedHours": 2.25,
     "realExecutionTime": 178.89,
-    "efficiency": -99.02,
+    "efficiency": -98.74,
     "variance": 1565.39,
     "reportedAt": "2026-06-30",
     "reportedBy": "U02",
@@ -25803,9 +25868,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 6,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.2,
-    "efficiency": 25.0,
+    "efficiency": 150.0,
     "variance": 0.0,
     "reportedAt": "2026-06-30",
     "reportedBy": "U02",
@@ -25818,9 +25883,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 6,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.23,
-    "efficiency": 8.7,
+    "efficiency": 117.39,
     "variance": 0.0,
     "reportedAt": "2026-06-30",
     "reportedBy": "U02",
@@ -25908,9 +25973,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 7,
-    "plannedHours": 2.25,
+    "plannedHours": 3.25,
     "realExecutionTime": 192.65,
-    "efficiency": -98.83,
+    "efficiency": -98.31,
     "variance": 1179.9,
     "reportedAt": "2026-07-31",
     "reportedBy": "U02",
@@ -25923,9 +25988,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 7,
-    "plannedHours": 0.5,
+    "plannedHours": 1.0,
     "realExecutionTime": 0.52,
-    "efficiency": -3.85,
+    "efficiency": 92.31,
     "variance": 0.0,
     "reportedAt": "2026-07-31",
     "reportedBy": "U02",
@@ -25938,9 +26003,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 7,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.3,
-    "efficiency": -16.67,
+    "efficiency": 66.67,
     "variance": 0.0,
     "reportedAt": "2026-07-31",
     "reportedBy": "U02",
@@ -26013,9 +26078,9 @@
     "periodType": "Month",
     "periodYear": 2026,
     "periodMonth": 8,
-    "plannedHours": 0.25,
+    "plannedHours": 0.5,
     "realExecutionTime": 0.26,
-    "efficiency": -3.85,
+    "efficiency": 92.31,
     "variance": 0.0,
     "reportedAt": "2026-08-31",
     "reportedBy": "U02",
@@ -27032,7 +27097,8 @@
      "SPEC04"
     ],
     "procedureID": [
-     "PRC01"
+     "PRC01",
+     "PRC47"
     ],
     "resources": "e-learning",
     "competenceOwner": "U35",
@@ -27057,7 +27123,8 @@
      "SPEC04"
     ],
     "procedureID": [
-     "PRC02"
+     "PRC02",
+     "PRC48"
     ],
     "resources": "classroom",
     "competenceOwner": "U36",
@@ -27272,7 +27339,8 @@
      "SPEC07"
     ],
     "procedureID": [
-     "PRC11"
+     "PRC11",
+     "PRC49"
     ],
     "resources": "e-learning",
     "competenceOwner": "U09",
@@ -29457,7 +29525,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-17",
-    "productScopeOwner": "U27"
+    "productScopeOwner": "U27",
+    "requirementID": []
    },
    {
     "productScopeID": "PS02",
@@ -29469,7 +29538,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-16",
-    "productScopeOwner": "U28"
+    "productScopeOwner": "U28",
+    "requirementID": []
    },
    {
     "productScopeID": "PS03",
@@ -29481,7 +29551,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-15",
-    "productScopeOwner": "U29"
+    "productScopeOwner": "U29",
+    "requirementID": []
    },
    {
     "productScopeID": "PS04",
@@ -29493,7 +29564,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-14",
-    "productScopeOwner": "U30"
+    "productScopeOwner": "U30",
+    "requirementID": []
    },
    {
     "productScopeID": "PS05",
@@ -29505,7 +29577,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-13",
-    "productScopeOwner": "U31"
+    "productScopeOwner": "U31",
+    "requirementID": []
    },
    {
     "productScopeID": "PS06",
@@ -29517,7 +29590,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-12",
-    "productScopeOwner": "U32"
+    "productScopeOwner": "U32",
+    "requirementID": []
    },
    {
     "productScopeID": "PS07",
@@ -29529,7 +29603,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-11",
-    "productScopeOwner": "U33"
+    "productScopeOwner": "U33",
+    "requirementID": []
    },
    {
     "productScopeID": "PS08",
@@ -29541,7 +29616,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-10",
-    "productScopeOwner": "U34"
+    "productScopeOwner": "U34",
+    "requirementID": []
    },
    {
     "productScopeID": "PS09",
@@ -29553,7 +29629,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-09",
-    "productScopeOwner": "U35"
+    "productScopeOwner": "U35",
+    "requirementID": []
    },
    {
     "productScopeID": "PS10",
@@ -29565,7 +29642,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-08",
-    "productScopeOwner": "U36"
+    "productScopeOwner": "U36",
+    "requirementID": []
    },
    {
     "productScopeID": "PS11",
@@ -29577,7 +29655,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-07",
-    "productScopeOwner": "U01"
+    "productScopeOwner": "U01",
+    "requirementID": []
    },
    {
     "productScopeID": "PS12",
@@ -29589,7 +29668,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-06",
-    "productScopeOwner": "U02"
+    "productScopeOwner": "U02",
+    "requirementID": []
    },
    {
     "productScopeID": "PS13",
@@ -29601,7 +29681,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-05",
-    "productScopeOwner": "U03"
+    "productScopeOwner": "U03",
+    "requirementID": []
    },
    {
     "productScopeID": "PS14",
@@ -29613,7 +29694,8 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-04",
-    "productScopeOwner": "U04"
+    "productScopeOwner": "U04",
+    "requirementID": []
    },
    {
     "productScopeID": "PS15",
@@ -29625,7 +29707,8 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-03",
-    "productScopeOwner": "U05"
+    "productScopeOwner": "U05",
+    "requirementID": []
    },
    {
     "productScopeID": "PS16",
@@ -29637,7 +29720,8 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-02",
-    "productScopeOwner": "U06"
+    "productScopeOwner": "U06",
+    "requirementID": []
    },
    {
     "productScopeID": "PS17",
@@ -29649,7 +29733,8 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-01",
-    "productScopeOwner": "U07"
+    "productScopeOwner": "U07",
+    "requirementID": []
    },
    {
     "productScopeID": "PS18",
@@ -29661,7 +29746,8 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-06-30",
-    "productScopeOwner": "U08"
+    "productScopeOwner": "U08",
+    "requirementID": []
    },
    {
     "productScopeID": "PS19",
@@ -29673,7 +29759,8 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-06-29",
-    "productScopeOwner": "U09"
+    "productScopeOwner": "U09",
+    "requirementID": []
    },
    {
     "productScopeID": "PS20",
@@ -29685,7 +29772,8 @@
     "businessSegment": "Outpatient Care",
     "isActive": "Active",
     "createdAt": "2025-06-28",
-    "productScopeOwner": "U10"
+    "productScopeOwner": "U10",
+    "requirementID": []
    },
    {
     "productScopeID": "PS21",
@@ -29697,7 +29785,8 @@
     "businessSegment": "Outpatient Care",
     "isActive": "Active",
     "createdAt": "2025-06-27",
-    "productScopeOwner": "U11"
+    "productScopeOwner": "U11",
+    "requirementID": []
    },
    {
     "productScopeID": "PS22",
@@ -29709,7 +29798,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-26",
-    "productScopeOwner": "U12"
+    "productScopeOwner": "U12",
+    "requirementID": []
    },
    {
     "productScopeID": "PS23",
@@ -29721,7 +29811,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-25",
-    "productScopeOwner": "U13"
+    "productScopeOwner": "U13",
+    "requirementID": []
    },
    {
     "productScopeID": "PS24",
@@ -29733,7 +29824,8 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-24",
-    "productScopeOwner": "U14"
+    "productScopeOwner": "U14",
+    "requirementID": []
    }
   ],
   "Events": [
