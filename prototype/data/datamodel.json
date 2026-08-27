@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 60,
+    "schemaVersion": 61,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3577,7 +3577,7 @@
                 "attribute": "businessUnitID",
                 "tooltip": "Units this requirement applies to — leave empty for all units",
                 "step": null,
-                "check": null,
+                "check": "Region IS NOT NULL",
                 "field-rule": "Allow multiple values; filtered by Region selected"
               },
               "Branch": {

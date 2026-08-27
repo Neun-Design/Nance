@@ -129,6 +129,24 @@ console.log('== Segment-first Customers cascade (PR #96) ==');
   eq(unit['field-rule'], 'filtered by Segment selected', 'Unit filtered by selected Segments');
 }
 
+console.log('== Region-gated Business Unit on the Requirements form (issue #292) ==');
+{
+  // authored edit (2026-08-27): the unit multicheck unlocks only after a
+  // Region is picked — same gate posture as its siblings (Branch/Customer
+  // gate on Business Unit); the engine's filled() treats an empty ARRAY as
+  // absent, so a multivalued Region dep keeps the gate closed until checked
+  const f = catalog['Requirements'].form.fields['Business Unit'];
+  eq(f.check, 'Region IS NOT NULL', 'Business Unit gated on Region');
+  const GATE = /^(.+?)\s+IS NOT NULL$/i;
+  const dep = String(f.check).match(GATE);
+  eq(dep && dep[1], 'Region', 'gate spelling parses (the forms.js check regex)');
+  eq('Region' in catalog['Requirements'].form.fields, true,
+    'the gate names a real form field label (findDep resolves it)');
+  const CASCADE = /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i;
+  eq(CASCADE.test(String(f['field-rule'])), true,
+    'the Region cascade spelling still wires the refilter (#274 trap)');
+}
+
 console.log('== Business Units.regionID[] (multivalued, seeded from customers) ==');
 {
   const reg = forms.optionsForAttr('Business Units', 'regionID');
