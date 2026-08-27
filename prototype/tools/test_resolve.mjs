@@ -12,7 +12,7 @@ const data = await import('../js/data.js');
 const { catalog } = await model.loadModel();
 data.initMeta(catalog);
 await data.loadData();
-const { derivedValue, fkDisplay, resolveDisplay } = await import('../js/resolve.js');
+const { derivedValue, fkDisplay, resolveDisplay, productScopeRequirementRows } = await import('../js/resolve.js');
 
 let fails = 0;
 const ok = (m) => console.log(`  ✓ ${m}`);
@@ -54,7 +54,11 @@ expectName('Tasks', 'processID', /^(?!PC\d)[A-Za-z]/);
 expectName('Tasks', 'functionID', /^(?!F\d)[A-Za-z]/);
 expectName('Tasks', 'actionID', /^(?!A\d)[A-Za-z]/);
 // Portfolio
-expectName('Product Scopes', 'requirementID', /[A-Za-z]{3,}/); // compound via: productGroupID + scopeID
+// issue #288: requirementID became the STORED direct-pick FK (honest empty
+// seeds render nothing); the visible REQUIREMENTS column moved to the
+// comprehensive productScopeRequirements set (PS-REQUIREMENTS, explicit
+// scope/product-group connections only — no Q1 wildcard)
+expectName('Product Scopes', 'productScopeRequirements', /[A-Za-z]{3,}/);
 expectName('Product Groups', 'productID', /^(?!P\d)[A-Za-z]/);
 // Requirements: concat display resolves the computed specsSummary part —
 // parametrized (F3, plan §5.5): the first requirement that HAS product
@@ -157,25 +161,30 @@ function subitemsOf(table, r = row(table)) {
     ok(`Tasks→Procedures: ${tp.kids.length} kid(s) for the first task`);
   } else fail(`Tasks→Procedures: ${tp.kids.length} kids`);
 
-  // Requirements → Product Scopes (reverse of the compound requirementID
-  // rollup) — parametrized (F3, plan §5.5): the ONE domain-coupled assertion
-  // ('Max Tank Weight') becomes "the first requirement carrying BOTH a
-  // product group and a scope", whatever the domain names it
-  const req = data.getEntity('Requirements').find((c) =>
-    Array.isArray(c.productGroupID) && c.productGroupID.length
-    && Array.isArray(c.scopeID) && c.scopeID.length);
-  const [cps] = subitemsOf('Requirements', req);
-  if (cps.child === 'Product Scopes' && cps.kids.length) ok(`Requirements→Product Scopes: ${cps.kids.length} kids for ${req.requirementName}`);
-  else fail(`Requirements→Product Scopes: ${cps.kids.length} kids (probe: ${req && req.requirementName})`);
+  // Requirements no longer declares the Product Scopes subitem (issue #288
+  // downstream impact) — the relationship inverted: Product Scopes carries a
+  // Requirements tab fed by the comprehensive PS-REQUIREMENTS set.
+  if (!catalog['Requirements'].subitems.length) ok('Requirements: Product Scopes subitem eliminated (#288)');
+  else fail(`Requirements: expected no subitems, got ${catalog['Requirements'].subitems.length}`);
 
   // Roles → Competence
   const [rc] = subitemsOf('Roles');
   if (rc.child === 'Competence' && rc.kids.length) ok(`Roles→Competence: ${rc.kids.length} kids`);
   else fail(`Roles→Competence: ${rc.kids.length} kids`);
-  // Product Scopes no longer declares subitem-tables (datamodel set to null) — rows don't expand.
-  const pssKids = subitemsOf('Product Scopes');
-  if (pssKids.length === 0) ok('Product Scopes: no subitems (subitem-tables: null)');
-  else fail(`Product Scopes: expected no subitems, got ${pssKids.length}`);
+  // Product Scopes declares the Requirements tab since issue #288 — its via
+  // attr is LIVE-derived (PS-REQUIREMENTS), so the generic via-join resolves
+  // nothing here; app.js mapSubitem overrides the tab's resolve with
+  // productScopeRequirementRows (the #280 Inputs-tab pattern).
+  const pssSubs = subitemsOf('Product Scopes');
+  if (pssSubs.length === 1 && pssSubs[0].child === 'Requirements'
+      && pssSubs[0].si.via === 'productScopeRequirements'
+      && (pssSubs[0].si.tab || {}).name === 'Requirements') {
+    ok('Product Scopes: Requirements tab (via: productScopeRequirements)');
+  } else fail(`Product Scopes: expected the Requirements tab, got ${JSON.stringify(pssSubs.map((s) => s.child))}`);
+  const psProbe = data.getEntity('Product Scopes')
+    .find((p) => productScopeRequirementRows(p).length);
+  if (psProbe) ok(`Product Scopes→Requirements: ${productScopeRequirementRows(psProbe).length} row(s) for ${psProbe.productScopeID}`);
+  else fail('Product Scopes→Requirements: no row resolves any requirement');
   // Scopes → Product Scopes: the inverse relationship now lives on Scopes (joined via scopeID).
   const [sps] = subitemsOf('Scopes');
   if (sps && sps.child === 'Product Scopes' && sps.kids.length) ok(`Scopes→Product Scopes: ${sps.kids.length} kids`);

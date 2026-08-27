@@ -6,7 +6,7 @@ import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
   parseRule } from './model.js';
-import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts } from './resolve.js';
+import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -367,6 +367,26 @@ function mapSubitem(si, parentEntity) {
     const viaRule = viaAttr && parseRule(viaAttr.rule);
     if (viaRule && viaRule.kind === 'ticketinputs') {
       rl.resolve = (row) => ticketInputHandouts(row);
+    }
+  }
+  // issue #288: tabs whose via attr carries a LIVE-derived set (never stored
+  // on the row) — the generic via-join reads stored keys only, so the resolve
+  // computes the chain per expansion (the #280 Inputs-tab pattern, parent-
+  // agnostic: the rule kind is self-describing).
+  {
+    const viaAttr = si.via && getCatalog(parentEntity).byName[si.via];
+    const viaRule = viaAttr && parseRule(viaAttr.rule);
+    // Product Scopes "Requirements": the comprehensive set — direct picks ∪
+    // explicit scope/product-group connections (PS-REQUIREMENTS)
+    if (viaRule && viaRule.kind === 'psrequirements') {
+      rl.resolve = (row) => productScopeRequirementRows(row);
+    }
+    // Tickets "Requirements": the live inherited set (#226) as full rows —
+    // replaces the joined-names column (hidden this round, authored spec)
+    if (viaRule && viaRule.kind === 'inheritedreqs') {
+      const rT = resolveTable('Requirements');
+      rl.resolve = (row) => ticketRequirements(row)
+        .map((id) => getById(rT, id)).filter(Boolean);
     }
   }
   if (si.nested) rl.nested = mapSubitem(si.nested, child);

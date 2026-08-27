@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 58,
+    "schemaVersion": 59,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3651,15 +3651,11 @@
                 "field-rule": null
               }
             },
-            "subitem-tables": [
-              "Product Scopes"
-            ]
+            "subitem-tables": null
           },
           "cards": [],
           "table-filters": true,
-          "subitem-tables": [
-            "Product Scopes"
-          ]
+          "subitem-tables": null
         },
         "Requirement Type": {
           "visibility": "show",
@@ -3897,7 +3893,7 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "Derived on save from the selected Product Group (no user input)",
+              "notes": "User input",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -3916,8 +3912,8 @@
               "type": "mirror",
               "rule": "rollup → Product Groups via: productGroupID",
               "notes": "e.g., \"AA\"",
-              "table-display": false,
-              "subitem-display": false,
+              "table-display": true,
+              "subitem-display": true,
               "constraints": "rollup"
             },
             {
@@ -3925,8 +3921,8 @@
               "type": "rollup",
               "rule": "rollup → Products (via: productGroupID)",
               "notes": "multivalued",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -3967,9 +3963,18 @@
             },
             {
               "name": "requirementID",
-              "type": "rollup",
-              "rule": "rollup → Requirements (via: productGroupID + scopeID + businessUnitID) (display: requirementName)",
-              "notes": "Requirements linked to this scope + product group pair",
+              "type": "FK",
+              "rule": "FK → Requirements (display: requirementName)",
+              "notes": "multivalued — requirements DIRECTLY applied to this product scope at registration (issue #288: the link moved to the Product Scope form, replacing the retired compound rollup); part of the comprehensive productScopeRequirements union",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "productScopeRequirements",
+              "type": "mirror",
+              "rule": "computed: PS-REQUIREMENTS(requirementID) (display: requirementName)",
+              "notes": "Comprehensive requirement set (issue #288): the requirements selected at registration ∪ those EXPLICITLY connected to the row's scope ∪ those explicitly connected to its product group — explicit connections only (session decision: no Q1 wildcard here; a requirement with blank scope/product-group keys applies exactly where it is pinned, while the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip Inactive requirements and stay gated by the requirement's unit/region applicability. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker (requirementsForProductScopes).",
               "table-display": true,
               "subitem-display": true,
               "constraints": null,
@@ -4026,6 +4031,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel == businessSegmentName"
+              },
               "Product Group": {
                 "field-type": {
                   "combobox": "shadcn-combobox"
@@ -4033,8 +4048,8 @@
                 "attribute": "productGroupID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "Filtered by the businessUnitID selected"
               },
               "Scope": {
                 "field-type": {
@@ -4043,8 +4058,18 @@
                 "attribute": "scopeID",
                 "tooltip": null,
                 "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "Filtered by the businessUnitID selected"
+              },
+              "Requirements": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "requirementID",
+                "tooltip": "Requirements directly applied to this product scope — the comprehensive REQUIREMENTS list adds the ones explicitly connected to the chosen scope and product group",
+                "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = Opportunity"
+                "field-rule": "Allow multiple values; SelectLabel = requirementTypeName; only Active"
               },
               "Active": {
                 "field-type": {
@@ -4060,7 +4085,14 @@
           },
           "cards": [],
           "table-filters": true,
-          "subitem-tables": null
+          "subitem-tables": [
+            {
+              "tab-order": 1,
+              "rule": "(via: productScopeRequirements)",
+              "tab-name": "Requirements",
+              "tab-table": "Requirements"
+            }
+          ]
         },
         "Scopes": {
           "visibility": "show",
@@ -5060,7 +5092,7 @@
               "type": "mirror",
               "rule": "computed: INHERITED-REQUIREMENTS(eventID) (display: requirementName)",
               "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID) and the ticket's customer. Requirement keys left empty apply to all (Q1). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. New requirements surface on existing tickets automatically.",
-              "table-display": true,
+              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -5300,6 +5332,12 @@
               "rule": "(via: inputHandoutID)",
               "tab-name": "Inputs",
               "tab-table": "Handouts"
+            },
+            {
+              "tab-order": 4,
+              "rule": "(via: requirementName)",
+              "tab-name": "Requirements",
+              "tab-table": "Requirements"
             }
           ]
         },
