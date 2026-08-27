@@ -23,3 +23,10 @@ to Inactive withdraws it everywhere. **Competences never inherit automatically**
 requirement becomes an option on the [Procedure](procedures.md)'s Requirements picker, the
 quality manager binds it there, and the [competences](../talent/competence.md) certifying
 that procedure inherit the decision.
+**Product Scopes read the connections explicitly** (2026-08-27): the
+[Product Scope](../portfolio/product-scopes.md) REQUIREMENTS list shows the requirements
+picked directly on the Product Scope form plus the ones whose scope or product-group
+dimension **names** that combination — a requirement leaving those two dimensions empty
+appears there only where it is picked, so one requirement can govern exactly the
+combinations it belongs to without being registered once per pair. Ticket inheritance
+keeps the wildcard reading above.

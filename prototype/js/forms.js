@@ -8,7 +8,7 @@ import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENT
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
-  eventProductScopeIds, admittedProductScopeIds } from './resolve.js';
+  eventProductScopeIds, admittedProductScopeIds, productScopeRequirementRows } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -480,8 +480,13 @@ export function applyDerivedUnits(entity, rec) {
   if (entity === 'Product Specs') {
     rec.businessUnitID = unitsOfProducts(rec.productID)[0] ?? null;
   } else if (entity === 'Product Scopes') {
-    const pg = rec.productGroupID && getById('Product Groups', rec.productGroupID);
-    rec.businessUnitID = (pg && unitsOfProducts(pg.productID)[0]) ?? null;
+    // Business Unit is USER INPUT since issue #288 (authored spec: the form
+    // leads with the unit and gates Product Group/Scope on it) — the derive
+    // survives only as a fallback for records saved without one
+    if (rec.businessUnitID == null || rec.businessUnitID === '') {
+      const pg = rec.productGroupID && getById('Product Groups', rec.productGroupID);
+      rec.businessUnitID = (pg && unitsOfProducts(pg.productID)[0]) ?? null;
+    }
   } else if (entity === 'Onboarding') {
     const d = rec.departmentID && getById('Departments', rec.departmentID);
     rec.businessUnitID = (d && d.businessUnitID) ?? null;
@@ -1010,21 +1015,21 @@ export function productScopesForProcess(processId) {
   return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
-// Requirements derived by the given product scopes (their compound rollup
-// sets, unioned) — the Procedures Requirements picker follows the selected
-// product scopes; with none selected the caller falls back to the task path.
+// Requirements carried by the given product scopes — their COMPREHENSIVE
+// sets (issue #288: direct picks ∪ explicit scope/product-group connections,
+// productScopeRequirementRows), unioned. The Procedures Requirements picker
+// follows the selected product scopes; with none selected the caller falls
+// back to the task path. Replaced the retired compound rollup on
+// Product Scopes.requirementID (now the stored direct-pick FK).
 export function requirementsForProductScopes(psIds) {
   const rT = resolveTable('Requirements');
-  const cat = getCatalog('Product Scopes');
-  const attr = cat && cat.byName['requirementID'];
-  const rule = attr && parseRule(attr.rule);
-  if (!rT || !rule || !rule.target) return [];
+  if (!rT) return [];
   const rMeta = ENTITY_META[rT];
   const seen = new Map();
   for (const id of asList(psIds)) {
     const ps = getById('Product Scopes', id);
     if (!ps) continue;
-    for (const req of childrenOf('Product Scopes', ps, rT, { via: rule.via, viaList: rule.viaList })) {
+    for (const req of productScopeRequirementRows(ps)) {
       // decision point (issue #231): Inactive requirements are not offered
       if (String(req.isActive || 'Active') === 'Inactive') continue;
       const v = req[rMeta.pk];
@@ -1378,7 +1383,9 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     if (attrName && skip.has(attrName)) continue;
     const typeKey = firstTypeKey(fv['field-type']);
     const ruleText = Array.isArray(fv['field-rule']) ? fv['field-rule'].join('; ') : (fv['field-rule'] || '');
-    const groupM = String(ruleText).match(/SelectLabel\s*=\s*([A-Za-z.]+)/);
+    // "=" or "==" — authored specs use both spellings (issue #288: the
+    // Product Scopes Business Unit field arrived as "SelectLabel ==")
+    const groupM = String(ruleText).match(/SelectLabel\s*={1,2}\s*([A-Za-z.]+)/);
     const groupField = groupM ? groupM[1].split('.').pop() : null;
 
     let node, get;
@@ -1401,7 +1408,18 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           return !Number.isNaN(d.getTime()) && d >= floor;
         });
       };
-      const options = applyWhere(rawOptions);
+      let options = applyWhere(rawOptions);
+      // "only Active" (issue #288, the Product Scopes Requirements picker):
+      // drop options whose target record is soft-deleted — isActive spelled
+      // as the ENUM Active|Inactive or the #218 boolean; blank counts as
+      // Active (#222 posture). Generic: any select field-rule may carry it.
+      if (/only active/i.test(ruleText) && target) {
+        options = options.filter((o) => {
+          const rec = getById(target, o.value);
+          if (!rec) return true;
+          return String(rec.isActive ?? 'Active') !== 'Inactive' && rec.isActive !== false;
+        });
+      }
       const multi = /allow multiple|multivalued/i.test(ruleText) || noteMulti;
       if (multi) {
         // multi-assignment: a checkbox list (each row toggles), not a native

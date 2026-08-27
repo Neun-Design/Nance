@@ -970,6 +970,45 @@ export function ticketInputHandouts(ticket) {
   return out;
 }
 
+// Comprehensive requirement set of a PRODUCT SCOPE (issue #288): the rows
+// behind the PS-REQUIREMENTS rule — direct picks first (the stored
+// requirementID selected at registration; stored data wins, even Inactive),
+// then the requirements EXPLICITLY connected to the row's scope, then those
+// explicitly connected to its product group, deduped in that order. Session
+// decision: explicit connections ONLY — an empty scope/product-group key
+// connects to nothing (no Q1 wildcard), so a requirement with blank keys
+// applies exactly where it is pinned; the ticket inheritance (#226,
+// matchRequirements) keeps its own Q1 posture untouched. Derived legs skip
+// Inactive requirements (blank = Active, #222 posture) and stay gated by the
+// requirement's own unit/region applicability (the dimensions the retired
+// compound rollup already enforced): unit key empty or naming the row's
+// unit; region key empty or overlapping the unit's served regions — a unit
+// serving no region still admits region-specific requirements (the
+// multiViaJoin lenient posture).
+export function productScopeRequirementRows(ps) {
+  const rT = resolveTable('Requirements');
+  if (!rT || !ps) return [];
+  const pk = ENTITY_META[rT].pk;
+  const seen = new Set();
+  const out = [];
+  const push = (r) => {
+    if (r && !seen.has(String(r[pk]))) { seen.add(String(r[pk])); out.push(r); }
+  };
+  for (const id of asIds(ps.requirementID)) push(getById(rT, id));
+  const unitIds = asIds(ps.businessUnitID);
+  const regionIds = servedRegionIds(unitIds);
+  const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+  for (const r of getEntity(rT)) {
+    if (String(r.isActive || 'Active') === 'Inactive') continue;
+    if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
+    if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+    const scopeHit = !blank(r.scopeID) && sameVal(r.scopeID, ps.scopeID);
+    const pgHit = !blank(r.productGroupID) && sameVal(r.productGroupID, ps.productGroupID);
+    if (scopeHit || pgHit) push(r);
+  }
+  return out;
+}
+
 // derived attribute value for a table cell. Attrs flagged `gap-tag` in the
 // datamodel render an EMPTY derived value as the GAP tag (issue #271): the
 // system points at the hole — a procedure nobody is certified to execute, a
@@ -1016,6 +1055,15 @@ function derivedValueInner(tableName, attr, row, depth = 0, displayOverride = nu
     return rows.map((h) => {
       const v = h[r.display || 'handoutName'];
       return v == null || v === '' ? String(h.handoutID) : String(v);
+    }).join(', ');
+  }
+  if (r.kind === 'psrequirements') {
+    const rows = productScopeRequirementRows(row);
+    if (!rows.length) return '—';
+    const rT = resolveTable('Requirements');
+    return rows.map((q) => {
+      const v = q[r.display || 'requirementName'];
+      return v == null || v === '' ? String(q[ENTITY_META[rT].pk]) : String(v);
     }).join(', ');
   }
   if (r.kind === 'fk') {

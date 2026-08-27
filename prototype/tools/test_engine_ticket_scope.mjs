@@ -65,8 +65,13 @@ console.log('== form spec: Product Scope select ==');
 console.log('== subitem tabs: Processes/Tasks replace Jobs ==');
 {
   const subs = catalog['Tickets'].subitems;
-  // three since issue #280 added the Inputs tab (Handouts via inputHandoutID)
-  eq(subs.length, 3, 'three subitem groups');
+  // three since issue #280 added the Inputs tab (Handouts via inputHandoutID);
+  // four since issue #288 added the Requirements tab (the live inherited set
+  // #226 as rows, via the requirementName INHERITED-REQUIREMENTS attr)
+  eq(subs.length, 4, 'four subitem groups');
+  eq([subs[3].table, subs[3].via, (subs[3].tab || {}).name],
+    ['Requirements', 'requirementName', 'Requirements'],
+    'fourth tab: Requirements via the inherited-set attr');
   eq(subs.slice(0, 2).map((s) => s.table), ['Processes', 'Tasks'], 'first tabs target Processes and Tasks');
   eq(subs.slice(0, 2).map((s) => s.via), ['processID', 'processID'], 'both join via the processID snapshot');
   eq(subs.every((s) => s.tab), true, 'all are tabbed entries (tab strip renders)');
