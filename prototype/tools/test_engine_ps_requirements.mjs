@@ -70,10 +70,16 @@ console.log('== schema: form — unit-led cascade + Requirements picker ==');
   }
   const req = f['Requirements'];
   eq(req && req.attribute, 'requirementID', 'Requirements picker binds the stored FK');
-  const rule = String(req['field-rule']);
+  const rule = Array.isArray(req['field-rule']) ? req['field-rule'].join('; ')
+    : String(req['field-rule']); // the engine's own array normalization
   eq(/allow multiple/i.test(rule), true, 'multivalued picker');
   eq(/SelectLabel\s*=\s*requirementTypeName/.test(rule), true, 'grouped by requirementType');
   eq(/only active/i.test(rule), true, 'soft-deleted requirements are not offered');
+  // issue #290: unit-exclusive filter — gated on the unit, cascade spelling
+  // wired (the #274 dead-cascade trap), bespoke strict branch present
+  eq(req.check, 'Business Unit IS NOT NULL', 'picker gated on the Business Unit (#290)');
+  eq(CASCADE.test(rule) && /Business Unit/.test(rule.match(CASCADE)[1]), true,
+    'unit cascade spelling wires the #290 refilter');
   // the authored "SelectLabel ==" spelling must match the engine's grep
   const src = fs.readFileSync(new URL('../js/forms.js', import.meta.url), 'utf8');
   eq(/SelectLabel\\s\*=\{1,2\}/.test(src.replace(/[\\]/g, '\\')) || /=\{1,2\}/.test(src), true,
@@ -178,6 +184,39 @@ console.log('== picker re-point: requirementsForProductScopes unions the sets ==
   eq(union.includes('RQ01') && union.includes('RQ08'), true,
     'multi-scope union carries each row\'s direct picks and legs');
   data.removeRecords('Product Scopes', ['PS-T288c']);
+}
+
+console.log('== issue #290: unit-exclusive Requirements picker ==');
+{
+  // strict single-unit match: exactly the selected unit, alone
+  data.addRecord('Requirements', { requirementID: 'RQ-T-X1', requirementName: 'BU01 exclusive (t)',
+    scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
+  data.addRecord('Requirements', { requirementID: 'RQ-T-X2', requirementName: 'Multi-unit (t)',
+    scopeID: [], productGroupID: [], businessUnitID: ['BU01', 'BU02'], regionID: [], isActive: 'Active' });
+  data.addRecord('Requirements', { requirementID: 'RQ-T-X3', requirementName: 'Other unit (t)',
+    scopeID: [], productGroupID: [], businessUnitID: ['BU02'], regionID: [], isActive: 'Active' });
+  data.addRecord('Requirements', { requirementID: 'RQ-T-X4', requirementName: 'Exclusive but Inactive (t)',
+    scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Inactive' });
+  const offered = forms.requirementsExclusiveToUnit('BU01').map((o) => o.value);
+  eq(offered.includes('RQ-T-X1'), true, 'requirement registered exclusively for BU01 is offered');
+  eq(offered.includes('RQ-T-X2'), false, 'multi-unit requirement is NOT offered (strict reading)');
+  eq(offered.includes('RQ-T-X3'), false, 'another unit\'s requirement is NOT offered');
+  eq(offered.includes('RQ-T-X4'), false, 'Inactive stays out even when exclusive');
+  eq(offered.some((v) => String(v).startsWith('RQ') && !String(v).startsWith('RQ-T')), false,
+    'empty-key ("applies to all") requirements are NOT offered — Q1 does not reach the picker');
+  eq(forms.requirementsExclusiveToUnit(null), [], 'no unit selected ⇒ nothing (gated field)');
+  // the picker narrows; the comprehensive set does not — an exclusive
+  // requirement with blank scope/product-group keys still shows only where
+  // pinned (#288 posture unchanged)
+  const ps01 = data.getById('Product Scopes', 'PS01');
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-X1'), false,
+    'unit-exclusive requirement does not auto-attach to the unit\'s product scopes');
+  data.removeRecords('Requirements', ['RQ-T-X1', 'RQ-T-X2', 'RQ-T-X3', 'RQ-T-X4']);
+  // demo census: 18/18 clinic requirements carry an EMPTY unit key — the
+  // picker honestly starts empty on every unit (decision recorded in #290)
+  const anyOffered = data.getEntity('Business Units')
+    .some((bu) => forms.requirementsExclusiveToUnit(bu.businessUnitID).length);
+  eq(anyOffered, false, 'demo census: no unit-exclusive requirement yet — empty picker everywhere');
 }
 
 console.log('== rendering: derivedValue joins names, dash when empty ==');

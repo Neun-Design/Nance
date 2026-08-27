@@ -310,6 +310,13 @@ Requirements picker): options whose target record is soft-deleted are dropped �
 `isActive` spelled as the ENUM `Active|Inactive` or the #218 boolean, blank counting
 as Active (#222 posture). `SelectLabel = <field>` accepts `=` or `==` (authored specs
 use both — the Product Scopes Business Unit field arrived as `SelectLabel ==`).
+The Product Scopes Requirements picker is additionally **unit-exclusive** (issue #290,
+session decision — strict reading of "exclusively"): gated on Business Unit, its
+cascade (`filtered by Business Unit selected (exclusively)`) offers only requirements
+whose `businessUnitID` names EXACTLY the selected unit, alone — empty ("applies to
+all", Q1) and multi-unit keys are not offered. Bespoke branch
+`requirementsExclusiveToUnit` in `forms.js`; only the picker narrows — the
+comprehensive `PS-REQUIREMENTS` set is untouched.
 
 **2026-07-29 Organization/CRM constructs.** `field-type {"readonly": …}` renders a
 read-only input whose value is **derived live** from the sibling controls through the

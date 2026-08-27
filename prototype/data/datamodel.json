@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 59,
+    "schemaVersion": 60,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3965,7 +3965,7 @@
               "name": "requirementID",
               "type": "FK",
               "rule": "FK → Requirements (display: requirementName)",
-              "notes": "multivalued — requirements DIRECTLY applied to this product scope at registration (issue #288: the link moved to the Product Scope form, replacing the retired compound rollup); part of the comprehensive productScopeRequirements union",
+              "notes": "multivalued — requirements DIRECTLY applied to this product scope at registration (issue #288: the link moved to the Product Scope form, replacing the retired compound rollup); part of the comprehensive productScopeRequirements union. The form picker offers only requirements registered EXCLUSIVELY for the row's Business Unit (issue #290 — strict single-unit match; empty or multi-unit keys are not offered)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -4066,10 +4066,15 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "requirementID",
-                "tooltip": "Requirements directly applied to this product scope — the comprehensive REQUIREMENTS list adds the ones explicitly connected to the chosen scope and product group",
+                "tooltip": "Requirements directly applied to this product scope — only requirements registered EXCLUSIVELY for the selected Business Unit are offered (issue #290); the comprehensive REQUIREMENTS list adds the ones explicitly connected to the chosen scope and product group",
                 "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; SelectLabel = requirementTypeName; only Active"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "SelectLabel = requirementTypeName",
+                  "only Active",
+                  "filtered by Business Unit selected (exclusively)"
+                ]
               },
               "Active": {
                 "field-type": {
