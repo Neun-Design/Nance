@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 64,
+    "schemaVersion": 65,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -6716,6 +6716,15 @@
               "constraints": "NOT NULL"
             },
             {
+              "name": "jobFamilyID",
+              "type": "FK",
+              "rule": "FK → Job Family (display: jobFamilyName)",
+              "notes": "A function belongs to a Job Family (issue #298); nullable — legacy functions without a roles signal stay unkeyed. People derive their family through the selected function (the People form no longer picks it)",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
               "name": "roles",
               "type": "rollup",
               "rule": "rollup → Roles (via: functionID) (display: roleName)",
@@ -6774,6 +6783,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Job Family": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "jobFamilyID",
+                "tooltip": "The job family this function belongs to — people inherit it through their function",
+                "step": null,
+                "check": null,
+                "field-rule": "SelectLabel = field"
               }
             }
           },
@@ -6904,12 +6923,12 @@
             },
             {
               "name": "jobFamilyID",
-              "type": "FK",
-              "rule": "FK → Job Family (display: jobFamilyName)",
-              "notes": null,
+              "type": "mirror",
+              "rule": "mirror → Functions (via: functionID) (display: jobFamilyName)",
+              "notes": "Derived through the selected Function since issue #298 (a function belongs to a Job Family) — the People form no longer picks it; the legacy stored copies were dropped (parity)",
               "table-display": true,
               "subitem-display": false,
-              "constraints": "FK"
+              "constraints": null
             },
             {
               "name": "onboardID",
@@ -7082,16 +7101,6 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
-              },
-              "Job Family": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "jobFamilyID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = field"
               }
             }
           },
