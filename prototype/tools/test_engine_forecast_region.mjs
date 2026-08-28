@@ -34,8 +34,11 @@ const rule = model.parseRule(reqAttr.rule);
 
 console.log('== schema: the region leg reads the units\' served regions ==');
 {
+  // + productScopeID since issue #294: a requirement NAMING product scopes
+  // applies only to their demand lines (empty = all, Q1 — multiViaJoin)
   eq(rule.viaList, ['forecastID.customerID.businessUnitID.regionID',
-    'forecastID.customerID.businessUnitID', 'scopeID', 'productGroupID'],
+    'forecastID.customerID.businessUnitID', 'scopeID', 'productGroupID',
+    'productScopeID'],
   'declared via chain re-pointed (dormant customerID.regionID leg gone)');
   // the premise of #230: geography left Customers at #191 — the old path
   // has no stored hop to traverse

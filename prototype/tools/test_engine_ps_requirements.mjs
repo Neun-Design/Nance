@@ -1,20 +1,18 @@
 #!/usr/bin/env node
-// test_engine_ps_requirements.mjs — proof suite for Product Scope
-// Requirements (issue #288): Product Scopes.requirementID became the STORED
-// direct-pick FK (the link moved to the Product Scope form) and the visible
-// REQUIREMENTS column moved to the comprehensive productScopeRequirements
-// set — computed: PS-REQUIREMENTS(requirementID): direct picks ∪ the
-// requirements EXPLICITLY connected to the row's scope ∪ those explicitly
-// connected to its product group. Session decision: explicit connections
-// ONLY — no Q1 wildcard here (a requirement with blank scope/product-group
-// keys applies exactly where it is pinned; the ticket inheritance #226 keeps
-// its own Q1 posture). Derived legs skip Inactive rows and stay gated by the
-// requirement's unit/region applicability. Downstream: the Requirements
-// table lost its Product Scopes subitem; Product Scopes gained the
-// Requirements tab; Tickets gained a Requirements tab over the live
-// inherited set (authored spec, via normalized to the INHERITED-REQUIREMENTS
-// attr); requirementsForProductScopes (the Procedures picker) follows the
-// comprehensive set.
+// test_engine_ps_requirements.mjs — proof suite for the Product Scope ↔
+// Requirements link (issue #288, inverted by #294): the stored link lives on
+// Requirements.productScopeID (the requirement declares which product scopes
+// it applies to; the #288 Product Scopes.requirementID pick and the #290
+// unit-exclusive picker are RETIRED — a requirement created FOR a business
+// unit is inherited by the unit's product scopes automatically, so a
+// form-level pick on the Product Scope was redundant). The visible
+// REQUIREMENTS column / subitem tab render the comprehensive
+// productScopeRequirements set — computed: PS-REQUIREMENTS(productScopeID):
+// requirements NAMING the row ∪ explicitly connected via scope ∪ via product
+// group ∪ created for the row's unit (scope/pg keys blank — a narrowing key
+// keeps the requirement on its own legs). Still no Q1 wildcard here: a
+// requirement with ALL keys blank attaches nowhere (the ticket inheritance
+// #226 keeps Q1, and gains the productScopeID dimension under it).
 // Run from prototype/:  node tools/test_engine_ps_requirements.mjs
 
 import fs from 'fs';
@@ -35,118 +33,125 @@ const fail = (m) => { fails += 1; console.log(`  ✗ ${m}`);
 const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
   ? ok(m) : fail(`${m} — got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`));
 const ids = (rows) => rows.map((r) => r.requirementID);
+const asList = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
 
-console.log('== schema: stored direct-pick FK + comprehensive mirror ==');
+console.log('== schema: the stored link lives on Requirements (#294) ==');
 {
-  const direct = catalog['Product Scopes'].byName['requirementID'];
-  const r = model.parseRule(direct.rule);
-  eq([direct.type, r.kind, model.resolveTable(r.target)], ['FK', 'fk', 'Requirements'],
-    'requirementID is a stored FK → Requirements (the retired compound rollup)');
-  eq(/multivalued/i.test(String(direct.notes)), true, 'multivalued via the attribute note');
-  eq(direct['table-display'], false, 'direct picks stay out of the table (REQUIREMENTS took over)');
+  const link = catalog['Requirements'].byName['productScopeID'];
+  const r = model.parseRule(link.rule);
+  eq([link.type, r.kind, model.resolveTable(r.target), r.display],
+    ['FK', 'fk', 'Product Scopes', 'productGroupName'],
+    'Requirements.productScopeID: stored FK → Product Scopes, displayed by productGroupName');
+  eq(/multivalued/i.test(String(link.notes)), true, 'multivalued via the attribute note');
+  // the #288 direct-pick FK is GONE — catalogue and data
+  eq(catalog['Product Scopes'].byName['requirementID'], undefined,
+    'Product Scopes.requirementID retired from the catalogue');
+  eq(data.getEntity('Product Scopes').every((p) => !('requirementID' in p)), true,
+    'no mockup product scope carries the retired key (parity)');
+  eq(data.getEntity('Requirements').every((r2) => Array.isArray(r2.productScopeID)), true,
+    'every mockup requirement carries the new stored key (migration parity)');
+  eq(data.getEntity('Requirements').every((r2) => r2.productScopeID.length === 0), true,
+    'zero direct targets seeded — no applicability is fabricated');
 
   const comp = catalog['Product Scopes'].byName['productScopeRequirements'];
   const cr = model.parseRule(comp.rule);
-  eq([cr.kind, cr.srcField, cr.display], ['psrequirements', 'requirementID', 'requirementName'],
-    'computed: PS-REQUIREMENTS(requirementID) (display: requirementName) parses');
+  eq([cr.kind, cr.srcField, cr.display], ['psrequirements', 'productScopeID', 'requirementName'],
+    'computed: PS-REQUIREMENTS(productScopeID) — srcField names the INVERSE key');
   eq([comp.type, comp['display-name'], comp['table-display'], comp['subitem-display']],
     ['mirror', 'REQUIREMENTS', true, true],
     'comprehensive attr: validator-safe mirror, REQUIREMENTS header, displayed');
 }
 
-console.log('== schema: form — unit-led cascade + Requirements picker ==');
+console.log('== schema: forms — picker moved, #290 retired ==');
 {
-  const f = catalog['Product Scopes'].form.fields;
-  eq(f['Business Unit'] && f['Business Unit'].attribute, 'businessUnitID',
-    'Business Unit is USER INPUT (authored spec)');
-  // #274 dead-cascade trap: a picker only wires listeners when its rule
-  // matches the `filtered by … selected` regex the engine greps for
-  const CASCADE = /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i;
-  for (const label of ['Product Group', 'Scope']) {
-    const rule = String(f[label]['field-rule']);
-    eq(CASCADE.test(rule) && /businessUnitID/.test(rule), true,
-      `${label}: unit cascade spelling wires (${rule})`);
-    eq(f[label].check, 'Business Unit IS NOT NULL', `${label}: gated on the unit`);
-  }
-  const req = f['Requirements'];
-  eq(req && req.attribute, 'requirementID', 'Requirements picker binds the stored FK');
-  const rule = Array.isArray(req['field-rule']) ? req['field-rule'].join('; ')
-    : String(req['field-rule']); // the engine's own array normalization
+  const rf = catalog['Requirements'].form.fields['Product Scope'];
+  eq(rf && rf.attribute, 'productScopeID', 'Requirements form gains the Product Scope picker');
+  const rule = Array.isArray(rf['field-rule']) ? rf['field-rule'].join('; ') : String(rf['field-rule']);
   eq(/allow multiple/i.test(rule), true, 'multivalued picker');
-  eq(/SelectLabel\s*=\s*requirementTypeName/.test(rule), true, 'grouped by requirementType');
-  eq(/only active/i.test(rule), true, 'soft-deleted requirements are not offered');
-  // issue #290: unit-exclusive filter — gated on the unit, cascade spelling
-  // wired (the #274 dead-cascade trap), bespoke strict branch present
-  eq(req.check, 'Business Unit IS NOT NULL', 'picker gated on the Business Unit (#290)');
-  eq(CASCADE.test(rule) && /Business Unit/.test(rule.match(CASCADE)[1]), true,
-    'unit cascade spelling wires the #290 refilter');
-  // the authored "SelectLabel ==" spelling must match the engine's grep
+  eq(/SelectLabel\s*=\s*scopeName/.test(rule), true,
+    'options grouped by scopeName (items show productGroupName — the FK display)');
+  const CASCADE = /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i;
+  eq(CASCADE.test(rule) && /businessUnitID/.test(rule), true,
+    'unit cascade spelling wires (generic stored-key path — #274 trap)');
+  // Product Scopes form: the Requirements input is gone
+  eq(catalog['Product Scopes'].form.fields['Requirements'], undefined,
+    'Product Scopes form no longer picks requirements');
+  // retired export (#281 pattern): the #290 strict helper left forms.js
+  eq(forms.requirementsExclusiveToUnit, undefined,
+    'requirementsExclusiveToUnit retired with the picker');
   const src = fs.readFileSync(new URL('../js/forms.js', import.meta.url), 'utf8');
-  eq(/SelectLabel\\s\*=\{1,2\}/.test(src.replace(/[\\]/g, '\\')) || /=\{1,2\}/.test(src), true,
-    'forms.js tolerates "SelectLabel ==" (authored Business Unit field)');
-  eq(/only active/i.test(src), true, 'forms.js implements the "only Active" option filter');
+  eq(/requirementsExclusiveToUnit/.test(src), false, 'no dead reference remains in forms.js');
 }
 
-console.log('== schema: subitem tabs moved ==');
+console.log('== schema: subitem tabs (unchanged by #294) ==');
 {
   eq(catalog['Requirements'].subitems.length, 0,
-    'Requirements lost the Product Scopes subitem (issue downstream impact)');
+    'Requirements still declares no Product Scopes subitem (#288 downstream)');
   const tab = (catalog['Product Scopes'].subitems || [])[0];
   eq([tab && tab.table, tab && tab.via, tab && tab.tab && tab.tab.name],
     ['Requirements', 'productScopeRequirements', 'Requirements'],
     'Product Scopes: Requirements tab via the PS-REQUIREMENTS attr');
   const tk = catalog['Tickets'].subitems.find((si) => si.tab && si.tab.name === 'Requirements');
   eq([tk && tk.table, tk && tk.via], ['Requirements', 'requirementName'],
-    'Tickets: Requirements tab via the INHERITED-REQUIREMENTS attr (authored via normalized)');
-  eq(catalog['Tickets'].byName['requirementName']['table-display'], false,
-    'the joined-names Tickets column is hidden — the tab replaces it (authored)');
-  // both via attrs are LIVE-derived — the tab resolve is overridden in app.js
+    'Tickets: Requirements tab via the INHERITED-REQUIREMENTS attr');
   const app = fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
   eq(/psrequirements/.test(app) && /productScopeRequirementRows/.test(app), true,
-    'app.js overrides the Product Scopes tab resolve (psrequirements)');
-  eq(/inheritedreqs/.test(app), true, 'app.js overrides the Tickets tab resolve (inheritedreqs)');
+    'app.js still overrides the Product Scopes tab resolve (psrequirements)');
+  eq(/inheritedreqs/.test(app), true, 'app.js still overrides the Tickets tab resolve');
 }
 
-console.log('== semantics: explicit connections only, deduped, direct first ==');
+console.log('== semantics: named ∪ scope ∪ product-group legs, no Q1 ==');
 {
   const ps01 = data.getById('Product Scopes', 'PS01'); // BU01 · PG01 · SC02
   eq(ids(resolve.productScopeRequirementRows(ps01)), ['RQ06', 'RQ08', 'RQ09', 'RQ17'],
-    'PS01: scope- and product-group-connected requirements only');
-  // no Q1 wildcard: RQ01 is Active with BOTH keys blank (and its region set
-  // includes BU01\'s served RG01) — under the retired compound rollup it
-  // matched every product scope; now it applies only where pinned
+    'PS01: scope- and product-group-connected requirements only (no named/unit hits in the demo)');
+  // no Q1 wildcard: RQ01 is Active with ALL applicability keys blank
   const rq01 = data.getById('Requirements', 'RQ01');
-  eq([rq01.scopeID, rq01.productGroupID], [[], []], 'probe: RQ01 keys are blank (global)');
+  eq([rq01.scopeID, rq01.productGroupID, rq01.businessUnitID, rq01.productScopeID],
+    [[], [], [], []], 'probe: RQ01 keys are all blank (global)');
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ01'), false,
-    'blank-key requirement does NOT attach (no Q1 on the comprehensive set)');
-  // direct pick: pinning RQ01 (and the already-connected RQ08) on a row —
-  // picks come first, dedup keeps one RQ08
-  data.addRecord('Product Scopes', { productScopeID: 'PS-T288', businessUnitID: 'BU01',
-    productGroupID: 'PG01', scopeID: 'SC02', requirementID: ['RQ01', 'RQ08'], isActive: true });
-  const t = data.getById('Product Scopes', 'PS-T288');
-  eq(ids(resolve.productScopeRequirementRows(t)), ['RQ01', 'RQ08', 'RQ06', 'RQ09', 'RQ17'],
-    'direct picks lead, scope/product-group legs follow, RQ08 deduped');
-  data.removeRecords('Product Scopes', ['PS-T288']);
+    'all-blank requirement attaches nowhere (no Q1 on the comprehensive set)');
+  // named leg: the requirement DECLARES the product scope — leads the list
+  data.addRecord('Requirements', { requirementID: 'RQ-T-NAMED', requirementName: 'Named (t)',
+    scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
+    productScopeID: ['PS01'], isActive: 'Active' });
+  eq(ids(resolve.productScopeRequirementRows(ps01))[0], 'RQ-T-NAMED',
+    'a requirement naming PS01 attaches and leads (declared link first)');
+  const ps02 = data.getById('Product Scopes', 'PS02');
+  eq(ids(resolve.productScopeRequirementRows(ps02)).includes('RQ-T-NAMED'), false,
+    'the named leg reaches only the declared product scopes');
+  data.removeRecords('Requirements', ['RQ-T-NAMED']);
 }
 
-console.log('== semantics: union of legs (the AND-pair pain is gone) ==');
+console.log('== semantics: the unit leg (#294 auto-inheritance) ==');
+{
+  const ps01 = data.getById('Product Scopes', 'PS01'); // BU01
+  data.addRecord('Requirements', { requirementID: 'RQ-T-UNIT1', requirementName: 'Unit-wide (t)',
+    scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT1'), true,
+    'a requirement created FOR BU01 attaches to the unit\'s product scopes automatically');
+  const other = data.getEntity('Product Scopes').find((p) => p.businessUnitID !== 'BU01');
+  eq(ids(resolve.productScopeRequirementRows(other)).includes('RQ-T-UNIT1'), false,
+    'and stays off other units\' product scopes');
+  // a scope/product-group key NARROWS within the unit — the unit leg must
+  // not swallow it (session decision: the requirement rides its own legs)
+  data.addRecord('Requirements', { requirementID: 'RQ-T-UNIT2', requirementName: 'Unit+scope (t)',
+    scopeID: ['SC07'], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT2'), false,
+    'unit + foreign-scope requirement does NOT attach through the unit leg (PS01 is SC02)');
+  data.removeRecords('Requirements', ['RQ-T-UNIT1', 'RQ-T-UNIT2']);
+}
+
+console.log('== semantics: union of legs + unit/region gates + Inactive ==');
 {
   const ps01 = data.getById('Product Scopes', 'PS01');
-  // scope hit + FOREIGN product group: the retired AND rollup rejected this
-  // combination — the grouping pain the issue solves; the union admits it
   data.addRecord('Requirements', { requirementID: 'RQ-T-UNION', requirementName: 'Union probe (t)',
     scopeID: ['SC02'], productGroupID: ['PG05'], businessUnitID: [], regionID: [], isActive: 'Active' });
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNION'), true,
     'scope leg admits a requirement whose product-group key names another group');
-  data.removeRecords('Requirements', ['RQ-T-UNION']);
-}
-
-console.log('== semantics: unit/region gates + Inactive posture ==');
-{
-  const ps01 = data.getById('Product Scopes', 'PS01'); // BU01 serves RG01
-  data.addRecord('Requirements', { requirementID: 'RQ-T-UNIT', requirementName: 'Unit gate (t)',
+  data.addRecord('Requirements', { requirementID: 'RQ-T-GATE', requirementName: 'Unit gate (t)',
     scopeID: ['SC02'], productGroupID: [], businessUnitID: ['BU02'], regionID: [], isActive: 'Active' });
-  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT'), false,
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-GATE'), false,
     'scope-connected requirement restricted to ANOTHER unit is excluded');
   data.addRecord('Requirements', { requirementID: 'RQ-T-REGION', requirementName: 'Region gate (t)',
     scopeID: ['SC02'], productGroupID: [], businessUnitID: [], regionID: ['RG-NOPE'], isActive: 'Active' });
@@ -156,67 +161,54 @@ console.log('== semantics: unit/region gates + Inactive posture ==');
     scopeID: ['SC02'], productGroupID: [], businessUnitID: [], regionID: [], isActive: 'Inactive' });
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-INACT'), false,
     'Inactive requirements leave the derived legs');
-  // …but a stored DIRECT pick renders regardless (stored data wins; the
-  // pickers gate lifecycle, the display stays honest to the link)
-  data.addRecord('Product Scopes', { productScopeID: 'PS-T288b', businessUnitID: 'BU01',
-    productGroupID: 'PG05', scopeID: 'SC07', requirementID: ['RQ-T-INACT'], isActive: true });
-  const tb = data.getById('Product Scopes', 'PS-T288b');
-  eq(ids(resolve.productScopeRequirementRows(tb)).includes('RQ-T-INACT'), true,
-    'a directly pinned Inactive requirement still lists');
-  // the Procedures picker keeps the #231 decision: Inactive never offered
-  eq(forms.requirementsForProductScopes(['PS-T288b']).some((o) => o.value === 'RQ-T-INACT'), false,
-    'requirementsForProductScopes filters Inactive even when pinned (#231)');
-  data.removeRecords('Product Scopes', ['PS-T288b']);
-  data.removeRecords('Requirements', ['RQ-T-UNIT', 'RQ-T-REGION', 'RQ-T-INACT']);
+  // …but the DECLARED link renders regardless (stored data wins; pickers
+  // gate lifecycle, the display stays honest to the link)
+  data.addRecord('Requirements', { requirementID: 'RQ-T-INACT2', requirementName: 'Inactive named (t)',
+    scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
+    productScopeID: ['PS01'], isActive: 'Inactive' });
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-INACT2'), true,
+    'an Inactive requirement NAMING the row still lists');
+  eq(forms.requirementsForProductScopes(['PS01']).some((o) => o.value === 'RQ-T-INACT2'), false,
+    'requirementsForProductScopes filters Inactive even when named (#231)');
+  data.removeRecords('Requirements', ['RQ-T-UNION', 'RQ-T-GATE', 'RQ-T-REGION', 'RQ-T-INACT', 'RQ-T-INACT2']);
 }
 
-console.log('== picker re-point: requirementsForProductScopes unions the sets ==');
+console.log('== ticket chain: the productScopeID dimension under Q1 (#226/#294) ==');
+{
+  // replicate ticketRequirements' admitted-set head to pick in/out probes
+  const probe = data.getEntity('Tickets').map((t) => {
+    let admitted = resolve.admittedProductScopeIds(t.eventID, t.customerID, t.supplierID ?? null);
+    const chosen = asList(t.productScopeID);
+    if (chosen.length) admitted = admitted.filter((id) => chosen.includes(id));
+    const out = data.getEntity('Product Scopes').map((p) => p.productScopeID)
+      .find((id) => !admitted.includes(id));
+    return { t, psIn: admitted[0], psOut: out };
+  }).find((x) => x.psIn && x.psOut);
+  eq(probe != null, true, 'probe ticket found (has admitted and non-admitted product scopes)');
+  data.addRecord('Requirements', { requirementID: 'RQ-T-DIM', requirementName: 'PS dimension (t)',
+    scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
+    productScopeID: [probe.psIn], isActive: 'Active' });
+  eq(resolve.ticketRequirements(probe.t).includes('RQ-T-DIM'), true,
+    'a requirement naming an ADMITTED product scope inherits into the ticket');
+  data.removeRecords('Requirements', ['RQ-T-DIM']);
+  data.addRecord('Requirements', { requirementID: 'RQ-T-DIM2', requirementName: 'PS dimension out (t)',
+    scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
+    productScopeID: [probe.psOut], isActive: 'Active' });
+  eq(resolve.ticketRequirements(probe.t).includes('RQ-T-DIM2'), false,
+    'a requirement naming only NON-admitted product scopes stays out (AND dimension)');
+  data.removeRecords('Requirements', ['RQ-T-DIM2']);
+  // Q1: the demo's all-blank requirements keep inheriting (empty = all)
+  eq(resolve.ticketRequirements(probe.t).length > 0, true,
+    'Q1 posture untouched — blank-key requirements still inherit');
+}
+
+console.log('== picker re-point: requirementsForProductScopes follows the legs ==');
 {
   const offered = forms.requirementsForProductScopes(['PS01']);
   eq(offered.map((o) => o.value).sort(), ['RQ06', 'RQ08', 'RQ09', 'RQ17'],
     'PS01 options = its comprehensive set');
   const labels = offered.map((o) => o.label);
   eq([...labels].sort((a, b) => a.localeCompare(b)), labels, 'options sorted by label');
-  // union across product scopes, direct picks included
-  data.addRecord('Product Scopes', { productScopeID: 'PS-T288c', businessUnitID: 'BU01',
-    productGroupID: 'PG05', scopeID: 'SC07', requirementID: ['RQ01'], isActive: true });
-  const union = forms.requirementsForProductScopes(['PS01', 'PS-T288c']).map((o) => o.value);
-  eq(union.includes('RQ01') && union.includes('RQ08'), true,
-    'multi-scope union carries each row\'s direct picks and legs');
-  data.removeRecords('Product Scopes', ['PS-T288c']);
-}
-
-console.log('== issue #290: unit-exclusive Requirements picker ==');
-{
-  // strict single-unit match: exactly the selected unit, alone
-  data.addRecord('Requirements', { requirementID: 'RQ-T-X1', requirementName: 'BU01 exclusive (t)',
-    scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
-  data.addRecord('Requirements', { requirementID: 'RQ-T-X2', requirementName: 'Multi-unit (t)',
-    scopeID: [], productGroupID: [], businessUnitID: ['BU01', 'BU02'], regionID: [], isActive: 'Active' });
-  data.addRecord('Requirements', { requirementID: 'RQ-T-X3', requirementName: 'Other unit (t)',
-    scopeID: [], productGroupID: [], businessUnitID: ['BU02'], regionID: [], isActive: 'Active' });
-  data.addRecord('Requirements', { requirementID: 'RQ-T-X4', requirementName: 'Exclusive but Inactive (t)',
-    scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Inactive' });
-  const offered = forms.requirementsExclusiveToUnit('BU01').map((o) => o.value);
-  eq(offered.includes('RQ-T-X1'), true, 'requirement registered exclusively for BU01 is offered');
-  eq(offered.includes('RQ-T-X2'), false, 'multi-unit requirement is NOT offered (strict reading)');
-  eq(offered.includes('RQ-T-X3'), false, 'another unit\'s requirement is NOT offered');
-  eq(offered.includes('RQ-T-X4'), false, 'Inactive stays out even when exclusive');
-  eq(offered.some((v) => String(v).startsWith('RQ') && !String(v).startsWith('RQ-T')), false,
-    'empty-key ("applies to all") requirements are NOT offered — Q1 does not reach the picker');
-  eq(forms.requirementsExclusiveToUnit(null), [], 'no unit selected ⇒ nothing (gated field)');
-  // the picker narrows; the comprehensive set does not — an exclusive
-  // requirement with blank scope/product-group keys still shows only where
-  // pinned (#288 posture unchanged)
-  const ps01 = data.getById('Product Scopes', 'PS01');
-  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-X1'), false,
-    'unit-exclusive requirement does not auto-attach to the unit\'s product scopes');
-  data.removeRecords('Requirements', ['RQ-T-X1', 'RQ-T-X2', 'RQ-T-X3', 'RQ-T-X4']);
-  // demo census: 18/18 clinic requirements carry an EMPTY unit key — the
-  // picker honestly starts empty on every unit (decision recorded in #290)
-  const anyOffered = data.getEntity('Business Units')
-    .some((bu) => forms.requirementsExclusiveToUnit(bu.businessUnitID).length);
-  eq(anyOffered, false, 'demo census: no unit-exclusive requirement yet — empty picker everywhere');
 }
 
 console.log('== rendering: derivedValue joins names, dash when empty ==');
@@ -226,20 +218,17 @@ console.log('== rendering: derivedValue joins names, dash when empty ==');
   eq(v.split(', ').length, 4, `PS01 cell joins 4 requirement names (${v.slice(0, 60)}…)`);
   eq(/RQ\d/.test(v), false, 'names, never raw ids');
   const empty = data.getEntity('Product Scopes').find((p) => !resolve.productScopeRequirementRows(p).length);
-  eq(empty != null, true, `probe: ${empty && empty.productScopeID} carries no explicit connection`);
+  eq(empty != null, true, `probe: ${empty && empty.productScopeID} carries no connection`);
   eq(resolve.derivedValue('Product Scopes', comp, empty), '—',
-    'no connection renders the dash — an unpinned product scope is legitimate (no gap-tag)');
+    'no connection renders the dash — an untargeted product scope is legitimate (no gap-tag)');
 }
 
 console.log('== demo census: honest seeds ==');
 {
   const pss = data.getEntity('Product Scopes');
-  eq(pss.every((p) => Array.isArray(p.requirementID)), true,
-    'every mockup row carries the stored key (migration parity)');
-  eq(pss.every((p) => p.requirementID.length === 0), true,
-    'zero direct picks seeded — no registration-time decision is fabricated');
   const withReqs = pss.filter((p) => resolve.productScopeRequirementRows(p).length).length;
-  eq(withReqs, 19, `19/${pss.length} product scopes carry explicit connections (5 honest empties)`);
+  eq(withReqs, 19, `19/${pss.length} product scopes carry connections (5 honest empties; `
+    + 'the unit leg adds nothing yet — 18/18 demo requirements have a blank unit key)');
 }
 
 console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');

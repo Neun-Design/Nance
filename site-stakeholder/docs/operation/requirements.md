@@ -12,9 +12,14 @@ multi-dimensional: region, unit, branch, customer, scope, product group — **an
 dimension means "applies to all"**.
 **Register when:** after Scopes and Product Groups (Portfolio module).
 **Key fields:** Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group — the Business Unit
-picker unlocks after at least one Region is selected (2026-08-27); regulatory
-reference/URL. The **Customer** select unlocks after picking a Business Unit and offers that
+cascade Region → Business Unit → Branch/Customer/Scope/Product Group/**Product Scope** — the
+Business Unit picker unlocks after at least one Region is selected (2026-08-27); regulatory
+reference/URL. The **Product Scope** picker (2026-08-28) targets the requirement at specific
+[Product Scope](../portfolio/product-scopes.md) combinations directly — options show the
+product group, grouped by scope, filtered by the selected units; leave it empty when the
+scope/product-group/unit dimensions already describe the applicability. On the operational
+chain it behaves like every other dimension: empty applies to all, filled narrows ticket
+inheritance to the named combinations. The **Customer** select unlocks after picking a Business Unit and offers that
 unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
 the customer's [Tickets](../workspace/tickets.md) through the [SLA](../crm/sla.md) chain.
 **Applicability propagates live to tickets** (2026-08-20): an **Active** requirement is
@@ -24,12 +29,12 @@ to Inactive withdraws it everywhere. **Competences never inherit automatically**
 requirement becomes an option on the [Procedure](procedures.md)'s Requirements picker, the
 quality manager binds it there, and the [competences](../talent/competence.md) certifying
 that procedure inherit the decision.
-**Product Scopes read the connections explicitly** (2026-08-27): the
-[Product Scope](../portfolio/product-scopes.md) REQUIREMENTS list shows the requirements
-picked directly on the Product Scope form plus the ones whose scope or product-group
-dimension **names** that combination — a requirement leaving those two dimensions empty
-appears there only where it is picked, so one requirement can govern exactly the
-combinations it belongs to without being registered once per pair. The Product Scope
-picker is **unit-exclusive**: to make a requirement pickable there, register it with the
-Business Unit dimension naming exactly that unit, alone. Ticket inheritance keeps the
-wildcard reading above.
+**Product Scopes read the connections explicitly** (2026-08-27, link inverted 2026-08-28):
+the [Product Scope](../portfolio/product-scopes.md) REQUIREMENTS list shows the requirements
+that **name** that combination on their own Product Scope dimension, the ones whose scope or
+product-group dimension names it, and the ones created **for its business unit** (a
+requirement registered for a unit reaches every product scope of that unit automatically —
+no per-combination linking needed). A requirement with all those dimensions empty appears
+there only where its Product Scope dimension names it, so one requirement can govern exactly
+the combinations it belongs to without being registered once per pair. Ticket inheritance
+keeps the wildcard reading above.

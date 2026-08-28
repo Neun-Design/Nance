@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 61,
+    "schemaVersion": 62,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1759,7 +1759,7 @@
             {
               "name": "requirementID",
               "type": "computed",
-              "rule": "computed → Requirements (via: forecastID.customerID.businessUnitID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID) (display: requirementName)",
+              "rule": "computed → Requirements (via: forecastID.customerID.businessUnitID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID + productScopeID) (display: requirementName)",
               "notes": "Requirements linked to the row's scope + product group. Region leg = the customer's units' SERVED regions (Business Units.regionID — issue #230: Customers stopped storing regionID at #191, so the old customerID.regionID path resolved empty and the region dimension was dormant; units posture matches the #226 ticket inheritance)",
               "table-display": true,
               "subitem-display": true,
@@ -3490,6 +3490,15 @@
               "constraints": "FK"
             },
             {
+              "name": "productScopeID",
+              "type": "FK",
+              "rule": "FK → Product Scopes (display: productGroupName)",
+              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements). Empty = no direct targeting; in the ticket/forecast chains empty applies to all (Q1), non-empty narrows inheritance to the named product scopes",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "requirementTitle",
               "type": "mirror",
               "rule": "computed: CONCAT(requirementName,'-',requirementTypeName)",
@@ -3619,6 +3628,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by businessUnitID selected"
+              },
+              "Product Scope": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes this requirement applies to directly — leave empty when the scope/product-group/unit dimensions already describe the applicability",
+                "step": null,
+                "check": null,
+                "field-rule": "Allow multiple values; SelectLabel = scopeName; filtered by businessUnitID selected"
               },
               "Activate": {
                 "field-type": {
@@ -3962,19 +3981,10 @@
               "constraints": null
             },
             {
-              "name": "requirementID",
-              "type": "FK",
-              "rule": "FK → Requirements (display: requirementName)",
-              "notes": "multivalued — requirements DIRECTLY applied to this product scope at registration (issue #288: the link moved to the Product Scope form, replacing the retired compound rollup); part of the comprehensive productScopeRequirements union. The form picker offers only requirements registered EXCLUSIVELY for the row's Business Unit (issue #290 — strict single-unit match; empty or multi-unit keys are not offered)",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
               "name": "productScopeRequirements",
               "type": "mirror",
-              "rule": "computed: PS-REQUIREMENTS(requirementID) (display: requirementName)",
-              "notes": "Comprehensive requirement set (issue #288): the requirements selected at registration ∪ those EXPLICITLY connected to the row's scope ∪ those explicitly connected to its product group — explicit connections only (session decision: no Q1 wildcard here; a requirement with blank scope/product-group keys applies exactly where it is pinned, while the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip Inactive requirements and stay gated by the requirement's unit/region applicability. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker (requirementsForProductScopes).",
+              "rule": "computed: PS-REQUIREMENTS(productScopeID) (display: requirementName)",
+              "notes": "Comprehensive requirement set (issue #288, legs inverted by #294 — the stored link lives on Requirements.productScopeID now, the Product Scope form no longer picks requirements): requirements NAMING this product scope ∪ those EXPLICITLY connected to the row's scope ∪ its product group ∪ those created FOR the row's business unit (auto-inheritance, the #294 rationale — no form-level link needed for unit-wide restrictions). Still no Q1 wildcard: a requirement with ALL applicability keys blank attaches nowhere here (the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip Inactive requirements and stay gated by the requirement's unit/region applicability. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker (requirementsForProductScopes).",
               "table-display": true,
               "subitem-display": true,
               "constraints": null,
@@ -4060,21 +4070,6 @@
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "Filtered by the businessUnitID selected"
-              },
-              "Requirements": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "requirementID",
-                "tooltip": "Requirements directly applied to this product scope — only requirements registered EXCLUSIVELY for the selected Business Unit are offered (issue #290); the comprehensive REQUIREMENTS list adds the ones explicitly connected to the chosen scope and product group",
-                "step": null,
-                "check": "Business Unit IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "SelectLabel = requirementTypeName",
-                  "only Active",
-                  "filtered by Business Unit selected (exclusively)"
-                ]
               },
               "Active": {
                 "field-type": {

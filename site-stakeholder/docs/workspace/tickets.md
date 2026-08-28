@@ -24,9 +24,11 @@ was not forecast — the line's consumption counts the linked tickets and its re
 balance follows); Details; Target date; Status. The payload, SLA and product/scope columns are
 derived from that chain — nothing else to select. The requirement set is **live**
 (2026-08-20): registering a new Active requirement whose applicability matches the ticket's
-scopes, unit, served regions or customer makes it appear on existing tickets immediately —
-no re-entry; inactivating a requirement removes it everywhere. The set includes
-customer-specific requirements registered against this customer.
+scopes, product scopes, unit, served regions or customer makes it appear on existing tickets
+immediately — no re-entry; inactivating a requirement removes it everywhere. The set includes
+customer-specific requirements registered against this customer and, since 2026-08-28,
+follows the requirement's Product Scope dimension (a requirement naming specific
+combinations inherits only into tickets that admit them).
 Expanding a ticket row opens four tabs — the **Processes** the event dispatches into
 (narrowed by the chosen product scope), the **Tasks** of those processes, **Inputs**
 (2026-08-26): the [Handouts](../operation/handouts.md) marked **Customer Input** among the
