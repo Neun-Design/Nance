@@ -976,22 +976,21 @@ export function ticketInputHandouts(ticket) {
 }
 
 // Comprehensive requirement set of a PRODUCT SCOPE (issue #288, legs
-// inverted by #294): the rows behind the PS-REQUIREMENTS rule — the
-// requirements NAMING this product scope first (Requirements.productScopeID,
-// the stored link declared on the REQUIREMENT since #294; stored data wins,
-// even Inactive), then the requirements EXPLICITLY connected to the row's
-// scope, its product group, or created FOR the row's business unit (the
-// #294 rationale: a requirement created for a unit is inherited by every
-// product scope of that unit automatically — no form-level link needed),
-// deduped in that order. Still no Q1 wildcard: a requirement with ALL
-// applicability keys blank attaches nowhere here (#288 session decision;
-// the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip
-// Inactive requirements (blank = Active, #222 posture) and stay gated by
-// the requirement's own unit/region applicability: unit key empty or naming
-// the row's unit (for the unit leg the key IS the connection); region key
-// empty or overlapping the unit's served regions — a unit serving no region
-// still admits region-specific requirements (the multiViaJoin lenient
-// posture).
+// inverted by #294, unit leg removed by #296): the rows behind the
+// PS-REQUIREMENTS rule — the requirements NAMING this product scope first
+// (Requirements.productScopeID, the stored link declared on the REQUIREMENT
+// since #294; stored data wins, even Inactive), then the requirements
+// EXPLICITLY connected to the row's scope or its product group, deduped in
+// that order. THREE connection legs only (#296 decision): a requirement
+// sharing the row's businessUnitID or regionID does NOT attach through
+// those dimensions — unit/region act purely as EXCLUSION gates on the
+// derived legs (a scope-connected requirement restricted to another
+// unit/region stays out), and the unit-wide inheritance lives on the
+// ticket/forecast chains (#226 Q1), not on this attribute. Still no Q1
+// wildcard: a requirement with ALL applicability keys blank attaches
+// nowhere here (#288 session decision). Derived legs skip Inactive
+// requirements (blank = Active, #222 posture); region gate lenient when
+// the unit serves no region (the multiViaJoin posture).
 export function productScopeRequirementRows(ps) {
   const rT = resolveTable('Requirements');
   if (!rT || !ps) return [];
@@ -1014,14 +1013,7 @@ export function productScopeRequirementRows(ps) {
     if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
     const scopeHit = !blank(r.scopeID) && sameVal(r.scopeID, ps.scopeID);
     const pgHit = !blank(r.productGroupID) && sameVal(r.productGroupID, ps.productGroupID);
-    // unit leg (#294): fires only for requirements created FOR the unit at
-    // large — a scope/product-group key narrows the applicability within the
-    // unit, so those requirements attach through their own legs instead of
-    // the unit swallowing the narrowing
-    const unitLeg = !blank(r.businessUnitID) && unitIds.length
-      && sameVal(r.businessUnitID, unitIds)
-      && blank(r.scopeID) && blank(r.productGroupID);
-    if (scopeHit || pgHit || unitLeg) push(r);
+    if (scopeHit || pgHit) push(r);
   }
   return out;
 }

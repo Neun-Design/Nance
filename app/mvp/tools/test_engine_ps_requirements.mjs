@@ -9,8 +9,9 @@
 // REQUIREMENTS column / subitem tab render the comprehensive
 // productScopeRequirements set — computed: PS-REQUIREMENTS(productScopeID):
 // requirements NAMING the row ∪ explicitly connected via scope ∪ via product
-// group ∪ created for the row's unit (scope/pg keys blank — a narrowing key
-// keeps the requirement on its own legs). Still no Q1 wildcard here: a
+// group — THREE legs only since #296: unit/region are exclusion gates,
+// never sources (unit-wide inheritance lives on the ticket chain, Q1).
+// Still no Q1 wildcard here: a
 // requirement with ALL keys blank attaches nowhere (the ticket inheritance
 // #226 keeps Q1, and gains the productScopeID dimension under it).
 // Run from prototype/:  node tools/test_engine_ps_requirements.mjs
@@ -40,8 +41,8 @@ console.log('== schema: the stored link lives on Requirements (#294) ==');
   const link = catalog['Requirements'].byName['productScopeID'];
   const r = model.parseRule(link.rule);
   eq([link.type, r.kind, model.resolveTable(r.target), r.display],
-    ['FK', 'fk', 'Product Scopes', 'productGroupName'],
-    'Requirements.productScopeID: stored FK → Product Scopes, displayed by productGroupName');
+    ['FK', 'fk', 'Product Scopes', 'productScopeRegistry'],
+    'Requirements.productScopeID: stored FK → Product Scopes, displayed by the registry code (#296)');
   eq(/multivalued/i.test(String(link.notes)), true, 'multivalued via the attribute note');
   // the #288 direct-pick FK is GONE — catalogue and data
   eq(catalog['Product Scopes'].byName['requirementID'], undefined,
@@ -68,8 +69,8 @@ console.log('== schema: forms — picker moved, #290 retired ==');
   eq(rf && rf.attribute, 'productScopeID', 'Requirements form gains the Product Scope picker');
   const rule = Array.isArray(rf['field-rule']) ? rf['field-rule'].join('; ') : String(rf['field-rule']);
   eq(/allow multiple/i.test(rule), true, 'multivalued picker');
-  eq(/SelectLabel\s*=\s*scopeName/.test(rule), true,
-    'options grouped by scopeName (items show productGroupName — the FK display)');
+  eq(/SelectLabel/.test(rule), false,
+    'no grouping — options show the plain productScopeRegistry code (#296)');
   const CASCADE = /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i;
   eq(CASCADE.test(rule) && /businessUnitID/.test(rule), true,
     'unit cascade spelling wires (generic stored-key path — #274 trap)');
@@ -123,23 +124,22 @@ console.log('== semantics: named ∪ scope ∪ product-group legs, no Q1 ==');
   data.removeRecords('Requirements', ['RQ-T-NAMED']);
 }
 
-console.log('== semantics: the unit leg (#294 auto-inheritance) ==');
+console.log('== semantics: unit/region are gates, never sources (#296) ==');
 {
-  const ps01 = data.getById('Product Scopes', 'PS01'); // BU01
+  const ps01 = data.getById('Product Scopes', 'PS01'); // BU01, serves RG01
   data.addRecord('Requirements', { requirementID: 'RQ-T-UNIT1', requirementName: 'Unit-wide (t)',
     scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
-  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT1'), true,
-    'a requirement created FOR BU01 attaches to the unit\'s product scopes automatically');
-  const other = data.getEntity('Product Scopes').find((p) => p.businessUnitID !== 'BU01');
-  eq(ids(resolve.productScopeRequirementRows(other)).includes('RQ-T-UNIT1'), false,
-    'and stays off other units\' product scopes');
-  // a scope/product-group key NARROWS within the unit — the unit leg must
-  // not swallow it (session decision: the requirement rides its own legs)
-  data.addRecord('Requirements', { requirementID: 'RQ-T-UNIT2', requirementName: 'Unit+scope (t)',
-    scopeID: ['SC07'], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
-  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT2'), false,
-    'unit + foreign-scope requirement does NOT attach through the unit leg (PS01 is SC02)');
-  data.removeRecords('Requirements', ['RQ-T-UNIT1', 'RQ-T-UNIT2']);
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT1'), false,
+    'a requirement sharing the row\'s unit does NOT attach through that dimension (#296 — the #294 unit leg is gone)');
+  data.addRecord('Requirements', { requirementID: 'RQ-T-REG1', requirementName: 'Region-wide (t)',
+    scopeID: [], productGroupID: [], businessUnitID: [], regionID: ['RG01'], isActive: 'Active' });
+  eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-REG1'), false,
+    'a requirement sharing the row\'s served region does NOT attach either');
+  // ticket inheritance keeps the unit dimension under Q1 — untouched by #296
+  const tkt = data.getEntity('Tickets').find((t) => String(t.businessUnitID) === 'BU01');
+  eq(tkt != null && resolve.ticketRequirements(tkt).includes('RQ-T-UNIT1'), true,
+    'the unit-wide requirement still inherits into the unit\'s tickets (#226 Q1 chain)');
+  data.removeRecords('Requirements', ['RQ-T-UNIT1', 'RQ-T-REG1']);
 }
 
 console.log('== semantics: union of legs + unit/region gates + Inactive ==');
