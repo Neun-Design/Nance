@@ -3,8 +3,8 @@
 // Presentation P2): the Payload ENTITY materializes in Operation (order 7).
 // A payload packages one Event × Product Scopes combination; the Product
 // Scope picker offers the event's applicability (scopeID × productID,
-// empty = all — Q1) narrowed to the payload's unit, items labelled by
-// product group and grouped by scope (SelectLabel = scopeName).
+// empty = all — Q1) narrowed to the payload's unit, items labelled by the
+// productScopeRegistry code since issue #299 (grouping dropped).
 // Run from prototype/:  node tools/test_engine_payload_entity.mjs
 
 import fs from 'fs';
@@ -54,7 +54,9 @@ console.log('== form spec: cascade + grouped multi-select ==');
   eq(f['Product Scope'].check, 'Event IS NOT NULL', 'Product Scope gated on the event');
   const rule = f['Product Scope']['field-rule'].join('; ');
   eq(/Allow multiple/i.test(rule), true, 'Product Scope is multivalued');
-  eq(/SelectLabel = scopeName/.test(rule), true, 'options grouped by scope');
+  // issue #299: items show the plain productScopeRegistry code — grouping
+  // dropped, FK display re-pointed (the #296 registry-code pattern)
+  eq(/SelectLabel/.test(rule), false, 'no scope grouping since #299 (registry-code items)');
 }
 
 console.log('== productScopesForPayload: applicability × unit ==');
@@ -79,10 +81,11 @@ console.log('== productScopesForPayload: applicability × unit ==');
     const s = Array.isArray(ps.scopeID) ? ps.scopeID : [ps.scopeID];
     return s.includes(scope) && String(ps.businessUnitID) === String(ps0.businessUnitID);
   }), true, 'every option matches scope AND unit');
-  // items label by product group, not the default "product | scope" pair
+  // items label by the registry code (issue #299), not the group/scope names
   const sample = narrowed[0] && data.getById('Product Scopes', narrowed[0].value);
-  const pgLabel = sample && String(narrowed[0].label);
-  eq(!!pgLabel && pgLabel.length > 0, true, `options carry product-group labels (e.g. "${pgLabel}")`);
+  const regLabel = sample && String(narrowed[0].label);
+  eq(!!regLabel && regLabel === String(sample.productScopeRegistry ?? narrowed[0].value), true,
+    `options carry registry-code labels (e.g. "${regLabel}")`);
 }
 
 console.log('== seeds: one payload per event, unit-consistent ==');

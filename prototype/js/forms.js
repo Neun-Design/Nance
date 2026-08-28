@@ -806,8 +806,9 @@ export function productScopesForEvent(eventId) {
 }
 
 // Product scopes a PAYLOAD packages: the event's applicability narrowed
-// to the selected business unit (issue #190). Items label as the product
-// group (name | specs); the form groups them by scope via SelectLabel.
+// to the selected business unit (issue #190). Items label as the
+// productScopeRegistry code since issue #299 (the #296 registry-code
+// pattern — the FK display re-pointed and the scope grouping dropped).
 export function productScopesForPayload(eventId, businessUnitId) {
   const base = productScopesForEvent(eventId);
   const kept = !businessUnitId ? base : base.filter((o) => {
@@ -816,10 +817,8 @@ export function productScopesForPayload(eventId, businessUnitId) {
   });
   return kept.map((o) => {
     const ps = getById('Product Scopes', o.value);
-    const label = ps && [resolveDisplay('Product Scopes', ps, 'productGroupName'),
-      resolveDisplay('Product Scopes', ps, 'productSpecName')]
-      .filter((x) => x != null && x !== '').join(' | ');
-    return label ? { value: o.value, label } : o;
+    const label = ps && resolveDisplay('Product Scopes', ps, 'productScopeRegistry');
+    return label ? { value: o.value, label: String(label) } : o;
   });
 }
 
