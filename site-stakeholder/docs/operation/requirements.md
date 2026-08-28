@@ -16,8 +16,8 @@ cascade Region → Business Unit → Branch/Customer/Scope/Product Group/**Produ
 Business Unit picker unlocks after at least one Region is selected (2026-08-27); regulatory
 reference/URL. The **Product Scope** picker (2026-08-28) targets the requirement at specific
 [Product Scope](../portfolio/product-scopes.md) combinations directly — options show the
-product group, grouped by scope, filtered by the selected units; leave it empty when the
-scope/product-group/unit dimensions already describe the applicability. On the operational
+combination's registry code, filtered by the selected units; leave it empty when the
+scope/product-group dimensions already describe the applicability. On the operational
 chain it behaves like every other dimension: empty applies to all, filled narrows ticket
 inheritance to the named combinations. The **Customer** select unlocks after picking a Business Unit and offers that
 unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
@@ -31,10 +31,10 @@ quality manager binds it there, and the [competences](../talent/competence.md) c
 that procedure inherit the decision.
 **Product Scopes read the connections explicitly** (2026-08-27, link inverted 2026-08-28):
 the [Product Scope](../portfolio/product-scopes.md) REQUIREMENTS list shows the requirements
-that **name** that combination on their own Product Scope dimension, the ones whose scope or
-product-group dimension names it, and the ones created **for its business unit** (a
-requirement registered for a unit reaches every product scope of that unit automatically —
-no per-combination linking needed). A requirement with all those dimensions empty appears
-there only where its Product Scope dimension names it, so one requirement can govern exactly
-the combinations it belongs to without being registered once per pair. Ticket inheritance
-keeps the wildcard reading above.
+that **name** that combination on their own Product Scope dimension and the ones whose scope
+or product-group dimension names it — three connections only: sharing the combination's
+business unit or region is never enough to appear there (those dimensions only exclude
+mismatches; unit- and region-wide applicability keeps acting on tickets through the
+inheritance above). A requirement with all those dimensions empty appears there only where
+its Product Scope dimension names it, so one requirement can govern exactly the combinations
+it belongs to without being registered once per pair.
