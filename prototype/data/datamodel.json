@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 63,
+    "schemaVersion": 64,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2057,8 +2057,8 @@
               "type": "mirror",
               "rule": "computed: SUM(procedureID.executionTime)",
               "notes": "Derived — procedures create the variance in task duration (Rafael, 04/08): the requirement set changes how long a task takes, so the time is registered PER PROCEDURE and the task shows the sum of its procedures.",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2075,8 +2075,8 @@
               "type": "mirror",
               "rule": "computed: CERTIFIED-USERS(taskID) (display: userName)",
               "notes": "multivalued — derived live (issue #214): People holding a CERTIFIED Onboarding (isCertified==true) on a task-compatible competence, whose combined competences cover ALL the requirements the task derives from its procedures (union of the requirement sets; a wildcard procedure covers everything) — the certified-responsible doctrine at the Tasks level. Authored 2026-08-19 as prose ('users that have the competences that matches all the requirements for the procedure applied to the task', constraint isCertified==true); normalized to the CERTIFIED-USERS rule kind (certifiedUsersForTask in resolve.js). Ticket context (issue #233): rendered inside a Ticket's Tasks tab, coverage must ALSO span the ticket's live inherited requirement set (#226) — the subitem accessor passes ticketRequirements(ticket) as extra ids; the standalone Tasks dashboard stays task-level.",
-              "table-display": true,
-              "subitem-display": true,
+              "table-display": false,
+              "subitem-display": false,
               "constraints": null
             },
             {
@@ -2747,7 +2747,10 @@
             }
           },
           "cards": [],
-          "table-filters": true
+          "table-filters": true,
+          "subitem-tables": [
+            "Tasks"
+          ]
         },
         "Actions": {
           "visibility": "show",
@@ -3791,7 +3794,7 @@
             {
               "name": "productScopeID",
               "type": "FK",
-              "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
+              "rule": "FK → Product Scopes (display: productScopeRegistry)",
               "notes": "multivalued — user-selected from the event's applicability (scopeID × productID, issue #190); empty = every product scope the event admits (Q1 wildcard)",
               "table-display": true,
               "subitem-display": true,
@@ -3860,7 +3863,6 @@
                 "check": "Event IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "SelectLabel = scopeName",
                   "filtered by Event + Business Unit selected"
                 ]
               },

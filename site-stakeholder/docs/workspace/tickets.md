@@ -38,8 +38,10 @@ listed — and **Requirements** (2026-08-27): the ticket's live inherited
 [Requirements](../operation/requirements.md) as full rows (type, reference, regulatory
 link), replacing the joined-names column the table used to carry. It is the collection checklist for ticket intake: what the customer must hand over
 before remote teams can start (a task whose procedure is ambiguous or missing contributes
-nothing until the gap is closed). The Users
-column on Tasks is **ticket-aware** (2026-08-20): it lists only people whose certified
-competences cover **every** requirement the ticket inherits — a new requirement landing on
-the ticket clears the list until certifications catch up (bind it to the task's
-[Procedure](../operation/procedures.md) so the certified competences absorb it).
+nothing until the gap is closed). Staffing
+eligibility stays **ticket-aware** behind the scenes (2026-08-20; the Users column left the
+Tasks tab on 2026-08-28): only people whose certified competences cover **every**
+requirement the ticket inherits can be staffed — a new requirement landing on the ticket
+narrows eligibility until certifications catch up (bind it to the task's
+[Procedure](../operation/procedures.md) so the certified competences absorb it; the
+procedure's own Users column keeps pointing at the eligible people).

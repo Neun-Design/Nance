@@ -11,3 +11,4 @@ are computed from each step's parent and indentation rule; you never type them.
 **Register when:** after Processes.
 **Key fields:** `Process *` → unlocks Activity and Parent Step (steps of the same process);
 Indentation Rule (start-to-finish = next number, start-to-start = sub-number under the parent).
+Expanding a step row lists the [Tasks](tasks.md) registered on it (2026-08-28).

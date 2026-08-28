@@ -12,5 +12,5 @@ requirements into the customer's [Tickets](../workspace/tickets.md). Defining th
 Broker's job (typically the quality or process manager).
 **Register when:** after Processes and the Portfolio's Product Scopes; before the CRM SLAs.
 **Key fields:** Code; `Unit *` (grouped by segment) → unlocks `Event *` (the unit's events)
-→ **Product Scopes** (multi — the event's applicability narrowed to the unit, grouped by
-scope; empty = every scope the event admits); Activate.
+→ **Product Scopes** (multi — the event's applicability narrowed to the unit, shown by
+registry code since 2026-08-28; empty = every scope the event admits); Activate.
