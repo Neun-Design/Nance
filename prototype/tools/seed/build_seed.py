@@ -153,9 +153,13 @@ class Builder:
         self.index('Job Family', 'jobFamilyName', 'jobFamilyID')
 
         unit_ids = [u['businessUnitID'] for u in self.rows('Business Units')]
+        # issue #298: a function belongs to a Job Family — same domain-pack
+        # map that seeds the roles, so migrated and regenerated copies agree
         fns = [{'functionID': f'F{i+1}', 'functionName': f['name'],
                 'functionDescription': f"{f['name']} function of the clinical operation",
-                'businessUnitID': unit_ids[i % len(unit_ids)], 'functionOwner': None}
+                'businessUnitID': unit_ids[i % len(unit_ids)],
+                'jobFamilyID': self.id_of('Job Family', f['family']),
+                'functionOwner': None}
                for i, f in enumerate(d['functions'])]
         self.put('Functions', fns)
         self.index('Functions', 'functionName', 'functionID')
@@ -205,7 +209,6 @@ class Builder:
                 'functionID': fid,
                 'squadID': squad_ids[i % len(squad_ids)],
                 'branchID': f'BR{(i % len(branches)) + 1:02d}',
-                'jobFamilyID': self.id_of('Job Family', fam_of_fn[fn_name]),
                 'onboardID': None,
                 'workingHours': p['weeklyHours'][i % len(p['weeklyHours'])],
                 'personOwner': None,
