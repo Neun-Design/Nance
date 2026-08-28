@@ -2655,9 +2655,14 @@ multi-dimensional: region, unit, branch, customer, scope, product group — <str
 dimension means "applies to all"</strong>.
 <strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).
 <strong>Key fields:</strong> Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group — the Business Unit
-picker unlocks after at least one Region is selected (2026-08-27); regulatory
-reference/URL. The <strong>Customer</strong> select unlocks after picking a Business Unit and offers that
+cascade Region → Business Unit → Branch/Customer/Scope/Product Group/<strong>Product Scope</strong> — the
+Business Unit picker unlocks after at least one Region is selected (2026-08-27); regulatory
+reference/URL. The <strong>Product Scope</strong> picker (2026-08-28) targets the requirement at specific
+<a href="../../portfolio/product-scopes/">Product Scope</a> combinations directly — options show the
+product group, grouped by scope, filtered by the selected units; leave it empty when the
+scope/product-group/unit dimensions already describe the applicability. On the operational
+chain it behaves like every other dimension: empty applies to all, filled narrows ticket
+inheritance to the named combinations. The <strong>Customer</strong> select unlocks after picking a Business Unit and offers that
 unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
 the customer's <a href="../../workspace/tickets/">Tickets</a> through the <a href="../../crm/sla/">SLA</a> chain.
 <strong>Applicability propagates live to tickets</strong> (2026-08-20): an <strong>Active</strong> requirement is
@@ -2667,15 +2672,15 @@ to Inactive withdraws it everywhere. <strong>Competences never inherit automatic
 requirement becomes an option on the <a href="../procedures/">Procedure</a>'s Requirements picker, the
 quality manager binds it there, and the <a href="../../talent/competence/">competences</a> certifying
 that procedure inherit the decision.
-<strong>Product Scopes read the connections explicitly</strong> (2026-08-27): the
-<a href="../../portfolio/product-scopes/">Product Scope</a> REQUIREMENTS list shows the requirements
-picked directly on the Product Scope form plus the ones whose scope or product-group
-dimension <strong>names</strong> that combination — a requirement leaving those two dimensions empty
-appears there only where it is picked, so one requirement can govern exactly the
-combinations it belongs to without being registered once per pair. The Product Scope
-picker is <strong>unit-exclusive</strong>: to make a requirement pickable there, register it with the
-Business Unit dimension naming exactly that unit, alone. Ticket inheritance keeps the
-wildcard reading above.</p>
+<strong>Product Scopes read the connections explicitly</strong> (2026-08-27, link inverted 2026-08-28):
+the <a href="../../portfolio/product-scopes/">Product Scope</a> REQUIREMENTS list shows the requirements
+that <strong>name</strong> that combination on their own Product Scope dimension, the ones whose scope or
+product-group dimension names it, and the ones created <strong>for its business unit</strong> (a
+requirement registered for a unit reaches every product scope of that unit automatically —
+no per-combination linking needed). A requirement with all those dimensions empty appears
+there only where its Product Scope dimension names it, so one requirement can govern exactly
+the combinations it belongs to without being registered once per pair. Ticket inheritance
+keeps the wildcard reading above.</p>
 
 
 
