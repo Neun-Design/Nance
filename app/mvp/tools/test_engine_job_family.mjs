@@ -53,8 +53,11 @@ console.log('== #166: data & FK references follow ==');
   const r = model.parseRule(catalog['Roles'].byName['jobFamilyID'].rule);
   eq(resolve.fkDisplay({ table: r.target, display: r.display }, role.jobFamilyID),
     'Electrical Engineering', 'Roles FK cell resolves the family name');
-  eq(catalog['People'].byName['jobFamilyID'].rule, 'FK → Job Family (display: jobFamilyName)',
-    'People FK follows the rename');
+  // issue #298: People derive the family through their Function since the
+  // function↔family link landed — the stored FK became a mirror
+  eq(catalog['People'].byName['jobFamilyID'].rule,
+    'mirror → Functions (via: functionID) (display: jobFamilyName)',
+    'People family derives through the function (#298)');
 }
 
 console.log(fails ? `\nFAILED — ${fails} assertion(s)` : '\nALL GREEN');
