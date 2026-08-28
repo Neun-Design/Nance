@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 62,
+    "schemaVersion": 63,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3492,8 +3492,8 @@
             {
               "name": "productScopeID",
               "type": "FK",
-              "rule": "FK → Product Scopes (display: productGroupName)",
-              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements). Empty = no direct targeting; in the ticket/forecast chains empty applies to all (Q1), non-empty narrows inheritance to the named product scopes",
+              "rule": "FK → Product Scopes (display: productScopeRegistry)",
+              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements; picker shows the productScopeRegistry code, issue #296). Empty = no direct targeting; in the ticket/forecast chains empty applies to all (Q1), non-empty narrows inheritance to the named product scopes",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3634,10 +3634,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Product scopes this requirement applies to directly — leave empty when the scope/product-group/unit dimensions already describe the applicability",
+                "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — leave empty when the scope/product-group/unit dimensions already describe the applicability",
                 "step": null,
                 "check": null,
-                "field-rule": "Allow multiple values; SelectLabel = scopeName; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
               },
               "Activate": {
                 "field-type": {
@@ -3984,7 +3984,7 @@
               "name": "productScopeRequirements",
               "type": "mirror",
               "rule": "computed: PS-REQUIREMENTS(productScopeID) (display: requirementName)",
-              "notes": "Comprehensive requirement set (issue #288, legs inverted by #294 — the stored link lives on Requirements.productScopeID now, the Product Scope form no longer picks requirements): requirements NAMING this product scope ∪ those EXPLICITLY connected to the row's scope ∪ its product group ∪ those created FOR the row's business unit (auto-inheritance, the #294 rationale — no form-level link needed for unit-wide restrictions). Still no Q1 wildcard: a requirement with ALL applicability keys blank attaches nowhere here (the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip Inactive requirements and stay gated by the requirement's unit/region applicability. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker (requirementsForProductScopes).",
+              "notes": "Comprehensive requirement set (issue #288, legs inverted by #294, unit leg removed by #296): requirements NAMING this product scope ∪ those EXPLICITLY connected to the row's scope ∪ its product group — THREE connection legs only. A requirement sharing the row's businessUnitID or regionID does NOT attach through those dimensions (unit/region act purely as exclusion gates on the derived legs; unit-wide inheritance lives on the ticket/forecast chains under Q1). Still no Q1 wildcard: a requirement with ALL applicability keys blank attaches nowhere here (the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip Inactive requirements. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker (requirementsForProductScopes).",
               "table-display": true,
               "subitem-display": true,
               "constraints": null,

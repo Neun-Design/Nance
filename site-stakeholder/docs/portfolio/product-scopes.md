@@ -11,9 +11,9 @@ thing Forecast Scopes and Workflows point at.
 **Register when:** last in the module.
 **Key fields:** `Business Unit *` (grouped by segment) → unlocks `Product Group *` (shown as
 product | SPECS) and `Scope *`. Requirements are **not** picked here (2026-08-28): the link
-is declared on the [Requirement](../operation/requirements.md) side — a requirement created
-for this business unit reaches the combination automatically, and a requirement can name
-specific combinations through its own Product Scope dimension. The **REQUIREMENTS** column
-and the **Requirements** tab on the expanded row show everything that applies: requirements
-naming this combination, the ones connected to its scope or product group, and the ones
-created for its unit.
+is declared on the [Requirement](../operation/requirements.md) side — a requirement names
+specific combinations through its own Product Scope dimension (by registry code), or reaches
+them through its scope/product-group dimensions. The **REQUIREMENTS** column and the
+**Requirements** tab on the expanded row show exactly those three connections: requirements
+naming this combination and the ones connected to its scope or product group (sharing the
+unit or region is not a connection — unit-wide obligations act on tickets, not here).
