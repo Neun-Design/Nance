@@ -1015,33 +1015,9 @@ export function productScopesForProcess(processId) {
   return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
-// Requirements registered EXCLUSIVELY for the given business unit — the
-// Product Scopes form Requirements picker (issue #290, session decision:
-// strict reading of "exclusively"): the requirement's businessUnitID must
-// name EXACTLY that unit, alone. An empty key ("applies to all units", Q1)
-// or a multi-unit key is NOT offered — to pin a requirement on a unit's
-// product scopes, register it exclusively for that unit. Active-only (the
-// picker doctrine, #231/#288); no unit selected ⇒ nothing (the field is
-// gated on Business Unit anyway). Only the PICKER narrows — the
-// comprehensive productScopeRequirements set (#288) is untouched, so a
-// previously pinned requirement keeps rendering even if it stops matching.
-export function requirementsExclusiveToUnit(unitId) {
-  const rT = resolveTable('Requirements');
-  if (!rT || unitId == null || unitId === '') return [];
-  const rMeta = ENTITY_META[rT];
-  return getEntity(rT)
-    .filter((r) => String(r.isActive || 'Active') !== 'Inactive')
-    .filter((r) => {
-      const units = asList(r.businessUnitID);
-      return units.length === 1 && String(units[0]) === String(unitId);
-    })
-    .map((r) => ({ value: r[rMeta.pk],
-      label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
-    .sort((a, b) => a.label.localeCompare(b.label));
-}
-
 // Requirements carried by the given product scopes — their COMPREHENSIVE
-// sets (issue #288: direct picks ∪ explicit scope/product-group connections,
+// sets (issue #288, legs inverted by #294: requirements naming the row ∪
+// explicit scope/product-group connections ∪ the row's unit-wide ones,
 // productScopeRequirementRows), unioned. The Procedures Requirements picker
 // follows the selected product scopes; with none selected the caller falls
 // back to the task path. Replaced the retired compound rollup on
@@ -1617,16 +1593,6 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if ((entity === 'Procedures' || entity === 'Competence') && attrName === 'productScopeID') {
             const dep = findDep('Process');
             applyOpts(productScopesForProcess(dep ? dep[1].get() : null));
-            return;
-          }
-          // Product Scopes "Requirements": only requirements registered
-          // EXCLUSIVELY for the selected Business Unit (issue #290, strict
-          // single-unit match — see requirementsExclusiveToUnit). Reachable
-          // because the field-rule carries the `filtered by … selected`
-          // spelling (#274 trap: a bespoke branch is dead without it).
-          if (entity === 'Product Scopes' && attrName === 'requirementID') {
-            const dep = findDep('Business Unit');
-            applyOpts(requirementsExclusiveToUnit(dep ? dep[1].get() : null));
             return;
           }
           // Procedures "Requirements": follow the selected PRODUCT SCOPES

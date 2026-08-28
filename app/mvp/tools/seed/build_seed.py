@@ -340,11 +340,6 @@ class Builder:
                         'productScopeName': f'{gname} × {sname}',
                         'businessSegment': seg_name, 'isActive': 'Active',
                         'createdAt': (self.anchor - timedelta(days=400 + i)).isoformat(),
-                        # issue #288: direct registration-time picks — honest
-                        # empty (the comprehensive PS-REQUIREMENTS set still
-                        # derives the explicit scope/product-group links);
-                        # mirrors migrate_product_scope_requirements.py
-                        'requirementID': [],
                         'productScopeOwner': None})
         self.put('Product Scopes', pss)
         self.index('Product Scopes', 'productScopeName', 'productScopeID')
@@ -387,6 +382,10 @@ class Builder:
                          'customerID': self.id_of('Customers', r['customers'][0]) if r.get('customers') else None,
                          'scopeID': [self.id_of('Scopes', x) for x in r.get('scopes', [])],
                          'productGroupID': sorted(set(pg_ids)),
+                         # issue #294: direct product-scope targeting — honest
+                         # empty (no demo requirement names specific product
+                         # scopes); mirrors migrate_requirement_product_scopes.py
+                         'productScopeID': [],
                          'isActive': 'Active',
                          'regulatoryReference': r.get('reference', ''),
                          'regulatoryURL': None})

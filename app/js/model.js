@@ -67,14 +67,14 @@ export function parseRule(rule) {
   // handouts collect, deduped (ticketInputHandouts in resolve.js)
   m = txt.match(/^computed:\s*TICKET-INPUTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'ticketinputs', srcField: m[1], display: m[2] || null };
-  // PS-REQUIREMENTS(directField) — the comprehensive requirement set of a
-  // product scope (issue #288): the requirements DIRECTLY selected at
-  // registration (the stored FK named by directField) ∪ those explicitly
-  // connected to the row's scope ∪ those explicitly connected to its product
-  // group. Explicit connections only — an empty requirement key connects to
-  // NOTHING here (no Q1 wildcard: a requirement with blank scope/product
-  // group applies only where it is pinned; the ticket chain #226 keeps its
-  // own Q1 posture). productScopeRequirementRows in resolve.js.
+  // PS-REQUIREMENTS(inverseField) — the comprehensive requirement set of a
+  // product scope (issue #288, legs inverted by #294): the requirements
+  // NAMING this row (Requirements.productScopeID, the stored link declared
+  // on the REQUIREMENT — inverseField names that key) ∪ those explicitly
+  // connected to the row's scope ∪ its product group ∪ those created FOR
+  // the row's business unit (auto-inheritance). Still no Q1 wildcard: a
+  // requirement with ALL keys blank attaches nowhere here (the ticket chain
+  // #226 keeps its own Q1 posture). productScopeRequirementRows in resolve.js.
   m = txt.match(/^computed:\s*PS-REQUIREMENTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'psrequirements', srcField: m[1], display: m[2] || null };
   // optional multiplier: "SUM(taskID.executionTime) * forecastScopeQuantity"

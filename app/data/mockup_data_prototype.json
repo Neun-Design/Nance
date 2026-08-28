@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 61,
+  "schemaVersion": 62,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -10633,7 +10633,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "RDC 611/2022",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ02",
@@ -10650,7 +10651,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "ANMAT 2674",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ03",
@@ -10668,7 +10670,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "CFM 2.107",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ04",
@@ -10686,7 +10689,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "LGPD 13.709",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ05",
@@ -10703,7 +10707,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "Ley 25.326",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ06",
@@ -10723,7 +10728,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ07",
@@ -10741,7 +10747,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ08",
@@ -10759,7 +10766,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ09",
@@ -10779,7 +10787,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ10",
@@ -10798,7 +10807,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ11",
@@ -10813,7 +10823,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ12",
@@ -10830,7 +10841,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ13",
@@ -10845,7 +10857,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ14",
@@ -10860,7 +10873,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ15",
@@ -10879,7 +10893,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ16",
@@ -10897,7 +10912,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ17",
@@ -10918,7 +10934,8 @@
     ],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    },
    {
     "requirementID": "RQ18",
@@ -10935,7 +10952,8 @@
     "productGroupID": [],
     "isActive": "Active",
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "productScopeID": []
    }
   ],
   "Channels": [
@@ -29525,8 +29543,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-17",
-    "productScopeOwner": "U27",
-    "requirementID": []
+    "productScopeOwner": "U27"
    },
    {
     "productScopeID": "PS02",
@@ -29538,8 +29555,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-16",
-    "productScopeOwner": "U28",
-    "requirementID": []
+    "productScopeOwner": "U28"
    },
    {
     "productScopeID": "PS03",
@@ -29551,8 +29567,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-15",
-    "productScopeOwner": "U29",
-    "requirementID": []
+    "productScopeOwner": "U29"
    },
    {
     "productScopeID": "PS04",
@@ -29564,8 +29579,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-14",
-    "productScopeOwner": "U30",
-    "requirementID": []
+    "productScopeOwner": "U30"
    },
    {
     "productScopeID": "PS05",
@@ -29577,8 +29591,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-13",
-    "productScopeOwner": "U31",
-    "requirementID": []
+    "productScopeOwner": "U31"
    },
    {
     "productScopeID": "PS06",
@@ -29590,8 +29603,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-12",
-    "productScopeOwner": "U32",
-    "requirementID": []
+    "productScopeOwner": "U32"
    },
    {
     "productScopeID": "PS07",
@@ -29603,8 +29615,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-11",
-    "productScopeOwner": "U33",
-    "requirementID": []
+    "productScopeOwner": "U33"
    },
    {
     "productScopeID": "PS08",
@@ -29616,8 +29627,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-10",
-    "productScopeOwner": "U34",
-    "requirementID": []
+    "productScopeOwner": "U34"
    },
    {
     "productScopeID": "PS09",
@@ -29629,8 +29639,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-09",
-    "productScopeOwner": "U35",
-    "requirementID": []
+    "productScopeOwner": "U35"
    },
    {
     "productScopeID": "PS10",
@@ -29642,8 +29651,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-08",
-    "productScopeOwner": "U36",
-    "requirementID": []
+    "productScopeOwner": "U36"
    },
    {
     "productScopeID": "PS11",
@@ -29655,8 +29663,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-07",
-    "productScopeOwner": "U01",
-    "requirementID": []
+    "productScopeOwner": "U01"
    },
    {
     "productScopeID": "PS12",
@@ -29668,8 +29675,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-06",
-    "productScopeOwner": "U02",
-    "requirementID": []
+    "productScopeOwner": "U02"
    },
    {
     "productScopeID": "PS13",
@@ -29681,8 +29687,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-05",
-    "productScopeOwner": "U03",
-    "requirementID": []
+    "productScopeOwner": "U03"
    },
    {
     "productScopeID": "PS14",
@@ -29694,8 +29699,7 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-04",
-    "productScopeOwner": "U04",
-    "requirementID": []
+    "productScopeOwner": "U04"
    },
    {
     "productScopeID": "PS15",
@@ -29707,8 +29711,7 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-03",
-    "productScopeOwner": "U05",
-    "requirementID": []
+    "productScopeOwner": "U05"
    },
    {
     "productScopeID": "PS16",
@@ -29720,8 +29723,7 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-02",
-    "productScopeOwner": "U06",
-    "requirementID": []
+    "productScopeOwner": "U06"
    },
    {
     "productScopeID": "PS17",
@@ -29733,8 +29735,7 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-01",
-    "productScopeOwner": "U07",
-    "requirementID": []
+    "productScopeOwner": "U07"
    },
    {
     "productScopeID": "PS18",
@@ -29746,8 +29747,7 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-06-30",
-    "productScopeOwner": "U08",
-    "requirementID": []
+    "productScopeOwner": "U08"
    },
    {
     "productScopeID": "PS19",
@@ -29759,8 +29759,7 @@
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-06-29",
-    "productScopeOwner": "U09",
-    "requirementID": []
+    "productScopeOwner": "U09"
    },
    {
     "productScopeID": "PS20",
@@ -29772,8 +29771,7 @@
     "businessSegment": "Outpatient Care",
     "isActive": "Active",
     "createdAt": "2025-06-28",
-    "productScopeOwner": "U10",
-    "requirementID": []
+    "productScopeOwner": "U10"
    },
    {
     "productScopeID": "PS21",
@@ -29785,8 +29783,7 @@
     "businessSegment": "Outpatient Care",
     "isActive": "Active",
     "createdAt": "2025-06-27",
-    "productScopeOwner": "U11",
-    "requirementID": []
+    "productScopeOwner": "U11"
    },
    {
     "productScopeID": "PS22",
@@ -29798,8 +29795,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-26",
-    "productScopeOwner": "U12",
-    "requirementID": []
+    "productScopeOwner": "U12"
    },
    {
     "productScopeID": "PS23",
@@ -29811,8 +29807,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-25",
-    "productScopeOwner": "U13",
-    "requirementID": []
+    "productScopeOwner": "U13"
    },
    {
     "productScopeID": "PS24",
@@ -29824,8 +29819,7 @@
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-24",
-    "productScopeOwner": "U14",
-    "requirementID": []
+    "productScopeOwner": "U14"
    }
   ],
   "Events": [

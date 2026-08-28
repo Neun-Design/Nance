@@ -764,6 +764,11 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId }) {
     if (!blank(r.customerID) && !sameVal(r.customerID, customerId)) continue;
     if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
     if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+    // productScopeID dimension (issue #294): a requirement NAMING product
+    // scopes applies only where an admitted scope is named; empty = applies
+    // to all (Q1, like every other key here)
+    if (!blank(r.productScopeID)
+        && !psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
     const needScope = !blank(r.scopeID);
     const needPg = !blank(r.productGroupID);
     if (needScope || needPg) {
@@ -970,31 +975,36 @@ export function ticketInputHandouts(ticket) {
   return out;
 }
 
-// Comprehensive requirement set of a PRODUCT SCOPE (issue #288): the rows
-// behind the PS-REQUIREMENTS rule — direct picks first (the stored
-// requirementID selected at registration; stored data wins, even Inactive),
-// then the requirements EXPLICITLY connected to the row's scope, then those
-// explicitly connected to its product group, deduped in that order. Session
-// decision: explicit connections ONLY — an empty scope/product-group key
-// connects to nothing (no Q1 wildcard), so a requirement with blank keys
-// applies exactly where it is pinned; the ticket inheritance (#226,
-// matchRequirements) keeps its own Q1 posture untouched. Derived legs skip
-// Inactive requirements (blank = Active, #222 posture) and stay gated by the
-// requirement's own unit/region applicability (the dimensions the retired
-// compound rollup already enforced): unit key empty or naming the row's
-// unit; region key empty or overlapping the unit's served regions — a unit
-// serving no region still admits region-specific requirements (the
-// multiViaJoin lenient posture).
+// Comprehensive requirement set of a PRODUCT SCOPE (issue #288, legs
+// inverted by #294): the rows behind the PS-REQUIREMENTS rule — the
+// requirements NAMING this product scope first (Requirements.productScopeID,
+// the stored link declared on the REQUIREMENT since #294; stored data wins,
+// even Inactive), then the requirements EXPLICITLY connected to the row's
+// scope, its product group, or created FOR the row's business unit (the
+// #294 rationale: a requirement created for a unit is inherited by every
+// product scope of that unit automatically — no form-level link needed),
+// deduped in that order. Still no Q1 wildcard: a requirement with ALL
+// applicability keys blank attaches nowhere here (#288 session decision;
+// the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip
+// Inactive requirements (blank = Active, #222 posture) and stay gated by
+// the requirement's own unit/region applicability: unit key empty or naming
+// the row's unit (for the unit leg the key IS the connection); region key
+// empty or overlapping the unit's served regions — a unit serving no region
+// still admits region-specific requirements (the multiViaJoin lenient
+// posture).
 export function productScopeRequirementRows(ps) {
   const rT = resolveTable('Requirements');
   if (!rT || !ps) return [];
   const pk = ENTITY_META[rT].pk;
+  const psPk = ps[ENTITY_META['Product Scopes'].pk];
   const seen = new Set();
   const out = [];
   const push = (r) => {
     if (r && !seen.has(String(r[pk]))) { seen.add(String(r[pk])); out.push(r); }
   };
-  for (const id of asIds(ps.requirementID)) push(getById(rT, id));
+  for (const r of getEntity(rT)) {
+    if (matches(asIds(r.productScopeID), psPk)) push(r);
+  }
   const unitIds = asIds(ps.businessUnitID);
   const regionIds = servedRegionIds(unitIds);
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
@@ -1004,7 +1014,14 @@ export function productScopeRequirementRows(ps) {
     if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
     const scopeHit = !blank(r.scopeID) && sameVal(r.scopeID, ps.scopeID);
     const pgHit = !blank(r.productGroupID) && sameVal(r.productGroupID, ps.productGroupID);
-    if (scopeHit || pgHit) push(r);
+    // unit leg (#294): fires only for requirements created FOR the unit at
+    // large — a scope/product-group key narrows the applicability within the
+    // unit, so those requirements attach through their own legs instead of
+    // the unit swallowing the narrowing
+    const unitLeg = !blank(r.businessUnitID) && unitIds.length
+      && sameVal(r.businessUnitID, unitIds)
+      && blank(r.scopeID) && blank(r.productGroupID);
+    if (scopeHit || pgHit || unitLeg) push(r);
   }
   return out;
 }
