@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 68,
+    "schemaVersion": 69,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5039,6 +5039,15 @@
               "constraints": "FK, NOT NULL"
             },
             {
+              "name": "applicantID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName) (filtered by customerType='Internal')",
+              "notes": "the INTERNAL customer opening the ticket (issue #308) — a second requirement-inheritance party: the ticket inherits requirements pinned to the project customer OR the applicant (the #226 customer gate widened to the pair; empty key = applies to all, Q1 unchanged). Always Internal type (attribute-rule filter, Branches precedent); nullable — a ticket without an applicant inherits through the customer alone",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
@@ -5269,6 +5278,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": "SelectLabel = businessSegmentName"
+              },
+              "Applicant": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "applicantID",
+                "tooltip": "The internal customer opening the ticket — its requirements apply on top of the project customer's",
+                "step": null,
+                "check": null,
+                "field-rule": null
               },
               "Customer": {
                 "field-type": {

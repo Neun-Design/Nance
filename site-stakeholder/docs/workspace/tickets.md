@@ -10,7 +10,10 @@ purpose: "Tickets — what it is, when to register one, and its key fields"
 carries its dispatch context: the payload of the chosen event, the governing SLA, the
 processes it triggers and the applicable requirement set.
 **Register when:** after its Project.
-**Key fields:** `Unit *` (grouped by segment) → unlocks `Customer *` → unlocks `Project *`
+**Key fields:** `Unit *` (grouped by segment) → **Applicant** (2026-09-03) — the internal
+customer *opening* the ticket, always an `Internal`-type customer; optional — a ticket
+without one inherits requirements through the project customer alone → `Customer *`
+(unlocked by the Unit) → unlocks `Project *`
 (the customer's projects), **Supplier** — the party responsible for resolving the issue,
 picked among the unit's customers grouped by type (unlocked by the Unit): choosing one
 narrows Event and Product Scope to the contracts of that (customer, supplier) pair,
@@ -26,7 +29,9 @@ derived from that chain — nothing else to select. The requirement set is **liv
 (2026-08-20): registering a new Active requirement whose applicability matches the ticket's
 scopes, product scopes, unit, served regions or customer makes it appear on existing tickets
 immediately — no re-entry; inactivating a requirement removes it everywhere. The set includes
-customer-specific requirements registered against this customer and, since 2026-08-28,
+customer-specific requirements registered against **either inheritance party** — the project
+customer or the Applicant (2026-09-03: a requirement pinned to the internal customer opening
+the ticket applies on top of the project customer's set) — and, since 2026-08-28,
 follows the requirement's Product Scope dimension (a requirement naming specific
 combinations inherits only into tickets that admit them).
 Expanding a ticket row opens four tabs — the **Processes** the event dispatches into
