@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 67,
+  "schemaVersion": 68,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -399,7 +399,7 @@
      "BU01",
      "BU02"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U15"
    },
@@ -412,7 +412,7 @@
     "businessUnitID": [
      "BU02"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U16"
    },
@@ -425,7 +425,7 @@
     "businessUnitID": [
      "BU03"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U17"
    },
@@ -440,7 +440,7 @@
      "BU04",
      "BU01"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U18"
    },
@@ -453,7 +453,7 @@
     "businessUnitID": [
      "BU01"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U19"
    },
@@ -466,7 +466,7 @@
     "businessUnitID": [
      "BU02"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U20"
    },
@@ -481,7 +481,7 @@
      "BU03",
      "BU04"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U21"
    },
@@ -494,7 +494,7 @@
     "businessUnitID": [
      "BU04"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U22"
    },
@@ -507,7 +507,7 @@
     "businessUnitID": [
      "BU01"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U23"
    },
@@ -522,7 +522,7 @@
      "BU02",
      "BU03"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U24"
    },
@@ -535,7 +535,7 @@
     "businessUnitID": [
      "BU03"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U25"
    },
@@ -548,7 +548,7 @@
     "businessUnitID": [
      "BU04"
     ],
-    "customerType": "External Client",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U26"
    },
@@ -562,7 +562,7 @@
      "BU01",
      "BU02"
     ],
-    "customerType": "Internal Client",
+    "customerType": "Internal",
     "isActive": "Active",
     "customerOwner": "U27"
    },
@@ -575,7 +575,7 @@
     "businessUnitID": [
      "BU02"
     ],
-    "customerType": "Internal Client",
+    "customerType": "Internal",
     "isActive": "Active",
     "customerOwner": "U28"
    },
@@ -588,7 +588,7 @@
     "businessUnitID": [
      "BU03"
     ],
-    "customerType": "Internal Client",
+    "customerType": "Internal",
     "isActive": "Active",
     "customerOwner": "U29"
    },
@@ -603,7 +603,7 @@
      "BU04",
      "BU01"
     ],
-    "customerType": "Internal Client",
+    "customerType": "Internal",
     "isActive": "Active",
     "customerOwner": "U30"
    },
@@ -616,7 +616,7 @@
     "businessUnitID": [
      "BU01"
     ],
-    "customerType": "Internal Client",
+    "customerType": "Internal",
     "isActive": "Active",
     "customerOwner": "U31"
    },
@@ -629,7 +629,7 @@
     "businessUnitID": [
      "BU02"
     ],
-    "customerType": "Internal Client",
+    "customerType": "Internal",
     "isActive": "Active",
     "customerOwner": "U32"
    },
@@ -643,9 +643,10 @@
     "businessUnitID": [
      "BU03",
      "BU04",
-     "BU02"
+     "BU02",
+     "BU01"
     ],
-    "customerType": "Supplier",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U11"
    },
@@ -658,7 +659,7 @@
     "businessUnitID": [
      "BU04"
     ],
-    "customerType": "Supplier",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U13"
    },
@@ -671,7 +672,7 @@
     "businessUnitID": [
      "BU01"
     ],
-    "customerType": "Supplier",
+    "customerType": "External",
     "isActive": "Active",
     "customerOwner": "U07"
    }
@@ -719,7 +720,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST02",
     "branchID": null,
-    "departmentID": "DPT03",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD02"
     ],
@@ -733,7 +734,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST03",
     "branchID": null,
-    "departmentID": "DPT04",
+    "departmentID": "DPT02",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -749,7 +750,7 @@
     "businessUnitID": "BU04",
     "customerID": "CUST04",
     "branchID": null,
-    "departmentID": "DPT05",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD04"
     ],
@@ -799,7 +800,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST06",
     "branchID": null,
-    "departmentID": "DPT03",
+    "departmentID": "DPT04",
     "payloadID": [
      "PLD06"
     ],
@@ -813,7 +814,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST07",
     "branchID": null,
-    "departmentID": "DPT04",
+    "departmentID": "DPT02",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -829,7 +830,7 @@
     "businessUnitID": "BU04",
     "customerID": "CUST08",
     "branchID": null,
-    "departmentID": "DPT05",
+    "departmentID": "DPT02",
     "payloadID": [
      "PLD08"
     ],
@@ -879,7 +880,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST10",
     "branchID": null,
-    "departmentID": "DPT03",
+    "departmentID": "DPT05",
     "payloadID": [
      "PLD10"
     ],
@@ -893,7 +894,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST11",
     "branchID": null,
-    "departmentID": "DPT04",
+    "departmentID": "DPT02",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -909,7 +910,7 @@
     "businessUnitID": "BU04",
     "customerID": "CUST12",
     "branchID": null,
-    "departmentID": "DPT05",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD12"
     ],
@@ -959,7 +960,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST14",
     "branchID": null,
-    "departmentID": "DPT03",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD14"
     ],
@@ -973,7 +974,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST15",
     "branchID": null,
-    "departmentID": "DPT04",
+    "departmentID": "DPT02",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -989,7 +990,7 @@
     "businessUnitID": "BU04",
     "customerID": "CUST16",
     "branchID": null,
-    "departmentID": "DPT05",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD16"
     ],
@@ -1039,7 +1040,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST18",
     "branchID": null,
-    "departmentID": "DPT03",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD18"
     ],
@@ -1089,7 +1090,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST02",
     "branchID": null,
-    "departmentID": "DPT03",
+    "departmentID": "DPT01",
     "payloadID": [
      "PLD20"
     ],
@@ -13575,7 +13576,8 @@
      "PS05"
     ],
     "isActive": "Active",
-    "payloadOwner": "U27"
+    "payloadOwner": "U27",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD02",
@@ -13589,7 +13591,8 @@
      "PS10"
     ],
     "isActive": "Active",
-    "payloadOwner": "U28"
+    "payloadOwner": "U28",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD03",
@@ -13603,7 +13606,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U29"
+    "payloadOwner": "U29",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD04",
@@ -13615,7 +13619,8 @@
      "PS24"
     ],
     "isActive": "Active",
-    "payloadOwner": "U30"
+    "payloadOwner": "U30",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD05",
@@ -13627,7 +13632,8 @@
      "PS08"
     ],
     "isActive": "Active",
-    "payloadOwner": "U31"
+    "payloadOwner": "U31",
+    "departmentID": "DPT03"
    },
    {
     "payloadID": "PLD06",
@@ -13638,7 +13644,8 @@
      "PS06"
     ],
     "isActive": "Active",
-    "payloadOwner": "U32"
+    "payloadOwner": "U32",
+    "departmentID": "DPT04"
    },
    {
     "payloadID": "PLD07",
@@ -13652,7 +13659,8 @@
      "PS17"
     ],
     "isActive": "Active",
-    "payloadOwner": "U33"
+    "payloadOwner": "U33",
+    "departmentID": "DPT02"
    },
    {
     "payloadID": "PLD08",
@@ -13664,7 +13672,8 @@
      "PS19"
     ],
     "isActive": "Active",
-    "payloadOwner": "U34"
+    "payloadOwner": "U34",
+    "departmentID": "DPT02"
    },
    {
     "payloadID": "PLD09",
@@ -13676,7 +13685,8 @@
      "PS17"
     ],
     "isActive": "Active",
-    "payloadOwner": "U35"
+    "payloadOwner": "U35",
+    "departmentID": "DPT06"
    },
    {
     "payloadID": "PLD10",
@@ -13687,7 +13697,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U36"
+    "payloadOwner": "U36",
+    "departmentID": "DPT05"
    },
    {
     "payloadID": "PLD11",
@@ -13701,7 +13712,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U01"
+    "payloadOwner": "U01",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD12",
@@ -13715,7 +13727,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U02"
+    "payloadOwner": "U02",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD13",
@@ -13729,7 +13742,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U03"
+    "payloadOwner": "U03",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD14",
@@ -13743,7 +13757,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U04"
+    "payloadOwner": "U04",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD15",
@@ -13757,7 +13772,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U05"
+    "payloadOwner": "U05",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD16",
@@ -13771,7 +13787,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U06"
+    "payloadOwner": "U06",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD17",
@@ -13785,7 +13802,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U07"
+    "payloadOwner": "U07",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD18",
@@ -13799,7 +13817,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U08"
+    "payloadOwner": "U08",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD19",
@@ -13813,7 +13832,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U09"
+    "payloadOwner": "U09",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD20",
@@ -13827,7 +13847,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U10"
+    "payloadOwner": "U10",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD21",
@@ -13841,7 +13862,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U11"
+    "payloadOwner": "U11",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD22",
@@ -13855,7 +13877,8 @@
      "PS22"
     ],
     "isActive": "Active",
-    "payloadOwner": "U12"
+    "payloadOwner": "U12",
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD23",
@@ -13864,7 +13887,8 @@
     "eventID": "EV13",
     "productScopeID": [],
     "isActive": "Active",
-    "payloadOwner": "U13"
+    "payloadOwner": "U13",
+    "departmentID": null
    },
    {
     "payloadID": "PLD24",
@@ -13873,7 +13897,8 @@
     "eventID": "EV14",
     "productScopeID": [],
     "isActive": "Active",
-    "payloadOwner": "U14"
+    "payloadOwner": "U14",
+    "departmentID": null
    },
    {
     "payloadID": "PLD25",
@@ -13882,7 +13907,8 @@
     "eventID": "EV15",
     "productScopeID": [],
     "isActive": "Active",
-    "payloadOwner": "U15"
+    "payloadOwner": "U15",
+    "departmentID": null
    },
    {
     "payloadID": "PLD26",
@@ -13891,7 +13917,8 @@
     "eventID": "EV10",
     "productScopeID": [],
     "isActive": "Active",
-    "payloadOwner": "U16"
+    "payloadOwner": "U16",
+    "departmentID": null
    }
   ]
  },
