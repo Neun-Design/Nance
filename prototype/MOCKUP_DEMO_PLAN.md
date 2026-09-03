@@ -261,6 +261,12 @@ Nenhum será escrito agora — a decisão de 21/08 é publicar **um** domínio.
    `js/data.js` desloca tudo para a data corrente no load. **A demo nunca envelhece** — sem isso,
    em três meses o Overview mostra "últimos 12 meses" terminando no passado. Custo: ~20 linhas.
    (Alternativa: regerar mensalmente no CI — mais frágil.)
+   **Correção issue #306 (2026-09-03):** o deslocamento por posição de calendário muda a DURAÇÃO
+   de intervalos que cruzam meses de tamanhos diferentes — e Jobs armazenam essa duração
+   (`realExecutionTime`, equação do #245). Pares registrados em `SHIFT_PAIRS` (Jobs:
+   `realStartDate` → `realEndDate`/`stoppedAt`) deslocam a âncora pelo calendário e os
+   dependentes caem em âncora + offset ORIGINAL, preservando toda duração armazenada em
+   qualquer rollover. Suítes comparam com `anchorToday()`, nunca com constante pinada.
 5. **Narrativa antes de volume.** O seed planta histórias verificáveis; cards e reports existem
    para revelá-las. Volume sem narrativa produz gráficos bonitos que não respondem "e daí?".
 
