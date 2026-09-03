@@ -8,7 +8,7 @@ import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENT
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
-  eventProductScopeIds, admittedProductScopeIds, productScopeRequirementRows } from './resolve.js';
+  eventProductScopeIds, admittedProductScopeIds } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -724,34 +724,38 @@ export function handoutsForTask(processID, workflowID, actionID) {
   return out;
 }
 
-// Options for the Procedures "Requirements" picker: the requirement set the
-// selected task derives through its workflow (the 5-key applicability chain
-// on Workflows.requirements). No task / no workflow ⇒ every requirement is
-// offered (lenient, same spirit as tasksForJob). Exported for
-// tools/test_engine_procedures.mjs.
-export function requirementsForTask(taskId) {
+// Options for the Procedures "Requirements" picker (issue #304, replacing
+// the #159 product-scope/task narrowing): ALL the Active requirements
+// admitted for the procedure's BUSINESS UNIT — the quality manager must see
+// the unit-wide universe to pick the combination, since the procedure is the
+// requirement decision point (#231). The #226 unit/region posture as picker
+// options: a requirement's unit key must be empty (Q1 — applies to all) or
+// name the unit; its region key must be empty or name one of the unit's
+// SERVED regions (Business Units.regionID, the #230 re-point — an
+// Argentina-only requirement leaves a Brazilian unit's picker). The other
+// applicability dimensions (scope, product group, customer, product scope)
+// never narrow here. No unit selected ⇒ every Active requirement (lenient
+// cascade posture). Exported for tools/test_engine_procedure_requirements.mjs.
+export function requirementsForUnit(unitId) {
   const rT = resolveTable('Requirements');
   if (!rT) return [];
   const rMeta = ENTITY_META[rT];
-  const asOption = (r) => ({
-    value: r[rMeta.pk],
-    label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]),
-  });
-  // the Procedure picker is the requirement DECISION point (issue #231) —
   // only Active requirements are offered (blank = Active, #222 posture)
-  const active = (r) => String(r.isActive || 'Active') !== 'Inactive';
-  const all = getEntity(rT).filter(active).map(asOption);
-  const tT = resolveTable('Tasks');
-  const wT = resolveTable('Workflows');
-  const task = taskId && tT ? getById(tT, taskId) : null;
-  const wf = task && task.workflowID && wT ? getById(wT, task.workflowID) : null;
-  if (!wf) return all;
-  const cat = getCatalog(wT);
-  const attr = cat && cat.byName['requirements'];
-  const rule = attr && parseRule(attr.rule);
-  if (!rule || !rule.target) return all;
-  const kids = childrenOf(wT, wf, rT, { via: rule.via, viaList: rule.viaList }).filter(active);
-  return kids.length ? kids.map(asOption) : all;
+  const rows = getEntity(rT)
+    .filter((r) => String(r.isActive || 'Active') !== 'Inactive');
+  const unit = unitId != null && unitId !== '' ? getById('Business Units', unitId) : null;
+  const served = unit ? asList(unit.regionID).map(String) : [];
+  const kept = !unit ? rows : rows.filter((r) => {
+    const units = asList(r.businessUnitID).map(String);
+    if (units.length && !units.includes(String(unitId))) return false;
+    const regions = asList(r.regionID).map(String);
+    if (regions.length && served.length && !regions.some((x) => served.includes(x))) return false;
+    return true;
+  });
+  return kept
+    .map((r) => ({ value: r[rMeta.pk],
+      label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 }
 
 // The customer-branch link is AUTHORED on the Customer form (Rafael, 03/08)
@@ -1020,32 +1024,11 @@ export function productScopesForProcess(processId) {
   return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
-// Requirements carried by the given product scopes — their COMPREHENSIVE
-// sets (issue #288, legs inverted by #294: requirements naming the row ∪
-// explicit scope/product-group connections ∪ the row's unit-wide ones,
-// productScopeRequirementRows), unioned. The Procedures Requirements picker
-// follows the selected product scopes; with none selected the caller falls
-// back to the task path. Replaced the retired compound rollup on
-// Product Scopes.requirementID (now the stored direct-pick FK).
-export function requirementsForProductScopes(psIds) {
-  const rT = resolveTable('Requirements');
-  if (!rT) return [];
-  const rMeta = ENTITY_META[rT];
-  const seen = new Map();
-  for (const id of asList(psIds)) {
-    const ps = getById('Product Scopes', id);
-    if (!ps) continue;
-    for (const req of productScopeRequirementRows(ps)) {
-      // decision point (issue #231): Inactive requirements are not offered
-      if (String(req.isActive || 'Active') === 'Inactive') continue;
-      const v = req[rMeta.pk];
-      if (!seen.has(v)) {
-        seen.set(v, { value: v, label: String(resolveDisplay(rT, req, rMeta.label) || v) });
-      }
-    }
-  }
-  return [...seen.values()].sort((a, b) => a.label.localeCompare(b.label));
-}
+// (requirementsForProductScopes — the #288 picker following the product
+// scopes' comprehensive sets — and requirementsForTask were RETIRED by
+// issue #304: the Procedures picker offers the unit-wide universe now, see
+// requirementsForUnit. The PS-REQUIREMENTS semantics stay proven on
+// productScopeRequirementRows in resolve.js.)
 
 // Legal lifecycle moves per current status (issue #245): the drawer's action
 // bar renders one button per entry. Exported for the proof suite.
@@ -1600,18 +1583,13 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(productScopesForProcess(dep ? dep[1].get() : null));
             return;
           }
-          // Procedures "Requirements": follow the selected PRODUCT SCOPES
-          // (their derived requirement sets — issue #159); none selected →
-          // fall back to the task's derived set.
+          // Procedures "Requirements": the UNIT-WIDE universe (issue #304,
+          // replacing the #159 product-scope/task narrowing) — every Active
+          // requirement admitted for the selected Unit, including ones
+          // pinned to a region the unit serves; see requirementsForUnit.
           if (entity === 'Procedures' && attrName === 'requirementID') {
-            const psDep = findDep('Product Scopes');
-            const psIds = psDep ? psDep[1].get() : null;
-            if (psIds && (Array.isArray(psIds) ? psIds.length : psIds !== '')) {
-              applyOpts(requirementsForProductScopes(psIds));
-              return;
-            }
-            const dep = findDep('Task');
-            applyOpts(requirementsForTask(dep ? dep[1].get() : null));
+            const dep = findDep('Unit');
+            applyOpts(requirementsForUnit(dep ? dep[1].get() : null));
             return;
           }
           let opts = applyWhere(specOptions(entity, attrName, ruleText).options);

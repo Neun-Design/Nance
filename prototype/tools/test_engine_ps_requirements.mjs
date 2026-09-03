@@ -168,8 +168,10 @@ console.log('== semantics: union of legs + unit/region gates + Inactive ==');
     productScopeID: ['PS01'], isActive: 'Inactive' });
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-INACT2'), true,
     'an Inactive requirement NAMING the row still lists');
-  eq(forms.requirementsForProductScopes(['PS01']).some((o) => o.value === 'RQ-T-INACT2'), false,
-    'requirementsForProductScopes filters Inactive even when named (#231)');
+  // pickers gate lifecycle (#231) — since #304 the Procedures picker is the
+  // unit-scoped requirementsForUnit, and it never offers Inactive rows
+  eq(forms.requirementsForUnit(null).some((o) => o.value === 'RQ-T-INACT2'), false,
+    'the Procedures picker filters Inactive even when named (#231/#304)');
   data.removeRecords('Requirements', ['RQ-T-UNION', 'RQ-T-GATE', 'RQ-T-REGION', 'RQ-T-INACT', 'RQ-T-INACT2']);
 }
 
@@ -202,13 +204,16 @@ console.log('== ticket chain: the productScopeID dimension under Q1 (#226/#294) 
     'Q1 posture untouched — blank-key requirements still inherit');
 }
 
-console.log('== picker re-point: requirementsForProductScopes follows the legs ==');
+console.log('== picker retirement: the PS-following helper left with #304 ==');
 {
-  const offered = forms.requirementsForProductScopes(['PS01']);
-  eq(offered.map((o) => o.value).sort(), ['RQ06', 'RQ08', 'RQ09', 'RQ17'],
-    'PS01 options = its comprehensive set');
-  const labels = offered.map((o) => o.label);
-  eq([...labels].sort((a, b) => a.localeCompare(b)), labels, 'options sorted by label');
+  // requirementsForProductScopes was RETIRED by issue #304 — the Procedures
+  // picker offers the unit-wide universe (requirementsForUnit, proven in
+  // test_engine_procedure_requirements.mjs). The comprehensive PS set stays
+  // proven on productScopeRequirementRows above.
+  eq(forms.requirementsForProductScopes, undefined,
+    'requirementsForProductScopes retired (#304)');
+  const labels = forms.requirementsForUnit(null).map((o) => o.label);
+  eq([...labels].sort((a, b) => a.localeCompare(b)), labels, 'picker options sorted by label');
 }
 
 console.log('== rendering: derivedValue joins names, dash when empty ==');

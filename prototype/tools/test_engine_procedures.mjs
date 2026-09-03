@@ -81,17 +81,19 @@ console.log('== staffing: certified-responsible still resolves via procedures ==
   eq(ticket != null, true, `staffing probe ticket found (${ticket && ticket.ticketID})`);
 }
 
-console.log('== requirementsForTask: options follow the task\'s derived set ==');
+console.log('== requirementsForUnit: the Procedures picker (re-pointed by #304) ==');
 {
-  const all = forms.requirementsForTask(null);
-  // the picker is the requirement decision point since #231 — Inactive
-  // requirements (CN8 in the demo) are never offered
+  // requirementsForTask was RETIRED by issue #304 — the picker offers the
+  // unit-wide universe now. The lenient and Active-only postures carry over:
+  // Inactive requirements (CN8 in the demo) are never offered.
+  eq(forms.requirementsForTask, undefined, 'requirementsForTask retired (#304)');
+  const all = forms.requirementsForUnit(null);
   const active = data.getEntity('Requirements')
     .filter((r) => String(r.isActive || 'Active') !== 'Inactive');
-  eq(all.length, active.length, 'no task -> every ACTIVE requirement offered');
-  const task = data.getEntity('Tasks').find((t) => t.workflowID);
-  const opts = forms.requirementsForTask(task.taskID);
-  eq(opts.length > 0, true, `task ${task.taskID} offers ${opts.length} requirement(s)`);
+  eq(all.length, active.length, 'no unit -> every ACTIVE requirement offered');
+  const unit = data.getEntity('Business Units')[0];
+  const opts = forms.requirementsForUnit(unit.businessUnitID);
+  eq(opts.length > 0, true, `unit ${unit.businessUnitID} offers ${opts.length} requirement(s)`);
   eq(opts.every((o) => /[A-Za-z]{3,}/.test(o.label)), true, 'options are display names');
 }
 
