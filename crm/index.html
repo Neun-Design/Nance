@@ -2659,14 +2659,15 @@
 
 <h1 id="crm">CRM<a class="headerlink" href="#crm" title="Permanent link">&para;</a></h1>
 <p>The interested parties (ISO 9001:2015 §4.2) and their contracts. A Customer here is <strong>anyone
-eligible to open a Ticket</strong>: internal sites (<em>Internal Client</em>), external clients and
-suppliers. The module is part of the MVP walkthrough: Customers and SLA are active;
-the Forecasts pair stays out of it.</p>
+eligible to open a Ticket</strong>: internal sites (<em>Internal</em>), external clients and supplying
+companies (<em>External</em>). The module is part of the MVP walkthrough: Customers and SLA are
+active; the Forecasts pair stays out of it.</p>
 <div class="admonition important">
 <p class="admonition-title">Customers connect to the operation through SLAs</p>
-<p>Contracts are made between a <strong>customer of a branch</strong> and a <strong>department</strong> — never with
-a Business Unit directly. The <strong>SLA</strong> dashboard is where that contract lives: it names
-the <a href="../operation/payload/">Payloads</a> the customer purchases, and tickets the customer
+<p>Contracts are made between a <strong>customer</strong> and a <strong>supplying department</strong> — never with
+a Business Unit directly. The <strong>SLA</strong> dashboard is where that contract lives: the
+branch identifies the supplier, the supplier's department supplies the
+<a href="../operation/payload/">Payloads</a> the customer purchases, and tickets the customer
 opens can only trigger events those payloads cover. Registering the
 <a href="../organization/branches/">Branches</a> (phase 1) before customers keeps the connection
 ready.</p>
@@ -2674,8 +2675,8 @@ ready.</p>
 <h2 id="entities-in-this-module">Entities in this module<a class="headerlink" href="#entities-in-this-module" title="Permanent link">&para;</a></h2>
 <p>Listed in registration order. Each page answers three questions: <em>what it is</em>, <em>when to register one</em>, and <em>the key fields</em> — including which selection unlocks which.</p>
 <ul>
-<li><a href="customers/"><strong>Customers</strong></a> — the registry of interested parties, typed Internal Client / External Client / Supplier. Geography is not registered here — a customer's city, country and region live on its Branches.</li>
-<li><a href="sla/"><strong>SLA</strong></a> — the Service Level Agreement (ISO §8.2) — the contract by which a customer of a branch purchases Payloads from a department. It is the gate on execution: when the customer opens a Ticket, only events…</li>
+<li><a href="customers/"><strong>Customers</strong></a> — the registry of interested parties, typed Internal / External. Geography is not registered here — a customer's city, country and region live on its Branches.</li>
+<li><a href="sla/"><strong>SLA</strong></a> — the Service Level Agreement (ISO §8.2) — the contract by which a customer purchases Payloads supplied by a department. It is the gate on execution: when the customer opens a Ticket, only events…</li>
 <li><a href="forecasts/"><strong>Forecasts</strong></a> — a demand plan for a customer over a period.</li>
 <li><a href="forecast-scopes/"><strong>Forecast Scopes</strong></a> — the breakdown of a forecast into scopes and product groups with quantities — the demand line items.</li>
 </ul>

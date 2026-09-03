@@ -2650,17 +2650,18 @@
 
 <h1 id="sla">SLA<a class="headerlink" href="#sla" title="Permanent link">&para;</a></h1>
 <p><strong>What it is:</strong> the Service Level Agreement (ISO §8.2) — the contract by which a customer
-of a branch purchases <a href="../../operation/payload/">Payloads</a> from a department. Every contract
+purchases <a href="../../operation/payload/">Payloads</a> supplied by a department. Every contract
 binds two parties: the contracting <strong>Customer</strong> and the <strong>Supplier</strong> that fulfils it. It is
 the gate on execution: when the customer opens a <a href="../../workspace/tickets/">Ticket</a>, only
-events covered by an SLA with that department are offered.
+events covered by one of the customer's SLAs are offered.
 <strong>Register when:</strong> phase 7, after the Operation module's Payloads exist.
-<strong>Key fields:</strong> Code (the contract id); <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code>
-(the unit's customers), <strong>Branch</strong> (the customer's branches — optional, a customer may have
-none) and <code>Department *</code> (the unit's departments) → <strong>Payloads</strong> (multi — the unit's
-payloads, grouped by event); <code>Supplier *</code> — the supplying party, offered from <strong>every</strong>
-customer grouped by type: an internal clinic can supply another unit's contract, or a
-Supplier-type customer (labs, medical equipment) fulfils it; Activate. The events and
+<strong>Key fields:</strong> Code (the contract id); <code>Unit *</code> (grouped by segment) → unlocks the
+supplying chain and the customer: <strong>Branch</strong> (the unit's branches — optional) →
+<code>Supplier *</code> (the supplier inside the selected branch — the customer that branch belongs
+to; with no branch chosen, every customer is offered grouped by type) → <code>Supplier
+Department *</code> (the departments of the supplier's units — the department that will supply
+the payloads); <code>Customer *</code> (the unit's customers, grouped by type) → <strong>Payloads</strong> (multi —
+grouped by event, narrowed to the chosen supplying department); Status. The events and
 product scopes the contract covers are derived from the purchased payloads — nothing to
 select.
 <strong>Expand a row</strong> to see the contract's <a href="../forecasts/">Forecasts</a> — its temporal dimension:
