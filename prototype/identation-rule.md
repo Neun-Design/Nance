@@ -25,7 +25,12 @@ A preocupacao original era o custo de consultar todos os workflows do banco a ca
 - **Custo:** a preocupacao de memoria se dissolve — nada eh recalculado globalmente. No prototipo (dados em memoria) a numeracao roda so sobre os irmaos do processo exibido; num banco real a consulta equivalente seria `WHERE processID = ?` sobre dezenas de linhas, trivial com indice em `processID`. Derivar tambem elimina o risco de renumeracao inconsistente ao inserir/remover steps no meio da cadeia.
 - **Dados:** `tools/migrate_indentation.py` removeu os `indentationID` armazenados do mockup, inferindo o `indentationRule` legado a partir da numeracao antiga. `tools/test_engine_indentation.mjs` comprova que a derivacao reproduz os 21 valores legados.
 
+## Extensao para Tasks (2026-09-03, issue #302)
+
+A mesma logica desce um nivel: `Tasks.predecessorTask` (FK auto-referencial armazenada, anulavel) encadeia as tasks e `Tasks.taskIndentationID` deriva em tempo de renderizacao — `computed: TASKORDER(predecessorTask, workflowID)` (`taskOrderValue` em `js/resolve.js`). A base eh o `indentationID` do step do workflow, **acolchoado para dois segmentos** quando for um major simples (`1` → `1.0` — os consumidores do webhook Gantt planejado, MS Planner/Monday.com, precisam de profundidade fixa), e a sequencia da task DENTRO do mesmo step vira o ultimo segmento (`1.0.1`, `1.1.2`, `2.0.1`). Tasks nao tem a dimensao constrain/`indentationRule`: todo vinculo eh start-to-finish (sequencial); um predecessor em OUTRO step nao sub-numera — o contador reinicia por step. Toda subitem-table de Tasks (Workflows, aba Tasks do Ticket) ordena por esse valor (`ordered by taskIndentationID`).
+
 ## Future work
 
 - Sequenciamento automatico de Jobs na abertura de tickets usando a cadeia `parentStepID`/`indentationRule` (mudancas em `tasksForJob`/`applyJobTransition`, `js/forms.js`).
 - Renderizacao visual de arvore/indentacao na tabela (hoje o valor apenas ordena as linhas).
+- API/webhook para recriar os workflows como Gantt em servicos externos com capacidade de subitens e indentacao (racional do acolchoamento `.0` — issue #302).

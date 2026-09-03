@@ -17,7 +17,7 @@ const REF_OVERRIDE = {
   customerName: 'Customers', location: 'Customers', activities: 'Activities',
   products: 'Products', taskInput: 'Handouts', taskOutput: 'Handouts',
   parentStepID: 'Workflows', parentProcessID: 'Processes', predecessorJobID: 'Jobs',
-  escalatedToEventID: 'Events',
+  predecessorTask: 'Tasks', escalatedToEventID: 'Events',
 };
 const ENUM_FIELDS = new Set([
   'status', 'ticketStatus', 'projectStatus', 'jobStatus', 'processStatus', 'channelStatus',
@@ -116,8 +116,13 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
   const none = { options: null, target: null, multi };
   if (!attrName) return none;
 
-  const em = ruleText && String(ruleText).match(/enum:\s*(.+)$/);
-  if (em) return { options: em[1].split(',').map(s => ({ value: s.trim(), label: s.trim() })), target: null, multi };
+  // inline enum override (field-rule "enum: A, B") — delegate to parseRule so
+  // every accepted spelling (slash, comma, bracket-quoted list) parses alike
+  const em = ruleText && String(ruleText).match(/enum:\s*(.+)$/i);
+  if (em) {
+    const er = parseRule(`enum: ${em[1]}`);
+    return { options: er.values.map(v => ({ value: v, label: v })), target: null, multi };
+  }
   if (r && r.kind === 'enum') return { options: r.values.map(v => ({ value: v, label: v })), target: null, multi };
 
   const owner = labelOwner(attrName);
@@ -128,7 +133,8 @@ export function optionsForAttr(entity, attrName, ruleText = '') {
 
   let tCat = getCatalog(target);
   // SELF-REFERENTIAL FKs (Workflows.parentStepID, Processes.parentProcessID,
-  // Jobs.predecessorJobID): the attribute naturally exists on the target rows —
+  // Jobs.predecessorJobID, Tasks.predecessorTask):
+  // the attribute naturally exists on the target rows —
   // that must not trigger the stored-name heuristics below, or the option
   // values become each row's own parent id and parentless rows vanish
   // (the "empty Parent Step" bug, 2026-08-04)

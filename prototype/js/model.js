@@ -43,6 +43,13 @@ export function parseRule(rule) {
   // rows sharing groupField, so it never scans beyond one process.
   m = txt.match(/^computed:\s*STEPORDER\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s+per\s+([A-Za-z_][A-Za-z0-9_]*))?$/i);
   if (m) return { kind: 'steporder', parentField: m[1], ruleField: m[2], groupField: m[3] || null };
+  // TASKORDER(predField, stepField) — task outline number under its workflow
+  // step (issue #302): the step's STEPORDER indentation padded to two
+  // segments ("1" → "1.0") + the task's sequence within the step by the
+  // predecessor chain (all task links are start-to-finish, i.e. sequential —
+  // taskOrderValue in resolve.js)
+  m = txt.match(/^computed:\s*TASKORDER\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)$/i);
+  if (m) return { kind: 'taskorder', predField: m[1], stepField: m[2] };
   // CERTIFIED-USERS(taskField) — People eligible to execute a task: certified
   // Onboarding on a task-compatible competence covering ALL the task's derived
   // requirements (issue #214, certifiedUsersForTask in resolve.js)
