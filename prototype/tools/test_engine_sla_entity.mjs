@@ -50,9 +50,10 @@ console.log('== form spec: BU-anchored cascade, payloads grouped by event ==');
   const spec = dmRaw.modules.CRM.tables.SLA;
   const f = spec.form.fields;
   eq(f.Customer.check, 'Business Unit IS NOT NULL', 'Customer gated on the unit');
-  eq(f.Branch.check, 'Customer IS NOT NULL', 'Branch gated on the customer');
-  eq(f.Department['field-rule'], 'filtered by businessUnitID selected',
-    'Department unit-filtered (spec gated on Branch — Departments carry no branch key)');
+  eq(f.Branch.check, 'Business Unit IS NOT NULL',
+    'Branch gated on the unit (sv68 — the branch narrows the supplier, not the customer)');
+  eq(f['Supplier Department']['field-rule'], 'filtered by supplierID selected',
+    "Supplier Department filtered by the supplier (sv68 — the supplier's units' departments via the shared-unit join)");
   eq(f.Payloads.attribute, 'payloadID', 'Payloads binds the FK');
   const rule = f.Payloads['field-rule'].join('; ');
   eq(/Allow multiple/i.test(rule) && /SelectLabel = eventTitle/.test(rule), true,

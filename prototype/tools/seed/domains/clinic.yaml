@@ -416,7 +416,7 @@ payloads:                          # 26 dispatch packages (Event × Product Scop
 # ===========================================================================
 
 customers:                         # 21 = 8 insurers + 4 partner hospitals + 6 internal + 3 suppliers
-  insurers:                        # External Client — the paying convênios
+  insurers:                        # External — the paying convênios
     - HealthFirst Insurance
     - MedCare Plus
     - Austral Seguros Médicos
@@ -425,19 +425,20 @@ customers:                         # 21 = 8 insurers + 4 partner hospitals + 6 i
     - Meridian Assistance
     - Corporate Care Group
     - Família Saúde Cooperative
-  partnerHospitals:                # External Client — hospitals buying capacity
+  partnerHospitals:                # External — hospitals buying capacity
     - São Lucas General Hospital
     - Santa Clara Maternity
     - Hospital del Litoral
     - Boa Vista Surgical Center
-  internal:                        # Internal Client — the network's own units buying from the division
+  internal:                        # Internal — the network's own units buying from the division
     - Vitalis Paulista Clinic
     - Vitalis Campinas Clinic
     - Vitalis Curitiba Clinic
     - Vitalis Palermo Clinic
     - Vitalis Home Collection
     - Vitalis Screening Program
-  suppliers:                       # Supplier — labs/medical suppliers (issue #272);
+  suppliers:                       # External since sv68 (the Supplier type left the enum) —
+                                   # labs/medical suppliers (issue #272);
                                    # order matters: the builder's unit modulo (i % 4)
                                    # lands them on BU03/BU04/BU01 respectively
     - ClinLab Reagents & Diagnostics

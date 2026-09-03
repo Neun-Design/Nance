@@ -218,10 +218,13 @@ class Builder:
     # ---- customers + branches (customers own branches) ----
     def build_customers_branches(self):
         d = self.domain
-        cust_specs = ([(n, 'External Client') for n in d['customers']['insurers']]
-                      + [(n, 'External Client') for n in d['customers']['partnerHospitals']]
-                      + [(n, 'Internal Client') for n in d['customers']['internal']]
-                      + [(n, 'Supplier') for n in d['customers'].get('suppliers', [])])
+        # customerType is Internal | External since the 2026-09-03 round (sv68)
+        # — the supplier companies are external firms; the "suppliers" group
+        # keeps its own role via self.supplier_ids (SLA rotation exclusion)
+        cust_specs = ([(n, 'External') for n in d['customers']['insurers']]
+                      + [(n, 'External') for n in d['customers']['partnerHospitals']]
+                      + [(n, 'Internal') for n in d['customers']['internal']]
+                      + [(n, 'External') for n in d['customers'].get('suppliers', [])])
         seg_ids = [s['businessSegmentID'] for s in self.rows('Business Segments')]
         unit_rows = self.rows('Business Units')
         customers = []
@@ -237,6 +240,11 @@ class Builder:
                               'isActive': 'Active', 'customerOwner': None})
         self.put('Customers', customers)
         self.index('Customers', 'customerName', 'customerID')
+        # the dedicated Supplier customerType left the enum (sv68) — the
+        # supplying companies are tracked by id for _sla_supplier and the
+        # rotation exclusion in build_crm
+        self.supplier_ids = sorted(self.id_of('Customers', n)
+                                   for n in d['customers'].get('suppliers', []))
 
         # branches belong to hospitals and internal customers, never insurers
         owners = d['customers']['partnerHospitals'] + d['customers']['internal']
@@ -602,6 +610,15 @@ class Builder:
             ev['scopeID'] = sorted({p['scopeID'] for p in pairs})
             ev['productID'] = sorted({pid for p in pairs
                                       for pid in groups_by_id[p['productGroupID']]['productID']})
+        # supplying department of a payload (sv68): first non-empty department
+        # among the processes chaining its event, in row order — same rule as
+        # tools/migrate_sla_supplier_flow.py; honest null when no process
+        dept_of_event = {}
+        for pr in self.rows('Processes'):
+            evs = pr.get('eventID')
+            for ev in (evs if isinstance(evs, list) else [evs]):
+                if ev and ev not in dept_of_event and pr.get('departmentID'):
+                    dept_of_event[ev] = pr['departmentID']
         payloads, n = [], 0
         for title, pairs in pack_of.items():
             for chunk_start in range(0, len(pairs), 4):
@@ -610,6 +627,7 @@ class Builder:
                 payloads.append({'payloadID': f'PLD{n:02d}', 'payloadCode': f'PKG-{n:03d}',
                                  'businessUnitID': chunk[0]['businessUnitID'] if chunk else
                                  self.rows('Business Units')[0]['businessUnitID'],
+                                 'departmentID': dept_of_event.get(self.id_of('Events', title)),
                                  'eventID': self.id_of('Events', title),
                                  'productScopeID': [p['productScopeID'] for p in chunk],
                                  'isActive': 'Active', 'payloadOwner': None})
@@ -624,22 +642,27 @@ class Builder:
             n += 1
             payloads.append({'payloadID': f'PLD{n:02d}', 'payloadCode': f'PKG-{n:03d}',
                              'businessUnitID': self.rows('Business Units')[0]['businessUnitID'],
+                             'departmentID': dept_of_event.get(self.id_of('Events', title)),
                              'eventID': self.id_of('Events', title), 'productScopeID': [],
                              'isActive': 'Active', 'payloadOwner': None})
         self.put('Payload', payloads)
 
     # ---- layer 6: CRM ----
     # Supplying party of an SLA (issue #272) — shared deterministic rule,
-    # mirrored by tools/migrate_sla_supplier.py: an Internal Client customer
-    # is supplied by another Internal Client of the SLA's unit; everyone else
-    # by the unit's Supplier-type customer (fallback chain keeps it total).
+    # mirrored by tools/migrate_sla_supplier.py: an Internal customer is
+    # supplied by another Internal of the SLA's unit; everyone else by the
+    # unit's supplier-group company (self.supplier_ids — the dedicated
+    # Supplier customerType left the enum in sv68; fallbacks keep it total).
     def _sla_supplier(self, cust_id, unit):
         customers = self.rows('Customers')
         by_type = lambda t: sorted((c for c in customers if c['customerType'] == t),
                                    key=lambda c: c['customerID'])
         cust = next((c for c in customers if c['customerID'] == cust_id), None)
-        internals, sups = by_type('Internal Client'), by_type('Supplier')
-        if cust and cust['customerType'] == 'Internal Client':
+        sup_ids = set(getattr(self, 'supplier_ids', []))
+        internals = by_type('Internal')
+        sups = sorted((c for c in customers if c['customerID'] in sup_ids),
+                      key=lambda c: c['customerID'])
+        if cust and cust['customerType'] == 'Internal':
             for c in internals:
                 if c['customerID'] != cust_id and unit in c['businessUnitID']:
                     return c['customerID']
@@ -662,8 +685,24 @@ class Builder:
             deps_by_unit.setdefault(dep['businessUnitID'], []).append(dep)
         # suppliers are the supplying side of contracts, never the contracting
         # customer — keeping them out of the rotation preserves the pre-#272
-        # customer sequence (story anchors below index into it)
-        cust_rows = [c for c in self.rows('Customers') if c['customerType'] != 'Supplier']
+        # customer sequence (story anchors below index into it); keyed by id
+        # since the Supplier customerType left the enum (sv68)
+        sup_ids = set(getattr(self, 'supplier_ids', []))
+        cust_rows = [c for c in self.rows('Customers') if c['customerID'] not in sup_ids]
+        payload_dept = {p['payloadID']: p.get('departmentID') for p in payloads}
+
+        def majority_dept(pids):
+            # majority supplying department of the purchased payloads,
+            # first-seen tiebreak — same rule as migrate_sla_supplier_flow.py
+            counts, order = {}, []
+            for pid in pids:
+                dept = payload_dept.get(pid)
+                if not dept:
+                    continue
+                if dept not in counts:
+                    order.append(dept)
+                counts[dept] = counts.get(dept, 0) + 1
+            return max(order, key=lambda v: counts[v], default=None)
         slas = []
         for i in range(d['slas']['count']):
             cust = cust_rows[i % len(cust_rows)]
@@ -671,9 +710,13 @@ class Builder:
             dep = deps_by_unit.get(unit, self.rows('Departments'))[0]
             pl = [p['payloadID'] for p in payloads if p['businessUnitID'] == unit] \
                 or [payloads[i % len(payloads)]['payloadID']]
+            # the SLA's department is the SUPPLYING department (sv68) — the
+            # majority department of its payloads keeps the Payloads picker
+            # (filtered by department) offering the seeded set on edit
             slas.append({'slaID': f'SLA{i+1:02d}', 'slaCode': f'VHN-2026-{i+1:03d}',
                          'businessUnitID': unit, 'customerID': cust['customerID'],
-                         'branchID': None, 'departmentID': dep['departmentID'],
+                         'branchID': None,
+                         'departmentID': majority_dept(pl) or dep['departmentID'],
                          'payloadID': pl, 'isActive': 'Active', 'slaOwner': None})
         # story anchors: SLA01 = HealthFirst (story 4); the Screening Program's
         # SLA gets the story-6 code (its 2 projects give the ticket mass the
@@ -689,12 +732,20 @@ class Builder:
         # a supplier serving a unit's contracts serves that unit (issue #281):
         # union the supplier's units with its SLAs' — the Ticket Supplier
         # picker filters by unit and must keep offering the seeded pair
-        # (mirrored by tools/migrate_ticket_supplier_decision.py)
+        # (mirrored by tools/migrate_ticket_supplier_decision.py). Since sv68
+        # the SLA department's unit joins the union too: the Supplier
+        # Department picker offers the departments of the supplier's units
+        # and must keep offering the seeded department on edit
         cust_by_id = {c['customerID']: c for c in self.rows('Customers')}
+        dept_unit = {dp['departmentID']: dp['businessUnitID']
+                     for dp in self.rows('Departments')}
         for s in slas:
             sup = cust_by_id.get(s['supplierID'])
-            if sup and s['businessUnitID'] not in sup['businessUnitID']:
-                sup['businessUnitID'].append(s['businessUnitID'])
+            if not sup:
+                continue
+            for u in (s['businessUnitID'], dept_unit.get(s['departmentID'])):
+                if u and u not in sup['businessUnitID']:
+                    sup['businessUnitID'].append(u)
         self.put('SLA', slas)
         self.s6_sla_id = s6_sla['slaID']
 

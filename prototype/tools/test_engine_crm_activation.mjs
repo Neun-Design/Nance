@@ -2,7 +2,8 @@
 // test_engine_crm_activation.mjs — proof suite for issue #191 (Sponsors
 // Presentation P4): CRM joins the MVP walkthrough (Customers + SLA active,
 // Forecasts pair gated per-tab so it stays catalogued) and Customers slim
-// down — customerType relabelled to Internal/External Client | Supplier,
+// down — customerType relabelled (Internal | External since the sv68
+// supplier-flow round; was Internal/External Client | Supplier),
 // geography (city/country/regionID + the customerTitle CONCAT) single-
 // sourced on Branches. Run from prototype/:  node tools/test_engine_crm_activation.mjs
 
@@ -26,8 +27,9 @@ const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
 console.log('== Customers slim-down: enum relabel, geography gone ==');
 {
   const cat = catalog['Customers'];
-  eq(/'Internal Client'.*'External Client'.*'Supplier'/.test(cat.byName['customerType'].rule), true,
-    'customerType enum relabelled (issue #191)');
+  eq(/'Internal'.*'External'/.test(cat.byName['customerType'].rule)
+    && !/Client|Supplier/.test(cat.byName['customerType'].rule), true,
+    'customerType enum relabelled (issue #191; Internal | External since sv68)');
   for (const gone of ['city', 'country', 'regionID', 'customerTitle']) {
     eq(cat.byName[gone], undefined, `${gone} left Customers (geography lives on Branches)`);
   }
@@ -55,14 +57,14 @@ console.log('== displays follow the slim-down ==');
 
 console.log('== seeds: relabelled, geography keys dropped ==');
 {
-  const allowed = new Set(['Internal Client', 'External Client', 'Supplier']);
+  const allowed = new Set(['Internal', 'External']);
   const rows = data.getEntity('Customers');
   eq(rows.every((c) => allowed.has(c.customerType)), true, 'every customerType uses the new labels');
   eq(rows.flatMap((c) => ['city', 'country', 'regionID', 'customerTitle'].filter((k) => k in c)), [],
     'no row carries a legacy geography key');
   const opt = forms.optionsForAttr('Branches', 'customerID', catalog['Branches'].byName['customerID'].rule);
   eq(opt.options.length > 0, true, `Branches customer filter still yields options (${opt.options.length})`);
-  eq(opt.options.every((o) => data.getById('Customers', o.value).customerType === 'Internal Client'),
+  eq(opt.options.every((o) => data.getById('Customers', o.value).customerType === 'Internal'),
     true, 'filter follows the relabelled enum');
 }
 

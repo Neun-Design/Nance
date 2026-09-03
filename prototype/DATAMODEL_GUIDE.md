@@ -332,7 +332,10 @@ keys meaning "applies to all" — Q1), and the Tickets **Product Scope** select
 (`productScopesForTicket`, issue #214: the scopes packaged by the selected event's
 payloads narrowed to the payloads purchased by the customer's active SLAs; a payload
 with an empty scope list widens to the event's full applicability, no SLA = every
-payload of the event — lenient).
+payload of the event — lenient). The SLA **Supplier** select joined them in the sv68
+supplier-flow round (`suppliersForBranch`: the customer the selected branch points at
+— Branches store `customerID`, the reverse link the generic cascade can't read; no
+branch = every customer, lenient).
 
 **Selection fields that reference another table** offer a **"+" (create new item)
 button** beside the select: it pushes a nested drawer tab for the referenced table onto
