@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 // test_engine_ticket_forecast_link.mjs — unit-test the demand→execution link
-// (issue #243, R6-3): Tickets.forecastScopeID nullable FK (options via the
-// customer's SLA chain, no date gating), consumption as a real rollup COUNT
-// with the derived remaining balance, Tickets.productScopeID NOT NULL, and
-// Jobs.taskID as a stored FK.
+// (issue #243, R6-3): Tickets.forecastScopeID nullable FK, consumption as a
+// real rollup COUNT with the derived remaining balance, Tickets.productScopeID
+// NOT NULL, and Jobs.taskID as a stored FK. Since the 2026-09-03 input-removal
+// round (sv70) the link is DATA-ONLY: the form's Forecast Scope select and the
+// forecastScopesForTicket picker helper are gone — seeded/imported links keep
+// feeding the consumption chain.
 // Run from prototype/:  node tools/test_engine_ticket_forecast_link.mjs
 
 import fs from 'fs';
@@ -30,7 +32,8 @@ console.log('== schema: the cycle closes ==');
   eq([link.kind, link.target], ['fk', 'Forecast Scopes'], 'forecastScopeID is a stored FK');
   eq(forms.requiredAttrs('Tickets').has('forecastScopeID'), false, 'link is nullable (outside-forecast is valid)');
   eq(forms.requiredAttrs('Tickets').has('productScopeID'), true, 'productScopeID is NOT NULL now (A2)');
-  eq(tk.form.fields['Forecast Scope'].check, 'Event IS NOT NULL', 'link select gated on Event');
+  eq('Forecast Scope' in tk.form.fields, false,
+    'the Forecast Scope input left the form (2026-09-03 authored removal — the link is data-only)');
   const cons = model.parseRule(catalog['Forecast Scopes'].byName['consumption'].rule);
   eq([cons.kind, cons.target, cons.via], ['rollup', 'Tickets', 'forecastScopeID'],
     'consumption is a real rollup over the linked tickets');
@@ -59,18 +62,11 @@ console.log('== data: link seeded, counts real ==');
   eq(distinctTasks > 6, true, `jobs spread over ${distinctTasks} tasks (was 6 — A2 payoff)`);
 }
 
-console.log('== picker: SLA chain + event/product-scope match, lenient ==');
+console.log('== picker retired with the input (2026-09-03 round) ==');
 {
-  const linkedTicket = data.getEntity('Tickets').find((t) => t.forecastScopeID);
-  const opts = forms.forecastScopesForTicket(linkedTicket.eventID, linkedTicket.productScopeID,
-    linkedTicket.customerID);
-  eq(opts.some((o) => String(o.value) === String(linkedTicket.forecastScopeID)), true,
-    'the linked demand line is among the offered options');
-  const fsc = data.getById('Forecast Scopes', opts[0].value);
-  eq(String(fsc.eventID), String(linkedTicket.eventID), 'options match the ticket\'s event');
-  eq(/^\S+ \|/.test(opts[0].label), true, 'labels lead with the period frame');
-  const open = forms.forecastScopesForTicket(null, null, null);
-  eq(open.length, data.getEntity('Forecast Scopes').length, 'no context → every demand line (lenient)');
+  eq(forms.forecastScopesForTicket === undefined, true,
+    'forecastScopesForTicket export removed (dead-helper posture, #281/#294) — no field consumes it');
+  eq(model.getSchemaVersion() >= 70, true, `schemaVersion ${model.getSchemaVersion()} >= 70`);
 }
 
 console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');

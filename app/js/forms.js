@@ -920,42 +920,11 @@ export function productScopesForForecastSLA(eventId, forecastId) {
   return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
-// Demand lines a TICKET may consume (issue #243, the A1 link): forecast
-// scopes of the customer's SLA forecasts matching the ticket's event (and
-// product scope when chosen). No date gating (lenient decision) — the label
-// leads with the period so the user picks the right one. No customer → the
-// event-matching lines (lenient); NULL stays valid ("outside the forecast").
-// A SUPPLIER narrows the SLA set to the (customer, supplier) contracts
-// (issue #274, closing the #272 chain); lenient when no SLA matches the pair.
-export function forecastScopesForTicket(eventId, productScopeId, customerId, supplierId = null) {
-  let slaRows = null;
-  if (customerId) {
-    slaRows = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
-      && String(s.isActive || 'Active') !== 'Inactive');
-    if (supplierId) {
-      const bySup = slaRows.filter((s) => String(s.supplierID) === String(supplierId));
-      if (bySup.length) slaRows = bySup; // lenient on empty match — existing posture
-    }
-  }
-  const slaIds = slaRows ? new Set(slaRows.map((s) => String(s.slaID))) : null;
-  const out = [];
-  for (const fsc of getEntity('Forecast Scopes')) {
-    if (eventId != null && eventId !== '' && String(fsc.eventID) !== String(eventId)) continue;
-    if (productScopeId != null && productScopeId !== '' && fsc.productScopeID != null
-        && String(fsc.productScopeID) !== String(productScopeId)) continue;
-    if (slaIds) {
-      const fc = getById('Forecasts', fsc.forecastID);
-      if (fc && fc.slaID != null && fc.slaID !== '' && !slaIds.has(String(fc.slaID))) continue;
-    }
-    out.push(fsc);
-  }
-  return out.map((fsc) => {
-    const period = resolveDisplay('Forecast Scopes', fsc, 'periodFrame') || '?';
-    const reg = fsc.forecastScopeRegistry || fsc.forecastScopeID;
-    const scope = resolveDisplay('Forecast Scopes', fsc, 'productScopeName');
-    return { value: fsc.forecastScopeID, label: `${period} | ${reg}${scope ? ' | ' + scope : ''}` };
-  });
-}
+// (forecastScopesForTicket — the #243 demand-line picker, supplier-narrowed
+// by #274 — was RETIRED in the 2026-09-03 input-removal round: the Tickets
+// form no longer carries the Forecast Scope select. The STORED
+// forecastScopeID link stays: seeded/imported links keep feeding the
+// Forecast Scopes consumption rollup and remaining balance.)
 
 // Functions of the tasks the chosen event chains (issue #242) — the options
 // for the Forecast Scopes Function select. No event / no tasks → every
@@ -1569,19 +1538,8 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
               label: `${j.jobID} — ${lookup('Tasks', j.taskID) || j.jobID}` })));
             return;
           }
-          // Tickets "Forecast Scope": the demand lines this ticket may consume
-          // (issue #243), narrowed by the chosen Supplier (#274) — see
-          // forecastScopesForTicket
-          if (entity === 'Tickets' && attrName === 'forecastScopeID') {
-            const evDep = findDep('Event');
-            const psDep = findDep('Product Scope');
-            const custDep = findDep('Customer');
-            const supDep = findDep('Supplier');
-            applyOpts(forecastScopesForTicket(evDep ? evDep[1].get() : null,
-              psDep ? psDep[1].get() : null, custDep ? custDep[1].get() : null,
-              supDep ? supDep[1].get() : null));
-            return;
-          }
+          // (the Tickets "Forecast Scope" branch — #243/#274 — left with the
+          // form input in the 2026-09-03 input-removal round)
           // Payload "Product Scope": the event's applicability narrowed to
           // the payload's unit (issue #190); items show the product group,
           // headers group by scope (SelectLabel = scopeName)

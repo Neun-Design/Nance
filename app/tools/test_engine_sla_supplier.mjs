@@ -69,15 +69,9 @@ console.log('== form spec: grouped select + supplier-aware cascade ==');
     'Event cascade names Supplier (listener wiring)');
   eq(String(tf['Product Scope']['field-rule']).includes('Supplier'), true,
     'Product Scope cascade names Supplier (listener wiring)');
-  // issue #274 regression: the #243 rule lacked the "filtered by" spelling,
-  // so the forecastScopesForTicket dispatch never attached in the DOM
-  const fsRule = Array.isArray(tf['Forecast Scope']['field-rule'])
-    ? tf['Forecast Scope']['field-rule'].join('; ') : String(tf['Forecast Scope']['field-rule']);
-  const filtM = fsRule.match(/filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i);
-  eq(Boolean(filtM), true, 'Forecast Scope rule carries the cascade spelling (wiring fix, #274)');
-  eq(['Event', 'Product Scope', 'Customer', 'Supplier']
-    .every((l) => String(filtM && filtM[1]).includes(l)), true,
-    'Forecast Scope cascade names Event + Product Scope + Customer + Supplier');
+  // the Forecast Scope input (and its #274 cascade-spelling fix) left the
+  // form in the 2026-09-03 input-removal round — the stored link is data-only
+  eq('Forecast Scope' in tf, false, 'Forecast Scope input removed from the Tickets form (sv70)');
 }
 
 console.log('== seeds: every contract supplied, both postures demoed ==');
@@ -142,25 +136,11 @@ console.log('== narrowing: the (customer, supplier) pair filters the chain ==');
   eq(psB.every((v) => psAll.includes(v)), true, 'product scopes narrowed by the pair ⊆ the customer offer');
   eq(psB.length > 0, true, 'the pair still packages scopes (wildcard payload widens, Q1)');
 
-  // Demand lines follow the pair too (issue #274): supplier B's contract
-  // owns only its own forecasts — lines of slaA's forecasts drop out.
-  const slaOf = (fscId) => {
-    const fsc = data.getById('Forecast Scopes', fscId);
-    const fc = fsc && data.getById('Forecasts', fsc.forecastID);
-    return fc ? String(fc.slaID) : null;
-  };
-  const fsAll = forms.forecastScopesForTicket(null, null, cust).map((o) => String(o.value));
-  eq(fsAll.some((v) => slaOf(v) === String(slaA.slaID)), true,
-    'without a supplier the first contract\'s demand lines are offered');
-  const fsB = forms.forecastScopesForTicket(null, null, cust, otherSup).map((o) => String(o.value));
-  eq(fsB.every((v) => fsAll.includes(v)), true, 'demand lines narrowed by the pair ⊆ the customer offer');
-  eq(fsB.every((v) => slaOf(v) === String(slaB.slaID)), true,
-    'supplier B keeps only its own contract\'s demand lines');
-  eq(fsB.some((v) => slaOf(v) === String(slaA.slaID)), false,
-    'the sibling contract\'s lines drop out under supplier B');
-  const fsGhost = forms.forecastScopesForTicket(null, null, cust, 'CUST-GHOST')
-    .map((o) => String(o.value));
-  eq(fsGhost, fsAll, 'unknown supplier → lenient on the demand lines too');
+  // (the #274 demand-line narrowing block retired with forecastScopesForTicket
+  // in the 2026-09-03 input-removal round — the Forecast Scope input left the
+  // Tickets form and the stored link is data-only)
+  eq(forms.forecastScopesForTicket === undefined, true,
+    'forecastScopesForTicket export removed (dead-helper posture)');
   slaB.supplierID = savedSup; slaB.payloadID = savedPl;
 }
 
