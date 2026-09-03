@@ -8,8 +8,11 @@ purpose: "Onboarding — what it is, when to register one, and its key fields"
 
 *(phase 6)* **What it is:** the certification record of a person on a **group of
 competences** (with training material and the certified flag) — Jobs and task
-eligibility only consider certified people. The Certified flag covers the whole
-group; certify partial progress as a separate onboarding.
+eligibility only consider certified people, **and** (2026-09-03) only through
+competences whose [Procedure](../operation/procedures.md) is `Approved`: a certified
+onboarding on a method still in progress waits for the approval before it counts.
+The Certified flag covers the whole group; certify partial progress as a separate
+onboarding.
 **Register when:** after Competences.
 **Key fields:** `Title *` — names the competence group being certified;
 `Department *` → unlocks Talent (people of the department) and, with the Role,
