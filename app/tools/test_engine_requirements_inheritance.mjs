@@ -112,10 +112,14 @@ console.log('== competence doctrine (#231): the procedure decides, the competenc
     procedureID: 'PROC-TI' };
   eq(resolve.competenceRequirements(comp), ['RQ-TC'],
     "the competence set IS the procedure's set — aligned requirements do NOT auto-join");
-  // the human path: the aligned requirement is OFFERED on the procedure...
-  const offered = forms.requirementsForProductScopes(['PS-T1']).map((o) => o.value);
+  // the human path: the aligned requirement is OFFERED on the procedure —
+  // since issue #304 the picker carries the UNIT-WIDE universe (BU01 serves
+  // RG01-03, so the RG02-pinned probe stays in; foreign unit/region stay out)
+  const offered = forms.requirementsForUnit('BU01').map((o) => o.value);
   eq(offered.includes('RQ-TA'), true,
     "…the Procedures form Requirements picker offers the context-aligned option");
+  eq([offered.includes('RQ-TB'), offered.includes('RQ-TC')], [false, false],
+    'foreign-region and foreign-unit requirements stay out of the unit picker');
   eq(offered.includes('RQ-TE'), false, 'Inactive requirements are not offered');
   // …and once the quality manager binds it, the competence inherits it
   data.updateRecord('Procedures', 'PROC-TI', { requirementID: ['RQ-TC', 'RQ-TA'] });

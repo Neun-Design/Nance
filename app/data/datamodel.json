@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 66,
+    "schemaVersion": 67,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -3226,7 +3226,7 @@
               "name": "requirementID",
               "type": "FK",
               "rule": "FK → Requirements (display: requirementName)",
-              "notes": "Multivalued; nullable — requirements under which this procedure applies. EMPTY = applies to all (Q1 wildcard). Form options follow the selected PRODUCT SCOPES (their derived requirement sets — issue #159); with none selected they fall back to the task's derived set.",
+              "notes": "Multivalued; nullable — requirements under which this procedure applies. EMPTY = applies to all (Q1 wildcard). Form options are the UNIT-WIDE universe (issue #304, replacing the #159 product-scope/task narrowing): every Active requirement whose unit key is empty (Q1) or names the selected unit AND whose region key is empty or names one of the unit's served regions (Business Units.regionID — the #230 posture; requirementsForUnit in forms.js). The quality manager picks the combination here — the procedure is the requirement decision point (#231).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3350,12 +3350,12 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "requirementID",
-                "tooltip": "Requirements under which this procedure applies — leave empty when it applies to all",
+                "tooltip": "Requirements under which this procedure applies — leave empty when it applies to all. Options are every Active requirement admitted for the selected Unit, including ones pinned to a region the unit serves (issue #304).",
                 "step": null,
                 "check": "Task IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "filtered by productScopeID selected",
+                  "filtered by Unit selected",
                   "SelectLabel = requirementTypeName"
                 ]
               },
