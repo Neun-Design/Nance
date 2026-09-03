@@ -2653,13 +2653,22 @@
 against. Its execution time is not registered here: it derives from the task's procedures. Tasks are <strong>requirement-free</strong>: how a task is performed under a
 given requirement set lives in its Procedures.
 <strong>Register when:</strong> after Actions, before Procedures.
-<strong>Key fields:</strong> <code>Event *</code> → <code>Process *</code> → Activity (the process's steps) → <code>Action *</code>.
+<strong>Key fields:</strong> <code>Event *</code> → <code>Process *</code> → Activity (the process's steps) → <code>Action *</code> →
+Predecessor Task (a task of the same process executed before this one — leave it empty
+for the first task).
 The task's name derives from that chain (<code>Activity-Action</code>). Execution time and the
 certified-people derivations stay behind the scenes (2026-08-28: those columns left the
 tables — staffing eligibility keeps acting on <a href="../../workspace/jobs/">Jobs</a> and the
 procedure Users column): eligibility means certified competences covering all the
 requirements of the task's procedures. Expanding a task row lists its registered
 procedures.</p>
+<p><strong>Task order (2026-09-03):</strong> the <strong>Indentation</strong> column extends the
+<a href="../workflows/">workflow</a> outline one level down — the step's number is the base
+(single digits pad a <code>.0</code>: step <code>1</code> → <code>1.0</code>) and the task's position within the step
+appends last (<code>1.0.1</code>, <code>1.1.2</code>, <code>2.0.1</code>). It is derived from the predecessor chain,
+never typed in, and every list of tasks (the workflow's expanded row, the ticket's
+Tasks tab) sorts by it — so a planner reads the execution order of a ticket's tasks
+in one place, without cross-checking the activity table.</p>
 
 
 
