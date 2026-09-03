@@ -53,7 +53,15 @@ console.log('== each move stamps what the drawer promises ==');
 
 console.log('== seeded history: the story holds together ==');
 {
-  const ANCHOR = '2026-08-21';
+  // the dataset shifts forward by whole months on every load (data.js
+  // shiftAnchoredDates) — compare against the SHIFTED anchor, never a pinned
+  // constant (issue #306: the '2026-08-21' pin went stale on the September
+  // rollover and read the shifted Done dates as "future")
+  const ad = data.anchorToday();
+  const p = (n) => String(n).padStart(2, '0');
+  const ANCHOR = ad
+    ? `${ad.getFullYear()}-${p(ad.getMonth() + 1)}-${p(ad.getDate())}`
+    : '2026-08-21';
   const jobs = data.getEntity('Jobs');
   const done = jobs.filter((j) => j.jobStatus === 'Done');
   eq(done.length > 0 && done.every((j) => (!j.realStartDate || String(j.realStartDate) <= ANCHOR + 'T23:59:59')

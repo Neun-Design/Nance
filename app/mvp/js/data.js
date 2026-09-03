@@ -67,11 +67,38 @@ export function anchorToday() {
   return shiftedAnchor ? new Date(shiftedAnchor + 'T00:00:00') : null;
 }
 
-function shiftAnchoredDates(raw) {
+// Duration-bearing date pairs (issue #306): shifting every date to the same
+// day-of-month N months later changes the LENGTH of an interval whose ends
+// sit in months of different sizes (Apr 26 → May 1 is 113.67h; shifted to
+// May 26 → Jun 1 it becomes 137.67h) — and Jobs STORE that length
+// (realExecutionTime, the #245 equation (end − start) − buffer = real).
+// For each registered pair the anchor field shifts by calendar and every
+// dependent field lands at anchor + its ORIGINAL offset, so stored durations
+// survive any rollover. stoppedAt rides along for pause coherence.
+const SHIFT_PAIRS = {
+  Jobs: { anchor: 'realStartDate', preserve: ['realEndDate', 'stoppedAt'] },
+};
+
+// re-format a shifted Date in the same shape as the original string
+// (date-only, naive local datetime, or UTC 'Z' with/without millis)
+function formatLike(d, like) {
+  if (/Z$/i.test(like)) {
+    const iso = d.toISOString();
+    return /\.\d{3}Z$/.test(like) ? iso : iso.replace(/\.\d{3}Z$/, 'Z');
+  }
+  const p = (n) => String(n).padStart(2, '0');
+  const ymd = `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  if (String(like).length === 10) return ymd;
+  return `${ymd}T${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}
+
+// `now` is injectable so the proof suite can replay arbitrary rollovers
+// (Dec→Jan, 31-day → February clamps) without waiting for the calendar.
+// Exported for tools/test_engine_anchor_shift.mjs.
+export function shiftAnchoredDates(raw, now = new Date()) {
   const anchor = raw && raw._meta && raw._meta.anchorDate;
   if (!anchor) return;
   const a = new Date(String(anchor) + 'T00:00:00');
-  const now = new Date();
   const delta = (now.getFullYear() * 12 + now.getMonth())
     - (a.getFullYear() * 12 + a.getMonth());
   const shiftYM = (y, m1) => {                 // m1 is 1-based; returns [y, m1]
@@ -85,13 +112,28 @@ function shiftAnchoredDates(raw) {
     const day = Math.min(+m[3], new Date(y, mo, 0).getDate());
     return `${y}-${String(mo).padStart(2, '0')}-${String(day).padStart(2, '0')}${m[4]}`;
   };
+  const isDate = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v);
   if (delta) {
     for (const [mod, entities] of Object.entries(raw)) {
       if (mod === '_meta') continue;
-      for (const rows of Object.values(entities)) {
+      for (const [name, rows] of Object.entries(entities)) {
+        const pair = SHIFT_PAIRS[name];
         for (const r of rows) {
+          const done = new Set();
+          if (pair && isDate(r[pair.anchor])) {
+            const orig = r[pair.anchor];
+            r[pair.anchor] = shiftISO(orig);
+            done.add(pair.anchor);
+            for (const f of pair.preserve) {
+              if (!isDate(r[f])) continue;
+              const offset = Date.parse(r[f]) - Date.parse(orig);
+              if (!Number.isFinite(offset)) continue;
+              r[f] = formatLike(new Date(Date.parse(r[pair.anchor]) + offset), r[f]);
+              done.add(f);
+            }
+          }
           for (const [k, v] of Object.entries(r)) {
-            if (typeof v !== 'string') continue;
+            if (done.has(k) || typeof v !== 'string') continue;
             let m;
             if (/^\d{4}-\d{2}-\d{2}/.test(v)) r[k] = shiftISO(v);
             else if ((m = v.match(/^(\d{4})-(January|February|March|April|May|June|July|August|September|October|November|December)$/))) {
