@@ -860,14 +860,45 @@ export function competenceRequirements(comp) {
   if (!pT || !ids.length) return comp.requirementID || null;
   const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
   if (!procs.length) return comp.requirementID || null;
+  // only APPROVED procedures contribute coverage (procedure-status gate):
+  // a non-Approved wildcard no longer certifies everything, and a group
+  // whose every procedure awaits approval covers NOTHING ([] — never null,
+  // which would read as the wildcard)
+  const usable = procs.filter(procedureApproved);
+  if (!usable.length) return [];
   const set = [];
-  for (const p of procs) {
+  for (const p of usable) {
     const reqs = Array.isArray(p.requirementID) ? p.requirementID
       : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
     if (!reqs.length) return null; // wildcard procedure — certifies all
     reqs.forEach((r) => { if (!set.includes(r)) set.push(r); });
   }
   return set;
+}
+
+// Procedure-status gate: a procedure can be EXERCISED only while its
+// procedureStatus (ENUM Approved | In Progress | To Do, issue #302) is
+// Approved — eligibility ignores certified onboardings whose competence
+// hangs off an unapproved method until the status flips. Rows without the
+// key (frozen/pre-#302 snapshots) count as Approved (legacy tolerance, the
+// `isActive || 'Active'` posture).
+export function procedureApproved(proc) {
+  if (!proc) return false;
+  const s = proc.procedureStatus;
+  return s == null || s === '' || String(s) === 'Approved';
+}
+
+// A competence is EXERCISABLE while at least one procedure of its group is
+// Approved: a group whose every procedure awaits approval is INERT for
+// eligibility — certified onboarding or not. A competence with no procedure
+// link (legacy stored-requirement rows) stays exercisable.
+export function competenceExercisable(comp) {
+  const pT = resolveTable('Procedures');
+  const ids = asIds(comp && comp.procedureID);
+  if (!pT || !ids.length) return true;
+  const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
+  if (!procs.length) return true; // dangling ids — legacy tolerance
+  return procs.some(procedureApproved);
 }
 
 // CERTIFIED-USERS(taskField) — People eligible to execute a task (issue #214,
@@ -909,6 +940,10 @@ export function certifiedUsersForTask(taskId, extraReqIds = []) {
       if (!comp) continue;
       const compTasks = list(comp.taskID);
       if (compTasks.length && !compTasks.includes(taskId)) continue;
+      // procedure-status gate: an inert competence (whole procedure group
+      // unapproved) contributes nothing — the certified onboarding waits
+      // for the method's Approval
+      if (!competenceExercisable(comp)) continue;
       const cur = cover.get(ob.userID) || { all: false, reqs: new Set() };
       const reqs = competenceRequirements(comp);
       if (reqs == null) cur.all = true;
@@ -943,6 +978,12 @@ export function certifiedUsersForProcedure(procId) {
   const obT = resolveTable('Onboarding');
   const compT = resolveTable('Competence');
   if (!obT || !compT) return [];
+  // procedure-status gate: an unapproved method has NO eligible users yet —
+  // the Users column honestly shows the GAP until the status flips. A row
+  // the id can't resolve keeps the old path (legacy tolerance).
+  const pT = resolveTable('Procedures');
+  const proc = pT ? getById(pT, procId) : null;
+  if (proc && !procedureApproved(proc)) return [];
   const out = [];
   for (const ob of getEntity(obT)) {
     if (ob.isCertified !== true) continue;

@@ -8,7 +8,7 @@ import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENT
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
-  eventProductScopeIds, admittedProductScopeIds } from './resolve.js';
+  competenceExercisable, eventProductScopeIds, admittedProductScopeIds } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -623,6 +623,10 @@ export function certifiedResponsibles(ticketId, taskId) {
     for (const compId of compIds) {
       const comp = getById(compTable, compId);
       if (!comp) continue;
+      // procedure-status gate: a competence whose whole procedure group
+      // awaits approval is inert — certified onboarding or not, the person
+      // is not staffable through it until the method is Approved
+      if (!competenceExercisable(comp)) continue;
       const compPS = competenceProductScope(comp);
       if (scope && compPS.scope && !arrOverlap(compPS.scope, scope)) continue;
       if (pg && compPS.pg && !arrOverlap(compPS.pg, pg)) continue;
