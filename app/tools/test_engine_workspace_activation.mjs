@@ -68,7 +68,7 @@ console.log('== eventsForCustomerSLAs: contracts gate the events ==');
   eq(offered.length > 0 && offered.length < all, true,
     `SLA narrows the offer (${offered.length} of ${all})`);
   eq(offered.every((o) => covered.has(o.value)), true, 'every offered event is covered by the customer contracts');
-  data.addRecord('Customers', { customerID: 'FCW9', customerName: 'NoSLA', businessUnitID: 'BU01', businessSegmentID: 'SG01', customerType: 'External Client' });
+  data.addRecord('Customers', { customerID: 'FCW9', customerName: 'NoSLA', businessUnitID: 'BU01', businessSegmentID: 'SG01', customerType: 'External' });
   eq(forms.eventsForCustomerSLAs('FCW9').length, all, 'customer without SLA — every event (lenient wildcard)');
 }
 

@@ -832,6 +832,22 @@ export function productScopesForPayload(eventId, businessUnitId) {
   });
 }
 
+// SLA "Supplier" (2026-09-03 round): the supplier INSIDE the selected branch
+// is the customer the branch points at (Branches.customerID) — the generic
+// cascade can't read that link (sharedDomainJoin would land on segment-mates:
+// a parent field whose domain IS the child table is skipped by design). No
+// branch, or a branch pointing at no customer → every customer (lenient;
+// the SelectLabel = customerType grouping still applies to the option list).
+export function suppliersForBranch(branchId) {
+  const opt = (c) => ({ value: c.customerID, label: c.customerName || String(c.customerID) });
+  const all = getEntity('Customers');
+  if (!branchId) return all.map(opt);
+  const br = getById('Branches', branchId);
+  const owner = br && br.customerID != null && br.customerID !== ''
+    ? getById('Customers', br.customerID) : null;
+  return (owner ? [owner] : all).map(opt);
+}
+
 // Events a ticket may trigger for a CUSTOMER: the union of the events
 // packaged by the payloads of the customer's active SLAs (issue #179
 // rationale, wired on Tickets by issue #192). No customer or no SLAs →
@@ -1581,6 +1597,14 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if ((entity === 'Procedures' || entity === 'Competence') && attrName === 'productScopeID') {
             const dep = findDep('Process');
             applyOpts(productScopesForProcess(dep ? dep[1].get() : null));
+            return;
+          }
+          // SLA "Supplier": the supplier inside the selected branch — the
+          // customer the branch points at (Branches.customerID; 2026-09-03
+          // session decision). See suppliersForBranch.
+          if (entity === 'SLA' && attrName === 'supplierID') {
+            const dep = findDep('Branch');
+            applyOpts(suppliersForBranch(dep ? dep[1].get() : null));
             return;
           }
           // Procedures "Requirements": the UNIT-WIDE universe (issue #304,

@@ -47,9 +47,16 @@ console.log('== form spec: grouped select + supplier-aware cascade ==');
   eq(sf['Supplier'].check, null, 'SLA Supplier has no gate (every customer offered)');
   const sRule = JSON.stringify(sf['Supplier']['field-rule']);
   eq(sRule.includes('SelectLabel = customerType'), true, 'SLA Supplier groups by customerType');
-  eq(sRule.includes('filtered by'), false, 'SLA Supplier is NOT unit-filtered (issue decision)');
-  eq(sKeys.indexOf('Supplier') - sKeys.indexOf('Customer'), 1, 'Supplier sits right after Customer');
-  eq(sKeys.indexOf('Branch') - sKeys.indexOf('Supplier'), 1, 'Branch follows Supplier');
+  // sv68 supplier flow: the supplier is found through the branch (the
+  // customer the branch points at — suppliersForBranch); the #272 "every
+  // customer, no filter" posture survives as the no-branch lenient path
+  eq(sRule.includes('filtered by branchID selected'), true,
+    'SLA Supplier filtered by the branch (sv68 — cascade spelling wires the bespoke branch, #274 trap)');
+  eq(sKeys.indexOf('Supplier') - sKeys.indexOf('Branch'), 1, 'Supplier sits right after Branch');
+  eq(sKeys.indexOf('Supplier Department') - sKeys.indexOf('Supplier'), 1,
+    'Supplier Department follows Supplier');
+  eq(sKeys.indexOf('Customer') - sKeys.indexOf('Supplier Department'), 1,
+    'Customer follows the supplying chain');
 
   const tf = catalog['Tickets'].form.fields;
   const tKeys = Object.keys(tf);
@@ -77,14 +84,16 @@ console.log('== seeds: every contract supplied, both postures demoed ==');
 {
   const customers = data.getEntity('Customers');
   const byId = new Map(customers.map((c) => [String(c.customerID), c]));
-  eq(customers.filter((c) => c.customerType === 'Supplier').length, 3,
-    'exactly 3 Supplier-type customers (Vitalis medical suppliers)');
+  // the dedicated Supplier customerType left the enum in sv68 — the three
+  // Vitalis medical suppliers relabelled External (session decision)
+  eq(customers.filter((c) => !['Internal', 'External'].includes(c.customerType)).length, 0,
+    'no customer carries a pre-sv68 type label');
   const slas = data.getEntity('SLA');
   eq(slas.every((s) => s.supplierID != null && s.supplierID !== ''
     && byId.has(String(s.supplierID))), true, 'every SLA supplier resolves in Customers');
   const supTypes = new Set(slas.map((s) => byId.get(String(s.supplierID)).customerType));
-  eq(supTypes.has('Supplier'), true, 'some contracts supplied by a Supplier-type customer');
-  eq(supTypes.has('Internal Client'), true, 'some contracts supplied by an internal clinic (any type may supply)');
+  eq(supTypes.has('External'), true, 'some contracts supplied by an external company');
+  eq(supTypes.has('Internal'), true, 'some contracts supplied by an internal clinic (any type may supply)');
 
   const tickets = data.getEntity('Tickets');
   eq(tickets.every((t) => 'supplierID' in t), true, 'every ticket carries the supplierID key (parity)');

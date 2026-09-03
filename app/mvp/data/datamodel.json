@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 67,
+    "schemaVersion": 68,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -817,7 +817,7 @@
             {
               "name": "customerID",
               "type": "FK",
-              "rule": "FK → Customers (display: customerName) (filtered by customerType='Internal Client')",
+              "rule": "FK → Customers (display: customerName) (filtered by customerType='Internal')",
               "notes": "Written from the CUSTOMER form (2026-08-03): registering a customer selects its branches and the save stamps customerID here — the Branches form has no Customer input. Nullable: a branch may have no customer yet.",
               "table-display": true,
               "subitem-display": false,
@@ -1031,7 +1031,7 @@
             {
               "name": "customerType",
               "type": "ENUM",
-              "rule": "enum: ['Internal Client', 'External Client', 'Supplier']",
+              "rule": "enum: ['Internal', 'External']",
               "notes": "Relationship of this customer to the organisation (issue #191 relabel — was branch/client/supplier)",
               "table-display": true,
               "subitem-display": false,
@@ -1140,7 +1140,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerType",
-                "tooltip": "Relationship to the organisation: internal client, external client or supplier",
+                "tooltip": "Relationship to the organisation: internal, external",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -1180,7 +1180,7 @@
         "SLA": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Service Level Agreement (ISO §8.2) — the contract by which a Customer of a branch purchases Payloads from a Department: tickets the customer opens can only trigger events covered by an SLA with that department (issue #179).",
+          "description": "Service Level Agreement (ISO §8.2) — the contract by which a Customer purchases Payloads supplied by a Department of the Supplier (2026-09-03 round; the branch identifies the supplier, the supplier's department supplies the payloads): tickets the customer opens can only trigger events covered by one of the customer's SLAs (issue #179).",
           "attributes": [
             {
               "name": "slaID",
@@ -1222,7 +1222,7 @@
               "name": "supplierID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "the supplying party of the contract (issue #272) — any customerType may supply: an Internal Client clinic branch can be the supplying side of another unit's SLA; the form offers every customer, grouped by type",
+              "notes": "the supplying party of the contract (issue #272; 2026-09-03 round) — the supplier inside the selected branch: the form offers the customer the branch points at (Branches.customerID, bespoke suppliersForBranch), every customer grouped by type when no branch is chosen (lenient)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -1240,7 +1240,7 @@
               "name": "departmentID",
               "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
-              "notes": "the providing department (spec gated this on Branch — normalized to the unit's departments, Departments carry no branch key)",
+              "notes": "the supplier's department that will supply the payloads (2026-09-03 round, was the unit's providing department) — the form filters to the departments of the supplier's units (generic shared-unit join: Customers.businessUnitID × Departments.businessUnitID)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK, NOT NULL"
@@ -1324,12 +1324,12 @@
                 "check": null,
                 "field-rule": "SelectLabel = businessSegmentName"
               },
-              "Customer": {
+              "Branch": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
-                "attribute": "customerID",
-                "tooltip": "The contracting customer",
+                "attribute": "branchID",
+                "tooltip": "The customer's contracting branch — optional",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
@@ -1339,30 +1339,30 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "supplierID",
-                "tooltip": "The supplying party — every customer is offered, grouped by type (an internal clinic can supply another)",
+                "tooltip": "The Supplier inside the branch selected",
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = customerType"
+                "field-rule": "SelectLabel = customerType; filtered by branchID selected"
               },
-              "Branch": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "branchID",
-                "tooltip": "The customer's contracting branch — optional",
-                "step": null,
-                "check": "Customer IS NOT NULL",
-                "field-rule": "filtered by Customer selected"
-              },
-              "Department": {
+              "Supplier Department": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "departmentID",
-                "tooltip": "The department providing the service",
+                "tooltip": "Department that will supply the payloads (events and product scopes)",
+                "step": null,
+                "check": null,
+                "field-rule": "filtered by supplierID selected"
+              },
+              "Customer": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": "The contracting customer",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "filtered by businessUnitID selected"
+                "field-rule": "SelectLabel = customerType; filtered by businessUnitID selected"
               },
               "Payloads": {
                 "field-type": {
@@ -1375,10 +1375,10 @@
                 "field-rule": [
                   "Allow multiple values",
                   "SelectLabel = eventTitle",
-                  "filtered by businessUnitID selected"
+                  "filtered by departmentID selected"
                 ]
               },
-              "Activate": {
+              "Status": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
@@ -3830,6 +3830,15 @@
               "constraints": "FK, NOT NULL"
             },
             {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "single valued — the department that supplies this payload (2026-09-03 round; spec wrote a rollup via the unit — normalized to a stored FK: the form select and the SLA Payloads department filter need the stored key). Seeded from the event's processes' department; nullable when the event chains no process",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
               "name": "eventID",
               "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
@@ -3889,6 +3898,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": "SelectLabel = businessSegmentName"
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": null,
+                "step": null,
+                "check": null,
+                "field-rule": "filtered by businessUnitID selected"
               },
               "Event": {
                 "field-type": {
