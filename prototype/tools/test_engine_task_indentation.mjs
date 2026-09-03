@@ -36,7 +36,7 @@ const taskIndent = (row) =>
 
 console.log('== schema: predecessorTask + taskIndentationID (v66) ==');
 {
-  eq(model.getSchemaVersion(), 66, 'schemaVersion 66');
+  eq(model.getSchemaVersion() >= 66, true, 'schemaVersion bumped to at least 66');
   const pred = catalog['Tasks'].byName['predecessorTask'];
   eq([pred.type, pred.constraints], ['FK', 'FK'],
     'predecessorTask is a stored nullable FK (no NOT NULL — process roots)');

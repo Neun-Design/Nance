@@ -74,16 +74,18 @@ console.log('== productScopesForProcess + requirement options via product scopes
     'process with an empty list covers every product scope of its (wildcard) event');
   const ps = data.getEntity('Product Scopes').find((r) => r.productGroupID && r.scopeID);
   const psPk = ENTITYPK(ps);
-  const viaPS = forms.requirementsForProductScopes([psPk]);
+  // issue #304 retired the requirementsForProductScopes picker helper — the
+  // PS→requirements chain stays proven on the resolve layer directly.
   // issue #288: the derived display moved to the comprehensive
   // productScopeRequirements attr (PS-REQUIREMENTS — explicit connections
   // only); requirementID is the stored direct-pick FK now, absent on the
   // frozen pre-#288 rows (tolerated legacy shape — the direct leg no-ops)
+  const viaPS = resolve.productScopeRequirementRows(ps);
   const attr = catalog['Product Scopes'].byName['productScopeRequirements'];
   const derived = String(resolve.derivedValue('Product Scopes', attr, ps) || '');
-  eq(viaPS.length > 0, true, `product scope ${psPk} offers ${viaPS.length} requirement(s)`);
-  eq(viaPS.every((o) => derived.includes(o.label)), true,
-    'options match the product scope\'s own derived requirement set');
+  eq(viaPS.length > 0, true, `product scope ${psPk} carries ${viaPS.length} requirement(s)`);
+  eq(viaPS.every((r) => derived.includes(r.requirementName)), true,
+    'rows match the product scope\'s own derived requirement set');
   function ENTITYPK(row) { return row[catalog['Product Scopes'].pk]; }
 }
 
