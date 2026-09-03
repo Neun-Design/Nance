@@ -30,7 +30,10 @@ customer-specific requirements registered against this customer and, since 2026-
 follows the requirement's Product Scope dimension (a requirement naming specific
 combinations inherits only into tickets that admit them).
 Expanding a ticket row opens four tabs — the **Processes** the event dispatches into
-(narrowed by the chosen product scope), the **Tasks** of those processes, **Inputs**
+(narrowed by the chosen product scope), the **Tasks** of those processes — sorted by
+their derived **Indentation** (2026-09-03: the workflow-step outline extended one level
+down, `1.0.1`, `1.1.2`, `2.0.1`…, so the planner reads the execution order directly on
+the ticket) —, **Inputs**
 (2026-08-26): the [Handouts](../operation/handouts.md) marked **Customer Input** among the
 inputs of the ticket's resolved procedures — for each task, the ticket's requirement set
 narrows the procedures to exactly one, and that procedure's customer-provided inputs are

@@ -507,6 +507,11 @@ class Builder:
         for p in d['processes']:
             pid = self.id_of('Processes', p['name'])
             ev = next(r['eventID'] for r in processes if r['processID'] == pid)
+            # predecessor chain per process in insertion order (issue #302) —
+            # the demo workflows chain sequentially (finish-to-start), so
+            # insertion order IS step order and this agrees with
+            # migrate_task_indentation.py's (step outline, index) sort
+            prev_task = None
             for j, aname in enumerate(p['activities']):
                 # action diversity: Execution everywhere, a rotating second
                 # action per activity — several actions recur across ≥2
@@ -525,12 +530,14 @@ class Builder:
                     tasks.append({'taskID': f'T{t_n:03d}', 'eventID': ev, 'processID': pid,
                                   'workflowID': wf,
                                   'actionID': self.id_of('Actions', act),
+                                  'predecessorTask': prev_task,
                                   'functionID': self.id_of('Functions', fn),
                                   'competenceID': None,
                                   'roles': [r['roleID'] for r in self.rows('Roles')
                                             if r['functionID'] == self.id_of('Functions', fn)][:2],
                                   'taskName': f'{aname}-{act}',
                                   'taskOwner': None})
+                    prev_task = f'T{t_n:03d}'
         self.put('Tasks', tasks)
 
         # procedures: ≥1 per task; requirement sets bind here; times drive ALL math
@@ -562,7 +569,11 @@ class Builder:
                                'taskInput': [self.rows('Handouts')[i % 14]['handoutID']],
                                'taskOutput': [self.rows('Handouts')[(i + 1) % 14]['handoutID']],
                                'executionTime': base + 0.25 * (i % 3),
-                               'procedureOwner': None})
+                               'procedureOwner': None,
+                               # demo SOPs are in use (they staff competences
+                               # and drive times) — Approved is the honest
+                               # status; variants copy it (issue #302 round)
+                               'procedureStatus': 'Approved'})
         # variant SOPs (issue #284 follow-up) — same deterministic rule as
         # migrate_demo_procedure_groups.py, so regenerated and migrated
         # datasets agree: a variant copies its base SOP (same task — the

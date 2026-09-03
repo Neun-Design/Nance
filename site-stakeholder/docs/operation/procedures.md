@@ -18,4 +18,6 @@ process's list, empty = applies to all); Requirements follows the selected produ
 (their derived requirement sets — with none selected, the task's set); **execution time**
 (hours under THIS requirement set — procedures create the variance in task duration; the
 task shows the sum); Inputs/Outputs offer only handouts that are free or already on this
-chain; accountable owner. Expanding a procedure shows its handout tabs and product scopes.
+chain; accountable owner; **Status** (2026-09-03) tracks the lifecycle of the documented
+method — `Approved`, `In Progress` or `To Do`. Expanding a procedure shows its handout
+tabs and product scopes.
