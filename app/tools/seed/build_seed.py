@@ -1076,6 +1076,19 @@ class Builder:
                             'ticketCreatedAt': created.isoformat(),
                             'ticketClosedAt': (created + timedelta(days=10)).isoformat()
                             if status == 'Resolved' else None})
+        # applicant — the INTERNAL customer opening the ticket (issue #308,
+        # sv69): null cohort at list index i % 3 == 0 (no-applicant path
+        # stays demoed, #272 posture), else the first Internal customer
+        # serving the ticket's unit, preferring one different from the
+        # ticket's own customer — same rule as migrate_ticket_applicant.py
+        internals = sorted((c for c in self.rows('Customers')
+                            if c['customerType'] == 'Internal'),
+                           key=lambda c: c['customerID'])
+        for i, t in enumerate(tickets):
+            pool = [c for c in internals if t['businessUnitID'] in c['businessUnitID']]
+            others = [c for c in pool if c['customerID'] != t['customerID']]
+            pick = others or pool
+            t['applicantID'] = pick[0]['customerID'] if pick and i % 3 else None
         self.put('Tickets', tickets)
         self._plant_story6(tickets)
         self._build_jobs(tickets)

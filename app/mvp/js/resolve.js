@@ -793,12 +793,16 @@ function servedRegionIds(unitIds) {
 // EMPTY matches everything (Q1); a context side left blank skips its dimension
 // (multiViaJoin posture — a unit serving no region still admits
 // region-specific requirements).
-function matchRequirements({ psRows, unitIds, regionIds, customerId }) {
+function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId }) {
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+  // the customer gate passes for EITHER inheritance party (issue #308): the
+  // project customer or the internal applicant opening the ticket — the
+  // ticket inherits both sets. Empty key = applies to all (Q1, unchanged).
+  const parties = [customerId, applicantId].filter((v) => v != null && v !== '');
   const out = [];
   for (const r of getEntity('Requirements')) {
     if (String(r.isActive || 'Active') === 'Inactive') continue;
-    if (!blank(r.customerID) && !sameVal(r.customerID, customerId)) continue;
+    if (!blank(r.customerID) && !sameVal(r.customerID, parties)) continue;
     if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
     if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
     // productScopeID dimension (issue #294): a requirement NAMING product
@@ -821,8 +825,11 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId }) {
 // Requirements a TICKET inherits live (issue #226 — replaces the #192 stored
 // snapshot): the admitted payload-chain product scopes (∩ the ticket's
 // productScopeID when set) AND-matched with the ticket's unit, that unit's
-// served regions and the ticket's customer. Deliberate divergence from the
-// #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID.
+// served regions and the ticket's inheritance parties — the project customer
+// AND the internal applicant opening the ticket (issue #308; a legacy row
+// without the applicantID key inherits through the customer alone).
+// Deliberate divergence from the #192 seed: the unit gate reads the TICKET's
+// unit, not ps.businessUnitID.
 export function ticketRequirements(ticket) {
   if (!ticket) return [];
   let ids = admittedProductScopeIds(ticket.eventID, ticket.customerID, ticket.supplierID ?? null);
@@ -831,7 +838,7 @@ export function ticketRequirements(ticket) {
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
   const unitIds = asIds(ticket.businessUnitID);
   return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
-    customerId: ticket.customerID ?? null });
+    customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null });
 }
 
 // Requirements a competence certifies — via its procedures since the
