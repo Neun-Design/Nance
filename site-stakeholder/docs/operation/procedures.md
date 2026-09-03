@@ -22,5 +22,8 @@ grouped by type — so the full combination the unit answers for is pickable in 
 (hours under THIS requirement set — procedures create the variance in task duration; the
 task shows the sum); Inputs/Outputs offer only handouts that are free or already on this
 chain; accountable owner; **Status** (2026-09-03) tracks the lifecycle of the documented
-method — `Approved`, `In Progress` or `To Do`. Expanding a procedure shows its handout
-tabs and product scopes.
+method — `Approved`, `In Progress` or `To Do` — **and gates eligibility**: only an
+`Approved` procedure can be exercised, so people certified on a competence bound to a
+procedure still in progress do not appear as eligible (the procedure's Users column shows
+the GAP, and Jobs staffing skips them) until the status flips to `Approved`. Expanding a
+procedure shows its handout tabs and product scopes.

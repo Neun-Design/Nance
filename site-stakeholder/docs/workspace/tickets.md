@@ -49,7 +49,9 @@ before remote teams can start (a task whose procedure is ambiguous or missing co
 nothing until the gap is closed). Staffing
 eligibility stays **ticket-aware** behind the scenes (2026-08-20; the Users column left the
 Tasks tab on 2026-08-28): only people whose certified competences cover **every**
-requirement the ticket inherits can be staffed — a new requirement landing on the ticket
-narrows eligibility until certifications catch up (bind it to the task's
-[Procedure](../operation/procedures.md) so the certified competences absorb it; the
+requirement the ticket inherits can be staffed, and (2026-09-03) only while the
+competence's [Procedure](../operation/procedures.md) is **Approved** — a certified
+person whose method is still `In Progress`/`To Do` waits for the approval. A new
+requirement landing on the ticket narrows eligibility until certifications catch up
+(bind it to the task's Procedure so the certified competences absorb it; the
 procedure's own Users column keeps pointing at the eligible people).
