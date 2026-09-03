@@ -46,9 +46,9 @@ console.log('== schema: SLA-aware ticket chain ==');
 console.log('== form spec: gated cascade ==');
 {
   const t = catalog['Tickets'].form.fields;
-  // the #192 "input removed" assertion retired — #243 added the field back as
-  // the nullable consumption link, gated on Event
-  eq(t['Forecast Scope'].check, 'Event IS NOT NULL', 'Forecast Scope is the #243 link, gated on Event');
+  // the #243 consumption-link input left the form again in the 2026-09-03
+  // input-removal round (sv70) — the stored forecastScopeID link is data-only
+  eq('Forecast Scope' in t, false, 'Forecast Scope input removed (sv70; the stored link stays)');
   eq(t.Customer.check, 'Business Unit IS NOT NULL', 'Customer gated on the unit');
   eq(t.Project.check, 'Customer IS NOT NULL', 'Project gated on the customer');
   eq(t.Event.check, 'Customer IS NOT NULL', 'Event gated on the customer');

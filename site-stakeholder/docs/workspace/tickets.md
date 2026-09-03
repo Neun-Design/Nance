@@ -19,13 +19,13 @@ picked among the unit's customers grouped by type (unlocked by the Unit): choosi
 narrows Event and Product Scope to the contracts of that (customer, supplier) pair,
 leaving it empty follows every active SLA — and `Event *` —
 **only events covered by the customer's SLAs are offered**; `Product Scope *` — the scope
-the ticket targets, among those packaged by the event's payloads under those SLAs; `Forecast Scope` — the demand line of the contract's
-[Forecasts](../crm/forecast-scopes.md) this ticket consumes, following the same
-(customer, supplier) narrowing as Event and Product Scope when a Supplier is declared
-(leave it empty when the work
-was not forecast — the line's consumption counts the linked tickets and its remaining
-balance follows); Details; Target date; Status. The payload, SLA and product/scope columns are
-derived from that chain — nothing else to select. The requirement set is **live**
+the ticket targets, among those packaged by the event's payloads under those SLAs;
+Details; Target date; Status. The payload, SLA and product/scope columns are
+derived from that chain — nothing else to select. The **Forecast Scope** link is no
+longer entered on the form (2026-09-03): existing links between tickets and the
+contract's [Forecasts](../crm/forecast-scopes.md) demand lines stay in the data, and a
+line's consumption keeps counting its linked tickets with the remaining balance
+following. The requirement set is **live**
 (2026-08-20): registering a new Active requirement whose applicability matches the ticket's
 scopes, product scopes, unit, served regions or customer makes it appear on existing tickets
 immediately — no re-entry; inactivating a requirement removes it everywhere. The set includes
