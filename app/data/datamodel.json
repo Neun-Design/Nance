@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 65,
+    "schemaVersion": 66,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2035,6 +2035,24 @@
               "constraints": "NOT NULL"
             },
             {
+              "name": "predecessorTask",
+              "type": "FK",
+              "rule": "FK → Tasks (display: taskName)",
+              "notes": "Self-referential task ordering (issue #302; nullable — the first task of a process has no predecessor). Unlike Workflows there is NO constrain/indentationRule dimension: every task link is start-to-finish (sequential). The form select offers the tasks of the selected Process.",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "taskIndentationID",
+              "type": "computed",
+              "rule": "computed: TASKORDER(predecessorTask, workflowID)",
+              "notes": "Derived task outline number (1.0.1, 1.1.2, 2.0.1…) — never stored (issue #302): the workflow step's indentationID is the base, padded to two segments when it is a single major number (1 → 1.0 — the planned Gantt webhook consumers need a fixed depth), and the task's sequence within the SAME step (predecessorTask chain) appends as the last segment. A predecessor in ANOTHER step does not sub-number — the counter restarts per step (the issue's T04 example). Every Tasks subitem context orders by this value.",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
+            },
+            {
               "name": "requirementName",
               "type": "computed",
               "rule": "rollup → Procedures (via: taskID) (display: requirementName)",
@@ -2201,6 +2219,16 @@
                 "step": null,
                 "check": "Activity IS NOT NULL",
                 "field-rule": null
+              },
+              "Predecessor Task": {
+                "field-type": {
+                  "Select": "shadcn-select"
+                },
+                "attribute": "predecessorTask",
+                "tooltip": "Task of the SAME process executed before this one — the task outline number (taskIndentationID) derives from the workflow step and this chain. Leave empty for the first task; every task link is start-to-finish (issue #302).",
+                "step": null,
+                "check": "Process IS NOT NULL",
+                "field-rule": "filtered by Process selected"
               }
             }
           },
@@ -2749,7 +2777,7 @@
           "cards": [],
           "table-filters": true,
           "subitem-tables": [
-            "Tasks"
+            "Tasks: ordered by taskIndentationID"
           ]
         },
         "Actions": {
@@ -3249,6 +3277,15 @@
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
+            },
+            {
+              "name": "procedureStatus",
+              "type": "ENUM",
+              "rule": "enum: ['Approved', 'In Progress', 'To Do']",
+              "notes": "Lifecycle of the documented method (authored 2026-09-03, absorbed with issue #302; spelling normalized to the house ENUM-type + enum-rule convention). Demo SOPs seed Approved — they staff competences and drive execution times, an unapproved status would be dishonest.",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": null
             }
           ],
           "reports": null,
@@ -3370,6 +3407,16 @@
                 "tooltip": "Hours to execute the task under this procedure's requirement set",
                 "step": null,
                 "check": "Task IS NOT NULL",
+                "field-rule": null
+              },
+              "Status": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "procedureStatus",
+                "tooltip": null,
+                "step": null,
+                "check": null,
                 "field-rule": null
               }
             }
@@ -5325,7 +5372,7 @@
             },
             {
               "tab-order": 2,
-              "rule": "(via: processID)",
+              "rule": "ordered by taskIndentationID (via: processID)",
               "tab-name": "Tasks",
               "tab-table": "Tasks"
             },

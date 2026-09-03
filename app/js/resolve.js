@@ -87,6 +87,37 @@ function stepOrderValue(tableName, rule, row) {
   return map.get(row[cat.pk]) ?? '—';
 }
 
+// ---- TASKORDER (issue #302): task outline number under its workflow step.
+// The step's own STEPORDER indentation is the base, padded to two segments
+// when it is a single major number ("1" → "1.0" — the planned Gantt webhook
+// consumers need a fixed depth), and the task's sequence within the SAME
+// step appends as the final segment ("1.0.1", "1.1.2", "2.0.1"). Tasks carry
+// no indentation rule — every predecessor link is start-to-finish
+// (sequential) — so stepOrderMap numbers the per-step chain 1, 2, 3…; a
+// predecessor OUTSIDE the step's task set counts as no parent (the issue's
+// T04: first task of step 2 → "2.0.1" even though its predecessor lives in
+// step 1.1). Like STEPORDER the value is NEVER stored.
+export function taskOrderValue(tableName, rule, row) {
+  const cat = getCatalog(tableName);
+  const stepId = row[rule.stepField];
+  if (stepId == null || stepId === '') return '—';
+  const stepTable = fieldDomain(tableName, rule.stepField);
+  const stepRow = stepTable && getById(stepTable, stepId);
+  if (!stepRow) return '—';
+  const sAttr = getCatalog(stepTable).attrs
+    .find((a) => (parseRule(a.rule) || {}).kind === 'steporder');
+  if (!sAttr) return '—';
+  let base = String(stepOrderValue(stepTable, parseRule(sAttr.rule), stepRow));
+  if (base === '—') return '—';
+  if (!base.includes('.')) base += '.0';
+  const siblings = getEntity(tableName)
+    .filter((t) => String(t[rule.stepField]) === String(stepId));
+  // ruleField names a field tasks never store → every link reads sequential
+  const seq = stepOrderMap(siblings, cat.pk, rule.predField, 'indentationRule')
+    .get(row[cat.pk]);
+  return seq == null ? '—' : `${base}.${seq}`;
+}
+
 // join-path discovery is DATA-validated: a candidate field pair only forms a
 // join when the two sides actually share values in the mockup dataset —
 // catalogue-declared fields that are absent from the data can't be joined on.
@@ -299,6 +330,12 @@ export function childrenOf(parentTable, parentRow, childTable, opts = {}) {
     const oRule = oAttr && parseRule(oAttr.rule);
     if (oRule && oRule.kind === 'steporder') {
       const map = stepOrderMap(rows, cCat.pk, oRule.parentField, oRule.ruleField);
+      rows = [...rows].sort((a, b) => String(map.get(a[cCat.pk]) ?? '')
+        .localeCompare(String(map.get(b[cCat.pk]) ?? ''), undefined, { numeric: true }));
+    } else if (oRule && oRule.kind === 'taskorder') {
+      // task outline numbers need context beyond the child set (the workflow
+      // step's own STEPORDER + the per-step chain) — computed per row
+      const map = new Map(rows.map((r) => [r[cCat.pk], taskOrderValue(childTable, oRule, r)]));
       rows = [...rows].sort((a, b) => String(map.get(a[cCat.pk]) ?? '')
         .localeCompare(String(map.get(b[cCat.pk]) ?? ''), undefined, { numeric: true }));
     } else {
@@ -1038,6 +1075,7 @@ function derivedValueInner(tableName, attr, row, depth = 0, displayOverride = nu
   const r = parseRule(attr.rule);
   if (!r || r.kind === 'enum') return row[attr.name] ?? '—';
   if (r.kind === 'steporder') return stepOrderValue(tableName, r, row);
+  if (r.kind === 'taskorder') return taskOrderValue(tableName, r, row);
   if (r.kind === 'certifiedusers') {
     // srcField picks the chain (issue #271): taskID = task-level eligibility
     // (certifiedUsersForTask); procedureID = holders of a certified competence
