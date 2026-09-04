@@ -2653,8 +2653,10 @@
 contracts.
 <strong>Register when:</strong> phase 8, once CRM (including <a href="../../crm/sla/">SLAs</a>) exists.
 <strong>Key fields:</strong> Registry ID; Name; <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code>
-(the unit's customers) → <strong>SLA</strong> (multi — the customer's contracts this project executes
-under); Owner; Status. The coverage column (product scopes) derives from the linked SLAs.</p>
+(the unit's customers) → <strong>Branch</strong> (optional — the customer's branches) → <strong>SLA</strong>
+(multi — the customer's contracts this project executes under, narrowed to the chosen
+Branch; a contract without a branch is not branch-specific and stays offered); Owner;
+Status. The coverage column (product scopes) derives from the linked SLAs.</p>
 
 
 
