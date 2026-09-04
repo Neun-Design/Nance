@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 72,
+    "schemaVersion": 73,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1023,7 +1023,7 @@
               "name": "branchID",
               "type": "mirror",
               "rule": "rollup → Branches (via: customerID) (display: branchName)",
-              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record. Geography (city/country/region) lives on the Branches since issue #191 dropped the redundant Customer copies.",
+              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record. Conflict guard (2026-09-04, schema v73): a branch owned by ANOTHER customer is neither offered nor re-stamped — reassigning means deselecting on the owning customer first (branchAvailableForCustomer). Geography (city/country/region) lives on the Branches since issue #191 dropped the redundant Customer copies.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -1150,7 +1150,7 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "branchID",
-                "tooltip": "Branches this customer is registered at — saving writes the link onto the Branch records",
+                "tooltip": "Branches this customer is registered at — only branches not owned by another customer are offered; saving writes the link onto the Branch records",
                 "step": null,
                 "check": "Unit IS NOT NULL",
                 "field-rule": [

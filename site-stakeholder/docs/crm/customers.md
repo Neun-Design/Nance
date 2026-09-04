@@ -16,4 +16,7 @@ Branches), then external clients and suppliers.
 chosen segments); **Branch** (multi, unlocked by Unit — grouped by unit). **The branch link
 is authored here:** saving the customer stamps its id onto the selected
 [Branch](../organization/branches.md) records (deselecting clears it); the Branches form has
-no Customer input. Expanding a customer row lists its SLAs.
+no Customer input. A branch belongs to **one** customer — the picker only offers branches
+not yet assigned to another customer, so registering a customer can never strip a branch
+from an older record; to move a branch, deselect it on the owning customer first.
+Expanding a customer row lists its SLAs.
