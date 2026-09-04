@@ -447,6 +447,15 @@ carry after `:` (`"ordered by …"`, `"only f=v"`, `"rollup via T.f"`) or in par
 string/object list keeps the stacked layout — the objects then behave like their
 equivalent string entries.
 
+An object entry may also carry **`"tab-columns": ["attrName", …]`** (sv75): attr names
+of the child table appended to the tab's columns even though their global
+`subitem-display` is `false` — a per-tab re-add for columns hidden everywhere else. The
+reference is the Tickets → Tasks tab, which restores the ticket-contextual **Users**
+column (#233, globally hidden by #299) and adds **Execution Time** (the resolved
+procedure's time — `TICKET-PROCEDURE` with `display: executionTime`). Appended columns
+get the same ticket-context accessors/pills as declared columns; duplicates of already
+visible columns are skipped.
+
 ---
 
 ## 10. Known data quirks (fix upstream, don't code around silently)

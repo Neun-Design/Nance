@@ -221,6 +221,13 @@ export function normalizeSubitem(entry) {
       name: entry['tab-name'] ? humanize(entry['tab-name']) : si.table,
       order: typeof entry['tab-order'] === 'number' ? entry['tab-order'] : Infinity,
     };
+    // "tab-columns" (sv75, guide §9): attr names THIS tab appends to the
+    // child's generic subitem columns — re-adds columns whose global
+    // subitem-display is false (the Tickets Tasks tab restores Users and
+    // adds the procedure Execution Time after the #299 global hide)
+    if (Array.isArray(entry['tab-columns'])) {
+      si.tabColumns = entry['tab-columns'].map(String);
+    }
     if (!si.label) si.label = si.tab.name;
     return si;
   }
