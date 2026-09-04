@@ -56,7 +56,7 @@ console.log('== form spec: Product Scope select ==');
 {
   const f = catalog['Tickets'].form.fields['Product Scope'];
   eq(f.attribute, 'productScopeID', 'Product Scope binds productScopeID');
-  eq(f.check, 'Project IS NOT NULL', 'gated on Project (authored spelling)');
+  eq(f.check, 'Event IS NOT NULL', 'gated on the Event since #325 (the options need it; was Project, #214)');
   eq(/filtered by Event/i.test(String(f['field-rule'])), true, 'refiltered by the Event');
   eq(catalog['Tickets'].form['subitem-tables'], undefined,
     'form-level New Job launcher removed (literal reading, issue #214)');
@@ -84,29 +84,35 @@ console.log('== subitem tabs: Processes/Tasks replace Jobs ==');
     'Tasks tab resolves the tasks of the snapshot processes');
 }
 
-console.log('== productScopesForTicket: payload scopes under the SLAs ==');
+console.log('== productScopesForTicket: co-packaged scopes under the PROJECT SLAs (#325) ==');
 {
-  const all = data.getEntity('Product Scopes').length;
-  eq(forms.productScopesForTicket(null, null).length, all, 'no event — every scope (lenient)');
+  // strict posture since #325: no event / no project / no surviving pair =
+  // no options (the #214 lenient fallbacks retired with the re-sourcing)
+  eq(forms.productScopesForTicket(null, {}).length, 0, 'no event/project — no scopes (strict)');
   const p3 = data.getEntity('Payload').find((p) => (p.productScopeID || []).length === 3);
-  const got = forms.productScopesForTicket(p3.eventID, null).map((o) => o.value).sort();
-  eq(got, [...p3.productScopeID].sort(), 'event with a 3-scope payload offers exactly those');
-  // SLA narrowing needs an event with two payloads — synthesize one
+  // a contract purchasing ONLY a 1-scope payload of the same event — the
+  // offer follows the purchased packaging, not the event's full set
   data.addRecord('Payload', { payloadID: 'PLD-T2', payloadCode: 'PLD-T2 (t)',
     eventID: p3.eventID, productScopeID: [p3.productScopeID[0]] });
   data.addRecord('Customers', { customerID: 'CUST-T', customerName: 'Scope Probe (t)' });
   data.addRecord('SLA', { slaID: 'SLA-T', slaCode: 'SLA-T', customerID: 'CUST-T',
     payloadID: ['PLD-T2'], isActive: 'Active' });
-  eq(forms.productScopesForTicket(p3.eventID, 'CUST-T').map((o) => o.value),
-    [p3.productScopeID[0]], "the customer's SLA narrows to the purchased payload");
-  const noSla = forms.productScopesForTicket(p3.eventID, 'NO-SUCH-CUSTOMER').map((o) => o.value).sort();
-  eq(noSla, [...new Set([...p3.productScopeID, p3.productScopeID[0]])].sort(),
-    'customer without SLA — every payload of the event (lenient)');
-  // wildcard payload — empty list = every scope the event admits
+  data.addRecord('Projects', { projectID: 'PJ-T', projectRegistryID: 'PJ-T (t)',
+    customerID: 'CUST-T', slaID: ['SLA-T'] });
+  eq(forms.productScopesForTicket(p3.eventID, { projectID: 'PJ-T', customerID: 'CUST-T' })
+    .map((o) => o.value), [p3.productScopeID[0]],
+  'the project contract narrows to the purchased packaging');
+  eq(forms.productScopesForTicket(p3.eventID, { projectID: 'PJ-T' }).length, 0,
+    'no surviving pair — no scopes (strict, the survival legs need a party)');
+  // wildcard payload — empty packaging = every scope the event admits (Q1)
   data.addRecord('Events', { eventID: 'EV-T', eventTitle: 'Wildcard Probe (t)' });
   data.addRecord('Payload', { payloadID: 'PLD-TW', payloadCode: 'PLD-TW (t)', eventID: 'EV-T', productScopeID: [] });
-  eq(forms.productScopesForTicket('EV-T', null).length,
-    forms.productScopesForEvent('EV-T').length, 'wildcard payload widens to the full applicability');
+  data.addRecord('SLA', { slaID: 'SLA-TW', slaCode: 'SLA-TW', customerID: 'CUST-T',
+    payloadID: ['PLD-TW'], isActive: 'Active' });
+  data.addRecord('Projects', { projectID: 'PJ-TW', projectRegistryID: 'PJ-TW (t)',
+    customerID: 'CUST-T', slaID: ['SLA-TW'] });
+  eq(forms.productScopesForTicket('EV-T', { projectID: 'PJ-TW', customerID: 'CUST-T' }).length,
+    forms.productScopesForEvent('EV-T').length, 'wildcard payload widens to the full applicability (Q1)');
 }
 
 console.log('== ticketProcesses + on-save snapshot ==');

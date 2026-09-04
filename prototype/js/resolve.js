@@ -742,15 +742,84 @@ export function eventProductScopeIds(eventId) {
   }).map((ps) => ps[pk]);
 }
 
+// SLAs a TICKET survives under (issue #325 — the PROJECT's contracts are the
+// universe): the SLAs linked to the ticket's project (Projects.slaID), Active
+// only, matching the UNION of two exact pairs (session decision):
+//   leg 1 — SLA.customerID = the ticket's Customer;
+//   leg 2 — SLA.customerID = the Applicant AND SLA.supplierID = the Supplier
+//           (no Applicant = leg inert; no Supplier = the leg ignores the
+//           supplier dimension; the Supplier does NOT narrow leg 1).
+// STRICT: no project / no linked SLA / no pair match = [] — the form offers
+// nothing (decision of the round). Only the derived inheritance chain keeps a
+// legacy-fallback rung (see ticketRequirements). `ctx` is a ticket-shaped
+// record: { projectID, customerID, applicantID, supplierID }.
+export function ticketAdmittedSLAs(ctx) {
+  if (!ctx) return [];
+  const prj = ctx.projectID != null && ctx.projectID !== '' ? getById('Projects', ctx.projectID) : null;
+  if (!prj) return [];
+  const cid = ctx.customerID != null && ctx.customerID !== '' ? String(ctx.customerID) : null;
+  const aid = ctx.applicantID != null && ctx.applicantID !== '' ? String(ctx.applicantID) : null;
+  const sup = ctx.supplierID != null && ctx.supplierID !== '' ? String(ctx.supplierID) : null;
+  const out = [];
+  for (const sid of asIds(prj.slaID)) {
+    const s = getById('SLA', sid);
+    if (!s || String(s.isActive || 'Active') === 'Inactive') continue;
+    const buyers = asIds(s.customerID).map(String);
+    const leg1 = cid != null && buyers.includes(cid);
+    const leg2 = aid != null && buyers.includes(aid)
+      && (sup == null || String(s.supplierID ?? '') === sup);
+    if (leg1 || leg2) out.push(s);
+  }
+  return out;
+}
+
+// Payloads of the surviving SLAs carrying `eventId` (issue #325) — the
+// dispatch universe of the ticket chain, deduped across contracts in
+// survivor order (16 demo tickets resolve the same payload through two
+// SLAs). A non-null `productScopeId` keeps only the payloads packaging that
+// scope — a payload with an EMPTY packaging list packages every scope the
+// event admits (Q1) and always survives the scope filter.
+export function ticketAdmittedPayloads(eventId, ctx, productScopeId = null) {
+  if (eventId == null || eventId === '') return [];
+  const seen = new Set(); const out = [];
+  for (const s of ticketAdmittedSLAs(ctx)) {
+    for (const pid of asIds(s.payloadID)) {
+      if (seen.has(String(pid))) continue;
+      seen.add(String(pid));
+      const p = getById('Payload', pid);
+      if (!p || !sameVal(p.eventID, eventId)) continue;
+      const packs = asIds(p.productScopeID).map(String);
+      if (productScopeId != null && productScopeId !== '' && packs.length
+          && !packs.includes(String(productScopeId))) continue;
+      out.push(p);
+    }
+  }
+  return out;
+}
+
 // Product scopes a TICKET's payload chain admits (id-level core of the
-// productScopesForTicket picker — the issue #214 posture kept intact): the
-// event's payloads narrowed to the payloads purchased by the customer's
-// ACTIVE SLAs (lenient fallbacks: no customer / no SLA / empty intersection
-// keeps every payload of the event), narrowed to the supplier's contracts
-// when the ticket declares one (issue #272 — lenient on empty match); a
+// productScopesForTicket picker): since issue #325 the universe is the
+// PROJECT's surviving SLAs (ticketAdmittedSLAs — strict, replacing the
+// #179/#192 customer-SLA sourcing); the #214 packaging posture is kept: a
 // payload with an EMPTY productScopeID packages every scope the event admits
-// (Q1 — widens to full applicability).
-export function admittedProductScopeIds(eventId, customerId, supplierId = null) {
+// (Q1 — widens to the event's full applicability).
+export function admittedProductScopeIds(eventId, ctx) {
+  const ids = [];
+  for (const p of ticketAdmittedPayloads(eventId, ctx)) {
+    const scopes = asIds(p.productScopeID);
+    if (!scopes.length) return eventProductScopeIds(eventId); // wildcard payload
+    scopes.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
+  }
+  return ids;
+}
+
+// PRE-#325 admitted chain (the customer's active SLAs, lenient fallbacks,
+// supplier-narrowed) — kept ONLY as the legacy-tolerance rung of
+// ticketRequirements: snapshot tickets outside the project chain (frozen
+// testdata, where the ticket customer may differ from the project customer)
+// keep resolving their inheritance. Never fires on the demo dataset
+// (census: 160/160 tickets survive the project chain).
+function legacyAdmittedScopeIds(eventId, customerId, supplierId = null) {
   if (!eventId) return eventProductScopeIds(null);
   let payloads = getEntity('Payload').filter((p) => sameVal(p.eventID, eventId));
   if (customerId) {
@@ -832,7 +901,14 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId
 // unit, not ps.businessUnitID.
 export function ticketRequirements(ticket) {
   if (!ticket) return [];
-  let ids = admittedProductScopeIds(ticket.eventID, ticket.customerID, ticket.supplierID ?? null);
+  let ids = admittedProductScopeIds(ticket.eventID, ticket);
+  if (!ids.length) {
+    // legacy tolerance (issue #325): a snapshot ticket outside the project
+    // chain falls back to the pre-#325 customer-SLA path — UI-created
+    // tickets never land here (the form only offers project-covered
+    // events/scopes)
+    ids = legacyAdmittedScopeIds(ticket.eventID, ticket.customerID, ticket.supplierID ?? null);
+  }
   const chosen = asIds(ticket.productScopeID);
   if (chosen.length) ids = ids.filter((id) => chosen.includes(id));
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);

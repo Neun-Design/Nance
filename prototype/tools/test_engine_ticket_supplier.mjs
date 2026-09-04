@@ -94,21 +94,26 @@ console.log('== seeds: every stored pair survives the unit filter ==');
     'every ticket supplier serves the ticket\'s unit (edit prefill keeps the FK)');
 }
 
-console.log('== downstream: the (customer, supplier) narrowing is untouched ==');
+console.log('== downstream: any unit customer may be declared (#325 union doctrine) ==');
 {
-  // any unit customer may now be declared — a supplier with no contract for
-  // the pair keeps the lenient posture: same events as no supplier at all
+  // any unit customer may be declared as supplier without emptying the Event
+  // offer: since issue #325 the supplier binds only the APPLICANT leg of the
+  // SLA survival pair — the customer leg is untouched, so a stranger
+  // supplier yields the same events as no supplier at all
   const slas = data.getEntity('SLA').filter((s) => String(s.isActive || 'Active') !== 'Inactive');
   const cust = slas[0].customerID;
+  const prj = data.getEntity('Projects').find((p) => String(p.customerID) === String(cust));
   const supplying = new Set(slas
     .filter((s) => asList(s.customerID).map(String).includes(String(cust)))
     .map((s) => String(s.supplierID)));
   const stranger = data.getEntity('Customers')
     .find((c) => !supplying.has(String(c.customerID)) && String(c.customerID) !== String(cust));
-  const bare = forms.eventsForCustomerSLAs(cust).map((o) => String(o.value));
-  const viaStranger = forms.eventsForCustomerSLAs(cust, stranger.customerID)
+  const bare = forms.eventsForTicket({ projectID: prj.projectID, customerID: cust })
     .map((o) => String(o.value));
-  eq(viaStranger, bare, 'no contract for the pair → lenient (every customer-SLA event)');
+  const viaStranger = forms.eventsForTicket({ projectID: prj.projectID, customerID: cust,
+    supplierID: stranger.customerID }).map((o) => String(o.value));
+  eq(bare.length > 0, true, 'the customer leg offers events (scenario anchor)');
+  eq(viaStranger, bare, 'stranger supplier narrows nothing — it binds the applicant leg only');
 }
 
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');

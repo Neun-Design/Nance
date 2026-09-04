@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 75,
+    "schemaVersion": 76,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5080,7 +5080,7 @@
               "name": "supplierID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "the supplying-party filter (issue #272; re-sourced by issue #281) — offered from the unit's customers grouped by customerType (generic stored-key cascade on Customers.businessUnitID; the #272 active-SLA sourcing via suppliersForTicketCustomer is retired); nullable: no supplier = lenient wildcard (#192 posture) and Event/Product Scope follow every active SLA of the customer",
+              "notes": "the supplying-party filter (issue #272; re-sourced by issue #281) — offered from the unit's customers grouped by customerType (generic stored-key cascade on Customers.businessUnitID; the #272 active-SLA sourcing via suppliersForTicketCustomer is retired); nullable. Since issue #325 the supplier binds on the APPLICANT leg of the SLA survival pair — (SLA.customerID = Applicant, SLA.supplierID = Supplier) — and no longer narrows the customer leg; no supplier = the applicant leg ignores the supplier dimension",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -5089,25 +5089,25 @@
               "name": "eventID",
               "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
-              "notes": "The Event select only offers events covered by the customer's SLAs (issue #179 rationale — eventsForCustomerSLAs in forms.js; no SLA = every event, lenient wildcard), narrowed further by the chosen Supplier (#272). Display fixed to eventTitle (eventName never existed).",
+              "notes": "The Event select only offers events packaged by the payloads of the PROJECT's surviving SLAs (issue #325 — eventsForTicket in forms.js, replacing the #179/#192 customer-SLA sourcing; the #272 supplier dimension now binds on the Applicant leg of the survival pair). STRICT: no project / no surviving SLA = no options. Display fixed to eventTitle (eventName never existed).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
             },
             {
               "name": "payloadID",
-              "type": "rollup",
-              "rule": "rollup → Payload (via: eventID) (display: payloadCode)",
-              "notes": "dispatch package(s) carrying this ticket's event (issue #192) — derives, never stored",
+              "type": "FK",
+              "rule": "FK → Payload (display: payloadCode)",
+              "notes": "multivalued — the dispatch package(s) RESOLVED for this ticket (issue #325, replaces the #192 via-eventID rollup): among the surviving project SLAs' purchased payloads, those carrying the chosen event and packaging the chosen product scope (empty packaging = wildcard, Q1). The Event × Product Scope pick alone does not guarantee a payload, so the engine resolves and STORES the admitted set on save (applyDerivedUnits) — seeded by migrate_ticket_project_sla.py; no form input.",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "notes": "Product scope this ticket targets — NOT NULL since issue #243 (A2: without it the Jobs task rollup collapsed); picked among the scopes packaged by the event's payloads covered by the customer's active SLAs (productScopesForTicket in forms.js; lenient without SLAs), narrowed further by the chosen Supplier (#272). Stores the id — the display CONCAT resolves the names.",
+              "notes": "Product scope this ticket targets — NOT NULL since issue #243 (A2: without it the Jobs task rollup collapsed); picked among the scopes co-packaged with the chosen event in a same payload of the surviving PROJECT SLAs (issue #325 — productScopesForTicket in forms.js; strict: no project / no covering SLA = no options; a wildcard payload widens to the event's applicability, Q1). Stores the id — the display CONCAT resolves the names.",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -5123,12 +5123,12 @@
             },
             {
               "name": "slaID",
-              "type": "rollup",
-              "rule": "rollup → SLA (via: customerID) (display: slaCode)",
-              "notes": "the customer's contracts — the governing SLA in the demo dataset (one per customer); still keyed via customerID (single-key rollup): the (customer, supplier) pair narrows the pickers (#272), not this display rollup",
+              "type": "FK",
+              "rule": "FK → SLA (display: slaCode)",
+              "notes": "multivalued — the governing contract(s), RESOLVED and STORED on save (issue #325, replaces the #191 via-customerID rollup): the surviving project SLAs that purchased at least one of the ticket's resolved payloads. Survival = union of two exact pairs (session decision): (SLA.customerID = ticket Customer) ∪ (SLA.customerID = Applicant AND SLA.supplierID = Supplier); empty Applicant = second leg inert, empty Supplier = second leg ignores the supplier dimension. Seeded by migrate_ticket_project_sla.py; no form input.",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "ticketDescription",
@@ -5295,7 +5295,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "applicantID",
-                "tooltip": "The internal customer opening the ticket — its requirements apply on top of the project customer's",
+                "tooltip": "The internal customer opening the ticket — its requirements apply on top of the project customer's, and it opens a second SLA-survival leg: project contracts where the applicant buys from the chosen Supplier also admit events and scopes",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -5305,7 +5305,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerID",
-                "tooltip": null,
+                "tooltip": "Filters the projects offered below — the ticket's events and scopes follow the PROJECT's contracts (issue #325)",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
@@ -5325,7 +5325,7 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "supplierID",
-                "tooltip": "The party responsible for resolving the issue — any customer of the unit; narrows the events and scopes to the (customer, supplier) contracts; leave empty to follow every active SLA",
+                "tooltip": "The party responsible for resolving the issue — any customer of the unit; binds the Applicant leg of the SLA survival pair (project contracts where the applicant buys from this supplier); leave empty to ignore the supplier dimension",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": [
@@ -5338,20 +5338,20 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "eventID",
-                "tooltip": "Only events covered by the customer's SLAs are offered — narrowed by the Supplier when one is chosen",
+                "tooltip": "Only events packaged by the project's surviving SLAs are offered — the Applicant + Supplier pair opens a second contract leg",
                 "step": null,
-                "check": "Customer IS NOT NULL",
-                "field-rule": "filtered by Customer + Supplier selected"
+                "check": "Project IS NOT NULL",
+                "field-rule": "filtered by Project + Applicant + Customer + Supplier selected"
               },
               "Product Scope": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Only product scopes covered by the customer's SLAs are offered — narrowed by the Supplier when one is chosen",
+                "tooltip": "Only product scopes co-packaged with the chosen event in a payload of the project's surviving SLAs — the resolved payload and contract are stored on save",
                 "step": null,
-                "check": "Project IS NOT NULL",
-                "field-rule": "filtered by Event + Supplier selected"
+                "check": "Event IS NOT NULL",
+                "field-rule": "filtered by Event + Project + Applicant + Customer + Supplier selected"
               },
               "Details": {
                 "field-type": {
