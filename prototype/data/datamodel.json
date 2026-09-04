@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 71,
+    "schemaVersion": 72,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -5475,10 +5475,19 @@
               "constraints": null
             },
             {
+              "name": "branchID",
+              "type": "FK",
+              "rule": "FK → Branches (display: branchName)",
+              "notes": "single valued, nullable — the customer's contracting branch the project runs under (2026-09-04 round): narrows the SLA options to the (customer, branch) pair; a customer may have no branch (#179 posture)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "slaID",
               "type": "FK",
               "rule": "FK → SLA (display: slaCode)",
-              "notes": "multivalued — the contracts this project executes under (issue #192); options = the customer's SLAs",
+              "notes": "multivalued — the contracts this project executes under (issue #192); options = the customer's SLAs narrowed by the chosen Branch (2026-09-04 round: an SLA without a branch is not branch-specific and stays offered — Q1; see slasForProject)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5609,15 +5618,28 @@
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
               },
+              "Branch": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "branchID",
+                "tooltip": "The customer's branch this project runs under — optional, narrows the SLA options",
+                "step": null,
+                "check": "Customer IS NOT NULL",
+                "field-rule": "filtered by Customer selected"
+              },
               "SLA": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "slaID",
-                "tooltip": "Contracts this project executes under",
+                "tooltip": "Contracts this project executes under — narrowed by the chosen Branch",
                 "step": null,
                 "check": "Customer IS NOT NULL",
-                "field-rule": "Allow multiple values; filtered by Customer selected"
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Customer + Branch selected"
+                ]
               },
               "Owner": {
                 "field-type": {
