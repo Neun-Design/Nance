@@ -2,8 +2,9 @@
 // test_engine_sla_supplier.mjs — unit-test the SLA supplying party (issue
 // #272): SLA.supplierID stored FK NOT NULL (form select = every customer,
 // grouped by customerType), Tickets.supplierID nullable FK, and the
-// supplier-narrowed Event / Product Scope chain (eventsForCustomerSLAs,
-// admittedProductScopeIds — lenient wildcard posture kept). The Ticket
+// supplier-narrowed Event / Product Scope chain. Since issue #325 the
+// supplier binds on the APPLICANT leg of the project-SLA survival pair
+// (eventsForTicket / admittedProductScopeIds — strict posture). The Ticket
 // Supplier picker sourcing moved to the unit's customers in issue #281 —
 // see test_engine_ticket_supplier.mjs.
 // Run from prototype/:  node tools/test_engine_sla_supplier.mjs
@@ -106,34 +107,47 @@ console.log('== picker: sourcing retired in favour of the unit\'s customers (iss
     'suppliersForTicketCustomer export removed — the generic Business Unit cascade sources the Supplier select');
 }
 
-console.log('== narrowing: the (customer, supplier) pair filters the chain ==');
+console.log('== narrowing: the supplier binds the APPLICANT leg (#325) ==');
 {
   // In-memory scenario: give the customer's second contract a different
-  // supplier and a single payload — the pair must narrow to that contract.
+  // supplier and a single payload — the (applicant, supplier) pair must
+  // narrow to that contract. The project links the customer's first two
+  // contracts (build_seed [:2] rule), so both legs traverse it.
   const slas = data.getEntity('SLA');
   const cust = slas[0].customerID;
   const mine = slas.filter((s) => String(s.customerID) === String(cust));
   eq(mine.length >= 2, true, `customer ${cust} holds ${mine.length} contracts (scenario needs 2)`);
   const [slaA, slaB] = mine;
+  const prj = data.getEntity('Projects').find((p) => String(p.customerID) === String(cust)
+    && asList(p.slaID).map(String).includes(String(slaB.slaID)));
+  eq(prj != null, true, 'a project links both contracts (scenario anchor)');
   const savedSup = slaB.supplierID; const savedPl = slaB.payloadID;
   const otherSup = data.getEntity('Customers')
     .find((c) => String(c.customerID) !== String(slaA.supplierID)).customerID;
   slaB.supplierID = otherSup;
   slaB.payloadID = asList(slaB.payloadID).slice(0, 1);
 
-  const all = forms.eventsForCustomerSLAs(cust).map((o) => String(o.value));
-  const viaB = forms.eventsForCustomerSLAs(cust, otherSup).map((o) => String(o.value));
+  const ids = (opts) => opts.map((o) => String(o.value));
+  const all = ids(forms.eventsForTicket({ projectID: prj.projectID, customerID: cust }));
+  const viaB = ids(forms.eventsForTicket({ projectID: prj.projectID,
+    applicantID: cust, supplierID: otherSup }));
   const plB = data.getById('Payload', asList(slaB.payloadID)[0]);
-  eq(viaB, [String(plB.eventID)], 'supplier B narrows the events to its single contracted payload');
-  eq(viaB.every((v) => all.includes(v)), true, 'narrowed set ⊆ the unfiltered offer');
-  const viaA = forms.eventsForCustomerSLAs(cust, slaA.supplierID).map((o) => String(o.value));
-  eq(viaA.length >= viaB.length, true, 'supplier A keeps its own (wider) contract coverage');
-  const ghost = forms.eventsForCustomerSLAs(cust, 'CUST-GHOST').map((o) => String(o.value));
-  eq(ghost, all, 'unknown supplier → lenient (matches nothing, narrows nothing)');
+  eq(viaB, [String(plB.eventID)], 'the (applicant, supplier) pair narrows to its single contracted payload');
+  eq(viaB.every((v) => all.includes(v)), true, 'narrowed set ⊆ the customer-leg offer');
+  const noSup = ids(forms.eventsForTicket({ projectID: prj.projectID, applicantID: cust }));
+  eq(noSup, all, 'no supplier — the applicant leg ignores the supplier dimension');
+  const ghost = ids(forms.eventsForTicket({ projectID: prj.projectID,
+    applicantID: cust, supplierID: 'CUST-GHOST' }));
+  eq(ghost, [], 'unknown supplier → the pair matches nothing (STRICT — the #272 lenient posture retired)');
+  const custPlusSup = ids(forms.eventsForTicket({ projectID: prj.projectID,
+    customerID: cust, supplierID: 'CUST-GHOST' }));
+  eq(custPlusSup, all, 'the supplier does NOT narrow the customer leg (union-of-pairs doctrine)');
 
-  const psAll = forms.productScopesForTicket(plB.eventID, cust).map((o) => String(o.value));
-  const psB = forms.productScopesForTicket(plB.eventID, cust, otherSup).map((o) => String(o.value));
-  eq(psB.every((v) => psAll.includes(v)), true, 'product scopes narrowed by the pair ⊆ the customer offer');
+  const psAll = ids(forms.productScopesForTicket(plB.eventID,
+    { projectID: prj.projectID, customerID: cust }));
+  const psB = ids(forms.productScopesForTicket(plB.eventID,
+    { projectID: prj.projectID, applicantID: cust, supplierID: otherSup }));
+  eq(psB.every((v) => psAll.includes(v)), true, 'product scopes narrowed by the pair ⊆ the customer-leg offer');
   eq(psB.length > 0, true, 'the pair still packages scopes (wildcard payload widens, Q1)');
 
   // (the #274 demand-line narrowing block retired with forecastScopesForTicket

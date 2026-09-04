@@ -1098,6 +1098,48 @@ class Builder:
             others = [c for c in pool if c['customerID'] != t['customerID']]
             pick = others or pool
             t['applicantID'] = pick[0]['customerID'] if pick and i % 3 else None
+        # resolved dispatch package(s) + governing contract(s) (issue #325,
+        # sv76): the surviving project SLAs' payloads carrying the ticket's
+        # event and packaging its scope (empty packaging = wildcard, Q1) —
+        # STORED, same first-seen ordering as migrate_ticket_project_sla.py
+        # and applyDerivedUnits (forms.js). Survival = union of the exact
+        # pairs (SLA.customerID = Customer) ∪ (= Applicant AND supplierID =
+        # Supplier); story 6 only re-links forecastScopeID, so deriving here
+        # matches the migration's enumerate order.
+        proj_by_id = {p['projectID']: p for p in projects}
+        for t in tickets:
+            proj = proj_by_id[t['projectID']]
+            surv = []
+            for sid in (proj['slaID'] or []):
+                s = slas.get(sid)
+                if not s or str(s.get('isActive') or 'Active') == 'Inactive':
+                    continue
+                leg1 = t['customerID'] is not None \
+                    and str(s['customerID']) == str(t['customerID'])
+                leg2 = t.get('applicantID') not in (None, '') \
+                    and str(s['customerID']) == str(t['applicantID']) \
+                    and (t.get('supplierID') in (None, '')
+                         or str(s.get('supplierID') or '') == str(t['supplierID']))
+                if leg1 or leg2:
+                    surv.append(s)
+            seen, pl_ids = set(), []
+            for s in surv:
+                for pid in (s['payloadID'] or []):
+                    if pid in seen:
+                        continue
+                    seen.add(pid)
+                    p = payloads.get(pid)
+                    if not p or str(p['eventID']) != str(t['eventID']):
+                        continue
+                    packs = p.get('productScopeID') or []
+                    if t.get('productScopeID') and packs \
+                            and t['productScopeID'] not in packs:
+                        continue
+                    pl_ids.append(pid)
+            t['payloadID'] = pl_ids
+            pset = set(pl_ids)
+            t['slaID'] = [s['slaID'] for s in surv
+                          if any(pid in pset for pid in (s['payloadID'] or []))]
         self.put('Tickets', tickets)
         self._plant_story6(tickets)
         self._build_jobs(tickets)

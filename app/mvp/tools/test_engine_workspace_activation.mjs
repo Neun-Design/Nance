@@ -35,8 +35,12 @@ console.log('== schema: SLA-aware ticket chain ==');
   // test_engine_ticket_forecast_link.mjs.
   eq(model.parseRule(cat.byName['forecastScopeID'].rule).target, 'Forecast Scopes',
     'forecastScopeID is the #243 consumption link (not the pre-#192 chain input)');
-  eq(model.parseRule(cat.byName['payloadID'].rule).target, 'Payload', 'payloadID derives from Payload via the event');
-  eq(model.parseRule(cat.byName['slaID'].rule).target, 'SLA', 'slaID derives the customer contracts');
+  // payloadID/slaID are STORED multivalued FKs since issue #325 (sv76): the
+  // engine resolves the dispatch package(s) + governing contract(s) on save
+  eq(model.parseRule(cat.byName['payloadID'].rule).kind, 'fk', 'payloadID is a stored FK since #325 (resolved on save)');
+  eq(model.parseRule(cat.byName['payloadID'].rule).target, 'Payload', 'payloadID targets Payload');
+  eq(model.parseRule(cat.byName['slaID'].rule).kind, 'fk', 'slaID is a stored FK since #325 (resolved on save)');
+  eq(model.parseRule(cat.byName['slaID'].rule).target, 'SLA', 'slaID targets SLA');
   const pj = catalog['Projects'];
   eq(model.parseRule(pj.byName['businessUnitID'].rule).kind, 'fk', 'Projects.businessUnitID is a stored FK anchor');
   eq(model.parseRule(pj.byName['slaID'].rule).kind, 'fk', 'Projects.slaID is a stored FK (multivalued picker, not a rollup)');
@@ -51,25 +55,34 @@ console.log('== form spec: gated cascade ==');
   eq('Forecast Scope' in t, false, 'Forecast Scope input removed (sv70; the stored link stays)');
   eq(t.Customer.check, 'Business Unit IS NOT NULL', 'Customer gated on the unit');
   eq(t.Project.check, 'Customer IS NOT NULL', 'Project gated on the customer');
-  eq(t.Event.check, 'Customer IS NOT NULL', 'Event gated on the customer');
+  // the PROJECT's contracts are the option universe since issue #325 —
+  // the Event field gates on it (strict posture)
+  eq(t.Event.check, 'Project IS NOT NULL', 'Event gated on the project (#325)');
   const p = catalog['Projects'].form.fields;
   eq(p.SLA.attribute, 'slaID', 'Projects SLA binds the FK');
   eq(/Allow multiple/i.test(String(p.SLA['field-rule'])), true, 'Projects SLA is multivalued');
   eq(p.SLA.check, 'Customer IS NOT NULL', 'Projects SLA gated on the customer');
 }
 
-console.log('== eventsForCustomerSLAs: contracts gate the events ==');
+console.log('== eventsForTicket: the PROJECT contracts gate the events (#325) ==');
 {
   const all = data.getEntity('Events').length;
-  eq(forms.eventsForCustomerSLAs(null).length, all, 'no customer — every event (lenient wildcard)');
-  const sla = data.getEntity('SLA').find((s) => (s.payloadID || []).length);
-  const offered = forms.eventsForCustomerSLAs(sla.customerID);
-  const covered = new Set(sla.payloadID.map((id) => data.getById('Payload', id).eventID));
+  // strict posture: no project = no options (the #192 lenient wildcard and
+  // the eventsForCustomerSLAs helper retired with the #325 re-sourcing)
+  eq(forms.eventsForCustomerSLAs === undefined, true, 'eventsForCustomerSLAs retired (#325)');
+  eq(forms.eventsForTicket({}).length, 0, 'no project — no events (strict)');
+  const prj = data.getEntity('Projects').find((p) => (p.slaID || []).length);
+  const offered = forms.eventsForTicket({ projectID: prj.projectID, customerID: prj.customerID });
+  const covered = new Set();
+  for (const sid of prj.slaID) {
+    const s = data.getById('SLA', sid);
+    for (const pid of (s.payloadID || [])) covered.add(data.getById('Payload', pid).eventID);
+  }
   eq(offered.length > 0 && offered.length < all, true,
-    `SLA narrows the offer (${offered.length} of ${all})`);
-  eq(offered.every((o) => covered.has(o.value)), true, 'every offered event is covered by the customer contracts');
-  data.addRecord('Customers', { customerID: 'FCW9', customerName: 'NoSLA', businessUnitID: 'BU01', businessSegmentID: 'SG01', customerType: 'External' });
-  eq(forms.eventsForCustomerSLAs('FCW9').length, all, 'customer without SLA — every event (lenient wildcard)');
+    `project contracts narrow the offer (${offered.length} of ${all})`);
+  eq(offered.every((o) => covered.has(o.value)), true, 'every offered event is packaged by the project contracts');
+  eq(forms.eventsForTicket({ projectID: prj.projectID }).length, 0,
+    'no customer/applicant pair match — no events (strict: the survival legs need a party)');
 }
 
 console.log('== seeds: unit anchors + payload-chain snapshots ==');
@@ -95,11 +108,17 @@ console.log('== seeds: unit anchors + payload-chain snapshots ==');
     'projects seed unit + contract list');
   eq(projects.every((p) => p.slaID.every((id) => data.getById('SLA', id).customerID === p.customerID)),
     true, 'project contracts belong to the project customer');
-  // ticket payload derives through the event (childrenOf join)
-  const t0 = tickets[0];
-  const kids = resolve.childrenOf('Tickets', t0, 'Payload', { viaList: ['eventID'] });
-  eq(kids.length > 0 && kids.every((p) => p.eventID === t0.eventID), true,
-    'payloadID rollup resolves the event package');
+  // ticket payload/SLA are STORED since #325 — every seed resolves its
+  // dispatch package(s) and the contracts stay inside the project's set
+  eq(tickets.every((t) => Array.isArray(t.payloadID) && t.payloadID.length > 0), true,
+    'every ticket stores its resolved payload set (160/160 census)');
+  eq(tickets.every((t) => t.payloadID.every((id) => data.getById('Payload', id).eventID === t.eventID)),
+    true, 'every stored payload carries the ticket event');
+  eq(tickets.every((t) => {
+    const prj = data.getById('Projects', t.projectID);
+    return Array.isArray(t.slaID) && t.slaID.length > 0
+      && t.slaID.every((id) => (prj.slaID || []).includes(id));
+  }), true, 'every stored contract belongs to the ticket project');
 }
 
 console.log('== MVP walkthrough gating (app.js) ==');

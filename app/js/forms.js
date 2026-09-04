@@ -8,7 +8,8 @@ import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENT
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
-  competenceExercisable, eventProductScopeIds, admittedProductScopeIds } from './resolve.js';
+  competenceExercisable, eventProductScopeIds, admittedProductScopeIds,
+  ticketAdmittedSLAs, ticketAdmittedPayloads } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -534,6 +535,17 @@ export function applyDerivedUnits(entity, rec) {
     // Events without processes keep the prior snapshot (#192 migration posture)
     const derived = ticketProcesses(rec.eventID, rec.productScopeID);
     if (derived.length || !rec.processID) rec.processID = derived;
+    // resolved dispatch package(s) + governing contract(s) (issue #325): the
+    // surviving project SLAs' payloads carrying the chosen event and
+    // packaging the chosen scope (empty packaging = wildcard, Q1) — STORED
+    // so the ticket points at ITS payload/SLA, not an event-wide rollup.
+    // Same first-seen ordering as migrate_ticket_project_sla.py / build_seed
+    const pls = ticketAdmittedPayloads(rec.eventID, rec, rec.productScopeID ?? null);
+    rec.payloadID = pls.map((p) => p.payloadID);
+    const plSet = new Set(rec.payloadID.map(String));
+    rec.slaID = ticketAdmittedSLAs(rec)
+      .filter((s) => asList(s.payloadID).some((id) => plSet.has(String(id))))
+      .map((s) => s.slaID);
   }
 }
 
@@ -890,37 +902,30 @@ export function slasForProject(customerId, branchId = null) {
   return rows.map(opt);
 }
 
-// Events a ticket may trigger for a CUSTOMER: the union of the events
-// packaged by the payloads of the customer's active SLAs (issue #179
-// rationale, wired on Tickets by issue #192). No customer or no SLAs →
-// every event (lenient wildcard, same posture as tasksForJob). A SUPPLIER
-// narrows the SLA set to the (customer, supplier) contracts (issue #272);
-// lenient when no SLA matches the pair.
-export function eventsForCustomerSLAs(customerId, supplierId = null) {
+// Events a TICKET may trigger (issue #325 — the PROJECT's contracts are the
+// universe, replacing the #179/#192 customer-SLA sourcing): the union of the
+// events packaged by the payloads of the project's surviving SLAs
+// (ticketAdmittedSLAs in resolve.js — union of the (Customer) and
+// (Applicant, Supplier) exact pairs; the Customer input only filters the
+// Projects select). STRICT: no project / no surviving SLA = no options (the
+// Event field is gated on Project). `ctx` is a ticket-shaped record.
+export function eventsForTicket(ctx) {
   const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
-  const all = getEntity('Events');
-  if (!customerId) return all.map(evOption);
-  let slas = getEntity('SLA').filter((s) => arrOverlap(s.customerID, customerId)
-    && String(s.isActive || 'Active') !== 'Inactive');
-  if (!slas.length) return all.map(evOption);
-  if (supplierId) {
-    const bySup = slas.filter((s) => String(s.supplierID) === String(supplierId));
-    if (bySup.length) slas = bySup; // lenient on empty match — existing posture
-  }
   const covered = new Set();
-  for (const s of slas) {
+  for (const s of ticketAdmittedSLAs(ctx)) {
     for (const pid of asList(s.payloadID)) {
       const p = getById('Payload', pid);
       if (p && p.eventID != null) covered.add(String(p.eventID));
     }
   }
-  return all.filter((ev) => covered.has(String(ev.eventID))).map(evOption);
+  return getEntity('Events').filter((ev) => covered.has(String(ev.eventID))).map(evOption);
 }
 
 // Events a FORECAST SCOPE may project (issue #241, SLA-as-Contract): the
 // events packaged by the payloads of the forecast's SLA — a forecast projects
 // what its contract covers. No forecast / no SLA / no payloads → every event
-// (lenient wildcard, eventsForCustomerSLAs posture).
+// (lenient wildcard — the pre-#325 ticket-picker posture, kept here: the
+// forecast chain was not re-sourced by the project-SLA round).
 export function eventsForForecastSLA(forecastId) {
   const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
   const all = getEntity('Events');
@@ -984,16 +989,15 @@ export function functionsForForecastEvent(eventId) {
   return all.filter((f) => fnIds.has(String(f.functionID))).map(fnOption);
 }
 
-// Product scopes a TICKET may target (issue #214): the scopes packaged by the
-// selected event's payloads, narrowed to the payloads purchased by the
-// customer's active SLAs. No customer / no matching SLA payload → every
-// payload of the event (lenient, eventsForCustomerSLAs posture — the Event
-// select already restricts to SLA-covered events). A payload with an EMPTY
-// productScopeID packages every scope the event admits (Q1) — it widens the
-// offer to the event's full applicability. A SUPPLIER narrows the SLA set to
-// the (customer, supplier) contracts (issue #272), lenient on empty match.
-export function productScopesForTicket(eventId, customerId, supplierId = null) {
-  return admittedProductScopeIds(eventId, customerId, supplierId)
+// Product scopes a TICKET may target (issue #214; re-sourced by issue #325):
+// the scopes CO-PACKAGED with the selected event in a same payload of the
+// project's surviving SLAs (admittedProductScopeIds in resolve.js — strict:
+// no project / no surviving SLA / no covering payload = no options). A
+// payload with an EMPTY productScopeID packages every scope the event admits
+// (Q1) — it widens the offer to the event's full applicability. `ctx` is a
+// ticket-shaped record ({ projectID, customerID, applicantID, supplierID }).
+export function productScopesForTicket(eventId, ctx) {
+  return admittedProductScopeIds(eventId, ctx)
     .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 
@@ -1523,14 +1527,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           // Tickets "Supplier" needs no bespoke branch since issue #281: the
           // unit's customers (grouped by customerType) come from the generic
           // stored-key cascade below — Customers store businessUnitID.
-          // Tickets "Event": only events covered by the customer's SLAs
-          // (issue #179 rationale, wired by #192), narrowed by the chosen
-          // Supplier (#272) — see eventsForCustomerSLAs
+          // Tickets "Event": only events packaged by the payloads of the
+          // PROJECT's surviving SLAs (issue #325 — Customer only filters the
+          // Projects select; Applicant + Supplier open the second survival
+          // leg) — see eventsForTicket
           if (entity === 'Tickets' && attrName === 'eventID') {
-            const dep = findDep('Customer');
-            const supDep = findDep('Supplier');
-            applyOpts(eventsForCustomerSLAs(dep ? dep[1].get() : null,
-              supDep ? supDep[1].get() : null));
+            const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
+            applyOpts(eventsForTicket({ projectID: val('Project'),
+              applicantID: val('Applicant'), customerID: val('Customer'),
+              supplierID: val('Supplier') }));
             return;
           }
           // Forecast Scopes "Event": only events covered by the forecast's
@@ -1558,16 +1563,14 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(functionsForForecastEvent(evDep ? evDep[1].get() : null));
             return;
           }
-          // Tickets "Product Scope": the scopes packaged by the selected
-          // event's payloads under the customer's SLAs (issue #214), narrowed
-          // by the chosen Supplier (#272) — see productScopesForTicket
+          // Tickets "Product Scope": the scopes co-packaged with the selected
+          // event in a payload of the project's surviving SLAs (issue #325,
+          // #214 packaging posture) — see productScopesForTicket
           if (entity === 'Tickets' && attrName === 'productScopeID') {
-            const evDep = findDep('Event');
-            const custDep = findDep('Customer');
-            const supDep = findDep('Supplier');
-            applyOpts(productScopesForTicket(evDep ? evDep[1].get() : null,
-              custDep ? custDep[1].get() : null,
-              supDep ? supDep[1].get() : null));
+            const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
+            applyOpts(productScopesForTicket(val('Event'), { projectID: val('Project'),
+              applicantID: val('Applicant'), customerID: val('Customer'),
+              supplierID: val('Supplier') }));
             return;
           }
           // Jobs "Predecessor": jobs of the same ticket (issue #244, A6)
