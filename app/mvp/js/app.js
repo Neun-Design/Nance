@@ -339,6 +339,16 @@ function mapSubitem(si, parentEntity) {
     orderBy: si.orderBy,
     resolve: (row, parentOverride) => childrenOf(parentOverride || parentEntity, row, child, opts),
   };
+  // per-tab extra columns ("tab-columns", sv75): the spec re-adds attrs this
+  // tab needs even though their global subitem-display is false — appended
+  // BEFORE the ticket-context override loop so accessors/pills attach.
+  if (si.tabColumns && si.tabColumns.length) {
+    const have = new Set(rl.columns.map((c) => c.key));
+    const extra = si.tabColumns
+      .map((n) => allColumns(child).find((c) => c.key === n))
+      .filter((c) => c && !have.has(c.key));
+    rl.columns = rl.columns.concat(withAccessors(child, extra));
+  }
   // issue #233: inside a TICKET's tabs the Users column (CERTIFIED-USERS) is
   // ticket-contextual — coverage must span the task's procedure set ∪ the
   // ticket's live inherited requirement set (#226). The standalone Tasks
@@ -356,7 +366,13 @@ function mapSubitem(si, parentEntity) {
       if (rule && rule.kind === 'ticketprocedure') {
         c.accessor = (row, ticket) => ticketProcedureDisplay(row[rule.srcField],
           ticket ? ticketRequirements(ticket) : [], rule.display);
-        c.pill = (v) => (v === 'GAP' ? 'caution' : 'info');
+        // the registry column pills the resolved method (#270); other
+        // displays off the same resolution (the Execution Time column,
+        // sv75) render plain values — only GAP keeps the caution pill
+        // (a falsy class falls through to plain rendering, #271)
+        c.pill = rule.display === 'procedureRegistry'
+          ? (v) => (v === 'GAP' ? 'caution' : 'info')
+          : (v) => (v === 'GAP' ? 'caution' : null);
       }
     }
     // issue #280: the Inputs tab lists the ticket's customer-provided
