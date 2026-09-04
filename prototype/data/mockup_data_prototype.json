@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 75,
+  "schemaVersion": 76,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -14137,7 +14137,14 @@
     "ticketCreatedAt": "2026-05-13",
     "ticketClosedAt": "2026-05-23",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD01"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK002",
@@ -14164,7 +14171,13 @@
     "ticketCreatedAt": "2026-02-05",
     "ticketClosedAt": "2026-02-15",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK003",
@@ -14191,7 +14204,13 @@
     "ticketCreatedAt": "2025-10-31",
     "ticketClosedAt": "2025-11-10",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK004",
@@ -14218,7 +14237,13 @@
     "ticketCreatedAt": "2026-07-16",
     "ticketClosedAt": "2026-07-26",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK005",
@@ -14245,7 +14270,13 @@
     "ticketCreatedAt": "2026-04-10",
     "ticketClosedAt": "2026-04-20",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK006",
@@ -14272,7 +14303,13 @@
     "ticketCreatedAt": "2026-01-03",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD10"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK007",
@@ -14299,7 +14336,13 @@
     "ticketCreatedAt": "2025-09-28",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK008",
@@ -14326,7 +14369,25 @@
     "ticketCreatedAt": "2026-06-13",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK009",
@@ -14353,7 +14414,13 @@
     "ticketCreatedAt": "2026-03-08",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK010",
@@ -14380,7 +14447,25 @@
     "ticketCreatedAt": "2025-12-01",
     "ticketClosedAt": "2025-12-11",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK011",
@@ -14407,7 +14492,14 @@
     "ticketCreatedAt": "2026-08-16",
     "ticketClosedAt": "2026-08-26",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD01"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK012",
@@ -14434,7 +14526,13 @@
     "ticketCreatedAt": "2026-05-11",
     "ticketClosedAt": "2026-05-21",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK013",
@@ -14461,7 +14559,13 @@
     "ticketCreatedAt": "2026-02-03",
     "ticketClosedAt": "2026-02-13",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK014",
@@ -14488,7 +14592,13 @@
     "ticketCreatedAt": "2025-10-29",
     "ticketClosedAt": "2025-11-08",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK015",
@@ -14515,7 +14625,13 @@
     "ticketCreatedAt": "2026-07-14",
     "ticketClosedAt": "2026-07-24",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK016",
@@ -14542,7 +14658,25 @@
     "ticketCreatedAt": "2026-04-08",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK017",
@@ -14569,7 +14703,13 @@
     "ticketCreatedAt": "2026-01-01",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK018",
@@ -14596,7 +14736,25 @@
     "ticketCreatedAt": "2025-09-26",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK019",
@@ -14623,7 +14781,13 @@
     "ticketCreatedAt": "2026-06-11",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK020",
@@ -14650,7 +14814,25 @@
     "ticketCreatedAt": "2026-03-06",
     "ticketClosedAt": "2026-03-16",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK021",
@@ -14677,7 +14859,14 @@
     "ticketCreatedAt": "2025-11-29",
     "ticketClosedAt": "2025-12-09",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD01"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK022",
@@ -14704,7 +14893,13 @@
     "ticketCreatedAt": "2026-08-14",
     "ticketClosedAt": "2026-08-24",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK023",
@@ -14731,7 +14926,13 @@
     "ticketCreatedAt": "2026-05-09",
     "ticketClosedAt": "2026-05-19",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK024",
@@ -14758,7 +14959,13 @@
     "ticketCreatedAt": "2026-02-01",
     "ticketClosedAt": "2026-02-11",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK025",
@@ -14785,7 +14992,13 @@
     "ticketCreatedAt": "2025-10-27",
     "ticketClosedAt": "2025-11-06",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK026",
@@ -14812,7 +15025,25 @@
     "ticketCreatedAt": "2026-07-12",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK027",
@@ -14839,7 +15070,13 @@
     "ticketCreatedAt": "2026-04-06",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK028",
@@ -14866,7 +15103,25 @@
     "ticketCreatedAt": "2025-12-30",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK029",
@@ -14893,7 +15148,13 @@
     "ticketCreatedAt": "2025-09-24",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK030",
@@ -14920,7 +15181,25 @@
     "ticketCreatedAt": "2026-06-09",
     "ticketClosedAt": "2026-06-19",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK031",
@@ -14947,7 +15226,14 @@
     "ticketCreatedAt": "2026-03-04",
     "ticketClosedAt": "2026-03-14",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD01"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK032",
@@ -14974,7 +15260,13 @@
     "ticketCreatedAt": "2025-11-27",
     "ticketClosedAt": "2025-12-07",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK033",
@@ -15001,7 +15293,13 @@
     "ticketCreatedAt": "2026-08-12",
     "ticketClosedAt": "2026-08-22",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK034",
@@ -15028,7 +15326,13 @@
     "ticketCreatedAt": "2026-05-07",
     "ticketClosedAt": "2026-05-17",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK035",
@@ -15055,7 +15359,13 @@
     "ticketCreatedAt": "2026-01-30",
     "ticketClosedAt": "2026-02-09",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK036",
@@ -15082,7 +15392,25 @@
     "ticketCreatedAt": "2025-10-25",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK037",
@@ -15109,7 +15437,13 @@
     "ticketCreatedAt": "2026-07-10",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK038",
@@ -15136,7 +15470,13 @@
     "ticketCreatedAt": "2026-04-04",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD01"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK039",
@@ -15163,7 +15503,13 @@
     "ticketCreatedAt": "2025-12-28",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK040",
@@ -15190,7 +15536,25 @@
     "ticketCreatedAt": "2025-09-22",
     "ticketClosedAt": "2025-10-02",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK041",
@@ -15217,7 +15581,14 @@
     "ticketCreatedAt": "2026-06-07",
     "ticketClosedAt": "2026-06-17",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK042",
@@ -15244,7 +15615,13 @@
     "ticketCreatedAt": "2026-03-02",
     "ticketClosedAt": "2026-03-12",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK043",
@@ -15271,7 +15648,13 @@
     "ticketCreatedAt": "2025-11-25",
     "ticketClosedAt": "2025-12-05",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK044",
@@ -15298,7 +15681,13 @@
     "ticketCreatedAt": "2026-08-10",
     "ticketClosedAt": "2026-08-20",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK045",
@@ -15325,7 +15714,13 @@
     "ticketCreatedAt": "2026-05-05",
     "ticketClosedAt": "2026-05-15",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK046",
@@ -15352,7 +15747,25 @@
     "ticketCreatedAt": "2026-01-28",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK047",
@@ -15379,7 +15792,13 @@
     "ticketCreatedAt": "2025-10-23",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK048",
@@ -15406,7 +15825,25 @@
     "ticketCreatedAt": "2026-07-08",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK049",
@@ -15433,7 +15870,13 @@
     "ticketCreatedAt": "2026-04-02",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK050",
@@ -15460,7 +15903,25 @@
     "ticketCreatedAt": "2025-12-26",
     "ticketClosedAt": "2026-01-05",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK051",
@@ -15487,7 +15948,14 @@
     "ticketCreatedAt": "2025-09-20",
     "ticketClosedAt": "2025-09-30",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK052",
@@ -15514,7 +15982,13 @@
     "ticketCreatedAt": "2026-06-05",
     "ticketClosedAt": "2026-06-15",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK053",
@@ -15541,7 +16015,13 @@
     "ticketCreatedAt": "2026-02-28",
     "ticketClosedAt": "2026-03-10",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK054",
@@ -15568,7 +16048,13 @@
     "ticketCreatedAt": "2025-11-23",
     "ticketClosedAt": "2025-12-03",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK055",
@@ -15595,7 +16081,13 @@
     "ticketCreatedAt": "2026-08-08",
     "ticketClosedAt": "2026-08-18",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK056",
@@ -15622,7 +16114,25 @@
     "ticketCreatedAt": "2026-05-03",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK057",
@@ -15649,7 +16159,13 @@
     "ticketCreatedAt": "2026-01-26",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK058",
@@ -15676,7 +16192,13 @@
     "ticketCreatedAt": "2025-10-21",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK059",
@@ -15703,7 +16225,13 @@
     "ticketCreatedAt": "2026-07-06",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK060",
@@ -15730,7 +16258,25 @@
     "ticketCreatedAt": "2026-03-31",
     "ticketClosedAt": "2026-04-10",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK061",
@@ -15757,7 +16303,14 @@
     "ticketCreatedAt": "2025-12-24",
     "ticketClosedAt": "2026-01-03",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK062",
@@ -15784,7 +16337,13 @@
     "ticketCreatedAt": "2025-09-18",
     "ticketClosedAt": "2025-09-28",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK063",
@@ -15811,7 +16370,13 @@
     "ticketCreatedAt": "2026-06-03",
     "ticketClosedAt": "2026-06-13",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK064",
@@ -15838,7 +16403,13 @@
     "ticketCreatedAt": "2026-02-26",
     "ticketClosedAt": "2026-03-08",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK065",
@@ -15865,7 +16436,13 @@
     "ticketCreatedAt": "2025-11-21",
     "ticketClosedAt": "2025-12-01",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK066",
@@ -15892,7 +16469,25 @@
     "ticketCreatedAt": "2026-08-06",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK067",
@@ -15919,7 +16514,13 @@
     "ticketCreatedAt": "2026-05-01",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK068",
@@ -15946,7 +16547,25 @@
     "ticketCreatedAt": "2026-01-24",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK069",
@@ -15973,7 +16592,13 @@
     "ticketCreatedAt": "2025-10-19",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK070",
@@ -16000,7 +16625,25 @@
     "ticketCreatedAt": "2026-07-04",
     "ticketClosedAt": "2026-07-14",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK071",
@@ -16027,7 +16670,14 @@
     "ticketCreatedAt": "2026-03-29",
     "ticketClosedAt": "2026-04-08",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK072",
@@ -16054,7 +16704,13 @@
     "ticketCreatedAt": "2025-12-22",
     "ticketClosedAt": "2026-01-01",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK073",
@@ -16081,7 +16737,13 @@
     "ticketCreatedAt": "2025-09-16",
     "ticketClosedAt": "2025-09-26",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK074",
@@ -16108,7 +16770,13 @@
     "ticketCreatedAt": "2026-06-01",
     "ticketClosedAt": "2026-06-11",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK075",
@@ -16135,7 +16803,13 @@
     "ticketCreatedAt": "2026-02-24",
     "ticketClosedAt": "2026-03-06",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK076",
@@ -16162,7 +16836,13 @@
     "ticketCreatedAt": "2025-11-19",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD01"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK077",
@@ -16189,7 +16869,13 @@
     "ticketCreatedAt": "2026-08-04",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK078",
@@ -16216,7 +16902,25 @@
     "ticketCreatedAt": "2026-04-29",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK079",
@@ -16243,7 +16947,13 @@
     "ticketCreatedAt": "2026-01-22",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK080",
@@ -16270,7 +16980,25 @@
     "ticketCreatedAt": "2025-10-17",
     "ticketClosedAt": "2025-10-27",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK081",
@@ -16297,7 +17025,26 @@
     "ticketCreatedAt": "2026-07-02",
     "ticketClosedAt": "2026-07-12",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK082",
@@ -16324,7 +17071,13 @@
     "ticketCreatedAt": "2026-03-27",
     "ticketClosedAt": "2026-04-06",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK083",
@@ -16351,7 +17104,13 @@
     "ticketCreatedAt": "2025-12-20",
     "ticketClosedAt": "2025-12-30",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK084",
@@ -16378,7 +17137,13 @@
     "ticketCreatedAt": "2025-09-14",
     "ticketClosedAt": "2025-09-24",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK085",
@@ -16405,7 +17170,13 @@
     "ticketCreatedAt": "2026-05-30",
     "ticketClosedAt": "2026-06-09",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK086",
@@ -16432,7 +17203,25 @@
     "ticketCreatedAt": "2026-02-22",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK087",
@@ -16459,7 +17248,13 @@
     "ticketCreatedAt": "2025-11-17",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK088",
@@ -16486,7 +17281,25 @@
     "ticketCreatedAt": "2026-08-02",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK089",
@@ -16513,7 +17326,13 @@
     "ticketCreatedAt": "2026-04-27",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK090",
@@ -16540,7 +17359,25 @@
     "ticketCreatedAt": "2026-01-20",
     "ticketClosedAt": "2026-01-30",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK091",
@@ -16567,7 +17404,26 @@
     "ticketCreatedAt": "2025-10-15",
     "ticketClosedAt": "2025-10-25",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK092",
@@ -16594,7 +17450,13 @@
     "ticketCreatedAt": "2026-06-30",
     "ticketClosedAt": "2026-07-10",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK093",
@@ -16621,7 +17483,13 @@
     "ticketCreatedAt": "2026-03-25",
     "ticketClosedAt": "2026-04-04",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK094",
@@ -16648,7 +17516,13 @@
     "ticketCreatedAt": "2025-12-18",
     "ticketClosedAt": "2025-12-28",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK095",
@@ -16675,7 +17549,13 @@
     "ticketCreatedAt": "2025-09-12",
     "ticketClosedAt": "2025-09-22",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK096",
@@ -16702,7 +17582,13 @@
     "ticketCreatedAt": "2026-05-28",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK097",
@@ -16729,7 +17615,13 @@
     "ticketCreatedAt": "2026-02-20",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK098",
@@ -16756,7 +17648,13 @@
     "ticketCreatedAt": "2025-11-15",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD04"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK099",
@@ -16783,7 +17681,13 @@
     "ticketCreatedAt": "2026-07-31",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK100",
@@ -16810,7 +17714,25 @@
     "ticketCreatedAt": "2026-04-25",
     "ticketClosedAt": "2026-05-05",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK101",
@@ -16837,7 +17759,26 @@
     "ticketCreatedAt": "2026-01-18",
     "ticketClosedAt": "2026-01-28",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK102",
@@ -16864,7 +17805,13 @@
     "ticketCreatedAt": "2025-10-13",
     "ticketClosedAt": "2025-10-23",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK103",
@@ -16891,7 +17838,13 @@
     "ticketCreatedAt": "2026-06-28",
     "ticketClosedAt": "2026-07-08",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK104",
@@ -16918,7 +17871,13 @@
     "ticketCreatedAt": "2026-03-23",
     "ticketClosedAt": "2026-04-02",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK105",
@@ -16945,7 +17904,13 @@
     "ticketCreatedAt": "2025-12-16",
     "ticketClosedAt": "2025-12-26",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK106",
@@ -16972,7 +17937,25 @@
     "ticketCreatedAt": "2025-09-10",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK107",
@@ -16999,7 +17982,13 @@
     "ticketCreatedAt": "2026-05-26",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK108",
@@ -17026,7 +18015,25 @@
     "ticketCreatedAt": "2026-02-18",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK109",
@@ -17053,7 +18060,13 @@
     "ticketCreatedAt": "2025-11-13",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK110",
@@ -17080,7 +18093,25 @@
     "ticketCreatedAt": "2026-07-29",
     "ticketClosedAt": "2026-08-08",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK111",
@@ -17107,7 +18138,26 @@
     "ticketCreatedAt": "2026-04-23",
     "ticketClosedAt": "2026-05-03",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK112",
@@ -17134,7 +18184,13 @@
     "ticketCreatedAt": "2026-01-16",
     "ticketClosedAt": "2026-01-26",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK113",
@@ -17161,7 +18217,13 @@
     "ticketCreatedAt": "2025-10-11",
     "ticketClosedAt": "2025-10-21",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK114",
@@ -17188,7 +18250,13 @@
     "ticketCreatedAt": "2026-06-26",
     "ticketClosedAt": "2026-07-06",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK115",
@@ -17215,7 +18283,13 @@
     "ticketCreatedAt": "2026-03-21",
     "ticketClosedAt": "2026-03-31",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK116",
@@ -17242,7 +18316,25 @@
     "ticketCreatedAt": "2025-12-14",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK117",
@@ -17269,7 +18361,13 @@
     "ticketCreatedAt": "2025-09-08",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK118",
@@ -17296,7 +18394,13 @@
     "ticketCreatedAt": "2026-05-24",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD05"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK119",
@@ -17323,7 +18427,13 @@
     "ticketCreatedAt": "2026-02-16",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK120",
@@ -17350,7 +18460,25 @@
     "ticketCreatedAt": "2025-11-11",
     "ticketClosedAt": "2025-11-21",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK121",
@@ -17377,7 +18505,14 @@
     "ticketCreatedAt": "2026-07-27",
     "ticketClosedAt": "2026-08-06",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD04"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK122",
@@ -17404,7 +18539,13 @@
     "ticketCreatedAt": "2026-04-21",
     "ticketClosedAt": "2026-05-01",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK123",
@@ -17431,7 +18572,13 @@
     "ticketCreatedAt": "2026-01-14",
     "ticketClosedAt": "2026-01-24",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK124",
@@ -17458,7 +18605,13 @@
     "ticketCreatedAt": "2025-10-09",
     "ticketClosedAt": "2025-10-19",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK125",
@@ -17485,7 +18638,13 @@
     "ticketCreatedAt": "2026-06-24",
     "ticketClosedAt": "2026-07-04",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK126",
@@ -17512,7 +18671,25 @@
     "ticketCreatedAt": "2026-03-19",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK127",
@@ -17539,7 +18716,13 @@
     "ticketCreatedAt": "2025-12-12",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK128",
@@ -17566,7 +18749,25 @@
     "ticketCreatedAt": "2025-09-06",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK129",
@@ -17593,7 +18794,13 @@
     "ticketCreatedAt": "2026-05-22",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK130",
@@ -17620,7 +18827,25 @@
     "ticketCreatedAt": "2026-02-14",
     "ticketClosedAt": "2026-02-24",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK131",
@@ -17647,7 +18872,14 @@
     "ticketCreatedAt": "2025-11-09",
     "ticketClosedAt": "2025-11-19",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD04"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK132",
@@ -17674,7 +18906,13 @@
     "ticketCreatedAt": "2026-07-25",
     "ticketClosedAt": "2026-08-04",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK133",
@@ -17701,7 +18939,13 @@
     "ticketCreatedAt": "2026-04-19",
     "ticketClosedAt": "2026-04-29",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK134",
@@ -17728,7 +18972,13 @@
     "ticketCreatedAt": "2026-01-12",
     "ticketClosedAt": "2026-01-22",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK135",
@@ -17755,7 +19005,13 @@
     "ticketCreatedAt": "2025-10-07",
     "ticketClosedAt": "2025-10-17",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK136",
@@ -17782,7 +19038,13 @@
     "ticketCreatedAt": "2026-06-22",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD04"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK137",
@@ -17809,7 +19071,13 @@
     "ticketCreatedAt": "2026-03-17",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD09"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK138",
@@ -17836,7 +19104,13 @@
     "ticketCreatedAt": "2025-12-10",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD06"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK139",
@@ -17863,7 +19137,13 @@
     "ticketCreatedAt": "2025-09-04",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK140",
@@ -17890,7 +19170,25 @@
     "ticketCreatedAt": "2026-05-20",
     "ticketClosedAt": "2026-05-30",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK141",
@@ -17917,7 +19215,14 @@
     "ticketCreatedAt": "2026-02-12",
     "ticketClosedAt": "2026-02-22",
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD05"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK142",
@@ -17944,7 +19249,13 @@
     "ticketCreatedAt": "2025-11-07",
     "ticketClosedAt": "2025-11-17",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK143",
@@ -17971,7 +19282,13 @@
     "ticketCreatedAt": "2026-07-23",
     "ticketClosedAt": "2026-08-02",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK144",
@@ -17998,7 +19315,13 @@
     "ticketCreatedAt": "2026-04-17",
     "ticketClosedAt": "2026-04-27",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK145",
@@ -18025,7 +19348,13 @@
     "ticketCreatedAt": "2026-01-10",
     "ticketClosedAt": "2026-01-20",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK146",
@@ -18052,7 +19381,25 @@
     "ticketCreatedAt": "2025-10-05",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK147",
@@ -18079,7 +19426,13 @@
     "ticketCreatedAt": "2026-06-20",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK148",
@@ -18106,7 +19459,25 @@
     "ticketCreatedAt": "2026-03-15",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK149",
@@ -18133,7 +19504,13 @@
     "ticketCreatedAt": "2025-12-08",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK150",
@@ -18160,7 +19537,25 @@
     "ticketCreatedAt": "2025-09-02",
     "ticketClosedAt": "2025-09-12",
     "supplierID": "CUST16",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    },
    {
     "ticketID": "TK151",
@@ -18187,7 +19582,14 @@
     "ticketCreatedAt": "2026-05-18",
     "ticketClosedAt": "2026-05-28",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD05"
+    ],
+    "slaID": [
+     "SLA01",
+     "SLA19"
+    ]
    },
    {
     "ticketID": "TK152",
@@ -18214,7 +19616,13 @@
     "ticketCreatedAt": "2026-02-10",
     "ticketClosedAt": "2026-02-20",
     "supplierID": "CUST19",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD02"
+    ],
+    "slaID": [
+     "SLA02"
+    ]
    },
    {
     "ticketID": "TK153",
@@ -18241,7 +19649,13 @@
     "ticketCreatedAt": "2025-11-05",
     "ticketClosedAt": "2025-11-15",
     "supplierID": "CUST19",
-    "applicantID": "CUST15"
+    "applicantID": "CUST15",
+    "payloadID": [
+     "PLD07"
+    ],
+    "slaID": [
+     "SLA03"
+    ]
    },
    {
     "ticketID": "TK154",
@@ -18268,7 +19682,13 @@
     "ticketCreatedAt": "2026-07-21",
     "ticketClosedAt": "2026-07-31",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK155",
@@ -18295,7 +19715,13 @@
     "ticketCreatedAt": "2026-04-15",
     "ticketClosedAt": "2026-04-25",
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD18"
+    ],
+    "slaID": [
+     "SLA18"
+    ]
    },
    {
     "ticketID": "TK156",
@@ -18322,7 +19748,13 @@
     "ticketCreatedAt": "2026-01-08",
     "ticketClosedAt": null,
     "supplierID": "CUST21",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD05"
+    ],
+    "slaID": [
+     "SLA09"
+    ]
    },
    {
     "ticketID": "TK157",
@@ -18349,7 +19781,13 @@
     "ticketCreatedAt": "2025-10-03",
     "ticketClosedAt": null,
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD08"
+    ],
+    "slaID": [
+     "SLA07"
+    ]
    },
    {
     "ticketID": "TK158",
@@ -18376,7 +19814,13 @@
     "ticketCreatedAt": "2026-06-18",
     "ticketClosedAt": null,
     "supplierID": "CUST13",
-    "applicantID": "CUST13"
+    "applicantID": "CUST13",
+    "payloadID": [
+     "PLD10"
+    ],
+    "slaID": [
+     "SLA17"
+    ]
    },
    {
     "ticketID": "TK159",
@@ -18403,7 +19847,13 @@
     "ticketCreatedAt": "2026-03-13",
     "ticketClosedAt": null,
     "supplierID": "CUST19",
-    "applicantID": "CUST16"
+    "applicantID": "CUST16",
+    "payloadID": [
+     "PLD16"
+    ],
+    "slaID": [
+     "SLA16"
+    ]
    },
    {
     "ticketID": "TK160",
@@ -18430,7 +19880,25 @@
     "ticketCreatedAt": "2025-12-06",
     "ticketClosedAt": "2025-12-16",
     "supplierID": null,
-    "applicantID": null
+    "applicantID": null,
+    "payloadID": [
+     "PLD03",
+     "PLD11",
+     "PLD12",
+     "PLD13",
+     "PLD14",
+     "PLD15",
+     "PLD16",
+     "PLD17",
+     "PLD18",
+     "PLD19",
+     "PLD20",
+     "PLD21",
+     "PLD22"
+    ],
+    "slaID": [
+     "SLA13"
+    ]
    }
   ],
   "Jobs": [

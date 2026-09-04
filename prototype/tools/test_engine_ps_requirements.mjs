@@ -178,8 +178,9 @@ console.log('== semantics: union of legs + unit/region gates + Inactive ==');
 console.log('== ticket chain: the productScopeID dimension under Q1 (#226/#294) ==');
 {
   // replicate ticketRequirements' admitted-set head to pick in/out probes
+  // (project-SLA ctx since issue #325 — the ticket row IS the ctx)
   const probe = data.getEntity('Tickets').map((t) => {
-    let admitted = resolve.admittedProductScopeIds(t.eventID, t.customerID, t.supplierID ?? null);
+    let admitted = resolve.admittedProductScopeIds(t.eventID, t);
     const chosen = asList(t.productScopeID);
     if (chosen.length) admitted = admitted.filter((id) => chosen.includes(id));
     const out = data.getEntity('Product Scopes').map((p) => p.productScopeID)
