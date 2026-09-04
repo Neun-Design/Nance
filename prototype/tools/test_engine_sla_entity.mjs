@@ -73,9 +73,11 @@ console.log('== derived chain: events/product scopes through the payloads ==');
   const events = String(resolve.derivedValue('SLA', cat.byName['eventID'], sla));
   const wantTitle = data.getById('Events', data.getById('Payload', sla.payloadID[0]).eventID).eventTitle;
   eq(events.includes(wantTitle), true, `eventID derives the payload events (saw "${wantTitle}")`);
-  const scopes = String(resolve.derivedValue('SLA', cat.byName['productScopeName'], sla));
+  // renamed productScopeName → productScopeRegistry (sv74 authored edit —
+  // the coverage column shows the registry codes, the #296/#299 pattern)
+  const scopes = String(resolve.derivedValue('SLA', cat.byName['productScopeRegistry'], sla));
   eq(scopes.length > 0 && scopes !== '—' && !/^\d+$/.test(scopes), true,
-    `productScopeName derives display names, not counts (saw "${scopes.slice(0, 60)}")`);
+    `productScopeRegistry derives display codes, not counts (saw "${scopes.slice(0, 60)}")`);
   const title = String(resolve.derivedValue('SLA', cat.byName['slaTitle'], sla));
   const unitName = data.getById('Business Units', sla.businessUnitID).businessUnitName;
   eq(title.startsWith(sla.slaCode) && title.includes(unitName), true,
