@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 76,
+    "schemaVersion": 77,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2943,15 +2943,6 @@
               "constraints": "FK"
             },
             {
-              "name": "customerFlag",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": "TRUE = this input is defined/provided by the CUSTOMER upon ticket creation (issue #280) — surfaces on the ticket's Inputs tab so remote teams know what to collect before starting; real boolean (#218 strict-gate posture)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": null
-            },
-            {
               "name": "taskID",
               "type": "rollup",
               "rule": "rollup → Tasks",
@@ -3036,16 +3027,6 @@
                 },
                 "attribute": "channelID",
                 "tooltip": "Tool, app or system used to store or manage the handout",
-                "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Customer Input": {
-                "field-type": {
-                  "switch": "shadcn-switch"
-                },
-                "attribute": "customerFlag",
-                "tooltip": "Select this checkbox if the provided input should be defined by the customer upon ticket creation.",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -3252,6 +3233,15 @@
               "constraints": "FK"
             },
             {
+              "name": "customerInputID",
+              "type": "FK",
+              "rule": "FK → Handouts (display: handoutName)",
+              "notes": "multivalued — the inputs of THIS procedure the customer must provide upon ticket creation (issue #324, replacing the handout-level customerFlag #280: the decision is contextual to the procedure — the same handout may be a customer input in one method and internal in another). Subset of taskInput: the form multicheck offers exactly the chosen Inputs (customerInputsForSelection in forms.js) and the rebuild drops picks whose input was removed (form-integrity working FOR us). EMPTY = no customer inputs — deliberate no-Q1 (#280 posture: an inputless ticket is legitimate). Feeds the Tickets Inputs tab (TICKET-INPUTS in resolve.js; pre-sv77 snapshots without this key fall back to the legacy handout flag).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "taskOutput",
               "type": "FK",
               "rule": "FK → Handouts (display: handoutName)",
@@ -3389,6 +3379,16 @@
                 "step": null,
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
+              },
+              "Customer Inputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "customerInputID",
+                "tooltip": "Select which of the chosen Inputs must be provided by the customer upon ticket creation — the decision is made here, per procedure (issue #324)",
+                "step": null,
+                "check": "Inputs IS NOT NULL",
+                "field-rule": "Allow multiple values; filtered by Inputs selected"
               },
               "Outputs": {
                 "field-type": {

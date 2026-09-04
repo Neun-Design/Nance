@@ -70,8 +70,9 @@ export function parseRule(rule) {
   // TICKET-INPUTS(processField) — the customer-provided inputs of a ticket
   // (issue #280): for each task of the ticket's processes the requirement
   // context narrows the procedures to exactly one (#270 posture; GAP tasks
-  // contribute nothing) and that procedure's customerFlag = TRUE input
-  // handouts collect, deduped (ticketInputHandouts in resolve.js)
+  // contribute nothing) and the inputs in that procedure's customerInputID
+  // set collect, deduped (issue #324 — per-procedure decision; pre-sv77
+  // snapshots fall back to the retired handout flag; ticketInputHandouts)
   m = txt.match(/^computed:\s*TICKET-INPUTS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'ticketinputs', srcField: m[1], display: m[2] || null };
   // PS-REQUIREMENTS(inverseField) — the comprehensive requirement set of a

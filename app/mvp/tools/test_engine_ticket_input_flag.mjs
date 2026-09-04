@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// test_engine_ticket_input_flag.mjs — unit-test the Ticket Input Flag
-// (issue #280): the stored BOOLEAN Handouts.customerFlag (Customer Input
-// switch on the Handouts form), the TICKET-INPUTS rule kind, and the
-// Tickets Inputs subitem tab — for each task of the ticket's processes the
-// live inherited requirement set (#226) narrows the procedures to exactly
-// ONE (#270 AND coverage; GAP/ambiguous tasks contribute nothing) and that
-// procedure's customerFlag = TRUE input handouts collect, deduped.
+// test_engine_ticket_input_flag.mjs — unit-test the Ticket Inputs chain
+// (issue #280; re-sourced by issue #324): the TICKET-INPUTS rule kind and
+// the Tickets Inputs subitem tab — for each task of the ticket's processes
+// the live inherited requirement set (#226) narrows the procedures to
+// exactly ONE (#270 AND coverage; GAP/ambiguous tasks contribute nothing)
+// and the inputs in that procedure's OWN customerInputID set collect,
+// deduped (the handout-level customerFlag and its form switch are RETIRED —
+// the per-procedure decision is proven in
+// test_engine_procedure_customer_inputs.mjs).
 // Run from prototype/:  node tools/test_engine_ticket_input_flag.mjs
 
 import fs from 'fs';
@@ -27,22 +29,20 @@ const asList = (v) => (Array.isArray(v) ? v : (v == null || v === '' ? [] : [v])
 
 const dm = JSON.parse(fs.readFileSync('data/datamodel.json', 'utf-8'));
 
-console.log('== schema: the customer flag on Handouts ==');
+console.log('== schema: the handout-level flag RETIRED (issue #324) ==');
 {
   eq(dm._meta.schemaVersion >= 57, true, `schemaVersion ${dm._meta.schemaVersion} >= 57`);
-  const a = catalog['Handouts'].byName['customerFlag'];
-  eq(a && a.type, 'BOOLEAN', 'customerFlag is a stored BOOLEAN');
-  const fld = catalog['Handouts'].form.fields['Customer Input'];
-  eq(fld && fld.attribute, 'customerFlag', 'Customer Input field binds the flag');
-  eq(Object.keys(fld['field-type'])[0], 'switch', 'rendered as the single-checkbox switch');
-  eq(fld.tooltip, 'Select this checkbox if the provided input should be defined '
-    + 'by the customer upon ticket creation.', 'issue tooltip verbatim');
+  eq(catalog['Handouts'].byName['customerFlag'], undefined,
+    'customerFlag attr left the Handouts schema');
+  eq(catalog['Handouts'].form.fields['Customer Input'], undefined,
+    'the Customer Input switch left the Handouts form');
   const rows = data.getEntity('Handouts');
-  eq(rows.every((h) => 'customerFlag' in h), true, 'every handout row carries the key (parity)');
-  eq(rows.every((h) => typeof h.customerFlag === 'boolean'), true,
-    'seeded values are real booleans (#218 posture)');
-  const flagged = rows.filter((h) => h.customerFlag === true).map((h) => h.handoutName).sort();
-  eq(flagged.length > 0, true, `${flagged.length} customer inputs flagged (${flagged.join(', ')})`);
+  eq(rows.every((h) => !('customerFlag' in h)), true,
+    'no handout row carries the retired key (parity — removed attrs leave the data)');
+  const withCi = data.getEntity('Procedures')
+    .filter((p) => asList(p.customerInputID).length);
+  eq(withCi.length > 0, true,
+    `${withCi.length} procedures declare customer inputs (the decision lives there now)`);
 }
 
 console.log('== rule + tab: TICKET-INPUTS drives the Inputs subitem ==');
@@ -57,10 +57,11 @@ console.log('== rule + tab: TICKET-INPUTS drives the Inputs subitem ==');
     'tab lists Handouts via the TICKET-INPUTS attr, third tab');
 }
 
-console.log('== chain: unique procedure per task → flagged inputs, deduped ==');
+console.log('== chain: unique procedure per task → its customer inputs, deduped ==');
 {
   const tickets = data.getEntity('Tickets');
-  // manual expectation, computed independently of ticketInputHandouts
+  // manual expectation, computed independently of ticketInputHandouts —
+  // membership in the procedure's OWN customerInputID set since issue #324
   const expect = (t) => {
     const need = resolve.ticketRequirements(t).map(String);
     const procIds = asList(t.processID);
@@ -74,11 +75,13 @@ console.log('== chain: unique procedure per task → flagged inputs, deduped =='
           return !set.length || need.every((r) => set.includes(r));
         });
       if (cands.length !== 1) continue; // GAP or ambiguity — no inputs
+      const wanted = asList(cands[0].customerInputID).map(String);
       for (const hid of asList(cands[0].taskInput)) {
-        if (seen.has(String(hid))) continue;
-        seen.add(String(hid));
+        if (seen.has(String(hid)) || !wanted.includes(String(hid))) continue;
         const h = data.getById('Handouts', hid);
-        if (h && h.customerFlag === true) out.push(h.handoutID);
+        if (!h) continue;
+        seen.add(String(hid));
+        out.push(h.handoutID);
       }
     }
     return out;
@@ -110,19 +113,14 @@ console.log('== chain: unique procedure per task → flagged inputs, deduped =='
   const after = resolve.ticketInputHandouts(t).map((h) => h.handoutID);
   eq(after.length <= before.length, true,
     'a second covering procedure (wildcard twin) GAPs the task — inputs shrink or hold');
-  eq(after.some((id) => asList(orig.taskInput).includes(id))
-    && asList(orig.taskInput).some((id) => {
-      const h = data.getById('Handouts', id); return h && h.customerFlag === true;
-    }), false, "the ambiguous task's flagged inputs are gone");
+  eq(after.some((id) => asList(orig.customerInputID).includes(id))
+    && asList(orig.customerInputID).length > 0, false,
+  "the ambiguous task's customer inputs are gone");
   data.getEntity('Procedures').pop();
 
-  // strict boolean: a string 'true' does not pass the flag gate
-  const h0 = resolve.ticketInputHandouts(t)[0];
-  const saved = h0.customerFlag;
-  h0.customerFlag = 'true';
-  eq(resolve.ticketInputHandouts(t).some((h) => h.handoutID === h0.handoutID), false,
-    "string 'true' is not a flag (#218 strict-gate posture)");
-  h0.customerFlag = saved;
+  // (the #218 strict-boolean gate retired with the handout flag — the
+  // per-procedure membership gate is proven in
+  // test_engine_procedure_customer_inputs.mjs, incl. the legacy rung)
 }
 
 console.log('== display: derivedValue joins the flagged names ==');

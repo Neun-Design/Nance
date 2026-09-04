@@ -413,15 +413,13 @@ class Builder:
                     for i, c in enumerate(d['channels'])]
         self.put('Channels', channels)
 
-        # customerFlag (issue #280): the documents the CUSTOMER provides upon
-        # ticket creation, listed by name in the domain's `customer_inputs`
-        # (mirrored by tools/migrate_ticket_input_flag.py)
-        customer_inputs = set(d.get('customer_inputs', []))
+        # the customer-input decision left the handout in issue #324 (sv77) —
+        # the domain's `customer_inputs` name list now seeds the PER-PROCEDURE
+        # customerInputID sets (see the Procedures build below)
         handouts = [{'handoutID': f'H{i+1:02d}', 'handoutName': h,
                      'handoutDescription': f'{h} — controlled document',
                      'createdAt': (self.anchor - timedelta(days=600 + i)).isoformat(),
                      'channelID': channels[i % len(channels)]['channelID'],
-                     'customerFlag': h in customer_inputs,
                      'templateName': f'{h} v1', 'templateURL': None}
                     for i, h in enumerate(d['handouts'])]
         self.put('Handouts', handouts)
@@ -555,6 +553,12 @@ class Builder:
                       'Nurse': 0.75, 'Front Desk': 0.25, 'Quality Analyst': 1.5}
         req_ix = self.ix['Requirements']
         fn_names = {f['functionID']: f['functionName'] for f in self.rows('Functions')}
+        # customerInputID (issue #324, sv77): the customer-input decision is
+        # PER PROCEDURE — its inputs whose name is in the domain's
+        # `customer_inputs` list (same behavior-preserving rule as
+        # migrate_procedure_customer_inputs.py: the flags moved off Handouts)
+        ci_ids = {h['handoutID'] for h in self.rows('Handouts')
+                  if h['handoutName'] in set(d.get('customer_inputs', []))}
         procedures = []
         for i, t in enumerate(tasks):
             reqs = []
@@ -577,6 +581,9 @@ class Builder:
                                'businessUnitID': self.rows('Business Units')[0]['businessUnitID'],
                                'productScopeID': served, 'requirementID': reqs,
                                'taskInput': [self.rows('Handouts')[i % 14]['handoutID']],
+                               'customerInputID': [hid for hid
+                                                   in [self.rows('Handouts')[i % 14]['handoutID']]
+                                                   if hid in ci_ids],
                                'taskOutput': [self.rows('Handouts')[(i + 1) % 14]['handoutID']],
                                'executionTime': base + 0.25 * (i % 3),
                                'procedureOwner': None,

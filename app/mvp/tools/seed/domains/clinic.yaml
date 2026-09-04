@@ -390,9 +390,9 @@ handouts:                          # 14 controlled documents
   - Second Opinion Dossier
 
 customer_inputs:                   # handouts the CUSTOMER provides upon
-  - Medical Order                  # ticket creation (issue #280) — must
-  - Contrast Consent Form          # match tools/migrate_ticket_input_flag.py
-  - Sedation Consent Form
+  - Medical Order                  # ticket creation — seeds the PER-PROCEDURE
+  - Contrast Consent Form          # customerInputID sets since issue #324
+  - Sedation Consent Form          # (matches migrate_procedure_customer_inputs.py)
   - Sample Manifest
 
 channels:
