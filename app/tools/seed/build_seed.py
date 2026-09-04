@@ -256,7 +256,9 @@ class Builder:
                              'businessSegmentID': unit['businessSegmentID'],
                              'businessUnitID': unit['businessUnitID'],
                              'departmentID': deps[i % len(deps)]['departmentID'],
-                             'customerID': self.id_of('Customers', owners[i % len(owners)]),
+                             # multivalued since the N:N round (sv74) — honest
+                             # singleton, same shape as migrate_branch_customer_nn.py
+                             'customerID': [self.id_of('Customers', owners[i % len(owners)])],
                              'cityName': b['city'],
                              'regionID': self.id_of('Regions', b['region']),
                              'countryName': b['country'], 'userID': None})

@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 73,
+  "schemaVersion": 74,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -247,7 +247,9 @@
     "businessSegmentID": "BS01",
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "customerID": "CUST09",
+    "customerID": [
+     "CUST09"
+    ],
     "cityName": "São Paulo",
     "regionID": "RG01",
     "countryName": "Brazil",
@@ -259,7 +261,9 @@
     "businessSegmentID": "BS01",
     "businessUnitID": "BU02",
     "departmentID": "DPT02",
-    "customerID": "CUST10",
+    "customerID": [
+     "CUST10"
+    ],
     "cityName": "Campinas",
     "regionID": "RG01",
     "countryName": "Brazil",
@@ -271,7 +275,9 @@
     "businessSegmentID": "BS02",
     "businessUnitID": "BU03",
     "departmentID": "DPT03",
-    "customerID": "CUST11",
+    "customerID": [
+     "CUST11"
+    ],
     "cityName": "Santos",
     "regionID": "RG01",
     "countryName": "Brazil",
@@ -283,7 +289,9 @@
     "businessSegmentID": "BS03",
     "businessUnitID": "BU04",
     "departmentID": "DPT04",
-    "customerID": "CUST12",
+    "customerID": [
+     "CUST12"
+    ],
     "cityName": "Rio de Janeiro",
     "regionID": "RG01",
     "countryName": "Brazil",
@@ -295,7 +303,9 @@
     "businessSegmentID": "BS01",
     "businessUnitID": "BU01",
     "departmentID": "DPT05",
-    "customerID": "CUST13",
+    "customerID": [
+     "CUST13"
+    ],
     "cityName": "Belo Horizonte",
     "regionID": "RG01",
     "countryName": "Brazil",
@@ -307,7 +317,9 @@
     "businessSegmentID": "BS01",
     "businessUnitID": "BU02",
     "departmentID": "DPT06",
-    "customerID": "CUST14",
+    "customerID": [
+     "CUST14"
+    ],
     "cityName": "Curitiba",
     "regionID": "RG02",
     "countryName": "Brazil",
@@ -319,7 +331,9 @@
     "businessSegmentID": "BS02",
     "businessUnitID": "BU03",
     "departmentID": "DPT01",
-    "customerID": "CUST15",
+    "customerID": [
+     "CUST15"
+    ],
     "cityName": "Porto Alegre",
     "regionID": "RG02",
     "countryName": "Brazil",
@@ -331,7 +345,9 @@
     "businessSegmentID": "BS03",
     "businessUnitID": "BU04",
     "departmentID": "DPT02",
-    "customerID": "CUST16",
+    "customerID": [
+     "CUST16"
+    ],
     "cityName": "Florianópolis",
     "regionID": "RG02",
     "countryName": "Brazil",
@@ -343,7 +359,9 @@
     "businessSegmentID": "BS01",
     "businessUnitID": "BU01",
     "departmentID": "DPT03",
-    "customerID": "CUST17",
+    "customerID": [
+     "CUST17"
+    ],
     "cityName": "Joinville",
     "regionID": "RG02",
     "countryName": "Brazil",
@@ -355,7 +373,9 @@
     "businessSegmentID": "BS01",
     "businessUnitID": "BU02",
     "departmentID": "DPT04",
-    "customerID": "CUST18",
+    "customerID": [
+     "CUST18"
+    ],
     "cityName": "Buenos Aires",
     "regionID": "RG03",
     "countryName": "Argentina",
@@ -367,7 +387,9 @@
     "businessSegmentID": "BS02",
     "businessUnitID": "BU03",
     "departmentID": "DPT05",
-    "customerID": "CUST09",
+    "customerID": [
+     "CUST09"
+    ],
     "cityName": "Córdoba",
     "regionID": "RG03",
     "countryName": "Argentina",
@@ -379,7 +401,9 @@
     "businessSegmentID": "BS03",
     "businessUnitID": "BU04",
     "departmentID": "DPT06",
-    "customerID": "CUST10",
+    "customerID": [
+     "CUST10"
+    ],
     "cityName": "Rosario",
     "regionID": "RG03",
     "countryName": "Argentina",

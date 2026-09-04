@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// test_engine_branch_conflict.mjs — proof suite for the branch-conflict fix
-// (2026-09-04, schema v73): the customer-branch link is authored on the
-// Customer form but STORED on Branches.customerID, and the old save path
-// re-stamped ANY picked branch — registering a customer with a branch used
-// by another record silently stripped the older customer (the reported
-// bug). Now (1) the Branch picker only offers unlinked branches or the
-// edited customer's own (branchAvailableForCustomer), and (2) the save
-// path skips owned branches too (imports/stale sessions stay honest).
-// Reassignment is explicit: deselect on the owning customer first.
-// The audit result is also pinned here: applyCustomerBranches is the ONLY
-// cross-table write-back in the form engine — every other field stores on
-// the record being saved, so no other table can lose data this way.
+// test_engine_branch_conflict.mjs — proof suite for the branch-conflict saga
+// (2026-09-04, schema v74): the customer-branch link is authored on the
+// Customer form but STORED on Branches.customerID. The original save
+// re-stamped ANY picked branch, silently stripping the older customer; the
+// v73 first cut hid owned branches from other customers' pickers, which
+// Rafael rejected ("the branch leaves the options menu"). Session decision:
+// the link is N:N — `Branches.customerID` is MULTIVALUED, every branch
+// stays offered, and the save touches only the SAVING customer's own
+// membership (adds to picked, removes from deselected). No steal and no
+// hiding, by construction. branchAvailableForCustomer (v73) is RETIRED.
+// suppliersForBranch (SLA Supplier, sv68) offers every customer registered
+// at the branch. Legacy scalar values are tolerated engine-wide.
 // Run from prototype/:  node tools/test_engine_branch_conflict.mjs
 
 import fs from 'fs';
@@ -21,6 +21,7 @@ const data = await import('../js/data.js');
 const { catalog } = await model.loadModel();
 data.initMeta(catalog);
 await data.loadData();
+const resolve = await import('../js/resolve.js');
 const forms = await import('../js/forms.js');
 
 let fails = 0;
@@ -28,82 +29,128 @@ const ok = (m) => console.log(`  ✓ ${m}`);
 const fail = (m) => { fails += 1; console.log(`  ✗ ${m}`); };
 const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
   ? ok(m) : fail(`${m} — got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`));
+const list = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
 
-console.log('== schema: the guard is documented ==');
+console.log('== schema: the N:N link ==');
 {
-  eq(model.getSchemaVersion() >= 73, true, `schemaVersion ${model.getSchemaVersion()} >= 73`);
-  eq(/not owned by another customer/.test(catalog['Customers'].form.fields.Branch.tooltip),
-    true, 'tooltip tells the user only unowned branches are offered');
-  eq(catalog['Customers'].byName['branchID'].type, 'mirror',
-    'Customers.branchID stays a display mirror — the link lives on Branches');
+  eq(model.getSchemaVersion() >= 74, true, `schemaVersion ${model.getSchemaVersion()} >= 74`);
+  const a = catalog['Branches'].byName['customerID'];
+  eq(/multivalued/i.test(a.notes || ''), true,
+    'Branches.customerID notes declare multivalued (the engine multi flag)');
+  const r = model.parseRule(a.rule);
+  eq([r.kind, r.target], ['fk', 'Customers'], 'still an FK → Customers');
+  eq(/several customers/.test(catalog['Customers'].form.fields.Branch.tooltip), true,
+    'tooltip tells the user a branch may serve several customers');
+  eq('branchAvailableForCustomer' in forms, false,
+    'v73 ownership predicate RETIRED (no hiding, no guard needed under N:N)');
 }
 
-console.log('== branchAvailableForCustomer: the ownership predicate ==');
+console.log('== migration: scalars became honest singletons ==');
 {
-  eq(forms.branchAvailableForCustomer({ customerID: null }, 'CUST01'), true,
-    'unlinked branch (null) available to anyone');
-  eq(forms.branchAvailableForCustomer({ customerID: '' }, 'CUST01'), true,
-    'unlinked branch (empty) available to anyone');
-  eq(forms.branchAvailableForCustomer({ customerID: 'CUST01' }, 'CUST01'), true,
-    'own branch stays offered on edit');
-  eq(forms.branchAvailableForCustomer({ customerID: 'CUST09' }, 'CUST01'), false,
-    'another customer\'s branch is NOT available');
-  eq(forms.branchAvailableForCustomer({ customerID: 'CUST09' }, null), false,
-    'NEW record (no id yet) — owned branches not available either');
+  const brs = data.getEntity('Branches');
+  eq(brs.every((b) => Array.isArray(b.customerID)), true,
+    `every branch carries a LIST (${brs.length} rows)`);
+  eq(brs.every((b) => b.customerID.length === 1), true,
+    'honest singletons — no membership fabricated by the migration');
 }
 
-console.log('== save path: an owned branch is never stolen ==');
+console.log('== save path: each customer only touches its own membership ==');
 {
-  const branch = data.getEntity('Branches')
-    .find((b) => b.customerID != null && b.customerID !== '');
-  eq(!!branch, true, 'demo has an owned branch to probe');
-  const owner = branch.customerID;
+  const branch = data.getEntity('Branches').find((b) => list(b.customerID).length);
   const bPk = branch.branchID;
-  // the reported bug: a NEW customer picks the owned branch — must not stick
+  const original = [...list(branch.customerID)];
+  const owner = original[0];
+  // the reported flow: ANOTHER customer picks the same branch — both stay
   forms.applyCustomerBranches('Customers',
-    { customerID: 'CUST-PROBE', customerName: 'Probe', branchID: [bPk] }, 'customerID');
-  eq(data.getById('Branches', bPk).customerID, owner,
-    `registering another customer with ${bPk} does NOT strip ${owner}`);
-  // explicit reassignment: the owner deselects, then the pick lands
-  forms.applyCustomerBranches('Customers', { customerID: owner, branchID: [] }, 'customerID');
-  eq(data.getById('Branches', bPk).customerID, null, 'owner deselect clears the link');
+    { customerID: 'CUST-NN', customerName: 'Probe', branchID: [bPk] }, 'customerID');
+  eq(list(data.getById('Branches', bPk).customerID).sort(), [...original, 'CUST-NN'].sort(),
+    `second customer ADDS its membership — ${owner} keeps its link (no steal)`);
+  // re-saving the same pick is a no-op (idempotent membership)
   forms.applyCustomerBranches('Customers',
-    { customerID: 'CUST-PROBE', branchID: [bPk] }, 'customerID');
-  eq(data.getById('Branches', bPk).customerID, 'CUST-PROBE',
-    'an unlinked branch is stamped normally');
-  // deselect on a NON-owner never clears someone else's link
-  data.updateRecord('Branches', bPk, { customerID: owner });
-  forms.applyCustomerBranches('Customers', { customerID: 'CUST-PROBE', branchID: [] }, 'customerID');
-  eq(data.getById('Branches', bPk).customerID, owner,
-    'a non-owner saving without the branch leaves the owner untouched');
+    { customerID: 'CUST-NN', branchID: [bPk] }, 'customerID');
+  eq(list(data.getById('Branches', bPk).customerID).length, original.length + 1,
+    're-saving the same pick does not duplicate the membership');
+  // deselecting removes ONLY the saving customer's link
+  forms.applyCustomerBranches('Customers',
+    { customerID: 'CUST-NN', branchID: [] }, 'customerID');
+  eq(list(data.getById('Branches', bPk).customerID), original,
+    'deselect removes only the saving customer — the other membership survives');
+  // the owner deselecting leaves the branch honestly empty
+  forms.applyCustomerBranches('Customers',
+    { customerID: owner, branchID: [] }, 'customerID');
+  eq(list(data.getById('Branches', bPk).customerID), [],
+    'last member out — the branch keeps an empty list, claimable by anyone');
+  data.updateRecord('Branches', bPk, { customerID: original }); // restore
 }
 
-console.log('== picker: only unlinked-or-own branches survive the filter ==');
+console.log('== legacy scalar tolerance (frozen/pre-v74 snapshots) ==');
 {
-  // the ownership filter runs inside the cascade closure over the generic
-  // options — mirror it here over the same option source
-  const a = catalog['Customers'].byName['branchID'];
-  const all = forms.optionsForAttr('Customers', 'branchID', a.rule).options || [];
-  eq(all.length > 0, true, `generic option source offers ${all.length} branch(es)`);
-  const bT = 'Branches';
-  const forNew = all.filter((o) => forms.branchAvailableForCustomer(data.getById(bT, o.value), null));
-  const linked = data.getEntity(bT).filter((b) => b.customerID != null && b.customerID !== '').length;
-  eq(forNew.length, all.length - linked,
-    `NEW customer sees only the ${all.length - linked} unlinked branch(es) — ${linked} owned are hidden`);
-  const someOwner = data.getEntity(bT).find((b) => b.customerID)?.customerID;
-  const forOwner = all.filter((o) => forms.branchAvailableForCustomer(data.getById(bT, o.value), someOwner));
-  eq(forOwner.some((o) => data.getById(bT, o.value).customerID === someOwner), true,
-    'editing the owner keeps its own branches offered (prefill survives — form-integrity)');
-  eq(forOwner.every((o) => forms.branchAvailableForCustomer(data.getById(bT, o.value), someOwner)),
-    true, 'no other customer\'s branch leaks into the owner\'s picker');
-  // the field still rides the cascade: the rule spelling wires _refilter —
-  // without it the ownership filter in the closure would be dead (#274)
-  const rule = [].concat(catalog['Customers'].form.fields.Branch['field-rule']).join('; ');
-  eq(/filtered by (?:the )?[A-Za-z .+&,]+?(?: selected| field|$)/i.test(rule), true,
-    'Branch field-rule matches the cascade regex — the closure filter is reachable');
+  data.addRecord('Branches', { branchID: 'BR-LEGACY', branchName: 'Legacy probe',
+    businessSegmentID: [], businessUnitID: [], departmentID: [],
+    customerID: 'CUST-OLD', cityName: null, regionID: null, countryName: null, userID: null });
+  forms.applyCustomerBranches('Customers',
+    { customerID: 'CUST-NN', branchID: ['BR-LEGACY'] }, 'customerID');
+  eq(list(data.getById('Branches', 'BR-LEGACY').customerID).sort(), ['CUST-NN', 'CUST-OLD'],
+    'a legacy scalar value becomes a list on the first write — old member kept');
 }
 
-console.log('== audit: the only cross-table write-back in the form engine ==');
+console.log('== picker & prefill: every branch offered, memberships prefill ==');
+{
+  const a = catalog['Branches'].byName['customerID'];
+  eq(forms.optionsForAttr('Branches', 'customerID', a.rule).multi, true,
+    'the multivalued note drives the engine multi flag');
+  const all = forms.optionsForAttr('Customers', 'branchID',
+    catalog['Customers'].byName['branchID'].rule).options || [];
+  eq(all.length, data.getEntity('Branches').length,
+    `the Customers Branch picker offers ALL ${all.length} branches again (no ownership hiding)`);
+  // prefill rides presetFor (module-private, arrOverlap on the list key) —
+  // the membership resolution it depends on is proven by the reverse-join
+  // block below on the same array values
+  const shared = data.getEntity('Branches').find((b) => list(b.customerID).length === 1);
+  eq(!!list(shared.customerID)[0], true,
+    `probe branch ${shared.branchID} linked to ${list(shared.customerID)[0]}`);
+}
+
+console.log('== reverse joins: the Customers BRANCH column resolves the array ==');
+{
+  const branch = data.getEntity('Branches').find((b) => list(b.customerID).length);
+  const [cid] = list(branch.customerID);
+  const customer = data.getById('Customers', cid);
+  const kids = resolve.childrenOf('Customers', customer, 'Branches');
+  eq(kids.some((b) => b.branchID === branch.branchID), true,
+    'childrenOf(customer → Branches) matches through the LIST key');
+  // a second membership joins the same branch under BOTH customers
+  const other = data.getEntity('Customers')
+    .find((c) => String(c.customerID) !== String(cid));
+  const saved = [...list(branch.customerID)];
+  data.updateRecord('Branches', branch.branchID, { customerID: [...saved, other.customerID] });
+  const kids2 = resolve.childrenOf('Customers', other, 'Branches');
+  eq(kids2.some((b) => b.branchID === branch.branchID), true,
+    'the SAME branch now also joins under the second customer (N:N both ways)');
+  data.updateRecord('Branches', branch.branchID, { customerID: saved });
+}
+
+console.log('== suppliersForBranch: every registered customer is a candidate ==');
+{
+  const branch = data.getEntity('Branches').find((b) => list(b.customerID).length === 1);
+  const [cid] = list(branch.customerID);
+  eq(forms.suppliersForBranch(branch.branchID).map((o) => o.value), [cid],
+    'single membership → that customer (the sv68 behavior, unchanged)');
+  const other = data.getEntity('Customers')
+    .find((c) => String(c.customerID) !== String(cid));
+  const saved = [...list(branch.customerID)];
+  data.updateRecord('Branches', branch.branchID, { customerID: [...saved, other.customerID] });
+  eq(forms.suppliersForBranch(branch.branchID).map((o) => o.value).sort(),
+    [cid, other.customerID].sort(),
+    'two memberships → BOTH offered as candidate suppliers');
+  data.updateRecord('Branches', branch.branchID, { customerID: [] });
+  eq(forms.suppliersForBranch(branch.branchID).length,
+    data.getEntity('Customers').length,
+    'no membership → every customer (lenient, sv68 posture)');
+  data.updateRecord('Branches', branch.branchID, { customerID: saved });
+}
+
+console.log('== audit: still the only cross-table write-back in the form engine ==');
 {
   const src = fs.readFileSync(new URL('../js/forms.js', import.meta.url), 'utf8');
   const writes = [...src.matchAll(/updateRecord\(([^,)]+)/g)].map((m) => m[1].trim());

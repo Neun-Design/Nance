@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 73,
+    "schemaVersion": 74,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -818,7 +818,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName) (filtered by customerType='Internal')",
-              "notes": "Written from the CUSTOMER form (2026-08-03): registering a customer selects its branches and the save stamps customerID here — the Branches form has no Customer input. Nullable: a branch may have no customer yet.",
+              "notes": "multivalued — customers registered at this branch (2026-09-04 N:N round, schema v74, reverses the D1 single owner: a branch may serve several customers). Written from the CUSTOMER form (2026-08-03): registering a customer selects its branches and the save updates ONLY the saving customer's own membership here (applyCustomerBranches) — another customer's link is never overwritten, so no steal by construction. The Branches form has no Customer input. Nullable/empty: a branch may have no customer yet.",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -1023,7 +1023,7 @@
               "name": "branchID",
               "type": "mirror",
               "rule": "rollup → Branches (via: customerID) (display: branchName)",
-              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes customerID onto the selected Branch rows on save (applyCustomerBranches); nothing is stored on the Customer record. Conflict guard (2026-09-04, schema v73): a branch owned by ANOTHER customer is neither offered nor re-stamped — reassigning means deselecting on the owning customer first (branchAvailableForCustomer). Geography (city/country/region) lives on the Branches since issue #191 dropped the redundant Customer copies.",
+              "notes": "Multivalued — branches registered to this customer. AUTHORED HERE: the Customer form's Branch picker writes the customer into Branches.customerID on save (applyCustomerBranches); nothing is stored on the Customer record. N:N since 2026-09-04 (schema v74): a branch may serve several customers — every branch stays offered and the save touches only this customer's own membership (the v73 ownership guard was retired the same day). Geography (city/country/region) lives on the Branches since issue #191 dropped the redundant Customer copies.",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -1150,7 +1150,7 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "branchID",
-                "tooltip": "Branches this customer is registered at — only branches not owned by another customer are offered; saving writes the link onto the Branch records",
+                "tooltip": "Branches this customer is registered at — a branch may serve several customers; saving updates only this customer's own links on the Branch records",
                 "step": null,
                 "check": "Unit IS NOT NULL",
                 "field-rule": [
@@ -1222,7 +1222,7 @@
               "name": "supplierID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "the supplying party of the contract (issue #272; 2026-09-03 round) — the supplier inside the selected branch: the form offers the customer the branch points at (Branches.customerID, bespoke suppliersForBranch), every customer grouped by type when no branch is chosen (lenient)",
+              "notes": "the supplying party of the contract (issue #272; 2026-09-03 round) — the supplier inside the selected branch: the form offers the customers registered at the branch (Branches.customerID, multivalued since the v74 N:N round — every linked customer is a candidate; bespoke suppliersForBranch), every customer grouped by type when no branch is chosen or the branch has no customer (lenient)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -1273,13 +1273,13 @@
               "constraints": null
             },
             {
-              "name": "productScopeName",
+              "name": "productScopeRegistry",
               "type": "mirror",
-              "rule": "computed → Payload (via: payloadID) (display: productScopeName)",
+              "rule": "computed → Payload (via: payloadID) (display: productScopeRegistry)",
               "notes": "product scopes covered — derives through the payloads",
               "table-display": true,
-              "subitem-display": false,
-              "constraints": null
+              "subitem-display": true,
+              "constraints": "multivalued"
             },
             {
               "name": "isActive",
@@ -5495,8 +5495,8 @@
             {
               "name": "productScopeName",
               "type": "mirror",
-              "rule": "computed → SLA (via: slaID) (display: productScopeName)",
-              "notes": "coverage — the product scopes the linked contracts purchase, derived through the SLAs' payloads",
+              "rule": "computed → SLA (via: slaID) (display: productScopeRegistry)",
+              "notes": "coverage — the product scopes the linked contracts purchase, derived through the SLAs' payloads; display re-pointed to the registry codes with the sv74 authored SLA rename (productScopeName → productScopeRegistry, the #296/#299 pattern)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null

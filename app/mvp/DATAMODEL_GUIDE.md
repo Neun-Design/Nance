@@ -333,9 +333,10 @@ keys meaning "applies to all" — Q1), and the Tickets **Product Scope** select
 payloads narrowed to the payloads purchased by the customer's active SLAs; a payload
 with an empty scope list widens to the event's full applicability, no SLA = every
 payload of the event — lenient). The SLA **Supplier** select joined them in the sv68
-supplier-flow round (`suppliersForBranch`: the customer the selected branch points at
-— Branches store `customerID`, the reverse link the generic cascade can't read; no
-branch = every customer, lenient). The Projects **SLA** select joined in the sv72
+supplier-flow round (`suppliersForBranch`: the customers registered at the selected
+branch — Branches store `customerID`, multivalued since the sv74 N:N round, the
+reverse link the generic cascade can't read; no branch or no linked customer = every
+customer, lenient). The Projects **SLA** select joined in the sv72
 branch round (`slasForProject`: the customer's contracts narrowed by the chosen
 Branch — an SLA without a branch is not branch-specific and stays offered, Q1; the
 strict generic arrOverlap path would drop it; no branch = the customer's full set).
