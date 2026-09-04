@@ -2656,15 +2656,21 @@ processes it triggers and the applicable requirement set.
 <strong>Key fields:</strong> <code>Unit *</code> (grouped by segment) → <strong>Applicant</strong> (2026-09-03) — the internal
 customer <em>opening</em> the ticket, always an <code>Internal</code>-type customer; optional — a ticket
 without one inherits requirements through the project customer alone → <code>Customer *</code>
-(unlocked by the Unit) → unlocks <code>Project *</code>
+(unlocked by the Unit) — since 2026-09-04 it only <strong>filters the projects offered below</strong>:
+the ticket's events and scopes follow the <em>project's</em> contracts → unlocks <code>Project *</code>
 (the customer's projects), <strong>Supplier</strong> — the party responsible for resolving the issue,
-picked among the unit's customers grouped by type (unlocked by the Unit): choosing one
-narrows Event and Product Scope to the contracts of that (customer, supplier) pair,
-leaving it empty follows every active SLA — and <code>Event *</code> —
-<strong>only events covered by the customer's SLAs are offered</strong>; <code>Product Scope *</code> — the scope
-the ticket targets, among those packaged by the event's payloads under those SLAs;
-Details; Target date; Status. The payload, SLA and product/scope columns are
-derived from that chain — nothing else to select. The <strong>Forecast Scope</strong> link is no
+picked among the unit's customers grouped by type (unlocked by the Unit) — and <code>Event *</code>
+(unlocked by the Project) — <strong>only events packaged by the project's surviving SLAs are
+offered</strong> (2026-09-04): a contract survives when the project customer holds it, or when
+the <em>Applicant</em> buys from the chosen <em>Supplier</em> under it — the Applicant + Supplier pair
+opens a second contract leg on top of the customer's; <code>Product Scope *</code> (unlocked by the
+Event) — only scopes <strong>co-packaged with the chosen event in a same payload</strong> of those
+contracts, so the pair always maps to a real dispatch package;
+Details; Target date; Status. On save the app <strong>resolves and stores the ticket's
+payload(s) and governing SLA(s)</strong> from that pair — the Payload and SLA columns show the
+ticket's own dispatch context (a pair sold under two contracts lists both), nothing else
+to select. A project without linked SLAs offers no events — link the contracts on the
+<a href="../projects/">Project</a> first. The <strong>Forecast Scope</strong> link is no
 longer entered on the form (2026-09-03): existing links between tickets and the
 contract's <a href="../../crm/forecast-scopes/">Forecasts</a> demand lines stay in the data, and a
 line's consumption keeps counting its linked tickets with the remaining balance

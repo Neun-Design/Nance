@@ -2656,7 +2656,10 @@ contracts.
 (the unit's customers) → <strong>Branch</strong> (optional — the customer's branches) → <strong>SLA</strong>
 (multi — the customer's contracts this project executes under, narrowed to the chosen
 Branch; a contract without a branch is not branch-specific and stays offered); Owner;
-Status. The coverage column (product scopes) derives from the linked SLAs.</p>
+Status. The coverage column (product scopes) derives from the linked SLAs.
+Since 2026-09-04 the linked contracts also <strong>define what the project's
+<a href="../tickets/">Tickets</a> can trigger</strong>: a ticket only offers events and product scopes
+packaged by the payloads of these SLAs — a project without contracts opens no events.</p>
 
 
 
