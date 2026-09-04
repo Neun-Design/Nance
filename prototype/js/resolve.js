@@ -1109,10 +1109,13 @@ export function ticketProcedureDisplay(taskId, reqIds = [], display = null) {
 // ticket's processes, the ticket's live inherited requirement set (#226)
 // narrows the task's procedures to exactly ONE (#270 AND coverage — a GAP
 // or ambiguous task contributes nothing: while the method is unresolved its
-// inputs are unknowable), and that procedure's input handouts flagged
-// customerFlag === true (real boolean, #218 strict-gate posture) collect,
-// deduped in first-seen order. Returns Handout ROWS — the Tickets Inputs
-// subitem tab renders them directly (mapSubitem in app.js).
+// inputs are unknowable), and that procedure's inputs listed in its OWN
+// customerInputID set (issue #324 — the decision is per procedure, not on
+// the handout) collect, deduped in first-seen order. Legacy tolerance: a
+// pre-sv77 snapshot procedure WITHOUT the customerInputID key falls back to
+// the retired handout-level flag (customerFlag === true, real boolean —
+// #218 strict-gate posture; frozen-testdata posture). Returns Handout ROWS
+// — the Tickets Inputs subitem tab renders them directly (mapSubitem).
 export function ticketInputHandouts(ticket) {
   const hT = resolveTable('Handouts');
   const tT = resolveTable('Tasks');
@@ -1126,11 +1129,15 @@ export function ticketInputHandouts(ticket) {
     if (!procIds.some((p) => matches(task.processID, p))) continue;
     const proc = ticketProcedureForTask(task.taskID, need);
     if (!proc) continue;
+    const wanted = proc.customerInputID !== undefined
+      ? asIds(proc.customerInputID).map(String) : null; // null = legacy flag path
     for (const hid of asIds(proc.taskInput)) {
       if (seen.has(String(hid))) continue;
-      seen.add(String(hid));
       const h = getById(hT, hid);
-      if (h && h.customerFlag === true) out.push(h);
+      const keep = wanted ? wanted.includes(String(hid)) : (h && h.customerFlag === true);
+      if (!h || !keep) continue;
+      seen.add(String(hid));
+      out.push(h);
     }
   }
   return out;

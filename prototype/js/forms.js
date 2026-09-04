@@ -699,6 +699,23 @@ export function tasksForJob(ticketId) {
   return out;
 }
 
+// Options for the Procedures "Customer Inputs" picker (issue #324): exactly
+// the handouts CHOSEN in the sibling Inputs field — the customer-input
+// decision is made per procedure, on its own inputs (replacing the
+// handout-level customerFlag #280). The generic cascade can't source
+// options from a sibling field's selection (no stored key to join), so the
+// dispatch branch feeds the selected ids here. No selection = no options
+// (the field is gated on Inputs anyway).
+export function customerInputsForSelection(inputIds) {
+  const hT = resolveTable('Handouts');
+  if (!hT) return [];
+  const ids = Array.isArray(inputIds) ? inputIds
+    : inputIds == null || inputIds === '' ? [] : [inputIds];
+  return ids.map((id) => getById(hT, id)).filter(Boolean)
+    .map((h) => ({ value: h[ENTITY_META[hT].pk],
+      label: String(h[ENTITY_META[hT].label] ?? h[ENTITY_META[hT].pk]) }));
+}
+
 // Options for the Tasks "Inputs" / "Outputs" pickers (decision 2026-07-30,
 // "filtered selection"): a Handout stays selectable while UNLINKED (no task
 // references it yet — e.g. just created from this form's "New Handout"
@@ -1515,6 +1532,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
               && (attrName === 'taskInput' || attrName === 'taskOutput')) {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
             applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action')));
+            return;
+          }
+          // Procedures "Customer Inputs" (issue #324): options = exactly the
+          // handouts chosen in the sibling Inputs multicheck — see
+          // customerInputsForSelection. Unchecking an Input drops it here on
+          // the rebuild, so the stored subset invariant holds on save.
+          if (entity === 'Procedures' && attrName === 'customerInputID') {
+            const dep = findDep('Inputs');
+            applyOpts(customerInputsForSelection(dep ? dep[1].get() : null));
             return;
           }
           // Processes "Product Scopes": offered from the selected event's

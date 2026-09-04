@@ -21,7 +21,11 @@ grouped by type — so the full combination the unit answers for is pickable in 
 **execution time**
 (hours under THIS requirement set — procedures create the variance in task duration; the
 task shows the sum); Inputs/Outputs offer only handouts that are free or already on this
-chain; accountable owner; **Status** (2026-09-03) tracks the lifecycle of the documented
+chain; **Customer Inputs** (2026-09-04) — among the chosen Inputs, tick the ones the
+customer must provide upon ticket creation: the decision is made HERE, per procedure
+(the same handout may be customer-provided in one method and internal in another — the
+old handout-level flag is gone), and the selected documents surface on the ticket's
+Inputs tab ([Tickets](../workspace/tickets.md)); accountable owner; **Status** (2026-09-03) tracks the lifecycle of the documented
 method — `Approved`, `In Progress` or `To Do` — **and gates eligibility**: only an
 `Approved` procedure can be exercised, so people certified on a competence bound to a
 procedure still in progress do not appear as eligible (the procedure's Users column shows
