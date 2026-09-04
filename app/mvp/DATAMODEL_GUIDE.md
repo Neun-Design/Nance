@@ -335,7 +335,10 @@ with an empty scope list widens to the event's full applicability, no SLA = ever
 payload of the event — lenient). The SLA **Supplier** select joined them in the sv68
 supplier-flow round (`suppliersForBranch`: the customer the selected branch points at
 — Branches store `customerID`, the reverse link the generic cascade can't read; no
-branch = every customer, lenient).
+branch = every customer, lenient). The Projects **SLA** select joined in the sv72
+branch round (`slasForProject`: the customer's contracts narrowed by the chosen
+Branch — an SLA without a branch is not branch-specific and stays offered, Q1; the
+strict generic arrOverlap path would drop it; no branch = the customer's full set).
 
 **Selection fields that reference another table** offer a **"+" (create new item)
 button** beside the select: it pushes a nested drawer tab for the referenced table onto

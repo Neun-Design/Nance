@@ -993,9 +993,16 @@ class Builder:
             cid = self.id_of('Customers', p['customer'])
             sla_ids = [s['slaID'] for s in self.rows('SLA') if s['customerID'] == cid][:2]
             unit = cust[cid]['businessUnitID'][0]
+            # branchID = the unanimity branch of the linked SLAs (exactly one
+            # distinct non-null SLA.branchID), else honest null — same
+            # deterministic rule as migrate_project_branch.py (sv72)
+            sla_branches = {slas[s]['branchID'] for s in sla_ids
+                            if slas[s].get('branchID') not in (None, '')}
+            branch = next(iter(sla_branches)) if len(sla_branches) == 1 else None
             projects.append({'projectID': f'PJ{i+1:02d}', 'projectRegistryID': f'PRJ-2026-{i+1:03d}',
                              'projectName': p['name'], 'businessUnitID': unit,
-                             'customerID': cid, 'slaID': sla_ids, 'projectOwner': None,
+                             'customerID': cid, 'branchID': branch,
+                             'slaID': sla_ids, 'projectOwner': None,
                              'projectStatus': 'Active' if i % 3 else 'Closed',
                              'jobID': None, 'estimatedTime': 120 + i * 40,
                              'executionTime': 90 + i * 35})
