@@ -763,21 +763,19 @@ export function requirementsForUnit(unitId) {
 }
 
 // The customer-branch link is AUTHORED on the Customer form (Rafael, 03/08)
-// but STORED on Branches.customerID (D1): saving a customer stamps its id
-// onto the selected Branch rows and clears branches that were deselected.
-// The collected branchID never lands on the Customer record (the Customers
-// attr is a display mirror). Exported for tools/test_engine_branches.mjs.
+// but STORED on Branches.customerID: saving a customer updates the selected
+// Branch rows and clears branches that were deselected. The collected
+// branchID never lands on the Customer record (the Customers attr is a
+// display mirror). Exported for tools/test_engine_branches.mjs.
 //
-// Conflict guard (2026-09-04): a branch belongs to ONE customer — stamping
-// a branch already owned by ANOTHER customer would silently strip it from
-// the older record (the reported bug). The picker no longer offers such
-// branches (branchAvailableForCustomer below) and the save skips them too
-// (imports/stale sessions stay honest). Reassigning is explicit: deselect
-// on the owning customer first, then pick on the new one.
-export function branchAvailableForCustomer(branch, customerId) {
-  const owner = branch && branch.customerID;
-  return owner == null || owner === '' || owner === customerId;
-}
+// N:N (2026-09-04 second round, reverses the D1 single owner): a branch may
+// serve SEVERAL customers — Branches.customerID is a multivalued list, and
+// the save touches only the SAVING customer's own membership (adds it to
+// picked branches, removes it from deselected ones). Another customer's
+// link is never overwritten, so the steal bug and the hide-the-owned
+// mitigation (branchAvailableForCustomer, retired) are both gone by
+// construction. Legacy scalar values are tolerated and become lists on the
+// first write.
 export function applyCustomerBranches(entity, rec, pk) {
   if (resolveTable(entity) !== resolveTable('Customers')) return;
   if (!('branchID' in rec)) return;
@@ -789,11 +787,14 @@ export function applyCustomerBranches(entity, rec, pk) {
   const bPk = ENTITY_META[bT].pk;
   const cid = rec[pk];
   for (const b of getEntity(bT)) {
+    const cur = Array.isArray(b.customerID) ? b.customerID
+      : b.customerID != null && b.customerID !== '' ? [b.customerID] : [];
+    const member = cur.some((v) => String(v) === String(cid));
     if (picked.includes(b[bPk])) {
-      if (!branchAvailableForCustomer(b, cid)) continue; // owned elsewhere — never stolen
-      if (b.customerID !== cid) updateRecord(bT, b[bPk], { customerID: cid });
-    } else if (b.customerID === cid) {
-      updateRecord(bT, b[bPk], { customerID: null });
+      if (!member) updateRecord(bT, b[bPk], { customerID: [...cur, cid] });
+    } else if (member) {
+      updateRecord(bT, b[bPk],
+        { customerID: cur.filter((v) => String(v) !== String(cid)) });
     }
   }
 }
@@ -805,7 +806,9 @@ function presetFor(entity, attrName, record) {
   if (resolveTable(entity) === resolveTable('Customers') && attrName === 'branchID') {
     const bT = resolveTable('Branches');
     const cid = record[ENTITY_META[entity].pk];
-    return bT ? getEntity(bT).filter((b) => b.customerID === cid).map((b) => b[ENTITY_META[bT].pk]) : [];
+    // array-aware since the N:N round — legacy scalar values still match
+    return bT ? getEntity(bT).filter((b) => arrOverlap(b.customerID, cid))
+      .map((b) => b[ENTITY_META[bT].pk]) : [];
   }
   return undefined;
 }
@@ -859,9 +862,13 @@ export function suppliersForBranch(branchId) {
   const all = getEntity('Customers');
   if (!branchId) return all.map(opt);
   const br = getById('Branches', branchId);
-  const owner = br && br.customerID != null && br.customerID !== ''
-    ? getById('Customers', br.customerID) : null;
-  return (owner ? [owner] : all).map(opt);
+  // N:N round: a branch may register SEVERAL customers — every one is a
+  // candidate supplier. No linked customer = every customer (lenient).
+  const ids = br == null ? []
+    : Array.isArray(br.customerID) ? br.customerID
+      : br.customerID != null && br.customerID !== '' ? [br.customerID] : [];
+  const owners = ids.map((id) => getById('Customers', id)).filter(Boolean);
+  return (owners.length ? owners : all).map(opt);
 }
 
 // SLAs a PROJECT may execute under (2026-09-04 round): the customer's
@@ -1620,17 +1627,10 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             return;
           }
           let opts = applyWhere(specOptions(entity, attrName, ruleText).options);
-          // Customers "Branch": a branch belongs to ONE customer (stored
-          // Branches.customerID, authored on this form) — offering another
-          // customer's branch would silently re-stamp it on save, stripping
-          // the older record (2026-09-04 conflict fix). Only unlinked
-          // branches and this customer's own are offered (handoutsForTask
-          // posture); the unit filter of the dep loop below still applies.
-          if (resolveTable(entity) === resolveTable('Customers') && attrName === 'branchID') {
-            const own = record ? record[ENTITY_META[entity].pk] : null;
-            const bT = resolveTable('Branches');
-            opts = opts.filter((o) => branchAvailableForCustomer(getById(bT, o.value), own));
-          }
+          // (the Customers "Branch" ownership filter — the first cut of the
+          // 2026-09-04 conflict fix — was retired the same day: the link is
+          // N:N now, every branch stays offered and the save only touches
+          // the saving customer's own membership. See applyCustomerBranches.)
           for (const d of deps) {
             const dep = findDep(d.label);
             if (!dep) continue;

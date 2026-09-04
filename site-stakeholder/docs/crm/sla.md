@@ -14,8 +14,8 @@ events covered by one of the customer's SLAs are offered.
 **Register when:** phase 7, after the Operation module's Payloads exist.
 **Key fields:** Code (the contract id); `Unit *` (grouped by segment) → unlocks the
 supplying chain and the customer: **Branch** (the unit's branches — optional) →
-`Supplier *` (the supplier inside the selected branch — the customer that branch belongs
-to; with no branch chosen, every customer is offered grouped by type) → `Supplier
+`Supplier *` (the supplier inside the selected branch — any of the customers registered
+at that branch; with no branch chosen, every customer is offered grouped by type) → `Supplier
 Department *` (the departments of the supplier's units — the department that will supply
 the payloads); `Customer *` (the unit's customers, grouped by type) → **Payloads** (multi —
 grouped by event, narrowed to the chosen supplying department); Status. The events and

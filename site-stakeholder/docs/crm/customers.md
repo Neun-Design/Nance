@@ -14,9 +14,8 @@ Geography is not registered here — a customer's city, country and region live 
 Branches), then external clients and suppliers.
 **Key fields:** Name; Type; `Segment *` (multi) → unlocks `Unit *` (multi, filtered by the
 chosen segments); **Branch** (multi, unlocked by Unit — grouped by unit). **The branch link
-is authored here:** saving the customer stamps its id onto the selected
-[Branch](../organization/branches.md) records (deselecting clears it); the Branches form has
-no Customer input. A branch belongs to **one** customer — the picker only offers branches
-not yet assigned to another customer, so registering a customer can never strip a branch
-from an older record; to move a branch, deselect it on the owning customer first.
-Expanding a customer row lists its SLAs.
+is authored here:** saving the customer writes it onto the selected
+[Branch](../organization/branches.md) records; the Branches form has no Customer input.
+A branch may serve **several** customers — every branch is offered, and saving updates
+only this customer's own links (picking a branch never strips it from another customer;
+deselecting removes only yours). Expanding a customer row lists its SLAs.
