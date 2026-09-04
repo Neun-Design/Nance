@@ -38,7 +38,11 @@ Expanding a ticket row opens four tabs — the **Processes** the event dispatche
 (narrowed by the chosen product scope), the **Tasks** of those processes — sorted by
 their derived **Indentation** (2026-09-03: the workflow-step outline extended one level
 down, `1.0.1`, `1.1.2`, `2.0.1`…, so the planner reads the execution order directly on
-the ticket) —, **Inputs**
+the ticket), and carrying (2026-09-04) the **Users** column — the people eligible to
+execute each task under THIS ticket's inherited requirements (certified onboarding +
+Approved procedure, the staffing rule below) — and an **Execution Time** column with the
+time of the procedure the ticket's context resolves for the task (an ambiguous or
+missing method shows GAP, like the Procedure column) —, **Inputs**
 (2026-08-26): the [Handouts](../operation/handouts.md) marked **Customer Input** among the
 inputs of the ticket's resolved procedures — for each task, the ticket's requirement set
 narrows the procedures to exactly one, and that procedure's customer-provided inputs are
@@ -47,8 +51,8 @@ listed — and **Requirements** (2026-08-27): the ticket's live inherited
 link), replacing the joined-names column the table used to carry. It is the collection checklist for ticket intake: what the customer must hand over
 before remote teams can start (a task whose procedure is ambiguous or missing contributes
 nothing until the gap is closed). Staffing
-eligibility stays **ticket-aware** behind the scenes (2026-08-20; the Users column left the
-Tasks tab on 2026-08-28): only people whose certified competences cover **every**
+eligibility is **ticket-aware** (2026-08-20; the Users column left the Tasks tab on
+2026-08-28 and RETURNED on 2026-09-04): only people whose certified competences cover **every**
 requirement the ticket inherits can be staffed, and (2026-09-03) only while the
 competence's [Procedure](../operation/procedures.md) is **Approved** — a certified
 person whose method is still `In Progress`/`To Do` waits for the approval. A new
