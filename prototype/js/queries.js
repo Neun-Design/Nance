@@ -205,17 +205,24 @@ export const REPORT_QUERIES = {
     donut('Headcount by Function', groupAgg(rows, 'functionID', 'quantity'),
       (k) => lookup('Functions', k, 'functionName') || k),
 
+  // the role ↔ skill level link is indirect since issue #328 — the level is
+  // defined per competence, so the chart counts competences per level
   'Skill Levels::Report-A': (rows) =>
-    donut('Headcount by Skill Level', groupAgg(getEntity('Roles'),
-      (r) => lookup('Skill Levels', r.skillLevelID, 'levelName') || r.skillLevelID, 'quantity'), null),
+    donut('Competences by Skill Level', groupAgg(getEntity('Competence'),
+      (r) => lookup('Skill Levels', r.skillLevelID, 'levelName') || r.skillLevelID), null),
 
   'Functions::Report-A': (rows) =>
     bar('Headcount by Function', groupAgg(getEntity('Roles'),
       (r) => lookup('Functions', r.functionID, 'functionName') || r.functionID, 'quantity'), null),
 
+  // roles stopped storing jobFamilyID in issue #328 — the family resolves
+  // through the role's function (Functions.jobFamilyID)
   'Job Family::Report-A': (rows) =>
-    donut('Headcount by Job Family Field', groupAgg(getEntity('Roles'),
-      (r) => lookup('Job Family', r.jobFamilyID, 'field') || r.jobFamilyID, 'quantity'), null),
+    donut('Headcount by Job Family', groupAgg(getEntity('Roles'),
+      (r) => {
+        const fam = lookup('Functions', r.functionID, 'jobFamilyID');
+        return lookup('Job Family', fam, 'jobFamilyName') || fam;
+      }, 'quantity'), null),
 
   'People::Report-A': (rows) =>
     bar('Active People by Function', groupAgg(rows.filter((p) => p.isActive === 'Active' || p.isActive === true), 'functionID'),
@@ -337,7 +344,9 @@ export const CARD_QUERIES = {
   },
 
   'Skill Levels::Card 1-1': () => {
-    const m = groupAgg(getEntity('Roles'), 'skillLevelID', 'quantity');
+    // "most competences" since issue #328: the skill level applies through
+    // the competence — roles carry no direct level to sum headcount over
+    const m = groupAgg(getEntity('Competence'), 'skillLevelID');
     const top = topEntries(m, 1)[0];
     return { main: top ? String(top[1]) : '—', trendPct: null,
       detail: top ? (lookup('Skill Levels', top[0], 'levelName') || top[0]) : '' };

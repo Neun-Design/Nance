@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 77,
+    "schemaVersion": 78,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -6514,7 +6514,7 @@
         "Roles": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Organisational role with function, skill level and required education (ISO §5.3). Resolves all *Owner foreign keys in the model.",
+          "description": "Organisational role belonging to a Function and exercised in Departments (ISO §5.3). The skill level is defined per Competence and the job family inherits through the Function (issue #328). Resolves all *Owner foreign keys in the model.",
           "attributes": [
             {
               "name": "roleID",
@@ -6544,19 +6544,10 @@
               "constraints": "FK, NOT NULL"
             },
             {
-              "name": "skillLevelID",
+              "name": "departmentID",
               "type": "FK",
-              "rule": "FK → Skill Levels (display: levelName)",
-              "notes": "Required proficiency level",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "jobFamilyID",
-              "type": "FK",
-              "rule": "FK → Job Family (display: jobFamilyName)",
-              "notes": "Multivalued — job families a role can draw from; a role may accept more than one (issue #166 — was graduationID)",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "multivalued — departments where this role is exercised (issue #328); options = the departments of the selected function's business units (generic shared-unit join Functions.businessUnitID × Departments.businessUnitID)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -6622,7 +6613,6 @@
               "rule": "Sum of quantity grouped by functionID (headcount distribution by function)",
               "filters": [
                 "functionID (default: ALL)",
-                "skillLevelID (default: ALL)",
                 "isActive (default: true)"
               ],
               "overview-display": true
@@ -6651,25 +6641,19 @@
                 "check": null,
                 "field-rule": null
               },
-              "Skill Level": {
+              "Departments": {
                 "field-type": {
-                  "select": "shadcn-select"
+                  "selectGroups": "shadcn-select"
                 },
-                "attribute": "skillLevelID",
-                "tooltip": null,
+                "attribute": "departmentID",
+                "tooltip": "Departments where this role is exercised — offered from the selected function's business units",
                 "step": null,
-                "check": null,
-                "field-rule": null
-              },
-              "Job Family": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "jobFamilyID",
-                "tooltip": null,
-                "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Function IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "SelectLabel = businessUnitName",
+                  "filtered by Function selected"
+                ]
               }
             },
             "subitem-tables": [
@@ -6685,7 +6669,7 @@
         "Skill Levels": {
           "visibility": "show",
           "dashboard-order": 3,
-          "description": "Proficiency level descriptor for a competence or function (ISO §7.2).",
+          "description": "Proficiency level descriptor applied by a Competence (ISO §7.2). Roles carry no direct skill level since issue #328 — the competence defines the role + level pair, and a person accumulates those pairs through onboarding.",
           "attributes": [
             {
               "name": "skillLevelID",
@@ -6715,10 +6699,10 @@
               "constraints": null
             },
             {
-              "name": "roles",
+              "name": "competences",
               "type": "rollup",
-              "rule": "rollup → Roles (via: skillLevelID)",
-              "notes": null,
+              "rule": "rollup → Competence (via: skillLevelID) display: competenceTitle",
+              "notes": "Competences requiring this skill level — the role ↔ skill level link is indirect since issue #328 (the competence defines the role + skill level pair)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -6736,7 +6720,7 @@
           "reports": {
             "Report-A": {
               "graph_type": "pizza",
-              "rule": "SUM(Roles.quantity) grouped by levelName",
+              "rule": "COUNT(Competence) grouped by levelName — the role link is indirect since issue #328: the skill level is defined per competence",
               "filters": [
                 "functionID (default: ALL)"
               ]
@@ -6770,14 +6754,14 @@
           },
           "cards": {
             "Card 1-1": {
-              "title": "highest headcount",
+              "title": "most competences",
               "card-rules": {
-                "main-data": "Skill level with the highest headcount ",
+                "main-data": "Skill level with the most registered competences",
                 "trend-data": null,
                 "detail-data": "levelName"
               },
               "card-component": "shadcn-card",
-              "card-tooltip": "Process with the highest job execution standard variation levels.",
+              "card-tooltip": "Skill level required by the largest number of competences (issue #328 — the level applies through the competence, not the role).",
               "overview-display": true
             }
           },
@@ -6901,7 +6885,7 @@
                 "tooltip": "The job family this function belongs to — people inherit it through their function",
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = field"
+                "field-rule": null
               }
             }
           },
@@ -7565,7 +7549,7 @@
               "name": "roleID",
               "type": "FK",
               "rule": "FK → Roles (display: roleName)",
-              "notes": "Filtered by the selected function + skill level in the form",
+              "notes": "Filtered by the selected function in the form (issue #328 — the role ↔ skill level link is indirect: this competence defines the pair)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -7729,8 +7713,8 @@
                 "attribute": "roleID",
                 "tooltip": null,
                 "step": null,
-                "check": "Skill Level IS NOT NULL",
-                "field-rule": "filtered by Skill Level + Function selected"
+                "check": "Function IS NOT NULL",
+                "field-rule": "filtered by Function selected"
               },
               "Event": {
                 "field-type": {
@@ -7802,7 +7786,7 @@
         "Job Family": {
           "visibility": "show",
           "dashboard-order": 5,
-          "description": "Job family a role or resource belongs to — the HR-management standard grouping (ISO §7.2). Renamed from Graduation (issue #166): education titles/institutions added no value to the model.",
+          "description": "Job family a role or resource belongs to — the HR-management standard grouping (ISO §7.2). Renamed from Graduation (issue #166): education titles/institutions added no value to the model. The 'field' category label became the free-text jobFamilyDescription (issue #328).",
           "attributes": [
             {
               "name": "jobFamilyID",
@@ -7823,20 +7807,11 @@
               "constraints": null
             },
             {
-              "name": "field",
-              "type": "VARCHAR",
+              "name": "jobFamilyDescription",
+              "type": "TEXT",
               "rule": null,
-              "notes": "e.g., Engineering, Technical",
+              "notes": "Free-text description of the family (issue #328 — was the 'field' category label, e.g. Engineering)",
               "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
-              "name": "roles",
-              "type": "rollup",
-              "rule": "rollup → Roles (via: jobFamilyID)",
-              "notes": null,
-              "table-display": false,
               "subitem-display": false,
               "constraints": null
             },
@@ -7853,7 +7828,7 @@
           "reports": {
             "Report-A": {
               "graph_type": "donut",
-              "rule": "SUM(Roles.quantity) grouped by field",
+              "rule": "SUM(Roles.quantity) grouped by jobFamilyName — the family resolves through the role's function (Functions.jobFamilyID, issue #328)",
               "filters": []
             },
             "Report-B": null
@@ -7871,11 +7846,11 @@
                 "check": null,
                 "field-rule": null
               },
-              "Field": {
+              "Description": {
                 "field-type": {
-                  "input": "shadcn-input"
+                  "field": "shadcn-textarea"
                 },
-                "attribute": "field",
+                "attribute": "jobFamilyDescription",
                 "tooltip": null,
                 "step": null,
                 "check": null,

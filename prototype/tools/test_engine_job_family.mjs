@@ -35,7 +35,8 @@ console.log('== #166: table renamed, institution gone ==');
   eq(cat.byName['institutionName'] ?? null, null, 'institutionName dropped');
   eq(cat.byName['graduationName'] ?? null, null,
     'CONCAT(title + institution) display dropped (name == title now)');
-  eq(Object.keys(cat.form.fields), ['Name', 'Field'], 'form: Name + Field only');
+  eq(Object.keys(cat.form.fields), ['Name', 'Description'],
+    'form: Name + Description (field → jobFamilyDescription textarea, #328)');
   const talent = model.getModules().find((m) => m.name === 'Talent');
   eq(talent.tables.includes('Job Family') && !talent.tables.includes('Graduation'),
     true, 'Job Family holds the Talent tab (Graduation gone)');
@@ -47,12 +48,12 @@ console.log('== #166: data & FK references follow ==');
   eq(rows.length, 4, 'registry rows migrated');
   eq(rows.every((r) => r.jobFamilyID && r.jobFamilyName && !('institutionName' in r)
     && !('graduationName' in r)), true, 'rows carry the renamed keys only');
-  const o = forms.optionsForAttr('Roles', 'jobFamilyID');
-  eq([o.target, o.multi], ['Job Family', true], 'Roles picker targets Job Family (multivalued)');
-  const role = data.getEntity('Roles').find((r) => (r.jobFamilyID || []).includes('G1'));
-  const r = model.parseRule(catalog['Roles'].byName['jobFamilyID'].rule);
-  eq(resolve.fkDisplay({ table: r.target, display: r.display }, role.jobFamilyID),
-    'Electrical Engineering', 'Roles FK cell resolves the family name');
+  // issue #328: roles no longer pick a family — the link inverted onto the
+  // Function; the frozen pre-#328 rows keep the stored key as tolerated legacy
+  eq(catalog['Roles'].byName['jobFamilyID'] ?? null, null,
+    'Roles.jobFamilyID left the catalogue (#328 — family inherits via Function)');
+  eq(data.getEntity('Roles').some((r) => (r.jobFamilyID || []).includes('G1')), true,
+    'frozen rows keep the legacy stored key (tolerated, #284 posture)');
   // issue #298: People derive the family through their Function since the
   // function↔family link landed — the stored FK became a mirror
   eq(catalog['People'].byName['jobFamilyID'].rule,

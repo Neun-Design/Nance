@@ -17,7 +17,8 @@ inherits the decision. A user-given **Title** names the competence — with the 
 cardinality, the title is what distinguishes and groups competences (it is the label shown
 wherever a competence is listed, e.g. the Onboarding picker).
 **Register when:** after Operation exists (including the task's Procedures).
-**Key fields:** `Title *` (free text); `Function *` + `Skill Level *` → unlock Role;
+**Key fields:** `Title *` (free text); `Function *` → unlocks Role (2026-09-07 — roles
+carry no skill level: this competence owns the role + level pair); `Skill Level *`;
 `Event *` → unlocks Process → **Product Scope** (offered from the process's list; scope and
 product group derive from it) → Task → Procedure (multi — the task's procedures this
 competence certifies, restricted to the selected task). The competence's department derives
