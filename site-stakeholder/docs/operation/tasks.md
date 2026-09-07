@@ -10,7 +10,10 @@ purpose: "Tasks — what it is, when to register one, and its key fields"
 against. Its execution time is not registered here: it derives from the task's procedures. Tasks are **requirement-free**: how a task is performed under a
 given requirement set lives in its Procedures.
 **Register when:** after Actions, before Procedures.
-**Key fields:** `Event *` → `Process *` → Activity (the process's steps) → `Action *` →
+**Key fields:** `Business Unit` → `Department` (2026-09-07 — until role-based access
+control lands, forms carry filter inputs like these so the same MVP serves different
+units and departments) → `Event *` → `Process *` (narrowed by the Event **and** the
+chosen Department) → Activity (the process's steps) → `Action *` →
 Predecessor Task (a task of the same process executed before this one — leave it empty
 for the first task).
 The task's name derives from that chain (`Activity-Action`). Execution time and the

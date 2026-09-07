@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 85,
+    "schemaVersion": 86,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1999,6 +1999,24 @@
               "constraints": "PK"
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Department options (pre-RBAC filter input, issue #344; the #340 chain applied to Tasks). Deliberately does NOT filter the Event select: 16/46 demo tasks chain events whose unit differs from their process department's unit — filtering Event by unit would orphan stored picks (session decision). Seeds: the department's unit (tools/migrate_task_prerbac_filters.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Form filter — narrows the Process options together with the Event leg (pre-RBAC filter input, issue #344). Seeds: the process's departmentID (tools/migrate_task_prerbac_filters.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "eventID",
               "type": "FK",
               "rule": "FK → Events (display: eventTitle)",
@@ -2191,6 +2209,26 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Department options narrow to it (pre-RBAC filter input, issue #344)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Pick the department — the Process options narrow to it (pre-RBAC filter input, issue #344)",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
+              },
               "Event": {
                 "field-type": {
                   "combobox": "shadcn-combobox"
@@ -2206,10 +2244,10 @@
                   "Select": "shadcn-select"
                 },
                 "attribute": "processID",
-                "tooltip": null,
+                "tooltip": "Processes of the selected Event and Department",
                 "step": null,
                 "check": "Event IS NOT NULL",
-                "field-rule": "The process options will be filtered by the event selected"
+                "field-rule": "filtered by Event + Department selected"
               },
               "Activity": {
                 "field-type": {
