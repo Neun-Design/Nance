@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 87,
+    "schemaVersion": 88,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2522,12 +2522,12 @@
             },
             {
               "name": "businessUnitID",
-              "type": "mirror",
-              "rule": "mirror: Events via: eventID (display: businessUnitName)",
-              "notes": "Distinct unit(s) of the process events, for report filtering",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Stored FK since issue #348 (materialize-FK convention — was a mirror of the EVENT's unit): the pre-RBAC filter input gating the Department select. Seeds: the DEPARTMENT's unit (tools/migrate_process_prerbac_filters.py — census: 2/6 demo processes chain events of another unit, PR2/PR5, so the event's unit cannot drive the user chain; the #344 posture — the Event select stays unfiltered).",
               "table-display": true,
               "subitem-display": false,
-              "constraints": null
+              "constraints": "FK"
             },
             {
               "name": "scopeName",
@@ -2583,12 +2583,12 @@
                 "check": null,
                 "field-rule": null
               },
-              "Event": {
+              "Business Unit": {
                 "field-type": {
-                  "combobox": "shadcn-combobox"
+                  "select": "shadcn-select"
                 },
-                "attribute": "eventID",
-                "tooltip": "The event that triggers the process",
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Department options narrow to it (pre-RBAC filter input, issue #348)",
                 "step": null,
                 "check": null,
                 "field-rule": null
@@ -2598,10 +2598,20 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "departmentID",
-                "tooltip": "Departments of the event's business unit",
+                "tooltip": "Departments of the selected Business Unit",
                 "step": null,
-                "check": "Event IS NOT NULL",
-                "field-rule": "filtered by eventID.businessUnitID"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
+              },
+              "Event": {
+                "field-type": {
+                  "combobox": "shadcn-combobox"
+                },
+                "attribute": "eventID",
+                "tooltip": "The event that triggers the process",
+                "step": null,
+                "check": null,
+                "field-rule": null
               },
               "Product Scopes": {
                 "field-type": {
@@ -2624,7 +2634,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel = functionName; filtered by eventID.businessUnitID"
+                "field-rule": "SelectLabel = functionName; filtered by Business Unit selected"
               },
               "Status": {
                 "field-type": {
