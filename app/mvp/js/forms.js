@@ -495,8 +495,13 @@ export function applyDerivedUnits(entity, rec) {
       rec.businessUnitID = (pg && unitsOfProducts(pg.productID)[0]) ?? null;
     }
   } else if (entity === 'Onboarding') {
-    const d = rec.departmentID && getById('Departments', rec.departmentID);
-    rec.businessUnitID = (d && d.businessUnitID) ?? null;
+    // Business Unit is USER INPUT since issue #346 (pre-RBAC filter gating
+    // the Department select) — the derive survives only as a fallback for
+    // records saved without one (#288 posture)
+    if (rec.businessUnitID == null || rec.businessUnitID === '') {
+      const d = rec.departmentID && getById('Departments', rec.departmentID);
+      rec.businessUnitID = (d && d.businessUnitID) ?? null;
+    }
   } else if (entity === 'Forecasts') {
     // the customer is the contract's customer (issue #241, SLA-as-Contract) —
     // stored so the downstream join chains keep a real key to traverse

@@ -1451,6 +1451,41 @@ class Builder:
                             i += 1
 
     # ---- orchestration ----
+    def _backfill_prerbac_units(self):
+        """issue #346 pre-RBAC batch: the five new businessUnitID filter
+        keys, each derived from the row's own chain — ONE place, the exact
+        rules of tools/migrate_prerbac_batch.py, so regenerated and
+        migrated datasets agree. Runs after every table exists."""
+        def index(tname, pk):
+            return {str(r[pk]): r for r in self.rows(tname)}
+        tickets = index('Tickets', 'ticketID')
+        projects = index('Projects', 'projectID')
+        slas = index('SLA', 'slaID')
+        forecasts = index('Forecasts', 'forecastID')
+        functions = index('Functions', 'functionID')
+        departments = index('Departments', 'departmentID')
+
+        def first(v):
+            lst = v if isinstance(v, list) else ([] if v in (None, '') else [v])
+            return lst[0] if lst else None
+
+        def unit_of(idx, rid):
+            row = idx.get(str(rid)) if rid is not None else None
+            return first(row.get('businessUnitID')) if row else None
+
+        for j in self.rows('Jobs'):
+            j['businessUnitID'] = (unit_of(tickets, j.get('ticketID'))
+                                   or unit_of(projects, j.get('projectID')))
+        for f in self.rows('Forecasts'):
+            f['businessUnitID'] = unit_of(slas, f.get('slaID'))
+        for fs in self.rows('Forecast Scopes'):
+            fc = forecasts.get(str(fs.get('forecastID')))
+            fs['businessUnitID'] = unit_of(slas, fc.get('slaID')) if fc else None
+        for c in self.rows('Competence'):
+            c['businessUnitID'] = unit_of(functions, c.get('functionID'))
+        for s in self.rows('Squads'):
+            s['businessUnitID'] = unit_of(departments, s.get('departmentID'))
+
     def build(self):
         self.build_org()
         self.build_talent()
@@ -1462,6 +1497,7 @@ class Builder:
         self.build_competence()
         self.build_execution()
         self.build_control()
+        self._backfill_prerbac_units()
         self.owner_pass()
         dataset = {'_meta': {'schemaVersion': self.dm['_meta']['schemaVersion'],
                              'anchorDate': self.anchor.isoformat(),

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 86,
+    "schemaVersion": 87,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -411,6 +411,15 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Department options (pre-RBAC filter input, issue #346). Seeds: the department's unit (tools/migrate_prerbac_batch.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "departmentID",
               "type": "FK",
               "rule": "FK -> Departments (display: departmentName)",
@@ -442,6 +451,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Department options narrow to it (pre-RBAC filter input, issue #346)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Department": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -449,8 +468,8 @@
                 "attribute": "departmentID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
               },
               "Name": {
                 "field-type": {
@@ -1411,6 +1430,15 @@
               "constraints": "PK"
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the SLA options (pre-RBAC filter input, issue #346). Stored FK; the hidden businessUnitName mirror stays for the Forecast Scopes grouping. Seeds: the SLA's unit (tools/migrate_prerbac_batch.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "slaID",
               "type": "FK",
               "rule": "FK → SLA (display: slaTitle)",
@@ -1622,6 +1650,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the SLA options narrow to it (pre-RBAC filter input, issue #346)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "SLA": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -1629,8 +1667,11 @@
                 "attribute": "slaID",
                 "tooltip": "The contract this forecast projects volume for — customer derives from it",
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = customerName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "SelectLabel = customerName",
+                  "filtered by Business Unit selected"
+                ]
               },
               "Forecast Period": {
                 "field-type": {
@@ -1692,6 +1733,15 @@
               "table-display": false,
               "subitem-display": false,
               "constraints": null
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Forecast options (pre-RBAC filter input, issue #346). Seeds: the forecast's SLA's unit (tools/migrate_prerbac_batch.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
               "name": "forecastID",
@@ -1914,6 +1964,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Forecast options narrow to it (pre-RBAC filter input, issue #346)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Forecast": {
                 "field-type": {
                   "SelectGroups": "shadcn-select"
@@ -1921,8 +1981,11 @@
                 "attribute": "forecastID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName; WHERE periodFinish >= current month"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "WHERE periodFinish >= current month",
+                  "filtered by Business Unit selected"
+                ]
               },
               "Event": {
                 "field-type": {
@@ -1932,7 +1995,7 @@
                 "tooltip": "Events covered by the forecast's contract (SLA payloads)",
                 "step": null,
                 "check": "Forecast IS NOT NULL",
-                "field-rule": "events covered by the forecast's SLA payloads"
+                "field-rule": "filtered by Forecast selected"
               },
               "Product Scope": {
                 "field-type": {
@@ -1942,7 +2005,10 @@
                 "tooltip": "Product scopes packaged by the contract's payloads for this event — scope and product group derive from it",
                 "step": null,
                 "check": "Event IS NOT NULL",
-                "field-rule": "SelectLabel = scopeName; product scopes of the forecast's SLA payloads"
+                "field-rule": [
+                  "SelectLabel = scopeName",
+                  "filtered by Event + Forecast selected"
+                ]
               },
               "Function": {
                 "field-type": {
@@ -1952,7 +2018,7 @@
                 "tooltip": "The function this demand line projects hours for",
                 "step": null,
                 "check": "Product Scope IS NOT NULL",
-                "field-rule": "functions of the tasks chained by the event"
+                "field-rule": "filtered by Event selected"
               },
               "Notes": {
                 "field-type": {
@@ -5835,6 +5901,15 @@
               "constraints": "PK"
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Project options (pre-RBAC filter input, issue #346). Seeds: the ticket's unit (tools/migrate_prerbac_batch.py; census 240/240 ticket-unit == project-unit).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "projectID",
               "type": "FK",
               "rule": "FK → Projects (display: projectName)",
@@ -6110,6 +6185,16 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Project options narrow to it (pre-RBAC filter input, issue #346)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Project": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -6117,8 +6202,11 @@
                 "attribute": "projectID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = clientName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "SelectLabel = customerName",
+                  "filtered by Business Unit selected"
+                ]
               },
               "Ticket": {
                 "field-type": {
@@ -7549,6 +7637,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Department options narrow to it (pre-RBAC filter input, issue #346)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Department": {
                 "field-type": {
                   "selectGroups": "shadcn-select"
@@ -7556,8 +7654,8 @@
                 "attribute": "departmentID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": "SelectLabel = businessUnitName"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
               },
               "Role": {
                 "field-type": {
@@ -7654,6 +7752,15 @@
               "table-display": true,
               "subitem-display": true,
               "constraints": "NOT NULL"
+            },
+            {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Function options (pre-RBAC filter input, issue #346; the Event leg stays UNfiltered — the #344 event-unit divergence). Seeds: the function's unit (tools/migrate_prerbac_batch.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
               "name": "eventID",
@@ -7859,6 +7966,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Function options narrow to it (pre-RBAC filter input, issue #346)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Function": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -7866,8 +7983,8 @@
                 "attribute": "functionID",
                 "tooltip": null,
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
               },
               "Skill Level": {
                 "field-type": {
