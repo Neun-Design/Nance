@@ -507,9 +507,17 @@ class Builder:
                               'processStatus': 'Active', 'processVersion': '1.0',
                               'productName': None, 'scopeName': None})
             prev = None
+            # issue #342 pre-RBAC chain: department = the process's, unit =
+            # the department's — same rule as
+            # tools/migrate_workflow_prerbac_filters.py
+            wf_dept = processes[-1]['departmentID']
+            wf_unit = next(dd['businessUnitID'] for dd in deps
+                           if dd['departmentID'] == wf_dept)
             for j, aname in enumerate(p['activities']):
                 wf_n += 1
                 workflows.append({'workflowID': f'WF{wf_n:02d}', 'workflowName': aname,
+                                  'businessUnitID': wf_unit,
+                                  'departmentID': wf_dept,
                                   'processID': pid,
                                   'activityID': self.id_of('Activities', aname),
                                   'parentStepID': prev,

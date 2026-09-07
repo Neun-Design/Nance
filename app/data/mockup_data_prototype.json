@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 84,
+  "schemaVersion": 85,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11534,7 +11534,9 @@
     ],
     "outputs": [
      "H02"
-    ]
+    ],
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF02",
@@ -11548,7 +11550,9 @@
     ],
     "outputs": [
      "H03"
-    ]
+    ],
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF03",
@@ -11562,7 +11566,9 @@
     ],
     "outputs": [
      "H04"
-    ]
+    ],
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF04",
@@ -11576,7 +11582,9 @@
     ],
     "outputs": [
      "H05"
-    ]
+    ],
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF05",
@@ -11590,7 +11598,9 @@
     ],
     "outputs": [
      "H06"
-    ]
+    ],
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF06",
@@ -11604,7 +11614,9 @@
     ],
     "outputs": [
      "H07"
-    ]
+    ],
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF07",
@@ -11618,7 +11630,9 @@
     ],
     "outputs": [
      "H08"
-    ]
+    ],
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF08",
@@ -11632,7 +11646,9 @@
     ],
     "outputs": [
      "H09"
-    ]
+    ],
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF09",
@@ -11646,7 +11662,9 @@
     ],
     "outputs": [
      "H10"
-    ]
+    ],
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF10",
@@ -11660,7 +11678,9 @@
     ],
     "outputs": [
      "H11"
-    ]
+    ],
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "workflowID": "WF11",
@@ -11674,7 +11694,9 @@
     ],
     "outputs": [
      "H12"
-    ]
+    ],
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "workflowID": "WF12",
@@ -11688,7 +11710,9 @@
     ],
     "outputs": [
      "H13"
-    ]
+    ],
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "workflowID": "WF13",
@@ -11702,7 +11726,9 @@
     ],
     "outputs": [
      "H14"
-    ]
+    ],
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "workflowID": "WF14",
@@ -11716,7 +11742,9 @@
     ],
     "outputs": [
      "H01"
-    ]
+    ],
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "workflowID": "WF15",
@@ -11730,7 +11758,9 @@
     ],
     "outputs": [
      "H02"
-    ]
+    ],
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "workflowID": "WF16",
@@ -11744,7 +11774,9 @@
     ],
     "outputs": [
      "H03"
-    ]
+    ],
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "workflowID": "WF17",
@@ -11758,7 +11790,9 @@
     ],
     "outputs": [
      "H04"
-    ]
+    ],
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "workflowID": "WF18",
@@ -11772,7 +11806,9 @@
     ],
     "outputs": [
      "H05"
-    ]
+    ],
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "workflowID": "WF19",
@@ -11786,7 +11822,9 @@
     ],
     "outputs": [
      "H06"
-    ]
+    ],
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "workflowID": "WF20",
@@ -11800,7 +11838,9 @@
     ],
     "outputs": [
      "H07"
-    ]
+    ],
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "workflowID": "WF21",
@@ -11814,7 +11854,9 @@
     ],
     "outputs": [
      "H08"
-    ]
+    ],
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF22",
@@ -11828,7 +11870,9 @@
     ],
     "outputs": [
      "H09"
-    ]
+    ],
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "workflowID": "WF23",
@@ -11842,7 +11886,9 @@
     ],
     "outputs": [
      "H10"
-    ]
+    ],
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    }
   ],
   "Tasks": [
