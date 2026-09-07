@@ -2653,7 +2653,10 @@
 against. Its execution time is not registered here: it derives from the task's procedures. Tasks are <strong>requirement-free</strong>: how a task is performed under a
 given requirement set lives in its Procedures.
 <strong>Register when:</strong> after Actions, before Procedures.
-<strong>Key fields:</strong> <code>Event *</code> → <code>Process *</code> → Activity (the process's steps) → <code>Action *</code> →
+<strong>Key fields:</strong> <code>Business Unit</code> → <code>Department</code> (2026-09-07 — until role-based access
+control lands, forms carry filter inputs like these so the same MVP serves different
+units and departments) → <code>Event *</code> → <code>Process *</code> (narrowed by the Event <strong>and</strong> the
+chosen Department) → Activity (the process's steps) → <code>Action *</code> →
 Predecessor Task (a task of the same process executed before this one — leave it empty
 for the first task).
 The task's name derives from that chain (<code>Activity-Action</code>). Execution time and the
