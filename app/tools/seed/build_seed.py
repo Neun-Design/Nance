@@ -185,7 +185,12 @@ class Builder:
                                         if isinstance(f['businessUnitID'], list)
                                         else f['businessUnitID'])
                       for f in self.rows('Functions')}
+        # roleDescription (issue #336): deterministic generated text — same
+        # rule as tools/migrate_role_description.py, so regenerated and
+        # migrated datasets agree
         roles = [{'roleID': f'R{i+1:02d}', 'roleName': r['name'],
+                  'roleDescription': f"{r['name']} role within the "
+                                     f"{r['function']} function",
                   'businessUnitID': unit_of_fn[self.id_of('Functions', r['function'])],
                   'functionID': self.id_of('Functions', r['function']),
                   'quantity': 2 + (i % 4), 'squadID': squad_ids[i % len(squad_ids)],
