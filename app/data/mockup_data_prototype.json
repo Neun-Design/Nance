@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 87,
+  "schemaVersion": 88,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11988,7 +11988,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": null,
-    "scopeName": null
+    "scopeName": null,
+    "businessUnitID": "BU01"
    },
    {
     "processID": "PR2",
@@ -12004,7 +12005,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": null,
-    "scopeName": null
+    "scopeName": null,
+    "businessUnitID": "BU01"
    },
    {
     "processID": "PR3",
@@ -12020,7 +12022,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": null,
-    "scopeName": null
+    "scopeName": null,
+    "businessUnitID": "BU02"
    },
    {
     "processID": "PR4",
@@ -12036,7 +12039,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": null,
-    "scopeName": null
+    "scopeName": null,
+    "businessUnitID": "BU03"
    },
    {
     "processID": "PR5",
@@ -12052,7 +12056,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": null,
-    "scopeName": null
+    "scopeName": null,
+    "businessUnitID": "BU04"
    },
    {
     "processID": "PR6",
@@ -12068,7 +12073,8 @@
     "processStatus": "Active",
     "processVersion": "1.0",
     "productName": null,
-    "scopeName": null
+    "scopeName": null,
+    "businessUnitID": "BU01"
    }
   ],
   "Workflows": [

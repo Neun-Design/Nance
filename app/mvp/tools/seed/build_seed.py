@@ -502,6 +502,10 @@ class Builder:
                               'eventID': self.id_of('Events', trigger_of[p['name']]),
                               'processOwner': None, 'processDescription': p['description'],
                               'parentProcessID': None,
+                              # issue #348: stored unit = the DEPARTMENT's
+                              # (was a mirror of the event's; same rule as
+                              # tools/migrate_process_prerbac_filters.py)
+                              'businessUnitID': deps[i % len(deps)]['businessUnitID'],
                               'departmentID': deps[i % len(deps)]['departmentID'],
                               'productScopeID': [], 'squadID': squads[i % len(squads)]['squadID'],
                               'processStatus': 'Active', 'processVersion': '1.0',
