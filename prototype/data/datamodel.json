@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 84,
+    "schemaVersion": 85,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2667,10 +2667,28 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — narrows the Department options (pre-RBAC filter input, issue #342; the #340 Procedures chain applied to Workflows). Seeds: the department's unit (tools/migrate_workflow_prerbac_filters.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Form filter — narrows the Process options (pre-RBAC filter input, issue #342). Seeds: the process's departmentID (tools/migrate_workflow_prerbac_filters.py).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "processID",
               "type": "FK",
               "rule": "FK → Processes (display: processName)",
-              "notes": null,
+              "notes": "The form combobox is gated on Department and offers only the selected department's processes (issue #342 — generic stored-key cascade on Processes.departmentID)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK, NOT NULL"
@@ -2743,15 +2761,35 @@
           "form": {
             "steps": null,
             "fields": {
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Department options narrow to it (pre-RBAC filter input, issue #342)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Pick the department — the Process options narrow to it (pre-RBAC filter input, issue #342)",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
+              },
               "Process": {
                 "field-type": {
                   "combobox": "shadcn-combobox"
                 },
                 "attribute": "processID",
-                "tooltip": null,
+                "tooltip": "Processes of the selected Department",
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Department IS NOT NULL",
+                "field-rule": "filtered by Department selected"
               },
               "Activity": {
                 "field-type": {
