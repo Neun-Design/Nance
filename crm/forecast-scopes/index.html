@@ -2658,10 +2658,12 @@ for the guided setup. Register it only if you are working in the full app.</p>
 quantities — the same dispatch unit the contract's <a href="../../portfolio/payload/">Payloads</a> use.
 <strong>Register when:</strong> right after its Forecast (full prototype only — the tab is disabled in
 the MVP walkthrough).
-<strong>Key fields:</strong> <code>Forecast *</code> (grouped by unit) → <code>Event</code> (only events the contract covers) →
-<code>Product Scope *</code> (the scopes the contract's payloads package for that event — scope and
-product group derive from it) → Function (the function the demand line projects hours for),
-Quantity and Notes. Requirements applicable to the pair are derived automatically — nothing
+<strong>Key fields:</strong> <code>Business Unit</code> (2026-09-07 — the pre-RBAC filter input: the Forecast
+options narrow to the chosen unit) → <code>Forecast *</code> → <code>Event</code> (only events the contract
+covers) → <code>Product Scope *</code> (the scopes the contract's payloads package for that event —
+scope and product group derive from it) → Function (the function the demand line projects
+hours for), Quantity and Notes. The Event/Product Scope/Function narrowing is enforced
+live in the form since 2026-09-07 (the filters existed but were not wired). Requirements applicable to the pair are derived automatically — nothing
 to select. Estimated hours multiply the event's task hours by the quantity; when the event
 chains no tasks yet, the value you type stands.</p>
 
