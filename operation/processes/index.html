@@ -2651,10 +2651,12 @@
 <h1 id="processes">Processes<a class="headerlink" href="#processes" title="Permanent link">&para;</a></h1>
 <p><strong>What it is:</strong> a top-level flow triggered by an event, run by a squad.
 <strong>Register when:</strong> after Events (Portfolio module).
-<strong>Key fields:</strong> Registry number, Name, Description; <code>Event *</code> → unlocks <strong>Department</strong>
-(departments of the event's unit) and <strong>Product Scopes</strong> (multi — offered from the event's
+<strong>Key fields:</strong> Registry number, Name, Description; <code>Business Unit</code> → <strong>Department</strong>
+(2026-09-07 — pick the unit, then the department; until role-based access control lands,
+forms carry filter inputs like these so the same MVP serves different units); <code>Event *</code> →
+<strong>Product Scopes</strong> (multi — offered from the event's
 applicability, empty = covers all); Department → unlocks Squad (squads of the process's own
-department); Owner; Status; Version.</p>
+department); Owner (people of the chosen unit); Status; Version.</p>
 
 
 
