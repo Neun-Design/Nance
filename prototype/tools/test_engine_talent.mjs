@@ -77,15 +77,20 @@ console.log('== rule normalizations ==');
     'Roles.squadID resolves the people\'s squad names');
 }
 
-console.log('== Roles: multivalued Job Family (was Graduation, #166), isActive gone (2026-08-03) ==');
+console.log('== Roles: family/skill keys retired (#328), isActive gone (2026-08-03) ==');
 {
-  const o = forms.optionsForAttr('Roles', 'jobFamilyID');
-  eq([o.target, o.multi], ['Job Family', true], 'Job Family select is a registry-sourced multi-picker');
+  // issue #328: the role picks no family and no skill level — the family
+  // inherits via the Function, the level is defined per Competence; the
+  // frozen pre-#328 rows keep the stored keys as tolerated legacy
+  eq(catalog['Roles'].byName['jobFamilyID'] ?? null, null, 'jobFamilyID left the catalogue');
+  eq(catalog['Roles'].byName['skillLevelID'] ?? null, null, 'skillLevelID left the catalogue');
+  eq('Job Family' in catalog['Roles'].form.fields, false, 'Job Family select gone');
+  eq('Skill Level' in catalog['Roles'].form.fields, false, 'Skill Level select gone');
   eq(catalog['Roles'].byName['isActive'], undefined, 'isActive attr removed');
   eq('Active' in catalog['Roles'].form.fields, false, 'Active radio removed');
   const rows = data.getEntity('Roles');
   eq(rows.every((r) => Array.isArray(r.jobFamilyID) && !('isActive' in r)), true,
-    'data migrated: list-shaped job families, no isActive');
+    'frozen rows: legacy list-shaped families tolerated, no isActive');
 }
 
 console.log('== Competence certifies a Product Scope (#159 follow-up) ==');

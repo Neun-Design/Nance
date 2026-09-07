@@ -147,14 +147,14 @@ class Builder:
     def build_talent(self):
         d = self.domain
         fams = [{'jobFamilyID': f'JF{i+1:02d}', 'jobFamilyName': f['name'],
-                 'field': f['description'], 'jobFamilyOwner': None}
+                 'jobFamilyDescription': f['description'], 'jobFamilyOwner': None}
                 for i, f in enumerate(d['jobFamilies'])]
         self.put('Job Family', fams)
         self.index('Job Family', 'jobFamilyName', 'jobFamilyID')
 
         unit_ids = [u['businessUnitID'] for u in self.rows('Business Units')]
-        # issue #298: a function belongs to a Job Family — same domain-pack
-        # map that seeds the roles, so migrated and regenerated copies agree
+        # issue #298: a function belongs to a Job Family (roles stopped
+        # storing the family in #328 — it inherits through the function)
         fns = [{'functionID': f'F{i+1}', 'functionName': f['name'],
                 'functionDescription': f"{f['name']} function of the clinical operation",
                 'businessUnitID': unit_ids[i % len(unit_ids)],
@@ -163,7 +163,6 @@ class Builder:
                for i, f in enumerate(d['functions'])]
         self.put('Functions', fns)
         self.index('Functions', 'functionName', 'functionID')
-        fam_of_fn = {f['name']: f['family'] for f in d['functions']}
 
         levels = [{'skillLevelID': f'SL{i+1}', 'levelName': s['name'],
                    'levelDescription': f"Rank {s['rank']} — {s['name']}", 'skillLevelOwner': None}
@@ -172,10 +171,14 @@ class Builder:
         self.index('Skill Levels', 'levelName', 'skillLevelID')
 
         squad_ids = [s['squadID'] for s in self.rows('Squads')]
+        # issue #328: roles store no skillLevelID/jobFamilyID — the level is
+        # defined per Competence and the family inherits via the Function.
+        # The old per-role level rule (levels[(i % 2) + 1]) survives as a side
+        # map so the competence seeds keep their historical values.
+        self.role_level = {f'R{i+1:02d}': levels[(i % 2) + 1]['skillLevelID']
+                           for i in range(len(d['roles']))}
         roles = [{'roleID': f'R{i+1:02d}', 'roleName': r['name'],
                   'functionID': self.id_of('Functions', r['function']),
-                  'skillLevelID': levels[(i % 2) + 1]['skillLevelID'],
-                  'jobFamilyID': [self.id_of('Job Family', fam_of_fn[r['function']])],
                   'quantity': 2 + (i % 4), 'squadID': squad_ids[i % len(squad_ids)],
                   'roleOwner': None} for i, r in enumerate(d['roles'])]
         self.put('Roles', roles)
@@ -214,6 +217,30 @@ class Builder:
                 'personOwner': None,
             })
         self.put('People', people)
+
+        # issue #328: Roles.departmentID (multivalued) — departments where the
+        # function's people sit, restricted to the function's units (the form
+        # picker only offers in-unit departments), fallback = the unit's first
+        # department. Same rule as migrate_talent_roles_model.py (lockstep) —
+        # runs after People so a regenerated and a migrated dataset agree.
+        depts = self.rows('Departments')
+        fns_by_id = {f['functionID']: f for f in self.rows('Functions')}
+        for role in self.rows('Roles'):
+            fn = fns_by_id.get(role['functionID'])
+            units = {str(u) for u in (fn['businessUnitID']
+                     if isinstance(fn['businessUnitID'], list)
+                     else [fn['businessUnitID']])} if fn else set()
+            in_unit = [dp['departmentID'] for dp in depts
+                       if str(dp.get('businessUnitID')) in units]
+            seen, out = set(), []
+            for p in people:
+                dep = p.get('departmentID')
+                if (p.get('functionID') != role['functionID'] or dep in (None, '')
+                        or str(dep) not in {str(x) for x in in_unit} or str(dep) in seen):
+                    continue
+                seen.add(str(dep))
+                out.append(dep)
+            role['departmentID'] = out if out else in_unit[:1]
 
     # ---- customers + branches (customers own branches) ----
     def build_customers_branches(self):
@@ -921,7 +948,7 @@ class Builder:
                          'eventID': t['eventID'],
                          'departmentID': pr['departmentID'], 'processID': t['processID'],
                          'productScopeID': ps_id, 'functionID': t['functionID'],
-                         'skillLevelID': role['skillLevelID'], 'roleID': role['roleID'],
+                         'skillLevelID': self.role_level[role['roleID']], 'roleID': role['roleID'],
                          'levelRank': 1 + n % 3, 'taskID': t['taskID'],
                          'actionID': t['actionID'],
                          'activityID': workflows[t['workflowID']]['activityID'],
