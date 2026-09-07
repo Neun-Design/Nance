@@ -2649,11 +2649,16 @@
 
 
 <h1 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h1>
-<p><strong>What it is:</strong> a function at a skill level with a graduation — the unit of competence
-requirements.
-<strong>Register when:</strong> after Functions and Skill Levels.
-<strong>Key fields:</strong> Name; <code>Function *</code>; Skill Level; Job Family (multi — a role may accept more
-than one educational background).</p>
+<p><strong>What it is:</strong> a job title inside a function, exercised in one or more departments. The
+role carries <strong>no skill level and no job family</strong> (2026-09-07): the level is defined per
+<a href="../competence/">competence</a> — the competence owns the role + level pair, and a person
+accumulates those pairs through onboarding — and the family inherits through the
+<a href="../functions/">function</a>. This avoids near-duplicate roles that differed only by level
+(e.g. <em>Designer Junior</em> / <em>Designer Senior</em>), and a person keeps their competences when
+they change function.
+<strong>Register when:</strong> after Functions (departments come from Organization).
+<strong>Key fields:</strong> Name; <code>Function *</code> → unlocks <strong>Departments</strong> (multi — the departments of
+the function's business units, grouped by unit); Quantity (headcount).</p>
 
 
 
