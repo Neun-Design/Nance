@@ -8,5 +8,7 @@ purpose: "Squads — what it is, when to register one, and its key fields"
 
 **What it is:** working groups inside a department (used for forecasting and process assignment).
 **Register when:** after Departments; before Processes pick their squad (phase 5).
-**Key fields:** `Department *`, Name, Type (internal/outsource), Owner (offered from the
+**Key fields:** `Business Unit` (2026-09-07 — the pre-RBAC filter input: the Department
+options narrow to the chosen unit) → `Department *`, Name, Type (internal/outsource),
+Owner (offered from the
 department's people — so you may prefer to finish [Talent](../talent/index.md) phase 4 first).

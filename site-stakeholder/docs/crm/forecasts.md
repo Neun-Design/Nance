@@ -14,6 +14,7 @@ purpose: "Forecasts — what it is, when to register one, and its key fields"
 [SLA](sla.md)'s volume over a period (an SLA has one forecast per planning period).
 **Register when:** phase 7 of the full prototype, once the SLA exists. The tab
 is **not part of the MVP walkthrough** (disabled at `/app/mvp/`).
-**Key fields:** `SLA *` (grouped by customer — the customer derives from the contract),
+**Key fields:** `Business Unit` (2026-09-07 — the pre-RBAC filter input: the SLA options
+narrow to the chosen unit) → `SLA *` (grouped by customer — the customer derives from the contract),
 `Period *` (Month, Quarter or Annual) → unlocks period start. Only forecasts whose period
 hasn't ended are offered downstream.
