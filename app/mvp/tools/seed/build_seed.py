@@ -620,11 +620,20 @@ class Builder:
             ev_title = next(e['eventTitle'] for e in self.rows('Events')
                             if e['eventID'] == t['eventID'])
             served = [p['productScopeID'] for p in pack_of.get(ev_title, [])]
+            # issue #340 pre-RBAC chain: department = the process's, unit =
+            # the department's — the Unit → Department → Process cascade must
+            # offer the seeded chain (form-integrity); same rule as
+            # tools/migrate_prerbac_procedure_filters.py
+            proc_dept = next(p['departmentID'] for p in self.rows('Processes')
+                             if p['processID'] == t['processID'])
+            dept_unit = next(dd['businessUnitID'] for dd in self.rows('Departments')
+                             if dd['departmentID'] == proc_dept)
             procedures.append({'procedureID': f'PRC{i+1:02d}',
                                'procedureRegistry': f'SOP-{i+1:03d}',
                                'processID': t['processID'], 'taskID': t['taskID'],
                                'procedureURL': None,
-                               'businessUnitID': self.rows('Business Units')[0]['businessUnitID'],
+                               'businessUnitID': dept_unit,
+                               'departmentID': proc_dept,
                                'productScopeID': served, 'requirementID': reqs,
                                'taskInput': [self.rows('Handouts')[i % 14]['handoutID']],
                                'customerInputID': [hid for hid
@@ -657,6 +666,22 @@ class Builder:
             variant['requirementID'] = [req_ix[n] for n in req_names]
             procedures.append(variant)
         self.put('Procedures', procedures)
+
+        # Handouts pre-RBAC keys (issue #340) — backfilled AFTER the
+        # procedures exist: departments = union of the using procedures'
+        # departments (row order — stored Input/Output picks must survive
+        # the department-filtered pickers), unit = the first department's
+        # unit; same rule as tools/migrate_prerbac_procedure_filters.py
+        dept_unit_of = {dd['departmentID']: dd['businessUnitID']
+                        for dd in self.rows('Departments')}
+        for h in self.rows('Handouts'):
+            depts = []
+            for p in self.rows('Procedures'):
+                used = h['handoutID'] in (p['taskInput'] + p['taskOutput'])
+                if used and p['departmentID'] not in depts:
+                    depts.append(p['departmentID'])
+            h['departmentID'] = depts
+            h['businessUnitID'] = dept_unit_of[depts[0]] if depts else None
 
         # event applicability = the scopes/products its process's tasks serve
         groups_by_id = {g['productGroupID']: g for g in self.rows('Product Groups')}

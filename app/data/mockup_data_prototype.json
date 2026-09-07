@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 83,
+  "schemaVersion": 84,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11021,7 +11021,14 @@
     "createdAt": "2024-12-29",
     "channelID": "CH01",
     "templateName": "Medical Order v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT02",
+     "DPT04",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H02",
@@ -11030,7 +11037,14 @@
     "createdAt": "2024-12-28",
     "channelID": "CH02",
     "templateName": "Signed Report v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT02",
+     "DPT04",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H03",
@@ -11039,7 +11053,14 @@
     "createdAt": "2024-12-27",
     "channelID": "CH03",
     "templateName": "Acquisition Protocol Sheet v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT02",
+     "DPT04",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H04",
@@ -11048,7 +11069,14 @@
     "createdAt": "2024-12-26",
     "channelID": "CH04",
     "templateName": "Contrast Consent Form v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT02",
+     "DPT04",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H05",
@@ -11057,7 +11085,16 @@
     "createdAt": "2024-12-25",
     "channelID": "CH05",
     "templateName": "Sedation Consent Form v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT02",
+     "DPT03",
+     "DPT04",
+     "DPT05",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H06",
@@ -11066,7 +11103,13 @@
     "createdAt": "2024-12-24",
     "channelID": "CH01",
     "templateName": "Patient Preparation Leaflet v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H07",
@@ -11075,7 +11118,13 @@
     "createdAt": "2024-12-23",
     "channelID": "CH02",
     "templateName": "Sample Manifest v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H08",
@@ -11084,7 +11133,13 @@
     "createdAt": "2024-12-22",
     "channelID": "CH03",
     "templateName": "Chain of Custody Form v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H09",
@@ -11093,7 +11148,13 @@
     "createdAt": "2024-12-21",
     "channelID": "CH04",
     "templateName": "QC Phantom Log v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H10",
@@ -11102,7 +11163,13 @@
     "createdAt": "2024-12-20",
     "channelID": "CH05",
     "templateName": "Audit Findings Sheet v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H11",
@@ -11111,7 +11178,14 @@
     "createdAt": "2024-12-19",
     "channelID": "CH01",
     "templateName": "Critical Value Call Record v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT01",
+     "DPT02",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H12",
@@ -11120,7 +11194,13 @@
     "createdAt": "2024-12-18",
     "channelID": "CH02",
     "templateName": "Home Collection Route Sheet v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT02",
+     "DPT03",
+     "DPT05"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H13",
@@ -11129,7 +11209,15 @@
     "createdAt": "2024-12-17",
     "channelID": "CH03",
     "templateName": "Dose Registry Extract v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT02",
+     "DPT03",
+     "DPT04",
+     "DPT05",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "handoutID": "H14",
@@ -11138,7 +11226,13 @@
     "createdAt": "2024-12-16",
     "channelID": "CH04",
     "templateName": "Second Opinion Dossier v1",
-    "templateURL": null
+    "templateURL": null,
+    "departmentID": [
+     "DPT02",
+     "DPT04",
+     "DPT06"
+    ],
+    "businessUnitID": "BU01"
    }
   ],
   "Actions": [
@@ -12513,7 +12607,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H01"
-    ]
+    ],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC02",
@@ -12548,7 +12643,8 @@
     "executionTime": 0.5,
     "procedureOwner": "U18",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC03",
@@ -12585,7 +12681,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U19",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC04",
@@ -12622,7 +12719,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H04"
-    ]
+    ],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC05",
@@ -12661,7 +12759,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H05"
-    ]
+    ],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC06",
@@ -12696,7 +12795,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U22",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC07",
@@ -12735,7 +12835,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H07"
-    ]
+    ],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC08",
@@ -12772,7 +12873,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U24",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC09",
@@ -12809,7 +12911,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U25",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC10",
@@ -12844,7 +12947,8 @@
     "executionTime": 0.75,
     "procedureOwner": "U26",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC11",
@@ -12873,7 +12977,8 @@
     "executionTime": 0.75,
     "procedureOwner": "U27",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC12",
@@ -12902,7 +13007,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U28",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC13",
@@ -12931,7 +13037,8 @@
     "executionTime": 0.5,
     "procedureOwner": "U29",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC14",
@@ -12960,7 +13067,8 @@
     "executionTime": 0.75,
     "procedureOwner": "U30",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC15",
@@ -12991,7 +13099,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H01"
-    ]
+    ],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC16",
@@ -13020,7 +13129,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U32",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC17",
@@ -13049,7 +13159,8 @@
     "executionTime": 0.75,
     "procedureOwner": "U33",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC18",
@@ -13080,7 +13191,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H04"
-    ]
+    ],
+    "departmentID": "DPT02"
    },
    {
     "procedureID": "PRC19",
@@ -13088,7 +13200,7 @@
     "processID": "PR3",
     "taskID": "T019",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13105,7 +13217,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H05"
-    ]
+    ],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC20",
@@ -13113,7 +13226,7 @@
     "processID": "PR3",
     "taskID": "T020",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13128,7 +13241,8 @@
     "executionTime": 0.5,
     "procedureOwner": "U36",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC21",
@@ -13136,7 +13250,7 @@
     "processID": "PR3",
     "taskID": "T021",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13153,7 +13267,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H07"
-    ]
+    ],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC22",
@@ -13161,7 +13276,7 @@
     "processID": "PR3",
     "taskID": "T022",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13176,7 +13291,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U02",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC23",
@@ -13184,7 +13300,7 @@
     "processID": "PR3",
     "taskID": "T023",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13199,7 +13315,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U03",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC24",
@@ -13207,7 +13324,7 @@
     "processID": "PR3",
     "taskID": "T024",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13224,7 +13341,8 @@
     "executionTime": 1.5,
     "procedureOwner": "U04",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC25",
@@ -13232,7 +13350,7 @@
     "processID": "PR3",
     "taskID": "T025",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13247,7 +13365,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U05",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC26",
@@ -13255,7 +13374,7 @@
     "processID": "PR3",
     "taskID": "T026",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU02",
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13270,7 +13389,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U06",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT03"
    },
    {
     "procedureID": "PRC27",
@@ -13278,7 +13398,7 @@
     "processID": "PR4",
     "taskID": "T027",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU03",
     "productScopeID": [
      "PS06"
     ],
@@ -13292,7 +13412,8 @@
     "executionTime": 1.5,
     "procedureOwner": "U07",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT04"
    },
    {
     "procedureID": "PRC28",
@@ -13300,7 +13421,7 @@
     "processID": "PR4",
     "taskID": "T028",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU03",
     "productScopeID": [
      "PS06"
     ],
@@ -13314,7 +13435,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U08",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT04"
    },
    {
     "procedureID": "PRC29",
@@ -13322,7 +13444,7 @@
     "processID": "PR4",
     "taskID": "T029",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU03",
     "productScopeID": [
      "PS06"
     ],
@@ -13338,7 +13460,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H01"
-    ]
+    ],
+    "departmentID": "DPT04"
    },
    {
     "procedureID": "PRC30",
@@ -13346,7 +13469,7 @@
     "processID": "PR4",
     "taskID": "T030",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU03",
     "productScopeID": [
      "PS06"
     ],
@@ -13360,7 +13483,8 @@
     "executionTime": 1.5,
     "procedureOwner": "U10",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT04"
    },
    {
     "procedureID": "PRC31",
@@ -13368,7 +13492,7 @@
     "processID": "PR4",
     "taskID": "T031",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU03",
     "productScopeID": [
      "PS06"
     ],
@@ -13382,7 +13506,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U11",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT04"
    },
    {
     "procedureID": "PRC32",
@@ -13390,7 +13515,7 @@
     "processID": "PR4",
     "taskID": "T032",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU03",
     "productScopeID": [
      "PS06"
     ],
@@ -13406,7 +13531,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H04"
-    ]
+    ],
+    "departmentID": "DPT04"
    },
    {
     "procedureID": "PRC33",
@@ -13414,7 +13540,7 @@
     "processID": "PR5",
     "taskID": "T033",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13430,7 +13556,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H05"
-    ]
+    ],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC34",
@@ -13438,7 +13565,7 @@
     "processID": "PR5",
     "taskID": "T034",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13452,7 +13579,8 @@
     "executionTime": 1.5,
     "procedureOwner": "U14",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC35",
@@ -13460,7 +13588,7 @@
     "processID": "PR5",
     "taskID": "T035",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13476,7 +13604,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H07"
-    ]
+    ],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC36",
@@ -13484,7 +13613,7 @@
     "processID": "PR5",
     "taskID": "T036",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13498,7 +13627,8 @@
     "executionTime": 2.0,
     "procedureOwner": "U16",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC37",
@@ -13506,7 +13636,7 @@
     "processID": "PR5",
     "taskID": "T037",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13520,7 +13650,8 @@
     "executionTime": 1.5,
     "procedureOwner": "U17",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC38",
@@ -13528,7 +13659,7 @@
     "processID": "PR5",
     "taskID": "T038",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13542,7 +13673,8 @@
     "executionTime": 1.75,
     "procedureOwner": "U18",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC39",
@@ -13550,7 +13682,7 @@
     "processID": "PR5",
     "taskID": "T039",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13564,7 +13696,8 @@
     "executionTime": 2.0,
     "procedureOwner": "U19",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC40",
@@ -13572,7 +13705,7 @@
     "processID": "PR5",
     "taskID": "T040",
     "procedureURL": null,
-    "businessUnitID": "BU01",
+    "businessUnitID": "BU04",
     "productScopeID": [
      "PS22"
     ],
@@ -13586,7 +13719,8 @@
     "executionTime": 1.5,
     "procedureOwner": "U20",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT05"
    },
    {
     "procedureID": "PRC41",
@@ -13609,7 +13743,8 @@
     "executionTime": 0.5,
     "procedureOwner": "U21",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT06"
    },
    {
     "procedureID": "PRC42",
@@ -13632,7 +13767,8 @@
     "executionTime": 0.75,
     "procedureOwner": "U22",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT06"
    },
    {
     "procedureID": "PRC43",
@@ -13657,7 +13793,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H01"
-    ]
+    ],
+    "departmentID": "DPT06"
    },
    {
     "procedureID": "PRC44",
@@ -13680,7 +13817,8 @@
     "executionTime": 1.0,
     "procedureOwner": "U24",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT06"
    },
    {
     "procedureID": "PRC45",
@@ -13703,7 +13841,8 @@
     "executionTime": 1.25,
     "procedureOwner": "U25",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT06"
    },
    {
     "procedureID": "PRC46",
@@ -13728,7 +13867,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H04"
-    ]
+    ],
+    "departmentID": "DPT06"
    },
    {
     "procedureID": "PRC47",
@@ -13765,7 +13905,8 @@
     "procedureStatus": "Approved",
     "customerInputID": [
      "H01"
-    ]
+    ],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC48",
@@ -13802,7 +13943,8 @@
     "executionTime": 0.5,
     "procedureOwner": "U18",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT01"
    },
    {
     "procedureID": "PRC49",
@@ -13829,7 +13971,8 @@
     "executionTime": 0.75,
     "procedureOwner": "U27",
     "procedureStatus": "Approved",
-    "customerInputID": []
+    "customerInputID": [],
+    "departmentID": "DPT02"
    }
   ]
  },
