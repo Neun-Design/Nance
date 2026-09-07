@@ -97,10 +97,6 @@
          <lastmod>2026-09-07</lastmod>
     </url>
     <url>
-         <loc>https://bovarafa.github.io/EDQMS/operation/payload/</loc>
-         <lastmod>2026-09-07</lastmod>
-    </url>
-    <url>
          <loc>https://bovarafa.github.io/EDQMS/operation/procedures/</loc>
          <lastmod>2026-09-07</lastmod>
     </url>
@@ -158,6 +154,10 @@
     </url>
     <url>
          <loc>https://bovarafa.github.io/EDQMS/portfolio/events/</loc>
+         <lastmod>2026-09-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bovarafa.github.io/EDQMS/portfolio/payload/</loc>
          <lastmod>2026-09-07</lastmod>
     </url>
     <url>
