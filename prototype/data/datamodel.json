@@ -6556,7 +6556,7 @@
               "name": "departmentID",
               "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
-              "notes": "multivalued — departments where this role is exercised (issue #328); options = the departments of the selected function's business units (generic shared-unit join Functions.businessUnitID × Departments.businessUnitID)",
+              "notes": "multivalued — departments where this role is exercised (issue #328); options = the departments of the selected function's business units (generic shared-unit join Functions.businessUnitID × Departments.businessUnitID). The businessUnitName grouping was dropped in #334 — with the Business Unit now a USER decision on this form, the offered departments all belong to the chosen unit and the group header was redundant.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -6670,7 +6670,6 @@
                 "check": "Function IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "SelectLabel = businessUnitName",
                   "filtered by Function selected"
                 ]
               }

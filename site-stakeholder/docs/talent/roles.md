@@ -18,4 +18,5 @@ they change function.
 Function options narrow to it (until role-based access control lands, forms carry
 filter inputs like this one so the same MVP serves different business segments and
 units); `Function *` (the selected unit's functions) → unlocks **Departments** (multi —
-the departments of the function's business units, grouped by unit); Quantity (headcount).
+the departments of the function's business units; the by-unit grouping was dropped
+since the unit is now chosen on the form); Quantity (headcount).

@@ -63,8 +63,11 @@ console.log('== form: Departments multicheck, Skill Level / Job Family gone ==')
   eq(d.check, 'Function IS NOT NULL', 'gated on Function (multicheck-gate posture)');
   const ruleText = asList(d['field-rule']).join('; ');
   eq(/allow multiple/i.test(ruleText), true, 'multi-assignment spelling');
-  eq(/SelectLabel\s*={1,2}\s*businessUnitName/.test(ruleText), true,
-    'grouped by businessUnitName (issue spelling)');
+  // issue #334 re-point: the businessUnitName grouping left the rule — the
+  // Business Unit is a USER decision on the form now, so every offered
+  // department belongs to the chosen unit and the group header was redundant
+  eq(/SelectLabel\s*={1,2}\s*businessUnitName/.test(ruleText), false,
+    'businessUnitName grouping dropped (#334 — unit is a user decision)');
   // #274 trap: a cascade only wires listeners when the rule matches the
   // `filtered by … selected` regex — free-text spellings leave it dead
   const m = ruleText.match(/filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i);

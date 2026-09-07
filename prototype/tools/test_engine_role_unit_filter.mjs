@@ -61,6 +61,10 @@ console.log('== form: select before Function, gate + wired cascade spelling ==')
   eq(dept.check, 'Function IS NOT NULL', 'Departments gate untouched (#328)');
   eq(/filtered by .*Function.*selected/i.test(String(dept['field-rule'])), true,
     'Departments filter untouched (#328)');
+  // with the unit a USER decision, the offered departments all belong to the
+  // chosen unit — the businessUnitName group header left the rule (Rafael)
+  eq(/SelectLabel/i.test(String(dept['field-rule'])), false,
+    'Departments grouping dropped (redundant under the unit filter)');
 }
 
 console.log('== join: the unit narrows to ITS functions (generic stored-key) ==');
