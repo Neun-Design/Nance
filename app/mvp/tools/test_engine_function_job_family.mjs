@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // test_engine_function_job_family.mjs — proof suite for Job Family Relations
 // (issue #298): a Function belongs to a Job Family. The link is STORED on
-// the Function (Functions.jobFamilyID, form select grouped by the family's
-// `field` attribute) and People derive their family through the selected
-// function (mirror → Functions via functionID; the People form no longer
-// picks it — the stored copies were dropped, parity). The Job Family
-// `people` subitem keeps resolving without the stored key: the generic
-// twoHopJoin 'chain' descends Job Family → Functions (store jobFamilyID) →
-// People (store functionID).
+// the Function (Functions.jobFamilyID) and People derive their family
+// through the selected function (mirror → Functions via functionID; the
+// People form no longer picks it — the stored copies were dropped, parity).
+// The Job Family `people` subitem keeps resolving without the stored key:
+// the generic twoHopJoin 'chain' descends Job Family → Functions (store
+// jobFamilyID) → People (store functionID). Since issue #328 the select's
+// `SelectLabel = field` grouping is gone (field became the free-text
+// jobFamilyDescription) and Roles carry no jobFamilyID at all.
 // Run from prototype/:  node tools/test_engine_function_job_family.mjs
 
 import fs from 'fs';
@@ -39,8 +40,10 @@ console.log('== schema: the link lives on Functions ==');
     'nullable — a function without a roles signal stays unkeyed (honest)');
   const f = catalog['Functions'].form.fields['Job Family'];
   eq(f && f.attribute, 'jobFamilyID', 'Functions form gains the Job Family select');
-  eq(/SelectLabel\s*=\s*field/.test(String(f['field-rule'])), true,
-    'options grouped by the family `field` attribute (issue spelling)');
+  // issue #328: the `SelectLabel = field` grouping left with the field attr
+  // (a free-text description cannot group a select)
+  eq(f['field-rule'] ?? null, null,
+    'no grouping rule — field became jobFamilyDescription (#328)');
   eq(/allow multiple|multivalued/i.test(String(f['field-rule'])), false,
     'single-valued — a function belongs to ONE family');
 }
@@ -68,12 +71,10 @@ console.log('== display: the person cell resolves function → family name ==');
   const attr = catalog['People'].byName['jobFamilyID'];
   eq(String(resolve.derivedValue('People', attr, person)), String(jf.jobFamilyName),
     `person ${person.userID} shows "${jf.jobFamilyName}" via ${fn.functionID}`);
-  // seed sanity: the function's family matches its roles' family (the
-  // migration rule — roles majority, first-seen on ties)
-  const roleFams = data.getEntity('Roles')
-    .filter((r) => String(r.functionID) === String(fn.functionID))
-    .flatMap((r) => (Array.isArray(r.jobFamilyID) ? r.jobFamilyID : [r.jobFamilyID]));
-  eq(roleFams.includes(fn.jobFamilyID), true, 'the seeded family agrees with the roles signal');
+  // issue #328: roles carry no jobFamilyID any more — the #298 roles-majority
+  // seed signal is historical; the function keeps the key it derived then
+  eq(data.getEntity('Roles').every((r) => !('jobFamilyID' in r)), true,
+    'no role stores a family key (#328 parity — the family inherits via Function)');
 }
 
 console.log('== Job Family people subitem: two-hop chain survives ==');
@@ -90,13 +91,13 @@ console.log('== Job Family people subitem: two-hop chain survives ==');
     'every listed person holds a function of that family (chain descent)');
 }
 
-console.log('== picker: families grouped by field ==');
+console.log('== picker: family options (ungrouped since #328) ==');
 {
   const o = forms.optionsForAttr('Functions', 'jobFamilyID');
   eq([o.target, !!o.multi], ['Job Family', false], 'options target the registry, single pick');
   const names = data.getEntity('Job Family').map((j) => String(j.jobFamilyName));
   eq((o.options || []).every((x) => names.includes(String(x.label))), true,
-    'items label as family names (field only groups)');
+    'items label as family names');
 }
 
 console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');

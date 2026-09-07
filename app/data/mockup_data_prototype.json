@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 77,
+  "schemaVersion": 78,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -28020,26 +28020,26 @@
    {
     "jobFamilyID": "JF01",
     "jobFamilyName": "Clinical",
-    "field": "Physicians and licensed clinical professionals",
-    "jobFamilyOwner": "U09"
+    "jobFamilyOwner": "U09",
+    "jobFamilyDescription": "Physicians and licensed clinical professionals"
    },
    {
     "jobFamilyID": "JF02",
     "jobFamilyName": "Technical",
-    "field": "Imaging and laboratory technicians",
-    "jobFamilyOwner": "U10"
+    "jobFamilyOwner": "U10",
+    "jobFamilyDescription": "Imaging and laboratory technicians"
    },
    {
     "jobFamilyID": "JF03",
     "jobFamilyName": "Care & Support",
-    "field": "Nursing, collection and front-desk staff",
-    "jobFamilyOwner": "U11"
+    "jobFamilyOwner": "U11",
+    "jobFamilyDescription": "Nursing, collection and front-desk staff"
    },
    {
     "jobFamilyID": "JF04",
     "jobFamilyName": "Management & Quality",
-    "field": "Coordination, quality and compliance staff",
-    "jobFamilyOwner": "U12"
+    "jobFamilyOwner": "U12",
+    "jobFamilyDescription": "Coordination, quality and compliance staff"
    }
   ],
   "Functions": [
@@ -28123,145 +28123,133 @@
     "roleID": "R01",
     "roleName": "CT Radiologist",
     "functionID": "F1",
-    "skillLevelID": "SL2",
-    "jobFamilyID": [
-     "JF01"
-    ],
     "quantity": 2,
     "squadID": "SQ01",
-    "roleOwner": "U23"
+    "roleOwner": "U23",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "roleID": "R02",
     "roleName": "MRI Radiologist",
     "functionID": "F1",
-    "skillLevelID": "SL3",
-    "jobFamilyID": [
-     "JF01"
-    ],
     "quantity": 3,
     "squadID": "SQ02",
-    "roleOwner": "U24"
+    "roleOwner": "U24",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "roleID": "R03",
     "roleName": "Report Reviewer",
     "functionID": "F1",
-    "skillLevelID": "SL2",
-    "jobFamilyID": [
-     "JF01"
-    ],
     "quantity": 4,
     "squadID": "SQ03",
-    "roleOwner": "U25"
+    "roleOwner": "U25",
+    "departmentID": [
+     "DPT01"
+    ]
    },
    {
     "roleID": "R04",
     "roleName": "CT Technician",
     "functionID": "F2",
-    "skillLevelID": "SL3",
-    "jobFamilyID": [
-     "JF02"
-    ],
     "quantity": 5,
     "squadID": "SQ04",
-    "roleOwner": "U26"
+    "roleOwner": "U26",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "roleID": "R05",
     "roleName": "MRI Technician",
     "functionID": "F2",
-    "skillLevelID": "SL2",
-    "jobFamilyID": [
-     "JF02"
-    ],
     "quantity": 2,
     "squadID": "SQ05",
-    "roleOwner": "U27"
+    "roleOwner": "U27",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "roleID": "R06",
     "roleName": "Mammography Technician",
     "functionID": "F2",
-    "skillLevelID": "SL3",
-    "jobFamilyID": [
-     "JF02"
-    ],
     "quantity": 3,
     "squadID": "SQ06",
-    "roleOwner": "U28"
+    "roleOwner": "U28",
+    "departmentID": [
+     "DPT03"
+    ]
    },
    {
     "roleID": "R07",
     "roleName": "Hematology Analyst",
     "functionID": "F3",
-    "skillLevelID": "SL2",
-    "jobFamilyID": [
-     "JF02"
-    ],
     "quantity": 4,
     "squadID": "SQ01",
-    "roleOwner": "U29"
+    "roleOwner": "U29",
+    "departmentID": [
+     "DPT04"
+    ]
    },
    {
     "roleID": "R08",
     "roleName": "Molecular Analyst",
     "functionID": "F3",
-    "skillLevelID": "SL3",
-    "jobFamilyID": [
-     "JF02"
-    ],
     "quantity": 5,
     "squadID": "SQ02",
-    "roleOwner": "U30"
+    "roleOwner": "U30",
+    "departmentID": [
+     "DPT04"
+    ]
    },
    {
     "roleID": "R09",
     "roleName": "Collection Nurse",
     "functionID": "F4",
-    "skillLevelID": "SL2",
-    "jobFamilyID": [
-     "JF03"
-    ],
     "quantity": 2,
     "squadID": "SQ03",
-    "roleOwner": "U31"
+    "roleOwner": "U31",
+    "departmentID": [
+     "DPT05"
+    ]
    },
    {
     "roleID": "R10",
     "roleName": "Contrast Nurse",
     "functionID": "F4",
-    "skillLevelID": "SL3",
-    "jobFamilyID": [
-     "JF03"
-    ],
     "quantity": 3,
     "squadID": "SQ04",
-    "roleOwner": "U32"
+    "roleOwner": "U32",
+    "departmentID": [
+     "DPT05"
+    ]
    },
    {
     "roleID": "R11",
     "roleName": "Scheduling Agent",
     "functionID": "F5",
-    "skillLevelID": "SL2",
-    "jobFamilyID": [
-     "JF03"
-    ],
     "quantity": 4,
     "squadID": "SQ05",
-    "roleOwner": "U33"
+    "roleOwner": "U33",
+    "departmentID": [
+     "DPT02"
+    ]
    },
    {
     "roleID": "R12",
     "roleName": "Compliance Auditor",
     "functionID": "F6",
-    "skillLevelID": "SL3",
-    "jobFamilyID": [
-     "JF04"
-    ],
     "quantity": 5,
     "squadID": "SQ06",
-    "roleOwner": "U34"
+    "roleOwner": "U34",
+    "departmentID": [
+     "DPT03"
+    ]
    }
   ],
   "People": [
