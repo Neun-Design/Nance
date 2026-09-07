@@ -6,7 +6,7 @@ import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
   parseRule } from './model.js';
-import { fkDisplay, childrenOf, derivedValue, ticketRequirements, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
+import { fkDisplay, childrenOf, derivedValue, ticketRequirements, ticketAdmittedScopeIds, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -364,8 +364,12 @@ function mapSubitem(si, parentEntity) {
           ticket ? ticketRequirements(ticket) : [], rule.display);
       }
       if (rule && rule.kind === 'ticketprocedure') {
+        // issue #332: the ticket's admitted scope context gates the match
+        // directly — a procedure pinned to scopes the ticket does not admit
+        // is no candidate (empty procedure key = every scope, Q1)
         c.accessor = (row, ticket) => ticketProcedureDisplay(row[rule.srcField],
-          ticket ? ticketRequirements(ticket) : [], rule.display);
+          ticket ? ticketRequirements(ticket) : [], rule.display,
+          ticket ? ticketAdmittedScopeIds(ticket) : null);
         // the registry column pills the resolved method (#270); other
         // displays off the same resolution (the Execution Time column,
         // sv75) render plain values — only GAP keeps the caution pill

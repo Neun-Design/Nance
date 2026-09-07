@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 79,
+    "schemaVersion": 80,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2103,7 +2103,7 @@
               "type": "mirror",
               "rule": "computed: TICKET-PROCEDURE(taskID) (display: procedureRegistry)",
               "display-name": "Procedure",
-              "notes": "The single procedure the requirement context selects for the task (issue #270): inside a Ticket's Tasks tab the context is the ticket's live inherited requirement set (#226) — candidates are the task's procedures whose requirementID[] covers ALL the ticket requirements (AND semantics, not OR; an empty set is the Q1 wildcard and covers everything). Exactly one candidate renders its procedureRegistry as a pill tag; zero or several render GAP (no unambiguous documented method for the combination — including a wildcard procedure coexisting with a specific one). The subitem accessor passes ticketRequirements(ticket) (mapSubitem in app.js, the #233 pattern); the standalone Tasks drawer falls back to the task-level set (unique procedure or GAP). ticketProcedureForTask in resolve.js.",
+              "notes": "The single procedure the requirement context selects for the task (issue #270): inside a Ticket's Tasks tab the context is the ticket's live inherited requirement set (#226) — candidates are the task's procedures whose requirementID[] covers ALL the ticket requirements (AND semantics, not OR; an empty set is the Q1 wildcard and covers everything). Since issue #332 the candidates are additionally scope-gated: a procedure pinned to product scopes must name at least one scope the ticket admits (empty key = every scope, Q1). Exactly one candidate renders its procedureRegistry as a pill tag; zero or several render GAP (no unambiguous documented method for the combination — including a wildcard procedure coexisting with a specific one). The subitem accessor passes ticketRequirements(ticket) and ticketAdmittedScopeIds(ticket) (mapSubitem in app.js, the #233 pattern); the standalone Tasks drawer falls back to the task-level set (unique procedure or GAP, no scope context — ungated). ticketProcedureForTask in resolve.js.",
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -3209,7 +3209,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "notes": "Multivalued — product scopes this procedure applies to, offered from the selected process's list (empty process list = every product scope, Q1). EMPTY = applies to all.",
+              "notes": "Multivalued — product scopes this procedure applies to, offered from the selected process's list (empty process list = every product scope, Q1). EMPTY = applies to all. Since issue #332 the key GATES the ticket→procedure match directly (ticketProcedureForTask in resolve.js): with a ticket scope context, a procedure pinned to scopes must name at least one scope the ticket admits (ticketAdmittedScopeIds — the payload-chain set ∩ the ticket's chosen scope) or it is no candidate; the task-level fallback (standalone Tasks drawer, no ticket context) is ungated. Demo seeds re-aligned by tools/migrate_procedure_scope_gate.py (stored picks ∪ the task→process→event payload-packaged scopes — the #281 edit-integrity posture: every pre-gate dispatch survives).",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -5152,7 +5152,7 @@
               "name": "inputHandoutID",
               "type": "mirror",
               "rule": "computed: TICKET-INPUTS(processID) (display: handoutName)",
-              "notes": "LIVE-derived, never stored (issue #280): the customer-provided inputs of this ticket — for each task of the ticket's processes, the ticket's inherited requirement set (#226) narrows the procedures to exactly ONE (#270 AND coverage; GAP/ambiguous tasks contribute nothing), and that procedure's input handouts flagged customerFlag = TRUE are collected, deduped. Drives the Inputs subitem tab (via: inputHandoutID — ticketInputHandouts in resolve.js, wired by mapSubitem).",
+              "notes": "LIVE-derived, never stored (issue #280): the customer-provided inputs of this ticket — for each task of the ticket's processes, the ticket's inherited requirement set (#226) plus its admitted product-scope context (#332 — a procedure pinned to scopes the ticket does not admit is no candidate) narrow the procedures to exactly ONE (#270 AND coverage; GAP/ambiguous tasks contribute nothing), and the inputs in that procedure's customerInputID set (#324 per-procedure decision; pre-sv77 snapshots fall back to the retired handout flag) are collected, deduped. Drives the Inputs subitem tab (via: inputHandoutID — ticketInputHandouts in resolve.js, wired by mapSubitem).",
               "table-display": false,
               "subitem-display": false,
               "constraints": null

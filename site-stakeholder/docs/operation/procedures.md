@@ -14,7 +14,11 @@ An empty requirement list means the procedure applies to every requirement.
 certifies procedures).
 **Key fields:** registry code and URL of the controlled document; `Unit` → `Process` (the
 unit's processes) → `Task *` (the anchor); **Product Scopes** (multi — offered from the
-process's list, empty = applies to all); **Requirements** offers every active requirement
+process's list, empty = applies to all; since 2026-09-07 the pinned scopes **gate the
+ticket match directly**: a ticket only resolves this procedure when it admits one of
+them, so the method selection reads task + requirements + product scopes together —
+pin scopes to make a method combination-specific, leave empty for a general one);
+**Requirements** offers every active requirement
 of the selected Unit (2026-09-03) — including ones pinned to a region the unit serves,
 grouped by type — so the full combination the unit answers for is pickable in one place
 (a requirement pinned to another unit or to a region the unit does not serve stays out);

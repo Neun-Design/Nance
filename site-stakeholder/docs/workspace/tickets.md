@@ -52,7 +52,10 @@ missing method shows GAP, like the Procedure column) —, **Inputs**
 (2026-08-26; per-procedure since 2026-09-04): the [Handouts](../operation/handouts.md)
 each resolved procedure declares as **Customer Inputs** — for each task, the ticket's
 requirement set narrows the procedures to exactly one, and the documents that procedure
-marks as customer-provided are listed — and **Requirements** (2026-08-27): the ticket's live inherited
+marks as customer-provided are listed. Since 2026-09-07 the resolution also honors the
+procedure's own **Product Scopes**: a method pinned to combinations the ticket does not
+admit is never selected — the match reads task + requirements + product scopes together
+(a procedure with no scopes applies to all of them) — and **Requirements** (2026-08-27): the ticket's live inherited
 [Requirements](../operation/requirements.md) as full rows (type, reference, regulatory
 link), replacing the joined-names column the table used to carry. It is the collection checklist for ticket intake: what the customer must hand over
 before remote teams can start (a task whose procedure is ambiguous or missing contributes
