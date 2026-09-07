@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 80,
+    "schemaVersion": 81,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -6535,10 +6535,19 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Single-valued — the unit whose functions this role registration works with (issue #334). PRE-RBAC FILTER-INPUT doctrine: until RBAC lands, forms carry inputs whose purpose is purely to NARROW the remaining options so the MVP serves different Business Segments/Units — the filter is a stored FK (the generic stored-key cascade reads sibling stored keys; there is no unstored form-field concept), seeded so existing rows survive the gated picker (form-integrity). Seeds: the role's function's (first) unit — tools/migrate_role_unit_filter.py.",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
+            },
+            {
               "name": "functionID",
               "type": "FK",
               "rule": "FK → Functions (display: functionName)",
-              "notes": "Functional area this role belongs to",
+              "notes": "Functional area this role belongs to; the form combobox is gated on Business Unit and offers only the selected unit's functions (issue #334 — generic stored-key cascade on Functions.businessUnitID)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK, NOT NULL"
@@ -6547,7 +6556,7 @@
               "name": "departmentID",
               "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
-              "notes": "multivalued — departments where this role is exercised (issue #328); options = the departments of the selected function's business units (generic shared-unit join Functions.businessUnitID × Departments.businessUnitID)",
+              "notes": "multivalued — departments where this role is exercised (issue #328); options = the departments of the selected function's business units (generic shared-unit join Functions.businessUnitID × Departments.businessUnitID). The businessUnitName grouping was dropped in #334 — with the Business Unit now a USER decision on this form, the offered departments all belong to the chosen unit and the group header was redundant.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -6631,15 +6640,25 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Function options narrow to it (pre-RBAC filter input, issue #334)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
               "Function": {
                 "field-type": {
                   "combobox": "shadcn-combobox"
                 },
                 "attribute": "functionID",
-                "tooltip": null,
+                "tooltip": "Functions of the selected Business Unit",
                 "step": null,
-                "check": null,
-                "field-rule": null
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
               },
               "Departments": {
                 "field-type": {
@@ -6651,7 +6670,6 @@
                 "check": "Function IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "SelectLabel = businessUnitName",
                   "filtered by Function selected"
                 ]
               }
