@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 85,
+  "schemaVersion": 86,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11905,7 +11905,9 @@
     ],
     "taskName": "Schedule Exam-Execution",
     "taskOwner": "U07",
-    "predecessorTask": null
+    "predecessorTask": null,
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T002",
@@ -11920,7 +11922,9 @@
     ],
     "taskName": "Schedule Exam-Check",
     "taskOwner": "U08",
-    "predecessorTask": "T001"
+    "predecessorTask": "T001",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T003",
@@ -11936,7 +11940,9 @@
     ],
     "taskName": "Prepare Patient-Execution",
     "taskOwner": "U09",
-    "predecessorTask": "T002"
+    "predecessorTask": "T002",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T004",
@@ -11952,7 +11958,9 @@
     ],
     "taskName": "Prepare Patient-Approval",
     "taskOwner": "U10",
-    "predecessorTask": "T003"
+    "predecessorTask": "T003",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T005",
@@ -11968,7 +11976,9 @@
     ],
     "taskName": "Acquire Images-Execution",
     "taskOwner": "U11",
-    "predecessorTask": "T004"
+    "predecessorTask": "T004",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T006",
@@ -11984,7 +11994,9 @@
     ],
     "taskName": "Acquire Images-Registration",
     "taskOwner": "U12",
-    "predecessorTask": "T005"
+    "predecessorTask": "T005",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T007",
@@ -12000,7 +12012,9 @@
     ],
     "taskName": "Elaborate Report-Execution",
     "taskOwner": "U13",
-    "predecessorTask": "T006"
+    "predecessorTask": "T006",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T008",
@@ -12016,7 +12030,9 @@
     ],
     "taskName": "Elaborate Report-Check",
     "taskOwner": "U14",
-    "predecessorTask": "T007"
+    "predecessorTask": "T007",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T009",
@@ -12032,7 +12048,9 @@
     ],
     "taskName": "Release Results-Execution",
     "taskOwner": "U15",
-    "predecessorTask": "T008"
+    "predecessorTask": "T008",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T010",
@@ -12048,7 +12066,9 @@
     ],
     "taskName": "Release Results-Release",
     "taskOwner": "U16",
-    "predecessorTask": "T009"
+    "predecessorTask": "T009",
+    "departmentID": "DPT01",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T011",
@@ -12064,7 +12084,9 @@
     ],
     "taskName": "Receive Samples-Execution",
     "taskOwner": "U17",
-    "predecessorTask": null
+    "predecessorTask": null,
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T012",
@@ -12080,7 +12102,9 @@
     ],
     "taskName": "Receive Samples-Check",
     "taskOwner": "U18",
-    "predecessorTask": "T011"
+    "predecessorTask": "T011",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T013",
@@ -12096,7 +12120,9 @@
     ],
     "taskName": "Process Samples-Execution",
     "taskOwner": "U19",
-    "predecessorTask": "T012"
+    "predecessorTask": "T012",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T014",
@@ -12112,7 +12138,9 @@
     ],
     "taskName": "Process Samples-Approval",
     "taskOwner": "U20",
-    "predecessorTask": "T013"
+    "predecessorTask": "T013",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T015",
@@ -12128,7 +12156,9 @@
     ],
     "taskName": "Validate Results-Execution",
     "taskOwner": "U21",
-    "predecessorTask": "T014"
+    "predecessorTask": "T014",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T016",
@@ -12144,7 +12174,9 @@
     ],
     "taskName": "Validate Results-Check",
     "taskOwner": "U22",
-    "predecessorTask": "T015"
+    "predecessorTask": "T015",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T017",
@@ -12160,7 +12192,9 @@
     ],
     "taskName": "Release Results-Execution",
     "taskOwner": "U23",
-    "predecessorTask": "T016"
+    "predecessorTask": "T016",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T018",
@@ -12176,7 +12210,9 @@
     ],
     "taskName": "Release Results-Assignment",
     "taskOwner": "U24",
-    "predecessorTask": "T017"
+    "predecessorTask": "T017",
+    "departmentID": "DPT02",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T019",
@@ -12191,7 +12227,9 @@
     ],
     "taskName": "Triage Order-Execution",
     "taskOwner": "U25",
-    "predecessorTask": null
+    "predecessorTask": null,
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T020",
@@ -12206,7 +12244,9 @@
     ],
     "taskName": "Triage Order-Check",
     "taskOwner": "U26",
-    "predecessorTask": "T019"
+    "predecessorTask": "T019",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T021",
@@ -12222,7 +12262,9 @@
     ],
     "taskName": "Acquire Images-Execution",
     "taskOwner": "U27",
-    "predecessorTask": "T020"
+    "predecessorTask": "T020",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T022",
@@ -12238,7 +12280,9 @@
     ],
     "taskName": "Acquire Images-Approval",
     "taskOwner": "U28",
-    "predecessorTask": "T021"
+    "predecessorTask": "T021",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T023",
@@ -12254,7 +12298,9 @@
     ],
     "taskName": "Elaborate Report-Execution",
     "taskOwner": "U29",
-    "predecessorTask": "T022"
+    "predecessorTask": "T022",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T024",
@@ -12270,7 +12316,9 @@
     ],
     "taskName": "Elaborate Report-Check",
     "taskOwner": "U30",
-    "predecessorTask": "T023"
+    "predecessorTask": "T023",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T025",
@@ -12286,7 +12334,9 @@
     ],
     "taskName": "Notify Physician-Execution",
     "taskOwner": "U31",
-    "predecessorTask": "T024"
+    "predecessorTask": "T024",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T026",
@@ -12302,7 +12352,9 @@
     ],
     "taskName": "Notify Physician-Assignment",
     "taskOwner": "U32",
-    "predecessorTask": "T025"
+    "predecessorTask": "T025",
+    "departmentID": "DPT03",
+    "businessUnitID": "BU02"
    },
    {
     "taskID": "T027",
@@ -12318,7 +12370,9 @@
     ],
     "taskName": "Retrieve Prior Study-Execution",
     "taskOwner": "U33",
-    "predecessorTask": null
+    "predecessorTask": null,
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "taskID": "T028",
@@ -12334,7 +12388,9 @@
     ],
     "taskName": "Retrieve Prior Study-Check",
     "taskOwner": "U34",
-    "predecessorTask": "T027"
+    "predecessorTask": "T027",
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "taskID": "T029",
@@ -12350,7 +12406,9 @@
     ],
     "taskName": "Re-read Study-Execution",
     "taskOwner": "U35",
-    "predecessorTask": "T028"
+    "predecessorTask": "T028",
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "taskID": "T030",
@@ -12366,7 +12424,9 @@
     ],
     "taskName": "Re-read Study-Check",
     "taskOwner": "U36",
-    "predecessorTask": "T029"
+    "predecessorTask": "T029",
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "taskID": "T031",
@@ -12382,7 +12442,9 @@
     ],
     "taskName": "Reconcile Findings-Execution",
     "taskOwner": "U01",
-    "predecessorTask": "T030"
+    "predecessorTask": "T030",
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "taskID": "T032",
@@ -12398,7 +12460,9 @@
     ],
     "taskName": "Reconcile Findings-Registration",
     "taskOwner": "U02",
-    "predecessorTask": "T031"
+    "predecessorTask": "T031",
+    "departmentID": "DPT04",
+    "businessUnitID": "BU03"
    },
    {
     "taskID": "T033",
@@ -12413,7 +12477,9 @@
     ],
     "taskName": "Sample Cases-Execution",
     "taskOwner": "U03",
-    "predecessorTask": null
+    "predecessorTask": null,
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T034",
@@ -12428,7 +12494,9 @@
     ],
     "taskName": "Sample Cases-Check",
     "taskOwner": "U04",
-    "predecessorTask": "T033"
+    "predecessorTask": "T033",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T035",
@@ -12443,7 +12511,9 @@
     ],
     "taskName": "Re-check Reports-Execution",
     "taskOwner": "U05",
-    "predecessorTask": "T034"
+    "predecessorTask": "T034",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T036",
@@ -12458,7 +12528,9 @@
     ],
     "taskName": "Re-check Reports-Approval",
     "taskOwner": "U06",
-    "predecessorTask": "T035"
+    "predecessorTask": "T035",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T037",
@@ -12473,7 +12545,9 @@
     ],
     "taskName": "Log Findings-Execution",
     "taskOwner": "U07",
-    "predecessorTask": "T036"
+    "predecessorTask": "T036",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T038",
@@ -12488,7 +12562,9 @@
     ],
     "taskName": "Log Findings-Registration",
     "taskOwner": "U08",
-    "predecessorTask": "T037"
+    "predecessorTask": "T037",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T039",
@@ -12503,7 +12579,9 @@
     ],
     "taskName": "Follow Corrective Actions-Execution",
     "taskOwner": "U09",
-    "predecessorTask": "T038"
+    "predecessorTask": "T038",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T040",
@@ -12518,7 +12596,9 @@
     ],
     "taskName": "Follow Corrective Actions-Assignment",
     "taskOwner": "U10",
-    "predecessorTask": "T039"
+    "predecessorTask": "T039",
+    "departmentID": "DPT05",
+    "businessUnitID": "BU04"
    },
    {
     "taskID": "T041",
@@ -12533,7 +12613,9 @@
     ],
     "taskName": "Plan Route-Execution",
     "taskOwner": "U11",
-    "predecessorTask": null
+    "predecessorTask": null,
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T042",
@@ -12548,7 +12630,9 @@
     ],
     "taskName": "Plan Route-Check",
     "taskOwner": "U12",
-    "predecessorTask": "T041"
+    "predecessorTask": "T041",
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T043",
@@ -12564,7 +12648,9 @@
     ],
     "taskName": "Collect At Home-Execution",
     "taskOwner": "U13",
-    "predecessorTask": "T042"
+    "predecessorTask": "T042",
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T044",
@@ -12580,7 +12666,9 @@
     ],
     "taskName": "Collect At Home-Approval",
     "taskOwner": "U14",
-    "predecessorTask": "T043"
+    "predecessorTask": "T043",
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T045",
@@ -12596,7 +12684,9 @@
     ],
     "taskName": "Transport Samples-Execution",
     "taskOwner": "U15",
-    "predecessorTask": "T044"
+    "predecessorTask": "T044",
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    },
    {
     "taskID": "T046",
@@ -12612,7 +12702,9 @@
     ],
     "taskName": "Transport Samples-Registration",
     "taskOwner": "U16",
-    "predecessorTask": "T045"
+    "predecessorTask": "T045",
+    "departmentID": "DPT06",
+    "businessUnitID": "BU01"
    }
   ],
   "Procedures": [
