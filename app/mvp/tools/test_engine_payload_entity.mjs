@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 // test_engine_payload_entity.mjs — proof suite for issue #190 (Sponsors
-// Presentation P2): the Payload ENTITY materializes in Operation (order 7).
+// Presentation P2): the Payload ENTITY materializes as a dashboard table —
+// in Operation (order 7) originally, moved to PORTFOLIO (order 8) on
+// 2026-09-07: it packages an Event with the Product Scopes it admits, and
+// both parents are Portfolio tables.
 // A payload packages one Event × Product Scopes combination; the Product
 // Scope picker offers the event's applicability (scopeID × productID,
 // empty = all — Q1) narrowed to the payload's unit, items labelled by the
@@ -28,7 +31,7 @@ const fail = (m) => { fails += 1; console.log(`  ✗ ${m}`); };
 const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
   ? ok(m) : fail(`${m} — got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`));
 
-console.log('== schema: Payload catalogued in Operation ==');
+console.log('== schema: Payload catalogued (Portfolio since 2026-09-07) ==');
 {
   const cat = catalog['Payload'];
   eq(!!cat, true, 'Payload catalogued');
@@ -45,8 +48,10 @@ console.log('== schema: Payload catalogued in Operation ==');
 console.log('== form spec: cascade + grouped multi-select ==');
 {
   const dmRaw = JSON.parse(fs.readFileSync(new URL('../data/datamodel.json', import.meta.url)));
-  const spec = dmRaw.modules.Operation.tables.Payload;
-  eq(spec['dashboard-order'], 7, 'dashboard-order 7 (spec)');
+  eq(dmRaw.modules.Operation.tables.Payload ?? null, null,
+    'Payload left the Operation module');
+  const spec = dmRaw.modules.Portfolio.tables.Payload;
+  eq(spec['dashboard-order'], 8, 'Portfolio dashboard-order 8 — after Events and Product Scopes');
   eq(spec.visibility, 'show', 'visible in the tab strip');
   const f = spec.form.fields;
   eq(f.Event.check, 'Business Unit IS NOT NULL', 'Event gated on the unit');

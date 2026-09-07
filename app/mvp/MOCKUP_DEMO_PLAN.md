@@ -354,9 +354,9 @@ Refeita em 21/08 depois da R6 — **sem a entidade `Contract`**: quem faz o pape
 | Módulo | Proposta (vs. atual) |
 |---|---|
 | Organization | Segments 3 · Units 4 · Departments 6 · Squads 6 · Regions 3 · Branches 12 · Issues 6 |
-| Portfolio | Products 12 · Product Specs **8** (2) · Product Groups 14 · Scopes 8 · Classes **5** (0) · Product Scopes 24 · Events 20 |
+| Portfolio | Products 12 · Product Specs **8** (2) · Product Groups 14 · Scopes 8 · Classes **5** (0) · Product Scopes 24 · Events 20 · Payload 26 (movido de Operation, 2026-09-07) |
 | CRM | Customers 18 · **SLA 20** (o contrato — 12 a 16 com forecasts) · Forecasts **156** (144 mensais + 8 trimestrais + 4 anuais) · Forecast Scopes **360** |
-| Operation | Processes 6 · Activities 22 · Workflows 24 · Actions 8 · Tasks 48 · Procedures 52 · Handouts 14 · Channels 5 · Requirements **18** (9) · Requirement Type 5 · Payload 26 |
+| Operation | Processes 6 · Activities 22 · Workflows 24 · Actions 8 · Tasks 48 · Procedures 52 · Handouts 14 · Channels 5 · Requirements **18** (9) · Requirement Type 5 |
 | Talent | Functions 6 · Roles 12 · Job Family 4 · Skill Levels 4 · People 36 · Competence **28** (12) · Onboarding **60** (32) |
 | Workspace | Projects 10 · Tickets **160** (≈ 96 ligados a demand lines) · Jobs **240** |
 | Control | Capacity **72 derivadas** (6 funções × 12 meses) · Performance **90 a 140 derivadas** (função × cliente × mês, só grupos com jobs `Done`) |
