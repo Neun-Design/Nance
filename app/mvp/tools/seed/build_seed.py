@@ -561,9 +561,17 @@ class Builder:
                           'Triage Order': 'Front Desk'}
         report_fn = {'Elaborate Report', 'Re-read Study', 'Validate Results'}
         tasks, t_n = [], 0
+        dept_unit_map = {dd['departmentID']: dd['businessUnitID']
+                         for dd in self.rows('Departments')}
         for p in d['processes']:
             pid = self.id_of('Processes', p['name'])
             ev = next(r['eventID'] for r in processes if r['processID'] == pid)
+            # issue #344 pre-RBAC chain: department = the process's, unit =
+            # the department's — same rule as
+            # tools/migrate_task_prerbac_filters.py
+            t_dept = next(r['departmentID'] for r in processes
+                          if r['processID'] == pid)
+            t_unit = dept_unit_map[t_dept]
             # predecessor chain per process in insertion order (issue #302) —
             # the demo workflows chain sequentially (finish-to-start), so
             # insertion order IS step order and this agrees with
@@ -584,7 +592,9 @@ class Builder:
                               and w['activityID'] == self.id_of('Activities', aname))
                     fn = ('Radiologist' if aname in report_fn
                           else fn_of_activity.get(aname, fn_of_process[p['name']]))
-                    tasks.append({'taskID': f'T{t_n:03d}', 'eventID': ev, 'processID': pid,
+                    tasks.append({'taskID': f'T{t_n:03d}',
+                                  'businessUnitID': t_unit, 'departmentID': t_dept,
+                                  'eventID': ev, 'processID': pid,
                                   'workflowID': wf,
                                   'actionID': self.id_of('Actions', act),
                                   'predecessorTask': prev_task,
