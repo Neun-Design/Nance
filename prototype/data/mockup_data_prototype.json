@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 81,
+  "schemaVersion": 82,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -27951,7 +27951,8 @@
     "departmentID": [
      "DPT01"
     ],
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "roleDescription": "CT Radiologist role within the Radiologist function"
    },
    {
     "roleID": "R02",
@@ -27963,7 +27964,8 @@
     "departmentID": [
      "DPT01"
     ],
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "roleDescription": "MRI Radiologist role within the Radiologist function"
    },
    {
     "roleID": "R03",
@@ -27975,7 +27977,8 @@
     "departmentID": [
      "DPT01"
     ],
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "roleDescription": "Report Reviewer role within the Radiologist function"
    },
    {
     "roleID": "R04",
@@ -27987,7 +27990,8 @@
     "departmentID": [
      "DPT03"
     ],
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "roleDescription": "CT Technician role within the Radiology Technician function"
    },
    {
     "roleID": "R05",
@@ -27999,7 +28003,8 @@
     "departmentID": [
      "DPT03"
     ],
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "roleDescription": "MRI Technician role within the Radiology Technician function"
    },
    {
     "roleID": "R06",
@@ -28011,7 +28016,8 @@
     "departmentID": [
      "DPT03"
     ],
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "roleDescription": "Mammography Technician role within the Radiology Technician function"
    },
    {
     "roleID": "R07",
@@ -28023,7 +28029,8 @@
     "departmentID": [
      "DPT04"
     ],
-    "businessUnitID": "BU03"
+    "businessUnitID": "BU03",
+    "roleDescription": "Hematology Analyst role within the Lab Analyst function"
    },
    {
     "roleID": "R08",
@@ -28035,7 +28042,8 @@
     "departmentID": [
      "DPT04"
     ],
-    "businessUnitID": "BU03"
+    "businessUnitID": "BU03",
+    "roleDescription": "Molecular Analyst role within the Lab Analyst function"
    },
    {
     "roleID": "R09",
@@ -28047,7 +28055,8 @@
     "departmentID": [
      "DPT05"
     ],
-    "businessUnitID": "BU04"
+    "businessUnitID": "BU04",
+    "roleDescription": "Collection Nurse role within the Nurse function"
    },
    {
     "roleID": "R10",
@@ -28059,7 +28068,8 @@
     "departmentID": [
      "DPT05"
     ],
-    "businessUnitID": "BU04"
+    "businessUnitID": "BU04",
+    "roleDescription": "Contrast Nurse role within the Nurse function"
    },
    {
     "roleID": "R11",
@@ -28071,7 +28081,8 @@
     "departmentID": [
      "DPT02"
     ],
-    "businessUnitID": "BU01"
+    "businessUnitID": "BU01",
+    "roleDescription": "Scheduling Agent role within the Front Desk function"
    },
    {
     "roleID": "R12",
@@ -28083,7 +28094,8 @@
     "departmentID": [
      "DPT03"
     ],
-    "businessUnitID": "BU02"
+    "businessUnitID": "BU02",
+    "roleDescription": "Compliance Auditor role within the Quality Analyst function"
    }
   ],
   "People": [
