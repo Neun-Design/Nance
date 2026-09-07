@@ -177,7 +177,16 @@ class Builder:
         # map so the competence seeds keep their historical values.
         self.role_level = {f'R{i+1:02d}': levels[(i % 2) + 1]['skillLevelID']
                            for i in range(len(d['roles']))}
+        # issue #334: the role's Business Unit = its function's (first)
+        # unit — the pre-RBAC filter input gating the Function picker; same
+        # rule as tools/migrate_role_unit_filter.py, so regenerated and
+        # migrated datasets agree
+        unit_of_fn = {f['functionID']: (f['businessUnitID'][0]
+                                        if isinstance(f['businessUnitID'], list)
+                                        else f['businessUnitID'])
+                      for f in self.rows('Functions')}
         roles = [{'roleID': f'R{i+1:02d}', 'roleName': r['name'],
+                  'businessUnitID': unit_of_fn[self.id_of('Functions', r['function'])],
                   'functionID': self.id_of('Functions', r['function']),
                   'quantity': 2 + (i % 4), 'squadID': squad_ids[i % len(squad_ids)],
                   'roleOwner': None} for i, r in enumerate(d['roles'])]
