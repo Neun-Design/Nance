@@ -11,7 +11,7 @@ purpose: "Forecast Scopes — what it is, when to register one, and its key fiel
     for the guided setup. Register it only if you are working in the full app.
 
 **What it is:** the breakdown of a forecast into Event × Product Scope line items with
-quantities — the same dispatch unit the contract's [Payloads](../operation/payload.md) use.
+quantities — the same dispatch unit the contract's [Payloads](../portfolio/payload.md) use.
 **Register when:** right after its Forecast (full prototype only — the tab is disabled in
 the MVP walkthrough).
 **Key fields:** `Forecast *` (grouped by unit) → `Event` (only events the contract covers) →

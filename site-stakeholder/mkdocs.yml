@@ -110,6 +110,7 @@ nav:
     - Product Groups: portfolio/product-groups.md
     - Events: portfolio/events.md
     - Product Scopes: portfolio/product-scopes.md
+    - Payload: portfolio/payload.md
   - CRM:
     - CRM: crm/index.md
     - Customers: crm/customers.md
@@ -130,7 +131,6 @@ nav:
     - Requirements: operation/requirements.md
     - Processes: operation/processes.md
     - Workflows: operation/workflows.md
-    - Payload: operation/payload.md
     - Actions: operation/actions.md
     - Handouts: operation/handouts.md
     - Tasks: operation/tasks.md
