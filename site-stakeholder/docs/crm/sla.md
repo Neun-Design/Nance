@@ -7,7 +7,7 @@ purpose: "SLA — what it is, when to register one, and its key fields"
 # SLA
 
 **What it is:** the Service Level Agreement (ISO §8.2) — the contract by which a customer
-purchases [Payloads](../operation/payload.md) supplied by a department. Every contract
+purchases [Payloads](../portfolio/payload.md) supplied by a department. Every contract
 binds two parties: the contracting **Customer** and the **Supplier** that fulfils it. It is
 the gate on execution: when the customer opens a [Ticket](../workspace/tickets.md), only
 events covered by one of the customer's SLAs are offered.

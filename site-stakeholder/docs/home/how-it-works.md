@@ -77,7 +77,7 @@ nance.it enables a third mode: **structured reactivity**. When the event occurs,
 already knows which process applies, what requirements are in scope, and how to execute the
 response.
 
-→ [Portfolio · Events](../portfolio/events.md) · [Operation · Payload](../operation/payload.md)
+→ [Portfolio · Events](../portfolio/events.md) · [Portfolio · Payload](../portfolio/payload.md)
 
 ## And the loop closes
 

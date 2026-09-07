@@ -15,7 +15,7 @@ active; the Forecasts pair stays out of it.
     Contracts are made between a **customer** and a **supplying department** — never with
     a Business Unit directly. The **SLA** dashboard is where that contract lives: the
     branch identifies the supplier, the supplier's department supplies the
-    [Payloads](../operation/payload.md) the customer purchases, and tickets the customer
+    [Payloads](../portfolio/payload.md) the customer purchases, and tickets the customer
     opens can only trigger events those payloads cover. Registering the
     [Branches](../organization/branches.md) (phase 1) before customers keeps the connection
     ready.

@@ -20,3 +20,4 @@ Listed in registration order. Each page answers three questions: *what it is*, *
 - [**Product Groups**](product-groups.md) — a product variant defined by concrete spec values (e.g. "CT Contrast Adult | Contrast: Yes, Age Group: Adult, Room Time: 30 min").
 - [**Events**](events.md) — the business occurrences that drive the QMS — the architectural pivot of the model (moved here from Operation, 2026-08-12).
 - [**Product Scopes**](product-scopes.md) — the executable combination scope × product group for a business unit — the thing Forecast Scopes and Workflows point at.
+- [**Payload**](payload.md) — the dispatch package — one event × the product scopes it applies to (moved here from Operation, 2026-09-07: both parents live in this module). Payloads are what SLAs purchase, and the chain that carries the applicable requirements into the customer's Tickets.

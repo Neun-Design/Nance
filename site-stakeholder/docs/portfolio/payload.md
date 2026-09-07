@@ -10,7 +10,8 @@ purpose: "Payload — what it is, when to register one, and its key fields"
 Payloads are what [SLAs](../crm/sla.md) purchase, and the chain that carries the applicable
 requirements into the customer's [Tickets](../workspace/tickets.md). Defining them is the
 Broker's job (typically the quality or process manager).
-**Register when:** after Processes and the Portfolio's Product Scopes; before the CRM SLAs.
+**Register when:** after this module's Product Scopes and Operation's Processes; before the
+CRM SLAs.
 **Key fields:** Code; `Unit *` (grouped by segment) → unlocks `Event *` (the unit's events)
 and **Department** (the unit's departments — the department that supplies this payload;
 [SLAs](../crm/sla.md) filter their purchasable payloads by it) → **Product Scopes** (multi —

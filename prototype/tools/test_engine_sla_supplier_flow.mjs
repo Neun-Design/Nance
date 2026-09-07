@@ -66,7 +66,7 @@ console.log('== form spelling: the supplying chain (live datamodel) ==');
   const plRule = f.Payloads['field-rule'].join('; ');
   eq(plRule.includes('filtered by departmentID selected'), true,
     'Payloads picker filtered by the supplying department');
-  const pf = dmRaw.modules.Operation.tables.Payload.form.fields;
+  const pf = dmRaw.modules.Portfolio.tables.Payload.form.fields;
   eq([pf.Department.attribute, pf.Department['field-rule']],
     ['departmentID', 'filtered by businessUnitID selected'],
     'Payload form Department select: stored FK, unit-filtered (generic stored-key cascade)');
