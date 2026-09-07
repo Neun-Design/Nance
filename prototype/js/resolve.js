@@ -891,15 +891,13 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId
   return out;
 }
 
-// Requirements a TICKET inherits live (issue #226 — replaces the #192 stored
-// snapshot): the admitted payload-chain product scopes (∩ the ticket's
-// productScopeID when set) AND-matched with the ticket's unit, that unit's
-// served regions and the ticket's inheritance parties — the project customer
-// AND the internal applicant opening the ticket (issue #308; a legacy row
-// without the applicantID key inherits through the customer alone).
-// Deliberate divergence from the #192 seed: the unit gate reads the TICKET's
-// unit, not ps.businessUnitID.
-export function ticketRequirements(ticket) {
+// The product-scope CONTEXT of a ticket (extracted from ticketRequirements
+// for issue #332 — shared with the procedure scope gate): the admitted
+// payload-chain scopes of the ticket's event (project-SLA universe, #325;
+// legacy customer-SLA fallback for snapshot tickets outside the project
+// chain — never fires on the demo dataset), intersected with the ticket's
+// chosen productScopeID when set.
+export function ticketAdmittedScopeIds(ticket) {
   if (!ticket) return [];
   let ids = admittedProductScopeIds(ticket.eventID, ticket);
   if (!ids.length) {
@@ -911,6 +909,20 @@ export function ticketRequirements(ticket) {
   }
   const chosen = asIds(ticket.productScopeID);
   if (chosen.length) ids = ids.filter((id) => chosen.includes(id));
+  return ids;
+}
+
+// Requirements a TICKET inherits live (issue #226 — replaces the #192 stored
+// snapshot): the admitted payload-chain product scopes (∩ the ticket's
+// productScopeID when set) AND-matched with the ticket's unit, that unit's
+// served regions and the ticket's inheritance parties — the project customer
+// AND the internal applicant opening the ticket (issue #308; a legacy row
+// without the applicantID key inherits through the customer alone).
+// Deliberate divergence from the #192 seed: the unit gate reads the TICKET's
+// unit, not ps.businessUnitID.
+export function ticketRequirements(ticket) {
+  if (!ticket) return [];
+  const ids = ticketAdmittedScopeIds(ticket);
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
   const unitIds = asIds(ticket.businessUnitID);
   return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
@@ -1077,19 +1089,32 @@ export function certifiedUsersForProcedure(procId) {
 // candidates = the task's procedures whose requirement set COVERS every id in
 // `reqIds` — AND semantics, the engine-wide coverage posture of
 // certifiedUsersForTask; an EMPTY procedure set is the Q1 wildcard and covers
-// everything. Exactly one candidate → that procedure row; zero or several →
-// null (the GAP tag: no unambiguous documented method for the combination —
-// including a wildcard procedure coexisting with a specific one, which is a
-// genuine ambiguity the quality manager must resolve).
-export function ticketProcedureForTask(taskId, reqIds = []) {
+// everything. Since issue #332 the procedure's OWN productScopeID[] gates the
+// match directly: with a ticket scope context (`scopeIds` non-null), a
+// procedure pinned to scopes must name at least one admitted scope — empty
+// procedure key = applies to every scope (Q1); an EMPTY context array skips
+// the dimension (the multiViaJoin blank-context posture), and `scopeIds:
+// null` means NO ticket context at all (the task-level fallback path — the
+// standalone Tasks drawer has no scope to gate on). Exactly one candidate →
+// that procedure row; zero or several → null (the GAP tag: no unambiguous
+// documented method for the combination — including a wildcard procedure
+// coexisting with a specific one, which is a genuine ambiguity the quality
+// manager must resolve).
+export function ticketProcedureForTask(taskId, reqIds = [], scopeIds = null) {
   if (taskId == null || taskId === '') return null;
   const pT = resolveTable('Procedures');
   if (!pT) return null;
   const need = asIds(reqIds).map(String);
+  const adm = scopeIds == null ? null : asIds(scopeIds).map(String);
   const hits = getEntity(pT).filter((p) => matches(p.taskID, taskId))
     .filter((p) => {
       const set = asIds(p.requirementID).map(String);
       return !set.length || need.every((r) => set.includes(r));
+    })
+    .filter((p) => {
+      if (adm == null || !adm.length) return true;
+      const set = asIds(p.productScopeID).map(String);
+      return !set.length || set.some((s) => adm.includes(s));
     });
   return hits.length === 1 ? hits[0] : null;
 }
@@ -1097,9 +1122,9 @@ export function ticketProcedureForTask(taskId, reqIds = []) {
 // TICKET-PROCEDURE cell text — shared by derivedValue (task-level fallback,
 // no context: unique procedure or GAP) and the ticket-context subitem
 // accessor (mapSubitem in app.js), which passes the ticket's live inherited
-// requirement set (#226).
-export function ticketProcedureDisplay(taskId, reqIds = [], display = null) {
-  const p = ticketProcedureForTask(taskId, reqIds);
+// requirement set (#226) and its admitted scope context (#332).
+export function ticketProcedureDisplay(taskId, reqIds = [], display = null, scopeIds = null) {
+  const p = ticketProcedureForTask(taskId, reqIds, scopeIds);
   if (!p) return 'GAP';
   const v = p[display || 'procedureRegistry'];
   return v == null || v === '' ? String(p.procedureID) : String(v);
@@ -1107,9 +1132,10 @@ export function ticketProcedureDisplay(taskId, reqIds = [], display = null) {
 
 // Customer-provided INPUTS of a ticket (issue #280): for each task of the
 // ticket's processes, the ticket's live inherited requirement set (#226)
-// narrows the task's procedures to exactly ONE (#270 AND coverage — a GAP
-// or ambiguous task contributes nothing: while the method is unresolved its
-// inputs are unknowable), and that procedure's inputs listed in its OWN
+// plus its admitted product-scope context (#332) narrow the task's
+// procedures to exactly ONE (#270 AND coverage — a GAP or ambiguous task
+// contributes nothing: while the method is unresolved its inputs are
+// unknowable), and that procedure's inputs listed in its OWN
 // customerInputID set (issue #324 — the decision is per procedure, not on
 // the handout) collect, deduped in first-seen order. Legacy tolerance: a
 // pre-sv77 snapshot procedure WITHOUT the customerInputID key falls back to
@@ -1123,11 +1149,12 @@ export function ticketInputHandouts(ticket) {
   const procIds = asIds(ticket.processID);
   if (!procIds.length) return [];
   const need = ticketRequirements(ticket);
+  const adm = ticketAdmittedScopeIds(ticket);
   const seen = new Set();
   const out = [];
   for (const task of getEntity(tT)) {
     if (!procIds.some((p) => matches(task.processID, p))) continue;
-    const proc = ticketProcedureForTask(task.taskID, need);
+    const proc = ticketProcedureForTask(task.taskID, need, adm);
     if (!proc) continue;
     const wanted = proc.customerInputID !== undefined
       ? asIds(proc.customerInputID).map(String) : null; // null = legacy flag path
