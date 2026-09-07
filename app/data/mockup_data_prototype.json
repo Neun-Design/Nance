@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 80,
+  "schemaVersion": 81,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -27950,7 +27950,8 @@
     "roleOwner": "U23",
     "departmentID": [
      "DPT01"
-    ]
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "roleID": "R02",
@@ -27961,7 +27962,8 @@
     "roleOwner": "U24",
     "departmentID": [
      "DPT01"
-    ]
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "roleID": "R03",
@@ -27972,7 +27974,8 @@
     "roleOwner": "U25",
     "departmentID": [
      "DPT01"
-    ]
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "roleID": "R04",
@@ -27983,7 +27986,8 @@
     "roleOwner": "U26",
     "departmentID": [
      "DPT03"
-    ]
+    ],
+    "businessUnitID": "BU02"
    },
    {
     "roleID": "R05",
@@ -27994,7 +27998,8 @@
     "roleOwner": "U27",
     "departmentID": [
      "DPT03"
-    ]
+    ],
+    "businessUnitID": "BU02"
    },
    {
     "roleID": "R06",
@@ -28005,7 +28010,8 @@
     "roleOwner": "U28",
     "departmentID": [
      "DPT03"
-    ]
+    ],
+    "businessUnitID": "BU02"
    },
    {
     "roleID": "R07",
@@ -28016,7 +28022,8 @@
     "roleOwner": "U29",
     "departmentID": [
      "DPT04"
-    ]
+    ],
+    "businessUnitID": "BU03"
    },
    {
     "roleID": "R08",
@@ -28027,7 +28034,8 @@
     "roleOwner": "U30",
     "departmentID": [
      "DPT04"
-    ]
+    ],
+    "businessUnitID": "BU03"
    },
    {
     "roleID": "R09",
@@ -28038,7 +28046,8 @@
     "roleOwner": "U31",
     "departmentID": [
      "DPT05"
-    ]
+    ],
+    "businessUnitID": "BU04"
    },
    {
     "roleID": "R10",
@@ -28049,7 +28058,8 @@
     "roleOwner": "U32",
     "departmentID": [
      "DPT05"
-    ]
+    ],
+    "businessUnitID": "BU04"
    },
    {
     "roleID": "R11",
@@ -28060,7 +28070,8 @@
     "roleOwner": "U33",
     "departmentID": [
      "DPT02"
-    ]
+    ],
+    "businessUnitID": "BU01"
    },
    {
     "roleID": "R12",
@@ -28071,7 +28082,8 @@
     "roleOwner": "U34",
     "departmentID": [
      "DPT03"
-    ]
+    ],
+    "businessUnitID": "BU02"
    }
   ],
   "People": [
