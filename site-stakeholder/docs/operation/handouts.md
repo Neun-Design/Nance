@@ -11,6 +11,12 @@ handouts as inputs and produce them as outputs. (Channels are a hidden registry:
 handout names its channel inline.)
 **Register when:** before Procedures; handouts can also be created inline from the
 Procedure form.
+**Key fields (2026-09-07):** Name, Description; **Business Unit** (single) → unlocks
+**Departments** (multi — the unit's departments): the departments the handout serves.
+The Procedure form's Inputs/Outputs pickers narrow to the handouts of the chosen
+department — leave Departments empty to keep the handout offered everywhere (until
+role-based access control lands, forms carry filter inputs like these so the same MVP
+serves different units and departments); Channel and template identification.
 **Customer Input moved to the Procedure** (2026-09-04): the checkbox that marked a
 handout as customer-provided left this form — the decision is contextual: the same
 document may be a customer input in one method and produced internally in another.

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 83,
+    "schemaVersion": 84,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -2916,6 +2916,24 @@
               "constraints": null
             },
             {
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Single-valued — pre-RBAC filter input (issue #340): gates and filters the Departments multicheck. Seeds: the unit of the handout's first using department (tools/migrate_prerbac_procedure_filters.py).",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "multivalued — departments this handout serves (issue #340): the Procedures Inputs/Outputs pickers narrow to handouts naming the selected department; EMPTY = offered everywhere (Q1 — legacy/frozen tolerance). Seeds: union of the departments of the procedures using the handout as input or output, procedure row order. A handout whose departments span units carries the accepted #290 edit-time narrowing trap (the unit-filtered multicheck drops other-unit picks on save).",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "handoutDescription",
               "type": "TEXT",
               "rule": null,
@@ -3020,6 +3038,29 @@
                 "step": null,
                 "check": null,
                 "field-rule": null
+              },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "businessUnitID",
+                "tooltip": "Pick the unit first — the Departments options narrow to it (pre-RBAC filter input, issue #340)",
+                "step": null,
+                "check": null,
+                "field-rule": null
+              },
+              "Departments": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "Departments this handout serves — the Procedures Inputs/Outputs pickers narrow to them; leave empty to offer it everywhere",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Business Unit selected"
+                ]
               },
               "Channel": {
                 "field-type": {
@@ -3200,7 +3241,16 @@
               "name": "businessUnitID",
               "type": "FK",
               "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "Form filter — narrows the Department options",
+              "notes": "Form filter — narrows the Department options (pre-RBAC filter input, issue #340). Demo seeds re-keyed by tools/migrate_prerbac_procedure_filters.py to the department's unit (the pre-#340 rows all carried BU01 while their processes' departments spanned four units — the #281 edit-integrity posture).",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "Form filter — narrows the Process options (pre-RBAC filter input, issue #340; the #159 drop is superseded for the FORM chain — Competence keeps deriving its department via the process). Seeds: the process's departmentID (tools/migrate_prerbac_procedure_filters.py).",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3313,15 +3363,25 @@
                 "check": null,
                 "field-rule": null
               },
-              "Process": {
+              "Department": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "select": "shadcn-select"
                 },
-                "attribute": "processID",
-                "tooltip": null,
+                "attribute": "departmentID",
+                "tooltip": "Pick the department — the Process options narrow to it (pre-RBAC filter input, issue #340)",
                 "step": null,
                 "check": "Unit IS NOT NULL",
-                "field-rule": "SelectLabel = squadName; filtered by businessUnitID selected"
+                "field-rule": "filtered by Unit selected"
+              },
+              "Process": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "processID",
+                "tooltip": "Processes of the selected Department",
+                "step": null,
+                "check": "Department IS NOT NULL",
+                "field-rule": "filtered by Department selected"
               },
               "Task": {
                 "field-type": {
@@ -3375,10 +3435,10 @@
                   "Combobox": "shadcn-combobox"
                 },
                 "attribute": "taskInput",
-                "tooltip": null,
+                "tooltip": "Handouts admitted for the selected Department (issue #340) that are free or already on this chain",
                 "step": null,
                 "check": null,
-                "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
+                "field-rule": "Allow multiple values; filtered by Department + Process + Activity + Action selected"
               },
               "Customer Inputs": {
                 "field-type": {
@@ -3395,10 +3455,10 @@
                   "Combobox": "shadcn-combobox"
                 },
                 "attribute": "taskOutput",
-                "tooltip": null,
+                "tooltip": "Handouts admitted for the selected Department (issue #340) that are free or already on this chain",
                 "step": null,
                 "check": null,
-                "field-rule": "Allow multiple values; filtered by Process + Activity + Action selected"
+                "field-rule": "Allow multiple values; filtered by Department + Process + Activity + Action selected"
               },
               "Owner": {
                 "field-type": {

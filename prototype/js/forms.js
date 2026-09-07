@@ -720,9 +720,14 @@ export function customerInputsForSelection(inputIds) {
 // "filtered selection"): a Handout stays selectable while UNLINKED (no task
 // references it yet — e.g. just created from this form's "New Handout"
 // button); once linked, it is only offered to tasks on the same
-// Process → Activity → Action chain as its owning task(s). Exported for
+// Process → Activity → Action chain as its owning task(s). Since issue
+// #340 an optional trailing `departmentId` (the #272 arity posture) adds
+// the pre-RBAC department dimension: a handout naming departments is only
+// offered under one of them; an EMPTY department key = offered everywhere
+// (Q1 — legacy/frozen tolerance); no department selected = the dimension
+// is skipped (lenient cascade posture). Exported for
 // tools/test_engine_indentation.mjs.
-export function handoutsForTask(processID, workflowID, actionID) {
+export function handoutsForTask(processID, workflowID, actionID, departmentId = null) {
   const hT = resolveTable('Handouts');
   if (!hT) return [];
   const hMeta = ENTITY_META[hT];
@@ -740,6 +745,10 @@ export function handoutsForTask(processID, workflowID, actionID) {
   const out = [];
   for (const h of getEntity(hT)) {
     const hid = h[hMeta.pk];
+    if (departmentId != null && departmentId !== '') {
+      const depts = asList(h.departmentID).map(String);
+      if (depts.length && !depts.includes(String(departmentId))) continue;
+    }
     const owners = tasks.filter((t) => arrOverlap(t.taskInput, hid)
       || arrOverlap(t.taskOutput, hid) || (tPk && arrOverlap(h.taskID, t[tPk])));
     for (const p of procs) {
@@ -1527,11 +1536,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           }
           // Procedures "Inputs"/"Outputs" (Tasks pre-Procedures-round):
           // linked handouts follow their owning task's Process → Activity →
-          // Action chain — see handoutsForTask.
+          // Action chain — see handoutsForTask. Since issue #340 the
+          // Procedures form also passes the selected Department (pre-RBAC
+          // filter); the Tasks form has no Department field → null → the
+          // dimension is skipped.
           if ((entity === 'Tasks' || entity === 'Procedures')
               && (attrName === 'taskInput' || attrName === 'taskOutput')) {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
-            applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action')));
+            applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action'),
+              val('Department')));
             return;
           }
           // Procedures "Customer Inputs" (issue #324): options = exactly the

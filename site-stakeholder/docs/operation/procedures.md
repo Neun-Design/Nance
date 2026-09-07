@@ -12,8 +12,11 @@ output handouts — the same task can carry several procedures, one per requirem
 An empty requirement list means the procedure applies to every requirement.
 **Register when:** last in the module — after Tasks; before Competence (a competence
 certifies procedures).
-**Key fields:** registry code and URL of the controlled document; `Unit` → `Process` (the
-unit's processes) → `Task *` (the anchor); **Product Scopes** (multi — offered from the
+**Key fields:** registry code and URL of the controlled document; `Unit` → `Department`
+(2026-09-07 — pick the department and the Process options narrow to it; until role-based
+access control lands, forms carry filter inputs like this one so the same MVP serves
+different units and departments) → `Process` (the department's processes) → `Task *` (the
+anchor); **Product Scopes** (multi — offered from the
 process's list, empty = applies to all; since 2026-09-07 the pinned scopes **gate the
 ticket match directly**: a ticket only resolves this procedure when it admits one of
 them, so the method selection reads task + requirements + product scopes together —
@@ -24,8 +27,9 @@ grouped by type — so the full combination the unit answers for is pickable in 
 (a requirement pinned to another unit or to a region the unit does not serve stays out);
 **execution time**
 (hours under THIS requirement set — procedures create the variance in task duration; the
-task shows the sum); Inputs/Outputs offer only handouts that are free or already on this
-chain; **Customer Inputs** (2026-09-04) — among the chosen Inputs, tick the ones the
+task shows the sum); Inputs/Outputs offer only handouts admitted for the chosen Department
+(2026-09-07 — a [Handout](handouts.md) declares the departments it serves; one with no
+departments is offered everywhere) that are free or already on this chain; **Customer Inputs** (2026-09-04) — among the chosen Inputs, tick the ones the
 customer must provide upon ticket creation: the decision is made HERE, per procedure
 (the same handout may be customer-provided in one method and internal in another — the
 old handout-level flag is gone), and the selected documents surface on the ticket's
