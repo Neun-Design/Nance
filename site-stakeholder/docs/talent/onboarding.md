@@ -15,7 +15,8 @@ The Certified flag covers the whole group; certify partial progress as a separat
 onboarding.
 **Register when:** after Competences.
 **Key fields:** `Title *` — names the competence group being certified;
-`Department *` → unlocks Talent (people of the department) and, with the Role,
+`Business Unit` (2026-09-07 — the pre-RBAC filter input: the Department options narrow
+to the chosen unit) → `Department *` → unlocks Talent (people of the department) and, with the Role,
 the Competence options (pick one or more; only competences of that department
 and role); Skill Rank; Training URL; Certified.
 **Expand a row** to see the competences the onboarding certifies in the

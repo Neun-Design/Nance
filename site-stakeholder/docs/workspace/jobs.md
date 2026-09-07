@@ -13,7 +13,9 @@ purpose: "Jobs — what it is, when to register one, and its key fields"
 **What it is:** the staffed execution unit: a task assigned to a certified person, with real
 execution tracking. The tab is **not part of the MVP walkthrough** (full prototype only).
 **Register when:** after Tickets (and phase 6 — Jobs only offer certified responsibles).
-**Key fields:** `Project *` (narrows the ticket options — the stored project always follows
+**Key fields:** `Business Unit` (2026-09-07 — the pre-RBAC filter input: the Project
+options narrow to the chosen unit, grouped by customer) → `Project *` (narrows the ticket
+options — the stored project always follows
 the ticket) → unlocks `Ticket *` (grouped by customer) → unlocks Task (tasks matching the
 ticket's chain) and Responsible (onboarded people whose competence matches the chain);
 Predecessor (a job of the same ticket that must run first) with its Dependency type. The
