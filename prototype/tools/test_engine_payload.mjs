@@ -39,7 +39,11 @@ console.log('== schema shapes ==');
   eq(model.parseRule(pr.byName['departmentID'].rule).kind, 'fk', 'Processes store the department');
   eq(model.parseRule(pr.byName['productScopeID'].rule).kind, 'fk', 'Processes store product scopes');
   const pc = catalog['Procedures'];
-  eq(pc.byName['departmentID'], undefined, 'Procedures dropped departmentID');
+  // #159 dropped the key; issue #340 RE-ADDED it as a stored pre-RBAC filter
+  // input (Unit → Department → Process form chain) — the Competence
+  // department still derives via the process, so the #159 doctrine holds
+  eq(model.parseRule(pc.byName['departmentID'].rule).kind, 'fk',
+    'Procedures departmentID is back as a stored filter FK (#340)');
   eq(model.parseRule(pc.byName['productScopeID'].rule).kind, 'fk', 'Procedures store product scopes');
   eq(model.getSchemaVersion() >= 19, true, 'schemaVersion at least 19 (payload round)');
 }
@@ -50,8 +54,13 @@ console.log('== migration: department moved event -> process, wildcards seeded =
   eq(data.getEntity('Events').every((e) => !('departmentID' in e)
     && Array.isArray(e.scopeID) && Array.isArray(e.productID)), true,
     'events: key dropped, empty applicability seeded (Q1 wildcard)');
+  // the #159 key drop was superseded by #340 (stored filter input) on LIVE
+  // data — this FROZEN pre-#340 dataset keeps the dropped shape as
+  // TOLERATED (#284 posture; live-data seeds are proven in
+  // test_engine_prerbac_procedure_filters.mjs)
   eq(data.getEntity('Procedures').every((p) => !('departmentID' in p)
-    && Array.isArray(p.productScopeID)), true, 'procedures: key dropped, wildcard seeded');
+    && Array.isArray(p.productScopeID)), true,
+    'frozen procedures keep the pre-#340 shape (no department key — tolerated)');
 }
 
 console.log('== productScopesForEvent: wildcard + narrowed ==');
