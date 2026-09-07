@@ -63,8 +63,10 @@ export function parseRule(rule) {
   // TICKET-PROCEDURE(taskField) — the single procedure a requirement context
   // selects for a task (issue #270): the task's procedures whose requirement
   // set covers ALL the context requirements (AND semantics; empty set = Q1
-  // wildcard). Exactly one candidate renders its registry, else GAP
-  // (ticketProcedureForTask in resolve.js)
+  // wildcard) and — with a ticket scope context — whose productScopeID names
+  // an admitted scope (issue #332; empty key = every scope, Q1). Exactly one
+  // candidate renders its registry, else GAP (ticketProcedureForTask in
+  // resolve.js)
   m = txt.match(/^computed:\s*TICKET-PROCEDURE\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)(?:\s*\(\s*display:\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?$/i);
   if (m) return { kind: 'ticketprocedure', srcField: m[1], display: m[2] || null };
   // TICKET-INPUTS(processField) — the customer-provided inputs of a ticket

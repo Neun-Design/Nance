@@ -596,11 +596,16 @@ class Builder:
             elif t['processID'] == self.id_of('Processes', 'Imaging Exam Flow') and i % 2 == 0:
                 reqs = [req_ix['Contrast Administration Protocol']]
             base = time_of_fn[fn_names[t['functionID']]]
-            # the SOP names the pair(s) it serves — the process's packaged
-            # pairs (F5: the Product-scopes subitem tab must not be empty)
+            # the SOP names the pairs it serves — the FULL packaged list of
+            # its event (F5: the Product-scopes subitem tab must not be
+            # empty; issue #332: the key gates the ticket→procedure match,
+            # so every scope a ticket can admit through the event must be
+            # named — the old [:2] truncation would GAP 606 demo dispatches;
+            # same union rule as tools/migrate_procedure_scope_gate.py, so
+            # regenerated and migrated datasets agree)
             ev_title = next(e['eventTitle'] for e in self.rows('Events')
                             if e['eventID'] == t['eventID'])
-            served = [p['productScopeID'] for p in pack_of.get(ev_title, [])][:2]
+            served = [p['productScopeID'] for p in pack_of.get(ev_title, [])]
             procedures.append({'procedureID': f'PRC{i+1:02d}',
                                'procedureRegistry': f'SOP-{i+1:03d}',
                                'processID': t['processID'], 'taskID': t['taskID'],

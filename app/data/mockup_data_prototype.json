@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 79,
+  "schemaVersion": 80,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -12485,7 +12485,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ06"
@@ -12512,7 +12524,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [],
     "taskInput": [
@@ -12535,7 +12559,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ06"
@@ -12560,7 +12596,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [],
     "taskInput": [
@@ -12585,7 +12633,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ06"
@@ -12612,7 +12672,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [],
     "taskInput": [
@@ -12635,7 +12707,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ06"
@@ -12662,7 +12746,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ08"
@@ -12687,7 +12783,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ06"
@@ -12712,7 +12820,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [],
     "taskInput": [
@@ -12735,7 +12855,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12760,7 +12884,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12785,7 +12913,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12810,7 +12942,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12835,7 +12971,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12862,7 +13002,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12887,7 +13031,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -12912,7 +13060,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [
      "RQ10"
@@ -13587,7 +13739,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [],
     "taskInput": [
@@ -13612,7 +13776,19 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS02",
-     "PS03"
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
     ],
     "requirementID": [
      "RQ06"
@@ -13637,7 +13813,11 @@
     "businessUnitID": "BU01",
     "productScopeID": [
      "PS14",
-     "PS15"
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
     ],
     "requirementID": [],
     "taskInput": [
