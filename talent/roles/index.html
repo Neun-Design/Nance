@@ -2657,8 +2657,12 @@ accumulates those pairs through onboarding — and the family inherits through t
 (e.g. <em>Designer Junior</em> / <em>Designer Senior</em>), and a person keeps their competences when
 they change function.
 <strong>Register when:</strong> after Functions (departments come from Organization).
-<strong>Key fields:</strong> Name; <code>Function *</code> → unlocks <strong>Departments</strong> (multi — the departments of
-the function's business units, grouped by unit); Quantity (headcount).</p>
+<strong>Key fields:</strong> Name; <code>Business Unit *</code> (2026-09-07) — pick the unit first and the
+Function options narrow to it (until role-based access control lands, forms carry
+filter inputs like this one so the same MVP serves different business segments and
+units); <code>Function *</code> (the selected unit's functions) → unlocks <strong>Departments</strong> (multi —
+the departments of the function's business units; the by-unit grouping was dropped
+since the unit is now chosen on the form); Quantity (headcount).</p>
 
 
 
