@@ -1033,11 +1033,18 @@ function presetFor(entity, attrName, record) {
 // event; Procedure picks product scopes from the process and derives its
 // requirement options through them. EMPTY keys = applies to all (Q1).
 const asList = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
+// Option label = the compact productScopeID (2026-09-08 UX round — the
+// full name made the pickers illegible; Rafael's call: ID as label, full
+// name on hover). The full productScopeName travels as `hint`: custom
+// multicheck/radio rows render it as a 100ms hover tooltip (data-hint,
+// app.css), native selects carry it as the option title and mirror the
+// selected option's hint on the closed control.
 const psOption = (ps) => {
   const pk = ENTITY_META['Product Scopes'].pk;
-  const parts = [resolveDisplay('Product Scopes', ps, 'productName'),
-    resolveDisplay('Product Scopes', ps, 'scopeName')].filter((x) => x !== '');
-  return { value: ps[pk], label: parts.join(' | ') || String(ps[pk]) };
+  const full = resolveDisplay('Product Scopes', ps, 'productScopeName')
+    || [resolveDisplay('Product Scopes', ps, 'productName'),
+      resolveDisplay('Product Scopes', ps, 'scopeName')].filter((x) => x !== '').join(' | ');
+  return { value: ps[pk], label: String(ps[pk]), hint: String(full || '') };
 };
 
 // Product scopes an EVENT's applicability admits: scope overlap AND the
@@ -1062,7 +1069,7 @@ export function productScopesForPayload(eventId, businessUnitId) {
   return kept.map((o) => {
     const ps = getById('Product Scopes', o.value);
     const label = ps && resolveDisplay('Product Scopes', ps, 'productScopeRegistry');
-    return label ? { value: o.value, label: String(label) } : o;
+    return label ? { value: o.value, label: String(label), hint: o.hint } : o;
   });
 }
 
@@ -1361,6 +1368,7 @@ function mkMultiCheck(options) {
       cb.checked = keep.has(cb.value);
       const span = document.createElement('span');
       span.textContent = o.label;
+      if (o.hint) { row.title = o.hint; row.dataset.hint = o.hint; } // 100ms tooltip (app.css)
       row.append(cb, span);
       wrap.appendChild(row);
       boxes.push(cb);
@@ -1434,7 +1442,7 @@ function mkRadioList(options) {
     const keep = String(radios.find((r) => r.checked)?.value ?? '');
     wrap.innerHTML = '';
     radios = [];
-    const mkRow = (value, label) => {
+    const mkRow = (value, label, hint = null) => {
       const row = document.createElement('label');
       row.className = 'form-multicheck-row';
       const rb = document.createElement('input');
@@ -1442,6 +1450,7 @@ function mkRadioList(options) {
       rb.checked = keep === rb.value;
       const span = document.createElement('span');
       span.textContent = label;
+      if (hint) { row.title = hint; row.dataset.hint = hint; } // 100ms tooltip (app.css)
       row.append(rb, span);
       wrap.appendChild(row);
       radios.push(rb);
@@ -1456,7 +1465,7 @@ function mkRadioList(options) {
         continue;
       }
       if (o.value === '' || o.value == null) continue;
-      mkRow(o.value, o.label);
+      mkRow(o.value, o.label, o.hint || null);
     }
     if (!radios.some((r) => r.checked)) radios[0].checked = true;
   };
@@ -1526,7 +1535,11 @@ function refillSelect(node, options, target, newId) {
     ? new Set([...node.selectedOptions].map((o) => o.value)) : new Set([node.value]);
   node.innerHTML = '';
   if (!node.multiple) node.appendChild(new Option('— select —', ''));
-  (options || []).forEach((o) => node.appendChild(new Option(o.label, o.value)));
+  (options || []).forEach((o) => {
+    const opt = new Option(o.label, o.value);
+    if (o.hint) opt.title = o.hint;
+    node.appendChild(opt);
+  });
   const tCat = getCatalog(target);
   const rec = getById(target, newId);
   const wanted = new Set([String(newId), rec && tCat ? String(rec[tCat.label] ?? '') : '']);
@@ -1639,11 +1652,20 @@ function fillOptions(sel, options, groupField, target, placeholder) {
     }
     for (const [g, list] of [...groups.entries()].sort((a, b) => String(a[0]).localeCompare(String(b[0])))) {
       const og = document.createElement('optgroup'); og.label = String(g || '—');
-      list.forEach((o) => { const el = document.createElement('option'); el.value = o.value; el.textContent = o.label; og.appendChild(el); });
+      list.forEach((o) => { const el = document.createElement('option'); el.value = o.value; el.textContent = o.label; if (o.hint) el.title = o.hint; og.appendChild(el); });
       sel.appendChild(og);
     }
   } else {
-    options.forEach((o) => { const el = document.createElement('option'); el.value = o.value; el.textContent = o.label; sel.appendChild(el); });
+    options.forEach((o) => { const el = document.createElement('option'); el.value = o.value; el.textContent = o.label; if (o.hint) el.title = o.hint; sel.appendChild(el); });
+  }
+  // native <select> options are OS-rendered — a custom 100ms tooltip cannot
+  // reach them, so hinted options carry the browser `title` (desktop
+  // best-effort) and the CLOSED control mirrors the selected option's hint
+  if (options.some((o) => o && o.hint) && !sel._hintWired) {
+    sel._hintWired = true;
+    const mirror = () => { sel.title = sel.selectedOptions[0]?.title || ''; };
+    sel.addEventListener('change', mirror);
+    mirror();
   }
 }
 
