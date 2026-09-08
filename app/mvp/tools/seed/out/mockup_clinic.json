@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 95,
+  "schemaVersion": 96,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11201,7 +11201,12 @@
      "RG01",
      "RG02"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11220,7 +11225,12 @@
     "regionID": [
      "RG03"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11240,7 +11250,12 @@
      "RG01",
      "RG02"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11260,7 +11275,12 @@
      "RG01",
      "RG02"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT03",
     "branchID": null,
     "customerID": null,
@@ -11279,7 +11299,12 @@
     "regionID": [
      "RG03"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT03",
     "branchID": null,
     "customerID": null,
@@ -11296,7 +11321,12 @@
     "requirementName": "Contrast Administration Protocol",
     "requirementDescription": "Screening, consent and supervision for contrast media",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11318,7 +11348,12 @@
     "requirementName": "Sedation Safety Protocol",
     "requirementDescription": "Anesthesist presence and recovery monitoring under sedation",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11338,7 +11373,12 @@
     "requirementName": "Report Double Signature",
     "requirementDescription": "Urgent and second-opinion reports need two signatures",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11358,7 +11398,12 @@
     "requirementName": "Radiation Dose Registry",
     "requirementDescription": "Per-exam dose logging and periodic review",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11380,7 +11425,12 @@
     "requirementName": "ISO 15189 Lab Accreditation",
     "requirementDescription": "Medical-laboratory competence accreditation",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT04",
     "branchID": null,
     "customerID": null,
@@ -11401,7 +11451,12 @@
     "requirementName": "PACS Retention Policy",
     "requirementDescription": "20-year image retention with audit trail",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT03",
     "branchID": null,
     "customerID": null,
@@ -11418,7 +11473,12 @@
     "requirementName": "Cold Chain Control",
     "requirementDescription": "Temperature-controlled sample transport",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11437,7 +11497,12 @@
     "requirementName": "HealthFirst Reporting Template",
     "requirementDescription": "Insurer-mandated report layout and coding",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT05",
     "branchID": null,
     "customerID": "CUST01",
@@ -11454,7 +11519,12 @@
     "requirementName": "Austral Prior Authorization",
     "requirementDescription": "Pre-authorization required before high-cost exams",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT05",
     "branchID": null,
     "customerID": "CUST03",
@@ -11471,7 +11541,12 @@
     "requirementName": "Screening Quality Sampling",
     "requirementDescription": "Second-read sampling on mammography campaign volume",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT04",
     "branchID": null,
     "customerID": null,
@@ -11492,7 +11567,12 @@
     "requirementName": "Critical Value Notification",
     "requirementDescription": "Immediate physician notification on critical results",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11512,7 +11592,12 @@
     "requirementName": "Equipment QC Daily Check",
     "requirementDescription": "Daily quality-control phantom checks",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11537,7 +11622,12 @@
     "regionID": [
      "RG03"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT05",
     "branchID": null,
     "customerID": null,
@@ -14972,7 +15062,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U33",
     "ticketStatus": "Resolved",
@@ -15011,7 +15101,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U34",
     "ticketStatus": "Resolved",
@@ -15045,7 +15135,7 @@
     "scopes": [
      "SC02"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U35",
     "ticketStatus": "Resolved",
@@ -15079,7 +15169,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U36",
     "ticketStatus": "Resolved",
@@ -15135,7 +15225,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U01",
     "ticketStatus": "Resolved",
@@ -15181,7 +15271,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 14.0,
     "ticketOwner": "U02",
     "ticketStatus": "InProgress",
@@ -15215,7 +15305,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U03",
     "ticketStatus": "InProgress",
@@ -15253,7 +15343,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U04",
     "ticketStatus": "Open",
@@ -15299,7 +15389,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U05",
     "ticketStatus": "Open",
@@ -15333,7 +15423,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U06",
     "ticketStatus": "Resolved",
@@ -15389,7 +15479,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U07",
     "ticketStatus": "Resolved",
@@ -15423,7 +15513,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U08",
     "ticketStatus": "Resolved",
@@ -15457,7 +15547,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U09",
     "ticketStatus": "Resolved",
@@ -15495,7 +15585,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U10",
     "ticketStatus": "Resolved",
@@ -15541,7 +15631,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U11",
     "ticketStatus": "Resolved",
@@ -15587,7 +15677,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U12",
     "ticketStatus": "InProgress",
@@ -15643,7 +15733,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U13",
     "ticketStatus": "InProgress",
@@ -15677,7 +15767,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U14",
     "ticketStatus": "Open",
@@ -15723,7 +15813,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U15",
     "ticketStatus": "Open",
@@ -15779,7 +15869,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U16",
     "ticketStatus": "Resolved",
@@ -15813,7 +15903,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U17",
     "ticketStatus": "Resolved",
@@ -15847,7 +15937,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U18",
     "ticketStatus": "Resolved",
@@ -15887,7 +15977,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U19",
     "ticketStatus": "Resolved",
@@ -15921,7 +16011,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U20",
     "ticketStatus": "Resolved",
@@ -15967,7 +16057,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U21",
     "ticketStatus": "Resolved",
@@ -16023,7 +16113,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U22",
     "ticketStatus": "InProgress",
@@ -16069,7 +16159,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U23",
     "ticketStatus": "InProgress",
@@ -16103,7 +16193,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U24",
     "ticketStatus": "Open",
@@ -16159,7 +16249,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U25",
     "ticketStatus": "Open",
@@ -16193,7 +16283,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U26",
     "ticketStatus": "Resolved",
@@ -16227,7 +16317,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U27",
     "ticketStatus": "Resolved",
@@ -16266,7 +16356,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U28",
     "ticketStatus": "Resolved",
@@ -16300,7 +16390,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U29",
     "ticketStatus": "Resolved",
@@ -16334,7 +16424,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U30",
     "ticketStatus": "Resolved",
@@ -16390,7 +16480,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U31",
     "ticketStatus": "Resolved",
@@ -16436,7 +16526,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U32",
     "ticketStatus": "InProgress",
@@ -16482,7 +16572,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U33",
     "ticketStatus": "InProgress",
@@ -16520,7 +16610,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U34",
     "ticketStatus": "Open",
@@ -16554,7 +16644,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U35",
     "ticketStatus": "Open",
@@ -16588,7 +16678,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U36",
     "ticketStatus": "Resolved",
@@ -16644,7 +16734,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U01",
     "ticketStatus": "Resolved",
@@ -16678,7 +16768,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U02",
     "ticketStatus": "Resolved",
@@ -16712,7 +16802,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U03",
     "ticketStatus": "Resolved",
@@ -16749,7 +16839,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U04",
     "ticketStatus": "Resolved",
@@ -16795,7 +16885,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U05",
     "ticketStatus": "Resolved",
@@ -16841,7 +16931,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U06",
     "ticketStatus": "InProgress",
@@ -16897,7 +16987,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U07",
     "ticketStatus": "InProgress",
@@ -16931,7 +17021,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U08",
     "ticketStatus": "Open",
@@ -16977,7 +17067,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U09",
     "ticketStatus": "Open",
@@ -17033,7 +17123,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U10",
     "ticketStatus": "Resolved",
@@ -17067,7 +17157,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U11",
     "ticketStatus": "Resolved",
@@ -17101,7 +17191,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U12",
     "ticketStatus": "Resolved",
@@ -17141,7 +17231,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U13",
     "ticketStatus": "Resolved",
@@ -17175,7 +17265,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U14",
     "ticketStatus": "Resolved",
@@ -17221,7 +17311,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U15",
     "ticketStatus": "Resolved",
@@ -17277,7 +17367,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U16",
     "ticketStatus": "InProgress",
@@ -17323,7 +17413,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U17",
     "ticketStatus": "InProgress",
@@ -17357,7 +17447,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U18",
     "ticketStatus": "Open",
@@ -17397,7 +17487,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U19",
     "ticketStatus": "Open",
@@ -17431,7 +17521,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U20",
     "ticketStatus": "Resolved",
@@ -17465,7 +17555,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U21",
     "ticketStatus": "Resolved",
@@ -17505,7 +17595,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U22",
     "ticketStatus": "Resolved",
@@ -17539,7 +17629,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U23",
     "ticketStatus": "Resolved",
@@ -17573,7 +17663,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U24",
     "ticketStatus": "Resolved",
@@ -17629,7 +17719,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U25",
     "ticketStatus": "Resolved",
@@ -17675,7 +17765,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U26",
     "ticketStatus": "InProgress",
@@ -17721,7 +17811,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U27",
     "ticketStatus": "InProgress",
@@ -17759,7 +17849,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U28",
     "ticketStatus": "Open",
@@ -17805,7 +17895,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U29",
     "ticketStatus": "Open",
@@ -17839,7 +17929,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U30",
     "ticketStatus": "Resolved",
@@ -17895,7 +17985,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U31",
     "ticketStatus": "Resolved",
@@ -17929,7 +18019,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U32",
     "ticketStatus": "Resolved",
@@ -17963,7 +18053,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U33",
     "ticketStatus": "Resolved",
@@ -18000,7 +18090,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U34",
     "ticketStatus": "Resolved",
@@ -18046,7 +18136,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U35",
     "ticketStatus": "Resolved",
@@ -18092,7 +18182,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U36",
     "ticketStatus": "InProgress",
@@ -18131,7 +18221,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U01",
     "ticketStatus": "InProgress",
@@ -18165,7 +18255,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U02",
     "ticketStatus": "Open",
@@ -18211,7 +18301,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U03",
     "ticketStatus": "Open",
@@ -18267,7 +18357,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U04",
     "ticketStatus": "Resolved",
@@ -18301,7 +18391,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U05",
     "ticketStatus": "Resolved",
@@ -18347,7 +18437,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U06",
     "ticketStatus": "Resolved",
@@ -18387,7 +18477,7 @@
     "scopes": [
      "SC02"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U07",
     "ticketStatus": "Resolved",
@@ -18421,7 +18511,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U08",
     "ticketStatus": "Resolved",
@@ -18467,7 +18557,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U09",
     "ticketStatus": "Resolved",
@@ -18523,7 +18613,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U10",
     "ticketStatus": "InProgress",
@@ -18569,7 +18659,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U11",
     "ticketStatus": "InProgress",
@@ -18603,7 +18693,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U12",
     "ticketStatus": "Open",
@@ -18659,7 +18749,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U13",
     "ticketStatus": "Open",
@@ -18693,7 +18783,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U14",
     "ticketStatus": "Resolved",
@@ -18727,7 +18817,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U15",
     "ticketStatus": "Resolved",
@@ -18783,7 +18873,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U16",
     "ticketStatus": "Resolved",
@@ -18817,7 +18907,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U17",
     "ticketStatus": "Resolved",
@@ -18851,7 +18941,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U18",
     "ticketStatus": "Resolved",
@@ -18907,7 +18997,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U19",
     "ticketStatus": "Resolved",
@@ -18953,7 +19043,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U20",
     "ticketStatus": "InProgress",
@@ -18987,7 +19077,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U21",
     "ticketStatus": "InProgress",
@@ -19025,7 +19115,7 @@
     "scopes": [
      "SC05"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U22",
     "ticketStatus": "Open",
@@ -19059,7 +19149,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U23",
     "ticketStatus": "Open",
@@ -19093,7 +19183,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U24",
     "ticketStatus": "Resolved",
@@ -19149,7 +19239,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U25",
     "ticketStatus": "Resolved",
@@ -19195,7 +19285,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U26",
     "ticketStatus": "Resolved",
@@ -19229,7 +19319,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U27",
     "ticketStatus": "Resolved",
@@ -19266,7 +19356,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U28",
     "ticketStatus": "Resolved",
@@ -19312,7 +19402,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U29",
     "ticketStatus": "Resolved",
@@ -19358,7 +19448,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U30",
     "ticketStatus": "InProgress",
@@ -19414,7 +19504,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U31",
     "ticketStatus": "InProgress",
@@ -19448,7 +19538,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U32",
     "ticketStatus": "Open",
@@ -19494,7 +19584,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U33",
     "ticketStatus": "Open",
@@ -19550,7 +19640,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U34",
     "ticketStatus": "Resolved",
@@ -19584,7 +19674,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U35",
     "ticketStatus": "Resolved",
@@ -19630,7 +19720,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U36",
     "ticketStatus": "Resolved",
@@ -19670,7 +19760,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U01",
     "ticketStatus": "Resolved",
@@ -19704,7 +19794,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U02",
     "ticketStatus": "Resolved",
@@ -19750,7 +19840,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U03",
     "ticketStatus": "Resolved",
@@ -19806,7 +19896,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U04",
     "ticketStatus": "InProgress",
@@ -19852,7 +19942,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U05",
     "ticketStatus": "InProgress",
@@ -19886,7 +19976,7 @@
     "scopes": [
      "SC02"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.25,
     "ticketOwner": "U06",
     "ticketStatus": "Open",
@@ -19925,7 +20015,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U07",
     "ticketStatus": "Open",
@@ -19959,7 +20049,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U08",
     "ticketStatus": "Resolved",
@@ -19993,7 +20083,7 @@
     "scopes": [
      "SC05"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U09",
     "ticketStatus": "Resolved",
@@ -20033,7 +20123,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U10",
     "ticketStatus": "Resolved",
@@ -20067,7 +20157,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U11",
     "ticketStatus": "Resolved",
@@ -20101,7 +20191,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U12",
     "ticketStatus": "Resolved",
@@ -20157,7 +20247,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U13",
     "ticketStatus": "Resolved",
@@ -20203,7 +20293,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U14",
     "ticketStatus": "InProgress",
@@ -20249,7 +20339,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U15",
     "ticketStatus": "InProgress",
@@ -20287,7 +20377,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U16",
     "ticketStatus": "Open",
@@ -20333,7 +20423,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U17",
     "ticketStatus": "Open",
@@ -20367,7 +20457,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U18",
     "ticketStatus": "Resolved",
@@ -20423,7 +20513,7 @@
     "scopes": [
      "SC04"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U19",
     "ticketStatus": "Resolved",
@@ -20457,7 +20547,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U20",
     "ticketStatus": "Resolved",
@@ -20491,7 +20581,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U21",
     "ticketStatus": "Resolved",
@@ -20528,7 +20618,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U22",
     "ticketStatus": "Resolved",
@@ -20574,7 +20664,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U23",
     "ticketStatus": "Resolved",
@@ -20620,7 +20710,7 @@
     "scopes": [
      "SC05"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U24",
     "ticketStatus": "InProgress",
@@ -20660,7 +20750,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 5.0,
     "ticketOwner": "U25",
     "ticketStatus": "InProgress",
@@ -20694,7 +20784,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 7.5,
     "ticketOwner": "U26",
     "ticketStatus": "Open",
@@ -20728,7 +20818,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U27",
     "ticketStatus": "Open",
@@ -20784,7 +20874,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U28",
     "ticketStatus": "Resolved",
@@ -20818,7 +20908,7 @@
     "scopes": [
      "SC02"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.25,
     "ticketOwner": "U29",
     "ticketStatus": "Resolved",
@@ -20852,7 +20942,7 @@
     "scopes": [
      "SC03"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U30",
     "ticketStatus": "Resolved",
@@ -20892,7 +20982,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U31",
     "ticketStatus": "Resolved",
@@ -20926,7 +21016,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U32",
     "ticketStatus": "Resolved",
@@ -20972,7 +21062,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U33",
     "ticketStatus": "Resolved",
@@ -21028,7 +21118,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U34",
     "ticketStatus": "InProgress",
@@ -21074,7 +21164,7 @@
     "scopes": [
      "SC06"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U35",
     "ticketStatus": "InProgress",
@@ -21108,7 +21198,7 @@
     "scopes": [
      "SC07"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U36",
     "ticketStatus": "Open",
@@ -21164,7 +21254,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U01",
     "ticketStatus": "Open",
@@ -21198,7 +21288,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U02",
     "ticketStatus": "Resolved",
@@ -21232,7 +21322,7 @@
     "scopes": [
      "SC02"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.25,
     "ticketOwner": "U03",
     "ticketStatus": "Resolved",
@@ -21271,7 +21361,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U04",
     "ticketStatus": "Resolved",
@@ -21305,7 +21395,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U05",
     "ticketStatus": "Resolved",
@@ -21339,7 +21429,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U06",
     "ticketStatus": "Resolved",
@@ -21395,7 +21485,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U07",
     "ticketStatus": "Resolved",
@@ -21441,7 +21531,7 @@
     "scopes": [
      "SC02"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.25,
     "ticketOwner": "U08",
     "ticketStatus": "InProgress",
@@ -21475,7 +21565,7 @@
     "scopes": [
      "SC01"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 8.0,
     "ticketOwner": "U09",
     "ticketStatus": "InProgress",
@@ -21513,7 +21603,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 14.0,
     "ticketOwner": "U10",
     "ticketStatus": "Open",
@@ -21547,7 +21637,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U11",
     "ticketStatus": "Open",
@@ -21581,7 +21671,7 @@
     "scopes": [
      "SC08"
     ],
-    "addedRequirementID": [],
+    "constraintID": [],
     "ticketExecutionTime": 10.0,
     "ticketOwner": "U12",
     "ticketStatus": "Resolved",

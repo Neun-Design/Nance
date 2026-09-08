@@ -106,12 +106,17 @@ console.log('== semantics: named ∪ scope ∪ product-group legs, no Q1 ==');
   const ps01 = data.getById('Product Scopes', 'PS01'); // BU01 · PG01 · SC02
   eq(ids(resolve.productScopeRequirementRows(ps01)), ['RQ06', 'RQ08', 'RQ09', 'RQ17'],
     'PS01: scope- and product-group-connected requirements only (no named/unit hits in the demo)');
-  // no Q1 wildcard: RQ01 is Active with ALL applicability keys blank
+  // no Q1 wildcard: RQ01 is Active with the CONNECTION keys blank — the
+  // unit key carries the all-units mandatory seed since the #359-redefined
+  // round (the explicit Q1 spelling; unit stays an exclusion gate only, so
+  // the row still attaches through NO connection leg)
   const rq01 = data.getById('Requirements', 'RQ01');
-  eq([rq01.scopeID, rq01.productGroupID, rq01.businessUnitID, rq01.productScopeID],
-    [[], [], [], []], 'probe: RQ01 keys are all blank (global)');
+  eq([rq01.scopeID, rq01.productGroupID, rq01.productScopeID],
+    [[], [], []], 'probe: RQ01 connection keys are blank (global)');
+  eq(rq01.businessUnitID.length > 0, true,
+    'unit key mandatory since the #359 redefinition (all-units seed)');
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ01'), false,
-    'all-blank requirement attaches nowhere (no Q1 on the comprehensive set)');
+    'connection-blank requirement attaches nowhere (no Q1 on the comprehensive set)');
   // named leg: the requirement DECLARES the product scope — leads the list
   data.addRecord('Requirements', { requirementID: 'RQ-T-NAMED', requirementName: 'Named (t)',
     scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],

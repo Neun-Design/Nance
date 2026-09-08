@@ -430,7 +430,11 @@ class Builder:
             reqs.append({'requirementID': f'RQ{i+1:02d}', 'requirementName': r['name'],
                          'requirementDescription': r['description'],
                          'regionID': [self.id_of('Regions', x) for x in r.get('regions', [])],
-                         'businessUnitID': [],
+                         # mandatory since issue #359 (redefined round): ALL
+                         # units — the explicit spelling of the former empty
+                         # key's Q1 meaning; mirrors migrate_ticket_constraints.py
+                         'businessUnitID': [u['businessUnitID']
+                                            for u in self.rows('Business Units')],
                          'requirementTypeID': self.id_of('Requirement Type', r['type']),
                          'branchID': None,
                          'customerID': self.id_of('Customers', r['customers'][0]) if r.get('customers') else None,
@@ -1212,7 +1216,7 @@ class Builder:
                                           if p['eventID'] == ev_id],
                             'products': group['productID'],
                             'scopes': [pair['scopeID']],
-                            'addedRequirementID': [],
+                            'constraintID': [],
                             'ticketExecutionTime': exec_hours,
                             'ticketOwner': None, 'ticketStatus': status,
                             'targetDate': (created + timedelta(days=14)).isoformat(),

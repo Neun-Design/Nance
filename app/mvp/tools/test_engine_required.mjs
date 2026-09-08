@@ -38,8 +38,10 @@ console.log('== requiredAttrs: anchors + label ==');
 console.log('== Q1 wildcards stay nullable ==');
 {
   const rq = forms.requiredAttrs('Requirements');
-  eq(['regionID', 'businessUnitID', 'customerID', 'branchID'].some((a) => rq.has(a)),
-    false, 'Requirements applicability keys (empty = applies to all) not required');
+  eq(rq.has('businessUnitID'), true,
+    'Requirements.businessUnitID MANDATORY (issue #359 redefined — pre-RBAC correction)');
+  eq(['regionID', 'customerID', 'branchID'].some((a) => rq.has(a)),
+    false, 'the other applicability keys stay optional (empty = applies to all, Q1)');
   eq(forms.requiredAttrs('Workflows').has('parentStepID'), false,
     'parentStepID nullable (root step)');
   eq(forms.requiredAttrs('Processes').has('squadID'), false,

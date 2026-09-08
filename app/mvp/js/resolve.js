@@ -936,20 +936,12 @@ export function ticketRequirements(ticket) {
   // skipped (lenient)
   const prj = ticket.projectID != null && ticket.projectID !== ''
     ? getById('Projects', ticket.projectID) : null;
-  const out = matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
+  // (the #359 manual-union of addedRequirementID was RETIRED in the same
+  // round's redefinition — the picks became the Constraints FILTER on the
+  // Product Scope options, forms.js; inheritance is the only source again)
+  return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
     customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
     branchId: (prj && prj.branchID) ?? null });
-  // manual additions (issue #359 — Tickets.addedRequirementID, picked on the
-  // wizard Request step): UNIONED after the inheritance match, which stays
-  // untouched — an added requirement binds the ticket like any inherited
-  // one (tab, TICKET-PROCEDURE, TICKET-INPUTS, staffing follow). Deduped;
-  // Inactive/missing rows drop (the same lifecycle posture as inheritance).
-  for (const id of asIds(ticket.addedRequirementID)) {
-    const r = getById('Requirements', id);
-    if (!r || String(r.isActive || 'Active') === 'Inactive') continue;
-    if (!out.some((x) => String(x) === String(id))) out.push(id);
-  }
-  return out;
 }
 
 // Requirements a competence certifies — via its procedures since the
