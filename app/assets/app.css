@@ -332,6 +332,25 @@ select.form-input[multiple] { padding: 0; }
 .form-multicheck-row input[type="checkbox"],
 .form-multicheck-row input[type="radio"] { width: 16px; height: 16px; accent-color: var(--se-ui-0); flex: none; }
 .form-multicheck-row span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* option hint tooltip (2026-09-08 UX round): compact labels (e.g. the
+   productScopeID pickers) carry the full name in data-hint — shown after a
+   100ms hover on the custom rows; native <select> options fall back to the
+   browser title (their open list is OS-rendered, out of CSS reach) */
+.form-multicheck-row[data-hint] { position: relative; }
+.form-multicheck-row[data-hint]::after {
+  content: attr(data-hint);
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%); z-index: 40;
+  background: var(--se-base-1); color: var(--se-text-primary);
+  border: 1px solid var(--se-ui-4); border-radius: var(--se-radius-1);
+  box-shadow: var(--se-elevation-3);
+  padding: 3px var(--se-space-3); font-size: var(--se-font-size-caption);
+  max-width: calc(100% - 48px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.12s, visibility 0.12s; transition-delay: 0s;
+}
+.form-multicheck-row[data-hint]:hover::after {
+  opacity: 1; visibility: visible; transition-delay: 0.1s;
+}
 .form-ro { background: var(--se-base-4); font-style: italic; color: var(--se-text-secondary); }
 /* ---------- Wizard steps (issue #353 — Procedure drawer redesign) ---------- */
 .wizard-steps { display: flex; gap: var(--se-space-2); margin-bottom: var(--se-space-6); flex-wrap: wrap; }
