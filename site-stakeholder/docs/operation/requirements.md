@@ -11,17 +11,28 @@ purpose: "Requirements — what it is, when to register one, and its key fields"
 multi-dimensional: region, unit, branch, customer, scope, product group — **an empty
 dimension means "applies to all"**.
 **Register when:** after Scopes and Product Groups (Portfolio module).
-**Key fields:** Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group/**Product Scope** — the
-Business Unit picker unlocks after at least one Region is selected (2026-08-27); regulatory
-reference/URL. The **Product Scope** picker (2026-08-28) targets the requirement at specific
-[Product Scope](../portfolio/product-scopes.md) combinations directly — options show the
-combination's registry code, filtered by the selected units; leave it empty when the
-scope/product-group dimensions already describe the applicability. On the operational
-chain it behaves like every other dimension: empty applies to all, filled narrows ticket
-inheritance to the named combinations. The **Customer** select unlocks after picking a Business Unit and offers that
-unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
-the customer's [Tickets](../workspace/tickets.md) through the [SLA](../crm/sla.md) chain.
+
+Since 2026-09-08 the form is a **three-step wizard** (the same chevron-step drawer as
+[Procedures](procedures.md) and [Tickets](../workspace/tickets.md)):
+
+**Step 1 — Registry:** Name, Description, Type (create new types inline with the "+"
+button).
+
+**Step 2 — Applicability** — the system's longest cascade gets its own screen, with the
+rule written on it: *an empty dimension means "applies to all"*. Region → Business Unit
+(unlocks after at least one Region is selected, 2026-08-27) → Branch / Customer / Scope /
+Product Group / **Product Scope**. The **Product Scope** picker (2026-08-28) targets the
+requirement at specific [Product Scope](../portfolio/product-scopes.md) combinations
+directly — options show the combination's registry code, filtered by the selected units;
+leave it empty when the scope/product-group dimensions already describe the
+applicability (on the operational chain it behaves like every other dimension: empty
+applies to all, filled narrows ticket inheritance to the named combinations). The
+**Customer** select offers the picked units' customers — customer-specific requirements
+surface on the customer's [Tickets](../workspace/tickets.md) through the
+[SLA](../crm/sla.md) chain.
+
+**Step 3 — Compliance:** the regulatory reference and link of the external norm, and the
+**Active** flag last (Save lives on this step).
 **Applicability propagates live to tickets** (2026-08-20): an **Active** requirement is
 inherited automatically by every [Ticket](../workspace/tickets.md) whose parameters align
 (scope, product group, unit, served region, customer — and, since 2026-09-08, **branch**:
