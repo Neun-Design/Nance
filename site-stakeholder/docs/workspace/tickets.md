@@ -61,7 +61,11 @@ the ticket), and carrying (2026-09-04) the **Users** column — the people eligi
 execute each task under THIS ticket's inherited requirements (certified onboarding +
 Approved procedure, the staffing rule below) — and an **Execution Time** column with the
 time of the procedure the ticket's context resolves for the task (an ambiguous or
-missing method shows GAP, like the Procedure column) —, **Inputs**
+missing method shows GAP, like the Procedure column). Since 2026-09-08 the resolution
+considers **Approved procedures only**, and a GAP caused by SEVERAL eligible methods
+carries a hover hint — `Procedures redundancy <ids>` — naming exactly which procedures
+compete, so the quality manager knows what to resolve (the full rulebook:
+[The eligibility rules](../home/eligibility.md)) —, **Inputs**
 (2026-08-26; per-procedure since 2026-09-04): the [Handouts](../operation/handouts.md)
 each resolved procedure declares as **Customer Inputs** — for each task, the ticket's
 requirement set narrows the procedures to exactly one, and the documents that procedure
