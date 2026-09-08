@@ -2653,25 +2653,29 @@
 carries its dispatch context: the payload of the chosen event, the governing SLA, the
 processes it triggers and the applicable requirement set.
 <strong>Register when:</strong> after its Project.
-<strong>Key fields:</strong> <code>Unit *</code> (grouped by segment) → <strong>Applicant</strong> (2026-09-03) — the internal
-customer <em>opening</em> the ticket, always an <code>Internal</code>-type customer; optional — a ticket
-without one inherits requirements through the project customer alone → <code>Customer *</code>
-(unlocked by the Unit) — it only <strong>filters the projects offered below</strong> → unlocks
-<code>Project *</code> (the customer's projects), <strong>Supplier</strong> — the party responsible for
-resolving the issue, picked among the unit's customers grouped by type (unlocked by the
-Unit) — and <code>Event *</code> (unlocked by the Project) — since 2026-09-08 <strong>only events
-packaged by the contracts between the Applicant and the Supplier are offered</strong>: the
-ticket runs under the SLAs where the <em>Applicant</em> buys from the chosen <em>Supplier</em> (the
-project's own contracts no longer restrict the offer; leaving a side empty skips its
-dimension, so a ticket without an Applicant or Supplier sees every contracted event);
-<code>Product Scope *</code> (unlocked by the Event) — only scopes <strong>co-packaged with the chosen
-event in a same payload</strong> of those contracts, so the pick always maps to a real
-dispatch package;
-Details; Target date; Status. On save the app <strong>resolves and stores the ticket's
-payload(s) and governing SLA(s)</strong> from that pair — the Payload and SLA columns show the
-ticket's own dispatch context (a pair sold under two contracts lists both), nothing else
-to select. An Applicant + Supplier pair with no contract offers no events — register
-the <a href="../../crm/sla/">SLA</a> between them first. The <strong>Forecast Scope</strong> link is no
+Since 2026-09-08 the form is a <strong>three-step wizard</strong> (the same chevron-step drawer as
+<a href="../../operation/procedures/">Procedures</a> — Previous/Next at the bottom, Save on the
+last step):</p>
+<p><strong>Step 1 — Parties</strong> (who is involved): <code>Unit *</code> (grouped by segment) → <strong>Applicant</strong>
+(2026-09-03) — the internal customer <em>opening</em> the ticket, always an <code>Internal</code>-type
+customer; optional — a ticket without one inherits requirements through the project
+customer alone → <code>Customer *</code> (unlocked by the Unit) — it only <strong>filters the projects
+offered below</strong> → unlocks <code>Project *</code> (the customer's projects) → <strong>Supplier</strong> — the
+party responsible for resolving the issue, picked among the unit's customers grouped
+by type.</p>
+<p><strong>Step 2 — Request</strong> (what is requested): <code>Event *</code> (unlocked by the Project) — <strong>only
+events packaged by the contracts between the Applicant and the Supplier are offered</strong>
+(2026-09-08): the ticket runs under the SLAs where the <em>Applicant</em> buys from the chosen
+<em>Supplier</em> (the project's own contracts no longer restrict the offer; leaving a side
+empty on step 1 skips its dimension, so a ticket without an Applicant or Supplier sees
+every contracted event); <code>Product Scope *</code> (unlocked by the Event) — only scopes
+<strong>co-packaged with the chosen event in a same payload</strong> of those contracts, so the pick
+always maps to a real dispatch package. An Applicant + Supplier pair with no contract
+offers no events — register the <a href="../../crm/sla/">SLA</a> between them first.</p>
+<p><strong>Step 3 — Details:</strong> description, Target date, Status. On save the app <strong>resolves and
+stores the ticket's payload(s) and governing SLA(s)</strong> from the step-2 pair — the
+Payload and SLA columns show the ticket's own dispatch context (a pair sold under two
+contracts lists both), nothing else to select. The <strong>Forecast Scope</strong> link is no
 longer entered on the form (2026-09-03): existing links between tickets and the
 contract's <a href="../../crm/forecast-scopes/">Forecasts</a> demand lines stay in the data, and a
 line's consumption keeps counting its linked tickets with the remaining balance
