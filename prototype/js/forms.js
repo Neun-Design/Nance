@@ -4,11 +4,12 @@
 // (childKey = parent's generated PK). Saving a child pops back; saving the root closes.
 // Records are added in-memory (non-persistent, resets on reload).
 
-import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup } from './data.js';
+import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENTITY_META, lookup,
+  legacyWildcardData } from './data.js';
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
-  competenceExercisable, eventProductScopeIds, admittedProductScopeIds,
+  competenceExercisable, eventProductScopeIds, admittedProductScopeIds, namesFullDimension,
   ticketAdmittedSLAs, ticketAdmittedPayloads, productScopeRequirementRows } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
@@ -817,10 +818,16 @@ export function requirementsForUnit(unitId) {
     .filter((r) => String(r.isActive || 'Active') !== 'Inactive');
   const unit = unitId != null && unitId !== '' ? getById('Business Units', unitId) : null;
   const served = unit ? asList(unit.regionID).map(String) : [];
+  // issue #366: the empty-key wildcard is retired — a requirement with an
+  // undeclared unit/region dimension is offered NOWHERE (pre-sv99 snapshots
+  // keep the Q1 reading); the served-regions guard stays a CONTEXT check
+  const legacy = legacyWildcardData(99);
   const kept = !unit ? rows : rows.filter((r) => {
     const units = asList(r.businessUnitID).map(String);
+    if (!units.length && !legacy) return false;
     if (units.length && !units.includes(String(unitId))) return false;
     const regions = asList(r.regionID).map(String);
+    if (!regions.length && !legacy) return false;
     if (regions.length && served.length && !regions.some((x) => served.includes(x))) return false;
     return true;
   });
@@ -900,7 +907,11 @@ export function constraintsForTicketUnit(unitId) {
 // requirementID[] set (session decision), four option partitions in the
 // mockup's order, each requirement landing in exactly ONE facet
 // (most-specific wins: Product Scopes > Customers > Branches > Business
-// Unit/global). The Customers facet groups per customer and narrows to the
+// Unit/global). "Pinned" reads PROPER SUBSETS since issue #366: a
+// materialized full-dimension set is the explicit spelling of "applies to
+// all (today)" and buckets as global (namesFullDimension — the sv94/#353
+// partition survives the sv99 materialization; customerID is multivalued
+// since #366). The Customers facet groups per customer and narrows to the
 // selected Branches' registered customers (Branches.customerID, #320 N:N);
 // the Product Scopes facet groups per first-named scope (registry code,
 // #296 display). Returns [{title, note, options}] for mkFacetedChecks.
@@ -911,15 +922,17 @@ export function facetedRequirementOptions(unitId, branchIds = []) {
     const b = getById('Branches', bid);
     if (b) asList(b.customerID).forEach((c) => branchCustomers.add(String(c)));
   }
+  const pinned = (v, table) => asList(v).length > 0 && !namesFullDimension(v, table);
   const buckets = { ps: [], customer: [], branch: [], unit: [] };
   for (const o of universe) {
     const r = getById('Requirements', o.value);
     if (!r) { buckets.unit.push(o); continue; }
-    if (asList(r.productScopeID).length) buckets.ps.push(o);
-    else if (r.customerID != null && r.customerID !== '') {
-      if (branchCustomers.size && !branchCustomers.has(String(r.customerID))) continue;
+    if (pinned(r.productScopeID, 'Product Scopes')) buckets.ps.push(o);
+    else if (pinned(r.customerID, 'Customers')) {
+      if (branchCustomers.size
+          && !asList(r.customerID).some((c) => branchCustomers.has(String(c)))) continue;
       buckets.customer.push(o);
-    } else if (asList(r.branchID).length) buckets.branch.push(o);
+    } else if (pinned(r.branchID, 'Branches')) buckets.branch.push(o);
     else buckets.unit.push(o);
   }
   const grouped = (opts, headerOf) => {
@@ -937,9 +950,11 @@ export function facetedRequirementOptions(unitId, branchIds = []) {
     return out;
   };
   const customerName = (o) => {
+    // customerID is multivalued since #366 — group by the FIRST named customer
     const r = getById('Requirements', o.value);
-    const c = r && getById('Customers', r.customerID);
-    return c ? String(c.customerName || r.customerID) : null;
+    const first = r && asList(r.customerID)[0];
+    const c = first != null ? getById('Customers', first) : null;
+    return c ? String(c.customerName || first) : null;
   };
   const scopeCode = (o) => {
     const r = getById('Requirements', o.value);

@@ -60,9 +60,19 @@ console.log('== inheritance: the customer gate widens to the pair ==');
   const ticket = data.getEntity('Tickets').find((t) => t.customerID && t.eventID);
   const internal = data.getEntity('Customers')
     .find((c) => c.customerType === 'Internal' && String(c.customerID) !== String(ticket.customerID));
+  // #366: probes declare every dimension (full = explicit "all") and pin
+  // only the customer leg under test — an undeclared key inherits nowhere
+  const dim = (tab, pk) => data.getEntity(tab).map((r) => r[pk]);
+  const declared = {
+    regionID: dim('Regions', 'regionID'), branchID: dim('Branches', 'branchID'),
+    businessUnitID: dim('Business Units', 'businessUnitID'),
+    scopeID: dim('Scopes', 'scopeID'),
+    productGroupID: dim('Product Groups', 'productGroupID'),
+    productScopeID: dim('Product Scopes', 'productScopeID'),
+  };
   data.addRecord('Requirements', {
     requirementID: 'REQ-APPL', requirementName: 'Applicant-pinned probe',
-    requirementTypeID: null, customerID: internal.customerID, isActive: 'Active',
+    requirementTypeID: null, ...declared, customerID: [internal.customerID], isActive: 'Active',
   });
   const bare = resolve.ticketRequirements({ ...ticket, applicantID: null });
   eq(bare.includes('REQ-APPL'), false,
@@ -83,7 +93,7 @@ console.log('== inheritance: the customer gate widens to the pair ==');
   // a requirement pinned to the ticket's own CUSTOMER still inherits (gate is a pair, not a swap)
   data.addRecord('Requirements', {
     requirementID: 'REQ-CUST', requirementName: 'Customer-pinned probe',
-    requirementTypeID: null, customerID: ticket.customerID, isActive: 'Active',
+    requirementTypeID: null, ...declared, customerID: [ticket.customerID], isActive: 'Active',
   });
   const both = resolve.ticketRequirements({ ...ticket, applicantID: internal.customerID });
   eq(both.includes('REQ-CUST') && both.includes('REQ-APPL'), true,

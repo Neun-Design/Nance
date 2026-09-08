@@ -275,14 +275,17 @@ export const setSchemaVersion = (v) => { SCHEMA_VERSION = v; };
 // applicability set applies to NOTHING; the user materializes "apply to all"
 // by selecting every value (today's list — a new item requires deliberately
 // revisiting each record, the quality-review the old dynamic wildcard
-// silently bypassed). Datasets authored BEFORE sv98 (the frozen reference
-// snapshots and unstamped legacy files) predate the doctrine and keep the
-// old wildcard reading; blank mode is ALWAYS strict — a UI-created record
-// saved with no picks must never become a silent wildcard.
-export function legacyWildcardData() {
+// silently bypassed). Datasets authored BEFORE the flip predate the doctrine
+// and keep the old wildcard reading; blank mode is ALWAYS strict — a
+// UI-created record saved with no picks must never become a silent wildcard.
+// `before` names the schemaVersion whose migration materialized the chain's
+// keys: 98 = the Procedures round (#364), 99 = the Requirements
+// applicability round (#366) — a snapshot stamped 98 still carries blank
+// requirement keys MEANING "all", so the requirement chains gate on 99.
+export function legacyWildcardData(before = 98) {
   if (BLANK_MODE) return false;
   const v = store.raw && store.raw._meta && store.raw._meta.schemaVersion;
-  return (v ?? 0) < 98;
+  return (v ?? 0) < before;
 }
 
 export function exportSnapshot() {
