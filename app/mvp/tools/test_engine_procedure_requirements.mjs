@@ -57,9 +57,14 @@ console.log('== requirementsForUnit: unit + served-region gates (synthetic) ==')
   // BU01 serves RG01 only (clinic census) — the probe pins every leg
   const bu01 = data.getById('Business Units', 'BU01');
   eq(JSON.stringify(bu01.regionID), JSON.stringify(['RG01']), 'probe precondition: BU01 serves RG01 only');
+  // #366: undeclared dimensions are offered NOWHERE — the probe base
+  // materializes unit/region with the full dimensions ("all", explicit)
+  // and each case overrides the leg it pins
+  const allUnits = data.getEntity('Business Units').map((u) => u.businessUnitID);
+  const allRegions = data.getEntity('Regions').map((rg) => rg.regionID);
   const req = (id, extra) => data.addRecord('Requirements', {
     requirementID: id, requirementName: `${id} (t)`, scopeID: [], productGroupID: [],
-    businessUnitID: [], regionID: [], isActive: 'Active', ...extra });
+    businessUnitID: allUnits, regionID: allRegions, isActive: 'Active', ...extra });
   req('RQ-X-SAME', { businessUnitID: ['BU01'] });
   req('RQ-X-OTHER', { businessUnitID: ['BU02'] });
   req('RQ-X-REG', { regionID: ['RG01'] });
@@ -74,8 +79,8 @@ console.log('== requirementsForUnit: unit + served-region gates (synthetic) ==')
   eq(offered.includes('RQ-X-BOTH'), false,
     'a shared region never overrides a foreign unit key (exclusion gates, #296)');
   eq(offered.includes('RQ-X-INACT'), false, 'Inactive requirements are never offered (#231)');
-  // Q1: blank-key requirements stay in every unit's universe
-  eq(offered.includes('RQ01') || offered.length > 6, true, 'Q1 wildcards stay offered');
+  // #366: the materialized all-units demo rows stay in every unit's universe
+  eq(offered.includes('RQ01') || offered.length > 6, true, 'materialized "all" rows stay offered');
   const all = forms.requirementsForUnit(null).map((o) => o.value);
   eq([all.includes('RQ-X-OTHER'), all.includes('RQ-X-REGOUT'), all.includes('RQ-X-INACT')],
     [true, true, false], 'no unit → every Active requirement (lenient cascade posture)');

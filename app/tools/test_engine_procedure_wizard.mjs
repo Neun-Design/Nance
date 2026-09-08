@@ -108,14 +108,23 @@ console.log('== facetedRequirementOptions: partition + grouping + branch narrowi
   eq(union.length, forms.requirementsForUnit('BU01').length,
     'the facets partition the FULL #304 unit universe');
 
-  // synthetic probes: most-specific facet wins; branch narrowing bites
+  // synthetic probes: most-specific facet wins; branch narrowing bites.
+  // #366: undeclared dimensions leave the universe entirely — the probes
+  // materialize every leg ("all", explicit) and pin only what they test
   const br1 = data.getEntity('Branches')[0];
+  const dim = (tab, pk) => data.getEntity(tab).map((r) => r[pk]);
+  const allDims = {
+    businessUnitID: dim('Business Units', 'businessUnitID'),
+    regionID: dim('Regions', 'regionID'), scopeID: dim('Scopes', 'scopeID'),
+    productGroupID: dim('Product Groups', 'productGroupID'),
+    productScopeID: dim('Product Scopes', 'productScopeID'),
+    customerID: dim('Customers', 'customerID'), branchID: dim('Branches', 'branchID'),
+  };
   data.addRecord('Requirements', { requirementID: 'RQW-BR', requirementName: 'RQW-BR (t)',
-    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [], productGroupID: [],
-    productScopeID: [], branchID: [br1.branchID] });
+    isActive: 'Active', ...allDims, branchID: [br1.branchID] });
   data.addRecord('Requirements', { requirementID: 'RQW-PSC', requirementName: 'RQW-PSC (t)',
-    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [], productGroupID: [],
-    productScopeID: ['PS01'], customerID: 'CUST01', branchID: [br1.branchID] });
+    isActive: 'Active', ...allDims,
+    productScopeID: ['PS01'], customerID: ['CUST01'], branchID: [br1.branchID] });
   const probe = forms.facetedRequirementOptions('BU01', []);
   eq(flat(probe[1]).includes('RQW-BR'), true, 'branch-pinned requirement lands in the Branches facet');
   eq(flat(probe[3]).includes('RQW-PSC') && !flat(probe[2]).includes('RQW-PSC')
@@ -125,8 +134,10 @@ console.log('== facetedRequirementOptions: partition + grouping + branch narrowi
   // registered customers (Branches.customerID)
   const regd = new Set(asList(br1.customerID).map(String));
   const narrowed = forms.facetedRequirementOptions('BU01', [br1.branchID]);
-  const keptCust = flat(narrowed[2]).map((id) => String(data.getById('Requirements', id).customerID));
-  eq(keptCust.every((c) => regd.has(c)), true,
+  // customerID is multivalued since #366 — kept rows name ≥1 registered customer
+  const keptOk = flat(narrowed[2]).every((id) =>
+    asList(data.getById('Requirements', id).customerID).some((c) => regd.has(String(c))));
+  eq(keptOk, true,
     'branch selection narrows the Customers facet to the registered customers');
   data.removeRecords('Requirements', ['RQW-BR', 'RQW-PSC']);
 }
@@ -176,9 +187,15 @@ console.log('== Requirements.branchID activated: the ticket inheritance gate =='
   const savedBranch = prj.branchID;
   const brX = data.getEntity('Branches')[0];
   const brY = data.getEntity('Branches')[1];
+  // #366: every other dimension declared ("all", explicit) — only the
+  // branch leg is pinned, so the gate under test is the only one that bites
+  const dim = (tab, pk) => data.getEntity(tab).map((r) => r[pk]);
   data.addRecord('Requirements', { requirementID: 'RQW-GATE', requirementName: 'RQW-GATE (t)',
-    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [], productGroupID: [],
-    productScopeID: [], branchID: [brX.branchID] });
+    isActive: 'Active', businessUnitID: dim('Business Units', 'businessUnitID'),
+    regionID: dim('Regions', 'regionID'), scopeID: dim('Scopes', 'scopeID'),
+    productGroupID: dim('Product Groups', 'productGroupID'),
+    productScopeID: dim('Product Scopes', 'productScopeID'),
+    customerID: dim('Customers', 'customerID'), branchID: [brX.branchID] });
   prj.branchID = brX.branchID;
   eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), true,
     'project on the pinned branch — the requirement inherits');
@@ -190,9 +207,12 @@ console.log('== Requirements.branchID activated: the ticket inheritance gate =='
     'no project branch — dimension skipped (lenient, the region posture)');
   prj.branchID = savedBranch;
   data.removeRecords('Requirements', ['RQW-GATE']);
-  // zero flips at rest: every clinic requirement carries an empty branch key
-  eq(data.getEntity('Requirements').filter((r) => asList(r.branchID).length).length, 0,
-    'clinic census: 18/18 requirements carry an empty branchID — the gate bites nothing at rest');
+  // zero flips at rest: every clinic requirement names EVERY branch (the
+  // #366 materialized spelling of the formerly-empty key) — the gate still
+  // bites nothing until a row is narrowed in the UI
+  eq(data.getEntity('Requirements')
+    .filter((r) => !resolve.namesFullDimension(r.branchID, 'Branches')).length, 0,
+  'clinic census: 18/18 requirements name the full branch dimension — no bite at rest');
   const withInputs = data.getEntity('Tickets')
     .filter((t) => resolve.ticketInputHandouts(t).length > 0);
   eq(withInputs.length, 137, 'TICKET-INPUTS census unchanged (137/160 — zero-flip guard)');

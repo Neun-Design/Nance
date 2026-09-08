@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 98,
+    "schemaVersion": 99,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -525,7 +525,7 @@
         "Regions": {
           "visibility": "show",
           "dashboard-order": 2,
-          "description": "Geographical grouping of customers (ISO 9001:2015 §4.1 organisational context). A region can carry execution requirements of its own: Requirements may be scoped to specific regions (empty = applies to all regions).",
+          "description": "Geographical grouping of customers (ISO 9001:2015 §4.1 organisational context). A region can carry execution requirements of its own: Requirements declare the regions they apply to (issue #366 — 'all regions' is every region explicitly selected).",
           "attributes": [
             {
               "name": "regionID",
@@ -1812,7 +1812,7 @@
               "name": "requirementID",
               "type": "computed",
               "rule": "computed → Requirements (via: forecastID.customerID.businessUnitID.regionID + forecastID.customerID.businessUnitID + forecastID.slaID.branchID + scopeID + productGroupID + productScopeID) (display: requirementName)",
-              "notes": "Requirements linked to the row's scope + product group. Region leg = the customer's units' SERVED regions (Business Units.regionID — issue #230: Customers stopped storing regionID at #191, so the old customerID.regionID path resolved empty and the region dimension was dormant; units posture matches the #226 ticket inheritance). Branch leg (issue #353 — the branchID dimension activated): the contract's branch; an SLA without a branch resolves an empty path and the leg is skipped (multiViaJoin posture), a requirement with an empty branchID matches everything (Q1)",
+              "notes": "Requirements linked to the row's scope + product group. Region leg = the customer's units' SERVED regions (Business Units.regionID — issue #230: Customers stopped storing regionID at #191, so the old customerID.regionID path resolved empty and the region dimension was dormant; units posture matches the #226 ticket inheritance). Branch leg (issue #353 — the branchID dimension activated): the contract's branch; an SLA without a branch resolves an empty path and the leg is skipped (multiViaJoin posture). Since issue #366 a requirement with an EMPTY key matches NO parent (the wildcard is retired — sv99 materialized the demo blanks; pre-sv99 snapshots keep the Q1 reading)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -2142,7 +2142,7 @@
               "name": "requirementName",
               "type": "computed",
               "rule": "rollup → Procedures (via: taskID) (display: requirementName)",
-              "notes": "Derived — requirements of the task's procedures (doctrine: tasks are requirement-free, the procedure carries the requirement set; empty set = applies to all, Q1)",
+              "notes": "Derived — requirements of the task's procedures (doctrine: tasks are requirement-free, the procedure carries the requirement set; since issue #364 an empty procedure set covers nothing — the wildcard is retired)",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -2189,7 +2189,7 @@
               "type": "mirror",
               "rule": "computed: TICKET-PROCEDURE(taskID) (display: procedureRegistry)",
               "display-name": "Procedure",
-              "notes": "The single procedure the requirement context selects for the task (issue #270): inside a Ticket's Tasks tab the context is the ticket's live inherited requirement set (#226) — candidates are the task's procedures whose requirementID[] covers ALL the ticket requirements (AND semantics, not OR; an empty set is the Q1 wildcard and covers everything). Since issue #332 the candidates are additionally scope-gated: a procedure pinned to product scopes must name at least one scope the ticket admits (empty key = every scope, Q1). Exactly one candidate renders its procedureRegistry as a pill tag; zero or several render GAP (no unambiguous documented method for the combination — including a wildcard procedure coexisting with a specific one). The subitem accessor passes ticketRequirements(ticket) and ticketAdmittedScopeIds(ticket) (mapSubitem in app.js, the #233 pattern); the standalone Tasks drawer falls back to the task-level set (unique procedure or GAP, no scope context — ungated). ticketProcedureForTask in resolve.js.",
+              "notes": "The single procedure the requirement context selects for the task (issue #270): inside a Ticket's Tasks tab the context is the ticket's live inherited requirement set (#226) — candidates are the task's procedures whose requirementID[] covers ALL the ticket requirements (AND semantics, not OR; since issue #364 an empty set covers only an empty context — the wildcard is retired, pre-sv98 snapshots keep the old reading). Since issue #332 the candidates are additionally scope-gated: a procedure must name at least one scope the ticket admits (an empty scope key names none since #364). Exactly one candidate renders its procedureRegistry as a pill tag; zero or several render GAP (no unambiguous documented method for the combination). The subitem accessor passes ticketRequirements(ticket) and ticketAdmittedScopeIds(ticket) (mapSubitem in app.js, the #233 pattern); the standalone Tasks drawer falls back to the task-level set (unique procedure or GAP, no scope context — ungated). ticketProcedureForTask in resolve.js.",
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -3344,7 +3344,7 @@
         "Procedures": {
           "visibility": "show",
           "dashboard-order": 9,
-          "description": "Documented method for executing a Task (ISO 9001:2015 §4.4 operations chain; §7.5 documented information). Tasks stay requirement-free — the procedure is where requirements bite: each row registers how a task is performed under a given requirement set, with its own input/output handouts. An empty requirement list means the procedure applies to every requirement (Q1 wildcard).",
+          "description": "Documented method for executing a Task (ISO 9001:2015 §4.4 operations chain; §7.5 documented information). Tasks stay requirement-free — the procedure is where requirements bite: each row registers how a task is performed under a given requirement set, with its own input/output handouts. The requirement set is an explicit selection (issue #364): the procedure covers exactly the requirements listed — an empty list covers none, and a requirement registered later requires revisiting each procedure.",
           "attributes": [
             {
               "name": "procedureID",
@@ -3765,7 +3765,7 @@
               "name": "regionID",
               "type": "FK",
               "rule": "FK → Regions (display: regionName)",
-              "notes": "multivalued — regions this requirement applies to; empty = applies to all regions (Q1 wildcard)",
+              "notes": "multivalued — regions this requirement applies to. The empty-key wildcard is RETIRED (issue #366, the #364 doctrine): an undeclared dimension keeps the requirement out of every inheritance — 'all regions' is every region explicitly selected (sv99 materialized the demo blanks with the full dimension; a region registered later requires revisiting the requirement)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -3774,7 +3774,7 @@
                 "name": "businessUnitID",
                 "type": "FK",
                 "rule": "FK → Business Units (display: businessUnitName)",
-                "notes": "multivalued — business units this requirement belongs to. MANDATORY since issue #359 (redefined round, pre-RBAC correction: EVERY requirement must declare its unit(s)); the demo rows were seeded with ALL units by migrate_ticket_constraints.py — the explicit spelling of what their formerly-EMPTY key meant under Q1 (applies to all), so every inheritance/picker/PS-REQUIREMENTS chain is preserved byte-for-byte; narrowing a row to its real owning unit is a data decision made in the UI. Drives the Constraints picker on Tickets (unit equality) and stays a Q1 exclusion gate on the derived chains",
+                "notes": "multivalued — business units this requirement belongs to. MANDATORY since issue #359 (redefined round, pre-RBAC correction: EVERY requirement must declare its unit(s)); the demo rows were seeded with ALL units by migrate_ticket_constraints.py — the explicit spelling of what their formerly-EMPTY key meant under the old wildcard (applies to all), so every inheritance/picker/PS-REQUIREMENTS chain is preserved byte-for-byte; narrowing a row to its real owning unit is a data decision made in the UI. The #359 seed anticipated the #366 doctrine (every dimension declared). Drives the Constraints picker on Tickets (unit equality) and stays an exclusion gate on the derived chains",
                 "table-display": false,
                 "subitem-display": false,
                 "constraints": "FK, NOT NULL"
@@ -3801,7 +3801,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "multivalued — branches this requirement applies to; empty = applies to all (Q1). ACTIVE dimension since issue #353 (stored-but-inert before): matchRequirements gates ticket inheritance on the ticket's PROJECT branch (a blank context side skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet). Clinic census at activation: 18/18 requirements carry an empty key — zero flips at rest.",
+              "notes": "multivalued — branches this requirement applies to; the empty-key wildcard is RETIRED (issue #366: undeclared = inherits nowhere; sv99 materialized the demo blanks with every branch). ACTIVE dimension since issue #353 (stored-but-inert before): matchRequirements gates ticket inheritance on the ticket's PROJECT branch (a blank context side skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet — a full-dimension set buckets as global, #366 display posture). Form multicheck since #366.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3810,7 +3810,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "Customer-specific requirement (issue #180; select enabled by #212) — unit-gated form select, options = the selected units' customers grouped by unit; empty = applies to all customers (Q1 wildcard)",
+              "notes": "multivalued since issue #366 (was single, #180) — customers this requirement applies to; the empty-key wildcard is RETIRED: undeclared = inherits nowhere, 'all customers' is every customer explicitly selected (sv99 materialized the demo blanks; a customer registered later requires revisiting the requirement). Unit-gated form multicheck, options = the selected units' customers grouped by unit (#212 cascade kept)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3819,7 +3819,7 @@
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
-              "notes": "multivalued — scopes this requirement applies to",
+              "notes": "multivalued — scopes this requirement applies to; undeclared = inherits nowhere since issue #366 (sv99 materialized the demo blanks with every scope)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3828,7 +3828,7 @@
               "name": "productGroupID",
               "type": "FK",
               "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
-              "notes": "multivalued — product groups this requirement applies to",
+              "notes": "multivalued — product groups this requirement applies to; undeclared = inherits nowhere since issue #366 (sv99 materialized the demo blanks with every product group)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3837,7 +3837,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: productScopeRegistry)",
-              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements; picker shows the productScopeRegistry code, issue #296). Empty = no direct targeting; in the ticket/forecast chains empty applies to all (Q1), non-empty narrows inheritance to the named product scopes",
+              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements; picker shows the productScopeRegistry code, issue #296). The empty-key wildcard is RETIRED (issue #366): undeclared = inherits nowhere (sv99 materialized the demo blanks with every product scope); a PROPER SUBSET narrows inheritance to the named scopes, and the PS-REQUIREMENTS named leg reads a full-dimension set as global — not a specific pin (namesFullDimension, the #288 globals-stay-out display preserved)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3888,7 +3888,7 @@
               },
               "Applicability": {
                 "step-order": 2,
-                "step-description": "Where this requirement applies — an EMPTY dimension means it applies to all (Q1)"
+                "step-description": "Where this requirement applies — every dimension must be declared: select all values to apply to all of today's list (issue #364/#366; an item registered later requires revisiting the requirement, and an empty dimension keeps it out of every inheritance)"
               },
               "Compliance": {
                 "step-order": 3,
@@ -3941,7 +3941,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "regionID",
-                "tooltip": "Regions this requirement applies to — leave empty for all regions",
+                "tooltip": "Regions this requirement applies to — select every region to apply to all of today's list (issue #366)",
                 "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values"
@@ -3951,7 +3951,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
-                "tooltip": "Units this requirement applies to — leave empty for all units",
+                "tooltip": "Units this requirement applies to — select every unit to apply to all of today's list (issue #366)",
                 "step": "Applicability",
                 "check": "Region IS NOT NULL",
                 "field-rule": "Allow multiple values; filtered by Region selected"
@@ -3961,20 +3961,20 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "branchID",
-                "tooltip": null,
+                "tooltip": "Branches this requirement applies to — select every branch to apply to all of today's list (issue #366)",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected"
               },
               "Customer": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "customerID",
-                "tooltip": "Customer this requirement applies to — e.g. a customer-specific design-approval template; leave empty to apply to all customers",
+                "tooltip": "Customers this requirement applies to — e.g. a customer-specific design-approval template; select every customer to apply to all of today's list (issue #366 — multivalued since this round)",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected"
               },
               "Scope": {
                 "field-type": {
@@ -4001,7 +4001,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — leave empty when the scope/product-group/unit dimensions already describe the applicability",
+                "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — select every scope to apply to all of today's list (issue #366); a proper subset narrows inheritance to the named combinations",
                 "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by businessUnitID selected"
@@ -4218,7 +4218,7 @@
               "name": "productScopeRequirements",
               "type": "mirror",
               "rule": "computed: PS-REQUIREMENTS(productScopeID) (display: requirementName)",
-              "notes": "Comprehensive requirement set (issue #288, legs inverted by #294, unit leg removed by #296): requirements NAMING this product scope ∪ those EXPLICITLY connected to the row's scope ∪ its product group — THREE connection legs only. A requirement sharing the row's businessUnitID or regionID does NOT attach through those dimensions (unit/region act purely as exclusion gates on the derived legs; unit-wide inheritance lives on the ticket/forecast chains under Q1). Still no Q1 wildcard: a requirement with ALL applicability keys blank attaches nowhere here (the ticket inheritance #226 keeps its own Q1 posture). Derived legs skip Inactive requirements. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker (requirementsForProductScopes).",
+              "notes": "Comprehensive requirement set (issue #288, legs inverted by #294, unit leg removed by #296): requirements NAMING this product scope ∪ those EXPLICITLY connected to the row's scope ∪ its product group — THREE connection legs only. A requirement sharing the row's businessUnitID or regionID does NOT attach through those dimensions (unit/region act purely as exclusion gates on the derived legs; unit-wide inheritance lives on the ticket/forecast chains). Still no wildcard: blank keys attach nowhere (#288 decision), and since issue #366 a MATERIALIZED full-dimension set reads the same way (namesFullDimension — 'names everything today' is global, not a specific pin; the globals-stay-out display survives the sv99 materialization). Derived legs skip Inactive requirements. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null,
@@ -5513,7 +5513,7 @@
               "name": "requirementName",
               "type": "mirror",
               "rule": "computed: INHERITED-REQUIREMENTS(eventID) (display: requirementName)",
-              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID) and the ticket's customer. Requirement keys left empty apply to all (Q1). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. New requirements surface on existing tickets automatically.",
+              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID) and the ticket's customer. Requirement keys must be DECLARED since issue #366 (an empty key keeps the requirement out of every inheritance; 'all' = every value explicitly selected — pre-sv99 snapshots keep the old Q1 reading). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. A new aligned requirement surfaces on existing tickets automatically — but a requirement registered AFTER a dimension's 'all' snapshot needs the revisit the doctrine mandates.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null

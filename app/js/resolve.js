@@ -391,11 +391,13 @@ function pathDomain(tableName, path) {
 // field shared by both sides (sameVal, array-aware — e.g. Requirements store
 // scopeID/productGroupID arrays while Product Scopes store single values).
 // Dotted entries ("productScopeID.scopeID") traverse the parent side as a
-// path; the child matches on the last segment. A child that stores the key
-// EMPTY (null / '' / []) matches every parent — applicability keys left blank
-// mean "applies to all" (Q1: a Requirement without customerID is generic).
-// Fields absent from the child data are skipped, so rules can name aspirational
-// keys without breaking (guide §10: data wins over catalogue).
+// path; the child matches on the last segment. The blank-child-key wildcard
+// is RETIRED (issue #366, the #364 doctrine): a child storing the key EMPTY
+// matches NO parent — "applies to all" is every value explicitly stored (the
+// sv99 migration materialized the demo blanks); pre-sv99 snapshots keep the
+// old Q1 reading via legacyWildcardData(99). Fields absent from the child
+// data are still skipped, so rules can name aspirational keys without
+// breaking (guide §10: data wins over catalogue).
 function multiViaJoin(parentTable, parentRow, childTable, fields, pkVal) {
   const childRows = getEntity(childTable);
   const childPk = getCatalog(childTable).pk;
@@ -404,20 +406,22 @@ function multiViaJoin(parentTable, parentRow, childTable, fields, pkVal) {
     && childRows.some((c) => childField(f) in c));
   if (!usable.length) return null;
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+  const legacy = legacyWildcardData(99);
+  const pass = (v, hit) => (blank(v) ? legacy : hit());
   let rows = childRows, constrained = false;
   for (const f of usable) {
     const cf = childField(f);
     if (f.includes('.')) {
       const vals = pathValues(parentTable, parentRow, f);
       if (vals.length) {
-        rows = rows.filter((c) => blank(c[cf]) || sameVal(c[cf], vals));
+        rows = rows.filter((c) => pass(c[cf], () => sameVal(c[cf], vals)));
         constrained = true;
       }
     } else if (fieldDomain(childTable, f) === parentTable) {
       rows = rows.filter((c) => matches(c[f], pkVal));
       constrained = true;
     } else if (f in parentRow && parentRow[f] != null && parentRow[f] !== '') {
-      rows = rows.filter((c) => blank(c[f]) || sameVal(c[f], parentRow[f]));
+      rows = rows.filter((c) => pass(c[f], () => sameVal(c[f], parentRow[f])));
       constrained = true;
     }
     // else: field unresolvable on the parent — skip
@@ -722,6 +726,23 @@ function sameVal(a, b) {
 // ---- Requirements inheritance (issue #226) ----
 const asIds = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
 
+// #366 display posture: a set naming the ENTIRE dimension is the materialized
+// spelling of "applies to all (today)" — displays that partition by SPECIFIC
+// pinning (the Constraints facets #353, the PS-REQUIREMENTS legs #288) read
+// it as NOT specifically pinned, preserving those authored designs. Match
+// chains read sets literally: a full set covers every existing value and,
+// deliberately, no FUTURE one — registering a new value shrinks yesterday's
+// "all" into a proper subset, which is the review signal the doctrine wants.
+export function namesFullDimension(ids, tableName) {
+  const set = new Set(asIds(ids).map(String));
+  if (!set.size) return false;
+  const t = resolveTable(tableName);
+  if (!t) return false;
+  const pk = ENTITY_META[t].pk;
+  const rows = getEntity(t);
+  return rows.length > 0 && rows.every((r) => set.has(String(r[pk])));
+}
+
 // Product scopes an EVENT's applicability admits (id-level core of the
 // productScopesForEvent picker in forms.js): scope overlap AND the product
 // group's product among the event's products (each empty = all, Q1).
@@ -857,40 +878,55 @@ function servedRegionIds(unitIds) {
 
 // AND-match Active requirements against an applicability context (issue #226).
 // Gate order: lifecycle (blank isActive counts as Active — issue #222 default
-// posture), customer, unit, region, then scope + product group paired per
-// product scope (the #192 requirement_names pairing). A requirement key left
-// EMPTY matches everything (Q1); a context side left blank skips its dimension
-// (multiViaJoin posture — a unit serving no region still admits
-// region-specific requirements).
+// posture), customer, unit, region, branch, product scope, then scope +
+// product group paired per product scope (the #192 requirement_names
+// pairing). The empty-key wildcard is RETIRED (issue #366, the #364 doctrine
+// on the Requirement side): every applicability key must be DECLARED — an
+// empty key applies to NOTHING (the user selects every value to mean "all";
+// the sv99 migration materialized the demo blanks with the full dimensions).
+// A blank CONTEXT side still skips its dimension (multiViaJoin posture, now
+// uniform across legs — pre-#366 the customer and scope legs lacked the
+// guard). Pre-sv99 snapshots keep the old reading via legacyWildcardData(99).
 function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId, branchId = null }) {
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
   // the customer gate passes for EITHER inheritance party (issue #308): the
-  // project customer or the internal applicant opening the ticket — the
-  // ticket inherits both sets. Empty key = applies to all (Q1, unchanged).
+  // project customer or the internal applicant opening the ticket.
   const parties = [customerId, applicantId].filter((v) => v != null && v !== '');
+  const legacy = legacyWildcardData(99);
+  const branchBlank = branchId == null || branchId === '';
   const out = [];
   for (const r of getEntity('Requirements')) {
     if (String(r.isActive || 'Active') === 'Inactive') continue;
-    if (!blank(r.customerID) && !sameVal(r.customerID, parties)) continue;
-    if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
-    if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
-    // branch dimension (issue #353 — Requirements.branchID activated, was
-    // stored-but-inert since the Branches round): a requirement pinned to
-    // branches applies only where the ticket's PROJECT branch is named;
-    // a blank context side skips the dimension (lenient, like region)
-    if (!blank(r.branchID) && branchId != null && branchId !== ''
-        && !sameVal(r.branchID, branchId)) continue;
-    // productScopeID dimension (issue #294): a requirement NAMING product
-    // scopes applies only where an admitted scope is named; empty = applies
-    // to all (Q1, like every other key here)
-    if (!blank(r.productScopeID)
-        && !psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
-    const needScope = !blank(r.scopeID);
-    const needPg = !blank(r.productGroupID);
-    if (needScope || needPg) {
-      const hit = psRows.some((ps) => (!needScope || sameVal(r.scopeID, ps.scopeID))
-        && (!needPg || sameVal(r.productGroupID, ps.productGroupID)));
-      if (!hit) continue;
+    if (legacy) {
+      // pre-sv99 reading, verbatim: empty key = applies to all (Q1)
+      if (!blank(r.customerID) && !sameVal(r.customerID, parties)) continue;
+      if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
+      if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+      if (!blank(r.branchID) && !branchBlank && !sameVal(r.branchID, branchId)) continue;
+      if (!blank(r.productScopeID)
+          && !psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
+      const needScope = !blank(r.scopeID);
+      const needPg = !blank(r.productGroupID);
+      if (needScope || needPg) {
+        const hit = psRows.some((ps) => (!needScope || sameVal(r.scopeID, ps.scopeID))
+          && (!needPg || sameVal(r.productGroupID, ps.productGroupID)));
+        if (!hit) continue;
+      }
+    } else {
+      // #366 strict: any undeclared dimension keeps the requirement out of
+      // every inheritance — the record states exactly where it applies
+      if ([r.customerID, r.businessUnitID, r.regionID, r.branchID,
+        r.productScopeID, r.scopeID, r.productGroupID].some(blank)) continue;
+      if (parties.length && !sameVal(r.customerID, parties)) continue;
+      if (unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
+      if (regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+      if (!branchBlank && !sameVal(r.branchID, branchId)) continue;
+      if (psRows.length) {
+        if (!psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
+        const hit = psRows.some((ps) => sameVal(r.scopeID, ps.scopeID)
+          && sameVal(r.productGroupID, ps.productGroupID));
+        if (!hit) continue;
+      }
     }
     out.push(r.requirementID);
   }
@@ -1206,11 +1242,14 @@ export function ticketInputHandouts(ticket) {
 // those dimensions — unit/region act purely as EXCLUSION gates on the
 // derived legs (a scope-connected requirement restricted to another
 // unit/region stays out), and the unit-wide inheritance lives on the
-// ticket/forecast chains (#226 Q1), not on this attribute. Still no Q1
-// wildcard: a requirement with ALL applicability keys blank attaches
-// nowhere here (#288 session decision). Derived legs skip Inactive
-// requirements (blank = Active, #222 posture); region gate lenient when
-// the unit serves no region (the multiViaJoin posture).
+// ticket/forecast chains (#226), not on this attribute. Still no wildcard:
+// a requirement with blank keys attaches nowhere here (#288 session
+// decision), and since issue #366 a MATERIALIZED full-dimension set reads
+// the same way (namesFullDimension — "applies to everything today" is not a
+// SPECIFIC pin; the #288 globals-stay-out display survives the sv99
+// materialization). Derived legs skip Inactive requirements (blank =
+// Active, #222 posture); region gate lenient when the unit serves no
+// region (the multiViaJoin posture).
 export function productScopeRequirementRows(ps) {
   const rT = resolveTable('Requirements');
   if (!rT || !ps) return [];
@@ -1221,8 +1260,10 @@ export function productScopeRequirementRows(ps) {
   const push = (r) => {
     if (r && !seen.has(String(r[pk]))) { seen.add(String(r[pk])); out.push(r); }
   };
+  const pinned = (v, table) => asIds(v).length > 0 && !namesFullDimension(v, table);
   for (const r of getEntity(rT)) {
-    if (matches(asIds(r.productScopeID), psPk)) push(r);
+    if (pinned(r.productScopeID, 'Product Scopes')
+        && matches(asIds(r.productScopeID), psPk)) push(r);
   }
   const unitIds = asIds(ps.businessUnitID);
   const regionIds = servedRegionIds(unitIds);
@@ -1231,8 +1272,8 @@ export function productScopeRequirementRows(ps) {
     if (String(r.isActive || 'Active') === 'Inactive') continue;
     if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
     if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
-    const scopeHit = !blank(r.scopeID) && sameVal(r.scopeID, ps.scopeID);
-    const pgHit = !blank(r.productGroupID) && sameVal(r.productGroupID, ps.productGroupID);
+    const scopeHit = pinned(r.scopeID, 'Scopes') && sameVal(r.scopeID, ps.scopeID);
+    const pgHit = pinned(r.productGroupID, 'Product Groups') && sameVal(r.productGroupID, ps.productGroupID);
     if (scopeHit || pgHit) push(r);
   }
   return out;

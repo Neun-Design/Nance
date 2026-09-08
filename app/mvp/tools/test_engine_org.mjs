@@ -46,8 +46,11 @@ data.addRecord('Issues', { issueID: 'IST2', issueName: 'Dielectric Failure (t)',
 // PS01 in the dataset: productGroupID PG01, scopeID A.2
 const ps01 = data.getById('Product Scopes', 'PS01');
 const pg = ps01.productGroupID, scope = ps01.scopeID;
+// "generic" = every customer EXPLICITLY listed (issue #366 — the empty-key
+// wildcard is retired; a blank customerID would match no parent now)
+const allCust = data.getEntity('Customers').map((c) => c.customerID); // FCT1 included
 data.addRecord('Requirements', { requirementID: 'RQT-GEN', requirementName: 'Generic Req (t)',
-  scopeID: [scope], productGroupID: [pg] }); // no customerID → applies to all
+  scopeID: [scope], productGroupID: [pg], customerID: allCust });
 data.addRecord('Requirements', { requirementID: 'RQT-CUST', requirementName: 'Customer Req (t)',
   scopeID: [scope], productGroupID: [pg], customerID: ['FCT1'] });
 data.addRecord('Requirements', { requirementID: 'RQT-OTHER', requirementName: 'Other-customer Req (t)',
@@ -58,15 +61,15 @@ data.addRecord('Workflows', { workflowID: 'WFT2', workflowName: 'Other WF',
   customerID: ['FC-NOPE'], productScopeID: ['PS01'] });
 ok('seeded');
 
-console.log('== Q1: 3-key compound rollup with empty-customer wildcard ==');
+console.log('== 3-key compound rollup: explicit sets (#366 — the wildcard is retired) ==');
 {
   const wf = data.getById('Workflows', 'WFT1');
   const kids = resolve.childrenOf('Workflows', wf, 'Requirements',
     { viaList: ['customerID', 'productScopeID.productGroupID', 'productScopeID.scopeID'] });
   const ids = kids.map((k) => k.requirementID).filter((i) => String(i).startsWith('RQT'));
   const hasGen = ids.includes('RQT-GEN'), hasCust = ids.includes('RQT-CUST'), hasOther = ids.includes('RQT-OTHER');
-  if (hasGen && hasCust && !hasOther) ok('generic + matching-customer requirements roll up; other-customer excluded');
-  else fail(`wildcard rollup — got ${JSON.stringify(ids)}`);
+  if (hasGen && hasCust && !hasOther) ok('all-customers-listed + matching-customer roll up; other-customer excluded');
+  else fail(`explicit-set rollup — got ${JSON.stringify(ids)}`);
 }
 
 console.log('== path-computed via (Tasks ← Workflow ← Product Scope) ==');

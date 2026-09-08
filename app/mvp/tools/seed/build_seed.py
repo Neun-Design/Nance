@@ -1564,10 +1564,25 @@ class Builder:
         picker set: ticket inheritance flows region-pinned requirements
         through cross-unit chains, and the wildcard covered them all);
         empty branchID → the unit's customers' branches; empty customerID →
-        the unit's customers registered under those branches. Runs after
-        every table exists."""
+        the unit's customers registered under those branches. Issue #366
+        extends it to the REQUIREMENTS applicability keys (the exact rules
+        of tools/migrate_requirement_applicability.py): every empty key →
+        its FULL dimension in row order, scalars listified (customerID is
+        multivalued since #366). Runs after every table exists."""
         def as_list(v):
             return v if isinstance(v, list) else ([] if v in (None, '') else [v])
+        req_dims = [('regionID', 'Regions', 'regionID'),
+                    ('businessUnitID', 'Business Units', 'businessUnitID'),
+                    ('branchID', 'Branches', 'branchID'),
+                    ('customerID', 'Customers', 'customerID'),
+                    ('scopeID', 'Scopes', 'scopeID'),
+                    ('productGroupID', 'Product Groups', 'productGroupID'),
+                    ('productScopeID', 'Product Scopes', 'productScopeID')]
+        full = {key: [r[pk] for r in self.rows(tab)] for key, tab, pk in req_dims}
+        for r in self.rows('Requirements'):
+            for key, _tab, _pk in req_dims:
+                vals = as_list(r.get(key))
+                r[key] = list(full[key]) if not vals else vals
         all_reqs = [r['requirementID'] for r in self.rows('Requirements')
                     if str(r.get('isActive') or 'Active') != 'Inactive']
         customers = self.rows('Customers')
