@@ -2671,7 +2671,14 @@ empty on step 1 skips its dimension, so a ticket without an Applicant or Supplie
 every contracted event); <code>Product Scope *</code> (unlocked by the Event) — only scopes
 <strong>co-packaged with the chosen event in a same payload</strong> of those contracts, so the pick
 always maps to a real dispatch package. An Applicant + Supplier pair with no contract
-offers no events — register the <a href="../../crm/sla/">SLA</a> between them first.</p>
+offers no events — register the <a href="../../crm/sla/">SLA</a> between them first.
+Below the Product Scope, the <strong>Requirements</strong> picker (2026-09-08) lets the planner
+<strong>add obligations this ticket would not inherit</strong> from its parameters: offered are the
+requirements flagged <em>Selectable on Tickets</em> that are compatible with the chosen
+parties and geography (unit, served region, customer/applicant, project branch) — the
+automatically inherited set is untouched and is not listed here (it is already on the
+ticket). An added requirement binds like an inherited one: it appears on the
+Requirements tab and the procedure match, customer inputs and staffing follow it.</p>
 <p><strong>Step 3 — Details:</strong> description, Target date, Status. On save the app <strong>resolves and
 stores the ticket's payload(s) and governing SLA(s)</strong> from the step-2 pair — the
 Payload and SLA columns show the ticket's own dispatch context (a pair sold under two
