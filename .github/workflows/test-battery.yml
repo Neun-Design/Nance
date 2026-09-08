@@ -36,6 +36,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install validator dependencies
+        run: pip install pyyaml
       - name: Engine proof battery
         run: |
           fails=0; total=0
