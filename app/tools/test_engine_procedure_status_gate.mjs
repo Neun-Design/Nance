@@ -37,8 +37,8 @@ console.log('== gate helpers ==');
   eq(resolve.procedureApproved({ procedureStatus: 'To Do' }), false, 'To Do gates');
   eq(resolve.procedureApproved({}), true, 'missing key = Approved (legacy tolerance)');
   eq(resolve.procedureApproved(null), false, 'no row = not approved');
-  eq(resolve.competenceExercisable({ procedureID: [] }), true,
-    'competence without procedures stays exercisable (legacy stored-requirement rows)');
+  eq(resolve.competenceExercisable({ procedureID: [] }), false,
+    'competence without procedures is INERT (#368 — nothing to exercise; pre-sv101 snapshots keep the tolerance)');
 }
 
 // find a live eligibility chain to flip: a certified onboarding whose

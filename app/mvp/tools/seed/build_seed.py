@@ -1571,8 +1571,11 @@ class Builder:
         multivalued since #366). Issue #367 extends it to EVENTS
         (scopeID/productID → the full dimensions) and PAYLOAD packaging
         (empty productScopeID → the event's admitted applicability — the
-        rules of tools/migrate_event_payload_applicability.py). Runs after
-        every table exists."""
+        rules of tools/migrate_event_payload_applicability.py). Issue #368
+        closes the tail: empty Processes.productScopeID → the union of its
+        events' admitted sets; empty Handouts.departmentID → every
+        department (tools/migrate_tail_applicability.py). Runs after every
+        table exists."""
         def as_list(v):
             return v if isinstance(v, list) else ([] if v in (None, '') else [v])
 
@@ -1607,6 +1610,20 @@ class Builder:
         for pl in self.rows('Payload'):
             if not as_list(pl.get('productScopeID')):
                 pl['productScopeID'] = event_admits(events_by_id.get(str(pl.get('eventID'))))
+        # issue #368 (tail): Processes coverage + Handouts serving — the
+        # rules of tools/migrate_tail_applicability.py
+        for pr in self.rows('Processes'):
+            if not as_list(pr.get('productScopeID')):
+                covered = []
+                for ev_id in (as_list(pr.get('eventID')) or [None]):
+                    for ps in event_admits(events_by_id.get(str(ev_id))):
+                        if ps not in covered:
+                            covered.append(ps)
+                pr['productScopeID'] = covered
+        all_dept_ids = [d['departmentID'] for d in self.rows('Departments')]
+        for h in self.rows('Handouts'):
+            if not as_list(h.get('departmentID')):
+                h['departmentID'] = list(all_dept_ids)
         req_dims = [('regionID', 'Regions', 'regionID'),
                     ('businessUnitID', 'Business Units', 'businessUnitID'),
                     ('branchID', 'Branches', 'branchID'),

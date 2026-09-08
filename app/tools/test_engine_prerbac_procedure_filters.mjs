@@ -95,10 +95,11 @@ console.log('== handoutsForTask: the department dimension ==');
     .find((id) => !asList(h.departmentID).map(String).includes(id));
   eq(!!foreign, true, 'a department not serving the handout exists');
   eq(vals(foreign).includes(hid), false, 'foreign department — the handout leaves the picker');
-  // Q1: an empty department key stays offered everywhere (live edit + restore)
+  // #368: the empty-key wildcard is retired — an undeclared department
+  // list leaves every department picker (live edit + restore)
   const saved = h.departmentID;
   h.departmentID = [];
-  eq(vals(foreign).includes(hid), true, 'empty department key = offered everywhere (Q1)');
+  eq(vals(foreign).includes(hid), false, 'empty department key = offered NOWHERE (#368; was: everywhere)');
   h.departmentID = saved;
 }
 

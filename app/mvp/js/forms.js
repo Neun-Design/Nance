@@ -778,7 +778,8 @@ export function handoutsForTask(processID, workflowID, actionID, departmentId = 
     const hid = h[hMeta.pk];
     if (departmentId != null && departmentId !== '') {
       const depts = asList(h.departmentID).map(String);
-      if (depts.length && !depts.includes(String(departmentId))) continue;
+      if (!depts.length) { if (!legacyWildcardData(101)) continue; } // #368
+      else if (!depts.includes(String(departmentId))) continue;
     }
     const owners = tasks.filter((t) => arrOverlap(t.taskInput, hid)
       || arrOverlap(t.taskOutput, hid) || (tPk && arrOverlap(h.taskID, t[tPk])));
@@ -850,9 +851,14 @@ export function handoutsForDepartment(deptId) {
   const opt = (h) => ({ value: h.handoutID, label: h.handoutName || String(h.handoutID) });
   const rows = getEntity('Handouts');
   if (deptId == null || deptId === '') return rows.map(opt);
+  // issue #368: the empty-key wildcard is retired — a handout with an
+  // undeclared department list is offered NOWHERE (sv101 materialized the
+  // legacy blanks; pre-sv101 snapshots keep the Q1 reading)
+  const legacy = legacyWildcardData(101);
   return rows.filter((h) => {
     const ds = asList(h.departmentID).map(String);
-    return !ds.length || ds.includes(String(deptId));
+    if (!ds.length) return legacy;
+    return ds.includes(String(deptId));
   }).map(opt);
 }
 
@@ -1216,17 +1222,23 @@ export function productScopesForTicket(eventId, ctx, constraintIds = null) {
 }
 
 // Processes a ticket dispatches into (issue #214): the event's processes
-// narrowed by the chosen product scope — a process with an EMPTY
-// productScopeID list covers every scope of its event, and no chosen scope
-// keeps all of the event's processes (Q1 both ways). Stored as the ticket's
+// narrowed by the chosen product scope. The empty-list wildcard is RETIRED
+// (issue #368): with a chosen scope, a process with an undeclared
+// productScopeID list is dropped (sv101 materialized the demo blanks); no
+// chosen scope still keeps all of the event's processes (blank CONTEXT
+// skips the dimension — the #332 posture). Stored as the ticket's
 // processID snapshot on save (applyDerivedUnits) and by the migration.
 export function ticketProcesses(eventId, productScopeId) {
   if (!eventId) return [];
+  const legacy = legacyWildcardData(101);
   const out = [];
   for (const p of getEntity('Processes')) {
     if (!arrOverlap(p.eventID, eventId)) continue;
     const scopes = asList(p.productScopeID);
-    if (productScopeId && scopes.length && !scopes.includes(productScopeId)) continue;
+    if (productScopeId) {
+      if (!scopes.length) { if (!legacy) continue; }
+      else if (!scopes.includes(productScopeId)) continue;
+    }
     out.push(p.processID);
   }
   return out;
@@ -1259,13 +1271,17 @@ export function specInputKind(t) {
   return 'text';
 }
 
-// Product scopes of a PROCESS: its stored list; an empty list means the
-// process covers every product scope of its event.
+// Product scopes of a PROCESS: its stored list. The empty-list wildcard
+// ("covers every scope of its event") is RETIRED (issue #368): an
+// undeclared list covers nothing — sv101 materialized the demo blanks with
+// the event's admitted set; pre-sv101 snapshots keep the old fallback.
 export function productScopesForProcess(processId) {
   const proc = processId && getById('Processes', processId);
   if (!proc) return getEntity('Product Scopes').map(psOption);
   const ids = asList(proc.productScopeID);
-  if (!ids.length) return productScopesForEvent(proc.eventID);
+  if (!ids.length) {
+    return legacyWildcardData(101) ? productScopesForEvent(proc.eventID) : [];
+  }
   return ids.map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
 }
 

@@ -1013,9 +1013,14 @@ export function competenceRequirements(comp) {
   const pT = resolveTable('Procedures');
   const ids = Array.isArray(comp.procedureID) ? comp.procedureID
     : comp.procedureID != null && comp.procedureID !== '' ? [comp.procedureID] : [];
-  if (!pT || !ids.length) return comp.requirementID || null;
+  // issue #368: a competence with NO procedure link covers NOTHING on
+  // sv101+ data (a stored legacy requirementID set stays honoured — it is
+  // explicit); the null-return wildcard ("no restriction") survives only
+  // on pre-sv101 snapshots (frozen stored-requirement rows)
+  const noLink = () => comp.requirementID || (legacyWildcardData(101) ? null : []);
+  if (!pT || !ids.length) return noLink();
   const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
-  if (!procs.length) return comp.requirementID || null;
+  if (!procs.length) return noLink();
   // only APPROVED procedures contribute coverage (procedure-status gate):
   // a non-Approved wildcard no longer certifies everything, and a group
   // whose every procedure awaits approval covers NOTHING ([] — never null,
@@ -1050,14 +1055,19 @@ export function procedureApproved(proc) {
 
 // A competence is EXERCISABLE while at least one procedure of its group is
 // Approved: a group whose every procedure awaits approval is INERT for
-// eligibility — certified onboarding or not. A competence with no procedure
-// link (legacy stored-requirement rows) stays exercisable.
+// eligibility — certified onboarding or not. Since issue #368 a competence
+// with NO procedure link is inert too (nothing to exercise); the no-link
+// tolerance survives only on pre-sv101 snapshots.
 export function competenceExercisable(comp) {
   const pT = resolveTable('Procedures');
   const ids = asIds(comp && comp.procedureID);
-  if (!pT || !ids.length) return true;
+  // issue #368: a competence must be BOUND to a procedure to be exercised
+  // (the #231 doctrine — a competence certifies procedures); the no-link
+  // tolerance survives only on pre-sv101 snapshots (frozen
+  // stored-requirement rows stay exercisable there)
+  if (!pT || !ids.length) return legacyWildcardData(101);
   const procs = ids.map((id) => getById(pT, id)).filter(Boolean);
-  if (!procs.length) return true; // dangling ids — legacy tolerance
+  if (!procs.length) return legacyWildcardData(101); // dangling ids
   return procs.some(procedureApproved);
 }
 

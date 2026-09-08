@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 100,
+  "schemaVersion": 101,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -13480,7 +13480,22 @@
     "processDescription": "From medical order to released report for an imaging exam",
     "parentProcessID": null,
     "departmentID": "DPT01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "squadID": "SQ01",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -13497,7 +13512,14 @@
     "processDescription": "From sample reception to validated result release",
     "parentProcessID": null,
     "departmentID": "DPT02",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
+    ],
     "squadID": "SQ02",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -13514,7 +13536,10 @@
     "processDescription": "Priority path for flagged urgent orders",
     "parentProcessID": null,
     "departmentID": "DPT03",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "squadID": "SQ03",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -13531,7 +13556,9 @@
     "processDescription": "Independent re-read of an existing exam",
     "parentProcessID": null,
     "departmentID": "DPT04",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "squadID": "SQ04",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -13548,7 +13575,9 @@
     "processDescription": "Sampling, re-check and corrective follow-up of released work",
     "parentProcessID": null,
     "departmentID": "DPT05",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "squadID": "SQ05",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -13565,7 +13594,10 @@
     "processDescription": "Route planning, collection and sample hand-off at the lab",
     "parentProcessID": null,
     "departmentID": "DPT06",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "squadID": "SQ06",
     "processStatus": "Active",
     "processVersion": "1.0",
