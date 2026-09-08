@@ -333,6 +333,24 @@ select.form-input[multiple] { padding: 0; }
 .form-multicheck-row input[type="radio"] { width: 16px; height: 16px; accent-color: var(--se-ui-0); flex: none; }
 .form-multicheck-row span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .form-ro { background: var(--se-base-4); font-style: italic; color: var(--se-text-secondary); }
+/* ---------- Wizard steps (issue #353 — Procedure drawer redesign) ---------- */
+.wizard-steps { display: flex; gap: var(--se-space-2); margin-bottom: var(--se-space-6); flex-wrap: wrap; }
+.wizard-step {
+  position: relative; border: 1px solid var(--se-ui-2); background: var(--se-base-1);
+  color: var(--se-text-secondary); font-family: inherit; font-size: var(--se-font-size-caption);
+  font-weight: 600; padding: var(--se-space-3) var(--se-space-5) var(--se-space-3) var(--se-space-6);
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+}
+.wizard-step:first-child { clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); padding-left: var(--se-space-5); }
+.wizard-step:hover { background: var(--se-base-1-hover); color: var(--se-text-primary); }
+.wizard-step.active { background: var(--se-action-primary); color: var(--se-action-primary-text); border-color: var(--se-action-primary); }
+/* faceted requirements (Constraints step) */
+.facet-stack { display: flex; flex-direction: column; gap: var(--se-space-5); }
+.facet-box { display: flex; flex-direction: column; gap: var(--se-space-2); }
+.facet-title { font-size: var(--se-font-size-caption); font-weight: 600; color: var(--se-text-secondary); }
+.form-applyall { font-style: italic; }
+.form-applyall span { color: var(--se-text-secondary); }
 /* rollup select + "create new item" button (wireframe drawer parity) */
 .select-add { display: flex; align-items: flex-start; gap: var(--se-space-3); }
 .select-add .form-input { flex: 1; min-width: 0; }

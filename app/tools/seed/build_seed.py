@@ -656,6 +656,10 @@ class Builder:
                                'procedureURL': None,
                                'businessUnitID': dept_unit,
                                'departmentID': proc_dept,
+                               # applicability keys (issue #353, wizard step
+                               # Application) — honest empty: no demo SOP is
+                               # pinned to branches/customers (Q1 = all)
+                               'branchID': [], 'customerID': [],
                                'productScopeID': served, 'requirementID': reqs,
                                'taskInput': [self.rows('Handouts')[i % 14]['handoutID']],
                                'customerInputID': [hid for hid

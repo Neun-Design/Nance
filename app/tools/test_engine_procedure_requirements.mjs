@@ -36,14 +36,20 @@ console.log('== form spec: Unit cascade, grouping kept (v67) ==');
   eq(f.check, 'Task IS NOT NULL', 'gate unchanged — the issue only re-points the filter');
   const rule = Array.isArray(f['field-rule']) ? f['field-rule'] : [String(f['field-rule'])];
   eq(rule.includes('Allow multiple values'), true, 'multivalue spelling kept');
-  eq(rule.includes('SelectLabel = requirementTypeName'), true, 'grouping rule KEPT (issue text)');
+  // the requirementTypeName grouping left with the #353 wizard round — the
+  // Constraints step facets the options by what pins each requirement
+  // (per-customer / per-scope headers inside the facets) instead
+  eq(rule.includes('SelectLabel = requirementTypeName'), false,
+    'type grouping retired (#353 facets own the grouping)');
   eq(rule.includes('filtered by productScopeID selected'), false, '#159 product-scope dep gone');
   // the #274 trap: the cascade only wires when a part matches the regex AND
   // the captured dep resolves to a form field
   const part = rule.find((p) => /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i.test(p));
   const dep = part && part.match(/filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i)[1];
-  eq(dep, 'Unit', 'cascade names the Unit field (dead-cascade regression)');
-  eq('Unit' in catalog['Procedures'].form.fields, true, 'the named dep is a real field label');
+  eq(dep, 'Unit + Branches', 'cascade names Unit + Branches (#353 faceted deps)');
+  eq('Unit' in catalog['Procedures'].form.fields
+    && 'Branches' in catalog['Procedures'].form.fields, true,
+  'the named deps are real field labels');
 }
 
 console.log('== requirementsForUnit: unit + served-region gates (synthetic) ==');

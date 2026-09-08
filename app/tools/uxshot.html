@@ -86,13 +86,16 @@
     } else if (act === 'form') {
       const b = [...d.querySelectorAll('.btn-primary')].find((x) => /New Item/.test(x.textContent));
       if (b) b.click();
-      if (q.get('set') || q.get('probe')) setTimeout(runFormOps, 600);
+      // wstep=<n> clicks the n-th wizard step chip (issue #353 drawer)
+      if (q.get('wstep')) setTimeout(() => clickIn('.wizard-step', Number(q.get('wstep'))), 500);
+      if (q.get('set') || q.get('probe')) setTimeout(runFormOps, 900);
     } else if (act === 'filters') {
       const b = [...d.querySelectorAll('.btn-secondary')].find((x) => x.textContent === 'Filters');
       if (b) b.click();
     } else if (act === 'edit') {
       const row = d.querySelector('#tab-body table.dt tbody tr.row-clickable');
       if (row) row.click();
+      if (q.get('wstep')) setTimeout(() => clickIn('.wizard-step', Number(q.get('wstep'))), 500);
     } else if (act === 'subedit') {
       // issue #175: expand the first rollup, then click a subitem row —
       // the CHILD entity's edit drawer must open on that record

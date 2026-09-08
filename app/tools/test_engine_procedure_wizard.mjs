@@ -1,0 +1,242 @@
+#!/usr/bin/env node
+// test_engine_procedure_wizard.mjs — proof suite for issue #353 (sv90):
+// the Procedures drawer becomes a four-step WIZARD (Registry / Application
+// / Constraints / Inputs & Outputs — the issue's reference mockup, first
+// consumer of the form-spec `steps`), with the mockup's parenthetical
+// notes as the filter contract.
+//
+// Data side: Procedures gain the APPLICABILITY keys branchID[]/customerID[]
+// (empty = applies to all, Q1; session decision — declared only, the
+// ticket→procedure match does NOT gate on them yet, #332 posture) and the
+// stored-but-inert Requirements.branchID dimension is ACTIVATED
+// (matchRequirements gate on the ticket's project branch; the
+// forecastID.slaID.branchID rollup leg; the Branches Requirements facet).
+// The Constraints step facets ONE stored requirementID[] set by what pins
+// each requirement (most-specific facet wins); Inputs/Outputs re-point to
+// the department-admitted handouts (the unit rides transitively — census
+// 98/98 stored picks survive); Product Scopes KEEPS the process-packaged
+// sourcing (the mockup's Unit+Department note awaits the Product Scope ↔
+// Department link, issue #352 — a unit filter today would orphan 96/264
+// stored picks and flip the #332 gate).
+// Run from prototype/:  node tools/test_engine_procedure_wizard.mjs
+
+import fs from 'fs';
+globalThis.fetch = async (p) => new Response(fs.readFileSync(p));
+
+const model = await import('../js/model.js');
+const data = await import('../js/data.js');
+const { catalog } = await model.loadModel();
+data.initMeta(catalog);
+await data.loadData();
+const resolve = await import('../js/resolve.js');
+const forms = await import('../js/forms.js');
+
+let fails = 0;
+const ok = (m) => console.log(`  ✓ ${m}`);
+const fail = (m) => { fails += 1; console.log(`  ✗ ${m}`); };
+const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
+  ? ok(m) : fail(`${m} — got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`));
+const asList = (v) => (Array.isArray(v) ? v : (v == null || v === '' ? [] : [v]));
+
+console.log('== schema: applicability keys + wizard steps spec ==');
+{
+  eq(model.getSchemaVersion() >= 90, true, `schemaVersion ${model.getSchemaVersion()} >= 90`);
+  const cat = catalog['Procedures'];
+  const br = model.parseRule(cat.byName['branchID'].rule);
+  eq([br.kind, br.target], ['fk', 'Branches'], 'branchID is a stored FK → Branches');
+  eq(/multivalued/i.test(String(cat.byName['branchID'].notes)), true, 'branchID multivalued');
+  eq(/does NOT gate/i.test(String(cat.byName['branchID'].notes)), true,
+    'branchID notes record the declared-only session decision');
+  const cu = model.parseRule(cat.byName['customerID'].rule);
+  eq([cu.kind, cu.target], ['fk', 'Customers'], 'customerID is a stored FK → Customers');
+  eq(/multivalued/i.test(String(cat.byName['customerID'].notes)), true, 'customerID multivalued');
+
+  const spec = cat.form;
+  eq(Object.keys(spec.steps || {}), ['Registry', 'Application', 'Constraints', 'Inputs & Outputs'],
+    'four wizard steps in the mockup order');
+  const stepOf = {};
+  for (const [label, f] of Object.entries(spec.fields)) stepOf[label] = f.step;
+  eq(Object.values(stepOf).every((s) => s != null), true, 'every field carries a step key');
+  eq(['Registry Code', 'Unit', 'Department', 'Process', 'Task', 'Owner', 'Status',
+    'Procedure URL', 'Execution Time'].every((l) => stepOf[l] === 'Registry'), true,
+  'Registry step fields (Execution Time KEPT — session decision, the mockup omission)');
+  eq(['Branches', 'Customers', 'Product Scopes'].map((l) => stepOf[l]),
+    ['Application', 'Application', 'Application'], 'Application step fields');
+  eq(stepOf['Requirements'], 'Constraints', 'Constraints step field');
+  eq(['Inputs', 'Customer Inputs', 'Outputs'].map((l) => stepOf[l]),
+    ['Inputs & Outputs', 'Inputs & Outputs', 'Inputs & Outputs'], 'Inputs & Outputs step fields');
+}
+
+console.log('== form spec: gates + wired spellings (#274 trap) + Apply-to-all tokens ==');
+{
+  const f = catalog['Procedures'].form.fields;
+  const rule = (l) => (Array.isArray(f[l]['field-rule']) ? f[l]['field-rule'].join('; ') : String(f[l]['field-rule'] || ''));
+  eq(f.Branches.check, 'Unit IS NOT NULL', 'Branches gated on Unit');
+  eq(/filtered by Unit selected/i.test(rule('Branches')), true,
+    'Branches cascade names Unit (generic stored-key path — Branches store businessUnitID)');
+  eq(f.Customers.check, 'Unit IS NOT NULL', 'Customers gated on Unit');
+  eq(/filtered by Unit \+ Branches selected/i.test(rule('Customers')), true,
+    'Customers cascade names Unit + Branches (bespoke — the generic reverse read is the #309 trap)');
+  eq(/filtered by Unit \+ Branches selected/i.test(rule('Requirements')), true,
+    'Requirements cascade names Unit + Branches (faceted rebuild deps)');
+  eq(/filtered by processID selected/i.test(rule('Product Scopes')), true,
+    'Product Scopes KEEPS the process sourcing (unit/department filter awaits #352)');
+  eq(/filtered by Department selected/i.test(rule('Inputs'))
+    && /filtered by Department selected/i.test(rule('Outputs')), true,
+  'Inputs/Outputs re-pointed to the Department dimension');
+  for (const l of ['Branches', 'Customers', 'Product Scopes', 'Requirements', 'Customer Inputs']) {
+    eq(/apply to all/i.test(rule(l)), true, `${l} carries the Apply-to-all token`);
+  }
+}
+
+console.log('== facetedRequirementOptions: partition + grouping + branch narrowing ==');
+{
+  const flat = (fac) => fac.options.filter((o) => !o.header).map((o) => o.value);
+  // clinic BU01 baseline: 15 admitted (#304 census), 2 customer-pinned, none
+  // pinned to branches/product scopes
+  const base = forms.facetedRequirementOptions('BU01', []);
+  eq(base.map((x) => x.title), ['Business Unit Requirements', 'Branches Requirements',
+    'Customers Requirements', 'Product Scopes Requirements'], 'four facets in the mockup order');
+  eq([flat(base[0]).length, flat(base[1]).length, flat(base[2]).length, flat(base[3]).length],
+    [13, 0, 2, 0], 'clinic partition: 13 unit / 0 branch / 2 customer / 0 product-scope');
+  eq(base[2].options.some((o) => o.header), true, 'customer facet groups per customer name');
+  const union = base.flatMap(flat);
+  eq(new Set(union).size, union.length, 'each requirement lands in exactly ONE facet (dedup)');
+  eq(union.length, forms.requirementsForUnit('BU01').length,
+    'the facets partition the FULL #304 unit universe');
+
+  // synthetic probes: most-specific facet wins; branch narrowing bites
+  const br1 = data.getEntity('Branches')[0];
+  data.addRecord('Requirements', { requirementID: 'RQW-BR', requirementName: 'RQW-BR (t)',
+    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [], productGroupID: [],
+    productScopeID: [], branchID: [br1.branchID] });
+  data.addRecord('Requirements', { requirementID: 'RQW-PSC', requirementName: 'RQW-PSC (t)',
+    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [], productGroupID: [],
+    productScopeID: ['PS01'], customerID: 'CUST01', branchID: [br1.branchID] });
+  const probe = forms.facetedRequirementOptions('BU01', []);
+  eq(flat(probe[1]).includes('RQW-BR'), true, 'branch-pinned requirement lands in the Branches facet');
+  eq(flat(probe[3]).includes('RQW-PSC') && !flat(probe[2]).includes('RQW-PSC')
+    && !flat(probe[1]).includes('RQW-PSC'), true,
+  'product-scope pin outranks customer/branch pins (most-specific facet wins)');
+  // Customers facet narrowed by selected branches: keep only their
+  // registered customers (Branches.customerID)
+  const regd = new Set(asList(br1.customerID).map(String));
+  const narrowed = forms.facetedRequirementOptions('BU01', [br1.branchID]);
+  const keptCust = flat(narrowed[2]).map((id) => String(data.getById('Requirements', id).customerID));
+  eq(keptCust.every((c) => regd.has(c)), true,
+    'branch selection narrows the Customers facet to the registered customers');
+  data.removeRecords('Requirements', ['RQW-BR', 'RQW-PSC']);
+}
+
+console.log('== customersForUnitBranches: bespoke reverse read (#309 trap regression) ==');
+{
+  const br1 = data.getEntity('Branches').find((b) => asList(b.customerID).length === 1);
+  const all = forms.customersForUnitBranches(null, []).length;
+  eq(all, data.getEntity('Customers').length, 'no unit/branches — every customer (lenient)');
+  const unitOnly = forms.customersForUnitBranches('BU01', []);
+  eq(unitOnly.every((o) => asList(data.getById('Customers', o.value).businessUnitID)
+    .map(String).includes('BU01')), true, 'unit filter — only BU01 customers');
+  const viaBr = forms.customersForUnitBranches(null, [br1.branchID]);
+  eq(viaBr.map((o) => String(o.value)), asList(br1.customerID).map(String),
+    'branch narrowing reads Branches.customerID — NOT the sharedDomainJoin segment-mates');
+}
+
+console.log('== handoutsForDepartment: the Inputs/Outputs re-point ==');
+{
+  eq(forms.handoutsForDepartment(null).length, data.getEntity('Handouts').length,
+    'no department — every handout (lenient)');
+  const offered = forms.handoutsForDepartment('DPT03').map((o) => String(o.value));
+  eq(offered.length < data.getEntity('Handouts').length, true, 'the department filter narrows');
+  eq(offered.every((id) => {
+    const ds = asList(data.getById('Handouts', id).departmentID).map(String);
+    return !ds.length || ds.includes('DPT03');
+  }), true, 'offered = department-admitted or department-free (Q1, #340 posture)');
+  // census: every stored Input/Output pick survives its procedure's picker
+  const orphans = [];
+  for (const pr of data.getEntity('Procedures')) {
+    const opts = new Set(forms.handoutsForDepartment(pr.departmentID).map((o) => String(o.value)));
+    for (const key of ['taskInput', 'taskOutput']) {
+      for (const hid of asList(pr[key])) {
+        if (!opts.has(String(hid))) orphans.push(`${pr.procedureID}:${hid}`);
+      }
+    }
+  }
+  eq(orphans, [], 'census: 98/98 stored Input/Output picks survive the department filter');
+}
+
+console.log('== Requirements.branchID activated: the ticket inheritance gate ==');
+{
+  // synthetic: a requirement pinned to a branch applies only where the
+  // ticket's PROJECT branch is named; blank context side skips (lenient)
+  const t0 = data.getEntity('Tickets').find((t) => t.projectID != null);
+  const prj = data.getById('Projects', t0.projectID);
+  const savedBranch = prj.branchID;
+  const brX = data.getEntity('Branches')[0];
+  const brY = data.getEntity('Branches')[1];
+  data.addRecord('Requirements', { requirementID: 'RQW-GATE', requirementName: 'RQW-GATE (t)',
+    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [], productGroupID: [],
+    productScopeID: [], branchID: [brX.branchID] });
+  prj.branchID = brX.branchID;
+  eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), true,
+    'project on the pinned branch — the requirement inherits');
+  prj.branchID = brY.branchID;
+  eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), false,
+    'project on ANOTHER branch — excluded (the dimension bites)');
+  prj.branchID = null;
+  eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), true,
+    'no project branch — dimension skipped (lenient, the region posture)');
+  prj.branchID = savedBranch;
+  data.removeRecords('Requirements', ['RQW-GATE']);
+  // zero flips at rest: every clinic requirement carries an empty branch key
+  eq(data.getEntity('Requirements').filter((r) => asList(r.branchID).length).length, 0,
+    'clinic census: 18/18 requirements carry an empty branchID — the gate bites nothing at rest');
+  const withInputs = data.getEntity('Tickets')
+    .filter((t) => resolve.ticketInputHandouts(t).length > 0);
+  eq(withInputs.length, 137, 'TICKET-INPUTS census unchanged (137/160 — zero-flip guard)');
+}
+
+console.log('== Forecast Scopes rollup: the contract-branch leg ==');
+{
+  const reqAttr = catalog['Forecast Scopes'].byName['requirementID'];
+  const rule = model.parseRule(reqAttr.rule);
+  eq(rule.viaList.includes('forecastID.slaID.branchID'), true,
+    'declared via chain carries the forecastID.slaID.branchID leg (#353)');
+  const ps01 = data.getById('Product Scopes', 'PS01');
+  const brX = data.getEntity('Branches')[0];
+  const brY = data.getEntity('Branches')[1];
+  data.addRecord('Customers', { customerID: 'FCW1', customerName: 'Branch Cust (t)' });
+  data.addRecord('SLA', { slaID: 'SLAW1', slaCode: 'SLAW1', customerID: 'FCW1',
+    branchID: brX.branchID, payloadID: [], isActive: 'Active' });
+  data.addRecord('Forecasts', { forecastID: 'FRCW1', customerID: 'FCW1', slaID: 'SLAW1' });
+  data.addRecord('Forecast Scopes', { forecastScopeID: 'FSW1', forecastID: 'FRCW1',
+    scopeID: ps01.scopeID, productGroupID: ps01.productGroupID });
+  data.addRecord('Requirements', { requirementID: 'RQW-FBR', requirementName: 'RQW-FBR (t)',
+    isActive: 'Active', businessUnitID: [], regionID: [], scopeID: [ps01.scopeID],
+    productGroupID: [ps01.productGroupID], productScopeID: [], branchID: [brX.branchID] });
+  const fsw1 = data.getById('Forecast Scopes', 'FSW1');
+  const ids = () => resolve.childrenOf('Forecast Scopes', fsw1, 'Requirements',
+    { viaList: rule.viaList }).map((k) => k.requirementID);
+  eq(ids().includes('RQW-FBR'), true, 'contract on the pinned branch — the requirement rolls up');
+  data.getById('SLA', 'SLAW1').branchID = brY.branchID;
+  eq(ids().includes('RQW-FBR'), false, 'contract on ANOTHER branch — excluded');
+  data.getById('SLA', 'SLAW1').branchID = null;
+  eq(ids().includes('RQW-FBR'), true, 'branch-less contract — empty path skips the leg (lenient)');
+  data.removeRecords('Requirements', ['RQW-FBR']);
+  data.removeRecords('Forecast Scopes', ['FSW1']);
+  data.removeRecords('Forecasts', ['FRCW1']);
+  data.removeRecords('SLA', ['SLAW1']);
+  data.removeRecords('Customers', ['FCW1']);
+}
+
+console.log('== seeds: applicability keys on every procedure, honest Q1 ==');
+{
+  const procs = data.getEntity('Procedures');
+  eq(procs.length, 49, 'clinic census (49 procedures)');
+  eq(procs.every((p) => 'branchID' in p && 'customerID' in p), true,
+    'every procedure carries both applicability keys (parity)');
+  eq(procs.every((p) => asList(p.branchID).length === 0 && asList(p.customerID).length === 0), true,
+    'all seeded EMPTY — no demo SOP is pinned (Q1: applies to all)');
+}
+
+console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');
+process.exit(fails ? 1 : 0);
