@@ -94,26 +94,28 @@ console.log('== seeds: every stored pair survives the unit filter ==');
     'every ticket supplier serves the ticket\'s unit (edit prefill keeps the FK)');
 }
 
-console.log('== downstream: any unit customer may be declared (#325 union doctrine) ==');
+console.log('== downstream: the supplier dimension bites the whole universe (#350) ==');
 {
-  // any unit customer may be declared as supplier without emptying the Event
-  // offer: since issue #325 the supplier binds only the APPLICANT leg of the
-  // SLA survival pair — the customer leg is untouched, so a stranger
-  // supplier yields the same events as no supplier at all
+  // any unit customer may still be DECLARED (the #281 picker sourcing is
+  // untouched), but since issue #350 the supplier is one side of the
+  // contract-basis pair over EVERY Active SLA — a stranger supplier with no
+  // contract honestly empties the Event offer, while a contracted supplier
+  // keeps its purchased events on the table
   const slas = data.getEntity('SLA').filter((s) => String(s.isActive || 'Active') !== 'Inactive');
   const cust = slas[0].customerID;
-  const prj = data.getEntity('Projects').find((p) => String(p.customerID) === String(cust));
-  const supplying = new Set(slas
-    .filter((s) => asList(s.customerID).map(String).includes(String(cust)))
-    .map((s) => String(s.supplierID)));
+  const supplying = new Set(slas.map((s) => String(s.supplierID)));
   const stranger = data.getEntity('Customers')
     .find((c) => !supplying.has(String(c.customerID)) && String(c.customerID) !== String(cust));
-  const bare = forms.eventsForTicket({ projectID: prj.projectID, customerID: cust })
-    .map((o) => String(o.value));
-  const viaStranger = forms.eventsForTicket({ projectID: prj.projectID, customerID: cust,
+  const bare = forms.eventsForTicket({ applicantID: cust }).map((o) => String(o.value));
+  const viaStranger = forms.eventsForTicket({ applicantID: cust,
     supplierID: stranger.customerID }).map((o) => String(o.value));
-  eq(bare.length > 0, true, 'the customer leg offers events (scenario anchor)');
-  eq(viaStranger, bare, 'stranger supplier narrows nothing — it binds the applicant leg only');
+  eq(bare.length > 0, true, 'the applicant\'s contracts offer events (scenario anchor)');
+  eq(viaStranger, [], 'stranger supplier — the pair matches no contract, the offer empties (#350)');
+  const contracted = slas.find((s) => asList(s.customerID).map(String).includes(String(cust)));
+  const viaContracted = forms.eventsForTicket({ applicantID: cust,
+    supplierID: contracted.supplierID }).map((o) => String(o.value));
+  eq(viaContracted.length > 0 && viaContracted.every((v) => bare.includes(v)), true,
+    'contracted supplier — the pair keeps its purchased events (⊆ the applicant set)');
 }
 
 console.log(fails ? `\n${fails} FAILED` : '\nall passed');

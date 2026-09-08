@@ -1165,9 +1165,15 @@ class Builder:
             status = statuses[n % len(statuses)]
             exec_hours = round(sum(hours_by_event.get(ev_id, {}).values()) or 2.0, 2)
             # supplying-party filter (issue #272): the governing SLA's supplier
-            # on most tickets, with a visible wildcard cohort (n % 3 == 0)
+            # on most tickets, with a visible wildcard cohort at LIST index
+            # (n-1) % 3 == 0 — the migration lineage's i % 3 (the old n % 3
+            # was off by one from migrate_sla_supplier.py: n is 1-based
+            # here; latent until #350 made the supplier drive the stored
+            # payloadID/slaID keys). The base VALUE is provisional on the
+            # applicant cohort — the #350 re-key below repoints it to the
+            # applicant's covering contract's supplier.
             gov_sla = slas.get((proj['slaID'] or [None])[0])
-            sup_id = gov_sla.get('supplierID') if (gov_sla and n % 3) else None
+            sup_id = gov_sla.get('supplierID') if (gov_sla and (n - 1) % 3) else None
             tickets.append({'ticketID': f'TK{n:03d}',
                             'businessUnitID': cust[cid]['businessUnitID'][0],
                             'projectID': proj['projectID'], 'customerID': cid,
@@ -1198,48 +1204,74 @@ class Builder:
             others = [c for c in pool if c['customerID'] != t['customerID']]
             pick = others or pool
             t['applicantID'] = pick[0]['customerID'] if pick and i % 3 else None
-        # resolved dispatch package(s) + governing contract(s) (issue #325,
-        # sv76): the surviving project SLAs' payloads carrying the ticket's
-        # event and packaging its scope (empty packaging = wildcard, Q1) —
-        # STORED, same first-seen ordering as migrate_ticket_project_sla.py
-        # and applyDerivedUnits (forms.js). Survival = union of the exact
-        # pairs (SLA.customerID = Customer) ∪ (= Applicant AND supplierID =
-        # Supplier); story 6 only re-links forecastScopeID, so deriving here
-        # matches the migration's enumerate order.
-        proj_by_id = {p['projectID']: p for p in projects}
+        # contract basis + resolved dispatch package(s) (issue #350, sv89 —
+        # superseding the #325 project universe): the ticket's surviving
+        # SLAs = every Active SLA matching the exact (Applicant, Supplier)
+        # pair, a blank side skipping its dimension (multiViaJoin posture).
+        # Seed alignment first: a ticket carrying BOTH parties re-keys its
+        # supplier to the applicant's first covering Active contract's (SLA
+        # table order; covering = purchases a payload carrying the event
+        # and packaging the scope, empty packaging = wildcard Q1) — the
+        # governing contract is the applicant's now. Then payloadID/slaID
+        # derive with the same first-seen ordering as
+        # migrate_ticket_sla_cascade.py and applyDerivedUnits (forms.js);
+        # story 6 only re-links forecastScopeID, so deriving here matches
+        # the migration's enumerate order.
+        sla_rows = self.rows('SLA')
+
+        def covers(p, t):
+            if not p or str(p['eventID']) != str(t['eventID']):
+                return False
+            packs = p.get('productScopeID') or []
+            return not t.get('productScopeID') or not packs \
+                or t['productScopeID'] in packs
+
         for t in tickets:
-            proj = proj_by_id[t['projectID']]
+            aid, sup = t.get('applicantID'), t.get('supplierID')
+            if aid not in (None, '') and sup not in (None, ''):
+                for s in sla_rows:
+                    if str(s.get('isActive') or 'Active') == 'Inactive':
+                        continue
+                    if str(s['customerID']) != str(aid):
+                        continue
+                    if any(covers(payloads.get(pid), t)
+                           for pid in (s['payloadID'] or [])):
+                        t['supplierID'] = s.get('supplierID')
+                        break
+        for t in tickets:
+            aid, sup = t.get('applicantID'), t.get('supplierID')
             surv = []
-            for sid in (proj['slaID'] or []):
-                s = slas.get(sid)
-                if not s or str(s.get('isActive') or 'Active') == 'Inactive':
+            for s in sla_rows:
+                if str(s.get('isActive') or 'Active') == 'Inactive':
                     continue
-                leg1 = t['customerID'] is not None \
-                    and str(s['customerID']) == str(t['customerID'])
-                leg2 = t.get('applicantID') not in (None, '') \
-                    and str(s['customerID']) == str(t['applicantID']) \
-                    and (t.get('supplierID') in (None, '')
-                         or str(s.get('supplierID') or '') == str(t['supplierID']))
-                if leg1 or leg2:
-                    surv.append(s)
+                if aid not in (None, '') and str(s['customerID']) != str(aid):
+                    continue
+                if sup not in (None, '') \
+                        and str(s.get('supplierID') or '') != str(sup):
+                    continue
+                surv.append(s)
             seen, pl_ids = set(), []
             for s in surv:
                 for pid in (s['payloadID'] or []):
                     if pid in seen:
                         continue
                     seen.add(pid)
-                    p = payloads.get(pid)
-                    if not p or str(p['eventID']) != str(t['eventID']):
-                        continue
-                    packs = p.get('productScopeID') or []
-                    if t.get('productScopeID') and packs \
-                            and t['productScopeID'] not in packs:
-                        continue
-                    pl_ids.append(pid)
+                    if covers(payloads.get(pid), t):
+                        pl_ids.append(pid)
             t['payloadID'] = pl_ids
             pset = set(pl_ids)
             t['slaID'] = [s['slaID'] for s in surv
                           if any(pid in pset for pid in (s['payloadID'] or []))]
+        # edit-integrity (#281 posture, extended by the #350 re-key): the
+        # unit-filtered Supplier select must keep offering every stored
+        # pick — union the supplier's units with the units of the tickets
+        # naming it (first-seen, ticket order; same rule as the migration)
+        cust_by_id = {c['customerID']: c for c in self.rows('Customers')}
+        for t in tickets:
+            c = cust_by_id.get(t.get('supplierID'))
+            unit = t.get('businessUnitID')
+            if c and unit and unit not in c['businessUnitID']:
+                c['businessUnitID'] = c['businessUnitID'] + [unit]
         self.put('Tickets', tickets)
         self._plant_story6(tickets)
         self._build_jobs(tickets)
