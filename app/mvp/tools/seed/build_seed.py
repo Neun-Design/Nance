@@ -441,6 +441,11 @@ class Builder:
                          # scopes); mirrors migrate_requirement_product_scopes.py
                          'productScopeID': [],
                          'isActive': 'Active',
+                         # Selectable on Tickets (issue #359) — deterministic
+                         # demo cohort: pinned to a customer or region seeds
+                         # Yes; mirrors migrate_ticket_manual_requirements.py
+                         'ticketSelectable': bool(r.get('customers')
+                                                  or r.get('regions')),
                          'regulatoryReference': r.get('reference', ''),
                          'regulatoryURL': None})
         self.put('Requirements', reqs)
@@ -1207,6 +1212,7 @@ class Builder:
                                           if p['eventID'] == ev_id],
                             'products': group['productID'],
                             'scopes': [pair['scopeID']],
+                            'addedRequirementID': [],
                             'ticketExecutionTime': exec_hours,
                             'ticketOwner': None, 'ticketStatus': status,
                             'targetDate': (created + timedelta(days=14)).isoformat(),

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 94,
+    "schemaVersion": 95,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companions, independent of the wizard: the \"Apply to all\" field-rule token (wildcard row on multichecks) and per-entity faceted controls."
   },
@@ -3793,6 +3793,15 @@
               "constraints": "FK"
             },
             {
+              "name": "ticketSelectable",
+              "type": "BOOLEAN",
+              "rule": null,
+              "notes": "Selectable on Tickets (issue #359) — the governance decision that this requirement may be ADDED MANUALLY to compatible tickets: the Tickets wizard Request step offers flagged + Active requirements passing the party/geography gates of the inheritance match (unit #304, served region, customer/applicant #308, project branch #353) with the PRODUCT dimensions relaxed, minus the live inherited set (manualRequirementsForTicket in forms.js). The inheritance chain itself is UNTOUCHED. BOOLEAN-select convention (issue #218): fixed Yes/No options committing a real boolean, default No. Demo cohort (deterministic, migrate_ticket_manual_requirements.py): requirements pinned to a customer or region seed Yes — the picker is demonstrable with zero at-rest changes",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
+            },
+            {
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
@@ -3920,6 +3929,16 @@
                 "step": "Registry",
                 "check": null,
                 "field-rule": null
+              },
+              "Selectable on Tickets": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "ticketSelectable",
+                "tooltip": "Yes = this requirement may be added MANUALLY to compatible tickets on the Tickets form (issue #359) — the automatic inheritance is not affected either way",
+                "step": "Registry",
+                "check": null,
+                "field-rule": "default: No"
               },
               "Region": {
                 "field-type": {
@@ -5423,6 +5442,15 @@
               "constraints": "FK, NOT NULL"
             },
             {
+              "name": "addedRequirementID",
+              "type": "FK",
+              "rule": "FK → Requirements (display: requirementName)",
+              "notes": "multivalued — requirements ADDED MANUALLY to this ticket (issue #359, wizard Request step below Product Scope): options = Selectable-on-Tickets (Yes) + Active requirements compatible on the party/geography gates (unit, served region, customer/applicant, project branch) with the product dimensions relaxed, MINUS the live inherited set (manualRequirementsForTicket in forms.js). ticketRequirements UNIONS the picks after the untouched inheritance match — an added requirement binds like any inherited one (tab, TICKET-PROCEDURE, TICKET-INPUTS, staffing). Inactive picks drop (lifecycle posture). Seeded empty by migrate_ticket_manual_requirements.py (zero flips at rest)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "forecastScopeID",
               "type": "FK",
               "rule": "FK → Forecast Scopes (display: forecastScopeRegistry)",
@@ -5675,6 +5703,19 @@
                 "step": "Request",
                 "check": "Event IS NOT NULL",
                 "field-rule": "filtered by Event + Applicant + Supplier selected"
+              },
+              "Requirements": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "addedRequirementID",
+                "tooltip": "Add requirements this ticket would NOT inherit from its parameters (issue #359) — offered are the Selectable-on-Tickets requirements compatible with the chosen parties and geography; the automatically inherited set stays untouched and is not listed here",
+                "step": "Request",
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Business Unit + Applicant + Customer + Project selected"
+                ]
               },
               "Details": {
                 "field-type": {

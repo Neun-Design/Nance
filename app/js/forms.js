@@ -9,7 +9,7 @@ import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
   competenceExercisable, eventProductScopeIds, admittedProductScopeIds,
-  ticketAdmittedSLAs, ticketAdmittedPayloads } from './resolve.js';
+  ticketAdmittedSLAs, ticketAdmittedPayloads, ticketRequirements } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -871,6 +871,49 @@ export function customersForUnitBranches(unitId, branchIds = []) {
     rows = rows.filter((c) => registered.has(String(c.customerID)));
   }
   return rows.map(opt);
+}
+
+// Requirements a TICKET may be handed MANUALLY (issue #359 — the Tickets
+// wizard Request step, below Product Scope): flagged `ticketSelectable`
+// (the #218 real-boolean Yes) + Active requirements passing the PARTY and
+// GEOGRAPHY gates of the inheritance match — unit (#304 posture), served
+// region, customer/applicant pair (#308), project branch (#353) — with the
+// PRODUCT dimensions (scope/product group/product scope) deliberately
+// RELAXED: they are exactly what the manual pick overrides (session
+// decision; an exact-match rule would offer nothing — a flagged match is
+// already inherited). The LIVE inherited set of the draft is SUBTRACTED
+// (inherited requirements are automatic — offering them again is noise).
+// `draft` is a ticket-shaped record built from the form's current values;
+// blank context sides skip their dimension (lenient cascade posture).
+export function manualRequirementsForTicket(draft) {
+  const d = draft || {};
+  const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+  const unit = d.businessUnitID != null && d.businessUnitID !== '' ? String(d.businessUnitID) : null;
+  const served = unit
+    ? asList((getById('Business Units', unit) || {}).regionID).map(String) : [];
+  const parties = [d.customerID, d.applicantID]
+    .filter((v) => v != null && v !== '').map(String);
+  const prj = d.projectID != null && d.projectID !== '' ? getById('Projects', d.projectID) : null;
+  const branch = prj && prj.branchID != null && prj.branchID !== '' ? String(prj.branchID) : null;
+  const inherited = new Set(ticketRequirements(d).map(String));
+  const rT = resolveTable('Requirements');
+  const rMeta = ENTITY_META[rT];
+  return getEntity(rT).filter((r) => {
+    if (r.ticketSelectable !== true) return false;
+    if (String(r.isActive || 'Active') === 'Inactive') return false;
+    if (inherited.has(String(r[rMeta.pk]))) return false;
+    if (!blank(r.customerID) && parties.length
+        && !parties.includes(String(r.customerID))) return false;
+    if (!blank(r.businessUnitID) && unit
+        && !asList(r.businessUnitID).map(String).includes(unit)) return false;
+    if (!blank(r.regionID) && served.length
+        && !asList(r.regionID).map(String).some((x) => served.includes(x))) return false;
+    if (!blank(r.branchID) && branch
+        && !asList(r.branchID).map(String).includes(branch)) return false;
+    return true;
+  }).map((r) => ({ value: r[rMeta.pk],
+    label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 }
 
 // The Procedures wizard Constraints step (issue #353): the #304 unit-wide
@@ -1873,6 +1916,19 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Forecast Scopes' && attrName === 'functionID') {
             const evDep = findDep('Event');
             applyOpts(functionsForForecastEvent(evDep ? evDep[1].get() : null));
+            return;
+          }
+          // Tickets "Requirements" (issue #359 — manual additions): flagged
+          // + Active requirements compatible on the party/geography gates,
+          // minus the live inherited set of the draft — see
+          // manualRequirementsForTicket. The inherited chain is untouched.
+          if (entity === 'Tickets' && attrName === 'addedRequirementID') {
+            const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
+            applyOpts(manualRequirementsForTicket({
+              businessUnitID: val('Business Unit'), applicantID: val('Applicant'),
+              customerID: val('Customer'), projectID: val('Project'),
+              supplierID: val('Supplier'), eventID: val('Event'),
+              productScopeID: val('Product Scope') }));
             return;
           }
           // Tickets "Product Scope": the scopes co-packaged with the selected

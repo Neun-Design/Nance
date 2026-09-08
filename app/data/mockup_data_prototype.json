@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 94,
+  "schemaVersion": 95,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11210,7 +11210,8 @@
     "isActive": "Active",
     "regulatoryReference": "RDC 611/2022",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ02",
@@ -11228,7 +11229,8 @@
     "isActive": "Active",
     "regulatoryReference": "ANMAT 2674",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ03",
@@ -11247,7 +11249,8 @@
     "isActive": "Active",
     "regulatoryReference": "CFM 2.107",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ04",
@@ -11266,7 +11269,8 @@
     "isActive": "Active",
     "regulatoryReference": "LGPD 13.709",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ05",
@@ -11284,7 +11288,8 @@
     "isActive": "Active",
     "regulatoryReference": "Ley 25.326",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ06",
@@ -11305,7 +11310,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ07",
@@ -11324,7 +11330,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ08",
@@ -11343,7 +11350,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ09",
@@ -11364,7 +11372,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ10",
@@ -11384,7 +11393,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ11",
@@ -11400,7 +11410,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ12",
@@ -11418,7 +11429,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ13",
@@ -11434,7 +11446,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ14",
@@ -11450,7 +11463,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    },
    {
     "requirementID": "RQ15",
@@ -11470,7 +11484,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ16",
@@ -11489,7 +11504,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ17",
@@ -11511,7 +11527,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": false
    },
    {
     "requirementID": "RQ18",
@@ -11529,7 +11546,8 @@
     "isActive": "Active",
     "regulatoryReference": "",
     "regulatoryURL": null,
-    "productScopeID": []
+    "productScopeID": [],
+    "ticketSelectable": true
    }
   ],
   "Channels": [
@@ -14971,7 +14989,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK002",
@@ -15004,7 +15023,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK003",
@@ -15037,7 +15057,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK004",
@@ -15092,7 +15113,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK005",
@@ -15137,7 +15159,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK006",
@@ -15170,7 +15193,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK007",
@@ -15207,7 +15231,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK008",
@@ -15252,7 +15277,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK009",
@@ -15285,7 +15311,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK010",
@@ -15340,7 +15367,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK011",
@@ -15373,7 +15401,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK012",
@@ -15406,7 +15435,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK013",
@@ -15443,7 +15473,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK014",
@@ -15488,7 +15519,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK015",
@@ -15533,7 +15565,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK016",
@@ -15588,7 +15621,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK017",
@@ -15621,7 +15655,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK018",
@@ -15666,7 +15701,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK019",
@@ -15721,7 +15757,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK020",
@@ -15754,7 +15791,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK021",
@@ -15787,7 +15825,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK022",
@@ -15826,7 +15865,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK023",
@@ -15859,7 +15899,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK024",
@@ -15904,7 +15945,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK025",
@@ -15959,7 +16001,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK026",
@@ -16004,7 +16047,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK027",
@@ -16037,7 +16081,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK028",
@@ -16092,7 +16137,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK029",
@@ -16125,7 +16171,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK030",
@@ -16158,7 +16205,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK031",
@@ -16196,7 +16244,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK032",
@@ -16229,7 +16278,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK033",
@@ -16262,7 +16312,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK034",
@@ -16317,7 +16368,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK035",
@@ -16362,7 +16414,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK036",
@@ -16407,7 +16460,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK037",
@@ -16444,7 +16498,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK038",
@@ -16477,7 +16532,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK039",
@@ -16510,7 +16566,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK040",
@@ -16565,7 +16622,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK041",
@@ -16598,7 +16656,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK042",
@@ -16631,7 +16690,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK043",
@@ -16667,7 +16727,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK044",
@@ -16712,7 +16773,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK045",
@@ -16757,7 +16819,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK046",
@@ -16812,7 +16875,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK047",
@@ -16845,7 +16909,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK048",
@@ -16890,7 +16955,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK049",
@@ -16945,7 +17011,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK050",
@@ -16978,7 +17045,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK051",
@@ -17011,7 +17079,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK052",
@@ -17050,7 +17119,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK053",
@@ -17083,7 +17153,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK054",
@@ -17128,7 +17199,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK055",
@@ -17183,7 +17255,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK056",
@@ -17228,7 +17301,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK057",
@@ -17261,7 +17335,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK058",
@@ -17300,7 +17375,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK059",
@@ -17333,7 +17409,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK060",
@@ -17366,7 +17443,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK061",
@@ -17405,7 +17483,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK062",
@@ -17438,7 +17517,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK063",
@@ -17471,7 +17551,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK064",
@@ -17526,7 +17607,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK065",
@@ -17571,7 +17653,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK066",
@@ -17616,7 +17699,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK067",
@@ -17653,7 +17737,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK068",
@@ -17698,7 +17783,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK069",
@@ -17731,7 +17817,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK070",
@@ -17786,7 +17873,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK071",
@@ -17819,7 +17907,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK072",
@@ -17852,7 +17941,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK073",
@@ -17888,7 +17978,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK074",
@@ -17933,7 +18024,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK075",
@@ -17978,7 +18070,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK076",
@@ -18016,7 +18109,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK077",
@@ -18049,7 +18143,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK078",
@@ -18094,7 +18189,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK079",
@@ -18149,7 +18245,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK080",
@@ -18182,7 +18279,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK081",
@@ -18227,7 +18325,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK082",
@@ -18266,7 +18365,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK083",
@@ -18299,7 +18399,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK084",
@@ -18344,7 +18445,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK085",
@@ -18399,7 +18501,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK086",
@@ -18444,7 +18547,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK087",
@@ -18477,7 +18581,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK088",
@@ -18532,7 +18637,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK089",
@@ -18565,7 +18671,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK090",
@@ -18598,7 +18705,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK091",
@@ -18653,7 +18761,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK092",
@@ -18686,7 +18795,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK093",
@@ -18719,7 +18829,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK094",
@@ -18774,7 +18885,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK095",
@@ -18819,7 +18931,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK096",
@@ -18852,7 +18965,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK097",
@@ -18889,7 +19003,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK098",
@@ -18922,7 +19037,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK099",
@@ -18955,7 +19071,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK100",
@@ -19010,7 +19127,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK101",
@@ -19055,7 +19173,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK102",
@@ -19088,7 +19207,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK103",
@@ -19124,7 +19244,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK104",
@@ -19169,7 +19290,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK105",
@@ -19214,7 +19336,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK106",
@@ -19269,7 +19392,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK107",
@@ -19302,7 +19426,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK108",
@@ -19347,7 +19472,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK109",
@@ -19402,7 +19528,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK110",
@@ -19435,7 +19562,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK111",
@@ -19480,7 +19608,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK112",
@@ -19519,7 +19648,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK113",
@@ -19552,7 +19682,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK114",
@@ -19597,7 +19728,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK115",
@@ -19652,7 +19784,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK116",
@@ -19697,7 +19830,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK117",
@@ -19730,7 +19864,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK118",
@@ -19768,7 +19903,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK119",
@@ -19801,7 +19937,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK120",
@@ -19834,7 +19971,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK121",
@@ -19873,7 +20011,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK122",
@@ -19906,7 +20045,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK123",
@@ -19939,7 +20079,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK124",
@@ -19994,7 +20135,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK125",
@@ -20039,7 +20181,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK126",
@@ -20084,7 +20227,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK127",
@@ -20121,7 +20265,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK128",
@@ -20166,7 +20311,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK129",
@@ -20199,7 +20345,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK130",
@@ -20254,7 +20401,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK131",
@@ -20287,7 +20435,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK132",
@@ -20320,7 +20469,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK133",
@@ -20356,7 +20506,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK134",
@@ -20401,7 +20552,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK135",
@@ -20446,7 +20598,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK136",
@@ -20485,7 +20638,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK137",
@@ -20518,7 +20672,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK138",
@@ -20551,7 +20706,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK139",
@@ -20606,7 +20762,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK140",
@@ -20639,7 +20796,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK141",
@@ -20672,7 +20830,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK142",
@@ -20711,7 +20870,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK143",
@@ -20744,7 +20904,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK144",
@@ -20789,7 +20950,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK145",
@@ -20844,7 +21006,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK146",
@@ -20889,7 +21052,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK147",
@@ -20922,7 +21086,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK148",
@@ -20977,7 +21142,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK149",
@@ -21010,7 +21176,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK150",
@@ -21043,7 +21210,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK151",
@@ -21081,7 +21249,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK152",
@@ -21114,7 +21283,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK153",
@@ -21147,7 +21317,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK154",
@@ -21202,7 +21373,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK155",
@@ -21247,7 +21419,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK156",
@@ -21280,7 +21453,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK157",
@@ -21317,7 +21491,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK158",
@@ -21350,7 +21525,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK159",
@@ -21383,7 +21559,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "addedRequirementID": []
    },
    {
     "ticketID": "TK160",
@@ -21438,7 +21615,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "addedRequirementID": []
    }
   ],
   "Jobs": [
