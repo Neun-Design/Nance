@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 95,
+    "schemaVersion": 96,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companions, independent of the wizard: the \"Apply to all\" field-rule token (wildcard row on multichecks) and per-entity faceted controls."
   },
@@ -3775,13 +3775,13 @@
               "constraints": "FK"
             },
             {
-              "name": "businessUnitID",
-              "type": "FK",
-              "rule": "FK → Business Units (display: businessUnitName)",
-              "notes": "multivalued — units this requirement applies to; empty = applies to all units (Q1 wildcard)",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
+                "name": "businessUnitID",
+                "type": "FK",
+                "rule": "FK → Business Units (display: businessUnitName)",
+                "notes": "multivalued — business units this requirement belongs to. MANDATORY since issue #359 (redefined round, pre-RBAC correction: EVERY requirement must declare its unit(s)); the demo rows were seeded with ALL units by migrate_ticket_constraints.py — the explicit spelling of what their formerly-EMPTY key meant under Q1 (applies to all), so every inheritance/picker/PS-REQUIREMENTS chain is preserved byte-for-byte; narrowing a row to its real owning unit is a data decision made in the UI. Drives the Constraints picker on Tickets (unit equality) and stays a Q1 exclusion gate on the derived chains",
+                "table-display": false,
+                "subitem-display": false,
+                "constraints": "FK, NOT NULL"
             },
             {
               "name": "requirementTypeID",
@@ -3793,13 +3793,13 @@
               "constraints": "FK"
             },
             {
-              "name": "ticketSelectable",
-              "type": "BOOLEAN",
-              "rule": null,
-              "notes": "Selectable on Tickets (issue #359) — the governance decision that this requirement may be ADDED MANUALLY to compatible tickets: the Tickets wizard Request step offers flagged + Active requirements passing the party/geography gates of the inheritance match (unit #304, served region, customer/applicant #308, project branch #353) with the PRODUCT dimensions relaxed, minus the live inherited set (manualRequirementsForTicket in forms.js). The inheritance chain itself is UNTOUCHED. BOOLEAN-select convention (issue #218): fixed Yes/No options committing a real boolean, default No. Demo cohort (deterministic, migrate_ticket_manual_requirements.py): requirements pinned to a customer or region seed Yes — the picker is demonstrable with zero at-rest changes",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": null
+                "name": "ticketSelectable",
+                "type": "BOOLEAN",
+                "rule": null,
+                "notes": "Selectable on Tickets (issue #359, REDEFINED 2026-09-08 — filter application): Yes makes this requirement an offerable CONSTRAINT on the Tickets wizard Request step for tickets of the SAME business unit (constraintsForTicketUnit in forms.js) — the picked constraints NARROW the ticket's Product Scope options to the scopes whose PS-REQUIREMENTS set covers them (AND). Pure filter: the inheritance chain is untouched either way (the #359 manual-union application was retired in the same redefinition). BOOLEAN-select convention (issue #218), default No. Demo cohort unchanged: customer-or-region-pinned rows seed Yes",
+                "table-display": false,
+                "subitem-display": false,
+                "constraints": null
             },
             {
               "name": "branchID",
@@ -3935,7 +3935,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "ticketSelectable",
-                "tooltip": "Yes = this requirement may be added MANUALLY to compatible tickets on the Tickets form (issue #359) — the automatic inheritance is not affected either way",
+                "tooltip": "Yes = this requirement becomes an offerable CONSTRAINT on the Tickets form for its business unit(s), used to filter the ticket's Product Scope options (issue #359 redefined) — the automatic inheritance is not affected either way",
                 "step": "Registry",
                 "check": null,
                 "field-rule": "default: No"
@@ -5442,10 +5442,10 @@
               "constraints": "FK, NOT NULL"
             },
             {
-              "name": "addedRequirementID",
+              "name": "constraintID",
               "type": "FK",
               "rule": "FK → Requirements (display: requirementName)",
-              "notes": "multivalued — requirements ADDED MANUALLY to this ticket (issue #359, wizard Request step below Product Scope): options = Selectable-on-Tickets (Yes) + Active requirements compatible on the party/geography gates (unit, served region, customer/applicant, project branch) with the product dimensions relaxed, MINUS the live inherited set (manualRequirementsForTicket in forms.js). ticketRequirements UNIONS the picks after the untouched inheritance match — an added requirement binds like any inherited one (tab, TICKET-PROCEDURE, TICKET-INPUTS, staffing). Inactive picks drop (lifecycle posture). Seeded empty by migrate_ticket_manual_requirements.py (zero flips at rest)",
+              "notes": "multivalued — CONSTRAINTS picked on the wizard Request step (issue #359, REDEFINED 2026-09-08: the flag is an additional FILTER layer, not a manual addition — the #359 union into ticketRequirements is retired): options = Selectable-on-Tickets (Yes) + Active requirements whose businessUnitID names the ticket's unit (constraintsForTicketUnit in forms.js); the picks NARROW the Product Scope options to the scopes whose comprehensive PS-REQUIREMENTS set covers ALL selected constraints (AND — a filter narrows; none picked = unfiltered). Pure filter input (pre-RBAC doctrine #334 family): the inheritance chain never reads it. Renamed from addedRequirementID (seeds empty — zero at-rest changes)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -5694,28 +5694,28 @@
                 "check": "Project IS NOT NULL",
                 "field-rule": "filtered by Applicant + Supplier selected"
               },
+              "Constraints": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "constraintID",
+                "tooltip": "Filter the Product Scopes below by the requirements they must answer for (issue #359 redefined) — offered are the Selectable-on-Tickets requirements of this Business Unit; leave empty to see every admitted scope. The automatically inherited requirement set is not affected",
+                "step": "Request",
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "filtered by Business Unit selected"
+                ]
+              },
               "Product Scope": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Only product scopes co-packaged with the chosen event in a payload of the Applicant → Supplier contracts — the resolved payload and contract are stored on save",
+                "tooltip": "Only product scopes co-packaged with the chosen event in a payload of the Applicant → Supplier contracts — narrowed to the scopes answering for the selected Constraints (issue #359); the resolved payload and contract are stored on save",
                 "step": "Request",
                 "check": "Event IS NOT NULL",
-                "field-rule": "filtered by Event + Applicant + Supplier selected"
-              },
-              "Requirements": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "addedRequirementID",
-                "tooltip": "Add requirements this ticket would NOT inherit from its parameters (issue #359) — offered are the Selectable-on-Tickets requirements compatible with the chosen parties and geography; the automatically inherited set stays untouched and is not listed here",
-                "step": "Request",
-                "check": "Business Unit IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by Business Unit + Applicant + Customer + Project selected"
-                ]
+                "field-rule": "filtered by Event + Applicant + Supplier + Constraints selected"
               },
               "Details": {
                 "field-type": {

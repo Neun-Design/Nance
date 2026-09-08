@@ -9,7 +9,7 @@ import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
   competenceExercisable, eventProductScopeIds, admittedProductScopeIds,
-  ticketAdmittedSLAs, ticketAdmittedPayloads, ticketRequirements } from './resolve.js';
+  ticketAdmittedSLAs, ticketAdmittedPayloads, productScopeRequirementRows } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
 const REF_OVERRIDE = {
@@ -873,44 +873,23 @@ export function customersForUnitBranches(unitId, branchIds = []) {
   return rows.map(opt);
 }
 
-// Requirements a TICKET may be handed MANUALLY (issue #359 — the Tickets
-// wizard Request step, below Product Scope): flagged `ticketSelectable`
-// (the #218 real-boolean Yes) + Active requirements passing the PARTY and
-// GEOGRAPHY gates of the inheritance match — unit (#304 posture), served
-// region, customer/applicant pair (#308), project branch (#353) — with the
-// PRODUCT dimensions (scope/product group/product scope) deliberately
-// RELAXED: they are exactly what the manual pick overrides (session
-// decision; an exact-match rule would offer nothing — a flagged match is
-// already inherited). The LIVE inherited set of the draft is SUBTRACTED
-// (inherited requirements are automatic — offering them again is noise).
-// `draft` is a ticket-shaped record built from the form's current values;
-// blank context sides skip their dimension (lenient cascade posture).
-export function manualRequirementsForTicket(draft) {
-  const d = draft || {};
-  const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
-  const unit = d.businessUnitID != null && d.businessUnitID !== '' ? String(d.businessUnitID) : null;
-  const served = unit
-    ? asList((getById('Business Units', unit) || {}).regionID).map(String) : [];
-  const parties = [d.customerID, d.applicantID]
-    .filter((v) => v != null && v !== '').map(String);
-  const prj = d.projectID != null && d.projectID !== '' ? getById('Projects', d.projectID) : null;
-  const branch = prj && prj.branchID != null && prj.branchID !== '' ? String(prj.branchID) : null;
-  const inherited = new Set(ticketRequirements(d).map(String));
+// Constraints a TICKET may pick (issue #359, REDEFINED 2026-09-08 — the
+// Tickets wizard Request step, BEFORE Product Scope): flagged
+// `ticketSelectable` (the #218 real-boolean Yes) + Active requirements
+// whose businessUnitID names the ticket's unit (the redefined rule: unit
+// equality, nothing else — Requirements.businessUnitID is MANDATORY since
+// this round, seeded ALL-units on demo rows). The picks are a pure FILTER
+// layer: productScopesForTicket narrows to the scopes whose comprehensive
+// PS-REQUIREMENTS set covers them; the inheritance chain never reads them
+// (the #359 manual-union application was retired in the redefinition).
+export function constraintsForTicketUnit(unitId) {
   const rT = resolveTable('Requirements');
   const rMeta = ENTITY_META[rT];
   return getEntity(rT).filter((r) => {
     if (r.ticketSelectable !== true) return false;
     if (String(r.isActive || 'Active') === 'Inactive') return false;
-    if (inherited.has(String(r[rMeta.pk]))) return false;
-    if (!blank(r.customerID) && parties.length
-        && !parties.includes(String(r.customerID))) return false;
-    if (!blank(r.businessUnitID) && unit
-        && !asList(r.businessUnitID).map(String).includes(unit)) return false;
-    if (!blank(r.regionID) && served.length
-        && !asList(r.regionID).map(String).some((x) => served.includes(x))) return false;
-    if (!blank(r.branchID) && branch
-        && !asList(r.branchID).map(String).includes(branch)) return false;
-    return true;
+    if (unitId == null || unitId === '') return true; // lenient — field is unit-gated anyway
+    return asList(r.businessUnitID).map(String).includes(String(unitId));
   }).map((r) => ({ value: r[rMeta.pk],
     label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
     .sort((a, b) => a.label.localeCompare(b.label));
@@ -1201,9 +1180,21 @@ export function functionsForForecastEvent(eventId) {
 // every scope the event admits (Q1) — it widens the offer to the event's
 // full applicability. `ctx` is a ticket-shaped record ({ applicantID,
 // supplierID } — extra keys tolerated).
-export function productScopesForTicket(eventId, ctx) {
-  return admittedProductScopeIds(eventId, ctx)
-    .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
+export function productScopesForTicket(eventId, ctx, constraintIds = null) {
+  let rows = admittedProductScopeIds(eventId, ctx)
+    .map((id) => getById('Product Scopes', id)).filter(Boolean);
+  // Constraints layer (issue #359 redefined): keep only the scopes whose
+  // comprehensive PS-REQUIREMENTS set (#296 legs) covers ALL the selected
+  // constraints — AND semantics, a filter narrows; none picked = unfiltered
+  const picked = asList(constraintIds).map(String);
+  if (picked.length) {
+    rows = rows.filter((ps) => {
+      const have = new Set(productScopeRequirementRows(ps)
+        .map((r) => String(r.requirementID)));
+      return picked.every((id) => have.has(id));
+    });
+  }
+  return rows.map(psOption);
 }
 
 // Processes a ticket dispatches into (issue #214): the event's processes
@@ -1918,17 +1909,11 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(functionsForForecastEvent(evDep ? evDep[1].get() : null));
             return;
           }
-          // Tickets "Requirements" (issue #359 — manual additions): flagged
-          // + Active requirements compatible on the party/geography gates,
-          // minus the live inherited set of the draft — see
-          // manualRequirementsForTicket. The inherited chain is untouched.
-          if (entity === 'Tickets' && attrName === 'addedRequirementID') {
-            const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
-            applyOpts(manualRequirementsForTicket({
-              businessUnitID: val('Business Unit'), applicantID: val('Applicant'),
-              customerID: val('Customer'), projectID: val('Project'),
-              supplierID: val('Supplier'), eventID: val('Event'),
-              productScopeID: val('Product Scope') }));
+          // Tickets "Constraints" (issue #359 redefined): the unit's flagged
+          // requirements — see constraintsForTicketUnit
+          if (entity === 'Tickets' && attrName === 'constraintID') {
+            const dep = findDep('Business Unit');
+            applyOpts(constraintsForTicketUnit(dep ? dep[1].get() : null));
             return;
           }
           // Tickets "Product Scope": the scopes co-packaged with the selected
@@ -1937,7 +1922,8 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Tickets' && attrName === 'productScopeID') {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
             applyOpts(productScopesForTicket(val('Event'), {
-              applicantID: val('Applicant'), supplierID: val('Supplier') }));
+              applicantID: val('Applicant'), supplierID: val('Supplier') },
+            val('Constraints')));
             return;
           }
           // Jobs "Predecessor": jobs of the same ticket (issue #244, A6)

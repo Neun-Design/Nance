@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 95,
+  "schemaVersion": 96,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11201,7 +11201,12 @@
      "RG01",
      "RG02"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11220,7 +11225,12 @@
     "regionID": [
      "RG03"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11240,7 +11250,12 @@
      "RG01",
      "RG02"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11260,7 +11275,12 @@
      "RG01",
      "RG02"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT03",
     "branchID": null,
     "customerID": null,
@@ -11279,7 +11299,12 @@
     "regionID": [
      "RG03"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT03",
     "branchID": null,
     "customerID": null,
@@ -11296,7 +11321,12 @@
     "requirementName": "Contrast Administration Protocol",
     "requirementDescription": "Screening, consent and supervision for contrast media",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11318,7 +11348,12 @@
     "requirementName": "Sedation Safety Protocol",
     "requirementDescription": "Anesthesist presence and recovery monitoring under sedation",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11338,7 +11373,12 @@
     "requirementName": "Report Double Signature",
     "requirementDescription": "Urgent and second-opinion reports need two signatures",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11358,7 +11398,12 @@
     "requirementName": "Radiation Dose Registry",
     "requirementDescription": "Per-exam dose logging and periodic review",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11380,7 +11425,12 @@
     "requirementName": "ISO 15189 Lab Accreditation",
     "requirementDescription": "Medical-laboratory competence accreditation",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT04",
     "branchID": null,
     "customerID": null,
@@ -11401,7 +11451,12 @@
     "requirementName": "PACS Retention Policy",
     "requirementDescription": "20-year image retention with audit trail",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT03",
     "branchID": null,
     "customerID": null,
@@ -11418,7 +11473,12 @@
     "requirementName": "Cold Chain Control",
     "requirementDescription": "Temperature-controlled sample transport",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11437,7 +11497,12 @@
     "requirementName": "HealthFirst Reporting Template",
     "requirementDescription": "Insurer-mandated report layout and coding",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT05",
     "branchID": null,
     "customerID": "CUST01",
@@ -11454,7 +11519,12 @@
     "requirementName": "Austral Prior Authorization",
     "requirementDescription": "Pre-authorization required before high-cost exams",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT05",
     "branchID": null,
     "customerID": "CUST03",
@@ -11471,7 +11541,12 @@
     "requirementName": "Screening Quality Sampling",
     "requirementDescription": "Second-read sampling on mammography campaign volume",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT04",
     "branchID": null,
     "customerID": null,
@@ -11492,7 +11567,12 @@
     "requirementName": "Critical Value Notification",
     "requirementDescription": "Immediate physician notification on critical results",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT02",
     "branchID": null,
     "customerID": null,
@@ -11512,7 +11592,12 @@
     "requirementName": "Equipment QC Daily Check",
     "requirementDescription": "Daily quality-control phantom checks",
     "regionID": [],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT01",
     "branchID": null,
     "customerID": null,
@@ -11537,7 +11622,12 @@
     "regionID": [
      "RG03"
     ],
-    "businessUnitID": [],
+    "businessUnitID": [
+     "BU01",
+     "BU02",
+     "BU03",
+     "BU04"
+    ],
     "requirementTypeID": "RT05",
     "branchID": null,
     "customerID": null,
@@ -14990,7 +15080,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK002",
@@ -15024,7 +15114,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK003",
@@ -15058,7 +15148,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK004",
@@ -15114,7 +15204,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK005",
@@ -15160,7 +15250,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK006",
@@ -15194,7 +15284,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK007",
@@ -15232,7 +15322,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK008",
@@ -15278,7 +15368,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK009",
@@ -15312,7 +15402,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK010",
@@ -15368,7 +15458,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK011",
@@ -15402,7 +15492,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK012",
@@ -15436,7 +15526,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK013",
@@ -15474,7 +15564,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK014",
@@ -15520,7 +15610,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK015",
@@ -15566,7 +15656,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK016",
@@ -15622,7 +15712,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK017",
@@ -15656,7 +15746,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK018",
@@ -15702,7 +15792,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK019",
@@ -15758,7 +15848,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK020",
@@ -15792,7 +15882,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK021",
@@ -15826,7 +15916,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK022",
@@ -15866,7 +15956,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK023",
@@ -15900,7 +15990,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK024",
@@ -15946,7 +16036,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK025",
@@ -16002,7 +16092,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK026",
@@ -16048,7 +16138,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK027",
@@ -16082,7 +16172,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK028",
@@ -16138,7 +16228,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK029",
@@ -16172,7 +16262,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK030",
@@ -16206,7 +16296,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK031",
@@ -16245,7 +16335,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK032",
@@ -16279,7 +16369,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK033",
@@ -16313,7 +16403,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK034",
@@ -16369,7 +16459,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK035",
@@ -16415,7 +16505,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK036",
@@ -16461,7 +16551,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK037",
@@ -16499,7 +16589,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK038",
@@ -16533,7 +16623,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK039",
@@ -16567,7 +16657,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK040",
@@ -16623,7 +16713,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK041",
@@ -16657,7 +16747,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK042",
@@ -16691,7 +16781,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK043",
@@ -16728,7 +16818,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK044",
@@ -16774,7 +16864,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK045",
@@ -16820,7 +16910,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK046",
@@ -16876,7 +16966,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK047",
@@ -16910,7 +17000,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK048",
@@ -16956,7 +17046,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK049",
@@ -17012,7 +17102,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK050",
@@ -17046,7 +17136,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK051",
@@ -17080,7 +17170,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK052",
@@ -17120,7 +17210,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK053",
@@ -17154,7 +17244,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK054",
@@ -17200,7 +17290,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK055",
@@ -17256,7 +17346,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK056",
@@ -17302,7 +17392,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK057",
@@ -17336,7 +17426,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK058",
@@ -17376,7 +17466,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK059",
@@ -17410,7 +17500,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK060",
@@ -17444,7 +17534,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK061",
@@ -17484,7 +17574,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK062",
@@ -17518,7 +17608,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK063",
@@ -17552,7 +17642,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK064",
@@ -17608,7 +17698,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK065",
@@ -17654,7 +17744,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK066",
@@ -17700,7 +17790,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK067",
@@ -17738,7 +17828,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK068",
@@ -17784,7 +17874,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK069",
@@ -17818,7 +17908,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK070",
@@ -17874,7 +17964,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK071",
@@ -17908,7 +17998,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK072",
@@ -17942,7 +18032,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK073",
@@ -17979,7 +18069,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK074",
@@ -18025,7 +18115,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK075",
@@ -18071,7 +18161,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK076",
@@ -18110,7 +18200,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK077",
@@ -18144,7 +18234,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK078",
@@ -18190,7 +18280,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK079",
@@ -18246,7 +18336,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK080",
@@ -18280,7 +18370,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK081",
@@ -18326,7 +18416,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK082",
@@ -18366,7 +18456,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK083",
@@ -18400,7 +18490,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK084",
@@ -18446,7 +18536,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK085",
@@ -18502,7 +18592,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK086",
@@ -18548,7 +18638,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK087",
@@ -18582,7 +18672,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK088",
@@ -18638,7 +18728,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK089",
@@ -18672,7 +18762,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK090",
@@ -18706,7 +18796,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK091",
@@ -18762,7 +18852,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK092",
@@ -18796,7 +18886,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK093",
@@ -18830,7 +18920,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK094",
@@ -18886,7 +18976,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK095",
@@ -18932,7 +19022,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK096",
@@ -18966,7 +19056,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK097",
@@ -19004,7 +19094,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK098",
@@ -19038,7 +19128,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK099",
@@ -19072,7 +19162,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK100",
@@ -19128,7 +19218,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK101",
@@ -19174,7 +19264,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK102",
@@ -19208,7 +19298,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK103",
@@ -19245,7 +19335,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK104",
@@ -19291,7 +19381,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK105",
@@ -19337,7 +19427,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK106",
@@ -19393,7 +19483,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK107",
@@ -19427,7 +19517,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK108",
@@ -19473,7 +19563,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK109",
@@ -19529,7 +19619,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK110",
@@ -19563,7 +19653,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK111",
@@ -19609,7 +19699,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK112",
@@ -19649,7 +19739,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK113",
@@ -19683,7 +19773,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK114",
@@ -19729,7 +19819,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK115",
@@ -19785,7 +19875,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK116",
@@ -19831,7 +19921,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK117",
@@ -19865,7 +19955,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK118",
@@ -19904,7 +19994,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK119",
@@ -19938,7 +20028,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK120",
@@ -19972,7 +20062,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK121",
@@ -20012,7 +20102,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK122",
@@ -20046,7 +20136,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK123",
@@ -20080,7 +20170,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK124",
@@ -20136,7 +20226,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK125",
@@ -20182,7 +20272,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK126",
@@ -20228,7 +20318,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK127",
@@ -20266,7 +20356,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK128",
@@ -20312,7 +20402,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK129",
@@ -20346,7 +20436,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK130",
@@ -20402,7 +20492,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK131",
@@ -20436,7 +20526,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK132",
@@ -20470,7 +20560,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK133",
@@ -20507,7 +20597,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK134",
@@ -20553,7 +20643,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK135",
@@ -20599,7 +20689,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK136",
@@ -20639,7 +20729,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK137",
@@ -20673,7 +20763,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK138",
@@ -20707,7 +20797,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK139",
@@ -20763,7 +20853,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK140",
@@ -20797,7 +20887,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK141",
@@ -20831,7 +20921,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK142",
@@ -20871,7 +20961,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK143",
@@ -20905,7 +20995,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK144",
@@ -20951,7 +21041,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK145",
@@ -21007,7 +21097,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK146",
@@ -21053,7 +21143,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK147",
@@ -21087,7 +21177,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK148",
@@ -21143,7 +21233,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK149",
@@ -21177,7 +21267,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK150",
@@ -21211,7 +21301,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK151",
@@ -21250,7 +21340,7 @@
      "SLA17",
      "SLA19"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK152",
@@ -21284,7 +21374,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK153",
@@ -21318,7 +21408,7 @@
     "slaID": [
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK154",
@@ -21374,7 +21464,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK155",
@@ -21420,7 +21510,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK156",
@@ -21454,7 +21544,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK157",
@@ -21492,7 +21582,7 @@
      "SLA11",
      "SLA15"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK158",
@@ -21526,7 +21616,7 @@
     "slaID": [
      "SLA13"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK159",
@@ -21560,7 +21650,7 @@
     "slaID": [
      "SLA16"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    },
    {
     "ticketID": "TK160",
@@ -21616,7 +21706,7 @@
      "SLA19",
      "SLA20"
     ],
-    "addedRequirementID": []
+    "constraintID": []
    }
   ],
   "Jobs": [

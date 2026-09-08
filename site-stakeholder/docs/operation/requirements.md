@@ -16,14 +16,16 @@ Since 2026-09-08 the form is a **three-step wizard** (the same chevron-step draw
 [Procedures](procedures.md) and [Tickets](../workspace/tickets.md)):
 
 **Step 1 — Registry:** Name, Description, Type (create new types inline with the "+"
-button); **Selectable on Tickets** (2026-09-08) — Yes lets this requirement be **added
-manually** to compatible [Tickets](../workspace/tickets.md) on their Request step (for
-obligations a ticket would not inherit from its parameters); the automatic inheritance
-below is not affected either way.
+button); **Selectable on Tickets** (2026-09-08) — Yes makes this requirement an offerable
+**Constraint** on the [Tickets](../workspace/tickets.md) Request step for tickets of
+its business unit(s): picked constraints filter the ticket's Product Scope options to
+the scopes that answer for them; the automatic inheritance below is not affected
+either way.
 
 **Step 2 — Applicability** — the system's longest cascade gets its own screen, with the
-rule written on it: *an empty dimension means "applies to all"*. Region → Business Unit
-(unlocks after at least one Region is selected, 2026-08-27) → Branch / Customer / Scope /
+rule written on it: *an empty dimension means "applies to all"*. Region → `Business Unit *`
+(unlocks after at least one Region is selected, 2026-08-27; **mandatory** since
+2026-09-08 — every requirement declares the unit(s) it belongs to, the pre-RBAC rule) → Branch / Customer / Scope /
 Product Group / **Product Scope**. The **Product Scope** picker (2026-08-28) targets the
 requirement at specific [Product Scope](../portfolio/product-scopes.md) combinations
 directly — options show the combination's registry code, filtered by the selected units;

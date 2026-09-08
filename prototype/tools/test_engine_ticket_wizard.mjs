@@ -54,9 +54,9 @@ console.log('== #350 gates and cascade spellings survive the split unchanged =='
   eq(f['Product Scope'].check, 'Event IS NOT NULL', 'Product Scope gated on the Event');
   eq(/filtered by Applicant \+ Supplier selected/i.test(String(f.Event['field-rule'])), true,
     'Event cascade still names the Applicant + Supplier pair (#350 — deps live on step 1)');
-  eq(/filtered by Event \+ Applicant \+ Supplier selected/i
+  eq(/filtered by Event \+ Applicant \+ Supplier \+ Constraints selected/i
     .test(String(f['Product Scope']['field-rule'])), true,
-  'Product Scope cascade unchanged (cross-step deps are the engine\'s proven path)');
+  'Product Scope cascade carries the Constraints layer (#359 redefined) on top of the #350 deps');
 }
 
 console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');
