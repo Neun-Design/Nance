@@ -6,7 +6,7 @@ import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
   parseRule } from './model.js';
-import { fkDisplay, childrenOf, derivedValue, ticketRequirements, ticketAdmittedScopeIds, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
+import { fkDisplay, childrenOf, derivedValue, allTagEmpty, ticketRequirements, ticketAdmittedScopeIds, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -306,6 +306,9 @@ function withAccessors(entity, cols) {
     // fkDisplay itself would join them into one long string.
     if (c.fk) c.accessor = (r) => {
       const v = r[c.key];
+      // all-tag attrs (Q1 applicability sets): the empty stored set IS the
+      // wildcard — render 'All', not a blank that reads as unfilled
+      if (allTagEmpty(c.attr, v)) return 'All';
       if (Array.isArray(v)) return v.map((x) => fkDisplay(c.fk, x));
       return fkDisplay(c.fk, v);
     };
@@ -314,6 +317,8 @@ function withAccessors(entity, cols) {
     // as a caution pill; other values render plain (falsy class falls through)
     if (c.attr && c.attr['gap-tag'] === true) {
       c.pill = (v) => (v === 'GAP' ? 'caution' : null);
+    } else if (c.attr && c.attr['all-tag'] === true) {
+      c.pill = (v) => (v === 'All' ? 'neutral' : null);
     }
     return c;
   });

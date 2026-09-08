@@ -1228,6 +1228,18 @@ export function productScopeRequirementRows(ps) {
   return out;
 }
 
+// all-tag (gap-tag's positive sibling): STORED applicability sets under the
+// Q1 doctrine render their EMPTY value as the 'All' tag — the wizard's
+// "Apply to all" deliberately stores an empty set (empty = applies to
+// everything, dynamically), so the cell must state the wildcard instead of
+// showing a blank that reads as "forgot to fill". Opt-in per attribute via
+// the `all-tag` datamodel flag; the neutral-pill styling and the fk-accessor
+// hook live in withAccessors (app.js).
+export function allTagEmpty(attr, v) {
+  return !!(attr && attr['all-tag'] === true)
+    && (v == null || v === '' || (Array.isArray(v) && !v.length));
+}
+
 // derived attribute value for a table cell. Attrs flagged `gap-tag` in the
 // datamodel render an EMPTY derived value as the GAP tag (issue #271): the
 // system points at the hole — a procedure nobody is certified to execute, a
