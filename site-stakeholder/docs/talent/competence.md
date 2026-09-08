@@ -13,7 +13,9 @@ procedures** of its task (1:many, 2026-08-26) and inherits the **union** of thei
 sets — a requirement never joins a competence automatically: the quality manager decides on
 each [Procedure](../operation/procedures.md) (whose Requirements picker offers the Active
 requirements aligned to the product scopes), and every competence certifying that procedure
-inherits the decision. A user-given **Title** names the competence — with the group
+inherits the decision. A competence **must be bound to a procedure to be exercised**
+(2026-09-08): one without a procedure link covers no requirement and staffs nobody —
+there is nothing to exercise until the method is linked and Approved. A user-given **Title** names the competence — with the group
 cardinality, the title is what distinguishes and groups competences (it is the label shown
 wherever a competence is listed, e.g. the Onboarding picker).
 **Register when:** after Operation exists (including the task's Procedures).

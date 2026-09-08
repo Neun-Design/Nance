@@ -12,5 +12,6 @@ purpose: "Processes — what it is, when to register one, and its key fields"
 (2026-09-07 — pick the unit, then the department; until role-based access control lands,
 forms carry filter inputs like these so the same MVP serves different units); `Event *` →
 **Product Scopes** (multi — offered from the event's
-applicability, empty = covers all); Department → unlocks Squad (squads of the process's own
+applicability; explicit selection since 2026-09-08: select every scope to cover all of
+today's list, an empty list covers nothing); Department → unlocks Squad (squads of the process's own
 department); Owner (people of the chosen unit); Status; Version.
