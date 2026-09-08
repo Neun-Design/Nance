@@ -1041,9 +1041,13 @@ const asList = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
 // selected option's hint on the closed control.
 const psOption = (ps) => {
   const pk = ENTITY_META['Product Scopes'].pk;
-  const full = resolveDisplay('Product Scopes', ps, 'productScopeName')
-    || [resolveDisplay('Product Scopes', ps, 'productName'),
-      resolveDisplay('Product Scopes', ps, 'scopeName')].filter((x) => x !== '').join(' | ');
+  // the dash placeholder is TRUTHY — an unresolved name must fall through
+  // to the productName | scopeName parts (the sv102 lesson: the authored
+  // 'X from FK' CONCAT never resolved and every hint read the dash)
+  const name = String(resolveDisplay('Product Scopes', ps, 'productScopeName') ?? '');
+  const full = (name && name !== '—') ? name
+    : [resolveDisplay('Product Scopes', ps, 'productName'),
+      resolveDisplay('Product Scopes', ps, 'scopeName')].filter((x) => x !== '' && x !== '—').join(' | ');
   return { value: ps[pk], label: String(ps[pk]), hint: String(full || '') };
 };
 

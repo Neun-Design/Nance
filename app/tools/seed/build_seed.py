@@ -1669,6 +1669,12 @@ class Builder:
         self.build_control()
         self._backfill_prerbac_units()
         self._materialize_wildcards()
+        # productScopeName is live-derived since sv102 (issue #372 follow-up):
+        # the builder needs the name in memory for its anchors (pack_of, the
+        # name index), but the dataset must not store it — stored values
+        # would win over the live CONCAT rule (#214)
+        for ps in self.rows('Product Scopes'):
+            ps.pop('productScopeName', None)
         self.owner_pass()
         dataset = {'_meta': {'schemaVersion': self.dm['_meta']['schemaVersion'],
                              'anchorDate': self.anchor.isoformat(),
