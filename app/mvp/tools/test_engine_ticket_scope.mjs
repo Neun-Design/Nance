@@ -84,34 +84,30 @@ console.log('== subitem tabs: Processes/Tasks replace Jobs ==');
     'Tasks tab resolves the tasks of the snapshot processes');
 }
 
-console.log('== productScopesForTicket: co-packaged scopes under the PROJECT SLAs (#325) ==');
+console.log('== productScopesForTicket: co-packaged scopes under the pair contracts (#350) ==');
 {
-  // strict posture since #325: no event / no project / no surviving pair =
-  // no options (the #214 lenient fallbacks retired with the re-sourcing)
-  eq(forms.productScopesForTicket(null, {}).length, 0, 'no event/project — no scopes (strict)');
+  // no event = no packaging to read (the #214 lenient fallbacks stay retired)
+  eq(forms.productScopesForTicket(null, {}).length, 0, 'no event — no scopes');
   const p3 = data.getEntity('Payload').find((p) => (p.productScopeID || []).length === 3);
   // a contract purchasing ONLY a 1-scope payload of the same event — the
-  // offer follows the purchased packaging, not the event's full set
+  // offer follows the purchased packaging, not the event's full set. Since
+  // #350 the contract is reached through the APPLICANT, not the project.
   data.addRecord('Payload', { payloadID: 'PLD-T2', payloadCode: 'PLD-T2 (t)',
     eventID: p3.eventID, productScopeID: [p3.productScopeID[0]] });
   data.addRecord('Customers', { customerID: 'CUST-T', customerName: 'Scope Probe (t)' });
   data.addRecord('SLA', { slaID: 'SLA-T', slaCode: 'SLA-T', customerID: 'CUST-T',
     payloadID: ['PLD-T2'], isActive: 'Active' });
-  data.addRecord('Projects', { projectID: 'PJ-T', projectRegistryID: 'PJ-T (t)',
-    customerID: 'CUST-T', slaID: ['SLA-T'] });
-  eq(forms.productScopesForTicket(p3.eventID, { projectID: 'PJ-T', customerID: 'CUST-T' })
+  eq(forms.productScopesForTicket(p3.eventID, { applicantID: 'CUST-T' })
     .map((o) => o.value), [p3.productScopeID[0]],
-  'the project contract narrows to the purchased packaging');
-  eq(forms.productScopesForTicket(p3.eventID, { projectID: 'PJ-T' }).length, 0,
-    'no surviving pair — no scopes (strict, the survival legs need a party)');
+  'the applicant\'s contract narrows to the purchased packaging');
+  eq(forms.productScopesForTicket(p3.eventID, { applicantID: 'CUST-GHOST' }).length, 0,
+    'no surviving contract — no scopes (the pair matches nothing)');
   // wildcard payload — empty packaging = every scope the event admits (Q1)
   data.addRecord('Events', { eventID: 'EV-T', eventTitle: 'Wildcard Probe (t)' });
   data.addRecord('Payload', { payloadID: 'PLD-TW', payloadCode: 'PLD-TW (t)', eventID: 'EV-T', productScopeID: [] });
   data.addRecord('SLA', { slaID: 'SLA-TW', slaCode: 'SLA-TW', customerID: 'CUST-T',
     payloadID: ['PLD-TW'], isActive: 'Active' });
-  data.addRecord('Projects', { projectID: 'PJ-TW', projectRegistryID: 'PJ-TW (t)',
-    customerID: 'CUST-T', slaID: ['SLA-TW'] });
-  eq(forms.productScopesForTicket('EV-T', { projectID: 'PJ-TW', customerID: 'CUST-T' }).length,
+  eq(forms.productScopesForTicket('EV-T', { applicantID: 'CUST-T' }).length,
     forms.productScopesForEvent('EV-T').length, 'wildcard payload widens to the full applicability (Q1)');
 }
 

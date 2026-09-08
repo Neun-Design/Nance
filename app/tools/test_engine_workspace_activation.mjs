@@ -64,25 +64,32 @@ console.log('== form spec: gated cascade ==');
   eq(p.SLA.check, 'Customer IS NOT NULL', 'Projects SLA gated on the customer');
 }
 
-console.log('== eventsForTicket: the PROJECT contracts gate the events (#325) ==');
+console.log('== eventsForTicket: the pair contracts gate the events (#350) ==');
 {
   const all = data.getEntity('Events').length;
-  // strict posture: no project = no options (the #192 lenient wildcard and
-  // the eventsForCustomerSLAs helper retired with the #325 re-sourcing)
+  // the #192 lenient wildcard and the eventsForCustomerSLAs helper stay
+  // retired; since #350 the (Applicant, Supplier) pair decides — a blank
+  // side skips its dimension, so the empty ctx offers the full contracted
+  // universe instead of the #325 strict []
   eq(forms.eventsForCustomerSLAs === undefined, true, 'eventsForCustomerSLAs retired (#325)');
-  eq(forms.eventsForTicket({}).length, 0, 'no project — no events (strict)');
+  eq(forms.eventsForTicket(null).length, 0, 'null ctx — no events');
+  eq(forms.eventsForTicket({}).length > 0, true,
+    'blank pair — every contracted event (lenient, #350 blank-skips)');
   const prj = data.getEntity('Projects').find((p) => (p.slaID || []).length);
-  const offered = forms.eventsForTicket({ projectID: prj.projectID, customerID: prj.customerID });
+  const offered = forms.eventsForTicket({ applicantID: prj.customerID });
   const covered = new Set();
-  for (const sid of prj.slaID) {
-    const s = data.getById('SLA', sid);
+  for (const s of data.getEntity('SLA')) {
+    const buyers = Array.isArray(s.customerID) ? s.customerID : [s.customerID];
+    if (!buyers.map(String).includes(String(prj.customerID))) continue;
+    if (String(s.isActive || 'Active') === 'Inactive') continue;
     for (const pid of (s.payloadID || [])) covered.add(data.getById('Payload', pid).eventID);
   }
   eq(offered.length > 0 && offered.length < all, true,
-    `project contracts narrow the offer (${offered.length} of ${all})`);
-  eq(offered.every((o) => covered.has(o.value)), true, 'every offered event is packaged by the project contracts');
-  eq(forms.eventsForTicket({ projectID: prj.projectID }).length, 0,
-    'no customer/applicant pair match — no events (strict: the survival legs need a party)');
+    `the applicant's contracts narrow the offer (${offered.length} of ${all})`);
+  eq(offered.every((o) => covered.has(o.value)), true,
+    'every offered event is packaged by the applicant\'s contracts');
+  eq(forms.eventsForTicket({ applicantID: 'CUST-GHOST' }).length, 0,
+    'no pair match — no events (an applicant without contracts offers nothing)');
 }
 
 console.log('== seeds: unit anchors + payload-chain snapshots ==');
@@ -109,16 +116,22 @@ console.log('== seeds: unit anchors + payload-chain snapshots ==');
   eq(projects.every((p) => p.slaID.every((id) => data.getById('SLA', id).customerID === p.customerID)),
     true, 'project contracts belong to the project customer');
   // ticket payload/SLA are STORED since #325 — every seed resolves its
-  // dispatch package(s) and the contracts stay inside the project's set
+  // dispatch package(s); since #350 the contracts follow the (Applicant,
+  // Supplier) pair instead of the project's set
   eq(tickets.every((t) => Array.isArray(t.payloadID) && t.payloadID.length > 0), true,
     'every ticket stores its resolved payload set (160/160 census)');
   eq(tickets.every((t) => t.payloadID.every((id) => data.getById('Payload', id).eventID === t.eventID)),
     true, 'every stored payload carries the ticket event');
-  eq(tickets.every((t) => {
-    const prj = data.getById('Projects', t.projectID);
-    return Array.isArray(t.slaID) && t.slaID.length > 0
-      && t.slaID.every((id) => (prj.slaID || []).includes(id));
-  }), true, 'every stored contract belongs to the ticket project');
+  eq(tickets.every((t) => Array.isArray(t.slaID) && t.slaID.length > 0
+    && t.slaID.every((id) => {
+      const s = data.getById('SLA', id);
+      const buyers = Array.isArray(s.customerID) ? s.customerID : [s.customerID];
+      const appOk = t.applicantID == null || t.applicantID === ''
+        || buyers.map(String).includes(String(t.applicantID));
+      const supOk = t.supplierID == null || t.supplierID === ''
+        || String(s.supplierID) === String(t.supplierID);
+      return String(s.isActive || 'Active') !== 'Inactive' && appOk && supOk;
+    })), true, 'every stored contract matches the ticket\'s (Applicant, Supplier) pair (#350)');
 }
 
 console.log('== MVP walkthrough gating (app.js) ==');

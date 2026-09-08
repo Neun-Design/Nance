@@ -1,17 +1,15 @@
 #!/usr/bin/env node
 // test_engine_ticket_project_sla.mjs — proof suite for issue #325 (sv76):
-// the PROJECT's contracts define the ticket's Event/Product Scope options,
-// and the resolved payload(s) + governing SLA(s) are STORED on save.
+// the resolved payload(s) + governing SLA(s) are STORED on save
+// (multivalued honesty, no form input) and the pickers only offer what the
+// surviving contracts package.
 //
-// Survival semantics (session decision — union of two exact pairs): a
-// project SLA (Projects.slaID, Active only) survives when
-//   leg 1 — SLA.customerID = the ticket's Customer, OR
-//   leg 2 — SLA.customerID = the Applicant AND SLA.supplierID = the Supplier
-//           (no Applicant = leg inert; no Supplier = the leg ignores the
-//           supplier dimension; the Supplier does NOT narrow leg 1).
-// STRICT posture: no project / no surviving SLA = no options. Only the
-// derived inheritance chain keeps a legacy-fallback rung (frozen-testdata
-// posture — never fires on the clinic mockup, census 160/160).
+// SURVIVAL RE-SOURCED by issue #350 (sv89): the (Applicant, Supplier) pair
+// over every Active SLA replaced the #325 project universe and its
+// two-leg union — full rule semantics live in
+// test_engine_ticket_sla_cascade.mjs; this suite keeps the #325 subjects
+// that survive (stored keys, save resolution, picker form-integrity,
+// legacy inheritance rung).
 // Run from prototype/:  node tools/test_engine_ticket_project_sla.mjs
 
 import fs from 'fs';
@@ -61,50 +59,41 @@ console.log('== form spec: gates + cascade spellings (#274 trap) ==');
   // matches the `filtered by … selected` regex AND names every dep
   const evRule = String(t.Event['field-rule']);
   eq(/filtered by .*selected/i.test(evRule), true, 'Event rule matches the cascade regex');
-  for (const dep of ['Project', 'Applicant', 'Customer', 'Supplier']) {
-    eq(evRule.includes(dep), true, `Event cascade names ${dep}`);
+  for (const dep of ['Applicant', 'Supplier']) {
+    eq(evRule.includes(dep), true, `Event cascade names ${dep} (#350 pair)`);
   }
   const psRule = String(t['Product Scope']['field-rule']);
   eq(/filtered by .*selected/i.test(psRule), true, 'Product Scope rule matches the cascade regex');
-  for (const dep of ['Event', 'Project', 'Applicant', 'Customer', 'Supplier']) {
-    eq(psRule.includes(dep), true, `Product Scope cascade names ${dep}`);
+  for (const dep of ['Event', 'Applicant', 'Supplier']) {
+    eq(psRule.includes(dep), true, `Product Scope cascade names ${dep} (#350 pair)`);
   }
 }
 
-console.log('== ticketAdmittedSLAs: union of two exact pairs ==');
+console.log('== ticketAdmittedSLAs: re-sourced to the (Applicant, Supplier) pair (#350) ==');
 {
-  data.addRecord('Customers', { customerID: 'CU-A (t)', customerName: 'Buyer A (t)' });
+  // full rule semantics are proven in test_engine_ticket_sla_cascade.mjs —
+  // here only the re-source regression: the pair decides, the project does
+  // not restrict, Inactive stays filtered
   data.addRecord('Customers', { customerID: 'CU-B (t)', customerName: 'Applicant B (t)' });
   data.addRecord('Customers', { customerID: 'SUP-X (t)', customerName: 'Supplier X (t)' });
-  data.addRecord('SLA', { slaID: 'SLA-A (t)', slaCode: 'SLA-A', customerID: 'CU-A (t)',
-    supplierID: 'SUP-X (t)', payloadID: [], isActive: 'Active' });
   data.addRecord('SLA', { slaID: 'SLA-B (t)', slaCode: 'SLA-B', customerID: 'CU-B (t)',
     supplierID: 'SUP-X (t)', payloadID: [], isActive: 'Active' });
-  data.addRecord('SLA', { slaID: 'SLA-B2 (t)', slaCode: 'SLA-B2', customerID: 'CU-B (t)',
-    supplierID: 'CU-A (t)', payloadID: [], isActive: 'Active' });
-  data.addRecord('SLA', { slaID: 'SLA-DEAD (t)', slaCode: 'SLA-DEAD', customerID: 'CU-A (t)',
+  data.addRecord('SLA', { slaID: 'SLA-DEAD (t)', slaCode: 'SLA-DEAD', customerID: 'CU-B (t)',
     supplierID: 'SUP-X (t)', payloadID: [], isActive: 'Inactive' });
+  // a project that links NEITHER probe contract — under #325 it was the
+  // universe and would have blocked them
   data.addRecord('Projects', { projectID: 'PJ-U (t)', projectRegistryID: 'PJ-U (t)',
-    customerID: 'CU-A (t)', slaID: ['SLA-A (t)', 'SLA-B (t)', 'SLA-B2 (t)', 'SLA-DEAD (t)'] });
-  const ids = (rows) => rows.map((s) => s.slaID);
+    customerID: 'CU-B (t)', slaID: [] });
+  const probeIds = new Set(['SLA-B (t)', 'SLA-DEAD (t)']);
+  const ids = (rows) => rows.map((s) => s.slaID).filter((id) => probeIds.has(id));
 
-  eq(ids(resolve.ticketAdmittedSLAs({ projectID: 'PJ-U (t)', customerID: 'CU-A (t)' })),
-    ['SLA-A (t)'], 'leg 1: the customer pair admits its contract (Inactive filtered)');
   eq(ids(resolve.ticketAdmittedSLAs({ projectID: 'PJ-U (t)', applicantID: 'CU-B (t)',
     supplierID: 'SUP-X (t)' })), ['SLA-B (t)'],
-  'leg 2: the (applicant, supplier) pair admits exactly its contract');
-  eq(ids(resolve.ticketAdmittedSLAs({ projectID: 'PJ-U (t)', applicantID: 'CU-B (t)' })),
-    ['SLA-B (t)', 'SLA-B2 (t)'], 'no supplier — the applicant leg ignores the supplier dimension');
-  eq(ids(resolve.ticketAdmittedSLAs({ projectID: 'PJ-U (t)', customerID: 'CU-A (t)',
-    applicantID: 'CU-B (t)', supplierID: 'SUP-X (t)' })), ['SLA-A (t)', 'SLA-B (t)'],
-  'UNION: both legs contribute — the supplier does NOT narrow leg 1');
-  eq(ids(resolve.ticketAdmittedSLAs({ projectID: 'PJ-U (t)', supplierID: 'SUP-X (t)' })),
-    [], 'supplier alone matches nothing (leg 2 is anchored on the Applicant)');
-  eq(resolve.ticketAdmittedSLAs({ customerID: 'CU-A (t)' }), [], 'no project — no survivors (strict)');
+  'the pair admits its contract even OUTSIDE the project set (Inactive filtered)');
   eq(resolve.ticketAdmittedSLAs(null), [], 'null ctx — no survivors');
   data.removeRecords('Projects', ['PJ-U (t)']);
-  data.removeRecords('SLA', ['SLA-A (t)', 'SLA-B (t)', 'SLA-B2 (t)', 'SLA-DEAD (t)']);
-  data.removeRecords('Customers', ['CU-A (t)', 'CU-B (t)', 'SUP-X (t)']);
+  data.removeRecords('SLA', ['SLA-B (t)', 'SLA-DEAD (t)']);
+  data.removeRecords('Customers', ['CU-B (t)', 'SUP-X (t)']);
 }
 
 console.log('== save resolution: payload + SLA stored (applyDerivedUnits) ==');
@@ -139,7 +128,8 @@ console.log('== save resolution: payload + SLA stored (applyDerivedUnits) ==');
   const rec3 = { ticketID: 'TK-R3 (t)', projectID: null, customerID: 'CU-R (t)',
     eventID: 'EV-R (t)', productScopeID: 'PS01' };
   forms.applyDerivedUnits('Tickets', rec3);
-  eq([rec3.payloadID, rec3.slaID], [[], []], 'no project — honest empty sets (strict)');
+  eq([rec3.payloadID, rec3.slaID], [['PLD-R (t)'], ['SLA-R1 (t)', 'SLA-R2 (t)']],
+    'no project — the pair basis resolves regardless (#350: strict posture retired)');
 
   data.removeRecords('Projects', ['PJ-R (t)']);
   data.removeRecords('SLA', ['SLA-R1 (t)', 'SLA-R2 (t)']);

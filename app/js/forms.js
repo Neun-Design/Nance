@@ -540,11 +540,12 @@ export function applyDerivedUnits(entity, rec) {
     // Events without processes keep the prior snapshot (#192 migration posture)
     const derived = ticketProcesses(rec.eventID, rec.productScopeID);
     if (derived.length || !rec.processID) rec.processID = derived;
-    // resolved dispatch package(s) + governing contract(s) (issue #325): the
-    // surviving project SLAs' payloads carrying the chosen event and
-    // packaging the chosen scope (empty packaging = wildcard, Q1) — STORED
-    // so the ticket points at ITS payload/SLA, not an event-wide rollup.
-    // Same first-seen ordering as migrate_ticket_project_sla.py / build_seed
+    // resolved dispatch package(s) + governing contract(s) (issue #325;
+    // survivors re-sourced to the applicant-supplier contracts by #350):
+    // the surviving SLAs' payloads carrying the chosen event and packaging
+    // the chosen scope (empty packaging = wildcard, Q1) — STORED so the
+    // ticket points at ITS payload/SLA, not an event-wide rollup. Same
+    // first-seen ordering as migrate_ticket_sla_cascade.py / build_seed
     const pls = ticketAdmittedPayloads(rec.eventID, rec, rec.productScopeID ?? null);
     rec.payloadID = pls.map((p) => p.payloadID);
     const plSet = new Set(rec.payloadID.map(String));
@@ -933,13 +934,14 @@ export function slasForProject(customerId, branchId = null) {
   return rows.map(opt);
 }
 
-// Events a TICKET may trigger (issue #325 — the PROJECT's contracts are the
-// universe, replacing the #179/#192 customer-SLA sourcing): the union of the
-// events packaged by the payloads of the project's surviving SLAs
-// (ticketAdmittedSLAs in resolve.js — union of the (Customer) and
-// (Applicant, Supplier) exact pairs; the Customer input only filters the
-// Projects select). STRICT: no project / no surviving SLA = no options (the
-// Event field is gated on Project). `ctx` is a ticket-shaped record.
+// Events a TICKET may trigger (issue #350 — the APPLICANT → SUPPLIER
+// contracts are the universe, replacing the #325 project sourcing): the
+// union of the events packaged by the payloads of the surviving SLAs
+// (ticketAdmittedSLAs in resolve.js — exact pair match, a blank side skips
+// its dimension; the Customer only filters the Projects select and no
+// longer participates in SLA survival). No surviving SLA = no options (the
+// Event field stays gated on Project — form-flow anchor, not an SLA
+// dimension). `ctx` is a ticket-shaped record.
 export function eventsForTicket(ctx) {
   const evOption = (ev) => ({ value: ev.eventID, label: ev.eventTitle || String(ev.eventID) });
   const covered = new Set();
@@ -1020,13 +1022,14 @@ export function functionsForForecastEvent(eventId) {
   return all.filter((f) => fnIds.has(String(f.functionID))).map(fnOption);
 }
 
-// Product scopes a TICKET may target (issue #214; re-sourced by issue #325):
-// the scopes CO-PACKAGED with the selected event in a same payload of the
-// project's surviving SLAs (admittedProductScopeIds in resolve.js — strict:
-// no project / no surviving SLA / no covering payload = no options). A
-// payload with an EMPTY productScopeID packages every scope the event admits
-// (Q1) — it widens the offer to the event's full applicability. `ctx` is a
-// ticket-shaped record ({ projectID, customerID, applicantID, supplierID }).
+// Product scopes a TICKET may target (issue #214; re-sourced by #325, then
+// by #350): the scopes CO-PACKAGED with the selected event in a same
+// payload of the surviving applicant-supplier contracts
+// (admittedProductScopeIds in resolve.js — no surviving SLA / no covering
+// payload = no options). A payload with an EMPTY productScopeID packages
+// every scope the event admits (Q1) — it widens the offer to the event's
+// full applicability. `ctx` is a ticket-shaped record ({ applicantID,
+// supplierID } — extra keys tolerated).
 export function productScopesForTicket(eventId, ctx) {
   return admittedProductScopeIds(eventId, ctx)
     .map((id) => getById('Product Scopes', id)).filter(Boolean).map(psOption);
@@ -1572,13 +1575,12 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           // unit's customers (grouped by customerType) come from the generic
           // stored-key cascade below — Customers store businessUnitID.
           // Tickets "Event": only events packaged by the payloads of the
-          // PROJECT's surviving SLAs (issue #325 — Customer only filters the
-          // Projects select; Applicant + Supplier open the second survival
-          // leg) — see eventsForTicket
+          // APPLICANT → SUPPLIER contracts (issue #350 — the Customer only
+          // filters the Projects select; a blank pair side skips its
+          // dimension) — see eventsForTicket
           if (entity === 'Tickets' && attrName === 'eventID') {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
-            applyOpts(eventsForTicket({ projectID: val('Project'),
-              applicantID: val('Applicant'), customerID: val('Customer'),
+            applyOpts(eventsForTicket({ applicantID: val('Applicant'),
               supplierID: val('Supplier') }));
             return;
           }
@@ -1608,13 +1610,12 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             return;
           }
           // Tickets "Product Scope": the scopes co-packaged with the selected
-          // event in a payload of the project's surviving SLAs (issue #325,
-          // #214 packaging posture) — see productScopesForTicket
+          // event in a payload of the applicant-supplier contracts (issue
+          // #350, #214 packaging posture) — see productScopesForTicket
           if (entity === 'Tickets' && attrName === 'productScopeID') {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
-            applyOpts(productScopesForTicket(val('Event'), { projectID: val('Project'),
-              applicantID: val('Applicant'), customerID: val('Customer'),
-              supplierID: val('Supplier') }));
+            applyOpts(productScopesForTicket(val('Event'), {
+              applicantID: val('Applicant'), supplierID: val('Supplier') }));
             return;
           }
           // Jobs "Predecessor": jobs of the same ticket (issue #244, A6)
