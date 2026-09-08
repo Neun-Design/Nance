@@ -27,7 +27,10 @@ inputs like this one so the same MVP serves different units and departments) →
 **Status** — tracks the lifecycle of the documented method (`Approved`, `In Progress`,
 `To Do`) **and gates eligibility**: only an `Approved` procedure can be exercised, so
 people certified on a competence bound to a procedure still in progress do not appear
-as eligible until the status flips; URL of the controlled document; **execution time**
+as eligible until the status flips — and since 2026-09-08 the gate covers the **ticket
+dispatch** too: a non-Approved procedure is never selected as a task's method (the
+Tasks tab shows GAP until approval; see
+[The eligibility rules](../home/eligibility.md)); URL of the controlled document; **execution time**
 (hours under THIS requirement set — procedures create the variance in task duration; the
 task shows the sum).
 

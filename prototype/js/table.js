@@ -23,7 +23,13 @@ function cellHtml(col, r, parent = null) {
   // the GAP tag is a pill, eligible-user lists render plain)
   if (col.pill) {
     const cls = col.pill(v, r);
-    if (cls) return `<span class="pill ${cls}">${escapeHtml(v ?? '')}</span>`;
+    if (cls) {
+      // cellHint (eligibility round): a pill may carry a hover explanation —
+      // e.g. the GAP's "Procedures redundancy <ids>" naming the collision
+      const hint = col.cellHint ? col.cellHint(v, r, parent) : null;
+      const title = hint ? ` title="${escapeHtml(hint)}"` : '';
+      return `<span class="pill ${cls}"${title}>${escapeHtml(v ?? '')}</span>`;
+    }
   }
   if (Array.isArray(v)) {
     if (v.length <= CELL_LIST_CAP) return escapeHtml(v.join(', '));

@@ -1,0 +1,55 @@
+name: Test Battery
+
+# Runs the full engine proof battery + the mockup parity validator on every
+# change that can affect the prototype (Rafael's eligibility round): the
+# eligibility contracts — ticket→procedure dispatch (redundancy hint,
+# Approved-only, live re-evaluation on new requirements) and user staffing
+# (onboarding → competence → procedures) — are guarded by
+# test_engine_ticket_procedure_eligibility.mjs and
+# test_engine_user_eligibility.mjs inside the same battery.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'prototype/**'
+      - 'sourceFiles/developer/mockup_data_prototype.json'
+      - '.github/workflows/test-battery.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'prototype/**'
+      - 'sourceFiles/developer/mockup_data_prototype.json'
+      - '.github/workflows/test-battery.yml'
+
+jobs:
+  battery:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prototype
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install validator dependencies
+        run: pip install pyyaml
+      - name: Engine proof battery
+        run: |
+          fails=0; total=0
+          for t in tools/test_*.mjs; do
+            total=$((total+1))
+            if ! node "$t" > /tmp/suite.log 2>&1; then
+              fails=$((fails+1))
+              echo "::error::FAIL $t"
+              cat /tmp/suite.log
+            fi
+          done
+          echo "battery: $((total-fails))/$total green"
+          test "$fails" -eq 0
+      - name: Mockup parity validator
+        run: python3 tools/validate_mockup.py

@@ -128,10 +128,13 @@ console.log('== eligibility: the procedure-status gate (sv71) bites the column =
     resolve.ticketRequirements(tk), 'userName'));
   eq(gated.length === 0 || gated === '—', true,
     `un-approving the task's procedures empties the column (was "${before.slice(0, 40)}")`);
+  // sv103 (eligibility round): the Approved gate covers the DISPATCH too —
+  // the #315 "resolution deliberately ungated" decision is superseded, so
+  // un-approving the method GAPs the Execution Time column as well
   const timeStill = resolve.ticketProcedureDisplay(task.taskID,
     resolve.ticketRequirements(tk), 'executionTime');
-  eq(timeStill, String(proc.executionTime),
-    'the Execution Time column still renders — #270 resolution deliberately ungated (#315)');
+  eq(timeStill, 'GAP',
+    'the Execution Time column GAPs too — the dispatch is Approved-gated since sv103');
   saved.forEach(([id, st]) => data.updateRecord('Procedures', id, { procedureStatus: st }));
 }
 
