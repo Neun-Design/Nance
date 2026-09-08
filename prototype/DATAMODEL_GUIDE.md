@@ -176,6 +176,25 @@ regardless of the child's own `table-display` settings.
 `PK` (exactly one per table), `FK`, or `null`. `PK` columns are auto-generated in forms
 (read-only "auto" field). `FK` requires the `rule` to name its target.
 
+### 3.8 `gap-tag` / `all-tag` — empty-value tags (opt-in per attribute)
+Two sibling flags that give an EMPTY cell a meaning instead of a silent blank:
+
+- **`"gap-tag": true`** (issue #271) — for **derived** attrs: an empty derived value
+  renders the **GAP** caution pill. The system points at the hole (a procedure nobody
+  is certified to execute, a task with no documented method). Value logic in
+  `derivedValue` (resolve.js), pill styling in `withAccessors` (app.js).
+- **`"all-tag": true`** (sv97) — for **stored** Q1 applicability sets: the wizard's
+  "Apply to all" deliberately stores an **empty set** (empty = applies to everything,
+  dynamically — items registered later are covered too), so the cell renders the
+  **All** neutral pill instead of a blank that reads as "forgot to fill". Helper
+  `allTagEmpty` (resolve.js), fk-accessor hook + pill in `withAccessors` (app.js).
+  Flag ONLY attrs whose empty set means "all" under the Q1 doctrine — positive-pick
+  sets (e.g. `Procedures.customerInputID`, where empty = NO customer inputs) must
+  NOT carry it. First adopters: the four Procedures applicability keys
+  (`branchID`, `customerID`, `productScopeID`, `requirementID`).
+
+Every other empty value keeps the plain dash — both tags are opt-in.
+
 ---
 
 ## 4. `cards` — KPI cards above the table

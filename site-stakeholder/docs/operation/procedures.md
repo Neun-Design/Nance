@@ -36,7 +36,10 @@ applicability without changing which procedure a ticket resolves (that gate come
 later round); **Product Scopes** (offered from the process's list) keeps gating the
 ticket match directly (2026-09-07): a ticket only resolves this procedure when it admits
 one of the pinned scopes. Every picker leads with an **Apply to all** row — leaving a
-picker empty means the procedure is not restricted by that dimension.
+picker empty means the procedure is not restricted by that dimension. On the tables,
+those unrestricted cells show an **All** tag (2026-09-08) instead of a blank: the
+wildcard is a deliberate statement — it covers items registered later too — not a
+missing value.
 
 **Step 3 — Constraints:** the requirement set, now **faceted by what pins each
 requirement**: *Business Unit Requirements* (unit-wide and global obligations),
