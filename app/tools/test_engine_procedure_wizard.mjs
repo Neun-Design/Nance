@@ -228,6 +228,34 @@ console.log('== Forecast Scopes rollup: the contract-branch leg ==');
   data.removeRecords('Customers', ['FCW1']);
 }
 
+console.log('== steps convention: generalized for ANY form (follow-up round, sv91) ==');
+{
+  const dm = JSON.parse(fs.readFileSync('data/datamodel.json', 'utf8'));
+  eq(typeof dm._meta['form-steps-convention'], 'string',
+    '_meta carries the form-steps-convention (adoption is pure datamodel authoring)');
+  eq(/ANY form/i.test(dm._meta['form-steps-convention']), true,
+    'the convention states the wizard is not Procedures-specific');
+  // datamodel-wide consistency (the validate_mockup §1d contract): every
+  // stepped form has unique integer step-orders and every field.step names
+  // a declared title — the silent always-visible-host trap stays guarded
+  const bad = [];
+  for (const m of Object.values(dm.modules)) {
+    for (const [tname, t] of Object.entries(m.tables || {})) {
+      const form = t.form || {};
+      const steps = form.steps;
+      if (!steps || typeof steps !== 'object') continue;
+      const orders = Object.values(steps).map((s) => s && s['step-order']);
+      if (orders.some((o) => !Number.isInteger(o)) || new Set(orders).size !== orders.length) {
+        bad.push(`${tname}: step-orders ${JSON.stringify(orders)}`);
+      }
+      for (const [label, f] of Object.entries(form.fields || {})) {
+        if (f && f.step && !(f.step in steps)) bad.push(`${tname}.${label}: "${f.step}"`);
+      }
+    }
+  }
+  eq(bad, [], 'every stepped form declares consistent steps (datamodel-wide walk)');
+}
+
 console.log('== seeds: applicability keys on every procedure, honest Q1 ==');
 {
   const procs = data.getEntity('Procedures');

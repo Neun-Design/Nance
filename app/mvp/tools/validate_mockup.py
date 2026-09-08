@@ -110,6 +110,36 @@ if _geo_left:
 else:
     ok('Customers carry no legacy geography keys (Branches own city/country/region)')
 
+# ---------- 1d. form steps consistency (issue #353 wizard, generalized) ----------
+# Any form may opt into the wizard UI by declaring `steps` + per-field
+# `step` keys (DATAMODEL_GUIDE §6.1). The trap this guards: a field whose
+# `step` mistypes a step title silently lands in the always-visible host —
+# authoring drift the engine cannot flag at runtime.
+print('\n== form steps consistency ==')
+_steps_failures = 0
+_steps_forms = 0
+for _mod, _m in DM['modules'].items():
+    for _tname, _t in _m.get('tables', {}).items():
+        _form = _t.get('form') or {}
+        _steps = _form.get('steps')
+        if not isinstance(_steps, dict) or not _steps:
+            continue
+        _steps_forms += 1
+        _orders = [s.get('step-order') for s in _steps.values() if isinstance(s, dict)]
+        if len(_orders) != len(_steps) or any(not isinstance(o, int) for o in _orders):
+            fail(f'{_tname}: every step needs an integer step-order'); _steps_failures += 1
+        elif len(set(_orders)) != len(_orders):
+            fail(f'{_tname}: duplicate step-order values {_orders}'); _steps_failures += 1
+        for _label, _f in (_form.get('fields') or {}).items():
+            _st = isinstance(_f, dict) and _f.get('step')
+            if _st and _st not in _steps:
+                fail(f'{_tname}.{_label}: step "{_st}" not declared in form.steps')
+                _steps_failures += 1
+            elif not _st:
+                warn(f'{_tname}.{_label}: no step — renders on EVERY wizard step')
+if not _steps_failures:
+    ok(f'wizard step declarations consistent ({_steps_forms} stepped form(s))')
+
 # ---------- 2. FK resolvability ----------
 print('\n== FK resolvability ==')
 id_sets, display_sets = {}, {}
