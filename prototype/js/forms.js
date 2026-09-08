@@ -420,10 +420,34 @@ export function openForm(rootCfg, onSaved, editRecord = null) {
     const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'btn-secondary';
     cancel.textContent = activeIdx > 0 ? 'Discard' : 'Cancel';
     cancel.addEventListener('click', () => { if (activeIdx > 0) { stack.splice(activeIdx, 1); activeIdx -= 1; render(); } else closeAll(); });
+    // wizard navigation (issue #353): Previous / Cancel / Next per step,
+    // Save only on the last step (the mockup's footer). Step changes
+    // re-render the footer through wiz.onChange; validation stays on Save.
+    const wiz = ctx.wizard;
+    if (wiz) {
+      wiz.onChange = () => render();
+      const last = wiz.titles.length - 1;
+      if (wiz.active > 0) {
+        const prev = document.createElement('button'); prev.type = 'button'; prev.className = 'btn-secondary';
+        prev.textContent = 'Previous';
+        prev.addEventListener('click', () => wiz.setStep(wiz.active - 1));
+        foot.appendChild(prev);
+      }
+      foot.appendChild(cancel);
+      if (wiz.active < last) {
+        const next = document.createElement('button'); next.type = 'button'; next.className = 'btn-primary';
+        next.textContent = 'Next';
+        next.addEventListener('click', () => wiz.setStep(wiz.active + 1));
+        foot.appendChild(next);
+        return;
+      }
+    } else {
+      foot.appendChild(cancel);
+    }
     const save = document.createElement('button'); save.type = 'button'; save.className = 'btn-primary';
     save.textContent = activeIdx > 0 ? 'Add' : 'Save';
     save.addEventListener('click', () => commit(ctx));
-    foot.append(cancel, save);
+    foot.appendChild(save);
   }
 
   function commit(ctx) {
@@ -806,6 +830,110 @@ export function requirementsForUnit(unitId) {
     .sort((a, b) => a.label.localeCompare(b.label));
 }
 
+// Handouts admitted for a department (issue #353 — the Procedures wizard
+// Inputs/Outputs filter, replacing the task-chain narrowing of
+// handoutsForTask on the Procedures form only; the Tasks form keeps the old
+// chain): a handout naming departments (#340) is offered only under one of
+// them, an EMPTY department list = offered everywhere (Q1). The unit
+// dimension of the mockup note rides transitively — the Department select
+// is already unit-filtered. No department selected = every handout
+// (lenient cascade posture). Census at the re-point: 98/98 stored
+// Input/Output picks survive.
+export function handoutsForDepartment(deptId) {
+  const opt = (h) => ({ value: h.handoutID, label: h.handoutName || String(h.handoutID) });
+  const rows = getEntity('Handouts');
+  if (deptId == null || deptId === '') return rows.map(opt);
+  return rows.filter((h) => {
+    const ds = asList(h.departmentID).map(String);
+    return !ds.length || ds.includes(String(deptId));
+  }).map(opt);
+}
+
+// Customers a Procedure may declare (issue #353 — wizard step Application):
+// the Unit's customers narrowed to the selected Branches' registrations
+// (Branches.customerID, #320 N:N — a REVERSE read the generic cascade
+// cannot make: childrenOf lands on the sharedDomainJoin rung and returns
+// segment-mates, the #309 trap). No unit = every customer; no branches =
+// the unit's full set (lenient cascade posture).
+export function customersForUnitBranches(unitId, branchIds = []) {
+  const opt = (c) => ({ value: c.customerID, label: c.customerName || String(c.customerID) });
+  let rows = getEntity('Customers');
+  if (unitId != null && unitId !== '') {
+    rows = rows.filter((c) => asList(c.businessUnitID).map(String).includes(String(unitId)));
+  }
+  const picked = asList(branchIds);
+  if (picked.length) {
+    const registered = new Set();
+    for (const bid of picked) {
+      const b = getById('Branches', bid);
+      if (b) asList(b.customerID).forEach((c) => registered.add(String(c)));
+    }
+    rows = rows.filter((c) => registered.has(String(c.customerID)));
+  }
+  return rows.map(opt);
+}
+
+// The Procedures wizard Constraints step (issue #353): the #304 unit-wide
+// universe FACETED by what pins each requirement — one stored
+// requirementID[] set (session decision), four option partitions in the
+// mockup's order, each requirement landing in exactly ONE facet
+// (most-specific wins: Product Scopes > Customers > Branches > Business
+// Unit/global). The Customers facet groups per customer and narrows to the
+// selected Branches' registered customers (Branches.customerID, #320 N:N);
+// the Product Scopes facet groups per first-named scope (registry code,
+// #296 display). Returns [{title, note, options}] for mkFacetedChecks.
+export function facetedRequirementOptions(unitId, branchIds = []) {
+  const universe = requirementsForUnit(unitId);
+  const branchCustomers = new Set();
+  for (const bid of (branchIds || [])) {
+    const b = getById('Branches', bid);
+    if (b) asList(b.customerID).forEach((c) => branchCustomers.add(String(c)));
+  }
+  const buckets = { ps: [], customer: [], branch: [], unit: [] };
+  for (const o of universe) {
+    const r = getById('Requirements', o.value);
+    if (!r) { buckets.unit.push(o); continue; }
+    if (asList(r.productScopeID).length) buckets.ps.push(o);
+    else if (r.customerID != null && r.customerID !== '') {
+      if (branchCustomers.size && !branchCustomers.has(String(r.customerID))) continue;
+      buckets.customer.push(o);
+    } else if (asList(r.branchID).length) buckets.branch.push(o);
+    else buckets.unit.push(o);
+  }
+  const grouped = (opts, headerOf) => {
+    const groups = new Map();
+    for (const o of opts) {
+      const h = headerOf(o) || '—';
+      if (!groups.has(h)) groups.set(h, []);
+      groups.get(h).push(o);
+    }
+    const out = [];
+    for (const [h, list] of [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+      out.push({ header: h });
+      out.push(...list);
+    }
+    return out;
+  };
+  const customerName = (o) => {
+    const r = getById('Requirements', o.value);
+    const c = r && getById('Customers', r.customerID);
+    return c ? String(c.customerName || r.customerID) : null;
+  };
+  const scopeCode = (o) => {
+    const r = getById('Requirements', o.value);
+    const ps = r && getById('Product Scopes', asList(r.productScopeID)[0]);
+    return ps ? String(ps.productScopeRegistry || ps.productScopeID) : null;
+  };
+  return [
+    { title: 'Business Unit Requirements', note: null, options: buckets.unit },
+    { title: 'Branches Requirements', note: 'Filtered by Unit', options: buckets.branch },
+    { title: 'Customers Requirements', note: 'Filtered by Unit and Branches',
+      options: grouped(buckets.customer, customerName) },
+    { title: 'Product Scopes Requirements', note: 'Filtered by Unit',
+      options: grouped(buckets.ps, scopeCode) },
+  ];
+}
+
 // The customer-branch link is AUTHORED on the Customer form (Rafael, 03/08)
 // but STORED on Branches.customerID: saving a customer updates the selected
 // Branch rows and clears branches that were deselected. The collected
@@ -1137,15 +1265,44 @@ export function applyJobTransition(entity, rec, prev, nowISO = null) {
 // assign more than one value — a plain click replaces the selection — which
 // hides multi-assignment. Each row here toggles independently, so users can
 // assign multiple values (e.g. several input/output handouts) at once.
-function mkMultiCheck(options) {
+function mkMultiCheck(options, applyAll = null) {
+  // applyAll (issue #353, wizard "Apply to all" row): 'clear' renders a
+  // leading radio-look row that is checked while NO box is picked and
+  // clicking it clears every pick — the UI face of the Q1 posture (an
+  // EMPTY stored set applies to all); 'all' inverts it for positive-pick
+  // fields (Customer Inputs #324): checked while EVERY box is picked,
+  // clicking checks them all.
   const wrap = document.createElement('div');
   wrap.className = 'form-multicheck';
   let boxes = [];
+  let allRow = null;
+  const syncAllRow = () => {
+    if (!allRow) return;
+    const picked = boxes.filter((c) => c.checked).length;
+    allRow.checked = applyAll === 'all' ? (boxes.length > 0 && picked === boxes.length) : picked === 0;
+  };
   const render = (opts) => {
     // cascade refilters re-render the rows; already-checked values survive
     const keep = new Set(boxes.filter((c) => c.checked).map((c) => c.value));
     wrap.innerHTML = '';
     boxes = [];
+    allRow = null;
+    if (applyAll) {
+      const row = document.createElement('label');
+      row.className = 'form-multicheck-row form-applyall';
+      const rb = document.createElement('input');
+      rb.type = 'radio';
+      const span = document.createElement('span');
+      span.textContent = 'Apply to all';
+      row.append(rb, span);
+      rb.addEventListener('click', () => {
+        boxes.forEach((c) => { c.checked = applyAll === 'all'; });
+        syncAllRow();
+        wrap.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      wrap.appendChild(row);
+      allRow = rb;
+    }
     for (const o of (opts || [])) {
       if (o.header != null) {
         const h = document.createElement('div');
@@ -1160,18 +1317,67 @@ function mkMultiCheck(options) {
       const cb = document.createElement('input');
       cb.type = 'checkbox'; cb.value = String(o.value);
       cb.checked = keep.has(cb.value);
+      cb.addEventListener('change', syncAllRow);
       const span = document.createElement('span');
       span.textContent = o.label;
       row.append(cb, span);
       wrap.appendChild(row);
       boxes.push(cb);
     }
+    syncAllRow();
   };
   render(options);
   const get = () => boxes.filter((c) => c.checked).map((c) => c.value);
   const set = (v) => {
     const s = new Set((Array.isArray(v) ? v : [v]).map(String));
     boxes.forEach((c) => { c.checked = s.has(c.value); });
+    syncAllRow();
+  };
+  wrap._setMulti = set;
+  wrap._rebuild = render;
+  return { node: wrap, get, set };
+}
+
+// Faceted multicheck (issue #353 — the Procedures Constraints step): one
+// bound attribute, several titled facet boxes each carrying its own
+// mkMultiCheck (with the Apply-to-all row). get() = the union of the
+// facets' picks; _rebuild receives a facet STRUCTURE
+// ([{title, note, options}] — facetedRequirementOptions), not plain
+// options; checked values survive rebuilds like the plain multicheck.
+function mkFacetedChecks(structure) {
+  const wrap = document.createElement('div');
+  wrap.className = 'facet-stack';
+  let facets = [];
+  const collect = () => facets.flatMap((f) => f.get());
+  const render = (struct) => {
+    const keep = collect();
+    wrap.innerHTML = '';
+    facets = [];
+    for (const fc of (struct || [])) {
+      const box = document.createElement('div');
+      box.className = 'facet-box';
+      const t = document.createElement('div');
+      t.className = 'facet-title';
+      t.textContent = fc.title;
+      box.appendChild(t);
+      if (fc.note) {
+        const n = document.createElement('div');
+        n.className = 'form-hint';
+        n.textContent = `(${fc.note})`;
+        box.appendChild(n);
+      }
+      const picker = mkMultiCheck(fc.options, 'clear');
+      picker.set(keep);
+      box.appendChild(picker.node);
+      wrap.appendChild(box);
+      facets.push(picker);
+    }
+  };
+  render(structure);
+  const get = () => collect();
+  const set = (v) => {
+    const arr = Array.isArray(v) ? v : (v == null || v === '' ? [] : [v]);
+    facets.forEach((f) => f.set(arr));
   };
   wrap._setMulti = set;
   wrap._rebuild = render;
@@ -1411,12 +1617,51 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
     }
     steps.sort((a, b) => a.order - b.order);
   }
+  // Wizard rendering (issue #353 — first consumer of the steps spec): a
+  // chevron chip strip + one visible step at a time; the drawer footer
+  // (render() in openForm) adds Previous/Cancel/Next and keeps Save for the
+  // last step. ALL fields are built up front — hidden steps keep live DOM,
+  // so cross-step cascades/gates fire and commit() collects every control.
   const stepHosts = {};
-  for (const st of steps) {
-    form.appendChild(sectionNote(st.title + (st.description ? ` — ${st.description}` : '')));
-    const host = document.createElement('div');
-    form.appendChild(host);
-    stepHosts[st.title] = host;
+  ctx.wizard = null;
+  if (steps.length) {
+    const strip = document.createElement('div');
+    strip.className = 'wizard-steps';
+    form.appendChild(strip);
+    const chips = [];
+    const hosts = [];
+    const notes = [];
+    steps.forEach((st, i) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'wizard-step';
+      chip.textContent = st.title;
+      chip.addEventListener('click', () => wiz.setStep(i));
+      strip.appendChild(chip);
+      chips.push(chip);
+      const note = st.description ? sectionNote(st.description) : null;
+      if (note) form.appendChild(note);
+      notes.push(note);
+      const host = document.createElement('div');
+      host.className = 'wizard-host';
+      form.appendChild(host);
+      stepHosts[st.title] = host;
+      hosts.push(host);
+    });
+    const wiz = {
+      titles: steps.map((s) => s.title),
+      active: 0,
+      onChange: null,
+      setStep(i) {
+        this.active = Math.max(0, Math.min(hosts.length - 1, i));
+        chips.forEach((c, j) => c.classList.toggle('active', j === this.active));
+        hosts.forEach((h, j) => { h.style.display = j === this.active ? '' : 'none'; });
+        notes.forEach((n, j) => { if (n) n.style.display = j === this.active ? '' : 'none'; });
+        if (this.onChange) this.onChange();
+      },
+    };
+    ctx.wizard = wiz;
+    wiz.setStep(0);
   }
   const defaultHost = document.createElement('div');
   form.appendChild(defaultHost);
@@ -1475,11 +1720,24 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         });
       }
       const multi = /allow multiple|multivalued/i.test(ruleText) || noteMulti;
-      if (multi) {
+      // "Apply to all" field-rule token (issue #353): the multicheck leads
+      // with the wildcard row — clear-mode on applicability pickers (empty
+      // set = applies to all, Q1), select-all on the positive-pick Customer
+      // Inputs (#324: empty = NO customer inputs, so "all" must check)
+      const applyAllMode = /apply to all/i.test(ruleText)
+        ? (entity === 'Procedures' && attrName === 'customerInputID' ? 'all' : 'clear') : null;
+      if (entity === 'Procedures' && attrName === 'requirementID') {
+        // Constraints step (issue #353): the faceted control — one stored
+        // set, four option partitions; the cascade dispatch rebuilds it
+        // with facetedRequirementOptions(Unit, Branches)
+        const picker = mkFacetedChecks(facetedRequirementOptions(null, []));
+        node = picker.node; node.classList.add('form-input');
+        get = picker.get;
+      } else if (multi) {
         // multi-assignment: a checkbox list (each row toggles), not a native
         // <select multiple> which requires cmd-click and hides multi-select.
         // "SelectLabel = <field>" renders as group header rows.
-        const picker = mkMultiCheck(withGroupHeaders(options, target, groupField));
+        const picker = mkMultiCheck(withGroupHeaders(options, target, groupField), applyAllMode);
         node = picker.node; node.classList.add('form-input');
         get = picker.get;
       } else if (typeKey === 'radio' && options.length) {
@@ -1542,13 +1800,21 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(tasksForJob(dep ? dep[1].get() : null));
             return;
           }
-          // Procedures "Inputs"/"Outputs" (Tasks pre-Procedures-round):
-          // linked handouts follow their owning task's Process → Activity →
-          // Action chain — see handoutsForTask. Since issue #340 the
-          // Procedures form also passes the selected Department (pre-RBAC
-          // filter); the Tasks form has no Department field → null → the
-          // dimension is skipped.
-          if ((entity === 'Tasks' || entity === 'Procedures')
+          // Procedures "Inputs"/"Outputs" (issue #353 — wizard step Inputs &
+          // Outputs): the handouts admitted for the selected Department —
+          // the mockup's Unit dimension rides transitively through the
+          // unit-filtered Department select; the #340 task-chain narrowing
+          // (handoutsForTask) stays on the Tasks form only.
+          if (entity === 'Procedures'
+              && (attrName === 'taskInput' || attrName === 'taskOutput')) {
+            const dep = findDep('Department');
+            applyOpts(handoutsForDepartment(dep ? dep[1].get() : null));
+            return;
+          }
+          // Tasks "Inputs"/"Outputs" (pre-Procedures-round): linked handouts
+          // follow their owning task's Process → Activity → Action chain —
+          // see handoutsForTask (no Department field → dimension skipped).
+          if (entity === 'Tasks'
               && (attrName === 'taskInput' || attrName === 'taskOutput')) {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
             applyOpts(handoutsForTask(val('Process'), val('Activity'), val('Action'),
@@ -1665,13 +1931,26 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             applyOpts(suppliersForBranch(dep ? dep[1].get() : null));
             return;
           }
-          // Procedures "Requirements": the UNIT-WIDE universe (issue #304,
-          // replacing the #159 product-scope/task narrowing) — every Active
-          // requirement admitted for the selected Unit, including ones
-          // pinned to a region the unit serves; see requirementsForUnit.
+          // Procedures "Customers" (issue #353 — Application step): the
+          // Unit's customers narrowed to the selected Branches'
+          // registrations — bespoke reverse read, see customersForUnitBranches
+          if (entity === 'Procedures' && attrName === 'customerID') {
+            const unitDep = findDep('Unit');
+            const brDep = findDep('Branches');
+            applyOpts(customersForUnitBranches(unitDep ? unitDep[1].get() : null,
+              brDep ? brDep[1].get() : null));
+            return;
+          }
+          // Procedures "Requirements": the UNIT-WIDE universe (issue #304)
+          // FACETED by what pins each requirement (issue #353 — Constraints
+          // step); the Customers facet narrows to the selected Branches'
+          // customers. The control's _rebuild takes the facet structure —
+          // see facetedRequirementOptions / mkFacetedChecks.
           if (entity === 'Procedures' && attrName === 'requirementID') {
-            const dep = findDep('Unit');
-            applyOpts(requirementsForUnit(dep ? dep[1].get() : null));
+            const unitDep = findDep('Unit');
+            const brDep = findDep('Branches');
+            node._rebuild(facetedRequirementOptions(unitDep ? unitDep[1].get() : null,
+              asList(brDep ? brDep[1].get() : null)));
             return;
           }
           let opts = applyWhere(specOptions(entity, attrName, ruleText).options);
@@ -1896,6 +2175,15 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       // system registries (Countries) are predefined — no "+" create button
       if (target && !getCatalog(target)?.systemRegistry) {
         control = withAddNew(node, target, addNew, (newId) => {
+          // faceted control (issue #353): its _rebuild takes a facet
+          // structure, not plain options — refresh through the cascade
+          // dispatch (which recomputes the facets from the deps) and check
+          // the freshly created record
+          if (node._setMulti && entity === 'Procedures' && attrName === 'requirementID') {
+            if (node._refilter) node._refilter();
+            node._setMulti([...new Set([...ctx.controls[attrName]() || [], String(newId)])]);
+            return;
+          }
           const fresh = specOptions(entity, attrName, ruleText);
           if (node._rebuild) recheckMulti(node, fresh.options, target, newId, groupField);
           else refillSelect(node, fresh.options, target, newId);
