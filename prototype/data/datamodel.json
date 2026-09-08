@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 89,
+    "schemaVersion": 90,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)"
   },
   "modules": {
@@ -1809,8 +1809,8 @@
             {
               "name": "requirementID",
               "type": "computed",
-              "rule": "computed → Requirements (via: forecastID.customerID.businessUnitID.regionID + forecastID.customerID.businessUnitID + scopeID + productGroupID + productScopeID) (display: requirementName)",
-              "notes": "Requirements linked to the row's scope + product group. Region leg = the customer's units' SERVED regions (Business Units.regionID — issue #230: Customers stopped storing regionID at #191, so the old customerID.regionID path resolved empty and the region dimension was dormant; units posture matches the #226 ticket inheritance)",
+              "rule": "computed → Requirements (via: forecastID.customerID.businessUnitID.regionID + forecastID.customerID.businessUnitID + forecastID.slaID.branchID + scopeID + productGroupID + productScopeID) (display: requirementName)",
+              "notes": "Requirements linked to the row's scope + product group. Region leg = the customer's units' SERVED regions (Business Units.regionID — issue #230: Customers stopped storing regionID at #191, so the old customerID.regionID path resolved empty and the region dimension was dormant; units posture matches the #226 ticket inheritance). Branch leg (issue #353 — the branchID dimension activated): the contract's branch; an SLA without a branch resolves an empty path and the leg is skipped (multiViaJoin posture), a requirement with an empty branchID matches everything (Q1)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -3408,6 +3408,24 @@
               "constraints": "FK"
             },
             {
+              "name": "branchID",
+              "type": "FK",
+              "rule": "FK → Branches (display: branchName)",
+              "notes": "multivalued — branches this procedure applies to (issue #353, wizard step Application): empty = applies to all (Q1). Options = branches of the selected Unit's customers (branchesForUnits in forms.js, two-hop via Branches.customerID). Session decision: applicability is DECLARED only this round — the ticket→procedure match does NOT gate on it yet (#332 posture: gating comes in its own round with a flip census). Seeded empty by migrate_procedure_wizard.py.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
+              "name": "customerID",
+              "type": "FK",
+              "rule": "FK → Customers (display: customerName)",
+              "notes": "multivalued — customers this procedure applies to (issue #353, wizard step Application): empty = applies to all (Q1). Options = the Unit's customers narrowed to the selected Branches' registrations (customersForUnitBranches in forms.js). Declared-only this round — no match gate yet (same session decision as branchID). Seeded empty by migrate_procedure_wizard.py.",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
@@ -3493,7 +3511,24 @@
           ],
           "reports": null,
           "form": {
-            "steps": null,
+            "steps": {
+              "Registry": {
+                "step-order": 1,
+                "step-description": null
+              },
+              "Application": {
+                "step-order": 2,
+                "step-description": "Where this procedure applies — empty pickers apply to all (Q1)"
+              },
+              "Constraints": {
+                "step-order": 3,
+                "step-description": "Requirements this procedure answers for, faceted by what pins them"
+              },
+              "Inputs & Outputs": {
+                "step-order": 4,
+                "step-description": null
+              }
+            },
             "fields": {
               "Registry Code": {
                 "field-type": {
@@ -3501,7 +3536,7 @@
                 },
                 "attribute": "procedureRegistry",
                 "tooltip": "Registry number or unique identification for the procedure",
-                "step": null,
+                "step": "Registry",
                 "check": null,
                 "field-rule": null
               },
@@ -3511,7 +3546,7 @@
                 },
                 "attribute": "businessUnitID",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": null,
                 "field-rule": null
               },
@@ -3521,7 +3556,7 @@
                 },
                 "attribute": "departmentID",
                 "tooltip": "Pick the department — the Process options narrow to it (pre-RBAC filter input, issue #340)",
-                "step": null,
+                "step": "Registry",
                 "check": "Unit IS NOT NULL",
                 "field-rule": "filtered by Unit selected"
               },
@@ -3531,7 +3566,7 @@
                 },
                 "attribute": "processID",
                 "tooltip": "Processes of the selected Department",
-                "step": null,
+                "step": "Registry",
                 "check": "Department IS NOT NULL",
                 "field-rule": "filtered by Department selected"
               },
@@ -3541,76 +3576,9 @@
                 },
                 "attribute": "taskID",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": "Process IS NOT NULL",
                 "field-rule": "filtered by Process selected"
-              },
-              "Product Scopes": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "productScopeID",
-                "tooltip": "Product scopes this procedure applies to — offered from the process's list; leave empty to apply to all",
-                "step": null,
-                "check": "Process IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by processID selected"
-                ]
-              },
-              "Requirements": {
-                "field-type": {
-                  "selectGroups": "shadcn-select"
-                },
-                "attribute": "requirementID",
-                "tooltip": "Requirements under which this procedure applies — leave empty when it applies to all. Options are every Active requirement admitted for the selected Unit, including ones pinned to a region the unit serves (issue #304).",
-                "step": null,
-                "check": "Task IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by Unit selected",
-                  "SelectLabel = requirementTypeName"
-                ]
-              },
-              "Procedure URL": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "procedureURL",
-                "tooltip": "Link to access the procedure documentation",
-                "step": null,
-                "check": "Task IS NOT NULL",
-                "field-rule": null
-              },
-              "Inputs": {
-                "field-type": {
-                  "Combobox": "shadcn-combobox"
-                },
-                "attribute": "taskInput",
-                "tooltip": "Handouts admitted for the selected Department (issue #340) that are free or already on this chain",
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by Department + Process + Activity + Action selected"
-              },
-              "Customer Inputs": {
-                "field-type": {
-                  "Combobox": "shadcn-combobox"
-                },
-                "attribute": "customerInputID",
-                "tooltip": "Select which of the chosen Inputs must be provided by the customer upon ticket creation — the decision is made here, per procedure (issue #324)",
-                "step": null,
-                "check": "Inputs IS NOT NULL",
-                "field-rule": "Allow multiple values; filtered by Inputs selected"
-              },
-              "Outputs": {
-                "field-type": {
-                  "Combobox": "shadcn-combobox"
-                },
-                "attribute": "taskOutput",
-                "tooltip": "Handouts admitted for the selected Department (issue #340) that are free or already on this chain",
-                "step": null,
-                "check": null,
-                "field-rule": "Allow multiple values; filtered by Department + Process + Activity + Action selected"
               },
               "Owner": {
                 "field-type": {
@@ -3618,18 +3586,8 @@
                 },
                 "attribute": "procedureOwner",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": null,
-                "field-rule": null
-              },
-              "Execution Time": {
-                "field-type": {
-                  "input": "shadcn-input"
-                },
-                "attribute": "executionTime",
-                "tooltip": "Hours to execute the task under this procedure's requirement set",
-                "step": null,
-                "check": "Task IS NOT NULL",
                 "field-rule": null
               },
               "Status": {
@@ -3638,9 +3596,115 @@
                 },
                 "attribute": "procedureStatus",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": null,
                 "field-rule": null
+              },
+              "Procedure URL": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "procedureURL",
+                "tooltip": "Link to access the procedure documentation",
+                "step": "Registry",
+                "check": "Task IS NOT NULL",
+                "field-rule": null
+              },
+              "Execution Time": {
+                "field-type": {
+                  "input": "shadcn-input"
+                },
+                "attribute": "executionTime",
+                "tooltip": "Hours to execute the task under this procedure's requirement set",
+                "step": "Registry",
+                "check": "Task IS NOT NULL",
+                "field-rule": null
+              },
+              "Branches": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "branchID",
+                "tooltip": "Branches this procedure applies to (issue #353) — offered from the Unit's customers' branches; Apply to all = no restriction",
+                "step": "Application",
+                "check": "Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "Apply to all",
+                  "filtered by Unit selected"
+                ]
+              },
+              "Customers": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "customerID",
+                "tooltip": "Customers this procedure applies to (issue #353) — the Unit's customers, narrowed to the selected Branches' registrations; Apply to all = no restriction",
+                "step": "Application",
+                "check": "Unit IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "Apply to all",
+                  "filtered by Unit + Branches selected"
+                ]
+              },
+              "Product Scopes": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "productScopeID",
+                "tooltip": "Product scopes this procedure applies to — offered from the process's packaged list (the issue #353 mockup narrows by Unit and Department; that filter awaits the Product Scope ↔ Department link, issue #352 — a unit filter today would orphan 96/264 stored picks and flip the #332 gate). Apply to all = no restriction",
+                "step": "Application",
+                "check": "Process IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "Apply to all",
+                  "filtered by processID selected"
+                ]
+              },
+              "Requirements": {
+                "field-type": {
+                  "selectGroups": "shadcn-select"
+                },
+                "attribute": "requirementID",
+                "tooltip": "Requirements under which this procedure applies — the Unit-wide universe (issue #304), faceted by what pins each requirement (issue #353): Product Scopes / Customers / Branches / Business Unit, most-specific facet wins. Customer facet narrows to the selected Branches' customers. Apply to all (per facet) = no picks there; an EMPTY total set applies to every requirement (Q1)",
+                "step": "Constraints",
+                "check": "Task IS NOT NULL",
+                "field-rule": [
+                  "Allow multiple values",
+                  "Apply to all",
+                  "filtered by Unit + Branches selected"
+                ]
+              },
+              "Inputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "taskInput",
+                "tooltip": "Handouts admitted for the selected Department (issue #353 — the department carries the unit transitively; a handout with no department is offered everywhere)",
+                "step": "Inputs & Outputs",
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by Department selected"
+              },
+              "Customer Inputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "customerInputID",
+                "tooltip": "Select which of the chosen Inputs must be provided by the customer upon ticket creation — the decision is made here, per procedure (issue #324); Apply to all checks every chosen Input (positive pick, not Q1)",
+                "step": "Inputs & Outputs",
+                "check": "Inputs IS NOT NULL",
+                "field-rule": "Allow multiple values; Apply to all; filtered by Inputs selected"
+              },
+              "Outputs": {
+                "field-type": {
+                  "Combobox": "shadcn-combobox"
+                },
+                "attribute": "taskOutput",
+                "tooltip": "Handouts admitted for the selected Department (issue #353 — the department carries the unit transitively; a handout with no department is offered everywhere)",
+                "step": "Inputs & Outputs",
+                "check": null,
+                "field-rule": "Allow multiple values; filtered by Department selected"
               }
             }
           },
@@ -3730,7 +3794,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "multivalued — scopes this requirement applies to",
+              "notes": "multivalued — branches this requirement applies to; empty = applies to all (Q1). ACTIVE dimension since issue #353 (stored-but-inert before): matchRequirements gates ticket inheritance on the ticket's PROJECT branch (a blank context side skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet). Clinic census at activation: 18/18 requirements carry an empty key — zero flips at rest.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"

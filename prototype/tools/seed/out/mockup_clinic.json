@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 89,
+  "schemaVersion": 90,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -13273,6 +13273,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13313,6 +13315,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13349,6 +13353,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13387,6 +13393,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13425,6 +13433,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13465,6 +13475,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13501,6 +13513,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13541,6 +13555,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13579,6 +13595,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13617,6 +13635,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13653,6 +13673,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13683,6 +13705,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13713,6 +13737,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13743,6 +13769,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13773,6 +13801,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13805,6 +13835,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13835,6 +13867,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13865,6 +13899,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13897,6 +13933,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13923,6 +13961,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13947,6 +13987,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13973,6 +14015,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -13997,6 +14041,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -14021,6 +14067,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -14047,6 +14095,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -14071,6 +14121,8 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -14095,6 +14147,8 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS06"
     ],
@@ -14118,6 +14172,8 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS06"
     ],
@@ -14141,6 +14197,8 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS06"
     ],
@@ -14166,6 +14224,8 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS06"
     ],
@@ -14189,6 +14249,8 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS06"
     ],
@@ -14212,6 +14274,8 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS06"
     ],
@@ -14237,6 +14301,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14262,6 +14328,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14285,6 +14353,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14310,6 +14380,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14333,6 +14405,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14356,6 +14430,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14379,6 +14455,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14402,6 +14480,8 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS22"
     ],
@@ -14425,6 +14505,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS15",
      "PS17"
@@ -14449,6 +14531,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS15",
      "PS17"
@@ -14473,6 +14557,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS15",
      "PS17"
@@ -14499,6 +14585,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS15",
      "PS17"
@@ -14523,6 +14611,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS15",
      "PS17"
@@ -14547,6 +14637,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS15",
      "PS17"
@@ -14573,6 +14665,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -14611,6 +14705,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -14649,6 +14745,8 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
+    "branchID": [],
+    "customerID": [],
     "productScopeID": [
      "PS14",
      "PS15",

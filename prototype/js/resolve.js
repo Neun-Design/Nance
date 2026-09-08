@@ -862,7 +862,7 @@ function servedRegionIds(unitIds) {
 // EMPTY matches everything (Q1); a context side left blank skips its dimension
 // (multiViaJoin posture — a unit serving no region still admits
 // region-specific requirements).
-function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId }) {
+function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId, branchId = null }) {
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
   // the customer gate passes for EITHER inheritance party (issue #308): the
   // project customer or the internal applicant opening the ticket — the
@@ -874,6 +874,12 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId
     if (!blank(r.customerID) && !sameVal(r.customerID, parties)) continue;
     if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
     if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+    // branch dimension (issue #353 — Requirements.branchID activated, was
+    // stored-but-inert since the Branches round): a requirement pinned to
+    // branches applies only where the ticket's PROJECT branch is named;
+    // a blank context side skips the dimension (lenient, like region)
+    if (!blank(r.branchID) && branchId != null && branchId !== ''
+        && !sameVal(r.branchID, branchId)) continue;
     // productScopeID dimension (issue #294): a requirement NAMING product
     // scopes applies only where an admitted scope is named; empty = applies
     // to all (Q1, like every other key here)
@@ -925,8 +931,14 @@ export function ticketRequirements(ticket) {
   const ids = ticketAdmittedScopeIds(ticket);
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
   const unitIds = asIds(ticket.businessUnitID);
+  // branch context (issue #353) = the ticket's PROJECT branch (#316) — the
+  // ticket itself stores no branch key; no project / no branch = dimension
+  // skipped (lenient)
+  const prj = ticket.projectID != null && ticket.projectID !== ''
+    ? getById('Projects', ticket.projectID) : null;
   return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
-    customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null });
+    customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
+    branchId: (prj && prj.branchID) ?? null });
 }
 
 // Requirements a competence certifies — via its procedures since the
