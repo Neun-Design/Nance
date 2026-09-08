@@ -2653,18 +2653,25 @@
 (e.g. "ANVISA RDC 611 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
 multi-dimensional: region, unit, branch, customer, scope, product group — <strong>an empty
 dimension means "applies to all"</strong>.
-<strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).
-<strong>Key fields:</strong> Name, Type (create new types inline with the "+" button); the applicability
-cascade Region → Business Unit → Branch/Customer/Scope/Product Group/<strong>Product Scope</strong> — the
-Business Unit picker unlocks after at least one Region is selected (2026-08-27); regulatory
-reference/URL. The <strong>Product Scope</strong> picker (2026-08-28) targets the requirement at specific
-<a href="../../portfolio/product-scopes/">Product Scope</a> combinations directly — options show the
-combination's registry code, filtered by the selected units; leave it empty when the
-scope/product-group dimensions already describe the applicability. On the operational
-chain it behaves like every other dimension: empty applies to all, filled narrows ticket
-inheritance to the named combinations. The <strong>Customer</strong> select unlocks after picking a Business Unit and offers that
-unit's customers (leave it empty to apply to all) — customer-specific requirements surface on
-the customer's <a href="../../workspace/tickets/">Tickets</a> through the <a href="../../crm/sla/">SLA</a> chain.
+<strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).</p>
+<p>Since 2026-09-08 the form is a <strong>three-step wizard</strong> (the same chevron-step drawer as
+<a href="../procedures/">Procedures</a> and <a href="../../workspace/tickets/">Tickets</a>):</p>
+<p><strong>Step 1 — Registry:</strong> Name, Description, Type (create new types inline with the "+"
+button).</p>
+<p><strong>Step 2 — Applicability</strong> — the system's longest cascade gets its own screen, with the
+rule written on it: <em>an empty dimension means "applies to all"</em>. Region → Business Unit
+(unlocks after at least one Region is selected, 2026-08-27) → Branch / Customer / Scope /
+Product Group / <strong>Product Scope</strong>. The <strong>Product Scope</strong> picker (2026-08-28) targets the
+requirement at specific <a href="../../portfolio/product-scopes/">Product Scope</a> combinations
+directly — options show the combination's registry code, filtered by the selected units;
+leave it empty when the scope/product-group dimensions already describe the
+applicability (on the operational chain it behaves like every other dimension: empty
+applies to all, filled narrows ticket inheritance to the named combinations). The
+<strong>Customer</strong> select offers the picked units' customers — customer-specific requirements
+surface on the customer's <a href="../../workspace/tickets/">Tickets</a> through the
+<a href="../../crm/sla/">SLA</a> chain.</p>
+<p><strong>Step 3 — Compliance:</strong> the regulatory reference and link of the external norm, and the
+<strong>Active</strong> flag last (Save lives on this step).
 <strong>Applicability propagates live to tickets</strong> (2026-08-20): an <strong>Active</strong> requirement is
 inherited automatically by every <a href="../../workspace/tickets/">Ticket</a> whose parameters align
 (scope, product group, unit, served region, customer — and, since 2026-09-08, <strong>branch</strong>:
