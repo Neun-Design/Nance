@@ -6,7 +6,7 @@ import { loadData, getEntity, getById, removeRecords, addRecord, label, initMeta
   BLANK_MODE, exportSnapshot, importSnapshot, setSchemaVersion } from './data.js';
 import { loadModel, getModules, getCatalog, resolveTable, columnsFor, allColumns, getSchemaVersion,
   parseRule } from './model.js';
-import { fkDisplay, childrenOf, derivedValue, ticketRequirements, ticketAdmittedScopeIds, certifiedUsersDisplay, ticketProcedureDisplay, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
+import { fkDisplay, childrenOf, derivedValue, ticketRequirements, ticketAdmittedScopeIds, certifiedUsersDisplay, ticketProcedureDisplay, ticketProcedureHint, ticketInputHandouts, productScopeRequirementRows } from './resolve.js';
 import { buildColumnFilters } from './filters.js';
 import { renderTable, escapeHtml } from './table.js';
 import { renderCards } from './cards.js';
@@ -377,6 +377,14 @@ function mapSubitem(si, parentEntity) {
         c.pill = rule.display === 'procedureRegistry'
           ? (v) => (v === 'GAP' ? 'caution' : 'info')
           : (v) => (v === 'GAP' ? 'caution' : null);
+        // eligibility round (sv103): a GAP caused by SEVERAL eligible
+        // procedures carries the redundancy hint naming the collision —
+        // the quality manager sees exactly which methods compete
+        c.cellHint = (v, row, ticket) => (v === 'GAP'
+          ? ticketProcedureHint(row[rule.srcField],
+            ticket ? ticketRequirements(ticket) : [],
+            ticket ? ticketAdmittedScopeIds(ticket) : null)
+          : null);
       }
     }
     // issue #280: the Inputs tab lists the ticket's customer-provided

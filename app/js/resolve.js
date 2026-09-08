@@ -1167,30 +1167,31 @@ export function certifiedUsersForProcedure(procId) {
   return out;
 }
 
-// The single procedure a requirement context selects for a task (issue #270):
-// candidates = the task's procedures whose requirement set COVERS every id in
-// `reqIds` — AND semantics, the engine-wide coverage posture of
-// certifiedUsersForTask. The empty-set wildcard is RETIRED (issue #364): an
-// empty requirement set covers only an empty context — applicability is an
-// explicit pick, "apply to all" means the user selected every value; only
-// pre-sv98 datasets (legacyWildcardData) keep the old Q1 reading. Since
-// issue #332 the procedure's OWN productScopeID[] gates the match directly:
-// with a ticket scope context (`scopeIds` non-null), a procedure must name
-// at least one admitted scope — an empty scope set names none (#364; Q1 on
-// legacy data); an EMPTY context array skips the dimension (the multiViaJoin
-// blank-context posture), and `scopeIds: null` means NO ticket context at
-// all (the task-level fallback path — the standalone Tasks drawer has no
-// scope to gate on). Exactly one candidate → that procedure row; zero or
-// several → null (the GAP tag: no unambiguous documented method for the
-// combination — a genuine ambiguity the quality manager must resolve).
-export function ticketProcedureForTask(taskId, reqIds = [], scopeIds = null) {
-  if (taskId == null || taskId === '') return null;
+// Eligible procedures for a task under a requirement context (issue #270,
+// candidates extracted for the eligibility round): the task's procedures
+// whose requirement set COVERS every id in `reqIds` — AND semantics, the
+// engine-wide coverage posture of certifiedUsersForTask. The empty-set
+// wildcard is RETIRED (issue #364): an empty requirement set covers only an
+// empty context; only pre-sv98 datasets (legacyWildcardData) keep the old
+// Q1 reading. Since issue #332 the procedure's OWN productScopeID[] gates
+// the match directly: with a ticket scope context (`scopeIds` non-null), a
+// procedure must name at least one admitted scope; an EMPTY context array
+// skips the dimension (the multiViaJoin blank-context posture), and
+// `scopeIds: null` means NO ticket context at all (the task-level fallback
+// path). Since the eligibility round (sv103) only APPROVED procedures are
+// candidates — procedureApproved extends the sv71 doctrine to the DISPATCH
+// itself (the old "pill deliberately untouched" decision is superseded:
+// a method awaiting approval cannot be the documented way to execute the
+// task). Rows without the status key count as Approved (legacy tolerance).
+export function ticketProcedureCandidates(taskId, reqIds = [], scopeIds = null) {
+  if (taskId == null || taskId === '') return [];
   const pT = resolveTable('Procedures');
-  if (!pT) return null;
+  if (!pT) return [];
   const legacy = legacyWildcardData();
   const need = asIds(reqIds).map(String);
   const adm = scopeIds == null ? null : asIds(scopeIds).map(String);
-  const hits = getEntity(pT).filter((p) => matches(p.taskID, taskId))
+  return getEntity(pT).filter((p) => matches(p.taskID, taskId))
+    .filter(procedureApproved)
     .filter((p) => {
       const set = asIds(p.requirementID).map(String);
       if (legacy && !set.length) return true;
@@ -1202,7 +1203,26 @@ export function ticketProcedureForTask(taskId, reqIds = [], scopeIds = null) {
       if (legacy && !set.length) return true;
       return set.some((s) => adm.includes(s));
     });
+}
+
+// Exactly one candidate → that procedure row; zero or several → null (the
+// GAP tag: no unambiguous APPROVED method for the combination — a genuine
+// ambiguity the quality manager must resolve; ticketProcedureHint names
+// the redundant candidates).
+export function ticketProcedureForTask(taskId, reqIds = [], scopeIds = null) {
+  const hits = ticketProcedureCandidates(taskId, reqIds, scopeIds);
   return hits.length === 1 ? hits[0] : null;
+}
+
+// Hover hint for the GAP cell (eligibility round, sv103): a task with
+// SEVERAL eligible procedures is a REDUNDANCY gap — the hint names the
+// colliding candidates so the quality manager knows exactly what to
+// resolve. Zero candidates (no approved covering method) keep the plain
+// GAP — nothing to enumerate.
+export function ticketProcedureHint(taskId, reqIds = [], scopeIds = null) {
+  const hits = ticketProcedureCandidates(taskId, reqIds, scopeIds);
+  if (hits.length <= 1) return null;
+  return `Procedures redundancy ${hits.map((p) => String(p.procedureID)).join(', ')}`;
 }
 
 // TICKET-PROCEDURE cell text — shared by derivedValue (task-level fallback,
