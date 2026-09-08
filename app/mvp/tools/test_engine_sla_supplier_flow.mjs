@@ -99,21 +99,19 @@ console.log('== generic paths: preconditions hold ==');
     'every offered department belongs to one of the supplier\'s units');
 }
 
-console.log('== seeds: payload departments from the event\'s processes ==');
+console.log('== seeds: payload departments mirror their event (#352 invariant) ==');
 {
   const payloads = data.getEntity('Payload');
   eq(payloads.every((p) => 'departmentID' in p), true, 'every payload carries the key (parity)');
-  // independent walk of the migration rule: first non-empty department among
-  // the processes chaining the payload's event, in Processes row order
-  const byEvent = {};
-  for (const pr of data.getEntity('Processes')) {
-    for (const ev of asList(pr.eventID)) {
-      (byEvent[String(ev)] = byEvent[String(ev)] || []).push(pr.departmentID);
-    }
-  }
-  const want = (p) => (byEvent[String(p.eventID)] || []).filter(Boolean)[0] ?? null;
-  eq(payloads.filter((p) => (p.departmentID ?? null) !== want(p)).map((p) => p.payloadID), [],
-    'each departmentID equals the first process-derived department (null = no process chains)');
+  // the sv68 process-derived rule was superseded by issue #352 (sv92): the
+  // EVENT owns its answering department and the payload MIRRORS it — the
+  // invariant that keeps the department-filtered Event picker offering
+  // every stored pick (full proof in test_engine_event_department.mjs)
+  const evDept = new Map(data.getEntity('Events')
+    .map((e) => [String(e.eventID), e.departmentID ?? null]));
+  eq(payloads.filter((p) => (p.departmentID ?? null) !== evDept.get(String(p.eventID)))
+    .map((p) => p.payloadID), [],
+  'each departmentID equals its event\'s department (payload ≡ event, 26/26)');
 }
 
 console.log('== seeds: SLA edit-integrity invariants ==');

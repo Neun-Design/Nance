@@ -31,7 +31,11 @@ const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
 console.log('== schema shapes ==');
 {
   const ev = catalog['Events'];
-  eq(ev.byName['departmentID'], undefined, 'Events dropped departmentID (moved down)');
+  // the #159 drop was superseded by issue #352 (sv92): the key is BACK with
+  // new semantics — the department that ANSWERS the event (single FK; the
+  // #159 doctrine stays intact on Processes, which keep their own stored key)
+  eq(model.parseRule(ev.byName['departmentID'].rule).target, 'Departments',
+    'Events.departmentID back as the answering department (#352 supersedes the #159 drop)');
   eq([model.parseRule(ev.byName['scopeID'].rule).kind, model.parseRule(ev.byName['productID'].rule).kind],
     ['fk', 'fk'], 'Events applicability keys are stored FKs');
   eq(ev.byName['productGroupID'].type, 'mirror', 'event product groups derive from the products');

@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 91,
+  "schemaVersion": 92,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -765,7 +765,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST03",
     "branchID": null,
-    "departmentID": "DPT02",
+    "departmentID": "DPT03",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -845,7 +845,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST07",
     "branchID": null,
-    "departmentID": "DPT02",
+    "departmentID": "DPT03",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -861,7 +861,7 @@
     "businessUnitID": "BU04",
     "customerID": "CUST08",
     "branchID": null,
-    "departmentID": "DPT02",
+    "departmentID": "DPT03",
     "payloadID": [
      "PLD08"
     ],
@@ -911,7 +911,7 @@
     "businessUnitID": "BU02",
     "customerID": "CUST10",
     "branchID": null,
-    "departmentID": "DPT05",
+    "departmentID": "DPT04",
     "payloadID": [
      "PLD10"
     ],
@@ -925,7 +925,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST11",
     "branchID": null,
-    "departmentID": "DPT02",
+    "departmentID": "DPT03",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -1005,7 +1005,7 @@
     "businessUnitID": "BU03",
     "customerID": "CUST15",
     "branchID": null,
-    "departmentID": "DPT02",
+    "departmentID": "DPT03",
     "payloadID": [
      "PLD07",
      "PLD08",
@@ -33422,7 +33422,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U15"
+    "eventOwner": "U15",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV02",
@@ -33440,7 +33441,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U16"
+    "eventOwner": "U16",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV03",
@@ -33457,7 +33459,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U17"
+    "eventOwner": "U17",
+    "departmentID": "DPT04"
    },
    {
     "eventID": "EV04",
@@ -33470,7 +33473,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U18"
+    "eventOwner": "U18",
+    "departmentID": "DPT05"
    },
    {
     "eventID": "EV05",
@@ -33488,7 +33492,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U19"
+    "eventOwner": "U19",
+    "departmentID": "DPT06"
    },
    {
     "eventID": "EV06",
@@ -33509,7 +33514,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U20"
+    "eventOwner": "U20",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV07",
@@ -33522,7 +33528,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U21"
+    "eventOwner": "U21",
+    "departmentID": "DPT04"
    },
    {
     "eventID": "EV08",
@@ -33535,7 +33542,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U22"
+    "eventOwner": "U22",
+    "departmentID": "DPT05"
    },
    {
     "eventID": "EV09",
@@ -33548,7 +33556,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U23"
+    "eventOwner": "U23",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV10",
@@ -33561,7 +33570,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U24"
+    "eventOwner": "U24",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV11",
@@ -33578,7 +33588,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U25"
+    "eventOwner": "U25",
+    "departmentID": "DPT04"
    },
    {
     "eventID": "EV12",
@@ -33591,7 +33602,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U26"
+    "eventOwner": "U26",
+    "departmentID": "DPT05"
    },
    {
     "eventID": "EV13",
@@ -33604,7 +33616,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U27"
+    "eventOwner": "U27",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV14",
@@ -33617,7 +33630,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U28"
+    "eventOwner": "U28",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV15",
@@ -33630,7 +33644,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U29"
+    "eventOwner": "U29",
+    "departmentID": "DPT04"
    },
    {
     "eventID": "EV16",
@@ -33643,7 +33658,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U30"
+    "eventOwner": "U30",
+    "departmentID": "DPT05"
    },
    {
     "eventID": "EV17",
@@ -33656,7 +33672,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U31"
+    "eventOwner": "U31",
+    "departmentID": "DPT01"
    },
    {
     "eventID": "EV18",
@@ -33669,7 +33686,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U32"
+    "eventOwner": "U32",
+    "departmentID": "DPT03"
    },
    {
     "eventID": "EV19",
@@ -33682,7 +33700,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U33"
+    "eventOwner": "U33",
+    "departmentID": "DPT04"
    },
    {
     "eventID": "EV20",
@@ -33695,7 +33714,8 @@
     "customerName": null,
     "productName": null,
     "scopeName": null,
-    "eventOwner": "U34"
+    "eventOwner": "U34",
+    "departmentID": "DPT05"
    }
   ],
   "Payload": [
@@ -33795,7 +33815,7 @@
     ],
     "isActive": "Active",
     "payloadOwner": "U33",
-    "departmentID": "DPT02"
+    "departmentID": "DPT03"
    },
    {
     "payloadID": "PLD08",
@@ -33808,7 +33828,7 @@
     ],
     "isActive": "Active",
     "payloadOwner": "U34",
-    "departmentID": "DPT02"
+    "departmentID": "DPT03"
    },
    {
     "payloadID": "PLD09",
@@ -33833,7 +33853,7 @@
     ],
     "isActive": "Active",
     "payloadOwner": "U36",
-    "departmentID": "DPT05"
+    "departmentID": "DPT04"
    },
    {
     "payloadID": "PLD11",
@@ -34023,7 +34043,7 @@
     "productScopeID": [],
     "isActive": "Active",
     "payloadOwner": "U13",
-    "departmentID": null
+    "departmentID": "DPT01"
    },
    {
     "payloadID": "PLD24",
@@ -34033,7 +34053,7 @@
     "productScopeID": [],
     "isActive": "Active",
     "payloadOwner": "U14",
-    "departmentID": null
+    "departmentID": "DPT03"
    },
    {
     "payloadID": "PLD25",
@@ -34043,7 +34063,7 @@
     "productScopeID": [],
     "isActive": "Active",
     "payloadOwner": "U15",
-    "departmentID": null
+    "departmentID": "DPT04"
    },
    {
     "payloadID": "PLD26",
@@ -34053,7 +34073,7 @@
     "productScopeID": [],
     "isActive": "Active",
     "payloadOwner": "U16",
-    "departmentID": null
+    "departmentID": "DPT03"
    }
   ]
  }

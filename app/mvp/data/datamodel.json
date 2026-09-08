@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 91,
+    "schemaVersion": 92,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companions, independent of the wizard: the \"Apply to all\" field-rule token (wildcard row on multichecks) and per-entity faceted controls."
   },
@@ -376,7 +376,8 @@
           "cards": null,
           "table-filters": true,
           "subitem-tables": [
-            "Squads"
+            "Squads",
+            "Events"
           ]
         },
         "Squads": {
@@ -4931,6 +4932,15 @@
               "constraints": "NOT NULL"
             },
             {
+              "name": "departmentID",
+              "type": "FK",
+              "rule": "FK → Departments (display: departmentName)",
+              "notes": "single — the department that ANSWERS this event (issue #352, re-scoped: an event is fundamentally the request a department must fulfill for its clients; Event × Product Scope = the Payload). Form select between Business Unit and Scopes, unit-gated (generic stored-key cascade); on the Payload form the chosen Department filters the Event options. Nullable (legacy developer copy carries honest nulls); seeded by migrate_event_department_link.py — the first IN-UNIT department among the processes chaining the event (row order; the 2 cross-unit signals, EV06/EV11, fall through — the #344 divergence family, re-keying the unit stays discarded), else the unit's first department (clinic 20/20). Payloads mirror it (payload.departmentID ≡ event.departmentID — the invariant that keeps the department-filtered Event picker offering every stored pick); Departments expose the reverse Events subitem tab through this key.",
+              "table-display": true,
+              "subitem-display": true,
+              "constraints": "FK"
+            },
+            {
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
@@ -5093,6 +5103,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Department": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "departmentID",
+                "tooltip": "The department that answers this event (issue #352) — the request it must fulfill for its clients; offered from the selected Business Unit's departments",
+                "step": null,
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "filtered by Business Unit selected"
+              },
               "Scopes": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -5174,7 +5194,7 @@
               "name": "departmentID",
               "type": "FK",
               "rule": "FK → Departments (display: departmentName)",
-              "notes": "single valued — the department that supplies this payload (2026-09-03 round; spec wrote a rollup via the unit — normalized to a stored FK: the form select and the SLA Payloads department filter need the stored key). Seeded from the event's processes' department; nullable when the event chains no process",
+              "notes": "single valued — the department that supplies this payload (2026-09-03 round; spec wrote a rollup via the unit — normalized to a stored FK: the form select and the SLA Payloads department filter need the stored key). Since issue #352 it carries the INVARIANT payload.departmentID ≡ event.departmentID (the event owns the answering department; the payload mirrors it so the department-filtered Event picker keeps offering every stored pick — migrate_event_department_link.py re-keyed 3 clinic payloads and keyed the 4 formerly-null admin ones). On the form the Department is picked FIRST and the Event options follow it (pre-RBAC filter-input doctrine #334)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5255,10 +5275,10 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "eventID",
-                "tooltip": "The event this payload packages",
+                "tooltip": "The event this payload packages — only the selected Business Unit's events and, once a Department is chosen, only the requests that department answers (issue #352)",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "filtered by businessUnitID selected"
+                "field-rule": "filtered by Business Unit + Department selected"
               },
               "Product Scope": {
                 "field-type": {
