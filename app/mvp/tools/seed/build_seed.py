@@ -1568,9 +1568,45 @@ class Builder:
         extends it to the REQUIREMENTS applicability keys (the exact rules
         of tools/migrate_requirement_applicability.py): every empty key →
         its FULL dimension in row order, scalars listified (customerID is
-        multivalued since #366). Runs after every table exists."""
+        multivalued since #366). Issue #367 extends it to EVENTS
+        (scopeID/productID → the full dimensions) and PAYLOAD packaging
+        (empty productScopeID → the event's admitted applicability — the
+        rules of tools/migrate_event_payload_applicability.py). Runs after
+        every table exists."""
         def as_list(v):
             return v if isinstance(v, list) else ([] if v in (None, '') else [v])
+
+        def same_val(a, b):
+            la, lb = as_list(a), as_list(b)
+            return bool(la) and bool(lb) and any(x in lb for x in la)
+
+        all_scope_ids = [s['scopeID'] for s in self.rows('Scopes')]
+        all_product_ids = [p['productID'] for p in self.rows('Products')]
+        for ev in self.rows('Events'):
+            if not as_list(ev.get('scopeID')):
+                ev['scopeID'] = list(all_scope_ids)
+            if not as_list(ev.get('productID')):
+                ev['productID'] = list(all_product_ids)
+        groups = {str(g['productGroupID']): g for g in self.rows('Product Groups')}
+        events_by_id = {str(e['eventID']): e for e in self.rows('Events')}
+
+        def event_admits(ev):
+            if ev is None:
+                return [ps['productScopeID'] for ps in self.rows('Product Scopes')]
+            scopes, products = as_list(ev.get('scopeID')), as_list(ev.get('productID'))
+            out = []
+            for ps in self.rows('Product Scopes'):
+                if scopes and not same_val(ps.get('scopeID'), scopes):
+                    continue
+                if products:
+                    pg = groups.get(str(ps.get('productGroupID')))
+                    if not pg or not same_val(pg.get('productID'), products):
+                        continue
+                out.append(ps['productScopeID'])
+            return out
+        for pl in self.rows('Payload'):
+            if not as_list(pl.get('productScopeID')):
+                pl['productScopeID'] = event_admits(events_by_id.get(str(pl.get('eventID'))))
         req_dims = [('regionID', 'Regions', 'regionID'),
                     ('businessUnitID', 'Business Units', 'businessUnitID'),
                     ('branchID', 'Branches', 'branchID'),

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 99,
+    "schemaVersion": 100,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -1785,7 +1785,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: productScopeName)",
-              "notes": "The portfolio anchor (issue #242) — the same Event × Product Scope unit the SLA's Payloads dispatch. Options: the product scopes packaged by the forecast's SLA payloads for the chosen event (Q1 wildcard payload = the event's full applicability). Scope and product group derive from it on save.",
+              "notes": "The portfolio anchor (issue #242) — the same Event × Product Scope unit the SLA's Payloads dispatch. Options: the product scopes packaged by the forecast's SLA payloads for the chosen event (since issue #367 an unpackaged payload contributes nothing — the wildcard widening survives only on pre-sv100 snapshots). Scope and product group derive from it on save.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK, NOT NULL"
@@ -4972,7 +4972,7 @@
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
-              "notes": "Multivalued — scopes this event applies to (Payload distribution, issue #159). EMPTY = applies to every scope (Q1 wildcard).",
+              "notes": "Multivalued — scopes this event applies to (Payload distribution, issue #159). The empty-key wildcard is RETIRED (issue #367, the #364 doctrine): an undeclared dimension admits NOTHING — 'all scopes' is every scope explicitly selected (sv100 materialized the demo blanks; a scope registered later requires revisiting the event).",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -4981,7 +4981,7 @@
               "name": "productID",
               "type": "FK",
               "rule": "FK → Products (display: productName)",
-              "notes": "Multivalued — products this event applies to (issue #159). EMPTY = applies to every product (Q1 wildcard).",
+              "notes": "Multivalued — products this event applies to (issue #159). The empty-key wildcard is RETIRED (issue #367): undeclared = admits nothing; 'all products' is every product explicitly selected (sv100 materialized the demo blanks).",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -5146,7 +5146,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "scopeID",
-                "tooltip": "Scopes this event applies to — leave empty when it applies to all",
+                "tooltip": "Scopes this event applies to — select every scope to apply to all of today's list (issue #367; an empty list admits nothing)",
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": [
@@ -5159,7 +5159,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "productID",
-                "tooltip": "Products this event applies to — leave empty when it applies to all",
+                "tooltip": "Products this event applies to — select every product to apply to all of today's list (issue #367; an empty list admits nothing)",
                 "step": null,
                 "check": "Scope IS NOT NULL",
                 "field-rule": [
@@ -5240,7 +5240,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: productScopeRegistry)",
-              "notes": "multivalued — user-selected from the event's applicability (scopeID × productID, issue #190); empty = every product scope the event admits (Q1 wildcard)",
+              "notes": "multivalued — user-selected from the event's applicability (scopeID × productID, issue #190). The empty-packaging wildcard is RETIRED (issue #367): an unpackaged payload packages NOTHING — 'everything the event admits' is every scope explicitly selected (sv100 materialized the demo blanks with the event's applicability; pre-sv100 snapshots keep the Q1 widening via legacyWildcardData)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -5313,7 +5313,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Product scopes the event applies to — leave empty for all",
+                "tooltip": "Product scopes this payload packages — select every offered scope to package all of the event's applicability (issue #367; an empty list packages nothing)",
                 "step": null,
                 "check": "Event IS NOT NULL",
                 "field-rule": [
