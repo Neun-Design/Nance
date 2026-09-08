@@ -1142,9 +1142,11 @@ export function eventsForForecastSLA(forecastId) {
 
 // Product scopes a FORECAST SCOPE may project (issue #242): the scopes
 // packaged by the forecast's SLA payloads for the chosen event — the same
-// Event × Product Scope unit the SLA dispatches. Wildcard payload (empty
-// productScopeID) widens to the event's full applicability (Q1); no
-// forecast / no SLA → the event's applicability (lenient).
+// Event × Product Scope unit the SLA dispatches. The empty-packaging
+// wildcard is RETIRED (issue #367): an unpackaged payload contributes
+// nothing (the widening to the event's applicability survives only on
+// pre-sv100 snapshots); no forecast / no SLA → the event's applicability
+// (lenient CONTEXT posture, unchanged).
 export function productScopesForForecastSLA(eventId, forecastId) {
   const fc = forecastId ? getById('Forecasts', forecastId) : null;
   const sla = fc && fc.slaID != null && fc.slaID !== '' ? getById('SLA', fc.slaID) : null;
@@ -1158,7 +1160,8 @@ export function productScopesForForecastSLA(eventId, forecastId) {
     if (!p || (eventId != null && eventId !== '' && String(p.eventID) !== String(eventId))) continue;
     sawEventPayload = true;
     const packaged = asList(p.productScopeID);
-    const scopeIds = packaged.length ? packaged : eventProductScopeIds(p.eventID);
+    const scopeIds = packaged.length ? packaged
+      : (legacyWildcardData(100) ? eventProductScopeIds(p.eventID) : []);
     scopeIds.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
   }
   if (!sawEventPayload) return fallback();

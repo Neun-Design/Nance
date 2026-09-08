@@ -745,7 +745,13 @@ export function namesFullDimension(ids, tableName) {
 
 // Product scopes an EVENT's applicability admits (id-level core of the
 // productScopesForEvent picker in forms.js): scope overlap AND the product
-// group's product among the event's products (each empty = all, Q1).
+// group's product among the event's products. The empty-key wildcard is
+// RETIRED (issue #367, the #364 doctrine on the Event side): an undeclared
+// dimension admits NOTHING — "applies to all" is every scope/product
+// explicitly selected (sv100 materialized the demo blanks); pre-sv100
+// snapshots keep the old Q1 reading via legacyWildcardData(100). The
+// no-event CONTEXT (blank eventId) stays lenient — context, not a
+// declaration.
 export function eventProductScopeIds(eventId) {
   const pk = ENTITY_META['Product Scopes'].pk;
   const all = getEntity('Product Scopes');
@@ -753,6 +759,7 @@ export function eventProductScopeIds(eventId) {
   if (!ev) return all.map((ps) => ps[pk]);
   const scopes = asIds(ev.scopeID);
   const products = asIds(ev.productID);
+  if ((!scopes.length || !products.length) && !legacyWildcardData(100)) return [];
   return all.filter((ps) => {
     if (scopes.length && !sameVal(ps.scopeID, scopes)) return false;
     if (products.length) {
@@ -795,11 +802,14 @@ export function ticketAdmittedSLAs(ctx) {
 // re-sourced to the applicant-supplier contracts by #350) — the dispatch
 // universe of the ticket chain, deduped across contracts in survivor order
 // (SLA table order since #350). A non-null `productScopeId` keeps only the
-// payloads packaging that scope — a payload with an EMPTY packaging list
-// packages every scope the event admits (Q1) and always survives the scope
-// filter.
+// payloads packaging that scope. The empty-packaging wildcard is RETIRED
+// (issue #367): a payload with an empty list packages NOTHING and fails
+// the scope filter — "packages everything" is every scope explicitly
+// listed (sv100 materialized the demo blanks); pre-sv100 snapshots keep
+// the old Q1 reading (empty always survives).
 export function ticketAdmittedPayloads(eventId, ctx, productScopeId = null) {
   if (eventId == null || eventId === '') return [];
+  const legacy = legacyWildcardData(100);
   const seen = new Set(); const out = [];
   for (const s of ticketAdmittedSLAs(ctx)) {
     for (const pid of asIds(s.payloadID)) {
@@ -808,8 +818,10 @@ export function ticketAdmittedPayloads(eventId, ctx, productScopeId = null) {
       const p = getById('Payload', pid);
       if (!p || !sameVal(p.eventID, eventId)) continue;
       const packs = asIds(p.productScopeID).map(String);
-      if (productScopeId != null && productScopeId !== '' && packs.length
-          && !packs.includes(String(productScopeId))) continue;
+      if (productScopeId != null && productScopeId !== '') {
+        if (!packs.length) { if (!legacy) continue; }
+        else if (!packs.includes(String(productScopeId))) continue;
+      }
       out.push(p);
     }
   }
@@ -819,15 +831,18 @@ export function ticketAdmittedPayloads(eventId, ctx, productScopeId = null) {
 // Product scopes a TICKET's payload chain admits (id-level core of the
 // productScopesForTicket picker): since issue #350 the universe is the
 // APPLICANT → SUPPLIER contracts (ticketAdmittedSLAs — replacing the #325
-// project universe, which replaced the #179/#192 customer-SLA sourcing);
-// the #214 packaging posture is kept: a payload with an EMPTY
-// productScopeID packages every scope the event admits (Q1 — widens to the
-// event's full applicability).
+// project universe, which replaced the #179/#192 customer-SLA sourcing).
+// The #214 empty-packaging wildcard is RETIRED (issue #367): an unpackaged
+// payload admits nothing — the widening to the event's full applicability
+// survives only on pre-sv100 snapshots (legacyWildcardData).
 export function admittedProductScopeIds(eventId, ctx) {
   const ids = [];
   for (const p of ticketAdmittedPayloads(eventId, ctx)) {
     const scopes = asIds(p.productScopeID);
-    if (!scopes.length) return eventProductScopeIds(eventId); // wildcard payload
+    if (!scopes.length) {
+      if (legacyWildcardData(100)) return eventProductScopeIds(eventId); // wildcard payload (pre-sv100)
+      continue; // #367: an unpackaged payload admits nothing
+    }
     scopes.forEach((id) => { if (!ids.includes(id)) ids.push(id); });
   }
   return ids;

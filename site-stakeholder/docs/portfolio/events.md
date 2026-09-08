@@ -14,8 +14,10 @@ model (moved here from Operation, 2026-08-12).
 (2026-09-08) — the department that **answers** this event: an event is fundamentally the
 request a department must fulfill for its clients, and the Event × Product Scope
 combination is what a [Payload](payload.md) packages — and **Scopes** / **Products**
-(multi — the event's applicability, distributed from the ER-model Payload; leave empty to
-apply to all). The Process keeps its own department key (the execution side); the
+(multi — the event's applicability, distributed from the ER-model Payload; **explicit
+selection since 2026-09-08**: select every value to apply to all of today's list — a
+scope or product registered later requires revisiting the event, and an empty list
+admits nothing). The Process keeps its own department key (the execution side); the
 event's department is the request's owner and drives the Payload form's Event filter.
 Expanding an event lists its Processes and the Product Scopes its applicability admits;
 expanding a [Department](../organization/departments.md) lists the requests it answers.

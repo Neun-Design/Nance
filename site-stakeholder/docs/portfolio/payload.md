@@ -18,5 +18,6 @@ their purchasable payloads by it) → `Event *` — since 2026-09-08 picking the
 first **narrows the events to the requests that department answers** (each
 [Event](events.md) now carries its answering department; leave the Department empty to
 see every event of the unit) → **Product Scopes** (multi — the event's applicability
-narrowed to the unit, shown by registry code since 2026-08-28; empty = every scope the
-event admits); Activate.
+narrowed to the unit, shown by registry code since 2026-08-28; **explicit selection
+since 2026-09-08**: select every offered scope to package the event's full
+applicability — an empty list packages nothing); Activate.
