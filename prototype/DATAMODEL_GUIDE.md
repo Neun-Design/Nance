@@ -269,15 +269,45 @@ Forms open in a **right-side drawer** (wireframe pattern). `form: null` or a fre
 placeholder (e.g. `["see #wireframe"]`) means the form isn't specified yet — fall back
 to the wireframe.
 
-### 6.1 `steps`
+### 6.1 `steps` — the wizard UI (any form may adopt it)
 Named steps rendered as a **wizard** (issue #353, first consumer — the Procedures
-drawer): a chevron chip strip at the top, ONE step visible at a time, and the drawer
-footer switching to Previous / Cancel / Next with Save only on the last step (chips are
-clickable; validation still runs on Save). `step-order` gives the sequence,
-`step-description` the helper text shown under the strip while its step is active.
-Fields opt into a step via their `step` parameter — every field is BUILT up front
-(hidden steps keep live DOM), so cross-step cascades/gates fire and save collects every
-control. `steps: null` ⇒ single flat form.
+drawer; convention recorded in `_meta.form-steps-convention`): a chevron chip strip at
+the top, ONE step visible at a time, and the drawer footer switching to
+Previous / Cancel / Next with Save only on the last step (chips are clickable;
+validation still runs on Save). **The engine is fully generic — adoption is pure
+datamodel authoring**, no code:
+
+```json
+"form": {
+  "steps": {
+    "Basics":  { "step-order": 1, "step-description": null },
+    "Details": { "step-order": 2, "step-description": "Helper text under the strip" }
+  },
+  "fields": {
+    "Name":  { "…": "…", "step": "Basics" },
+    "Notes": { "…": "…", "step": "Details" }
+  }
+}
+```
+
+Rules of the shape:
+- `step-order` — integer, **unique** per form; gives the strip sequence.
+- `step-description` — optional helper text, shown under the strip only while its step
+  is active.
+- every field's `step` must name a declared step title **EXACTLY** — a mistyped title
+  silently lands the field in the always-visible host (the wizard trap;
+  `validate_mockup.py` §1d FAILS on it, and warns on null-step fields, which are legal
+  and render on every step — use deliberately for shared fields).
+- every field is BUILT up front (hidden steps keep live DOM), so **cross-step
+  cascades/gates keep firing** and save collects every control; NOT NULL validation
+  runs on Save, not on Next — a user can walk past an empty required field and is
+  caught at the end.
+- `steps: null` ⇒ single flat form (the default everywhere else; the U7 label-hoist
+  only applies to stepless forms — step layouts own their field order).
+
+Optional companions (independent of the wizard, introduced in the same round): the
+**`Apply to all`** field-rule token (§6.2 — wildcard row on multichecks) and
+per-entity faceted controls (`mkFacetedChecks`, §6.2 bespoke list).
 
 ### 6.2 `fields` — the field grammar
 
