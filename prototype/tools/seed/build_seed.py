@@ -716,15 +716,33 @@ class Builder:
             ev['scopeID'] = sorted({p['scopeID'] for p in pairs})
             ev['productID'] = sorted({pid for p in pairs
                                       for pid in groups_by_id[p['productGroupID']]['productID']})
-        # supplying department of a payload (sv68): first non-empty department
-        # among the processes chaining its event, in row order — same rule as
-        # tools/migrate_sla_supplier_flow.py; honest null when no process
-        dept_of_event = {}
+        # the event's ANSWERING department (issue #352 re-scoped, sv92): the
+        # first IN-UNIT department among the processes chaining the event
+        # (row order, deduped — the cross-unit signals fall through, #344
+        # divergence family), else the unit's first department — same rule
+        # as tools/migrate_event_department_link.py
+        dept_unit = {dd['departmentID']: dd['businessUnitID']
+                     for dd in self.rows('Departments')}
+        deps_by_unit = {}
+        for dd in self.rows('Departments'):
+            deps_by_unit.setdefault(dd['businessUnitID'], []).append(dd['departmentID'])
+        ev_candidates = {}
         for pr in self.rows('Processes'):
             evs = pr.get('eventID')
             for ev in (evs if isinstance(evs, list) else [evs]):
-                if ev and ev not in dept_of_event and pr.get('departmentID'):
-                    dept_of_event[ev] = pr['departmentID']
+                if ev and pr.get('departmentID') \
+                        and pr['departmentID'] not in ev_candidates.setdefault(ev, []):
+                    ev_candidates[ev].append(pr['departmentID'])
+        for ev in self.rows('Events'):
+            unit = ev.get('businessUnitID')
+            in_unit = [d for d in ev_candidates.get(ev['eventID'], [])
+                       if dept_unit.get(d) == unit]
+            ev['departmentID'] = in_unit[0] if in_unit \
+                else (deps_by_unit.get(unit) or [None])[0]
+        # supplying department of a payload: MIRRORS its event's department
+        # (the #352 invariant payload.departmentID ≡ event.departmentID —
+        # keeps the department-filtered Event picker offering stored picks)
+        ev_dept = {e['eventID']: e.get('departmentID') for e in self.rows('Events')}
         payloads, n = [], 0
         for title, pairs in pack_of.items():
             for chunk_start in range(0, len(pairs), 4):
@@ -733,7 +751,7 @@ class Builder:
                 payloads.append({'payloadID': f'PLD{n:02d}', 'payloadCode': f'PKG-{n:03d}',
                                  'businessUnitID': chunk[0]['businessUnitID'] if chunk else
                                  self.rows('Business Units')[0]['businessUnitID'],
-                                 'departmentID': dept_of_event.get(self.id_of('Events', title)),
+                                 'departmentID': ev_dept.get(self.id_of('Events', title)),
                                  'eventID': self.id_of('Events', title),
                                  'productScopeID': [p['productScopeID'] for p in chunk],
                                  'isActive': 'Active', 'payloadOwner': None})
@@ -748,7 +766,7 @@ class Builder:
             n += 1
             payloads.append({'payloadID': f'PLD{n:02d}', 'payloadCode': f'PKG-{n:03d}',
                              'businessUnitID': self.rows('Business Units')[0]['businessUnitID'],
-                             'departmentID': dept_of_event.get(self.id_of('Events', title)),
+                             'departmentID': ev_dept.get(self.id_of('Events', title)),
                              'eventID': self.id_of('Events', title), 'productScopeID': [],
                              'isActive': 'Active', 'payloadOwner': None})
         self.put('Payload', payloads)
