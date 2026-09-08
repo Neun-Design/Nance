@@ -9,7 +9,9 @@ purpose: "Procedures — what it is, when to register one, and its key fields"
 **What it is:** the documented method for executing a task (ISO §4.4/§7.5). Each row
 registers how a task is performed under a given **requirement set**, with its own input and
 output handouts — the same task can carry several procedures, one per requirement variant.
-An empty requirement list means the procedure applies to every requirement.
+The requirement set is an explicit selection (2026-09-08): a procedure covers exactly the
+requirements listed on it — an empty list covers none — and registering a new requirement
+means revisiting each procedure to add it where it applies.
 **Register when:** last in the module — after Tasks; before Competence (a competence
 certifies procedures).
 
@@ -35,11 +37,13 @@ Branches' registrations) are new applicability declarations — for now they doc
 applicability without changing which procedure a ticket resolves (that gate comes in a
 later round); **Product Scopes** (offered from the process's list) keeps gating the
 ticket match directly (2026-09-07): a ticket only resolves this procedure when it admits
-one of the pinned scopes. Every picker leads with an **Apply to all** row — leaving a
-picker empty means the procedure is not restricted by that dimension. On the tables,
-those unrestricted cells show an **All** tag (2026-09-08) instead of a blank: the
-wildcard is a deliberate statement — it covers items registered later too — not a
-missing value.
+one of the pinned scopes. **Applicability is an explicit pick (2026-09-08):** to apply
+a procedure to all branches, customers, scopes or requirements, select **every value**
+— that covers today's list, deliberately. When a new item is registered later (a new
+requirement, branch, customer…), it is **not** silently covered: each procedure must
+be revisited and the item added where it applies — the quality review the old "Apply
+to all" wildcard used to bypass. A picker left empty means the procedure applies to
+**nothing** on that dimension.
 
 **Step 3 — Constraints:** the requirement set, now **faceted by what pins each
 requirement**: *Business Unit Requirements* (unit-wide and global obligations),
@@ -52,8 +56,7 @@ It is still ONE requirement set: a requirement appears in exactly one facet.
 **Step 4 — Inputs & Outputs:** Inputs/Outputs offer the handouts admitted for the chosen
 Department (a [Handout](handouts.md) declares the departments it serves; one with no
 departments is offered everywhere); **Customer Inputs** (2026-09-04) — among the chosen
-Inputs, tick the ones the customer must provide upon ticket creation (its Apply to all
-row ticks every chosen Input), and the selected documents surface on the ticket's Inputs
-tab ([Tickets](../workspace/tickets.md)).
+Inputs, tick each one the customer must provide upon ticket creation, and the selected
+documents surface on the ticket's Inputs tab ([Tickets](../workspace/tickets.md)).
 
 Expanding a procedure shows its handout tabs and product scopes.

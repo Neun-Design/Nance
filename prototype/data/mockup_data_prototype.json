@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 97,
+  "schemaVersion": 98,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -13412,8 +13412,19 @@
      "H01"
     ],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC02",
@@ -13438,7 +13449,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H02"
     ],
@@ -13450,8 +13480,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC03",
@@ -13490,8 +13531,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC04",
@@ -13516,7 +13568,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H04"
     ],
@@ -13530,8 +13601,19 @@
      "H04"
     ],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC05",
@@ -13572,8 +13654,19 @@
      "H05"
     ],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC06",
@@ -13598,7 +13691,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H06"
     ],
@@ -13610,8 +13722,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC07",
@@ -13652,8 +13775,19 @@
      "H07"
     ],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC08",
@@ -13692,8 +13826,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC09",
@@ -13732,8 +13877,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC10",
@@ -13758,7 +13914,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H10"
     ],
@@ -13770,8 +13945,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC11",
@@ -13802,8 +13988,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC12",
@@ -13834,8 +14031,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC13",
@@ -13866,8 +14074,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC14",
@@ -13898,8 +14117,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC15",
@@ -13932,8 +14162,19 @@
      "H01"
     ],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC16",
@@ -13964,8 +14205,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC17",
@@ -13996,8 +14248,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC18",
@@ -14030,8 +14293,19 @@
      "H04"
     ],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC19",
@@ -14044,7 +14318,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H05"
     ],
@@ -14058,8 +14351,21 @@
      "H05"
     ],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC20",
@@ -14072,7 +14378,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H06"
     ],
@@ -14084,8 +14409,21 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC21",
@@ -14098,7 +14436,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H07"
     ],
@@ -14112,8 +14469,21 @@
      "H07"
     ],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC22",
@@ -14126,7 +14496,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H08"
     ],
@@ -14138,8 +14527,21 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC23",
@@ -14152,7 +14554,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H09"
     ],
@@ -14164,8 +14585,21 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC24",
@@ -14192,8 +14626,21 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC25",
@@ -14206,7 +14653,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H11"
     ],
@@ -14218,8 +14684,21 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC26",
@@ -14232,7 +14711,26 @@
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H12"
     ],
@@ -14244,8 +14742,21 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ]
    },
    {
     "procedureID": "PRC27",
@@ -14257,7 +14768,26 @@
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H13"
     ],
@@ -14269,8 +14799,17 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ]
    },
    {
     "procedureID": "PRC28",
@@ -14282,7 +14821,26 @@
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H14"
     ],
@@ -14294,8 +14852,17 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ]
    },
    {
     "procedureID": "PRC29",
@@ -14307,7 +14874,26 @@
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H01"
     ],
@@ -14321,8 +14907,17 @@
      "H01"
     ],
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ]
    },
    {
     "procedureID": "PRC30",
@@ -14334,7 +14929,26 @@
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H02"
     ],
@@ -14346,8 +14960,17 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ]
    },
    {
     "procedureID": "PRC31",
@@ -14359,7 +14982,26 @@
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H03"
     ],
@@ -14371,8 +15013,17 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ]
    },
    {
     "procedureID": "PRC32",
@@ -14384,7 +15035,26 @@
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H04"
     ],
@@ -14398,8 +15068,17 @@
      "H04"
     ],
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ]
    },
    {
     "procedureID": "PRC33",
@@ -14411,7 +15090,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H05"
     ],
@@ -14425,8 +15123,14 @@
      "H05"
     ],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC34",
@@ -14438,7 +15142,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H06"
     ],
@@ -14450,8 +15173,14 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC35",
@@ -14463,7 +15192,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H07"
     ],
@@ -14477,8 +15225,14 @@
      "H07"
     ],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC36",
@@ -14490,7 +15244,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H08"
     ],
@@ -14502,8 +15275,14 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC37",
@@ -14515,7 +15294,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H09"
     ],
@@ -14527,8 +15325,14 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC38",
@@ -14540,7 +15344,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H10"
     ],
@@ -14552,8 +15375,14 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC39",
@@ -14565,7 +15394,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H11"
     ],
@@ -14577,8 +15425,14 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC40",
@@ -14590,7 +15444,26 @@
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H12"
     ],
@@ -14602,8 +15475,14 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ]
    },
    {
     "procedureID": "PRC41",
@@ -14616,7 +15495,26 @@
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H13"
     ],
@@ -14628,8 +15526,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC42",
@@ -14642,7 +15551,26 @@
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H14"
     ],
@@ -14654,8 +15582,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC43",
@@ -14668,7 +15607,26 @@
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H01"
     ],
@@ -14682,8 +15640,19 @@
      "H01"
     ],
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC44",
@@ -14696,7 +15665,26 @@
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H02"
     ],
@@ -14708,8 +15696,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC45",
@@ -14722,7 +15721,26 @@
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H03"
     ],
@@ -14734,8 +15752,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC46",
@@ -14748,7 +15777,26 @@
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H04"
     ],
@@ -14762,8 +15810,19 @@
      "H04"
     ],
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC47",
@@ -14788,7 +15847,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H01"
     ],
@@ -14802,8 +15880,19 @@
      "H01"
     ],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC48",
@@ -14842,8 +15931,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    },
    {
     "procedureID": "PRC49",
@@ -14860,7 +15960,26 @@
      "PS18",
      "PS19"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H11"
     ],
@@ -14872,8 +15991,19 @@
     "procedureStatus": "Approved",
     "customerInputID": [],
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": []
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ]
    }
   ]
  },

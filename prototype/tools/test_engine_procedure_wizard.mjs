@@ -6,8 +6,9 @@
 // notes as the filter contract.
 //
 // Data side: Procedures gain the APPLICABILITY keys branchID[]/customerID[]
-// (empty = applies to all, Q1; session decision — declared only, the
-// ticket→procedure match does NOT gate on them yet, #332 posture) and the
+// (declared only — the ticket→procedure match does NOT gate on them yet,
+// #332 posture; seeded empty by #353, MATERIALIZED by #364: the empty-set
+// wildcard is retired, "apply to all" = every value selected) and the
 // stored-but-inert Requirements.branchID dimension is ACTIVATED
 // (matchRequirements gate on the ticket's project branch; the
 // forecastID.slaID.branchID rollup leg; the Branches Requirements facet).
@@ -84,8 +85,10 @@ console.log('== form spec: gates + wired spellings (#274 trap) + Apply-to-all to
   eq(/filtered by Department selected/i.test(rule('Inputs'))
     && /filtered by Department selected/i.test(rule('Outputs')), true,
   'Inputs/Outputs re-pointed to the Department dimension');
+  // issue #364: the Apply-to-all token is RETIRED — applicability is an
+  // explicit pick (the user selects every value to apply to all)
   for (const l of ['Branches', 'Customers', 'Product Scopes', 'Requirements', 'Customer Inputs']) {
-    eq(/apply to all/i.test(rule(l)), true, `${l} carries the Apply-to-all token`);
+    eq(/apply to all/i.test(rule(l)), false, `${l} no longer carries the Apply-to-all token (#364)`);
   }
 }
 
@@ -256,14 +259,16 @@ console.log('== steps convention: generalized for ANY form (follow-up round, sv9
   eq(bad, [], 'every stepped form declares consistent steps (datamodel-wide walk)');
 }
 
-console.log('== seeds: applicability keys on every procedure, honest Q1 ==');
+console.log('== seeds: applicability keys on every procedure, materialized (#364) ==');
 {
   const procs = data.getEntity('Procedures');
   eq(procs.length, 49, 'clinic census (49 procedures)');
   eq(procs.every((p) => 'branchID' in p && 'customerID' in p), true,
     'every procedure carries both applicability keys (parity)');
-  eq(procs.every((p) => asList(p.branchID).length === 0 && asList(p.customerID).length === 0), true,
-    'all seeded EMPTY — no demo SOP is pinned (Q1: applies to all)');
+  // issue #364: the wizard round's honest-empty seeds (Q1 = all) were
+  // MATERIALIZED — "applies to all" is now every value explicitly stored
+  eq(procs.every((p) => asList(p.branchID).length > 0 && asList(p.customerID).length > 0), true,
+    'all MATERIALIZED — the retired wildcard became the explicit unit-wide lists (#364)');
 }
 
 console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');

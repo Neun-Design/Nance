@@ -665,9 +665,10 @@ class Builder:
                                'procedureURL': None,
                                'businessUnitID': dept_unit,
                                'departmentID': proc_dept,
-                               # applicability keys (issue #353, wizard step
-                               # Application) — honest empty: no demo SOP is
-                               # pinned to branches/customers (Q1 = all)
+                               # applicability keys (issue #353) — seeded
+                               # empty here, MATERIALIZED by
+                               # _materialize_wildcards (issue #364: the
+                               # wildcard is retired, "all" = every value)
                                'branchID': [], 'customerID': [],
                                'productScopeID': served, 'requirementID': reqs,
                                'taskInput': [self.rows('Handouts')[i % 14]['handoutID']],
@@ -1554,6 +1555,39 @@ class Builder:
         for s in self.rows('Squads'):
             s['businessUnitID'] = unit_of(departments, s.get('departmentID'))
 
+    def _materialize_wildcards(self):
+        """issue #364 — the empty-set wildcard is retired: 'apply to all'
+        is MATERIALIZED (the user-selects-every-value doctrine). The exact
+        rules of tools/migrate_no_wildcards.py, so regenerated and migrated
+        datasets agree: empty Procedures.requirementID → EVERY Active
+        requirement (row order — deliberately NOT the #304 region-gated
+        picker set: ticket inheritance flows region-pinned requirements
+        through cross-unit chains, and the wildcard covered them all);
+        empty branchID → the unit's customers' branches; empty customerID →
+        the unit's customers registered under those branches. Runs after
+        every table exists."""
+        def as_list(v):
+            return v if isinstance(v, list) else ([] if v in (None, '') else [v])
+        all_reqs = [r['requirementID'] for r in self.rows('Requirements')
+                    if str(r.get('isActive') or 'Active') != 'Inactive']
+        customers = self.rows('Customers')
+        branches = self.rows('Branches')
+        for p in self.rows('Procedures'):
+            unit = p.get('businessUnitID')
+            ucust = [c['customerID'] for c in customers
+                     if unit in as_list(c.get('businessUnitID'))]
+            if not as_list(p.get('requirementID')):
+                p['requirementID'] = list(all_reqs)
+            if not as_list(p.get('branchID')):
+                p['branchID'] = [b['branchID'] for b in branches
+                                 if any(c in ucust for c in as_list(b.get('customerID')))]
+            if not as_list(p.get('customerID')):
+                registered = {c for bid in as_list(p.get('branchID'))
+                              for b in branches if b['branchID'] == bid
+                              for c in as_list(b.get('customerID'))}
+                p['customerID'] = ([c for c in ucust if c in registered]
+                                   if registered else ucust)
+
     def build(self):
         self.build_org()
         self.build_talent()
@@ -1566,6 +1600,7 @@ class Builder:
         self.build_execution()
         self.build_control()
         self._backfill_prerbac_units()
+        self._materialize_wildcards()
         self.owner_pass()
         dataset = {'_meta': {'schemaVersion': self.dm['_meta']['schemaVersion'],
                              'anchorDate': self.anchor.isoformat(),

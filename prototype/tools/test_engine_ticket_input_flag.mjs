@@ -107,12 +107,16 @@ console.log('== chain: unique procedure per task → its customer inputs, dedupe
     && data.getEntity('Procedures').filter((p) => p.taskID === tk.taskID)
       .filter((p) => { const s = asList(p.requirementID).map(String);
         return !s.length || need.every((r) => s.includes(r)); }).length === 1);
-  const orig = data.getEntity('Procedures').find((p) => p.taskID === task.taskID);
-  const clone = { ...orig, procedureID: 'PRC-T1', requirementID: [] }; // wildcard twin
+  // covering twin of the RESOLVED procedure (#364 — an empty-set twin
+  // would cover nothing and create no ambiguity; the wildcard is retired,
+  // so the clone must copy the winner's explicit sets)
+  const adm = resolve.ticketAdmittedScopeIds(t);
+  const orig = resolve.ticketProcedureForTask(task.taskID, need, adm);
+  const clone = { ...orig, procedureID: 'PRC-T1' };
   data.getEntity('Procedures').push(clone);
   const after = resolve.ticketInputHandouts(t).map((h) => h.handoutID);
   eq(after.length <= before.length, true,
-    'a second covering procedure (wildcard twin) GAPs the task — inputs shrink or hold');
+    'a second covering procedure (covering twin) GAPs the task — inputs shrink or hold');
   eq(after.some((id) => asList(orig.customerInputID).includes(id))
     && asList(orig.customerInputID).length > 0, false,
   "the ambiguous task's customer inputs are gone");

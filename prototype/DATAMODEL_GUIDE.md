@@ -176,24 +176,22 @@ regardless of the child's own `table-display` settings.
 `PK` (exactly one per table), `FK`, or `null`. `PK` columns are auto-generated in forms
 (read-only "auto" field). `FK` requires the `rule` to name its target.
 
-### 3.8 `gap-tag` / `all-tag` — empty-value tags (opt-in per attribute)
-Two sibling flags that give an EMPTY cell a meaning instead of a silent blank:
+### 3.8 `gap-tag` — the empty-value caution tag (opt-in per attribute)
+**`"gap-tag": true`** (issue #271) — for **derived** attrs: an empty derived value
+renders the **GAP** caution pill. The system points at the hole (a procedure nobody
+is certified to execute, a task with no documented method). Value logic in
+`derivedValue` (resolve.js), pill styling in `withAccessors` (app.js). Every other
+empty value keeps the plain dash — the tag is opt-in.
 
-- **`"gap-tag": true`** (issue #271) — for **derived** attrs: an empty derived value
-  renders the **GAP** caution pill. The system points at the hole (a procedure nobody
-  is certified to execute, a task with no documented method). Value logic in
-  `derivedValue` (resolve.js), pill styling in `withAccessors` (app.js).
-- **`"all-tag": true`** (sv97) — for **stored** Q1 applicability sets: the wizard's
-  "Apply to all" deliberately stores an **empty set** (empty = applies to everything,
-  dynamically — items registered later are covered too), so the cell renders the
-  **All** neutral pill instead of a blank that reads as "forgot to fill". Helper
-  `allTagEmpty` (resolve.js), fk-accessor hook + pill in `withAccessors` (app.js).
-  Flag ONLY attrs whose empty set means "all" under the Q1 doctrine — positive-pick
-  sets (e.g. `Procedures.customerInputID`, where empty = NO customer inputs) must
-  NOT carry it. First adopters: the four Procedures applicability keys
-  (`branchID`, `customerID`, `productScopeID`, `requirementID`).
-
-Every other empty value keeps the plain dash — both tags are opt-in.
+> **Retired sibling — `all-tag` (sv97, retired by issue #364 at sv98):** it rendered
+> an empty stored applicability set as an "All" pill under the empty-set-wildcard
+> reading. The doctrine reversed within the day: the dynamic wildcard is DANGEROUS
+> for quality management (a requirement registered later would be silently covered
+> without the mandatory procedure review), so the wildcard itself was retired —
+> "apply to all" is now the user explicitly selecting every value, the stored lists
+> render normally (+n cap), and an empty set applies to nothing. Pre-sv98 datasets
+> keep the old Q1 reading via `legacyWildcardData()` (data.js); blank mode is always
+> strict.
 
 ---
 
@@ -324,9 +322,10 @@ Rules of the shape:
 - `steps: null` ⇒ single flat form (the default everywhere else; the U7 label-hoist
   only applies to stepless forms — step layouts own their field order).
 
-Optional companions (independent of the wizard, introduced in the same round): the
-**`Apply to all`** field-rule token (§6.2 — wildcard row on multichecks) and
-per-entity faceted controls (`mkFacetedChecks`, §6.2 bespoke list).
+Optional companion (independent of the wizard, introduced in the same round):
+per-entity faceted controls (`mkFacetedChecks`, §6.2 bespoke list). (The
+`Apply to all` field-rule token from that round was RETIRED by issue #364 —
+applicability is an explicit pick, see §6.2.)
 
 ### 6.2 `fields` — the field grammar
 
@@ -367,11 +366,12 @@ Requirements picker): options whose target record is soft-deleted are dropped �
 `isActive` spelled as the ENUM `Active|Inactive` or the #218 boolean, blank counting
 as Active (#222 posture). `SelectLabel = <field>` accepts `=` or `==` (authored specs
 use both — the Product Scopes Business Unit field arrived as `SelectLabel ==`).
-A multicheck field-rule may carry **`Apply to all`** (issue #353, the Procedures
-wizard): the list leads with a radio-look wildcard row — on applicability pickers it
-is checked while NOTHING is picked and clicking it clears the picks (the UI face of
-the Q1 posture: an empty stored set applies to all); on the positive-pick Customer
-Inputs (#324, where empty = NO customer inputs) it inverts to select-all.
+(The **`Apply to all`** multicheck token from the #353 wizard round was RETIRED by
+issue #364: the empty-set wildcard is dangerous for quality management — a
+requirement registered later would be silently covered without the mandatory
+procedure review. Applicability is an EXPLICIT pick now: the user selects every
+value to apply to all of today's list, an empty stored set applies to nothing, and
+only pre-sv98 datasets keep the old Q1 reading via `legacyWildcardData()`.)
 (The #290 unit-exclusive Requirements picker on Product Scopes was RETIRED by #294 —
 the link inverted: the Requirements form carries a multivalued **Product Scope**
 picker instead, items showing the plain `productScopeRegistry` code (#296; no
