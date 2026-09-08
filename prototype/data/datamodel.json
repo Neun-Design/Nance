@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 93,
+    "schemaVersion": 94,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companions, independent of the wizard: the \"Apply to all\" field-rule token (wildcard row on multichecks) and per-entity faceted controls."
   },
@@ -3876,7 +3876,20 @@
           ],
           "reports": null,
           "form": {
-            "steps": null,
+            "steps": {
+              "Registry": {
+                "step-order": 1,
+                "step-description": null
+              },
+              "Applicability": {
+                "step-order": 2,
+                "step-description": "Where this requirement applies — an EMPTY dimension means it applies to all (Q1)"
+              },
+              "Compliance": {
+                "step-order": 3,
+                "step-description": "The external norm behind it and the lifecycle flag"
+              }
+            },
             "fields": {
               "Name": {
                 "field-type": {
@@ -3884,7 +3897,7 @@
                 },
                 "attribute": "requirementName",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": null,
                 "field-rule": null
               },
@@ -3894,7 +3907,7 @@
                 },
                 "attribute": "requirementDescription",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": null,
                 "field-rule": null
               },
@@ -3904,7 +3917,7 @@
                 },
                 "attribute": "requirementTypeID",
                 "tooltip": null,
-                "step": null,
+                "step": "Registry",
                 "check": null,
                 "field-rule": null
               },
@@ -3914,7 +3927,7 @@
                 },
                 "attribute": "regionID",
                 "tooltip": "Regions this requirement applies to — leave empty for all regions",
-                "step": null,
+                "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values"
               },
@@ -3924,7 +3937,7 @@
                 },
                 "attribute": "businessUnitID",
                 "tooltip": "Units this requirement applies to — leave empty for all units",
-                "step": null,
+                "step": "Applicability",
                 "check": "Region IS NOT NULL",
                 "field-rule": "Allow multiple values; filtered by Region selected"
               },
@@ -3934,7 +3947,7 @@
                 },
                 "attribute": "branchID",
                 "tooltip": null,
-                "step": null,
+                "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
               },
@@ -3944,7 +3957,7 @@
                 },
                 "attribute": "customerID",
                 "tooltip": "Customer this requirement applies to — e.g. a customer-specific design-approval template; leave empty to apply to all customers",
-                "step": null,
+                "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "SelectLabel = businessUnitName; filtered by businessUnitID selected"
               },
@@ -3954,7 +3967,7 @@
                 },
                 "attribute": "scopeID",
                 "tooltip": "Scopes this requirement applies to",
-                "step": null,
+                "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by businessUnitID selected"
               },
@@ -3964,7 +3977,7 @@
                 },
                 "attribute": "productGroupID",
                 "tooltip": "Product groups this requirement applies to",
-                "step": null,
+                "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by businessUnitID selected"
               },
@@ -3974,19 +3987,9 @@
                 },
                 "attribute": "productScopeID",
                 "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — leave empty when the scope/product-group/unit dimensions already describe the applicability",
-                "step": null,
+                "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by businessUnitID selected"
-              },
-              "Activate": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "isActive",
-                "tooltip": "Make this requirement available to be applied accross the operation",
-                "step": null,
-                "check": null,
-                "field-rule": null
               },
               "Regulatory Reference": {
                 "field-type": {
@@ -3994,7 +3997,7 @@
                 },
                 "attribute": "regulatoryReference",
                 "tooltip": null,
-                "step": null,
+                "step": "Compliance",
                 "check": null,
                 "field-rule": null
               },
@@ -4004,7 +4007,17 @@
                 },
                 "attribute": "regulatoryURL",
                 "tooltip": null,
-                "step": null,
+                "step": "Compliance",
+                "check": null,
+                "field-rule": null
+              },
+              "Activate": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "isActive",
+                "tooltip": "Make this requirement available to be applied accross the operation",
+                "step": "Compliance",
                 "check": null,
                 "field-rule": null
               }
