@@ -16,7 +16,10 @@ Since 2026-09-08 the form is a **three-step wizard** (the same chevron-step draw
 [Procedures](procedures.md) and [Tickets](../workspace/tickets.md)):
 
 **Step 1 — Registry:** Name, Description, Type (create new types inline with the "+"
-button).
+button); **Selectable on Tickets** (2026-09-08) — Yes lets this requirement be **added
+manually** to compatible [Tickets](../workspace/tickets.md) on their Request step (for
+obligations a ticket would not inherit from its parameters); the automatic inheritance
+below is not affected either way.
 
 **Step 2 — Applicability** — the system's longest cascade gets its own screen, with the
 rule written on it: *an empty dimension means "applies to all"*. Region → Business Unit
