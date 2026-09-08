@@ -66,8 +66,8 @@ console.log('== form spec: grouped select + supplier-aware cascade ==');
     'Ticket Supplier gated on Business Unit (re-sourced by #281)');
   eq(tKeys.indexOf('Supplier') - tKeys.indexOf('Project'), 1, 'Ticket Supplier sits after Project');
   eq(tKeys.indexOf('Event') - tKeys.indexOf('Supplier'), 1, 'Event follows Supplier');
-  eq(String(tf['Event']['field-rule']).includes('Customer + Supplier'), true,
-    'Event cascade names Supplier (listener wiring)');
+  eq(String(tf['Event']['field-rule']).includes('Applicant + Supplier'), true,
+    'Event cascade names the Applicant + Supplier pair (#350 listener wiring)');
   eq(String(tf['Product Scope']['field-rule']).includes('Supplier'), true,
     'Product Scope cascade names Supplier (listener wiring)');
   // the Forecast Scope input (and its #274 cascade-spelling fix) left the
@@ -95,10 +95,13 @@ console.log('== seeds: every contract supplied, both postures demoed ==');
   eq(tickets.some((t) => t.supplierID == null), true, 'the wildcard cohort is alive (null supplier)');
   const linked = tickets.filter((t) => t.supplierID != null);
   eq(linked.length > 0, true, `${linked.length} tickets declare a supplier`);
-  const bad = linked.filter((t) => !slas.some((s) => asList(s.customerID).map(String).includes(String(t.customerID))
+  // re-keyed by #350 (migrate_ticket_sla_cascade.py): the declared supplier
+  // follows the APPLICANT's covering contract — the (applicant, supplier)
+  // pair must name at least one active SLA
+  const bad = linked.filter((t) => !slas.some((s) => asList(s.customerID).map(String).includes(String(t.applicantID))
     && String(s.isActive || 'Active') !== 'Inactive'
     && String(s.supplierID) === String(t.supplierID)));
-  eq(bad.length, 0, 'every declared supplier belongs to an active SLA of the ticket\'s customer');
+  eq(bad.length, 0, 'every declared supplier pairs with an active SLA of the ticket\'s applicant (#350)');
 }
 
 console.log('== picker: sourcing retired in favour of the unit\'s customers (issue #281) ==');
@@ -107,12 +110,12 @@ console.log('== picker: sourcing retired in favour of the unit\'s customers (iss
     'suppliersForTicketCustomer export removed — the generic Business Unit cascade sources the Supplier select');
 }
 
-console.log('== narrowing: the supplier binds the APPLICANT leg (#325) ==');
+console.log('== narrowing: the (Applicant, Supplier) pair is the basis (#350) ==');
 {
   // In-memory scenario: give the customer's second contract a different
   // supplier and a single payload — the (applicant, supplier) pair must
-  // narrow to that contract. The project links the customer's first two
-  // contracts (build_seed [:2] rule), so both legs traverse it.
+  // narrow to that contract. Since #350 the pair decides over EVERY Active
+  // SLA (the project no longer restricts; the customer opens no leg).
   const slas = data.getEntity('SLA');
   const cust = slas[0].customerID;
   const mine = slas.filter((s) => String(s.customerID) === String(cust));
@@ -128,26 +131,32 @@ console.log('== narrowing: the supplier binds the APPLICANT leg (#325) ==');
   slaB.payloadID = asList(slaB.payloadID).slice(0, 1);
 
   const ids = (opts) => opts.map((o) => String(o.value));
-  const all = ids(forms.eventsForTicket({ projectID: prj.projectID, customerID: cust }));
-  const viaB = ids(forms.eventsForTicket({ projectID: prj.projectID,
-    applicantID: cust, supplierID: otherSup }));
+  const all = ids(forms.eventsForTicket({}));
+  const viaB = ids(forms.eventsForTicket({ applicantID: cust, supplierID: otherSup }));
   const plB = data.getById('Payload', asList(slaB.payloadID)[0]);
   eq(viaB, [String(plB.eventID)], 'the (applicant, supplier) pair narrows to its single contracted payload');
-  eq(viaB.every((v) => all.includes(v)), true, 'narrowed set ⊆ the customer-leg offer');
-  const noSup = ids(forms.eventsForTicket({ projectID: prj.projectID, applicantID: cust }));
-  eq(noSup, all, 'no supplier — the applicant leg ignores the supplier dimension');
-  const ghost = ids(forms.eventsForTicket({ projectID: prj.projectID,
-    applicantID: cust, supplierID: 'CUST-GHOST' }));
+  eq(viaB.every((v) => all.includes(v)), true, 'narrowed set ⊆ the blank-pair universe');
+  // no supplier — the dimension is skipped: the applicant's contracts alone
+  const mineEvents = new Set();
+  for (const s of mine) {
+    if (String(s.isActive || 'Active') === 'Inactive') continue;
+    for (const pid of asList(s.payloadID)) {
+      const p = data.getById('Payload', pid);
+      if (p && p.eventID != null) mineEvents.add(String(p.eventID));
+    }
+  }
+  const noSup = ids(forms.eventsForTicket({ applicantID: cust }));
+  eq(noSup.slice().sort(), [...mineEvents].sort(),
+    'no supplier — the dimension is skipped: the applicant\'s contracts decide alone');
+  const ghost = ids(forms.eventsForTicket({ applicantID: cust, supplierID: 'CUST-GHOST' }));
   eq(ghost, [], 'unknown supplier → the pair matches nothing (STRICT — the #272 lenient posture retired)');
-  const custPlusSup = ids(forms.eventsForTicket({ projectID: prj.projectID,
-    customerID: cust, supplierID: 'CUST-GHOST' }));
-  eq(custPlusSup, all, 'the supplier does NOT narrow the customer leg (union-of-pairs doctrine)');
+  const custPlusSup = ids(forms.eventsForTicket({ customerID: cust, supplierID: 'CUST-GHOST' }));
+  eq(custPlusSup, [], 'the Customer opens NO leg — a ghost supplier narrows to nothing (#350)');
 
-  const psAll = ids(forms.productScopesForTicket(plB.eventID,
-    { projectID: prj.projectID, customerID: cust }));
+  const psAll = ids(forms.productScopesForTicket(plB.eventID, {}));
   const psB = ids(forms.productScopesForTicket(plB.eventID,
-    { projectID: prj.projectID, applicantID: cust, supplierID: otherSup }));
-  eq(psB.every((v) => psAll.includes(v)), true, 'product scopes narrowed by the pair ⊆ the customer-leg offer');
+    { applicantID: cust, supplierID: otherSup }));
+  eq(psB.every((v) => psAll.includes(v)), true, 'product scopes narrowed by the pair ⊆ the blank-pair offer');
   eq(psB.length > 0, true, 'the pair still packages scopes (wildcard payload widens, Q1)');
 
   // (the #274 demand-line narrowing block retired with forecastScopesForTicket

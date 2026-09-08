@@ -13,21 +13,22 @@ processes it triggers and the applicable requirement set.
 **Key fields:** `Unit *` (grouped by segment) → **Applicant** (2026-09-03) — the internal
 customer *opening* the ticket, always an `Internal`-type customer; optional — a ticket
 without one inherits requirements through the project customer alone → `Customer *`
-(unlocked by the Unit) — since 2026-09-04 it only **filters the projects offered below**:
-the ticket's events and scopes follow the *project's* contracts → unlocks `Project *`
-(the customer's projects), **Supplier** — the party responsible for resolving the issue,
-picked among the unit's customers grouped by type (unlocked by the Unit) — and `Event *`
-(unlocked by the Project) — **only events packaged by the project's surviving SLAs are
-offered** (2026-09-04): a contract survives when the project customer holds it, or when
-the *Applicant* buys from the chosen *Supplier* under it — the Applicant + Supplier pair
-opens a second contract leg on top of the customer's; `Product Scope *` (unlocked by the
-Event) — only scopes **co-packaged with the chosen event in a same payload** of those
-contracts, so the pair always maps to a real dispatch package;
+(unlocked by the Unit) — it only **filters the projects offered below** → unlocks
+`Project *` (the customer's projects), **Supplier** — the party responsible for
+resolving the issue, picked among the unit's customers grouped by type (unlocked by the
+Unit) — and `Event *` (unlocked by the Project) — since 2026-09-08 **only events
+packaged by the contracts between the Applicant and the Supplier are offered**: the
+ticket runs under the SLAs where the *Applicant* buys from the chosen *Supplier* (the
+project's own contracts no longer restrict the offer; leaving a side empty skips its
+dimension, so a ticket without an Applicant or Supplier sees every contracted event);
+`Product Scope *` (unlocked by the Event) — only scopes **co-packaged with the chosen
+event in a same payload** of those contracts, so the pick always maps to a real
+dispatch package;
 Details; Target date; Status. On save the app **resolves and stores the ticket's
 payload(s) and governing SLA(s)** from that pair — the Payload and SLA columns show the
 ticket's own dispatch context (a pair sold under two contracts lists both), nothing else
-to select. A project without linked SLAs offers no events — link the contracts on the
-[Project](projects.md) first. The **Forecast Scope** link is no
+to select. An Applicant + Supplier pair with no contract offers no events — register
+the [SLA](../crm/sla.md) between them first. The **Forecast Scope** link is no
 longer entered on the form (2026-09-03): existing links between tickets and the
 contract's [Forecasts](../crm/forecast-scopes.md) demand lines stay in the data, and a
 line's consumption keeps counting its linked tickets with the remaining balance
