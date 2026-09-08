@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 92,
+    "schemaVersion": 93,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companions, independent of the wizard: the \"Apply to all\" field-rule token (wildcard row on multichecks) and per-entity faceted controls."
   },
@@ -5575,7 +5575,20 @@
             }
           },
           "form": {
-            "steps": null,
+            "steps": {
+              "Parties": {
+                "step-order": 1,
+                "step-description": "Who is involved — the unit, the applicant opening the ticket, the customer, its project and the supplier answering it"
+              },
+              "Request": {
+                "step-order": 2,
+                "step-description": "What is requested — the event and product scope covered by the Applicant → Supplier contracts"
+              },
+              "Details": {
+                "step-order": 3,
+                "step-description": null
+              }
+            },
             "fields": {
               "Business Unit": {
                 "field-type": {
@@ -5583,7 +5596,7 @@
                 },
                 "attribute": "businessUnitID",
                 "tooltip": "Unit receiving the ticket — filters the customers",
-                "step": null,
+                "step": "Parties",
                 "check": null,
                 "field-rule": "SelectLabel = businessSegmentName"
               },
@@ -5593,7 +5606,7 @@
                 },
                 "attribute": "applicantID",
                 "tooltip": "The internal customer opening the ticket — its requirements apply on top of the project customer's, and it is the buying side of the contract basis: the ticket's events and scopes follow the SLAs where the applicant buys from the chosen Supplier",
-                "step": null,
+                "step": "Parties",
                 "check": null,
                 "field-rule": null
               },
@@ -5603,7 +5616,7 @@
                 },
                 "attribute": "customerID",
                 "tooltip": "Filters the projects offered below — since issue #350 the ticket's events and scopes follow the Applicant → Supplier contracts, not the project's",
-                "step": null,
+                "step": "Parties",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
               },
@@ -5613,7 +5626,7 @@
                 },
                 "attribute": "projectID",
                 "tooltip": null,
-                "step": null,
+                "step": "Parties",
                 "check": "Customer IS NOT NULL",
                 "field-rule": "filtered by Customer selected"
               },
@@ -5623,7 +5636,7 @@
                 },
                 "attribute": "supplierID",
                 "tooltip": "The party responsible for resolving the issue — any customer of the unit; the supplying side of the contract basis: the ticket's events and scopes follow the SLAs where the Applicant buys from this supplier; leave empty to skip the supplier dimension",
-                "step": null,
+                "step": "Parties",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": [
                   "SelectLabel = customerType",
@@ -5636,7 +5649,7 @@
                 },
                 "attribute": "eventID",
                 "tooltip": "Only events packaged by the contracts between the Applicant and the Supplier are offered (issue #350) — leave a side empty to skip its dimension",
-                "step": null,
+                "step": "Request",
                 "check": "Project IS NOT NULL",
                 "field-rule": "filtered by Applicant + Supplier selected"
               },
@@ -5646,7 +5659,7 @@
                 },
                 "attribute": "productScopeID",
                 "tooltip": "Only product scopes co-packaged with the chosen event in a payload of the Applicant → Supplier contracts — the resolved payload and contract are stored on save",
-                "step": null,
+                "step": "Request",
                 "check": "Event IS NOT NULL",
                 "field-rule": "filtered by Event + Applicant + Supplier selected"
               },
@@ -5656,7 +5669,7 @@
                 },
                 "attribute": "ticketDescription",
                 "tooltip": null,
-                "step": null,
+                "step": "Details",
                 "check": null,
                 "field-rule": null
               },
@@ -5666,7 +5679,7 @@
                 },
                 "attribute": "targetDate",
                 "tooltip": null,
-                "step": null,
+                "step": "Details",
                 "check": null,
                 "field-rule": null
               },
@@ -5676,7 +5689,7 @@
                 },
                 "attribute": "ticketStatus",
                 "tooltip": null,
-                "step": null,
+                "step": "Details",
                 "check": null,
                 "field-rule": null
               }
