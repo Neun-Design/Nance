@@ -88,8 +88,11 @@ console.log('== gate semantics (live edit on a real dispatch) ==');
   eq(resolve.ticketProcedureForTask(task.taskID, need, [])?.procedureID, win.procedureID,
     'EMPTY context array skips the dimension (multiViaJoin blank-context posture)');
   win.productScopeID = [];
-  eq(resolve.ticketProcedureForTask(task.taskID, need, adm)?.procedureID, win.procedureID,
-    'empty procedure key = every scope (Q1 wildcard) — the match returns');
+  // issue #364: the empty-set wildcard is RETIRED on sv98 data — a
+  // procedure emptied in the UI names NO scope and the dispatch GAPs
+  // (the Q1 reading survives only on pre-sv98 datasets)
+  eq(resolve.ticketProcedureForTask(task.taskID, need, adm), null,
+    'empty procedure key names no scope — the dispatch GAPs (#364; was: Q1 wildcard)');
   win.productScopeID = saved;
   eq(resolve.ticketProcedureForTask(task.taskID, need, adm)?.procedureID, win.procedureID,
     'restored state matches again');

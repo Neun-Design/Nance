@@ -271,6 +271,20 @@ export function lookup(name, id, field) {
 let SCHEMA_VERSION = null;
 export const setSchemaVersion = (v) => { SCHEMA_VERSION = v; };
 
+// issue #364 — the empty-set wildcard is RETIRED: an empty multivalued
+// applicability set applies to NOTHING; the user materializes "apply to all"
+// by selecting every value (today's list — a new item requires deliberately
+// revisiting each record, the quality-review the old dynamic wildcard
+// silently bypassed). Datasets authored BEFORE sv98 (the frozen reference
+// snapshots and unstamped legacy files) predate the doctrine and keep the
+// old wildcard reading; blank mode is ALWAYS strict — a UI-created record
+// saved with no picks must never become a silent wildcard.
+export function legacyWildcardData() {
+  if (BLANK_MODE) return false;
+  const v = store.raw && store.raw._meta && store.raw._meta.schemaVersion;
+  return (v ?? 0) < 98;
+}
+
 export function exportSnapshot() {
   // deep-copy so the snapshot is immutable — later edits to the live store
   // must not leak into an already-taken export (and vice versa)

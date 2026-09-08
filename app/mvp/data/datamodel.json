@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "schemaVersion": 97,
+    "schemaVersion": 98,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
-    "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companions, independent of the wizard: the \"Apply to all\" field-rule token (wildcard row on multichecks) and per-entity faceted controls."
+    "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
   "modules": {
     "Organization": {
@@ -3413,8 +3413,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "all-tag": true,
-              "notes": "multivalued — branches this procedure applies to (issue #353, wizard step Application): empty = applies to all (Q1). Options = branches of the selected Unit's customers (branchesForUnits in forms.js, two-hop via Branches.customerID). Session decision: applicability is DECLARED only this round — the ticket→procedure match does NOT gate on it yet (#332 posture: gating comes in its own round with a flip census). Seeded empty by migrate_procedure_wizard.py. The empty set renders as the 'All' tag (all-tag flag — the Q1 wildcard is a statement, not a blank).",
+              "notes": "multivalued — branches this procedure applies to (issue #353, wizard step Application). The empty-set wildcard is RETIRED (issue #364): applicability is an explicit pick — 'apply to all' means every value selected (today's list; a branch registered later requires revisiting the procedure), empty = applies to nothing. Options = branches of the selected Unit's customers (branchesForUnits in forms.js, two-hop via Branches.customerID). Still DECLARED only — the ticket→procedure match does NOT gate on it yet (#332 posture: gating comes in its own round with a flip census). Materialized from the pre-#364 wildcard seeds by migrate_no_wildcards.py.",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3423,8 +3422,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "all-tag": true,
-              "notes": "multivalued — customers this procedure applies to (issue #353, wizard step Application): empty = applies to all (Q1). Options = the Unit's customers narrowed to the selected Branches' registrations (customersForUnitBranches in forms.js). Declared-only this round — no match gate yet (same session decision as branchID). Seeded empty by migrate_procedure_wizard.py. Empty set renders as the 'All' tag (all-tag flag).",
+              "notes": "multivalued — customers this procedure applies to (issue #353, wizard step Application). The empty-set wildcard is RETIRED (issue #364): explicit pick, empty = applies to nothing. Options = the Unit's customers narrowed to the selected Branches' registrations (customersForUnitBranches in forms.js). Declared-only — no match gate yet (same session decision as branchID). Materialized from the pre-#364 wildcard seeds by migrate_no_wildcards.py.",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3433,8 +3431,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: CONCAT(productName,' | ',scopeName))",
-              "all-tag": true,
-              "notes": "Multivalued — product scopes this procedure applies to, offered from the selected process's list (empty process list = every product scope, Q1). EMPTY = applies to all — renders as the 'All' tag (all-tag flag). Since issue #332 the key GATES the ticket→procedure match directly (ticketProcedureForTask in resolve.js): with a ticket scope context, a procedure pinned to scopes must name at least one scope the ticket admits (ticketAdmittedScopeIds — the payload-chain set ∩ the ticket's chosen scope) or it is no candidate; the task-level fallback (standalone Tasks drawer, no ticket context) is ungated. Demo seeds re-aligned by tools/migrate_procedure_scope_gate.py (stored picks ∪ the task→process→event payload-packaged scopes — the #281 edit-integrity posture: every pre-gate dispatch survives).",
+              "notes": "Multivalued — product scopes this procedure applies to, offered from the selected process's list. The empty-set wildcard is RETIRED (issue #364): explicit pick, empty = names no scope (legacy pre-sv98 snapshots keep the Q1 reading via legacyWildcardData). Since issue #332 the key GATES the ticket→procedure match directly (ticketProcedureForTask in resolve.js): with a ticket scope context, a procedure pinned to scopes must name at least one scope the ticket admits (ticketAdmittedScopeIds — the payload-chain set ∩ the ticket's chosen scope) or it is no candidate; the task-level fallback (standalone Tasks drawer, no ticket context) is ungated. Demo seeds re-aligned by tools/migrate_procedure_scope_gate.py (stored picks ∪ the task→process→event payload-packaged scopes — the #281 edit-integrity posture: every pre-gate dispatch survives).",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3443,8 +3440,7 @@
               "name": "requirementID",
               "type": "FK",
               "rule": "FK → Requirements (display: requirementName)",
-              "all-tag": true,
-              "notes": "Multivalued; nullable — requirements under which this procedure applies. EMPTY = applies to all (Q1 wildcard) — renders as the 'All' tag (all-tag flag; the wizard's 'Apply to all' stores the empty set, so the column states the wildcard instead of showing a blank). Form options are the UNIT-WIDE universe (issue #304, replacing the #159 product-scope/task narrowing): every Active requirement whose unit key is empty (Q1) or names the selected unit AND whose region key is empty or names one of the unit's served regions (Business Units.regionID — the #230 posture; requirementsForUnit in forms.js). The quality manager picks the combination here — the procedure is the requirement decision point (#231).",
+              "notes": "Multivalued; nullable — requirements under which this procedure applies. The empty-set wildcard is RETIRED (issue #364): 'apply to all' = every requirement explicitly selected (a requirement registered later requires revisiting each procedure — the deliberate quality review the dynamic wildcard bypassed); empty = covers only an empty context. Legacy pre-sv98 snapshots keep the Q1 reading (legacyWildcardData). Form options are the UNIT-WIDE universe (issue #304, replacing the #159 product-scope/task narrowing): every Active requirement whose unit key is empty (Q1) or names the selected unit AND whose region key is empty or names one of the unit's served regions (Business Units.regionID — the #230 posture; requirementsForUnit in forms.js). The quality manager picks the combination here — the procedure is the requirement decision point (#231).",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3524,7 +3520,7 @@
               },
               "Application": {
                 "step-order": 2,
-                "step-description": "Where this procedure applies — empty pickers apply to all (Q1)"
+                "step-description": "Where this procedure applies — select every value to apply to all of today's list (issue #364: a new item requires revisiting the procedure)"
               },
               "Constraints": {
                 "step-order": 3,
@@ -3631,12 +3627,11 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "branchID",
-                "tooltip": "Branches this procedure applies to (issue #353) — offered from the Unit's customers' branches; Apply to all = no restriction",
+                "tooltip": "Branches this procedure applies to (issue #353) — offered from the Unit's customers' branches; select every branch to apply to all of today's list (issue #364 — a branch registered later requires revisiting the procedure)",
                 "step": "Application",
                 "check": "Unit IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "Apply to all",
                   "filtered by Unit selected"
                 ]
               },
@@ -3645,12 +3640,11 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerID",
-                "tooltip": "Customers this procedure applies to (issue #353) — the Unit's customers, narrowed to the selected Branches' registrations; Apply to all = no restriction",
+                "tooltip": "Customers this procedure applies to (issue #353) — the Unit's customers, narrowed to the selected Branches' registrations; select every customer to apply to all of today's list (issue #364)",
                 "step": "Application",
                 "check": "Unit IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "Apply to all",
                   "filtered by Unit + Branches selected"
                 ]
               },
@@ -3659,12 +3653,11 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Product scopes this procedure applies to — offered from the process's packaged list (the issue #353 mockup narrows by Unit and Department; that filter awaits the Product Scope ↔ Department link, issue #352 — a unit filter today would orphan 96/264 stored picks and flip the #332 gate). Apply to all = no restriction",
+                "tooltip": "Product scopes this procedure applies to — offered from the process's packaged list (the issue #353 mockup narrows by Unit and Department; that filter awaits the Product Scope ↔ Department link, issue #352 — a unit filter today would orphan 96/264 stored picks and flip the #332 gate). Select every scope to apply to all of today's list (issue #364)",
                 "step": "Application",
                 "check": "Process IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "Apply to all",
                   "filtered by processID selected"
                 ]
               },
@@ -3673,12 +3666,11 @@
                   "selectGroups": "shadcn-select"
                 },
                 "attribute": "requirementID",
-                "tooltip": "Requirements under which this procedure applies — the Unit-wide universe (issue #304), faceted by what pins each requirement (issue #353): Product Scopes / Customers / Branches / Business Unit, most-specific facet wins. Customer facet narrows to the selected Branches' customers. Apply to all (per facet) = no picks there; an EMPTY total set applies to every requirement (Q1)",
+                "tooltip": "Requirements under which this procedure applies — the Unit-wide universe (issue #304), faceted by what pins each requirement (issue #353): Product Scopes / Customers / Branches / Business Unit, most-specific facet wins. Customer facet narrows to the selected Branches' customers. Select every requirement to apply to all of today's list (issue #364 — a requirement registered later requires revisiting each procedure; an empty set covers nothing)",
                 "step": "Constraints",
                 "check": "Task IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "Apply to all",
                   "filtered by Unit + Branches selected"
                 ]
               },
@@ -3697,10 +3689,10 @@
                   "Combobox": "shadcn-combobox"
                 },
                 "attribute": "customerInputID",
-                "tooltip": "Select which of the chosen Inputs must be provided by the customer upon ticket creation — the decision is made here, per procedure (issue #324); Apply to all checks every chosen Input (positive pick, not Q1)",
+                "tooltip": "Select which of the chosen Inputs must be provided by the customer upon ticket creation — the decision is made here, per procedure (issue #324); tick each customer-provided input explicitly (issue #364)",
                 "step": "Inputs & Outputs",
                 "check": "Inputs IS NOT NULL",
-                "field-rule": "Allow multiple values; Apply to all; filtered by Inputs selected"
+                "field-rule": "Allow multiple values; filtered by Inputs selected"
               },
               "Outputs": {
                 "field-type": {

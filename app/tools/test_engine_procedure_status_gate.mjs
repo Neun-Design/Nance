@@ -106,16 +106,18 @@ console.log('== flipping the status drops eligibility everywhere ==');
     'flipping back to Approved restores eligibility');
 }
 
-console.log('== wildcard procedures obey the gate ==');
+console.log('== empty-set procedures obey the gate (wildcard retired, #364) ==');
 {
   const comp = { procedureID: ['PROC-WILD-GATE'], taskID: [] };
   data.addRecord('Procedures', { procedureID: 'PROC-WILD-GATE', procedureRegistry: 'WILD',
     taskID: [], requirementID: [], procedureStatus: 'To Do' });
   eq(resolve.competenceRequirements(comp), [],
-    'a NON-Approved wildcard no longer certifies everything');
+    'a NON-Approved empty-set procedure covers nothing (status gate)');
   data.getById('Procedures', 'PROC-WILD-GATE').procedureStatus = 'Approved';
-  eq(resolve.competenceRequirements(comp), null,
-    'the same wildcard certifies everything again once Approved');
+  // issue #364: an Approved empty set STILL covers nothing — the old
+  // "wildcard certifies everything" reading survives only on pre-sv98 data
+  eq(resolve.competenceRequirements(comp), [],
+    'Approved but unpinned = still no coverage (#364; was: null/certifies all)');
 }
 
 console.log('== demo census: gate bites nothing at rest ==');

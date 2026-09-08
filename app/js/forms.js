@@ -1299,44 +1299,18 @@ export function applyJobTransition(entity, rec, prev, nowISO = null) {
 // assign more than one value — a plain click replaces the selection — which
 // hides multi-assignment. Each row here toggles independently, so users can
 // assign multiple values (e.g. several input/output handouts) at once.
-function mkMultiCheck(options, applyAll = null) {
-  // applyAll (issue #353, wizard "Apply to all" row): 'clear' renders a
-  // leading radio-look row that is checked while NO box is picked and
-  // clicking it clears every pick — the UI face of the Q1 posture (an
-  // EMPTY stored set applies to all); 'all' inverts it for positive-pick
-  // fields (Customer Inputs #324): checked while EVERY box is picked,
-  // clicking checks them all.
+// No "Apply to all" wildcard row (issue #364 — retired): applicability is an
+// EXPLICIT user pick; to apply a rule to every item the user selects all the
+// values (today's list — a future item requires revisiting the record).
+function mkMultiCheck(options) {
   const wrap = document.createElement('div');
   wrap.className = 'form-multicheck';
   let boxes = [];
-  let allRow = null;
-  const syncAllRow = () => {
-    if (!allRow) return;
-    const picked = boxes.filter((c) => c.checked).length;
-    allRow.checked = applyAll === 'all' ? (boxes.length > 0 && picked === boxes.length) : picked === 0;
-  };
   const render = (opts) => {
     // cascade refilters re-render the rows; already-checked values survive
     const keep = new Set(boxes.filter((c) => c.checked).map((c) => c.value));
     wrap.innerHTML = '';
     boxes = [];
-    allRow = null;
-    if (applyAll) {
-      const row = document.createElement('label');
-      row.className = 'form-multicheck-row form-applyall';
-      const rb = document.createElement('input');
-      rb.type = 'radio';
-      const span = document.createElement('span');
-      span.textContent = 'Apply to all';
-      row.append(rb, span);
-      rb.addEventListener('click', () => {
-        boxes.forEach((c) => { c.checked = applyAll === 'all'; });
-        syncAllRow();
-        wrap.dispatchEvent(new Event('change', { bubbles: true }));
-      });
-      wrap.appendChild(row);
-      allRow = rb;
-    }
     for (const o of (opts || [])) {
       if (o.header != null) {
         const h = document.createElement('div');
@@ -1351,21 +1325,18 @@ function mkMultiCheck(options, applyAll = null) {
       const cb = document.createElement('input');
       cb.type = 'checkbox'; cb.value = String(o.value);
       cb.checked = keep.has(cb.value);
-      cb.addEventListener('change', syncAllRow);
       const span = document.createElement('span');
       span.textContent = o.label;
       row.append(cb, span);
       wrap.appendChild(row);
       boxes.push(cb);
     }
-    syncAllRow();
   };
   render(options);
   const get = () => boxes.filter((c) => c.checked).map((c) => c.value);
   const set = (v) => {
     const s = new Set((Array.isArray(v) ? v : [v]).map(String));
     boxes.forEach((c) => { c.checked = s.has(c.value); });
-    syncAllRow();
   };
   wrap._setMulti = set;
   wrap._rebuild = render;
@@ -1374,10 +1345,10 @@ function mkMultiCheck(options, applyAll = null) {
 
 // Faceted multicheck (issue #353 — the Procedures Constraints step): one
 // bound attribute, several titled facet boxes each carrying its own
-// mkMultiCheck (with the Apply-to-all row). get() = the union of the
-// facets' picks; _rebuild receives a facet STRUCTURE
-// ([{title, note, options}] — facetedRequirementOptions), not plain
-// options; checked values survive rebuilds like the plain multicheck.
+// mkMultiCheck. get() = the union of the facets' picks; _rebuild receives
+// a facet STRUCTURE ([{title, note, options}] — facetedRequirementOptions),
+// not plain options; checked values survive rebuilds like the plain
+// multicheck.
 function mkFacetedChecks(structure) {
   const wrap = document.createElement('div');
   wrap.className = 'facet-stack';
@@ -1400,7 +1371,7 @@ function mkFacetedChecks(structure) {
         n.textContent = `(${fc.note})`;
         box.appendChild(n);
       }
-      const picker = mkMultiCheck(fc.options, 'clear');
+      const picker = mkMultiCheck(fc.options);
       picker.set(keep);
       box.appendChild(picker.node);
       wrap.appendChild(box);
@@ -1754,12 +1725,6 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         });
       }
       const multi = /allow multiple|multivalued/i.test(ruleText) || noteMulti;
-      // "Apply to all" field-rule token (issue #353): the multicheck leads
-      // with the wildcard row — clear-mode on applicability pickers (empty
-      // set = applies to all, Q1), select-all on the positive-pick Customer
-      // Inputs (#324: empty = NO customer inputs, so "all" must check)
-      const applyAllMode = /apply to all/i.test(ruleText)
-        ? (entity === 'Procedures' && attrName === 'customerInputID' ? 'all' : 'clear') : null;
       if (entity === 'Procedures' && attrName === 'requirementID') {
         // Constraints step (issue #353): the faceted control — one stored
         // set, four option partitions; the cascade dispatch rebuilds it
@@ -1771,7 +1736,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
         // multi-assignment: a checkbox list (each row toggles), not a native
         // <select multiple> which requires cmd-click and hides multi-select.
         // "SelectLabel = <field>" renders as group header rows.
-        const picker = mkMultiCheck(withGroupHeaders(options, target, groupField), applyAllMode);
+        const picker = mkMultiCheck(withGroupHeaders(options, target, groupField));
         node = picker.node; node.classList.add('form-input');
         get = picker.get;
       } else if (typeKey === 'radio' && options.length) {

@@ -4,8 +4,10 @@
 // returns to 1:many (multivalued — the group stays restricted to the
 // competence's task) and the new stored competenceTitle is the table label
 // (user-given: the title is what distinguishes and groups competences).
-// Decisions recorded in-session: the Q1 wildcard is KEPT (one empty-set
-// procedure in the group certifies everything) and the group is task-scoped.
+// Decisions recorded in-session: the group is task-scoped. (The #284 "Q1
+// wildcard kept" decision was SUPERSEDED by issue #364 — an empty-set
+// procedure now contributes nothing; the old reading survives only on
+// pre-sv98 datasets via legacyWildcardData.)
 // The #231 doctrine survives: requirements bind on the Procedure; the
 // competence inherits the UNION of its procedures' sets.
 // Run from prototype/:  node tools/test_engine_competence_procedure_group.mjs
@@ -96,8 +98,11 @@ console.log('== inheritance: the group UNIONS its procedures\' sets ==');
   eq(resolve.competenceRequirements({ procedureID: ['PROC-CPGA', 'PROC-CPGB'] }),
     ['RQ-CPG1', 'RQ-CPG2'],
     'two procedures in the group → deduped UNION of their sets');
-  eq(resolve.competenceRequirements({ procedureID: ['PROC-CPGA', 'PROC-CPGW'] }), null,
-    'one Q1-wildcard procedure in the group → certifies everything (decision kept, #284)');
+  // issue #364: the empty-set wildcard is RETIRED — an unpinned procedure
+  // contributes NOTHING (the #284 "wildcard certifies everything" decision
+  // is superseded; the old reading survives only on pre-sv98 datasets)
+  eq(resolve.competenceRequirements({ procedureID: ['PROC-CPGA', 'PROC-CPGW'] }), ['RQ-CPG1'],
+    'an empty-set procedure in the group adds no coverage (#364 — was: null/certifies all)');
   eq(resolve.competenceRequirements({ procedureID: 'PROC-CPGA' }), ['RQ-CPG1'],
     'legacy scalar rows still resolve (frozen snapshots, pre-#284 imports)');
 }
@@ -127,10 +132,16 @@ console.log('== demo groups: variant SOPs exercise both sides of #270 coverage =
     'CMP11 groups the lab SOP with its GENERAL variant');
   const contrast = data.getEntity('Requirements')
     .find((r) => r.requirementName === 'Contrast Administration Protocol').requirementID;
+  // issue #364: the GENERAL variants' empty sets were MATERIALIZED to every
+  // Active requirement (the retired wildcard's faithful translation); the
+  // contrast variant keeps its designed single pick
+  const allActive = data.getEntity('Requirements')
+    .filter((r) => String(r.isActive || 'Active') !== 'Inactive')
+    .map((r) => r.requirementID);
   eq([data.getById('Procedures', 'PRC47').requirementID,
     data.getById('Procedures', 'PRC48').requirementID,
-    data.getById('Procedures', 'PRC49').requirementID], [[], [contrast], []],
-    'variants carry the designed requirement sets (general / contrast / general)');
+    data.getById('Procedures', 'PRC49').requirementID], [allActive, [contrast], allActive],
+    'variants carry the materialized sets (all-Active / contrast / all-Active, #364)');
   eq(data.getById('Procedures', 'PRC47').taskID, data.getById('Procedures', 'PRC01').taskID,
     'variants stay on their base SOP\'s task (the group is task-scoped, #284)');
   // ticket context: a rich requirement set is only covered by the wildcard —
@@ -152,10 +163,12 @@ console.log('== demo groups: variant SOPs exercise both sides of #270 coverage =
     'T002 keeps resolving to its base SOP (the specific variant never covers)');
   eq(resolve.ticketProcedureForTask('T002', []), null,
     'standalone (no context) T002 is now ambiguous — two procedures, honest GAP');
-  // group effects: wildcard in the group certifies everything; the certified
-  // holder staffs BOTH variants' Users columns
-  eq(resolve.competenceRequirements(data.getById('Competence', 'CMP01')), null,
-    'CMP01 certifies every requirement (wildcard variant in the group — decision kept)');
+  // group effects: the materialized variant carries every Active requirement,
+  // so CMP01's UNION covers the same universe the old wildcard did — but as
+  // an explicit list now (#364); the certified holder staffs BOTH variants
+  const cmp01 = resolve.competenceRequirements(data.getById('Competence', 'CMP01'));
+  eq([...cmp01].sort(), [...allActive].sort(),
+    'CMP01 certifies every Active requirement — explicit union, no wildcard (#364)');
   const holder = data.getEntity('Onboarding').find((ob) => ob.isCertified === true
     && list(ob.competenceID).includes('CMP01'));
   eq(holder != null, true, `CMP01 has a certified holder (${holder && holder.userID})`);

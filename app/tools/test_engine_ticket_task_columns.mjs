@@ -147,9 +147,12 @@ console.log('== execution time: the resolved procedure\'s time, GAP on ambiguity
   eq(resolve.ticketProcedureDisplay(task.taskID, need, 'executionTime'),
     String(proc.executionTime),
     `resolved method's time renders (${proc.procedureRegistry} → ${proc.executionTime})`);
-  // a second wildcard procedure makes the resolution ambiguous → GAP (#270)
+  // a second COVERING procedure makes the resolution ambiguous → GAP (#270;
+  // issue #364 — an empty-set twin covers nothing now, so the probe copies
+  // the winner's explicit requirement set)
   data.addRecord('Procedures', { procedureID: 'PRC-AMB', procedureRegistry: 'AMB-1',
-    taskID: task.taskID, requirementID: [], executionTime: 99, procedureStatus: 'Approved' });
+    taskID: task.taskID, requirementID: [...(proc.requirementID || [])],
+    executionTime: 99, procedureStatus: 'Approved' });
   eq(resolve.ticketProcedureDisplay(task.taskID, need, 'executionTime'), 'GAP',
     'ambiguous resolution renders GAP — same posture as the Procedure column');
   data.removeRecords('Procedures', ['PRC-AMB']);
