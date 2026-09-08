@@ -2667,8 +2667,11 @@ unit's customers (leave it empty to apply to all) — customer-specific requirem
 the customer's <a href="../../workspace/tickets/">Tickets</a> through the <a href="../../crm/sla/">SLA</a> chain.
 <strong>Applicability propagates live to tickets</strong> (2026-08-20): an <strong>Active</strong> requirement is
 inherited automatically by every <a href="../../workspace/tickets/">Ticket</a> whose parameters align
-(scope, product group, unit, served region, customer) the moment it is saved; switching it
-to Inactive withdraws it everywhere. <strong>Competences never inherit automatically</strong> — the new
+(scope, product group, unit, served region, customer — and, since 2026-09-08, <strong>branch</strong>:
+a requirement pinned to branches applies only where the ticket's project sits on one of
+them, and only to Forecast demand lines whose contract is registered at one; the
+dimension also organizes the Procedure form's Constraints facets) the moment it is
+saved; switching it to Inactive withdraws it everywhere. <strong>Competences never inherit automatically</strong> — the new
 requirement becomes an option on the <a href="../procedures/">Procedure</a>'s Requirements picker, the
 quality manager binds it there, and the <a href="../../talent/competence/">competences</a> certifying
 that procedure inherit the decision.
