@@ -112,14 +112,21 @@ console.log('== seeds: coherent chain, every stored pick survives (#281) ==');
     if (pr && d && String(pr.departmentID) === String(p.departmentID)
         && String(d.businessUnitID) === String(p.businessUnitID)) chain += 1;
     const offered = forms.requirementsForUnit(p.businessUnitID).map((o) => String(o.value));
-    if (asList(p.requirementID).every((r) => offered.includes(String(r)))) reqs += 1;
+    // issue #364: materialized sets = EVERY Active requirement — ids beyond
+    // the unit picker's region gate are the accepted #290 edit-time
+    // narrowing trap (region-pinned requirements flow through cross-unit
+    // ticket chains, so the materialization must carry them)
+    const beyond = asList(p.requirementID).filter((r) => !offered.includes(String(r)));
+    const regionPinned = (r) => asList((data.getById('Requirements', r) || {}).regionID).length > 0;
+    if (beyond.every(regionPinned)) reqs += 1;
     const opts = forms.handoutsForTask(p.processID, null, null, p.departmentID)
       .map((o) => String(o.value));
     if ([...asList(p.taskInput), ...asList(p.taskOutput)]
       .every((x) => opts.includes(String(x)))) io += 1;
   }
   eq(chain, procs.length, `chain coherence (dept = process's, unit = dept's): ${procs.length}/${procs.length}`);
-  eq(reqs, procs.length, 'stored requirement picks survive the re-keyed unit picker');
+  eq(reqs, procs.length,
+    'requirement picks: in-picker or region-pinned-beyond (#364 accepted narrowing trap)');
   eq(io, procs.length, 'stored Input/Output picks survive the department filter');
   const hs = data.getEntity('Handouts');
   eq(hs.every((h) => 'departmentID' in h && 'businessUnitID' in h), true,

@@ -102,6 +102,11 @@ console.log('== contextuality: same handout, different decision per procedure ==
     taskID: 'TK-CI (t)', taskInput: [h0.handoutID], customerInputID: [h0.handoutID],
     requirementID: [], procedureStatus: 'Approved' });
   const ticket = { ticketID: 'T-CI (t)', processID: ['PR-CI (t)'] };
+  // issue #364 (strict coverage — no empty-set wildcard): the probe
+  // procedure must explicitly cover its ticket context to resolve
+  const probe = data.getById('Procedures', 'PRC-CI (t)');
+  probe.requirementID = resolve.ticketRequirements(ticket);
+  probe.productScopeID = resolve.ticketAdmittedScopeIds(ticket);
   eq(resolve.ticketInputHandouts(ticket).map((h) => h.handoutID), [h0.handoutID],
     'listed in customerInputID — the input surfaces on the ticket');
   const proc = data.getById('Procedures', 'PRC-CI (t)');

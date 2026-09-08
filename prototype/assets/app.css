@@ -349,8 +349,6 @@ select.form-input[multiple] { padding: 0; }
 .facet-stack { display: flex; flex-direction: column; gap: var(--se-space-5); }
 .facet-box { display: flex; flex-direction: column; gap: var(--se-space-2); }
 .facet-title { font-size: var(--se-font-size-caption); font-weight: 600; color: var(--se-text-secondary); }
-.form-applyall { font-style: italic; }
-.form-applyall span { color: var(--se-text-secondary); }
 /* rollup select + "create new item" button (wireframe drawer parity) */
 .select-add { display: flex; align-items: flex-start; gap: var(--se-space-3); }
 .select-add .form-input { flex: 1; min-width: 0; }

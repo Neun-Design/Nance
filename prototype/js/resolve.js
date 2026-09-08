@@ -11,7 +11,7 @@
 //     (or the attribute name) names a display field the distinct child
 //     display values are shown, otherwise the count.
 
-import { getEntity, getById, getBaseFields, ENTITY_META, FK_MAP } from './data.js';
+import { getEntity, getById, getBaseFields, ENTITY_META, FK_MAP, legacyWildcardData } from './data.js';
 import { getCatalog, resolveTable, childKeyFor, parseRule } from './model.js';
 
 const MAX_DEPTH = 5;
@@ -948,14 +948,16 @@ export function ticketRequirements(ticket) {
 // Procedures round (v3-review Iterations): the UNION of the linked
 // procedures' requirement sets (multivalued again since issue #284, 1:many —
 // the group is restricted to the competence's task; legacy scalar rows still
-// resolve). A procedure with an EMPTY set applies to every requirement (Q1
-// wildcard → null = no restriction) — one wildcard procedure in the group
-// certifies everything (decision kept in #284). Rows that still carry a
-// legacy stored requirementID keep working. Shared with the Jobs
-// certified-responsible control (forms.js) since issue #214. Doctrine
-// (issue #231, kept in #284): a requirement NEVER enters a competence
-// automatically — the quality manager binds it to the Procedure, and the
-// competence inherits the procedures' sets through this function.
+// resolve). The empty-set wildcard is RETIRED (issue #364): a procedure with
+// an empty requirement set contributes NOTHING to coverage — "certifies
+// everything" now requires every requirement explicitly picked; only
+// pre-sv98 datasets (legacyWildcardData) keep the old Q1 reading (null = no
+// restriction, the #284 decision). Rows that still carry a legacy stored
+// requirementID keep working. Shared with the Jobs certified-responsible
+// control (forms.js) since issue #214. Doctrine (issue #231, kept in #284):
+// a requirement NEVER enters a competence automatically — the quality
+// manager binds it to the Procedure, and the competence inherits the
+// procedures' sets through this function.
 export function competenceRequirements(comp) {
   const pT = resolveTable('Procedures');
   const ids = Array.isArray(comp.procedureID) ? comp.procedureID
@@ -969,11 +971,15 @@ export function competenceRequirements(comp) {
   // which would read as the wildcard)
   const usable = procs.filter(procedureApproved);
   if (!usable.length) return [];
+  const legacy = legacyWildcardData();
   const set = [];
   for (const p of usable) {
     const reqs = Array.isArray(p.requirementID) ? p.requirementID
       : p.requirementID != null && p.requirementID !== '' ? [p.requirementID] : [];
-    if (!reqs.length) return null; // wildcard procedure — certifies all
+    if (!reqs.length) {
+      if (legacy) return null; // wildcard procedure — certifies all (pre-sv98)
+      continue; // #364: an unpinned procedure adds no coverage
+    }
     reqs.forEach((r) => { if (!set.includes(r)) set.push(r); });
   }
   return set;
@@ -1103,33 +1109,37 @@ export function certifiedUsersForProcedure(procId) {
 // The single procedure a requirement context selects for a task (issue #270):
 // candidates = the task's procedures whose requirement set COVERS every id in
 // `reqIds` — AND semantics, the engine-wide coverage posture of
-// certifiedUsersForTask; an EMPTY procedure set is the Q1 wildcard and covers
-// everything. Since issue #332 the procedure's OWN productScopeID[] gates the
-// match directly: with a ticket scope context (`scopeIds` non-null), a
-// procedure pinned to scopes must name at least one admitted scope — empty
-// procedure key = applies to every scope (Q1); an EMPTY context array skips
-// the dimension (the multiViaJoin blank-context posture), and `scopeIds:
-// null` means NO ticket context at all (the task-level fallback path — the
-// standalone Tasks drawer has no scope to gate on). Exactly one candidate →
-// that procedure row; zero or several → null (the GAP tag: no unambiguous
-// documented method for the combination — including a wildcard procedure
-// coexisting with a specific one, which is a genuine ambiguity the quality
-// manager must resolve).
+// certifiedUsersForTask. The empty-set wildcard is RETIRED (issue #364): an
+// empty requirement set covers only an empty context — applicability is an
+// explicit pick, "apply to all" means the user selected every value; only
+// pre-sv98 datasets (legacyWildcardData) keep the old Q1 reading. Since
+// issue #332 the procedure's OWN productScopeID[] gates the match directly:
+// with a ticket scope context (`scopeIds` non-null), a procedure must name
+// at least one admitted scope — an empty scope set names none (#364; Q1 on
+// legacy data); an EMPTY context array skips the dimension (the multiViaJoin
+// blank-context posture), and `scopeIds: null` means NO ticket context at
+// all (the task-level fallback path — the standalone Tasks drawer has no
+// scope to gate on). Exactly one candidate → that procedure row; zero or
+// several → null (the GAP tag: no unambiguous documented method for the
+// combination — a genuine ambiguity the quality manager must resolve).
 export function ticketProcedureForTask(taskId, reqIds = [], scopeIds = null) {
   if (taskId == null || taskId === '') return null;
   const pT = resolveTable('Procedures');
   if (!pT) return null;
+  const legacy = legacyWildcardData();
   const need = asIds(reqIds).map(String);
   const adm = scopeIds == null ? null : asIds(scopeIds).map(String);
   const hits = getEntity(pT).filter((p) => matches(p.taskID, taskId))
     .filter((p) => {
       const set = asIds(p.requirementID).map(String);
-      return !set.length || need.every((r) => set.includes(r));
+      if (legacy && !set.length) return true;
+      return need.every((r) => set.includes(r));
     })
     .filter((p) => {
       if (adm == null || !adm.length) return true;
       const set = asIds(p.productScopeID).map(String);
-      return !set.length || set.some((s) => adm.includes(s));
+      if (legacy && !set.length) return true;
+      return set.some((s) => adm.includes(s));
     });
   return hits.length === 1 ? hits[0] : null;
 }
@@ -1226,18 +1236,6 @@ export function productScopeRequirementRows(ps) {
     if (scopeHit || pgHit) push(r);
   }
   return out;
-}
-
-// all-tag (gap-tag's positive sibling): STORED applicability sets under the
-// Q1 doctrine render their EMPTY value as the 'All' tag — the wizard's
-// "Apply to all" deliberately stores an empty set (empty = applies to
-// everything, dynamically), so the cell must state the wildcard instead of
-// showing a blank that reads as "forgot to fill". Opt-in per attribute via
-// the `all-tag` datamodel flag; the neutral-pill styling and the fk-accessor
-// hook live in withAccessors (app.js).
-export function allTagEmpty(attr, v) {
-  return !!(attr && attr['all-tag'] === true)
-    && (v == null || v === '' || (Array.isArray(v) && !v.length));
 }
 
 // derived attribute value for a table cell. Attrs flagged `gap-tag` in the
