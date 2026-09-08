@@ -2651,8 +2651,11 @@
 <h1 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h1>
 <p><strong>What it is:</strong> the regulatory/design/commercial limits that bind scopes and product groups
 (e.g. "ANVISA RDC 611 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
-multi-dimensional: region, unit, branch, customer, scope, product group — <strong>an empty
-dimension means "applies to all"</strong>.
+multi-dimensional: region, unit, branch, customer, scope, product group — and <strong>every
+dimension is an explicit selection (2026-09-08)</strong>: to apply to all, select every value
+(today's list). An item registered later — a new region, customer, scope — is <strong>not</strong>
+silently covered: the requirement must be revisited, the deliberate review quality
+management demands. An empty dimension keeps the requirement out of every inheritance.
 <strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).</p>
 <p>Since 2026-09-08 the form is a <strong>three-step wizard</strong> (the same chevron-step drawer as
 <a href="../procedures/">Procedures</a> and <a href="../../workspace/tickets/">Tickets</a>):</p>
@@ -2663,18 +2666,18 @@ its business unit(s): picked constraints filter the ticket's Product Scope optio
 the scopes that answer for them; the automatic inheritance below is not affected
 either way.</p>
 <p><strong>Step 2 — Applicability</strong> — the system's longest cascade gets its own screen, with the
-rule written on it: <em>an empty dimension means "applies to all"</em>. Region → <code>Business Unit *</code>
-(unlocks after at least one Region is selected, 2026-08-27; <strong>mandatory</strong> since
-2026-09-08 — every requirement declares the unit(s) it belongs to, the pre-RBAC rule) → Branch / Customer / Scope /
-Product Group / <strong>Product Scope</strong>. The <strong>Product Scope</strong> picker (2026-08-28) targets the
-requirement at specific <a href="../../portfolio/product-scopes/">Product Scope</a> combinations
-directly — options show the combination's registry code, filtered by the selected units;
-leave it empty when the scope/product-group dimensions already describe the
-applicability (on the operational chain it behaves like every other dimension: empty
-applies to all, filled narrows ticket inheritance to the named combinations). The
-<strong>Customer</strong> select offers the picked units' customers — customer-specific requirements
-surface on the customer's <a href="../../workspace/tickets/">Tickets</a> through the
-<a href="../../crm/sla/">SLA</a> chain.</p>
+rule written on it: <em>select all values to apply to all of today's list</em>. Region →
+<code>Business Unit *</code> (unlocks after at least one Region is selected, 2026-08-27;
+<strong>mandatory</strong> since 2026-09-08 — every requirement declares the unit(s) it belongs to,
+the pre-RBAC rule) → Branch / Customer / Scope / Product Group / <strong>Product Scope</strong> —
+Branch and Customer are multi-selects since 2026-09-08. The <strong>Product Scope</strong> picker
+(2026-08-28) targets the requirement at specific
+<a href="../../portfolio/product-scopes/">Product Scope</a> combinations directly — options show
+the combination's registry code, filtered by the selected units; a subset narrows
+ticket inheritance to the named combinations, selecting all keeps every combination
+covered (today's). The <strong>Customer</strong> multicheck offers the picked units' customers —
+customer-specific requirements surface on the customer's
+<a href="../../workspace/tickets/">Tickets</a> through the <a href="../../crm/sla/">SLA</a> chain.</p>
 <p><strong>Step 3 — Compliance:</strong> the regulatory reference and link of the external norm, and the
 <strong>Active</strong> flag last (Save lives on this step).
 <strong>Applicability propagates live to tickets</strong> (2026-08-20): an <strong>Active</strong> requirement is
