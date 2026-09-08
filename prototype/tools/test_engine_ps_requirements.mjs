@@ -51,8 +51,12 @@ console.log('== schema: the stored link lives on Requirements (#294) ==');
     'no mockup product scope carries the retired key (parity)');
   eq(data.getEntity('Requirements').every((r2) => Array.isArray(r2.productScopeID)), true,
     'every mockup requirement carries the new stored key (migration parity)');
-  eq(data.getEntity('Requirements').every((r2) => r2.productScopeID.length === 0), true,
-    'zero direct targets seeded — no applicability is fabricated');
+  // #366: the formerly-empty keys were materialized with the FULL dimension
+  // ("all", explicit) — still no SPECIFIC target fabricated: a full set
+  // reads as global and pins nothing (namesFullDimension display posture)
+  eq(data.getEntity('Requirements')
+    .every((r2) => resolve.namesFullDimension(r2.productScopeID, 'Product Scopes')), true,
+  'every seeded key names the full dimension — no specific target fabricated (#366)');
 
   const comp = catalog['Product Scopes'].byName['productScopeRequirements'];
   const cr = model.parseRule(comp.rule);
@@ -106,17 +110,20 @@ console.log('== semantics: named ∪ scope ∪ product-group legs, no Q1 ==');
   const ps01 = data.getById('Product Scopes', 'PS01'); // BU01 · PG01 · SC02
   eq(ids(resolve.productScopeRequirementRows(ps01)), ['RQ06', 'RQ08', 'RQ09', 'RQ17'],
     'PS01: scope- and product-group-connected requirements only (no named/unit hits in the demo)');
-  // no Q1 wildcard: RQ01 is Active with the CONNECTION keys blank — the
-  // unit key carries the all-units mandatory seed since the #359-redefined
-  // round (the explicit Q1 spelling; unit stays an exclusion gate only, so
-  // the row still attaches through NO connection leg)
+  // no wildcard: RQ01 is Active with the connection keys MATERIALIZED to the
+  // full dimensions (#366 — the explicit spelling of the former blanks); a
+  // full set is global, not a specific pin, so the row still attaches
+  // through NO connection leg (namesFullDimension display posture — the
+  // #288 globals-stay-out decision survives the materialization)
   const rq01 = data.getById('Requirements', 'RQ01');
-  eq([rq01.scopeID, rq01.productGroupID, rq01.productScopeID],
-    [[], [], []], 'probe: RQ01 connection keys are blank (global)');
+  eq([resolve.namesFullDimension(rq01.scopeID, 'Scopes'),
+    resolve.namesFullDimension(rq01.productGroupID, 'Product Groups'),
+    resolve.namesFullDimension(rq01.productScopeID, 'Product Scopes')],
+  [true, true, true], 'probe: RQ01 connection keys name the full dimensions (global)');
   eq(rq01.businessUnitID.length > 0, true,
     'unit key mandatory since the #359 redefinition (all-units seed)');
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ01'), false,
-    'connection-blank requirement attaches nowhere (no Q1 on the comprehensive set)');
+    'a global requirement attaches nowhere (full sets do not pin — #288 preserved)');
   // named leg: the requirement DECLARES the product scope — leads the list
   data.addRecord('Requirements', { requirementID: 'RQ-T-NAMED', requirementName: 'Named (t)',
     scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
@@ -132,18 +139,28 @@ console.log('== semantics: named ∪ scope ∪ product-group legs, no Q1 ==');
 console.log('== semantics: unit/region are gates, never sources (#296) ==');
 {
   const ps01 = data.getById('Product Scopes', 'PS01'); // BU01, serves RG01
+  // #366: the inheritance probe declares every dimension (full = "all",
+  // explicit) and pins only the unit — the strict #226 chain drops any
+  // requirement with an undeclared key
+  const dim = (tab, pk) => data.getEntity(tab).map((r2) => r2[pk]);
+  const fullDims = {
+    regionID: dim('Regions', 'regionID'), branchID: dim('Branches', 'branchID'),
+    customerID: dim('Customers', 'customerID'), scopeID: dim('Scopes', 'scopeID'),
+    productGroupID: dim('Product Groups', 'productGroupID'),
+    productScopeID: dim('Product Scopes', 'productScopeID'),
+  };
   data.addRecord('Requirements', { requirementID: 'RQ-T-UNIT1', requirementName: 'Unit-wide (t)',
-    scopeID: [], productGroupID: [], businessUnitID: ['BU01'], regionID: [], isActive: 'Active' });
+    isActive: 'Active', ...fullDims, businessUnitID: ['BU01'] });
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-UNIT1'), false,
-    'a requirement sharing the row\'s unit does NOT attach through that dimension (#296 — the #294 unit leg is gone)');
+    'a requirement sharing the row\'s unit does NOT attach through that dimension (#296 — full connection sets do not pin)');
   data.addRecord('Requirements', { requirementID: 'RQ-T-REG1', requirementName: 'Region-wide (t)',
     scopeID: [], productGroupID: [], businessUnitID: [], regionID: ['RG01'], isActive: 'Active' });
   eq(ids(resolve.productScopeRequirementRows(ps01)).includes('RQ-T-REG1'), false,
     'a requirement sharing the row\'s served region does NOT attach either');
-  // ticket inheritance keeps the unit dimension under Q1 — untouched by #296
+  // ticket inheritance carries the unit dimension — untouched by #296
   const tkt = data.getEntity('Tickets').find((t) => String(t.businessUnitID) === 'BU01');
   eq(tkt != null && resolve.ticketRequirements(tkt).includes('RQ-T-UNIT1'), true,
-    'the unit-wide requirement still inherits into the unit\'s tickets (#226 Q1 chain)');
+    'the unit-pinned requirement still inherits into the unit\'s tickets (#226 chain, all dims declared)');
   data.removeRecords('Requirements', ['RQ-T-UNIT1', 'RQ-T-REG1']);
 }
 
@@ -193,21 +210,27 @@ console.log('== ticket chain: the productScopeID dimension under Q1 (#226/#294) 
     return { t, psIn: admitted[0], psOut: out };
   }).find((x) => x.psIn && x.psOut);
   eq(probe != null, true, 'probe ticket found (has admitted and non-admitted product scopes)');
+  // #366: probes declare every dimension and pin only productScopeID
+  const dim2 = (tab, pk) => data.getEntity(tab).map((r2) => r2[pk]);
+  const declared = {
+    regionID: dim2('Regions', 'regionID'), branchID: dim2('Branches', 'branchID'),
+    businessUnitID: dim2('Business Units', 'businessUnitID'),
+    customerID: dim2('Customers', 'customerID'), scopeID: dim2('Scopes', 'scopeID'),
+    productGroupID: dim2('Product Groups', 'productGroupID'),
+  };
   data.addRecord('Requirements', { requirementID: 'RQ-T-DIM', requirementName: 'PS dimension (t)',
-    scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
-    productScopeID: [probe.psIn], isActive: 'Active' });
+    isActive: 'Active', ...declared, productScopeID: [probe.psIn] });
   eq(resolve.ticketRequirements(probe.t).includes('RQ-T-DIM'), true,
     'a requirement naming an ADMITTED product scope inherits into the ticket');
   data.removeRecords('Requirements', ['RQ-T-DIM']);
   data.addRecord('Requirements', { requirementID: 'RQ-T-DIM2', requirementName: 'PS dimension out (t)',
-    scopeID: [], productGroupID: [], businessUnitID: [], regionID: [],
-    productScopeID: [probe.psOut], isActive: 'Active' });
+    isActive: 'Active', ...declared, productScopeID: [probe.psOut] });
   eq(resolve.ticketRequirements(probe.t).includes('RQ-T-DIM2'), false,
     'a requirement naming only NON-admitted product scopes stays out (AND dimension)');
   data.removeRecords('Requirements', ['RQ-T-DIM2']);
-  // Q1: the demo's all-blank requirements keep inheriting (empty = all)
+  // #366: the demo's materialized "all" rows keep inheriting (explicit lists)
   eq(resolve.ticketRequirements(probe.t).length > 0, true,
-    'Q1 posture untouched — blank-key requirements still inherit');
+    'materialized all-dimension rows still inherit — the census rode the flip');
 }
 
 console.log('== picker retirement: the PS-following helper left with #304 ==');

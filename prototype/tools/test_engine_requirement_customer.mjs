@@ -50,8 +50,8 @@ console.log('== form spec: Customer select enabled, unit-gated (issue #212) ==')
   const rule = field && (Array.isArray(field['field-rule']) ? field['field-rule'].join('; ') : field['field-rule'] || '');
   eq(/(^|;)\s*disabled\s*(;|$)/i.test(rule), false, 'the disabled token is gone');
   eq(field.check, 'Business Unit IS NOT NULL', 'gated until a Business Unit is picked');
-  eq(rule, 'SelectLabel = businessUnitName; filtered by businessUnitID selected',
-    'options filtered to the selected units, grouped by unit name (Branch-field mirror)');
+  eq(rule, 'Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected',
+    'multicheck (#366 — customerID multivalued) filtered to the selected units, grouped by unit name');
 }
 
 console.log('== cascade join: a unit offers exactly its own customers ==');

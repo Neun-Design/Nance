@@ -8,8 +8,11 @@ purpose: "Requirements — what it is, when to register one, and its key fields"
 
 **What it is:** the regulatory/design/commercial limits that bind scopes and product groups
 (e.g. "ANVISA RDC 611 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
-multi-dimensional: region, unit, branch, customer, scope, product group — **an empty
-dimension means "applies to all"**.
+multi-dimensional: region, unit, branch, customer, scope, product group — and **every
+dimension is an explicit selection (2026-09-08)**: to apply to all, select every value
+(today's list). An item registered later — a new region, customer, scope — is **not**
+silently covered: the requirement must be revisited, the deliberate review quality
+management demands. An empty dimension keeps the requirement out of every inheritance.
 **Register when:** after Scopes and Product Groups (Portfolio module).
 
 Since 2026-09-08 the form is a **three-step wizard** (the same chevron-step drawer as
@@ -23,18 +26,18 @@ the scopes that answer for them; the automatic inheritance below is not affected
 either way.
 
 **Step 2 — Applicability** — the system's longest cascade gets its own screen, with the
-rule written on it: *an empty dimension means "applies to all"*. Region → `Business Unit *`
-(unlocks after at least one Region is selected, 2026-08-27; **mandatory** since
-2026-09-08 — every requirement declares the unit(s) it belongs to, the pre-RBAC rule) → Branch / Customer / Scope /
-Product Group / **Product Scope**. The **Product Scope** picker (2026-08-28) targets the
-requirement at specific [Product Scope](../portfolio/product-scopes.md) combinations
-directly — options show the combination's registry code, filtered by the selected units;
-leave it empty when the scope/product-group dimensions already describe the
-applicability (on the operational chain it behaves like every other dimension: empty
-applies to all, filled narrows ticket inheritance to the named combinations). The
-**Customer** select offers the picked units' customers — customer-specific requirements
-surface on the customer's [Tickets](../workspace/tickets.md) through the
-[SLA](../crm/sla.md) chain.
+rule written on it: *select all values to apply to all of today's list*. Region →
+`Business Unit *` (unlocks after at least one Region is selected, 2026-08-27;
+**mandatory** since 2026-09-08 — every requirement declares the unit(s) it belongs to,
+the pre-RBAC rule) → Branch / Customer / Scope / Product Group / **Product Scope** —
+Branch and Customer are multi-selects since 2026-09-08. The **Product Scope** picker
+(2026-08-28) targets the requirement at specific
+[Product Scope](../portfolio/product-scopes.md) combinations directly — options show
+the combination's registry code, filtered by the selected units; a subset narrows
+ticket inheritance to the named combinations, selecting all keeps every combination
+covered (today's). The **Customer** multicheck offers the picked units' customers —
+customer-specific requirements surface on the customer's
+[Tickets](../workspace/tickets.md) through the [SLA](../crm/sla.md) chain.
 
 **Step 3 — Compliance:** the regulatory reference and link of the external norm, and the
 **Active** flag last (Save lives on this step).
