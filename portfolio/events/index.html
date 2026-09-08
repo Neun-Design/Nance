@@ -2653,10 +2653,15 @@
 model (moved here from Operation, 2026-08-12).
 <strong>Register when:</strong> after Product Groups — Processes (Operation module) and Competence
 (phase 6) anchor on events.
-<strong>Key fields:</strong> Title, Description; <code>Business Unit *</code> → unlocks <strong>Scopes</strong> and <strong>Products</strong>
+<strong>Key fields:</strong> Title, Description; <code>Business Unit *</code> → unlocks <strong>Department</strong>
+(2026-09-08) — the department that <strong>answers</strong> this event: an event is fundamentally the
+request a department must fulfill for its clients, and the Event × Product Scope
+combination is what a <a href="../payload/">Payload</a> packages — and <strong>Scopes</strong> / <strong>Products</strong>
 (multi — the event's applicability, distributed from the ER-model Payload; leave empty to
-apply to all). The department is not registered here anymore — it moved down to the Process.
-Expanding an event lists its Processes and the Product Scopes its applicability admits.</p>
+apply to all). The Process keeps its own department key (the execution side); the
+event's department is the request's owner and drives the Payload form's Event filter.
+Expanding an event lists its Processes and the Product Scopes its applicability admits;
+expanding a <a href="../../organization/departments/">Department</a> lists the requests it answers.</p>
 
 
 
