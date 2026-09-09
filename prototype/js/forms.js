@@ -1109,24 +1109,11 @@ export function suppliersForBranch(branchId) {
   return (owners.length ? owners : all).map(opt);
 }
 
-// SLAs a PROJECT may execute under (2026-09-04 round): the customer's
-// contracts narrowed by the chosen BRANCH — only SLAs pinned to that branch
-// or carrying NO branch survive (Q1: an SLA without a branch is not
-// branch-specific and stays offered; the strict generic arrOverlap path
-// would drop it). No customer → every SLA (lenient — the field is gated on
-// Customer anyway); no branch → the customer's full set (pre-round behavior).
-export function slasForProject(customerId, branchId = null) {
-  const opt = (s) => ({ value: s.slaID, label: s.slaCode || String(s.slaID) });
-  let rows = getEntity('SLA');
-  if (customerId != null && customerId !== '') {
-    rows = rows.filter((s) => arrOverlap(s.customerID, customerId));
-  }
-  if (branchId != null && branchId !== '') {
-    rows = rows.filter((s) => s.branchID == null || s.branchID === ''
-      || String(s.branchID) === String(branchId));
-  }
-  return rows.map(opt);
-}
+// (slasForProject RETIRED at sv111 — the Projects Branch/SLA inputs left the
+// form: the ticket's contract universe is the Applicant → Supplier → Branch
+// basis since #350/sv110, so pointing an SLA at Project registration was a
+// dead, confusing input. The #316 branch-less-SLA posture lives on in
+// ticketAdmittedSLAs.)
 
 // Events a TICKET may trigger (issue #350 — the APPLICANT → SUPPLIER
 // contracts are the universe, replacing the #325 project sourcing): the
@@ -1991,16 +1978,6 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if ((entity === 'Procedures' || entity === 'Competence') && attrName === 'productScopeID') {
             const dep = findDep('Process');
             applyOpts(productScopesForProcess(dep ? dep[1].get() : null));
-            return;
-          }
-          // Projects "SLA": the customer's contracts narrowed by the chosen
-          // Branch (2026-09-04 round) — an SLA without a branch is not
-          // branch-specific and stays offered (Q1). See slasForProject.
-          if (entity === 'Projects' && attrName === 'slaID') {
-            const custDep = findDep('Customer');
-            const brDep = findDep('Branch');
-            applyOpts(slasForProject(custDep ? custDep[1].get() : null,
-              brDep ? brDep[1].get() : null));
             return;
           }
           // SLA "Supplier": the supplier inside the selected branch — the

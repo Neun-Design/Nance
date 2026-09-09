@@ -6,14 +6,13 @@ purpose: "Projects — what it is, when to register one, and its key fields"
 
 # Projects
 
-**What it is:** a customer engagement grouping tickets, executed under the customer's
-contracts.
-**Register when:** phase 8, once CRM (including [SLAs](../crm/sla.md)) exists.
+**What it is:** a customer engagement grouping tickets.
+**Register when:** phase 8, once CRM exists.
 **Key fields:** Registry ID; Name; `Unit *` (grouped by segment) → unlocks `Customer *`
-(the unit's customers) → **Branch** (optional — the customer's branches) → **SLA**
-(multi — the customer's contracts this project executes under, narrowed to the chosen
-Branch; a contract without a branch is not branch-specific and stays offered); Owner;
-Status. The coverage column (product scopes) derives from the linked SLAs.
-Since 2026-09-08 the linked contracts describe the project's own coverage only — what a
-[Ticket](tickets.md) can trigger follows the contracts between its **Applicant** and
-**Supplier**, not the project's set.
+(the unit's customers); Owner; Status.
+The project's **Customer** matters beyond grouping: requirements connected to that
+customer are inherited by the project's [Tickets](tickets.md) (together with the
+ticket's Applicant). What a ticket can *trigger*, however, follows the
+[SLAs](../crm/sla.md) between its **Applicant**, **Supplier** and output **Branch** —
+so the form carries no Branch or SLA inputs: contracts are declared on the SLA
+register, not pointed at project registration (2026-09-09 simplification).
