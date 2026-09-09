@@ -35,8 +35,8 @@ console.log('== steps spec: three steps, every field mapped ==');
     'three wizard steps in flow order (identity → where it applies → compliance)');
   eq(Object.values(spec.steps).map((s) => s['step-order']), [1, 2, 3],
     'unique integer step-orders (validate_mockup §1d contract)');
-  eq(/select all values|every dimension must be declared/i.test(String(spec.steps.Applicability['step-description'])), true,
-    'the Applicability strip teaches the explicit-pick doctrine (#366 — the Q1 wording is gone)');
+  eq(/dimensions you DECLARE constrain/i.test(String(spec.steps.Applicability['step-description'])), true,
+    'the Applicability strip teaches the declared-constrains doctrine (sv106 refinement)');
   const stepOf = {};
   for (const [label, f] of Object.entries(spec.fields)) stepOf[label] = f.step;
   eq(Object.values(stepOf).every((s) => s != null), true, 'every field carries a step key');

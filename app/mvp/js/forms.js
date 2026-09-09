@@ -833,16 +833,14 @@ export function requirementsForUnit(unitId) {
     .filter((r) => String(r.isActive || 'Active') !== 'Inactive');
   const unit = unitId != null && unitId !== '' ? getById('Business Units', unitId) : null;
   const served = unit ? asList(unit.regionID).map(String) : [];
-  // issue #366: the empty-key wildcard is retired — a requirement with an
-  // undeclared unit/region dimension is offered NOWHERE (pre-sv99 snapshots
-  // keep the Q1 reading); the served-regions guard stays a CONTEXT check
-  const legacy = legacyWildcardData(99);
+  // sv106 doctrine refinement (Rafael): a DECLARED dimension constrains, an
+  // undeclared one does not — a requirement without a unit/region key
+  // belongs to every unit's universe (the sv99 strict legs are reverted;
+  // this also restores undeclared-dimension rows to the Constraints picker)
   const kept = !unit ? rows : rows.filter((r) => {
     const units = asList(r.businessUnitID).map(String);
-    if (!units.length && !legacy) return false;
     if (units.length && !units.includes(String(unitId))) return false;
     const regions = asList(r.regionID).map(String);
-    if (!regions.length && !legacy) return false;
     if (regions.length && served.length && !regions.some((x) => served.includes(x))) return false;
     return true;
   });

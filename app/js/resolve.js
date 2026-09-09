@@ -391,13 +391,13 @@ function pathDomain(tableName, path) {
 // field shared by both sides (sameVal, array-aware — e.g. Requirements store
 // scopeID/productGroupID arrays while Product Scopes store single values).
 // Dotted entries ("productScopeID.scopeID") traverse the parent side as a
-// path; the child matches on the last segment. The blank-child-key wildcard
-// is RETIRED (issue #366, the #364 doctrine): a child storing the key EMPTY
-// matches NO parent — "applies to all" is every value explicitly stored (the
-// sv99 migration materialized the demo blanks); pre-sv99 snapshots keep the
-// old Q1 reading via legacyWildcardData(99). Fields absent from the child
-// data are still skipped, so rules can name aspirational keys without
-// breaking (guide §10: data wins over catalogue).
+// path; the child matches on the last segment. A child storing the key
+// EMPTY matches every parent — the sv106 doctrine refinement (Rafael): on
+// the REQUIREMENT side a DECLARED dimension constrains and an undeclared
+// one does not (the sv99 strict reading was reverted; the #364 no-wildcard
+// doctrine stays on the COVERAGE sets). Fields absent from the child data
+// are still skipped, so rules can name aspirational keys without breaking
+// (guide §10: data wins over catalogue).
 function multiViaJoin(parentTable, parentRow, childTable, fields, pkVal) {
   const childRows = getEntity(childTable);
   const childPk = getCatalog(childTable).pk;
@@ -406,8 +406,7 @@ function multiViaJoin(parentTable, parentRow, childTable, fields, pkVal) {
     && childRows.some((c) => childField(f) in c));
   if (!usable.length) return null;
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
-  const legacy = legacyWildcardData(99);
-  const pass = (v, hit) => (blank(v) ? legacy : hit());
+  const pass = (v, hit) => (blank(v) ? true : hit());
   let rows = childRows, constrained = false;
   for (const f of usable) {
     const cf = childField(f);
@@ -891,57 +890,42 @@ function servedRegionIds(unitIds) {
   return out;
 }
 
-// AND-match Active requirements against an applicability context (issue #226).
-// Gate order: lifecycle (blank isActive counts as Active — issue #222 default
-// posture), customer, unit, region, branch, product scope, then scope +
-// product group paired per product scope (the #192 requirement_names
-// pairing). The empty-key wildcard is RETIRED (issue #366, the #364 doctrine
-// on the Requirement side): every applicability key must be DECLARED — an
-// empty key applies to NOTHING (the user selects every value to mean "all";
-// the sv99 migration materialized the demo blanks with the full dimensions).
-// A blank CONTEXT side still skips its dimension (multiViaJoin posture, now
-// uniform across legs — pre-#366 the customer and scope legs lacked the
-// guard). Pre-sv99 snapshots keep the old reading via legacyWildcardData(99).
-function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId, branchId = null }) {
+// AND-match Active requirements against an applicability context (issue
+// #226). Gate order: lifecycle (blank isActive counts as Active — #222),
+// customer, unit, region, branch, product scope, then scope + product group
+// paired per product scope (the #192 pairing). DOCTRINE REFINED (Rafael,
+// 2026-09-08, sv106): on the REQUIREMENT side a DECLARED dimension
+// constrains and an UNDECLARED dimension does not — a requirement defined
+// only for a branch binds every ticket related to that branch, one defined
+// only for a scope binds every ticket admitting that scope. (The #364
+// no-wildcard doctrine stays untouched where it was born: COVERAGE sets —
+// procedures, events, payloads, processes, handouts — where an empty set
+// covers nothing.) A blank CONTEXT side skips its dimension too (the
+// multiViaJoin posture, uniform across legs).
+function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId,
+  supplierId = null, branchId = null }) {
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
-  // the customer gate passes for EITHER inheritance party (issue #308): the
-  // project customer or the internal applicant opening the ticket.
-  const parties = [customerId, applicantId].filter((v) => v != null && v !== '');
-  const legacy = legacyWildcardData(99);
-  const branchBlank = branchId == null || branchId === '';
+  // the customer gate passes for ANY party the ticket names (the sv106
+  // comprehensive-trace rule): the project customer, the internal applicant
+  // (#308 pair) or the SUPPLIER — all three are Customers the ticket
+  // relates to, so a customer-pinned requirement traces through any of them.
+  const parties = [customerId, applicantId, supplierId].filter((v) => v != null && v !== '');
+  const branchCtx = asIds(branchId);
   const out = [];
   for (const r of getEntity('Requirements')) {
     if (String(r.isActive || 'Active') === 'Inactive') continue;
-    if (legacy) {
-      // pre-sv99 reading, verbatim: empty key = applies to all (Q1)
-      if (!blank(r.customerID) && !sameVal(r.customerID, parties)) continue;
-      if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
-      if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
-      if (!blank(r.branchID) && !branchBlank && !sameVal(r.branchID, branchId)) continue;
-      if (!blank(r.productScopeID)
-          && !psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
-      const needScope = !blank(r.scopeID);
-      const needPg = !blank(r.productGroupID);
-      if (needScope || needPg) {
-        const hit = psRows.some((ps) => (!needScope || sameVal(r.scopeID, ps.scopeID))
-          && (!needPg || sameVal(r.productGroupID, ps.productGroupID)));
-        if (!hit) continue;
-      }
-    } else {
-      // #366 strict: any undeclared dimension keeps the requirement out of
-      // every inheritance — the record states exactly where it applies
-      if ([r.customerID, r.businessUnitID, r.regionID, r.branchID,
-        r.productScopeID, r.scopeID, r.productGroupID].some(blank)) continue;
-      if (parties.length && !sameVal(r.customerID, parties)) continue;
-      if (unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
-      if (regionIds.length && !sameVal(r.regionID, regionIds)) continue;
-      if (!branchBlank && !sameVal(r.branchID, branchId)) continue;
-      if (psRows.length) {
-        if (!psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
-        const hit = psRows.some((ps) => sameVal(r.scopeID, ps.scopeID)
-          && sameVal(r.productGroupID, ps.productGroupID));
-        if (!hit) continue;
-      }
+    if (!blank(r.customerID) && parties.length && !sameVal(r.customerID, parties)) continue;
+    if (!blank(r.businessUnitID) && unitIds.length && !sameVal(r.businessUnitID, unitIds)) continue;
+    if (!blank(r.regionID) && regionIds.length && !sameVal(r.regionID, regionIds)) continue;
+    if (!blank(r.branchID) && branchCtx.length && !sameVal(r.branchID, branchCtx)) continue;
+    if (!blank(r.productScopeID) && psRows.length
+        && !psRows.some((ps) => sameVal(r.productScopeID, ps.productScopeID))) continue;
+    const needScope = !blank(r.scopeID);
+    const needPg = !blank(r.productGroupID);
+    if ((needScope || needPg) && psRows.length) {
+      const hit = psRows.some((ps) => (!needScope || sameVal(r.scopeID, ps.scopeID))
+        && (!needPg || sameVal(r.productGroupID, ps.productGroupID)));
+      if (!hit) continue;
     }
     out.push(r.requirementID);
   }
@@ -982,17 +966,42 @@ export function ticketRequirements(ticket) {
   const ids = ticketAdmittedScopeIds(ticket);
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
   const unitIds = asIds(ticket.businessUnitID);
-  // branch context (issue #353) = the ticket's PROJECT branch (#316) — the
-  // ticket itself stores no branch key; no project / no branch = dimension
-  // skipped (lenient)
+  // branch context (issue #353, WIDENED by the sv105 round — Rafael's rule:
+  // a requirement pinned to a branch binds the tickets whose PARTIES belong
+  // to it): the PROJECT's branch (#316) ∪ the branches where the ticket's
+  // inheritance parties — customer AND applicant, the #308 pair — are
+  // registered (Branches.customerID, #320 N:N). Empty union = dimension
+  // skipped (lenient context posture, unchanged).
   const prj = ticket.projectID != null && ticket.projectID !== ''
     ? getById('Projects', ticket.projectID) : null;
+  const branchIds = [];
+  if (prj && prj.branchID != null && prj.branchID !== '') branchIds.push(String(prj.branchID));
+  const parties = [ticket.customerID, ticket.applicantID, ticket.supplierID]
+    .filter((v) => v != null && v !== ''); // supplier joins the branch relations (sv106 — Rafael's rule)
+  if (parties.length) {
+    for (const b of getEntity('Branches')) {
+      const regd = asIds(b.customerID).map(String);
+      if (parties.some((c) => regd.includes(String(c)))
+          && !branchIds.includes(String(b.branchID))) branchIds.push(String(b.branchID));
+    }
+  }
+  // region traces (sv106 comprehensive-trace rule): the unit's SERVED
+  // regions (#230) ∪ the regions of the branch context's branches — the
+  // branch owns the geography (#191), so a region-pinned requirement
+  // reaches every ticket related to a branch of that region
+  const regionIds = servedRegionIds(unitIds).slice();
+  for (const bid of branchIds) {
+    const b = getById('Branches', bid);
+    for (const rg of asIds(b && b.regionID)) {
+      if (!regionIds.map(String).includes(String(rg))) regionIds.push(rg);
+    }
+  }
   // (the #359 manual-union of addedRequirementID was RETIRED in the same
   // round's redefinition — the picks became the Constraints FILTER on the
   // Product Scope options, forms.js; inheritance is the only source again)
-  return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
+  return matchRequirements({ psRows, unitIds, regionIds,
     customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
-    branchId: (prj && prj.branchID) ?? null });
+    supplierId: ticket.supplierID ?? null, branchId: branchIds });
 }
 
 // Requirements a competence certifies — via its procedures since the

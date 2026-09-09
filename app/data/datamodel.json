@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 104,
+    "schemaVersion": 106,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -3765,7 +3765,7 @@
               "name": "regionID",
               "type": "FK",
               "rule": "FK → Regions (display: regionName)",
-              "notes": "multivalued — regions this requirement applies to. The empty-key wildcard is RETIRED (issue #366, the #364 doctrine): an undeclared dimension keeps the requirement out of every inheritance — 'all regions' is every region explicitly selected (sv99 materialized the demo blanks with the full dimension; a region registered later requires revisiting the requirement)",
+              "notes": "multivalued — regions this requirement applies to. Doctrine refined at sv106 (Rafael): a DECLARED dimension constrains, an undeclared one does not — leave the key empty to not constrain by region (the sv99 strict reading was reverted; the #364 no-wildcard doctrine stays on the coverage sets)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -3801,7 +3801,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "multivalued — branches this requirement applies to; the empty-key wildcard is RETIRED (issue #366: undeclared = inherits nowhere; sv99 materialized the demo blanks with every branch). ACTIVE dimension since issue #353 (stored-but-inert before): matchRequirements gates ticket inheritance on the ticket's PROJECT branch (a blank context side skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet — a full-dimension set buckets as global, #366 display posture). Form multicheck since #366.",
+              "notes": "multivalued — branches this requirement applies to; a DECLARED key constrains, an undeclared one does not (sv106 refinement — a requirement defined only for a branch binds every ticket related to it). ACTIVE dimension since issue #353 (stored-but-inert before): matchRequirements gates ticket inheritance on the ticket's branch CONTEXT — the PROJECT's branch ∪ the branches where the ticket's parties — customer, applicant AND supplier (sv106) — are registered (Branches.customerID; widened at sv105/sv106 — Rafael's rule: a branch-pinned requirement binds the tickets whose parties belong to it; an empty union skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet — a full-dimension set buckets as global, #366 display posture). Form multicheck since #366.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3810,7 +3810,7 @@
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
-              "notes": "multivalued since issue #366 (was single, #180) — customers this requirement applies to; the empty-key wildcard is RETIRED: undeclared = inherits nowhere, 'all customers' is every customer explicitly selected (sv99 materialized the demo blanks; a customer registered later requires revisiting the requirement). Unit-gated form multicheck, options = the selected units' customers grouped by unit (#212 cascade kept)",
+              "notes": "multivalued since issue #366 (was single, #180) — customers this requirement applies to; a DECLARED key constrains, an undeclared one does not (sv106 refinement). Unit-gated form multicheck, options = the selected units' customers grouped by unit (#212 cascade kept)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3819,7 +3819,7 @@
               "name": "scopeID",
               "type": "FK",
               "rule": "FK → Scopes (display: scopeName)",
-              "notes": "multivalued — scopes this requirement applies to; undeclared = inherits nowhere since issue #366 (sv99 materialized the demo blanks with every scope)",
+              "notes": "multivalued — scopes this requirement applies to; a DECLARED key constrains, an undeclared one does not (sv106 refinement — a requirement defined only for a scope binds every ticket whose admitted product scopes carry it)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3828,7 +3828,7 @@
               "name": "productGroupID",
               "type": "FK",
               "rule": "FK → Product Groups (display: CONCAT(productName,' | ',specsSummary))",
-              "notes": "multivalued — product groups this requirement applies to; undeclared = inherits nowhere since issue #366 (sv99 materialized the demo blanks with every product group)",
+              "notes": "multivalued — product groups this requirement applies to; a DECLARED key constrains, an undeclared one does not (sv106 refinement)",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3837,7 +3837,7 @@
               "name": "productScopeID",
               "type": "FK",
               "rule": "FK → Product Scopes (display: productScopeRegistry)",
-              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements; picker shows the productScopeRegistry code, issue #296). The empty-key wildcard is RETIRED (issue #366): undeclared = inherits nowhere (sv99 materialized the demo blanks with every product scope); a PROPER SUBSET narrows inheritance to the named scopes, and the PS-REQUIREMENTS named leg reads a full-dimension set as global — not a specific pin (namesFullDimension, the #288 globals-stay-out display preserved)",
+              "notes": "multivalued — product scopes this requirement applies to DIRECTLY (issue #294, inverting the #288 form-level link: the requirement declares its combinations, the Product Scope form no longer picks requirements; picker shows the productScopeRegistry code, issue #296). A DECLARED key constrains, an undeclared one does not (sv106 refinement); a PROPER SUBSET narrows inheritance to the named scopes, and the PS-REQUIREMENTS named leg reads a full-dimension set as global — not a specific pin (namesFullDimension, the #288 globals-stay-out display preserved)",
               "table-display": false,
               "subitem-display": false,
               "constraints": "FK"
@@ -3888,7 +3888,7 @@
               },
               "Applicability": {
                 "step-order": 2,
-                "step-description": "Where this requirement applies — every dimension must be declared: select all values to apply to all of today's list (issue #364/#366; an item registered later requires revisiting the requirement, and an empty dimension keeps it out of every inheritance)"
+                "step-description": "Where this requirement applies — the dimensions you DECLARE constrain the inheritance; a dimension left empty does not constrain (sv106: a requirement defined only for a branch binds every ticket related to that branch)"
               },
               "Compliance": {
                 "step-order": 3,
@@ -3941,7 +3941,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "regionID",
-                "tooltip": "Regions this requirement applies to — select every region to apply to all of today's list (issue #366)",
+                "tooltip": "Regions this requirement applies to — leave empty to not constrain by region (sv106: declared dimensions constrain, undeclared ones do not)",
                 "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values"
@@ -3951,7 +3951,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
-                "tooltip": "Units this requirement applies to — select every unit to apply to all of today's list (issue #366)",
+                "tooltip": "Units this requirement applies to (mandatory since 2026-09-08)",
                 "step": "Applicability",
                 "check": "Region IS NOT NULL",
                 "field-rule": "Allow multiple values; filtered by Region selected"
@@ -3961,7 +3961,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "branchID",
-                "tooltip": "Branches this requirement applies to — select every branch to apply to all of today's list (issue #366)",
+                "tooltip": "Branches this requirement applies to — leave empty to not constrain by branch; a declared branch binds the tickets whose project, customer, applicant or supplier belongs to it",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected"
@@ -3971,7 +3971,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "customerID",
-                "tooltip": "Customers this requirement applies to — e.g. a customer-specific design-approval template; select every customer to apply to all of today's list (issue #366 — multivalued since this round)",
+                "tooltip": "Customers this requirement applies to — e.g. a customer-specific design-approval template; leave empty to not constrain by customer (multivalued since #366)",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected"
@@ -4001,7 +4001,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "productScopeID",
-                "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — select every scope to apply to all of today's list (issue #366); a proper subset narrows inheritance to the named combinations",
+                "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — leave empty to not constrain; a declared subset narrows inheritance to the named combinations",
                 "step": "Applicability",
                 "check": null,
                 "field-rule": "Allow multiple values; filtered by businessUnitID selected"
@@ -5513,7 +5513,7 @@
               "name": "requirementName",
               "type": "mirror",
               "rule": "computed: INHERITED-REQUIREMENTS(eventID) (display: requirementName)",
-              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID) and the ticket's customer. Requirement keys must be DECLARED since issue #366 (an empty key keeps the requirement out of every inheritance; 'all' = every value explicitly selected — pre-sv99 snapshots keep the old Q1 reading). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. A new aligned requirement surfaces on existing tickets automatically — but a requirement registered AFTER a dimension's 'all' snapshot needs the revisit the doctrine mandates.",
+              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID), the ticket's parties — customer, applicant AND supplier trace the customer dimension (sv106 comprehensive rule) — their branch context (project branch ∪ the parties' registered branches) and the region traces (the unit's served regions ∪ the context branches' regions). Requirement keys: a DECLARED dimension constrains, an undeclared one does not (sv106 refinement — the sv99 strict reading was reverted; the #364 doctrine stays on the coverage sets). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. A new aligned requirement surfaces on existing tickets automatically — but a requirement registered AFTER a dimension's 'all' snapshot needs the revisit the doctrine mandates.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null

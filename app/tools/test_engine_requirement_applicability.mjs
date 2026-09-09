@@ -43,7 +43,7 @@ console.log('== schema: sv99, doctrine on every key, cardinality flip ==');
   eq(/multivalued since issue #366/.test(String(by.customerID.notes)), true,
     'customerID notes record the cardinality flip (single #180 → multi #366)');
   for (const k of ['regionID', 'branchID', 'customerID', 'scopeID', 'productGroupID', 'productScopeID']) {
-    eq(/#366/.test(String(by[k].notes)), true, `${k} notes record the #366 doctrine`);
+    eq(/#366|sv106/.test(String(by[k].notes)), true, `${k} notes record the doctrine (#366/sv106 refinement)`);
   }
   const f = catalog['Requirements'].form.fields;
   const rule = (l) => String(f[l]['field-rule'] || '');
@@ -53,9 +53,9 @@ console.log('== schema: sv99, doctrine on every key, cardinality flip ==');
     && /filtered by businessUnitID selected/.test(rule('Customer')), true,
   'Customer keeps the #212 grouping + cascade');
   const strip = catalog['Requirements'].form.steps.Applicability['step-description'];
-  eq(/select all values|every dimension must be declared/i.test(strip), true,
-    'the Applicability strip teaches the explicit-pick rule');
-  eq(/applies to all \(Q1\)/i.test(strip), false, 'the old Q1 wording left the strip');
+  eq(/dimensions you DECLARE constrain/i.test(strip), true,
+    'the Applicability strip teaches the declared-constrains rule (sv106 refinement)');
+  eq(/applies to all \(Q1\)/i.test(strip), false, 'the old Q1 wording stays out of the strip');
 }
 
 console.log('== legacyWildcardData(99): the sv99 mockup is strict ==');
@@ -101,14 +101,27 @@ console.log('== matchRequirements: strict — any undeclared dimension = inherit
     isActive: 'Active', ...dims });
   eq(resolve.ticketRequirements(t).map(String).includes('RQ-T366'), true,
     'all-dimensions-declared requirement inherits (materialized "all")');
+  // sv106 refinement (Rafael): a DECLARED dimension constrains, an
+  // undeclared one does NOT — blanking any key leaves the requirement
+  // inheriting (the dimension stops constraining); a declared key that
+  // MISMATCHES the context excludes it
   const probe = data.getById('Requirements', 'RQ-T366');
   for (const k of KEYS) {
     const saved = probe[k];
     probe[k] = [];
-    eq(resolve.ticketRequirements(t).map(String).includes('RQ-T366'), false,
-      `blank ${k} keeps the requirement out of every inheritance (#366 strict)`);
+    eq(resolve.ticketRequirements(t).map(String).includes('RQ-T366'), true,
+      `blank ${k} does not constrain — the requirement still inherits (sv106)`);
     probe[k] = saved;
   }
+  // declared-but-foreign customer excludes (the constraining direction)
+  const foreignCust = data.getEntity('Customers').find((c) =>
+    String(c.customerID) !== String(t.customerID) && String(c.customerID) !== String(t.applicantID ?? '')
+    && String(c.customerID) !== String(t.supplierID ?? ''));
+  const savedCust = probe.customerID;
+  probe.customerID = [foreignCust.customerID];
+  eq(resolve.ticketRequirements(t).map(String).includes('RQ-T366'), false,
+    'a DECLARED customer key foreign to every party excludes (constrains)');
+  probe.customerID = savedCust;
   // proper subsets still narrow: pin the probe to a scope the ticket admits
   const admitted = resolve.ticketAdmittedScopeIds(t);
   probe.productScopeID = [admitted[0]];
@@ -164,8 +177,8 @@ console.log('== requirementsForUnit: strict keys, region census preserved ==');
   eq(bu2.length, 18, 'BU02 (serves RG03) offers all 18');
   data.addRecord('Requirements', { requirementID: 'RQ-T366b', requirementName: 'Blank probe (t)',
     isActive: 'Active', businessUnitID: [], regionID: [] });
-  eq(forms.requirementsForUnit('BU01').map((o) => String(o.value)).includes('RQ-T366b'), false,
-    'a requirement with undeclared unit/region is offered NOWHERE (#366; was: everywhere)');
+  eq(forms.requirementsForUnit('BU01').map((o) => String(o.value)).includes('RQ-T366b'), true,
+    'a requirement with undeclared unit/region belongs to every unit universe (sv106 refinement)');
   data.removeRecords('Requirements', ['RQ-T366b']);
 }
 
