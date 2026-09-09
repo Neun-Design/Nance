@@ -2679,17 +2679,16 @@
 
 
 <h1 id="projects">Projects<a class="headerlink" href="#projects" title="Permanent link">&para;</a></h1>
-<p><strong>What it is:</strong> a customer engagement grouping tickets, executed under the customer's
-contracts.
-<strong>Register when:</strong> phase 8, once CRM (including <a href="../../crm/sla/">SLAs</a>) exists.
+<p><strong>What it is:</strong> a customer engagement grouping tickets.
+<strong>Register when:</strong> phase 8, once CRM exists.
 <strong>Key fields:</strong> Registry ID; Name; <code>Unit *</code> (grouped by segment) → unlocks <code>Customer *</code>
-(the unit's customers) → <strong>Branch</strong> (optional — the customer's branches) → <strong>SLA</strong>
-(multi — the customer's contracts this project executes under, narrowed to the chosen
-Branch; a contract without a branch is not branch-specific and stays offered); Owner;
-Status. The coverage column (product scopes) derives from the linked SLAs.
-Since 2026-09-08 the linked contracts describe the project's own coverage only — what a
-<a href="../tickets/">Ticket</a> can trigger follows the contracts between its <strong>Applicant</strong> and
-<strong>Supplier</strong>, not the project's set.</p>
+(the unit's customers); Owner; Status.
+The project's <strong>Customer</strong> matters beyond grouping: requirements connected to that
+customer are inherited by the project's <a href="../tickets/">Tickets</a> (together with the
+ticket's Applicant). What a ticket can <em>trigger</em>, however, follows the
+<a href="../../crm/sla/">SLAs</a> between its <strong>Applicant</strong>, <strong>Supplier</strong> and output <strong>Branch</strong> —
+so the form carries no Branch or SLA inputs: contracts are declared on the SLA
+register, not pointed at project registration (2026-09-09 simplification).</p>
 
 
 
