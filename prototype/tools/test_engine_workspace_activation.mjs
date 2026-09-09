@@ -43,7 +43,9 @@ console.log('== schema: SLA-aware ticket chain ==');
   eq(model.parseRule(cat.byName['slaID'].rule).target, 'SLA', 'slaID targets SLA');
   const pj = catalog['Projects'];
   eq(model.parseRule(pj.byName['businessUnitID'].rule).kind, 'fk', 'Projects.businessUnitID is a stored FK anchor');
-  eq(model.parseRule(pj.byName['slaID'].rule).kind, 'fk', 'Projects.slaID is a stored FK (multivalued picker, not a rollup)');
+  // Projects.slaID retired at sv111 (the Branch/SLA inputs left the form —
+  // the ticket basis is Applicant → Supplier → Branch since #350/sv110)
+  eq(pj.byName['slaID'] === undefined, true, 'Projects.slaID retired (sv111)');
   eq(model.getSchemaVersion() >= 33, true, 'schemaVersion bumped to at least 33');
 }
 
@@ -59,9 +61,8 @@ console.log('== form spec: gated cascade ==');
   // the Event field gates on it (strict posture)
   eq(t.Event.check, 'Project IS NOT NULL', 'Event gated on the project (#325)');
   const p = catalog['Projects'].form.fields;
-  eq(p.SLA.attribute, 'slaID', 'Projects SLA binds the FK');
-  eq(/Allow multiple/i.test(String(p.SLA['field-rule'])), true, 'Projects SLA is multivalued');
-  eq(p.SLA.check, 'Customer IS NOT NULL', 'Projects SLA gated on the customer');
+  eq('SLA' in p, false, 'Projects SLA input removed (sv111 — dead under the #350 basis)');
+  eq('Branch' in p, false, 'Projects Branch input removed (sv111 — sv108 made the ticket branch the only trace)');
 }
 
 console.log('== eventsForTicket: the pair contracts gate the events (#350) ==');
@@ -75,7 +76,11 @@ console.log('== eventsForTicket: the pair contracts gate the events (#350) ==');
   eq(forms.eventsForTicket(null).length, 0, 'null ctx — no events');
   eq(forms.eventsForTicket({}).length > 0, true,
     'blank pair — every contracted event (lenient, #350 blank-skips)');
-  const prj = data.getEntity('Projects').find((p) => (p.slaID || []).length);
+  // an applicant that holds contracts (via the SLA table — the project
+  // stopped storing the link at sv111)
+  const contracted = new Set(data.getEntity('SLA').flatMap((s) =>
+    (Array.isArray(s.customerID) ? s.customerID : [s.customerID]).map(String)));
+  const prj = data.getEntity('Projects').find((p) => contracted.has(String(p.customerID)));
   const offered = forms.eventsForTicket({ applicantID: prj.customerID });
   const covered = new Set();
   for (const s of data.getEntity('SLA')) {
@@ -111,10 +116,9 @@ console.log('== seeds: unit anchors + payload-chain snapshots ==');
   eq(resolve.ticketRequirements(tickets[0]).length > 0, true,
     'the payload chain still yields a requirement set, now live');
   const projects = data.getEntity('Projects');
-  eq(projects.every((p) => p.businessUnitID != null && Array.isArray(p.slaID)), true,
-    'projects seed unit + contract list');
-  eq(projects.every((p) => p.slaID.every((id) => data.getById('SLA', id).customerID === p.customerID)),
-    true, 'project contracts belong to the project customer');
+  eq(projects.every((p) => p.businessUnitID != null), true, 'projects seed the unit anchor');
+  eq(projects.every((p) => !('slaID' in p) && !('branchID' in p)), true,
+    'projects carry NO contract/branch keys (sv111 purge — parity)');
   // ticket payload/SLA are STORED since #325 — every seed resolves its
   // dispatch package(s); since #350 the contracts follow the (Applicant,
   // Supplier) pair instead of the project's set

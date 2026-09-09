@@ -1123,20 +1123,22 @@ class Builder:
         slas = {s['slaID']: s for s in self.rows('SLA')}
         cust = {c['customerID']: c for c in self.rows('Customers')}
         projects = []
+        # sv111: Projects no longer store branchID/slaID (the Branch/SLA
+        # inputs retired — the ticket basis is Applicant → Supplier → Branch
+        # since #350/sv110). The historical customer-contract association
+        # survives as a SIDE MAP (the #328 role_level pattern) so the ticket
+        # seeds below keep their exact historical values — regenerated ≡
+        # migrated; the branch-unanimity rule (sv72) retires with its key.
+        sla_of_project = {}
         for i, p in enumerate(d['projects']):
             cid = self.id_of('Customers', p['customer'])
-            sla_ids = [s['slaID'] for s in self.rows('SLA') if s['customerID'] == cid][:2]
+            pid = f'PJ{i+1:02d}'
+            sla_of_project[pid] = [s['slaID'] for s in self.rows('SLA')
+                                   if s['customerID'] == cid][:2]
             unit = cust[cid]['businessUnitID'][0]
-            # branchID = the unanimity branch of the linked SLAs (exactly one
-            # distinct non-null SLA.branchID), else honest null — same
-            # deterministic rule as migrate_project_branch.py (sv72)
-            sla_branches = {slas[s]['branchID'] for s in sla_ids
-                            if slas[s].get('branchID') not in (None, '')}
-            branch = next(iter(sla_branches)) if len(sla_branches) == 1 else None
-            projects.append({'projectID': f'PJ{i+1:02d}', 'projectRegistryID': f'PRJ-2026-{i+1:03d}',
+            projects.append({'projectID': pid, 'projectRegistryID': f'PRJ-2026-{i+1:03d}',
                              'projectName': p['name'], 'businessUnitID': unit,
-                             'customerID': cid, 'branchID': branch,
-                             'slaID': sla_ids, 'projectOwner': None,
+                             'customerID': cid, 'projectOwner': None,
                              'projectStatus': 'Active' if i % 3 else 'Closed',
                              'jobID': None, 'estimatedTime': 120 + i * 40,
                              'executionTime': 90 + i * 35})
@@ -1184,7 +1186,7 @@ class Builder:
             if link is not None:
                 ev_id, ps_id = link['eventID'], link['productScopeID']
             else:
-                sla = slas.get((proj['slaID'] or [None])[0])
+                sla = slas.get((sla_of_project[proj['projectID']] or [None])[0])
                 pls = [payloads[p] for p in (sla['payloadID'] if sla else [])
                        if payloads[p]['productScopeID']]
                 pl = pls[n % len(pls)] if pls else None
@@ -1204,7 +1206,7 @@ class Builder:
             # payloadID/slaID keys). The base VALUE is provisional on the
             # applicant cohort — the #350 re-key below repoints it to the
             # applicant's covering contract's supplier.
-            gov_sla = slas.get((proj['slaID'] or [None])[0])
+            gov_sla = slas.get((sla_of_project[proj['projectID']] or [None])[0])
             sup_id = gov_sla.get('supplierID') if (gov_sla and (n - 1) % 3) else None
             tickets.append({'ticketID': f'TK{n:03d}',
                             'businessUnitID': cust[cid]['businessUnitID'][0],
