@@ -75,7 +75,7 @@ console.log('== seeds: mockup rows carry the key, all wildcard ==');
   const rows = data.getEntity('Requirements');
   eq(rows.length > 0, true, `Requirements mockup rows present (${rows.length})`);
   eq(rows.every((r) => 'customerID' in r), true, 'every row seeds the customerID key (parity)');
-  eq(rows.every((r) => r.customerID == null), true, 'all rows seed null — applies to all customers (Q1)');
+  eq(rows.every((r) => r.customerID == null), true, 'frozen-era shape: all rows seed null (on live data since sv106, blank = the dimension simply does not constrain)');
 }
 
 console.log(fails ? `\n${fails} FAILED` : '\nALL PASS');
