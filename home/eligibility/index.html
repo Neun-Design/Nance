@@ -2824,8 +2824,17 @@ is <strong>eligible</strong> for the task when all three checks hold:</p>
 <ol>
 <li><strong>Requirement coverage</strong> — the procedure's declared requirement set covers <strong>every</strong>
    requirement the ticket inherits (region, unit, branch, customer, scope, product
-   group and product scope, AND-matched). Applicability is always an explicit
-   declaration (2026-09-08): nothing is covered by omission.</li>
+   group and product scope, AND-matched). On the requirement side, <strong>the dimensions
+   you declare constrain the inheritance — a dimension left empty does not constrain</strong>
+   (2026-09-08 refinement): a requirement defined only for a branch binds every ticket
+   related to that branch — through the project, the customer, the applicant <strong>or the
+   supplier</strong> — one defined only for a customer binds the tickets naming that customer
+   in <strong>any</strong> role (customer, applicant or supplier), one defined only for a region
+   binds the tickets whose unit serves it or whose related branches sit in it, and one
+   defined only for a scope binds every ticket whose admitted product scopes carry it.
+   The rule is exhaustive by construction: every declared dimension is matched against
+   <strong>all</strong> the traces the ticket's parameters provide for it. (On the <em>coverage</em> side — the procedure's own requirement
+   set — nothing is covered by omission: an empty set covers nothing.)</li>
 <li><strong>Product scope</strong> — the procedure must name at least one of the scopes the ticket
    admits through its contract chain.</li>
 <li><strong>Approved status</strong> — only procedures with status <strong>Approved</strong> are considered

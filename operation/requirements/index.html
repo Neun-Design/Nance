@@ -2681,11 +2681,11 @@
 <h1 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h1>
 <p><strong>What it is:</strong> the regulatory/design/commercial limits that bind scopes and product groups
 (e.g. "ANVISA RDC 611 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
-multi-dimensional: region, unit, branch, customer, scope, product group — and <strong>every
-dimension is an explicit selection (2026-09-08)</strong>: to apply to all, select every value
-(today's list). An item registered later — a new region, customer, scope — is <strong>not</strong>
-silently covered: the requirement must be revisited, the deliberate review quality
-management demands. An empty dimension keeps the requirement out of every inheritance.
+multi-dimensional: region, unit, branch, customer, scope, product group — and <strong>the
+dimensions you declare constrain the inheritance; a dimension left empty does not
+constrain</strong> (2026-09-08 refinement): a requirement defined only for a branch binds
+every ticket related to that branch (project, customer, applicant or supplier), one
+defined only for a scope binds every ticket whose admitted product scopes carry it.
 <strong>Register when:</strong> after Scopes and Product Groups (Portfolio module).</p>
 <p>Since 2026-09-08 the form is a <strong>three-step wizard</strong> (the same chevron-step drawer as
 <a href="../procedures/">Procedures</a> and <a href="../../workspace/tickets/">Tickets</a>):</p>
@@ -2696,7 +2696,7 @@ its business unit(s): picked constraints filter the ticket's Product Scope optio
 the scopes that answer for them; the automatic inheritance below is not affected
 either way.</p>
 <p><strong>Step 2 — Applicability</strong> — the system's longest cascade gets its own screen, with the
-rule written on it: <em>select all values to apply to all of today's list</em>. Region →
+rule written on it: <em>the dimensions you declare constrain; an empty dimension does not</em>. Region →
 <code>Business Unit *</code> (unlocks after at least one Region is selected, 2026-08-27;
 <strong>mandatory</strong> since 2026-09-08 — every requirement declares the unit(s) it belongs to,
 the pre-RBAC rule) → Branch / Customer / Scope / Product Group / <strong>Product Scope</strong> —
