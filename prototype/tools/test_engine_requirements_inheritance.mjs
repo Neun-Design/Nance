@@ -2,8 +2,8 @@
 // test_engine_requirements_inheritance.mjs — proof suite for issues #226/#231
 // (schemaVersion 41/42): requirements inheritance. Tickets.requirementName is
 // live-derived (INHERITED-REQUIREMENTS — the admitted payload chain AND-matched
-// with the ticket's unit, its served regions and its customer, Q1 wildcards,
-// Active only). Competence follows the #231 doctrine (reverting the #226
+// with the ticket's unit, its served regions and its parties; sv106 ruling:
+// a DECLARED dimension constrains, an undeclared one does not; Active only). Competence follows the #231 doctrine (reverting the #226
 // union): a requirement NEVER enters a competence automatically — the quality
 // manager binds it to the Procedure (whose Requirements picker offers the
 // context-aligned options), and the competence inherits the set of its SINGLE
@@ -79,14 +79,14 @@ req('RQ-TF', 'Req Customer FC01 (t)', { scopeID: ['A.2'], productGroupID: ['PG01
 req('RQ-TG', 'Req Customer FC02 (t)', { scopeID: ['A.2'], productGroupID: ['PG01'], customerID: 'FC02' });
 req('RQ-TH', 'Req Other Scope (t)', { scopeID: ['G'], productGroupID: ['PG04'] });
 
-console.log('== tickets inherit live (Q1 AND semantics) ==');
+console.log('== tickets inherit live (declared-constrains AND semantics, sv106) ==');
 {
   const t = { ticketID: 'TK-TI', eventID: 'EV-TI', businessUnitID: 'BU01', customerID: null };
   const got = resolve.ticketRequirements(t);
   eq(got.includes('RQ-TA'), true, 'aligned requirement (scope+pg+served region) inherited');
   eq(got.includes('RQ-TB'), false, 'region the unit does not serve — out');
   eq(got.includes('RQ-TC'), false, "another unit's requirement — out");
-  eq(got.includes('RQ-TD'), true, 'full-wildcard requirement applies to all (Q1)');
+  eq(got.includes('RQ-TD'), true, 'no dimension declared → nothing constrains — inherits wherever it traces (sv106)');
   eq(got.includes('RQ-TE'), false, 'Inactive requirement never inherits');
   // sv106 refinement: a blank CONTEXT side skips its dimension uniformly —
   // a customer-less ticket no longer blocks customer-pinned requirements
@@ -129,8 +129,10 @@ console.log('== competence doctrine (#231): the procedure decides, the competenc
   data.updateRecord('Procedures', 'PROC-TI', { requirementID: ['RQ-TC', 'RQ-TA'] });
   eq(resolve.competenceRequirements(comp), ['RQ-TC', 'RQ-TA'],
     'binding the requirement to the procedure flows into the competence');
+  // FROZEN-dataset tolerance only (pre-sv98 stamp → legacyWildcardData):
+  // on live sv98+ data an empty-set procedure contributes NOTHING (#364)
   eq(resolve.competenceRequirements({ ...comp, procedureID: 'PROC-TW' }), null,
-    'a wildcard procedure still certifies ALL (null, Q1)');
+    'legacy tolerance: on the frozen snapshot an empty-set procedure still reads as certify-all');
 }
 
 console.log('== staffing follows the procedure decision ==');
