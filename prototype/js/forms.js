@@ -9,7 +9,7 @@ import { getEntity, getById, getBaseFields, addRecord, updateRecord, FK_MAP, ENT
 import { enrichAll } from './compute.js';
 import { getCatalog, resolveTable, columnsFor, childKeyFor, parseRule } from './model.js';
 import { resolveDisplay, computedConcat, childrenOf, competenceRequirements,
-  competenceExercisable, eventProductScopeIds, admittedProductScopeIds, namesFullDimension,
+  competenceExercisable, eventProductScopeIds, admittedProductScopeIds, namesFullDimension, selectableConstraintIds,
   ticketAdmittedSLAs, ticketAdmittedPayloads, productScopeRequirementRows } from './resolve.js';
 
 // Fields that reference another entity but aren't named like its PK.
@@ -910,15 +910,13 @@ export function customersForUnitBranches(unitId, branchIds = []) {
 export function constraintsForTicketUnit(unitId) {
   const rT = resolveTable('Requirements');
   const rMeta = ENTITY_META[rT];
-  return getEntity(rT).filter((r) => {
-    if (r.ticketSelectable !== true) return false;
-    if (String(r.isActive || 'Active') === 'Inactive') return false;
-    if (unitId == null || unitId === '') return true; // lenient — field is unit-gated anyway
-    const units = asList(r.businessUnitID).map(String);
-    if (!units.length) return true; // sv107: blank applicability unit = offered for every unit (sv106 posture)
-    return units.includes(String(unitId));
-  }).map((r) => ({ value: r[rMeta.pk],
-    label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
+  // id-level core shared with the sv109 deliberate-selection rule
+  // (selectableConstraintIds in resolve.js) — the option shaping stays here
+  return selectableConstraintIds(unitId)
+    .map((id) => getById(rT, id))
+    .filter(Boolean)
+    .map((r) => ({ value: r[rMeta.pk],
+      label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
     .sort((a, b) => a.label.localeCompare(b.label));
 }
 

@@ -39,8 +39,11 @@ offers no events — register the [SLA](../crm/sla.md) between them first.
 Above the Product Scope, the **Constraints** picker (2026-09-08) filters the scope
 offer: pick among the requirements flagged *Selectable on Tickets* for this business
 unit, and the Product Scope options narrow to the scopes that **answer for every
-picked constraint** (leave it empty to see every admitted scope). It is a pure filter —
-the automatically inherited requirement set is not affected by the picks.
+picked constraint** (leave it empty to see every admitted scope). Picking is also a
+**deliberate selection** (2026-09-09): once at least one constraint is picked, the
+offered ones you did **not** pick leave the ticket's inherited requirements — you saw
+them and decided against; leaving the input empty means no decision, and the automatic
+inheritance stays intact.
 
 **Step 3 — Details:** description, Target date, Status. On save the app **resolves and
 stores the ticket's payload(s) and governing SLA(s)** from the step-2 pair — the

@@ -47,6 +47,15 @@ The outcome is deliberately strict — **exactly one** eligible procedure:
 | **0** | **GAP** | no approved method covers this combination — a knowledge gap to fill |
 | **2+** | **GAP** with the hover hint `Procedures redundancy <ids>` | competing methods — a redundancy the quality manager must resolve, and the hint names exactly which ones collide |
 
+### The Constraints input is a deliberate selection
+
+Some requirements are flagged **Selectable on Tickets** and appear as **Constraints**
+options when a ticket is opened. Once the user picks **at least one**, the choice is
+deliberate (2026-09-09): the offered constraints that were **not** picked leave the
+ticket's inherited requirements — the user saw them and decided against. Requirements
+never offered there inherit normally, and leaving the input untouched means no
+decision — the automatic inheritance stays intact.
+
 ## 2. Requirements re-evaluate everything, live
 
 Requirements are never copied onto tickets — they are **inherited live**. The moment a
