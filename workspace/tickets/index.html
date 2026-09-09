@@ -2689,10 +2689,15 @@ last step):</p>
 <p><strong>Step 1 — Parties</strong> (who is involved): <code>Unit *</code> (grouped by segment) → <strong>Applicant</strong>
 (2026-09-03) — the internal customer <em>opening</em> the ticket, always an <code>Internal</code>-type
 customer; optional — a ticket without one inherits requirements through the project
-customer alone → <code>Customer *</code> (unlocked by the Unit) — it only <strong>filters the projects
-offered below</strong> → unlocks <code>Project *</code> (the customer's projects) → <strong>Supplier</strong> — the
-party responsible for resolving the issue, picked among the unit's customers grouped
-by type.</p>
+customer alone → <strong>Branch</strong> (2026-09-08) — the Applicant's branch that will <strong>receive
+the ticket's output</strong> (offered from the branches where the Applicant is registered):
+branch-pinned requirements apply exactly to this branch, and leaving it empty skips
+the branch dimension → <code>Customer *</code> (unlocked by the Unit) — it only <strong>filters the
+projects offered below</strong> → unlocks <code>Project *</code> (the customer's projects) →
+<strong>Supplier</strong> — the party responsible for resolving the issue, picked among the unit's
+customers grouped by type. The Supplier <strong>never feeds requirement inheritance</strong>
+(2026-09-08): a supplier answers its clients' requirements, it does not impose its own
+on a request it must resolve.</p>
 <p><strong>Step 2 — Request</strong> (what is requested): <code>Event *</code> (unlocked by the Project) — <strong>only
 events packaged by the contracts between the Applicant and the Supplier are offered</strong>
 (2026-09-08): the ticket runs under the SLAs where the <em>Applicant</em> buys from the chosen
