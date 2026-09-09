@@ -52,11 +52,11 @@ console.log('== #350 gates and cascade spellings survive the split unchanged =='
   eq(f.Supplier.check, 'Business Unit IS NOT NULL', 'Supplier gated on the Unit');
   eq(f.Event.check, 'Project IS NOT NULL', 'Event gated on the Project (cross-step gate)');
   eq(f['Product Scope'].check, 'Event IS NOT NULL', 'Product Scope gated on the Event');
-  eq(/filtered by Applicant \+ Supplier selected/i.test(String(f.Event['field-rule'])), true,
-    'Event cascade still names the Applicant + Supplier pair (#350 — deps live on step 1)');
-  eq(/filtered by Event \+ Applicant \+ Supplier \+ Constraints selected/i
+  eq(/filtered by Applicant \+ Supplier \+ Branch selected/i.test(String(f.Event['field-rule'])), true,
+    'Event cascade names the Applicant + Supplier + Branch chain (#350 pair + the sv110 output branch)');
+  eq(/filtered by Event \+ Applicant \+ Supplier \+ Branch \+ Constraints selected/i
     .test(String(f['Product Scope']['field-rule'])), true,
-  'Product Scope cascade carries the Constraints layer (#359 redefined) on top of the #350 deps');
+  'Product Scope cascade carries the Constraints layer on top of the sv110 SLA chain');
 }
 
 console.log(fails ? `\n${fails} FAILURE(S)` : '\nALL GREEN');

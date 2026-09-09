@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 109,
+    "schemaVersion": 110,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -5406,7 +5406,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "The branch that RECEIVES the ticket's output (sv108, Rafael's conceptual fix) — chosen below the Applicant, options = the branches where the APPLICANT is registered (Branches.customerID, generic stored-key cascade). THE branch context of requirement inheritance: branch-pinned requirements apply exactly to this branch — the sv105/sv106 union (project ∪ customer/applicant/supplier branches) is superseded, and the SUPPLIER never feeds inheritance (a supplier must not impose requirements on a request it must itself resolve). Nullable — blank = the branch dimension is skipped",
+              "notes": "The branch that RECEIVES the ticket's output (sv108, Rafael's conceptual fix) — chosen below the Applicant, options = the branches where the APPLICANT is registered (Branches.customerID, generic stored-key cascade). THE branch context of requirement inheritance: branch-pinned requirements apply exactly to this branch — the sv105/sv106 union (project ∪ customer/applicant/supplier branches) is superseded, and the SUPPLIER never feeds inheritance (a supplier must not impose requirements on a request it must itself resolve). Nullable — blank = the branch dimension is skipped. Since sv110 it ALSO gates the SLA basis (Rafael's rule: the contract filter is Applicant → Supplier → branch): an SLA pinned to another branch drops from the ticket's Event/Product Scope universe; a branch-less SLA is not branch-specific and stays (#316 posture)",
               "table-display": true,
               "subitem-display": false,
               "constraints": "FK"
@@ -5726,7 +5726,7 @@
                 "tooltip": "Only events packaged by the contracts between the Applicant and the Supplier are offered (issue #350) — leave a side empty to skip its dimension",
                 "step": "Request",
                 "check": "Project IS NOT NULL",
-                "field-rule": "filtered by Applicant + Supplier selected"
+                "field-rule": "filtered by Applicant + Supplier + Branch selected"
               },
               "Constraints": {
                 "field-type": {
@@ -5749,7 +5749,7 @@
                 "tooltip": "Only product scopes co-packaged with the chosen event in a payload of the Applicant → Supplier contracts — narrowed to the scopes answering for the selected Constraints (issue #359); the resolved payload and contract are stored on save",
                 "step": "Request",
                 "check": "Event IS NOT NULL",
-                "field-rule": "filtered by Event + Applicant + Supplier + Constraints selected"
+                "field-rule": "filtered by Event + Applicant + Supplier + Branch + Constraints selected"
               },
               "Details": {
                 "field-type": {
