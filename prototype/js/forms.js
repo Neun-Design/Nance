@@ -1918,7 +1918,7 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Tickets' && attrName === 'eventID') {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
             applyOpts(eventsForTicket({ applicantID: val('Applicant'),
-              supplierID: val('Supplier') }));
+              supplierID: val('Supplier'), branchID: val('Branch') }));
             return;
           }
           // Forecast Scopes "Event": only events covered by the forecast's
@@ -1959,7 +1959,8 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
           if (entity === 'Tickets' && attrName === 'productScopeID') {
             const val = (name) => { const dep = findDep(name); return dep ? dep[1].get() : null; };
             applyOpts(productScopesForTicket(val('Event'), {
-              applicantID: val('Applicant'), supplierID: val('Supplier') },
+              applicantID: val('Applicant'), supplierID: val('Supplier'),
+              branchID: val('Branch') },
             val('Constraints')));
             return;
           }

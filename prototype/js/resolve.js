@@ -787,11 +787,20 @@ export function ticketAdmittedSLAs(ctx) {
   if (!ctx) return [];
   const aid = ctx.applicantID != null && ctx.applicantID !== '' ? String(ctx.applicantID) : null;
   const sup = ctx.supplierID != null && ctx.supplierID !== '' ? String(ctx.supplierID) : null;
+  // sv110 (Rafael's rule — the SLA filter is Applicant → Supplier → BRANCH):
+  // the ticket's OUTPUT branch (sv108) also gates the contract basis — an
+  // SLA pinned to another branch drops; an SLA WITHOUT a branch is not
+  // branch-specific and stays (the #316 slasForProject posture — single
+  // nullable FK = context, not an applicability set); a blank ticket branch
+  // skips the dimension.
+  const br = ctx.branchID != null && ctx.branchID !== '' ? String(ctx.branchID) : null;
   const out = [];
   for (const s of getEntity('SLA')) {
     if (String(s.isActive || 'Active') === 'Inactive') continue;
     if (aid != null && !asIds(s.customerID).map(String).includes(aid)) continue;
     if (sup != null && String(s.supplierID ?? '') !== sup) continue;
+    if (br != null && s.branchID != null && s.branchID !== ''
+        && String(s.branchID) !== br) continue;
     out.push(s);
   }
   return out;

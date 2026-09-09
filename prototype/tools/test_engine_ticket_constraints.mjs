@@ -59,9 +59,9 @@ console.log('== schema: renamed key, mandatory unit, wizard placement ==');
     ? tf.Constraints['field-rule'].join('; ') : String(tf.Constraints['field-rule']);
   eq(/Allow multiple values/i.test(rule) && /filtered by Business Unit selected/i.test(rule),
     true, 'multivalued + unit-cascade spelling (#274 wiring)');
-  eq(/filtered by Event \+ Applicant \+ Supplier \+ Constraints selected/i
+  eq(/filtered by Event \+ Applicant \+ Supplier \+ Branch \+ Constraints selected/i
     .test(String(tf['Product Scope']['field-rule'])), true,
-  'Product Scope cascade NAMES Constraints (the filter layer is wired)');
+  'Product Scope cascade NAMES Constraints (+ the sv110 Branch leg) — the filter layer is wired');
 }
 
 console.log('== constraintsForTicketUnit: flag + unit equality, nothing else ==');
