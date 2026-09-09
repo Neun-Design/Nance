@@ -129,9 +129,18 @@ console.log('== the union is RETIRED: inheritance is the only requirement source
     regionID: [], scopeID: ['SC-GHOST'], productGroupID: [], productScopeID: [], branchID: [] });
   t0.constraintID = ['RQC-U'];
   eq(resolve.ticketRequirements(t0).includes('RQC-U'), false,
-    'a picked constraint does NOT join the requirement set (pure filter)');
-  eq(JSON.stringify(resolve.ticketRequirements(t0)), JSON.stringify(base),
-    'inherited set identical with or without picks (#226 chain untouched)');
+    'a picked constraint does NOT join the requirement set (picks never ADD — #359 union retired)');
+  // sv109 deliberate-selection: engaging the input REMOVES the offered
+  // selectables that were not picked — the #359 "chain untouched" posture
+  // is superseded; the set may only SHRINK, never grow
+  const withPick = resolve.ticketRequirements(t0);
+  const offered = resolve.selectableConstraintIds(
+    Array.isArray(t0.businessUnitID) ? t0.businessUnitID[0] : t0.businessUnitID);
+  eq(withPick.every((id) => base.map(String).includes(String(id))), true,
+    'picks only remove — the inherited set is a subset of the unpicked baseline (sv109)');
+  eq(base.map(String).filter((id) => offered.includes(id) && id !== 'RQC-U')
+    .every((id) => !withPick.map(String).includes(id)), true,
+  'offered-but-unpicked selectables leave the inheritance (deliberate exclusion, sv109)');
   t0.constraintID = [];
   data.removeRecords('Requirements', ['RQC-U']);
 }
