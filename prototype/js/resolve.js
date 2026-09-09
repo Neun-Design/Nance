@@ -908,7 +908,7 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId
   // project customer or the internal applicant opening the ticket.
   const parties = [customerId, applicantId].filter((v) => v != null && v !== '');
   const legacy = legacyWildcardData(99);
-  const branchBlank = branchId == null || branchId === '';
+  const branchBlank = !asIds(branchId).length; // context may be a LIST (sv105 — project ∪ parties' branches)
   const out = [];
   for (const r of getEntity('Requirements')) {
     if (String(r.isActive || 'Active') === 'Inactive') continue;
@@ -982,17 +982,30 @@ export function ticketRequirements(ticket) {
   const ids = ticketAdmittedScopeIds(ticket);
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
   const unitIds = asIds(ticket.businessUnitID);
-  // branch context (issue #353) = the ticket's PROJECT branch (#316) — the
-  // ticket itself stores no branch key; no project / no branch = dimension
-  // skipped (lenient)
+  // branch context (issue #353, WIDENED by the sv105 round — Rafael's rule:
+  // a requirement pinned to a branch binds the tickets whose PARTIES belong
+  // to it): the PROJECT's branch (#316) ∪ the branches where the ticket's
+  // inheritance parties — customer AND applicant, the #308 pair — are
+  // registered (Branches.customerID, #320 N:N). Empty union = dimension
+  // skipped (lenient context posture, unchanged).
   const prj = ticket.projectID != null && ticket.projectID !== ''
     ? getById('Projects', ticket.projectID) : null;
+  const branchIds = [];
+  if (prj && prj.branchID != null && prj.branchID !== '') branchIds.push(String(prj.branchID));
+  const parties = [ticket.customerID, ticket.applicantID].filter((v) => v != null && v !== '');
+  if (parties.length) {
+    for (const b of getEntity('Branches')) {
+      const regd = asIds(b.customerID).map(String);
+      if (parties.some((c) => regd.includes(String(c)))
+          && !branchIds.includes(String(b.branchID))) branchIds.push(String(b.branchID));
+    }
+  }
   // (the #359 manual-union of addedRequirementID was RETIRED in the same
   // round's redefinition — the picks became the Constraints FILTER on the
   // Product Scope options, forms.js; inheritance is the only source again)
   return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
     customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
-    branchId: (prj && prj.branchID) ?? null });
+    branchId: branchIds });
 }
 
 // Requirements a competence certifies — via its procedures since the
