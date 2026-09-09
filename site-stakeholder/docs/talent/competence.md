@@ -15,11 +15,11 @@ each [Procedure](../operation/procedures.md) (whose Requirements picker offers t
 requirements aligned to the product scopes), and every competence certifying that procedure
 inherits the decision. A competence **must be bound to a procedure to be exercised**
 (2026-09-08): one without a procedure link covers no requirement and staffs nobody —
-there is nothing to exercise until the method is linked and Approved. A user-given **Title** names the competence — with the group
-cardinality, the title is what distinguishes and groups competences (it is the label shown
-wherever a competence is listed, e.g. the Onboarding picker).
+there is nothing to exercise until the method is linked and Approved. The competence's **Title** — the label shown wherever a competence is listed, e.g. the
+Onboarding picker — is generated automatically on save since 2026-09-08 (task name +
+scope, e.g. *"Perform CT Scan | Urgent"*); the form no longer asks for it.
 **Register when:** after Operation exists (including the task's Procedures).
-**Key fields:** `Title *` (free text); `Business Unit` (2026-09-07 — the pre-RBAC filter
+**Key fields:** `Business Unit` (2026-09-07 — the pre-RBAC filter
 input: the Function options narrow to the chosen unit) → `Function *` → unlocks Role
 (2026-09-07 — roles carry no skill level: this competence owns the role + level pair);
 `Skill Level *`;

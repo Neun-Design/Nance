@@ -40,13 +40,11 @@ console.log('== schema: procedure GROUP + title label ==');
     'competenceTitle is the table label (first *Title attr)');
   eq(forms.requiredAttrs('Competence').has('competenceTitle'), true,
     'title is required (label + NOT NULL)');
-  const f = catalog['Competence'].form.fields.Title;
-  eq(f && f.attribute, 'competenceTitle', 'form opens with the Title input');
-  eq(f && f['field-type'] && 'input' in f['field-type'], true,
-    'Title renders as a free-text input');
-  eq(f && f.tooltip,
-    'Names the competence — distinguishes and groups competences now that one competence certifies a group of procedures',
-    'Title tooltip verbatim');
+  // sv104 (Rafael, 2026-09-08): the Title INPUT left the form — the label
+  // auto-derives on save via the #284 seed rule (applyDerivedUnits;
+  // proven in test_engine_competence_title_derive.mjs)
+  eq(catalog['Competence'].form.fields.Title, undefined,
+    'the Title input left the form (sv104 — label auto-derived on save)');
 }
 
 console.log('== schema: multivalued picker keeps the cascade wired ==');

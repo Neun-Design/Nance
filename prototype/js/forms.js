@@ -559,6 +559,20 @@ export function applyDerivedUnits(entity, rec) {
     const pr = rec.processID && getById('Processes', rec.processID);
     const e = rec.eventID && getById('Events', rec.eventID);
     rec.departmentID = (pr && pr.departmentID) ?? (e && e.departmentID) ?? null;
+    // the Title input left the form (Rafael, 2026-09-08) — the label
+    // auto-derives on save with the #284 seed rule: "<task name> | <scope
+    // name>" → task name → "Competence <id>". Blank-only: updateRecord
+    // MERGES, so stored titles survive edits untouched.
+    if (rec.competenceTitle == null || rec.competenceTitle === '') {
+      const task = rec.taskID != null && rec.taskID !== '' ? getById('Tasks', rec.taskID) : null;
+      const ps = rec.productScopeID != null && rec.productScopeID !== ''
+        ? getById('Product Scopes', rec.productScopeID) : null;
+      const scope = ps && ps.scopeID != null ? getById('Scopes', ps.scopeID) : null;
+      const taskName = task && task.taskName ? String(task.taskName) : '';
+      const scopeName = scope && scope.scopeName ? String(scope.scopeName) : '';
+      rec.competenceTitle = taskName && scopeName ? `${taskName} | ${scopeName}`
+        : taskName || `Competence ${rec.competenceID}`;
+    }
   } else if (entity === 'Tickets') {
     // processID snapshot = the event's processes narrowed by the chosen
     // product scope (issue #214) — drives the Processes/Tasks subitem tabs.
