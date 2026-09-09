@@ -20,9 +20,9 @@ a module you can open from the tabs above.
 A regulatory norm, a customer's contractual clause, a clinical protocol, an accreditation
 requirement. Requirements are not filed as documents — they are registered with an
 applicability: which regions, which business units, which scopes and which product groups they
-bind. Every dimension is an explicit selection — to apply to all, select every value; a
-scope or customer registered later requires revisiting the requirement, the deliberate
-review quality management demands.
+bind. The dimensions you declare constrain the inheritance — a dimension left empty
+does not constrain: a requirement registered only for a branch binds every ticket
+related to that branch.
 
 → [Operation · Requirements](../operation/requirements.md)
 

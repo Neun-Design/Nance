@@ -112,6 +112,39 @@ console.log('== 1.2 via new Requirement: live inheritance re-evaluates the dispa
     'a requirement pinned to another customer stays out (AND match)');
   data.removeRecords('Requirements', ['RQ-ELIG']);
   eq(resolve.ticketRequirements(t).map(String).sort(), before, 'baseline restored');
+
+  // branch via the PARTIES (sv105 — Rafael's rule): a requirement pinned to
+  // a branch the ticket's APPLICANT belongs to inherits into the ticket
+  const tb = data.getEntity('Tickets').find((tk) => tk.applicantID != null
+    && data.getEntity('Branches').some((b) =>
+      (Array.isArray(b.customerID) ? b.customerID : [b.customerID])
+        .map(String).includes(String(tk.applicantID))));
+  eq(tb != null, true, 'a ticket whose applicant is registered under a branch exists');
+  const applBranch = data.getEntity('Branches').find((b) =>
+    (Array.isArray(b.customerID) ? b.customerID : [b.customerID])
+      .map(String).includes(String(tb.applicantID)));
+  const dim2 = (tab, pk) => data.getEntity(tab).map((r) => r[pk]);
+  data.addRecord('Requirements', { requirementID: 'RQ-ELIG-BR', requirementName: 'Branch probe (t)',
+    isActive: 'Active', regionID: dim2('Regions', 'regionID'),
+    businessUnitID: dim2('Business Units', 'businessUnitID'),
+    customerID: dim2('Customers', 'customerID'), scopeID: dim2('Scopes', 'scopeID'),
+    productGroupID: dim2('Product Groups', 'productGroupID'),
+    productScopeID: dim2('Product Scopes', 'productScopeID'),
+    branchID: [applBranch.branchID] });
+  eq(resolve.ticketRequirements(tb).map(String).includes('RQ-ELIG-BR'), true,
+    'pinned to the APPLICANT\'s branch → inherits (the parties\' branch context)');
+  // pinned to a branch FOREIGN to every party (and to the project) → out
+  const partyBranches = data.getEntity('Branches').filter((b) =>
+    (Array.isArray(b.customerID) ? b.customerID : [b.customerID]).map(String)
+      .some((c) => [String(tb.customerID), String(tb.applicantID)].includes(c)))
+    .map((b) => String(b.branchID));
+  const prjB = tb.projectID && data.getById('Projects', tb.projectID)?.branchID;
+  const foreign = data.getEntity('Branches').find((b) =>
+    !partyBranches.includes(String(b.branchID)) && String(b.branchID) !== String(prjB ?? ''));
+  data.getById('Requirements', 'RQ-ELIG-BR').branchID = [foreign.branchID];
+  eq(resolve.ticketRequirements(tb).map(String).includes('RQ-ELIG-BR'), false,
+    'pinned to a branch foreign to the parties AND the project → stays out');
+  data.removeRecords('Requirements', ['RQ-ELIG-BR']);
 }
 
 console.log('== 1.3 via procedure Status: only Approved methods are candidates ==');
