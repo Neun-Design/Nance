@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 96,
+  "schemaVersion": 111,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11208,15 +11208,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT01",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "RDC 611/2022",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ02",
@@ -11232,15 +11317,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT01",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "ANMAT 2674",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ03",
@@ -11257,15 +11427,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT01",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "CFM 2.107",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ04",
@@ -11282,15 +11537,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT03",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "LGPD 13.709",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ05",
@@ -11306,21 +11646,110 @@
      "BU04"
     ],
     "requirementTypeID": "RT03",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "Ley 25.326",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ06",
     "requirementName": "Contrast Administration Protocol",
     "requirementDescription": "Screening, consent and supervision for contrast media",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11328,26 +11757,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT02",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
     "productGroupID": [
      "PG01",
      "PG02",
      "PG03",
      "PG04"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ07",
     "requirementName": "Sedation Safety Protocol",
     "requirementDescription": "Anesthesist presence and recovery monitoring under sedation",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11355,24 +11858,98 @@
      "BU04"
     ],
     "requirementTypeID": "RT02",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
     "productGroupID": [
      "PG03",
      "PG04"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ08",
     "requirementName": "Report Double Signature",
     "requirementDescription": "Urgent and second-opinion reports need two signatures",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11380,24 +11957,104 @@
      "BU04"
     ],
     "requirementTypeID": "RT02",
-    "branchID": null,
-    "customerID": null,
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
     "scopeID": [
      "SC02",
      "SC03"
     ],
-    "productGroupID": [],
-    "productScopeID": [],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ09",
     "requirementName": "Radiation Dose Registry",
     "requirementDescription": "Per-exam dose logging and periodic review",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11405,26 +12062,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT01",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
     "productGroupID": [
      "PG01",
      "PG02",
      "PG05",
      "PG08"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ10",
     "requirementName": "ISO 15189 Lab Accreditation",
     "requirementDescription": "Medical-laboratory competence accreditation",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11432,25 +12163,99 @@
      "BU04"
     ],
     "requirementTypeID": "RT04",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
     "productGroupID": [
      "PG10",
      "PG11",
      "PG12"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ11",
     "requirementName": "PACS Retention Policy",
     "requirementDescription": "20-year image retention with audit trail",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11458,21 +12263,110 @@
      "BU04"
     ],
     "requirementTypeID": "RT03",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ12",
     "requirementName": "Cold Chain Control",
     "requirementDescription": "Temperature-controlled sample transport",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11480,23 +12374,103 @@
      "BU04"
     ],
     "requirementTypeID": "RT02",
-    "branchID": null,
-    "customerID": null,
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
     "scopeID": [
      "SC06"
     ],
-    "productGroupID": [],
-    "productScopeID": [],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ13",
     "requirementName": "HealthFirst Reporting Template",
     "requirementDescription": "Insurer-mandated report layout and coding",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11504,21 +12478,90 @@
      "BU04"
     ],
     "requirementTypeID": "RT05",
-    "branchID": null,
-    "customerID": "CUST01",
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ14",
     "requirementName": "Austral Prior Authorization",
     "requirementDescription": "Pre-authorization required before high-cost exams",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11526,21 +12569,90 @@
      "BU04"
     ],
     "requirementTypeID": "RT05",
-    "branchID": null,
-    "customerID": "CUST03",
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST03"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ15",
     "requirementName": "Screening Quality Sampling",
     "requirementDescription": "Second-read sampling on mammography campaign volume",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11548,25 +12660,90 @@
      "BU04"
     ],
     "requirementTypeID": "RT04",
-    "branchID": null,
-    "customerID": null,
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
     "scopeID": [
      "SC07"
     ],
     "productGroupID": [
      "PG08"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ16",
     "requirementName": "Critical Value Notification",
     "requirementDescription": "Immediate physician notification on critical results",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11574,24 +12751,98 @@
      "BU04"
     ],
     "requirementTypeID": "RT02",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
     "productGroupID": [
      "PG10",
      "PG12"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ17",
     "requirementName": "Equipment QC Daily Check",
     "requirementDescription": "Daily quality-control phantom checks",
-    "regionID": [],
+    "regionID": [
+     "RG01",
+     "RG02",
+     "RG03"
+    ],
     "businessUnitID": [
      "BU01",
      "BU02",
@@ -11599,9 +12850,53 @@
      "BU04"
     ],
     "requirementTypeID": "RT01",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
     "productGroupID": [
      "PG01",
      "PG02",
@@ -11609,11 +12904,37 @@
      "PG04",
      "PG08"
     ],
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": false,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ18",
@@ -11629,15 +12950,100 @@
      "BU04"
     ],
     "requirementTypeID": "RT05",
-    "branchID": null,
-    "customerID": null,
-    "scopeID": [],
-    "productGroupID": [],
-    "productScopeID": [],
+    "branchID": [
+     "BR01",
+     "BR02",
+     "BR03",
+     "BR04",
+     "BR05",
+     "BR06",
+     "BR07",
+     "BR08",
+     "BR09",
+     "BR10",
+     "BR11",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST01",
+     "CUST02",
+     "CUST03",
+     "CUST04",
+     "CUST05",
+     "CUST06",
+     "CUST07",
+     "CUST08",
+     "CUST09",
+     "CUST10",
+     "CUST11",
+     "CUST12",
+     "CUST13",
+     "CUST14",
+     "CUST15",
+     "CUST16",
+     "CUST17",
+     "CUST18",
+     "CUST19",
+     "CUST20",
+     "CUST21"
+    ],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productGroupID": [
+     "PG01",
+     "PG02",
+     "PG03",
+     "PG04",
+     "PG05",
+     "PG06",
+     "PG07",
+     "PG08",
+     "PG09",
+     "PG10",
+     "PG11",
+     "PG12",
+     "PG13",
+     "PG14"
+    ],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "ticketSelectable": true,
     "regulatoryReference": "",
-    "regulatoryURL": null
+    "regulatoryURL": null,
+    "registryUnitID": "BU01"
    }
   ],
   "Channels": [
@@ -12093,7 +13499,22 @@
     "parentProcessID": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "squadID": "SQ01",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -12110,7 +13531,14 @@
     "parentProcessID": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19"
+    ],
     "squadID": "SQ02",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -12127,7 +13555,10 @@
     "parentProcessID": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS08"
+    ],
     "squadID": "SQ03",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -12144,7 +13575,9 @@
     "parentProcessID": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS06"
+    ],
     "squadID": "SQ04",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -12161,7 +13594,9 @@
     "parentProcessID": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS22"
+    ],
     "squadID": "SQ05",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -12178,7 +13613,10 @@
     "parentProcessID": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS15",
+     "PS17"
+    ],
     "squadID": "SQ06",
     "processStatus": "Active",
     "processVersion": "1.0",
@@ -13381,8 +14819,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13423,8 +14872,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13441,7 +14901,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H02"
     ],
@@ -13461,8 +14940,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13501,8 +14991,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13519,7 +15020,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H04"
     ],
@@ -13541,8 +15061,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13583,8 +15114,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13601,7 +15143,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H06"
     ],
@@ -13621,8 +15182,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13663,8 +15235,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13703,8 +15286,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13743,8 +15337,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -13761,7 +15366,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H10"
     ],
@@ -13781,8 +15405,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13813,8 +15448,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13845,8 +15491,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13877,8 +15534,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13909,8 +15577,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13943,8 +15622,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -13975,8 +15665,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -14007,8 +15708,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -14041,13 +15753,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H05"
     ],
@@ -14069,13 +15813,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H06"
     ],
@@ -14095,13 +15871,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H07"
     ],
@@ -14123,13 +15931,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H08"
     ],
@@ -14149,13 +15989,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H09"
     ],
@@ -14175,8 +16047,21 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
@@ -14203,13 +16088,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H11"
     ],
@@ -14229,13 +16146,45 @@
     "procedureURL": null,
     "businessUnitID": "BU02",
     "departmentID": "DPT03",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR05",
+     "BR06",
+     "BR08",
+     "BR10",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST13",
+     "CUST14",
+     "CUST16",
+     "CUST18"
+    ],
     "productScopeID": [
      "PS01",
      "PS08"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H12"
     ],
@@ -14255,12 +16204,40 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ],
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H13"
     ],
@@ -14280,12 +16257,40 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ],
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H14"
     ],
@@ -14305,12 +16310,40 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ],
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H01"
     ],
@@ -14332,12 +16365,40 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ],
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H02"
     ],
@@ -14357,12 +16418,40 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ],
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H03"
     ],
@@ -14382,12 +16471,40 @@
     "procedureURL": null,
     "businessUnitID": "BU03",
     "departmentID": "DPT04",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR02",
+     "BR03",
+     "BR07",
+     "BR12"
+    ],
+    "customerID": [
+     "CUST10",
+     "CUST11",
+     "CUST15"
+    ],
     "productScopeID": [
      "PS06"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H04"
     ],
@@ -14409,12 +16526,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H05"
     ],
@@ -14436,12 +16578,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H06"
     ],
@@ -14461,12 +16628,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H07"
     ],
@@ -14488,12 +16680,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H08"
     ],
@@ -14513,12 +16730,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H09"
     ],
@@ -14538,12 +16780,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H10"
     ],
@@ -14563,12 +16830,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H11"
     ],
@@ -14588,12 +16880,37 @@
     "procedureURL": null,
     "businessUnitID": "BU04",
     "departmentID": "DPT05",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR04",
+     "BR08"
+    ],
+    "customerID": [
+     "CUST12",
+     "CUST16"
+    ],
     "productScopeID": [
      "PS22"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H12"
     ],
@@ -14613,13 +16930,43 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H13"
     ],
@@ -14639,13 +16986,43 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H14"
     ],
@@ -14665,13 +17042,43 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H01"
     ],
@@ -14693,13 +17100,43 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H02"
     ],
@@ -14719,13 +17156,43 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H03"
     ],
@@ -14745,13 +17212,43 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT06",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS15",
      "PS17"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H04"
     ],
@@ -14773,8 +17270,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -14791,7 +17299,26 @@
      "PS23",
      "PS24"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H01"
     ],
@@ -14813,8 +17340,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS02",
      "PS03",
@@ -14853,8 +17391,19 @@
     "procedureURL": null,
     "businessUnitID": "BU01",
     "departmentID": "DPT02",
-    "branchID": [],
-    "customerID": [],
+    "branchID": [
+     "BR01",
+     "BR05",
+     "BR08",
+     "BR09",
+     "BR11"
+    ],
+    "customerID": [
+     "CUST09",
+     "CUST13",
+     "CUST16",
+     "CUST17"
+    ],
     "productScopeID": [
      "PS14",
      "PS15",
@@ -14863,7 +17412,26 @@
      "PS18",
      "PS19"
     ],
-    "requirementID": [],
+    "requirementID": [
+     "RQ01",
+     "RQ02",
+     "RQ03",
+     "RQ04",
+     "RQ05",
+     "RQ06",
+     "RQ07",
+     "RQ08",
+     "RQ09",
+     "RQ10",
+     "RQ11",
+     "RQ12",
+     "RQ13",
+     "RQ14",
+     "RQ15",
+     "RQ16",
+     "RQ17",
+     "RQ18"
+    ],
     "taskInput": [
      "H11"
     ],
@@ -14885,11 +17453,6 @@
     "projectName": "HealthFirst 2026 Service Contract",
     "businessUnitID": "BU01",
     "customerID": "CUST01",
-    "branchID": null,
-    "slaID": [
-     "SLA01",
-     "SLA19"
-    ],
     "projectOwner": "U23",
     "projectStatus": "Closed",
     "jobID": null,
@@ -14902,11 +17465,6 @@
     "projectName": "MedCare Plus Imaging Program",
     "businessUnitID": "BU02",
     "customerID": "CUST02",
-    "branchID": null,
-    "slaID": [
-     "SLA02",
-     "SLA20"
-    ],
     "projectOwner": "U24",
     "projectStatus": "Active",
     "jobID": null,
@@ -14919,10 +17477,6 @@
     "projectName": "Austral Cross-Border Coverage",
     "businessUnitID": "BU03",
     "customerID": "CUST03",
-    "branchID": null,
-    "slaID": [
-     "SLA03"
-    ],
     "projectOwner": "U25",
     "projectStatus": "Active",
     "jobID": null,
@@ -14935,10 +17489,6 @@
     "projectName": "Winter Respiratory Campaign",
     "businessUnitID": "BU02",
     "customerID": "CUST18",
-    "branchID": null,
-    "slaID": [
-     "SLA18"
-    ],
     "projectOwner": "U26",
     "projectStatus": "Closed",
     "jobID": null,
@@ -14951,10 +17501,6 @@
     "projectName": "Pink October Screening Drive",
     "businessUnitID": "BU02",
     "customerID": "CUST18",
-    "branchID": null,
-    "slaID": [
-     "SLA18"
-    ],
     "projectOwner": "U27",
     "projectStatus": "Active",
     "jobID": null,
@@ -14967,10 +17513,6 @@
     "projectName": "São Lucas Overflow Agreement",
     "businessUnitID": "BU01",
     "customerID": "CUST09",
-    "branchID": null,
-    "slaID": [
-     "SLA09"
-    ],
     "projectOwner": "U28",
     "projectStatus": "Active",
     "jobID": null,
@@ -14983,10 +17525,6 @@
     "projectName": "Corporate Checkup Season",
     "businessUnitID": "BU03",
     "customerID": "CUST07",
-    "branchID": null,
-    "slaID": [
-     "SLA07"
-    ],
     "projectOwner": "U29",
     "projectStatus": "Closed",
     "jobID": null,
@@ -14999,10 +17537,6 @@
     "projectName": "Home Collection Rollout",
     "businessUnitID": "BU01",
     "customerID": "CUST17",
-    "branchID": null,
-    "slaID": [
-     "SLA17"
-    ],
     "projectOwner": "U30",
     "projectStatus": "Active",
     "jobID": null,
@@ -15015,10 +17549,6 @@
     "projectName": "Palermo Unit Ramp-up",
     "businessUnitID": "BU04",
     "customerID": "CUST16",
-    "branchID": null,
-    "slaID": [
-     "SLA16"
-    ],
     "projectOwner": "U31",
     "projectStatus": "Active",
     "jobID": null,
@@ -15031,10 +17561,6 @@
     "projectName": "Accreditation Renewal 2026",
     "businessUnitID": "BU01",
     "customerID": "CUST13",
-    "branchID": null,
-    "slaID": [
-     "SLA13"
-    ],
     "projectOwner": "U32",
     "projectStatus": "Closed",
     "jobID": null,
@@ -15080,7 +17606,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK002",
@@ -15114,7 +17641,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK003",
@@ -15148,7 +17676,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK004",
@@ -15204,7 +17733,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK005",
@@ -15250,7 +17780,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK006",
@@ -15284,7 +17815,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK007",
@@ -15322,7 +17854,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK008",
@@ -15368,7 +17901,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK009",
@@ -15402,7 +17936,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK010",
@@ -15458,7 +17993,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK011",
@@ -15492,7 +18028,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK012",
@@ -15526,7 +18063,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK013",
@@ -15564,7 +18102,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK014",
@@ -15610,7 +18149,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK015",
@@ -15656,7 +18196,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK016",
@@ -15712,7 +18253,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK017",
@@ -15746,7 +18288,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK018",
@@ -15792,7 +18335,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK019",
@@ -15848,7 +18392,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK020",
@@ -15882,7 +18427,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK021",
@@ -15916,7 +18462,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK022",
@@ -15956,7 +18503,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK023",
@@ -15990,7 +18538,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK024",
@@ -16036,7 +18585,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK025",
@@ -16092,7 +18642,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK026",
@@ -16138,7 +18689,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK027",
@@ -16172,7 +18724,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK028",
@@ -16228,7 +18781,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK029",
@@ -16262,7 +18816,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK030",
@@ -16296,7 +18851,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK031",
@@ -16335,7 +18891,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK032",
@@ -16369,7 +18926,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK033",
@@ -16403,7 +18961,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK034",
@@ -16459,7 +19018,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK035",
@@ -16505,7 +19065,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK036",
@@ -16551,7 +19112,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK037",
@@ -16589,7 +19151,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK038",
@@ -16623,7 +19186,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK039",
@@ -16657,7 +19221,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK040",
@@ -16713,7 +19278,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK041",
@@ -16747,7 +19313,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK042",
@@ -16781,7 +19348,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK043",
@@ -16818,7 +19386,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK044",
@@ -16864,7 +19433,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK045",
@@ -16910,7 +19480,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK046",
@@ -16966,7 +19537,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK047",
@@ -17000,7 +19572,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK048",
@@ -17046,7 +19619,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK049",
@@ -17102,7 +19676,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK050",
@@ -17136,7 +19711,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK051",
@@ -17170,7 +19746,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK052",
@@ -17210,7 +19787,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK053",
@@ -17244,7 +19822,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK054",
@@ -17290,7 +19869,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK055",
@@ -17346,7 +19926,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK056",
@@ -17392,7 +19973,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK057",
@@ -17426,7 +20008,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK058",
@@ -17466,7 +20049,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK059",
@@ -17500,7 +20084,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK060",
@@ -17534,7 +20119,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK061",
@@ -17574,7 +20160,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK062",
@@ -17608,7 +20195,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK063",
@@ -17642,7 +20230,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK064",
@@ -17698,7 +20287,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK065",
@@ -17744,7 +20334,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK066",
@@ -17790,7 +20381,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK067",
@@ -17828,7 +20420,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK068",
@@ -17874,7 +20467,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK069",
@@ -17908,7 +20502,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK070",
@@ -17964,7 +20559,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK071",
@@ -17998,7 +20594,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK072",
@@ -18032,7 +20629,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK073",
@@ -18069,7 +20667,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK074",
@@ -18115,7 +20714,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK075",
@@ -18161,7 +20761,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK076",
@@ -18200,7 +20801,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK077",
@@ -18234,7 +20836,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK078",
@@ -18280,7 +20883,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK079",
@@ -18336,7 +20940,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK080",
@@ -18370,7 +20975,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK081",
@@ -18416,7 +21022,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK082",
@@ -18456,7 +21063,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK083",
@@ -18490,7 +21098,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK084",
@@ -18536,7 +21145,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK085",
@@ -18592,7 +21202,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK086",
@@ -18638,7 +21249,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK087",
@@ -18672,7 +21284,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK088",
@@ -18728,7 +21341,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK089",
@@ -18762,7 +21376,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK090",
@@ -18796,7 +21411,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK091",
@@ -18852,7 +21468,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK092",
@@ -18886,7 +21503,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK093",
@@ -18920,7 +21538,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK094",
@@ -18976,7 +21595,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK095",
@@ -19022,7 +21642,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK096",
@@ -19056,7 +21677,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK097",
@@ -19094,7 +21716,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK098",
@@ -19128,7 +21751,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK099",
@@ -19162,7 +21786,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK100",
@@ -19218,7 +21843,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK101",
@@ -19264,7 +21890,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK102",
@@ -19298,7 +21925,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK103",
@@ -19335,7 +21963,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK104",
@@ -19381,7 +22010,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK105",
@@ -19427,7 +22057,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK106",
@@ -19483,7 +22114,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK107",
@@ -19517,7 +22149,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK108",
@@ -19563,7 +22196,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK109",
@@ -19619,7 +22253,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK110",
@@ -19653,7 +22288,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK111",
@@ -19699,7 +22335,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK112",
@@ -19739,7 +22376,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK113",
@@ -19773,7 +22411,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK114",
@@ -19819,7 +22458,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK115",
@@ -19875,7 +22515,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK116",
@@ -19921,7 +22562,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK117",
@@ -19955,7 +22597,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK118",
@@ -19994,7 +22637,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK119",
@@ -20028,7 +22672,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK120",
@@ -20062,7 +22707,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK121",
@@ -20102,7 +22748,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK122",
@@ -20136,7 +22783,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK123",
@@ -20170,7 +22818,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK124",
@@ -20226,7 +22875,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK125",
@@ -20272,7 +22922,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK126",
@@ -20318,7 +22969,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK127",
@@ -20356,7 +23008,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK128",
@@ -20402,7 +23055,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK129",
@@ -20436,7 +23090,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK130",
@@ -20492,7 +23147,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK131",
@@ -20526,7 +23182,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK132",
@@ -20560,7 +23217,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK133",
@@ -20597,7 +23255,8 @@
      "SLA07",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK134",
@@ -20643,7 +23302,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK135",
@@ -20689,7 +23349,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK136",
@@ -20729,7 +23390,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK137",
@@ -20763,7 +23425,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK138",
@@ -20797,7 +23460,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK139",
@@ -20853,7 +23517,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK140",
@@ -20887,7 +23552,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK141",
@@ -20921,7 +23587,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK142",
@@ -20961,7 +23628,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK143",
@@ -20995,7 +23663,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK144",
@@ -21041,7 +23710,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK145",
@@ -21097,7 +23767,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK146",
@@ -21143,7 +23814,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK147",
@@ -21177,7 +23849,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK148",
@@ -21233,7 +23906,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK149",
@@ -21267,7 +23941,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK150",
@@ -21301,7 +23976,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK151",
@@ -21340,7 +24016,8 @@
      "SLA13",
      "SLA17",
      "SLA19"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK152",
@@ -21374,7 +24051,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK153",
@@ -21408,7 +24086,8 @@
     ],
     "slaID": [
      "SLA15"
-    ]
+    ],
+    "branchID": "BR07"
    },
    {
     "ticketID": "TK154",
@@ -21464,7 +24143,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK155",
@@ -21510,7 +24190,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK156",
@@ -21544,7 +24225,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK157",
@@ -21582,7 +24264,8 @@
      "SLA08",
      "SLA11",
      "SLA15"
-    ]
+    ],
+    "branchID": null
    },
    {
     "ticketID": "TK158",
@@ -21616,7 +24299,8 @@
     ],
     "slaID": [
      "SLA13"
-    ]
+    ],
+    "branchID": "BR05"
    },
    {
     "ticketID": "TK159",
@@ -21650,7 +24334,8 @@
     ],
     "slaID": [
      "SLA16"
-    ]
+    ],
+    "branchID": "BR08"
    },
    {
     "ticketID": "TK160",
@@ -21706,7 +24391,8 @@
      "SLA18",
      "SLA19",
      "SLA20"
-    ]
+    ],
+    "branchID": null
    }
   ],
   "Jobs": [
@@ -33381,7 +36067,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG01",
     "scopeID": "SC02",
-    "productScopeName": "CT Contrast Adult × Urgent",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-17",
@@ -33393,7 +36078,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG01",
     "scopeID": "SC01",
-    "productScopeName": "CT Contrast Adult × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-16",
@@ -33405,7 +36089,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG02",
     "scopeID": "SC01",
-    "productScopeName": "CT Plain Pediatric × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-15",
@@ -33417,7 +36100,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG03",
     "scopeID": "SC01",
-    "productScopeName": "MRI 3T Sedation × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-14",
@@ -33429,7 +36111,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG04",
     "scopeID": "SC01",
-    "productScopeName": "MRI 1.5T Routine × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-13",
@@ -33441,7 +36122,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG04",
     "scopeID": "SC03",
-    "productScopeName": "MRI 1.5T Routine × Second Opinion",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-12",
@@ -33453,7 +36133,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG05",
     "scopeID": "SC01",
-    "productScopeName": "Chest X-Ray × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-11",
@@ -33465,7 +36144,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG05",
     "scopeID": "SC02",
-    "productScopeName": "Chest X-Ray × Urgent",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-10",
@@ -33477,7 +36155,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG06",
     "scopeID": "SC01",
-    "productScopeName": "Obstetric Ultrasound × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-09",
@@ -33489,7 +36166,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG07",
     "scopeID": "SC01",
-    "productScopeName": "Abdominal Ultrasound × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-08",
@@ -33501,7 +36177,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG08",
     "scopeID": "SC07",
-    "productScopeName": "Screening Mammography × Screening Campaign",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-07",
@@ -33513,7 +36188,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG08",
     "scopeID": "SC01",
-    "productScopeName": "Screening Mammography × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-06",
@@ -33525,7 +36199,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG09",
     "scopeID": "SC01",
-    "productScopeName": "Standard Densitometry × Routine",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-07-05",
@@ -33537,7 +36210,6 @@
     "businessUnitID": "BU03",
     "productGroupID": "PG10",
     "scopeID": "SC01",
-    "productScopeName": "CBC Standard × Routine",
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-04",
@@ -33549,7 +36221,6 @@
     "businessUnitID": "BU03",
     "productGroupID": "PG10",
     "scopeID": "SC06",
-    "productScopeName": "CBC Standard × Home Collection",
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-03",
@@ -33561,7 +36232,6 @@
     "businessUnitID": "BU03",
     "productGroupID": "PG11",
     "scopeID": "SC01",
-    "productScopeName": "Lipid Panel Fasting × Routine",
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-02",
@@ -33573,7 +36243,6 @@
     "businessUnitID": "BU03",
     "productGroupID": "PG11",
     "scopeID": "SC06",
-    "productScopeName": "Lipid Panel Fasting × Home Collection",
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-07-01",
@@ -33585,7 +36254,6 @@
     "businessUnitID": "BU03",
     "productGroupID": "PG12",
     "scopeID": "SC02",
-    "productScopeName": "Respiratory PCR × Urgent",
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-06-30",
@@ -33597,7 +36265,6 @@
     "businessUnitID": "BU03",
     "productGroupID": "PG12",
     "scopeID": "SC01",
-    "productScopeName": "Respiratory PCR × Routine",
     "businessSegment": "Clinical Analysis",
     "isActive": "Active",
     "createdAt": "2025-06-29",
@@ -33609,7 +36276,6 @@
     "businessUnitID": "BU04",
     "productGroupID": "PG13",
     "scopeID": "SC01",
-    "productScopeName": "Resting ECG Standard × Routine",
     "businessSegment": "Outpatient Care",
     "isActive": "Active",
     "createdAt": "2025-06-28",
@@ -33621,7 +36287,6 @@
     "businessUnitID": "BU04",
     "productGroupID": "PG14",
     "scopeID": "SC01",
-    "productScopeName": "Doppler Echo × Routine",
     "businessSegment": "Outpatient Care",
     "isActive": "Active",
     "createdAt": "2025-06-27",
@@ -33633,7 +36298,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG01",
     "scopeID": "SC08",
-    "productScopeName": "CT Contrast Adult × Audit Support",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-26",
@@ -33645,7 +36309,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG04",
     "scopeID": "SC05",
-    "productScopeName": "MRI 1.5T Routine × Reprocessing",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-25",
@@ -33657,7 +36320,6 @@
     "businessUnitID": "BU01",
     "productGroupID": "PG05",
     "scopeID": "SC04",
-    "productScopeName": "Chest X-Ray × 24h Report",
     "businessSegment": "Diagnostic Imaging",
     "isActive": "Active",
     "createdAt": "2025-06-24",
@@ -33735,8 +36397,30 @@
     "eventTitle": "Screening Campaign Launched",
     "eventDescription": "A preventive campaign opens volume",
     "businessUnitID": "BU04",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-04-17",
     "customerName": null,
     "productName": null,
@@ -33790,8 +36474,30 @@
     "eventTitle": "Image Quality Flagged",
     "eventDescription": "QA flags an acquisition for reprocessing",
     "businessUnitID": "BU03",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-04-26",
     "customerName": null,
     "productName": null,
@@ -33804,8 +36510,30 @@
     "eventTitle": "Report Deadline At Risk",
     "eventDescription": "A contracted report deadline approaches breach",
     "businessUnitID": "BU04",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-04-29",
     "customerName": null,
     "productName": null,
@@ -33818,8 +36546,30 @@
     "eventTitle": "Contrast Incident Reported",
     "eventDescription": "An adverse contrast reaction is registered",
     "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-02",
     "customerName": null,
     "productName": null,
@@ -33832,8 +36582,30 @@
     "eventTitle": "Equipment Calibration Due",
     "eventDescription": "A machine reaches its calibration window",
     "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-05",
     "customerName": null,
     "productName": null,
@@ -33864,8 +36636,30 @@
     "eventTitle": "New Insurer Onboarded",
     "eventDescription": "A new payer contract enters operation",
     "businessUnitID": "BU04",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-11",
     "customerName": null,
     "productName": null,
@@ -33878,8 +36672,30 @@
     "eventTitle": "Protocol Update Published",
     "eventDescription": "A clinical protocol revision is released",
     "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-14",
     "customerName": null,
     "productName": null,
@@ -33892,8 +36708,30 @@
     "eventTitle": "Regulatory Change Notified",
     "eventDescription": "A regulator publishes a new requirement",
     "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-17",
     "customerName": null,
     "productName": null,
@@ -33906,8 +36744,30 @@
     "eventTitle": "Complaint Registered",
     "eventDescription": "A patient or insurer complaint is filed",
     "businessUnitID": "BU03",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-20",
     "customerName": null,
     "productName": null,
@@ -33920,8 +36780,30 @@
     "eventTitle": "Teleradiology Shift Opened",
     "eventDescription": "An outsourced reporting shift starts",
     "businessUnitID": "BU04",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-23",
     "customerName": null,
     "productName": null,
@@ -33934,8 +36816,30 @@
     "eventTitle": "Result Recheck Requested",
     "eventDescription": "A released result is questioned",
     "businessUnitID": "BU01",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-26",
     "customerName": null,
     "productName": null,
@@ -33948,8 +36852,30 @@
     "eventTitle": "Stock Below Minimum",
     "eventDescription": "Contrast or reagent stock hits the floor",
     "businessUnitID": "BU02",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-05-29",
     "customerName": null,
     "productName": null,
@@ -33962,8 +36888,30 @@
     "eventTitle": "Night Shift Handover",
     "eventDescription": "Open urgent work hands over between shifts",
     "businessUnitID": "BU03",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-06-01",
     "customerName": null,
     "productName": null,
@@ -33976,8 +36924,30 @@
     "eventTitle": "Homecare Route Planned",
     "eventDescription": "A day's home-collection route is assembled",
     "businessUnitID": "BU04",
-    "scopeID": [],
-    "productID": [],
+    "scopeID": [
+     "SC01",
+     "SC02",
+     "SC03",
+     "SC04",
+     "SC05",
+     "SC06",
+     "SC07",
+     "SC08"
+    ],
+    "productID": [
+     "PRD01",
+     "PRD02",
+     "PRD03",
+     "PRD04",
+     "PRD05",
+     "PRD06",
+     "PRD07",
+     "PRD08",
+     "PRD09",
+     "PRD10",
+     "PRD11",
+     "PRD12"
+    ],
     "eventCreatedAt": "2025-06-04",
     "customerName": null,
     "productName": null,
@@ -34309,7 +37279,32 @@
     "businessUnitID": "BU01",
     "departmentID": "DPT01",
     "eventID": "EV13",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "payloadOwner": "U24"
    },
@@ -34319,7 +37314,32 @@
     "businessUnitID": "BU01",
     "departmentID": "DPT03",
     "eventID": "EV14",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "payloadOwner": "U25"
    },
@@ -34329,7 +37349,32 @@
     "businessUnitID": "BU01",
     "departmentID": "DPT04",
     "eventID": "EV15",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "payloadOwner": "U26"
    },
@@ -34339,7 +37384,32 @@
     "businessUnitID": "BU01",
     "departmentID": "DPT03",
     "eventID": "EV10",
-    "productScopeID": [],
+    "productScopeID": [
+     "PS01",
+     "PS02",
+     "PS03",
+     "PS04",
+     "PS05",
+     "PS06",
+     "PS07",
+     "PS08",
+     "PS09",
+     "PS10",
+     "PS11",
+     "PS12",
+     "PS13",
+     "PS14",
+     "PS15",
+     "PS16",
+     "PS17",
+     "PS18",
+     "PS19",
+     "PS20",
+     "PS21",
+     "PS22",
+     "PS23",
+     "PS24"
+    ],
     "isActive": "Active",
     "payloadOwner": "U27"
    }

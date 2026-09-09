@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 110,
+    "schemaVersion": 111,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -3771,22 +3771,22 @@
               "constraints": "FK"
             },
             {
-                "name": "businessUnitID",
-                "type": "FK",
-                "rule": "FK → Business Units (display: businessUnitName)",
-                "notes": "multivalued — business units this requirement APPLIES to (the inheritance dimension): a DECLARED key constrains, an undeclared one does not (sv106). NULLABLE again since sv107 — the #359 mandate mixed the pre-RBAC filter role into this key and made every requirement unit-constrained; the filter role moved to registryUnitID (Rafael's split: Registry unit filters the wizard options, this key optionally declares unit applicability — the Applicability multicheck offers exactly the Registry unit). Demo rows keep the #359 all-units seed (≡ unconstrained under declared-constrains — zero flips). Constraints picker on Tickets: declared = only its units, blank = every unit (sv106 posture)",
-                "table-display": false,
-                "subitem-display": false,
-                "constraints": "FK"
+              "name": "businessUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "multivalued — business units this requirement APPLIES to (the inheritance dimension): a DECLARED key constrains, an undeclared one does not (sv106). NULLABLE again since sv107 — the #359 mandate mixed the pre-RBAC filter role into this key and made every requirement unit-constrained; the filter role moved to registryUnitID (Rafael's split: Registry unit filters the wizard options, this key optionally declares unit applicability — the Applicability multicheck offers exactly the Registry unit). Demo rows keep the #359 all-units seed (≡ unconstrained under declared-constrains — zero flips). Constraints picker on Tickets: declared = only its units, blank = every unit (sv106 posture)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK"
             },
             {
-                "name": "registryUnitID",
-                "type": "FK",
-                "rule": "FK → Business Units (display: businessUnitName)",
-                "notes": "Form filter — the pre-RBAC Registry unit (sv107, Rafael's split of the #359 role mixing): NOT NULL, picked on the wizard Registry step, its ONLY job is narrowing the Applicability options (regions = the unit's served regions; branches/customers/scopes/product groups/product scopes filtered by it; the applicability businessUnitID multicheck offers exactly this unit). NEVER read by the inheritance chains — a pure #334 filter input, removal candidate when RBAC lands. Seeds: first unit of the row's businessUnitID key (migrate_requirement_registry_unit.py)",
-                "table-display": false,
-                "subitem-display": false,
-                "constraints": "FK, NOT NULL"
+              "name": "registryUnitID",
+              "type": "FK",
+              "rule": "FK → Business Units (display: businessUnitName)",
+              "notes": "Form filter — the pre-RBAC Registry unit (sv107, Rafael's split of the #359 role mixing): NOT NULL, picked on the wizard Registry step, its ONLY job is narrowing the Applicability options (regions = the unit's served regions; branches/customers/scopes/product groups/product scopes filtered by it; the applicability businessUnitID multicheck offers exactly this unit). NEVER read by the inheritance chains — a pure #334 filter input, removal candidate when RBAC lands. Seeds: first unit of the row's businessUnitID key (migrate_requirement_registry_unit.py)",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": "FK, NOT NULL"
             },
             {
               "name": "requirementTypeID",
@@ -3798,13 +3798,13 @@
               "constraints": "FK"
             },
             {
-                "name": "ticketSelectable",
-                "type": "BOOLEAN",
-                "rule": null,
-                "notes": "Selectable on Tickets (issue #359, REDEFINED 2026-09-08; deliberate-selection since sv109): Yes makes this requirement an offerable CONSTRAINT on the Tickets wizard Request step — and once a ticket picks ≥1 constraint, being offered-but-unpicked EXCLUDES it from that ticket's inheritance (zero picks = no decision) for tickets of the SAME business unit (constraintsForTicketUnit in forms.js) — the picked constraints NARROW the ticket's Product Scope options to the scopes whose PS-REQUIREMENTS set covers them (AND). Pure filter: the inheritance chain is untouched either way (the #359 manual-union application was retired in the same redefinition). BOOLEAN-select convention (issue #218), default No. Demo cohort unchanged: customer-or-region-pinned rows seed Yes",
-                "table-display": false,
-                "subitem-display": false,
-                "constraints": null
+              "name": "ticketSelectable",
+              "type": "BOOLEAN",
+              "rule": null,
+              "notes": "Selectable on Tickets (issue #359, REDEFINED 2026-09-08; deliberate-selection since sv109): Yes makes this requirement an offerable CONSTRAINT on the Tickets wizard Request step — and once a ticket picks ≥1 constraint, being offered-but-unpicked EXCLUDES it from that ticket's inheritance (zero picks = no decision) for tickets of the SAME business unit (constraintsForTicketUnit in forms.js) — the picked constraints NARROW the ticket's Product Scope options to the scopes whose PS-REQUIREMENTS set covers them (AND). Pure filter: the inheritance chain is untouched either way (the #359 manual-union application was retired in the same redefinition). BOOLEAN-select convention (issue #218), default No. Demo cohort unchanged: customer-or-region-pinned rows seed Yes",
+              "table-display": false,
+              "subitem-display": false,
+              "constraints": null
             },
             {
               "name": "branchID",
@@ -5888,33 +5888,6 @@
               "constraints": null
             },
             {
-              "name": "branchID",
-              "type": "FK",
-              "rule": "FK → Branches (display: branchName)",
-              "notes": "single valued, nullable — the customer's contracting branch the project runs under (2026-09-04 round): narrows the SLA options to the (customer, branch) pair; a customer may have no branch (#179 posture)",
-              "table-display": false,
-              "subitem-display": false,
-              "constraints": "FK"
-            },
-            {
-              "name": "slaID",
-              "type": "FK",
-              "rule": "FK → SLA (display: slaCode)",
-              "notes": "multivalued — the contracts this project executes under (issue #192); options = the customer's SLAs narrowed by the chosen Branch (2026-09-04 round: an SLA without a branch is not branch-specific and stays offered — Q1; see slasForProject)",
-              "table-display": true,
-              "subitem-display": true,
-              "constraints": "FK"
-            },
-            {
-              "name": "productScopeName",
-              "type": "mirror",
-              "rule": "computed → SLA (via: slaID) (display: productScopeRegistry)",
-              "notes": "coverage — the product scopes the linked contracts purchase, derived through the SLAs' payloads; display re-pointed to the registry codes with the sv74 authored SLA rename (productScopeName → productScopeRegistry, the #296/#299 pattern)",
-              "table-display": true,
-              "subitem-display": false,
-              "constraints": null
-            },
-            {
               "name": "products",
               "type": "rollup",
               "rule": "rollup → Products (via: Tickets) (display: productName)",
@@ -6030,29 +6003,6 @@
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "filtered by businessUnitID selected"
-              },
-              "Branch": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "branchID",
-                "tooltip": "The customer's branch this project runs under — optional, narrows the SLA options",
-                "step": null,
-                "check": "Customer IS NOT NULL",
-                "field-rule": "filtered by Customer selected"
-              },
-              "SLA": {
-                "field-type": {
-                  "select": "shadcn-select"
-                },
-                "attribute": "slaID",
-                "tooltip": "Contracts this project executes under — narrowed by the chosen Branch",
-                "step": null,
-                "check": "Customer IS NOT NULL",
-                "field-rule": [
-                  "Allow multiple values",
-                  "filtered by Customer + Branch selected"
-                ]
               },
               "Owner": {
                 "field-type": {

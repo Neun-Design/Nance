@@ -129,17 +129,17 @@ console.log('== 1.2 via new Requirement: live inheritance re-evaluates the dispa
     branchID: [applBranch.branchID] });
   eq(resolve.ticketRequirements(tb).map(String).includes('RQ-ELIG-BR'), true,
     'pinned to the APPLICANT\'s branch → inherits (the parties\' branch context)');
-  // pinned to a branch FOREIGN to every party (and to the project) → out
+  // pinned to a branch FOREIGN to every party → out (projects carry no
+  // branch since sv111 — the parties' branches are the whole universe)
   const partyBranches = data.getEntity('Branches').filter((b) =>
     (Array.isArray(b.customerID) ? b.customerID : [b.customerID]).map(String)
       .some((c) => [String(tb.customerID), String(tb.applicantID)].includes(c)))
     .map((b) => String(b.branchID));
-  const prjB = tb.projectID && data.getById('Projects', tb.projectID)?.branchID;
   const foreign = data.getEntity('Branches').find((b) =>
-    !partyBranches.includes(String(b.branchID)) && String(b.branchID) !== String(prjB ?? ''));
+    !partyBranches.includes(String(b.branchID)));
   data.getById('Requirements', 'RQ-ELIG-BR').branchID = [foreign.branchID];
   eq(resolve.ticketRequirements(tb).map(String).includes('RQ-ELIG-BR'), false,
-    'pinned to a branch foreign to the parties AND the project → stays out');
+    'pinned to a branch foreign to the parties → stays out');
   data.removeRecords('Requirements', ['RQ-ELIG-BR']);
 }
 

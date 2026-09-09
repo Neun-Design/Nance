@@ -402,10 +402,10 @@ STORES the matching `payloadID[]`/`slaID[]` — `applyDerivedUnits`). The SLA **
 supplier-flow round (`suppliersForBranch`: the customers registered at the selected
 branch — Branches store `customerID`, multivalued since the sv74 N:N round, the
 reverse link the generic cascade can't read; no branch or no linked customer = every
-customer, lenient). The Projects **SLA** select joined in the sv72
-branch round (`slasForProject`: the customer's contracts narrowed by the chosen
-Branch — an SLA without a branch is not branch-specific and stays offered, Q1; the
-strict generic arrOverlap path would drop it; no branch = the customer's full set).
+customer, lenient). (The Projects **SLA** select and its `slasForProject` helper,
+added in the sv72 branch round, retired at sv111 — the ticket's contract universe is
+the Applicant → Supplier → Branch basis, so pointing an SLA at project registration
+was a dead input; the branch-less-SLA posture lives on in `ticketAdmittedSLAs`.)
 The #353 Procedures wizard added three more: the **Customers** applicability picker
 (`customersForUnitBranches`: the Unit's customers narrowed to the selected Branches'
 registrations — the same reverse read as `suppliersForBranch`, the generic cascade

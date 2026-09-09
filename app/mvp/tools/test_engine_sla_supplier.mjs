@@ -121,9 +121,10 @@ console.log('== narrowing: the (Applicant, Supplier) pair is the basis (#350) ==
   const mine = slas.filter((s) => String(s.customerID) === String(cust));
   eq(mine.length >= 2, true, `customer ${cust} holds ${mine.length} contracts (scenario needs 2)`);
   const [slaA, slaB] = mine;
-  const prj = data.getEntity('Projects').find((p) => String(p.customerID) === String(cust)
-    && asList(p.slaID).map(String).includes(String(slaB.slaID)));
-  eq(prj != null, true, 'a project links both contracts (scenario anchor)');
+  // (the project-side contract link retired at sv111 — the scenario only
+  // needs a project OF this customer, for tickets to hang off)
+  const prj = data.getEntity('Projects').find((p) => String(p.customerID) === String(cust));
+  eq(prj != null, true, 'a project of the contract-holding customer exists (scenario anchor)');
   const savedSup = slaB.supplierID; const savedPl = slaB.payloadID;
   const otherSup = data.getEntity('Customers')
     .find((c) => String(c.customerID) !== String(slaA.supplierID)).customerID;

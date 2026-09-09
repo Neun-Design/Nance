@@ -5,7 +5,8 @@
 // branch (sv108) gates the contract basis: an SLA pinned to ANOTHER
 // branch drops — its payloads' events and scopes leave the ticket's
 // universe; an SLA WITHOUT a branch is not branch-specific and stays
-// (the #316 slasForProject posture); a blank ticket branch skips the
+// (the #316 posture — its slasForProject picker retired at sv111, the
+// reading lives on in ticketAdmittedSLAs); a blank ticket branch skips the
 // dimension. Fixtures replicate the reported edqms_session shape (the
 // TIC-1 incoherence: output branch BRA-3, SLA of BRA-2 — the filter must
 // prevent that combination). Demo census: 0/20 SLAs carry a branch → the

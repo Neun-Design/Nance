@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 110,
+  "schemaVersion": 111,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -17453,16 +17453,11 @@
     "projectName": "HealthFirst 2026 Service Contract",
     "businessUnitID": "BU01",
     "customerID": "CUST01",
-    "slaID": [
-     "SLA01",
-     "SLA19"
-    ],
     "projectOwner": "U17",
     "projectStatus": "Closed",
     "jobID": null,
     "estimatedTime": 120,
-    "executionTime": 90,
-    "branchID": null
+    "executionTime": 90
    },
    {
     "projectID": "PJ02",
@@ -17470,16 +17465,11 @@
     "projectName": "MedCare Plus Imaging Program",
     "businessUnitID": "BU02",
     "customerID": "CUST02",
-    "slaID": [
-     "SLA02",
-     "SLA20"
-    ],
     "projectOwner": "U18",
     "projectStatus": "Active",
     "jobID": null,
     "estimatedTime": 160,
-    "executionTime": 125,
-    "branchID": null
+    "executionTime": 125
    },
    {
     "projectID": "PJ03",
@@ -17487,15 +17477,11 @@
     "projectName": "Austral Cross-Border Coverage",
     "businessUnitID": "BU03",
     "customerID": "CUST03",
-    "slaID": [
-     "SLA03"
-    ],
     "projectOwner": "U19",
     "projectStatus": "Active",
     "jobID": null,
     "estimatedTime": 200,
-    "executionTime": 160,
-    "branchID": null
+    "executionTime": 160
    },
    {
     "projectID": "PJ04",
@@ -17503,15 +17489,11 @@
     "projectName": "Winter Respiratory Campaign",
     "businessUnitID": "BU02",
     "customerID": "CUST18",
-    "slaID": [
-     "SLA18"
-    ],
     "projectOwner": "U20",
     "projectStatus": "Closed",
     "jobID": null,
     "estimatedTime": 240,
-    "executionTime": 195,
-    "branchID": null
+    "executionTime": 195
    },
    {
     "projectID": "PJ05",
@@ -17519,15 +17501,11 @@
     "projectName": "Pink October Screening Drive",
     "businessUnitID": "BU02",
     "customerID": "CUST18",
-    "slaID": [
-     "SLA18"
-    ],
     "projectOwner": "U21",
     "projectStatus": "Active",
     "jobID": null,
     "estimatedTime": 280,
-    "executionTime": 230,
-    "branchID": null
+    "executionTime": 230
    },
    {
     "projectID": "PJ06",
@@ -17535,15 +17513,11 @@
     "projectName": "São Lucas Overflow Agreement",
     "businessUnitID": "BU01",
     "customerID": "CUST09",
-    "slaID": [
-     "SLA09"
-    ],
     "projectOwner": "U22",
     "projectStatus": "Active",
     "jobID": null,
     "estimatedTime": 320,
-    "executionTime": 265,
-    "branchID": null
+    "executionTime": 265
    },
    {
     "projectID": "PJ07",
@@ -17551,15 +17525,11 @@
     "projectName": "Corporate Checkup Season",
     "businessUnitID": "BU03",
     "customerID": "CUST07",
-    "slaID": [
-     "SLA07"
-    ],
     "projectOwner": "U23",
     "projectStatus": "Closed",
     "jobID": null,
     "estimatedTime": 360,
-    "executionTime": 300,
-    "branchID": null
+    "executionTime": 300
    },
    {
     "projectID": "PJ08",
@@ -17567,15 +17537,11 @@
     "projectName": "Home Collection Rollout",
     "businessUnitID": "BU01",
     "customerID": "CUST17",
-    "slaID": [
-     "SLA17"
-    ],
     "projectOwner": "U24",
     "projectStatus": "Active",
     "jobID": null,
     "estimatedTime": 400,
-    "executionTime": 335,
-    "branchID": null
+    "executionTime": 335
    },
    {
     "projectID": "PJ09",
@@ -17583,15 +17549,11 @@
     "projectName": "Palermo Unit Ramp-up",
     "businessUnitID": "BU04",
     "customerID": "CUST16",
-    "slaID": [
-     "SLA16"
-    ],
     "projectOwner": "U25",
     "projectStatus": "Active",
     "jobID": null,
     "estimatedTime": 440,
-    "executionTime": 370,
-    "branchID": null
+    "executionTime": 370
    },
    {
     "projectID": "PJ10",
@@ -17599,15 +17561,11 @@
     "projectName": "Accreditation Renewal 2026",
     "businessUnitID": "BU01",
     "customerID": "CUST13",
-    "slaID": [
-     "SLA13"
-    ],
     "projectOwner": "U26",
     "projectStatus": "Closed",
     "jobID": null,
     "estimatedTime": 480,
-    "executionTime": 405,
-    "branchID": null
+    "executionTime": 405
    }
   ],
   "Tickets": [
