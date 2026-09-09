@@ -933,6 +933,23 @@ function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId
   return out;
 }
 
+// Requirements offerable as CONSTRAINTS on a ticket (id-level core of the
+// #359 Constraints input, shared with constraintsForTicketUnit in forms.js):
+// ticketSelectable === true (the #218 strict boolean) + Active + unit
+// applicability blank (= every unit, sv106/sv107 posture) or naming the
+// ticket's unit. Null unitId = every selectable Active row (lenient).
+export function selectableConstraintIds(unitId) {
+  const out = [];
+  for (const r of getEntity('Requirements')) {
+    if (r.ticketSelectable !== true) continue;
+    if (String(r.isActive || 'Active') === 'Inactive') continue;
+    const units = asIds(r.businessUnitID).map(String);
+    if (unitId != null && unitId !== '' && units.length && !units.includes(String(unitId))) continue;
+    out.push(String(r.requirementID));
+  }
+  return out;
+}
+
 // The product-scope CONTEXT of a ticket (extracted from ticketRequirements
 // for issue #332 — shared with the procedure scope gate): the admitted
 // payload-chain scopes of the ticket's event (applicant-supplier contract
@@ -987,10 +1004,20 @@ export function ticketRequirements(ticket) {
   }
   // (the #359 manual-union of addedRequirementID was RETIRED in the same
   // round's redefinition — the picks became the Constraints FILTER on the
-  // Product Scope options, forms.js; inheritance is the only source again)
-  return matchRequirements({ psRows, unitIds, regionIds,
+  // Product Scope options, forms.js; inheritance is the only source)
+  const matched = matchRequirements({ psRows, unitIds, regionIds,
     customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
     branchId: branchIds });
+  // deliberate-selection rule (Rafael, sv109): once the user ENGAGES the
+  // Constraints input (≥1 pick), the unpicked OFFERED selectables are a
+  // deliberate exclusion — they leave the inheritance; requirements never
+  // offered there (not selectable / another unit) inherit normally. ZERO
+  // picks = no decision — the inheritance stays untouched (session
+  // decision: the demo seeds carry empty picks, 0 flips at rest).
+  const picked = asIds(ticket.constraintID).map(String);
+  if (!picked.length) return matched;
+  const offered = selectableConstraintIds(asIds(ticket.businessUnitID)[0] ?? null);
+  return matched.filter((id) => !offered.includes(String(id)) || picked.includes(String(id)));
 }
 
 // Requirements a competence certifies — via its procedures since the
