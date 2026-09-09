@@ -1636,6 +1636,11 @@ class Builder:
             for key, _tab, _pk in req_dims:
                 vals = as_list(r.get(key))
                 r[key] = list(full[key]) if not vals else vals
+            # sv107 Registry-unit split: the pre-RBAC filter key = the first
+            # unit of the applicability key (the exact rule of
+            # tools/migrate_requirement_registry_unit.py)
+            own = as_list(r.get('businessUnitID'))
+            r['registryUnitID'] = own[0] if own else None
         all_reqs = [r['requirementID'] for r in self.rows('Requirements')
                     if str(r.get('isActive') or 'Active') != 'Inactive']
         customers = self.rows('Customers')

@@ -129,22 +129,26 @@ console.log('== Segment-first Customers cascade (PR #96) ==');
   eq(unit['field-rule'], 'filtered by Segment selected', 'Unit filtered by selected Segments');
 }
 
-console.log('== Region-gated Business Unit on the Requirements form (issue #292) ==');
+console.log('== Requirements unit fields after the sv107 Registry split ==');
 {
-  // authored edit (2026-08-27): the unit multicheck unlocks only after a
-  // Region is picked — same gate posture as its siblings (Branch/Customer
-  // gate on Business Unit); the engine's filled() treats an empty ARRAY as
-  // absent, so a multivalued Region dep keeps the gate closed until checked
-  const f = catalog['Requirements'].form.fields['Business Unit'];
-  eq(f.check, 'Region IS NOT NULL', 'Business Unit gated on Region');
+  // the #292 Region→Unit gate is SUPERSEDED (sv107): the Registry unit
+  // (pre-RBAC filter, step 1) now gates and filters the Applicability step
+  // — Region offers the Registry unit's served regions, and the
+  // applicability "Business Units" multicheck offers exactly that unit
+  const reg = catalog['Requirements'].form.fields['Business Unit'];
+  eq([reg.attribute, reg.step, reg.check], ['registryUnitID', 'Registry', null],
+    'Registry step: the pre-RBAC unit filter (ungated, mandatory attr)');
+  const f = catalog['Requirements'].form.fields['Business Units'];
+  eq(f.check, 'Business Unit IS NOT NULL', 'applicability multicheck gated on the Registry unit');
   const GATE = /^(.+?)\s+IS NOT NULL$/i;
   const dep = String(f.check).match(GATE);
-  eq(dep && dep[1], 'Region', 'gate spelling parses (the forms.js check regex)');
-  eq('Region' in catalog['Requirements'].form.fields, true,
-    'the gate names a real form field label (findDep resolves it)');
+  eq(dep && dep[1], 'Business Unit', 'gate spelling parses (the forms.js check regex)');
   const CASCADE = /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i;
-  eq(CASCADE.test(String(f['field-rule'])), true,
-    'the Region cascade spelling still wires the refilter (#274 trap)');
+  eq(CASCADE.test(String(f['field-rule'])) && /registryUnitID/.test(String(f['field-rule'])), true,
+    'the cascade wires via registryUnitID (#274 trap)');
+  const rg = catalog['Requirements'].form.fields['Region'];
+  eq(CASCADE.test(String(rg['field-rule'])) && /registryUnitID/.test(String(rg['field-rule'])), true,
+    'Region filtered by the Registry unit (served regions — sv107)');
 }
 
 console.log('== Business Units.regionID[] (multivalued, seeded from customers) ==');

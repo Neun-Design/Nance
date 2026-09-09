@@ -49,9 +49,8 @@ console.log('== schema: sv99, doctrine on every key, cardinality flip ==');
   const rule = (l) => String(f[l]['field-rule'] || '');
   eq(/allow multiple/i.test(rule('Branch')), true, 'Branch field is a multicheck now');
   eq(/allow multiple/i.test(rule('Customer')), true, 'Customer field is a multicheck now');
-  eq(/SelectLabel = businessUnitName/.test(rule('Customer'))
-    && /filtered by businessUnitID selected/.test(rule('Customer')), true,
-  'Customer keeps the #212 grouping + cascade');
+  eq(/filtered by registryUnitID selected/.test(rule('Customer')), true,
+    'Customer cascade re-pointed to the sv107 Registry filter (grouping dropped — single-unit filter)');
   const strip = catalog['Requirements'].form.steps.Applicability['step-description'];
   eq(/dimensions you DECLARE constrain/i.test(strip), true,
     'the Applicability strip teaches the declared-constrains rule (sv106 refinement)');

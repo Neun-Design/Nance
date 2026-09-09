@@ -914,7 +914,9 @@ export function constraintsForTicketUnit(unitId) {
     if (r.ticketSelectable !== true) return false;
     if (String(r.isActive || 'Active') === 'Inactive') return false;
     if (unitId == null || unitId === '') return true; // lenient — field is unit-gated anyway
-    return asList(r.businessUnitID).map(String).includes(String(unitId));
+    const units = asList(r.businessUnitID).map(String);
+    if (!units.length) return true; // sv107: blank applicability unit = offered for every unit (sv106 posture)
+    return units.includes(String(unitId));
   }).map((r) => ({ value: r[rMeta.pk],
     label: String(resolveDisplay(rT, r, rMeta.label) || r[rMeta.pk]) }))
     .sort((a, b) => a.label.localeCompare(b.label));
@@ -2018,6 +2020,33 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
             const brDep = findDep('Branches');
             applyOpts(customersForUnitBranches(unitDep ? unitDep[1].get() : null,
               brDep ? brDep[1].get() : null));
+            return;
+          }
+          // Requirements "Region" (sv107 — the Registry-unit split): options
+          // = the Registry unit's SERVED regions (Business Units.regionID —
+          // the direct read; the generic join-engine membership resolves
+          // through the customer-branch chain and over-offers)
+          if (entity === 'Requirements' && attrName === 'regionID') {
+            const dep = findDep('registryUnitID');
+            const uid = dep ? dep[1].get() : null;
+            const u = uid != null && uid !== '' ? getById('Business Units', uid) : null;
+            applyOpts(asList(u && u.regionID).map((rid) => {
+              const rg = getById('Regions', rid);
+              return { value: rid, label: (rg && rg.regionName) || String(rid) };
+            }));
+            return;
+          }
+          // Requirements "Business Units" (applicability, sv107): offers
+          // EXACTLY the Registry unit — tick to declare unit-constrained
+          // applicability, leave empty to not constrain. Bespoke: a dep
+          // whose domain IS the option table is skipped by the generic
+          // cascade (the #309 suppliersForBranch trap).
+          if (entity === 'Requirements' && attrName === 'businessUnitID') {
+            const dep = findDep('registryUnitID');
+            const uid = dep ? dep[1].get() : null;
+            const u = uid != null && uid !== '' ? getById('Business Units', uid) : null;
+            applyOpts(u ? [{ value: u.businessUnitID,
+              label: String(resolveDisplay('Business Units', u, 'businessUnitName') || u.businessUnitID) }] : []);
             return;
           }
           // Procedures "Requirements": the UNIT-WIDE universe (issue #304)

@@ -76,8 +76,8 @@ console.log('== schema: forms — picker moved, #290 retired ==');
   eq(/SelectLabel/.test(rule), false,
     'no grouping — options show the plain productScopeRegistry code (#296)');
   const CASCADE = /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i;
-  eq(CASCADE.test(rule) && /businessUnitID/.test(rule), true,
-    'unit cascade spelling wires (generic stored-key path — #274 trap)');
+  eq(CASCADE.test(rule) && /registryUnitID/.test(rule), true,
+    'unit cascade wires via the sv107 Registry filter (#274 trap)');
   // Product Scopes form: the Requirements input is gone
   eq(catalog['Product Scopes'].form.fields['Requirements'], undefined,
     'Product Scopes form no longer picks requirements');
