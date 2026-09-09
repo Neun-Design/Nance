@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-// test_engine_requirement_applicability.mjs — proof for issue #366 (sv99):
-// the #364 doctrine on the REQUIREMENT side. Every applicability key must
-// be DECLARED — an empty key keeps the requirement out of every
-// inheritance ('apply to all' = every value explicitly selected; a value
-// registered later requires revisiting the requirement). customerID is
-// MULTIVALUED (was single, #180). Pre-sv99 snapshots keep the old Q1
-// reading via legacyWildcardData(99); blank mode is always strict.
+// test_engine_requirement_applicability.mjs — the Requirements
+// applicability contract (#366/sv99, REFINED at sv106 — the ruling
+// semantics): a DECLARED dimension constrains the inheritance, an
+// undeclared one does not (blank = unconstrained; version-independent —
+// the sv99 strict reading and its legacy gate were reverted at sv106).
+// customerID is MULTIVALUED (was single, #180).
 // Display posture: a set naming the ENTIRE dimension reads as global — not
 // a specific pin — in the Constraints facets (#353) and the
 // PS-REQUIREMENTS legs (#288), so both authored partitions survive the

@@ -113,16 +113,12 @@ console.log('== 1.2 via new Requirement: live inheritance re-evaluates the dispa
   data.removeRecords('Requirements', ['RQ-ELIG']);
   eq(resolve.ticketRequirements(t).map(String).sort(), before, 'baseline restored');
 
-  // branch via the PARTIES (sv105 — Rafael's rule): a requirement pinned to
-  // a branch the ticket's APPLICANT belongs to inherits into the ticket
-  const tb = data.getEntity('Tickets').find((tk) => tk.applicantID != null
-    && data.getEntity('Branches').some((b) =>
-      (Array.isArray(b.customerID) ? b.customerID : [b.customerID])
-        .map(String).includes(String(tk.applicantID))));
-  eq(tb != null, true, 'a ticket whose applicant is registered under a branch exists');
-  const applBranch = data.getEntity('Branches').find((b) =>
-    (Array.isArray(b.customerID) ? b.customerID : [b.customerID])
-      .map(String).includes(String(tb.applicantID)));
+  // branch via the OUTPUT branch (sv108 — supersedes the sv105 party
+  // union): a requirement pinned to the ticket's stored branchID — the
+  // Applicant's branch chosen to RECEIVE the output — inherits
+  const tb = data.getEntity('Tickets').find((tk) => tk.branchID != null && tk.branchID !== '');
+  eq(tb != null, true, 'a ticket with a stored OUTPUT branch exists');
+  const applBranch = data.getById('Branches', tb.branchID);
   const dim2 = (tab, pk) => data.getEntity(tab).map((r) => r[pk]);
   data.addRecord('Requirements', { requirementID: 'RQ-ELIG-BR', requirementName: 'Branch probe (t)',
     isActive: 'Active', regionID: dim2('Regions', 'regionID'),
