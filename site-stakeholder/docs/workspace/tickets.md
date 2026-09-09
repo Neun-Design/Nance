@@ -29,7 +29,9 @@ on a request it must resolve.
 
 **Step 2 — Request** (what is requested): `Event *` (unlocked by the Project) — **only
 events packaged by the contracts between the Applicant and the Supplier are offered**
-(2026-09-08): the ticket runs under the SLAs where the *Applicant* buys from the chosen
+(2026-09-08; the **output Branch joined the chain on 2026-09-09** — the contract basis
+is Applicant → Supplier → Branch: an SLA pinned to another branch drops, a branch-less
+SLA is not branch-specific and stays): the ticket runs under the SLAs where the *Applicant* buys from the chosen
 *Supplier* (the project's own contracts no longer restrict the offer; leaving a side
 empty on step 1 skips its dimension, so a ticket without an Applicant or Supplier sees
 every contracted event); `Product Scope *` (unlocked by the Event) — only scopes
