@@ -19,17 +19,21 @@ Since 2026-09-08 the form is a **three-step wizard** (the same chevron-step draw
 [Procedures](procedures.md) and [Tickets](../workspace/tickets.md)):
 
 **Step 1 — Registry:** Name, Description, Type (create new types inline with the "+"
-button); **Selectable on Tickets** (2026-09-08) — Yes makes this requirement an offerable
+button); **Business Unit** (2026-09-08) — the unit you are registering the requirement
+under: a pre-RBAC *filter* that narrows every Applicability option and **does not
+constrain the inheritance** (declare unit applicability on step 2 if intended);
+**Selectable on Tickets** (2026-09-08) — Yes makes this requirement an offerable
 **Constraint** on the [Tickets](../workspace/tickets.md) Request step for tickets of
 its business unit(s): picked constraints filter the ticket's Product Scope options to
 the scopes that answer for them; the automatic inheritance below is not affected
 either way.
 
 **Step 2 — Applicability** — the system's longest cascade gets its own screen, with the
-rule written on it: *the dimensions you declare constrain; an empty dimension does not*. Region →
-`Business Unit *` (unlocks after at least one Region is selected, 2026-08-27;
-**mandatory** since 2026-09-08 — every requirement declares the unit(s) it belongs to,
-the pre-RBAC rule) → Branch / Customer / Scope / Product Group / **Product Scope** —
+rule written on it: *the dimensions you declare constrain; an empty dimension does not*.
+Every option is filtered by the Registry unit: **Region** (the unit's served regions —
+a unit can exist in several regions) → **Business Units** (optional — offers exactly
+the Registry unit; tick it to constrain the inheritance to that unit, leave it empty
+for a cross-unit requirement) → Branch / Customer / Scope / Product Group / **Product Scope** —
 Branch and Customer are multi-selects since 2026-09-08. The **Product Scope** picker
 (2026-08-28) targets the requirement at specific
 [Product Scope](../portfolio/product-scopes.md) combinations directly — options show

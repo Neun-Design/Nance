@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "schemaVersion": 106,
+  "schemaVersion": 107,
   "anchorDate": "2026-08-21",
   "domain": "clinic",
   "organization": "Vitalis Health Network"
@@ -11300,7 +11300,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ02",
@@ -11408,7 +11409,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ03",
@@ -11517,7 +11519,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ04",
@@ -11626,7 +11629,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ05",
@@ -11734,7 +11738,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ06",
@@ -11834,7 +11839,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ07",
@@ -11932,7 +11938,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ08",
@@ -12036,7 +12043,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ09",
@@ -12136,7 +12144,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ10",
@@ -12235,7 +12244,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ11",
@@ -12345,7 +12355,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ12",
@@ -12448,7 +12459,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ13",
@@ -12538,7 +12550,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ14",
@@ -12628,7 +12641,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ15",
@@ -12718,7 +12732,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ16",
@@ -12816,7 +12831,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ17",
@@ -12917,7 +12933,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": false
+    "ticketSelectable": false,
+    "registryUnitID": "BU01"
    },
    {
     "requirementID": "RQ18",
@@ -13025,7 +13042,8 @@
      "PS23",
      "PS24"
     ],
-    "ticketSelectable": true
+    "ticketSelectable": true,
+    "registryUnitID": "BU01"
    }
   ],
   "Channels": [
