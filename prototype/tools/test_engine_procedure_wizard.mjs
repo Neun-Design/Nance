@@ -178,17 +178,15 @@ console.log('== handoutsForDepartment: the Inputs/Outputs re-point ==');
   eq(orphans, [], 'census: 98/98 stored Input/Output picks survive the department filter');
 }
 
-console.log('== Requirements.branchID activated: the ticket inheritance gate ==');
+console.log('== Requirements.branchID: the OUTPUT-branch inheritance gate (sv108) ==');
 {
-  // synthetic: a requirement pinned to a branch applies only where the
-  // ticket's PROJECT branch is named; blank context side skips (lenient)
-  const t0 = data.getEntity('Tickets').find((t) => t.projectID != null);
-  const prj = data.getById('Projects', t0.projectID);
-  const savedBranch = prj.branchID;
+  // sv108 (Rafael's conceptual fix): the branch context is the ticket's
+  // OWN stored branchID — the Applicant's branch receiving the output;
+  // the project branch no longer participates. Blank input skips.
+  const t0 = data.getEntity('Tickets')[0];
+  const savedBranch = t0.branchID;
   const brX = data.getEntity('Branches')[0];
   const brY = data.getEntity('Branches')[1];
-  // #366: every other dimension declared ("all", explicit) — only the
-  // branch leg is pinned, so the gate under test is the only one that bites
   const dim = (tab, pk) => data.getEntity(tab).map((r) => r[pk]);
   data.addRecord('Requirements', { requirementID: 'RQW-GATE', requirementName: 'RQW-GATE (t)',
     isActive: 'Active', businessUnitID: dim('Business Units', 'businessUnitID'),
@@ -196,16 +194,16 @@ console.log('== Requirements.branchID activated: the ticket inheritance gate =='
     productGroupID: dim('Product Groups', 'productGroupID'),
     productScopeID: dim('Product Scopes', 'productScopeID'),
     customerID: dim('Customers', 'customerID'), branchID: [brX.branchID] });
-  prj.branchID = brX.branchID;
+  t0.branchID = brX.branchID;
   eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), true,
-    'project on the pinned branch — the requirement inherits');
-  prj.branchID = brY.branchID;
+    'output branch = the pinned branch — the requirement inherits');
+  t0.branchID = brY.branchID;
   eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), false,
-    'project on ANOTHER branch — excluded (the dimension bites)');
-  prj.branchID = null;
+    'output branch elsewhere — excluded (the dimension bites)');
+  t0.branchID = null;
   eq(resolve.ticketRequirements(t0).includes('RQW-GATE'), true,
-    'no project branch — dimension skipped (lenient, the region posture)');
-  prj.branchID = savedBranch;
+    'no output branch — dimension skipped (lenient, the region posture)');
+  t0.branchID = savedBranch;
   data.removeRecords('Requirements', ['RQW-GATE']);
   // zero flips at rest: every clinic requirement names EVERY branch (the
   // #366 materialized spelling of the formerly-empty key) — the gate still

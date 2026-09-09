@@ -22,14 +22,16 @@ is **eligible** for the task when all three checks hold:
    requirement the ticket inherits (region, unit, branch, customer, scope, product
    group and product scope, AND-matched). On the requirement side, **the dimensions
    you declare constrain the inheritance — a dimension left empty does not constrain**
-   (2026-09-08 refinement): a requirement defined only for a branch binds every ticket
-   related to that branch — through the project, the customer, the applicant **or the
-   supplier** — one defined only for a customer binds the tickets naming that customer
-   in **any** role (customer, applicant or supplier), one defined only for a region
-   binds the tickets whose unit serves it or whose related branches sit in it, and one
-   defined only for a scope binds every ticket whose admitted product scopes carry it.
-   The rule is exhaustive by construction: every declared dimension is matched against
-   **all** the traces the ticket's parameters provide for it. (On the *coverage* side — the procedure's own requirement
+   (2026-09-08 refinement): a requirement defined only for a **branch** binds the tickets
+   whose **output Branch** — chosen below the Applicant, the branch that receives the
+   ticket's deliverable — matches it; one defined only for a **customer** binds the
+   tickets naming that customer as the project customer or the applicant (**never as
+   the supplier** — a supplier answers requirements, it does not impose them on a
+   request it must itself resolve); one defined only for a **region** binds the tickets
+   whose unit serves it or whose output branch sits in it; and one defined only for a
+   **scope** binds every ticket whose admitted product scopes carry it. The rule is
+   exhaustive by construction: every declared dimension is matched against the traces
+   the ticket's parameters provide for it. (On the *coverage* side — the procedure's own requirement
    set — nothing is covered by omission: an empty set covers nothing.)
 2. **Product scope** — the procedure must name at least one of the scopes the ticket
    admits through its contract chain.

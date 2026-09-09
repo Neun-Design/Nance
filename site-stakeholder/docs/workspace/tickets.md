@@ -17,10 +17,15 @@ last step):
 **Step 1 — Parties** (who is involved): `Unit *` (grouped by segment) → **Applicant**
 (2026-09-03) — the internal customer *opening* the ticket, always an `Internal`-type
 customer; optional — a ticket without one inherits requirements through the project
-customer alone → `Customer *` (unlocked by the Unit) — it only **filters the projects
-offered below** → unlocks `Project *` (the customer's projects) → **Supplier** — the
-party responsible for resolving the issue, picked among the unit's customers grouped
-by type.
+customer alone → **Branch** (2026-09-08) — the Applicant's branch that will **receive
+the ticket's output** (offered from the branches where the Applicant is registered):
+branch-pinned requirements apply exactly to this branch, and leaving it empty skips
+the branch dimension → `Customer *` (unlocked by the Unit) — it only **filters the
+projects offered below** → unlocks `Project *` (the customer's projects) →
+**Supplier** — the party responsible for resolving the issue, picked among the unit's
+customers grouped by type. The Supplier **never feeds requirement inheritance**
+(2026-09-08): a supplier answers its clients' requirements, it does not impose its own
+on a request it must resolve.
 
 **Step 2 — Request** (what is requested): `Event *` (unlocked by the Project) — **only
 events packaged by the contracts between the Applicant and the Supplier are offered**
