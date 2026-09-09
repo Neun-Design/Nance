@@ -41,8 +41,12 @@ console.log('== schema: renamed key, mandatory unit, wizard placement ==');
     'addedRequirementID renamed away (the manual-additions key is gone)');
   eq(catalog['Requirements'].byName['ticketSelectable'].type, 'BOOLEAN',
     'ticketSelectable stays the #218 real-boolean flag');
-  eq(/NOT NULL/.test(String(catalog['Requirements'].byName['businessUnitID'].constraints)),
-    true, 'Requirements.businessUnitID is MANDATORY (pre-RBAC correction)');
+  // sv107: the mandate lives on registryUnitID (the pre-RBAC filter);
+  // the applicability unit is optional (declared constrains, sv106)
+  eq(/NOT NULL/.test(String(catalog['Requirements'].byName['registryUnitID'].constraints)),
+    true, 'Requirements.registryUnitID is MANDATORY (the filter key, sv107)');
+  eq(/NOT NULL/.test(String(catalog['Requirements'].byName['businessUnitID'].constraints || '')),
+    false, 'the applicability unit is optional again (sv107)');
   const tf = catalog['Tickets'].form.fields;
   eq('Requirements' in tf, false, 'the Requirements-labelled field is gone');
   eq(tf.Constraints.attribute, 'constraintID', 'Constraints field binds the renamed key');

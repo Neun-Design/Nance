@@ -40,9 +40,9 @@ console.log('== steps spec: three steps, every field mapped ==');
   const stepOf = {};
   for (const [label, f] of Object.entries(spec.fields)) stepOf[label] = f.step;
   eq(Object.values(stepOf).every((s) => s != null), true, 'every field carries a step key');
-  eq(['Name', 'Description', 'Type'].map((l) => stepOf[l]), Array(3).fill('Registry'),
-    'Registry step fields');
-  eq(['Region', 'Business Unit', 'Branch', 'Customer', 'Scope', 'Product Group', 'Product Scope']
+  eq(['Name', 'Description', 'Type', 'Business Unit'].map((l) => stepOf[l]), Array(4).fill('Registry'),
+    'Registry step fields (incl. the sv107 pre-RBAC unit filter)');
+  eq(['Region', 'Business Units', 'Branch', 'Customer', 'Scope', 'Product Group', 'Product Scope']
     .map((l) => stepOf[l]), Array(7).fill('Applicability'),
   'Applicability step carries the full seven-dimension cascade');
   eq(['Regulatory Reference', 'Reference Link', 'Activate'].map((l) => stepOf[l]),
@@ -51,18 +51,18 @@ console.log('== steps spec: three steps, every field mapped ==');
     'Activate is the final field (lifecycle flag closes the form)');
 }
 
-console.log('== existing gates and cascade spellings survive the split unchanged ==');
+console.log('== gates and cascades after the sv107 Registry-unit split ==');
 {
+  // the #292 Region→Unit gate is SUPERSEDED: the Registry unit (step 1)
+  // gates and filters the whole Applicability step
   const f = catalog['Requirements'].form.fields;
-  eq(f['Business Unit'].check, 'Region IS NOT NULL',
-    'Business Unit still gated on Region (#292 — cross-field gate inside the step)');
-  eq(f.Branch.check, 'Business Unit IS NOT NULL', 'Branch gated on the Unit (#353 dimension)');
-  eq(f.Customer.check, 'Business Unit IS NOT NULL', 'Customer gated on the Unit (#180/#212)');
-  eq(/filtered by Region selected/i.test(String(f['Business Unit']['field-rule'])), true,
-    'Business Unit cascade names Region (two-hop join, sv61 spelling)');
-  for (const l of ['Branch', 'Customer', 'Scope', 'Product Group', 'Product Scope']) {
-    eq(/filtered by businessUnitID selected/i.test(String(f[l]['field-rule'])), true,
-      `${l} cascade names businessUnitID (attr-name spelling, unchanged)`);
+  eq(f['Business Units'].check, 'Business Unit IS NOT NULL',
+    'applicability Business Units gated on the Registry unit (sv107)');
+  eq(f.Branch.check, 'Business Unit IS NOT NULL', 'Branch gated on the Registry unit');
+  eq(f.Customer.check, 'Business Unit IS NOT NULL', 'Customer gated on the Registry unit');
+  for (const l of ['Region', 'Business Units', 'Branch', 'Customer', 'Scope', 'Product Group', 'Product Scope']) {
+    eq(/filtered by registryUnitID selected/i.test(String(f[l]['field-rule'])), true,
+      `${l} cascade names registryUnitID (the sv107 filter — #274 spelling)`);
   }
   eq(/Allow multiple values/i.test(String(f['Product Scope']['field-rule'])), true,
     'Product Scope stays the multivalued #294 picker');

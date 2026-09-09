@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 106,
+    "schemaVersion": 107,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -3774,7 +3774,16 @@
                 "name": "businessUnitID",
                 "type": "FK",
                 "rule": "FK → Business Units (display: businessUnitName)",
-                "notes": "multivalued — business units this requirement belongs to. MANDATORY since issue #359 (redefined round, pre-RBAC correction: EVERY requirement must declare its unit(s)); the demo rows were seeded with ALL units by migrate_ticket_constraints.py — the explicit spelling of what their formerly-EMPTY key meant under the old wildcard (applies to all), so every inheritance/picker/PS-REQUIREMENTS chain is preserved byte-for-byte; narrowing a row to its real owning unit is a data decision made in the UI. The #359 seed anticipated the #366 doctrine (every dimension declared). Drives the Constraints picker on Tickets (unit equality) and stays an exclusion gate on the derived chains",
+                "notes": "multivalued — business units this requirement APPLIES to (the inheritance dimension): a DECLARED key constrains, an undeclared one does not (sv106). NULLABLE again since sv107 — the #359 mandate mixed the pre-RBAC filter role into this key and made every requirement unit-constrained; the filter role moved to registryUnitID (Rafael's split: Registry unit filters the wizard options, this key optionally declares unit applicability — the Applicability multicheck offers exactly the Registry unit). Demo rows keep the #359 all-units seed (≡ unconstrained under declared-constrains — zero flips). Constraints picker on Tickets: declared = only its units, blank = every unit (sv106 posture)",
+                "table-display": false,
+                "subitem-display": false,
+                "constraints": "FK"
+            },
+            {
+                "name": "registryUnitID",
+                "type": "FK",
+                "rule": "FK → Business Units (display: businessUnitName)",
+                "notes": "Form filter — the pre-RBAC Registry unit (sv107, Rafael's split of the #359 role mixing): NOT NULL, picked on the wizard Registry step, its ONLY job is narrowing the Applicability options (regions = the unit's served regions; branches/customers/scopes/product groups/product scopes filtered by it; the applicability businessUnitID multicheck offers exactly this unit). NEVER read by the inheritance chains — a pure #334 filter input, removal candidate when RBAC lands. Seeds: first unit of the row's businessUnitID key (migrate_requirement_registry_unit.py)",
                 "table-display": false,
                 "subitem-display": false,
                 "constraints": "FK, NOT NULL"
@@ -3926,6 +3935,16 @@
                 "check": null,
                 "field-rule": null
               },
+              "Business Unit": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "registryUnitID",
+                "tooltip": "The unit you are registering this requirement under (pre-RBAC filter, sv107) — it narrows every Applicability option and does NOT constrain the inheritance; declare unit applicability on the next step if intended",
+                "step": "Registry",
+                "check": null,
+                "field-rule": null
+              },
               "Selectable on Tickets": {
                 "field-type": {
                   "select": "shadcn-select"
@@ -3941,20 +3960,20 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "regionID",
-                "tooltip": "Regions this requirement applies to — leave empty to not constrain by region (sv106: declared dimensions constrain, undeclared ones do not)",
+                "tooltip": "Regions this requirement applies to — offered from the Registry unit's served regions (a unit can exist in several regions); leave empty to not constrain by region",
                 "step": "Applicability",
-                "check": null,
-                "field-rule": "Allow multiple values"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
-              "Business Unit": {
+              "Business Units": {
                 "field-type": {
                   "select": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
-                "tooltip": "Units this requirement applies to (mandatory since 2026-09-08)",
+                "tooltip": "OPTIONAL unit applicability (sv107) — offers exactly the Registry unit: tick it to constrain the inheritance to that unit, leave empty to not constrain by unit",
                 "step": "Applicability",
-                "check": "Region IS NOT NULL",
-                "field-rule": "Allow multiple values; filtered by Region selected"
+                "check": "Business Unit IS NOT NULL",
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
               "Branch": {
                 "field-type": {
@@ -3964,7 +3983,7 @@
                 "tooltip": "Branches this requirement applies to — leave empty to not constrain by branch; a declared branch binds the tickets whose project, customer, applicant or supplier belongs to it",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
               "Customer": {
                 "field-type": {
@@ -3974,7 +3993,7 @@
                 "tooltip": "Customers this requirement applies to — e.g. a customer-specific design-approval template; leave empty to not constrain by customer (multivalued since #366)",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "Allow multiple values; SelectLabel = businessUnitName; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
               "Scope": {
                 "field-type": {
@@ -3984,7 +4003,7 @@
                 "tooltip": "Scopes this requirement applies to",
                 "step": "Applicability",
                 "check": null,
-                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
               "Product Group": {
                 "field-type": {
@@ -3994,7 +4013,7 @@
                 "tooltip": "Product groups this requirement applies to",
                 "step": "Applicability",
                 "check": null,
-                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
               "Product Scope": {
                 "field-type": {
@@ -4004,7 +4023,7 @@
                 "tooltip": "Product scopes this requirement applies to directly (shown by registry code) — leave empty to not constrain; a declared subset narrows inheritance to the named combinations",
                 "step": "Applicability",
                 "check": null,
-                "field-rule": "Allow multiple values; filtered by businessUnitID selected"
+                "field-rule": "Allow multiple values; filtered by registryUnitID selected"
               },
               "Regulatory Reference": {
                 "field-type": {

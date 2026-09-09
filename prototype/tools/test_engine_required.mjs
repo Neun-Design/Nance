@@ -38,8 +38,12 @@ console.log('== requiredAttrs: anchors + label ==');
 console.log('== Q1 wildcards stay nullable ==');
 {
   const rq = forms.requiredAttrs('Requirements');
-  eq(rq.has('businessUnitID'), true,
-    'Requirements.businessUnitID MANDATORY (issue #359 redefined — pre-RBAC correction)');
+  // sv107 Registry-unit split: the NOT NULL moved to the pre-RBAC filter
+  // key; the applicability unit is optional again (declared constrains)
+  eq(rq.has('registryUnitID'), true,
+    'Requirements.registryUnitID MANDATORY (the #359 mandate moved to the filter key, sv107)');
+  eq(rq.has('businessUnitID'), false,
+    'Requirements.businessUnitID optional (unit applicability, sv107)');
   eq(['regionID', 'customerID', 'branchID'].some((a) => rq.has(a)),
     false, 'the other applicability keys stay optional (empty = applies to all, Q1)');
   eq(forms.requiredAttrs('Workflows').has('parentStepID'), false,
