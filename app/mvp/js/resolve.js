@@ -903,13 +903,14 @@ function servedRegionIds(unitIds) {
 // covers nothing.) A blank CONTEXT side skips its dimension too (the
 // multiViaJoin posture, uniform across legs).
 function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId,
-  supplierId = null, branchId = null }) {
+  branchId = null }) {
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
-  // the customer gate passes for ANY party the ticket names (the sv106
-  // comprehensive-trace rule): the project customer, the internal applicant
-  // (#308 pair) or the SUPPLIER — all three are Customers the ticket
-  // relates to, so a customer-pinned requirement traces through any of them.
-  const parties = [customerId, applicantId, supplierId].filter((v) => v != null && v !== '');
+  // the customer gate passes for the INHERITANCE parties (#308 pair): the
+  // project customer or the internal applicant opening the ticket. The
+  // SUPPLIER is deliberately EXCLUDED (sv108, Rafael's conceptual fix): a
+  // supplier must not impose requirements on a request it must itself
+  // resolve — it answers its clients' requirements, never the reverse.
+  const parties = [customerId, applicantId].filter((v) => v != null && v !== '');
   const branchCtx = asIds(branchId);
   const out = [];
   for (const r of getEntity('Requirements')) {
@@ -966,29 +967,17 @@ export function ticketRequirements(ticket) {
   const ids = ticketAdmittedScopeIds(ticket);
   const psRows = ids.map((id) => getById('Product Scopes', id)).filter(Boolean);
   const unitIds = asIds(ticket.businessUnitID);
-  // branch context (issue #353, WIDENED by the sv105 round — Rafael's rule:
-  // a requirement pinned to a branch binds the tickets whose PARTIES belong
-  // to it): the PROJECT's branch (#316) ∪ the branches where the ticket's
-  // inheritance parties — customer AND applicant, the #308 pair — are
-  // registered (Branches.customerID, #320 N:N). Empty union = dimension
-  // skipped (lenient context posture, unchanged).
-  const prj = ticket.projectID != null && ticket.projectID !== ''
-    ? getById('Projects', ticket.projectID) : null;
-  const branchIds = [];
-  if (prj && prj.branchID != null && prj.branchID !== '') branchIds.push(String(prj.branchID));
-  const parties = [ticket.customerID, ticket.applicantID, ticket.supplierID]
-    .filter((v) => v != null && v !== ''); // supplier joins the branch relations (sv106 — Rafael's rule)
-  if (parties.length) {
-    for (const b of getEntity('Branches')) {
-      const regd = asIds(b.customerID).map(String);
-      if (parties.some((c) => regd.includes(String(c)))
-          && !branchIds.includes(String(b.branchID))) branchIds.push(String(b.branchID));
-    }
-  }
-  // region traces (sv106 comprehensive-trace rule): the unit's SERVED
-  // regions (#230) ∪ the regions of the branch context's branches — the
-  // branch owns the geography (#191), so a region-pinned requirement
-  // reaches every ticket related to a branch of that region
+  // branch context (sv108, Rafael's conceptual fix — superseding the
+  // sv105/sv106 union): the ticket's OWN stored branchID — the branch,
+  // chosen below the Applicant on the form, that RECEIVES the ticket's
+  // output. Branch-pinned requirements apply exactly there; the branches
+  // reachable through Customer/Supplier registrations and the project
+  // branch no longer participate. Blank input = dimension skipped
+  // (lenient context posture, unchanged).
+  const branchIds = ticket.branchID != null && ticket.branchID !== ''
+    ? [String(ticket.branchID)] : [];
+  // region traces: the unit's SERVED regions (#230) ∪ the selected output
+  // branch's region (the branch owns the geography, #191)
   const regionIds = servedRegionIds(unitIds).slice();
   for (const bid of branchIds) {
     const b = getById('Branches', bid);
@@ -1001,7 +990,7 @@ export function ticketRequirements(ticket) {
   // Product Scope options, forms.js; inheritance is the only source again)
   return matchRequirements({ psRows, unitIds, regionIds,
     customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
-    supplierId: ticket.supplierID ?? null, branchId: branchIds });
+    branchId: branchIds });
 }
 
 // Requirements a competence certifies — via its procedures since the

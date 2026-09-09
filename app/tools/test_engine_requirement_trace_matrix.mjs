@@ -8,10 +8,13 @@
 // checked against the oracle:
 //     inherits ⇔ NO dimension is declared-mismatching
 // (declared-matching passes, undeclared skips — AND across dimensions).
-// Plus explicit per-trace probes: the customer dimension through EACH party
-// (customer / applicant / SUPPLIER), the branch dimension through project
-// and each party's registration, the region dimension through the unit's
-// served regions AND through a related branch's region.
+// Plus explicit per-trace probes: the customer dimension through the #308
+// pair (customer / applicant — the SUPPLIER is deliberately excluded since
+// sv108: it answers requirements, it does not impose them), the branch
+// dimension through the ticket's OUTPUT branch only (the input below the
+// Applicant — Customer/Supplier registrations no longer trace), the region
+// dimension through the unit's served regions AND the output branch's
+// region.
 // Run from prototype/:  node tools/test_engine_requirement_trace_matrix.mjs
 
 import fs from 'fs';
@@ -32,32 +35,27 @@ const eq = (got, want, m) => (JSON.stringify(got) === JSON.stringify(want)
 const asList = (v) => (Array.isArray(v) ? v : (v == null || v === '' ? [] : [v]));
 
 // ---- a ticket with the RICHEST context: customer + applicant + supplier,
-// a non-empty branch context and admitted product scopes ----
+// a stored OUTPUT branch (sv108) and admitted product scopes ----
 const branchesOf = (cid) => data.getEntity('Branches')
   .filter((b) => asList(b.customerID).map(String).includes(String(cid)))
   .map((b) => String(b.branchID));
 const t = data.getEntity('Tickets').find((tk) => tk.customerID && tk.applicantID && tk.supplierID
-  && resolve.ticketAdmittedScopeIds(tk).length
-  && (branchesOf(tk.customerID).length || branchesOf(tk.applicantID).length
-    || branchesOf(tk.supplierID).length));
+  && tk.branchID && resolve.ticketAdmittedScopeIds(tk).length);
 eq(!!t, true, `rich-context probe ticket found (${t && t.ticketID})`);
 
 const adm = resolve.ticketAdmittedScopeIds(t);
 const psRow = data.getById('Product Scopes', adm[0]);
 const unit = data.getById('Business Units', asList(t.businessUnitID)[0]);
 const served = asList(unit.regionID).map(String);
-const branchCtx = [...new Set([
-  ...(t.projectID && data.getById('Projects', t.projectID)?.branchID
-    ? [String(data.getById('Projects', t.projectID).branchID)] : []),
-  ...branchesOf(t.customerID), ...branchesOf(t.applicantID), ...branchesOf(t.supplierID),
-])];
+// sv108: the branch context is the ticket's OWN output branch only
+const branchCtx = [String(t.branchID)];
 const branchRegions = branchCtx.flatMap((bid) => asIds(data.getById('Branches', bid)?.regionID))
   .map(String);
 function asIds(v) { return asList(v); }
 
 // per-dimension MATCH and MISMATCH values (mismatch = foreign to EVERY trace)
 const DIMS = [
-  { key: 'customerID', match: [t.supplierID], mismatch: ['CUST-NOPE'] }, // via the SUPPLIER — the widest party
+  { key: 'customerID', match: [t.applicantID], mismatch: [t.supplierID] }, // supplier NEVER traces (sv108)
   { key: 'businessUnitID', match: [asList(t.businessUnitID)[0]], mismatch: ['BU-NOPE'] },
   { key: 'regionID', match: [served[0] ?? branchRegions[0]], mismatch: ['RG-NOPE'] },
   { key: 'branchID', match: [branchCtx[0]], mismatch: ['BR-NOPE'] },
@@ -105,15 +103,26 @@ console.log('== explicit traces: every party and every region path ==');
   };
   eq(probe({ customerID: [t.customerID] }), true, 'customer-pinned → traces via the ticket CUSTOMER');
   eq(probe({ customerID: [t.applicantID] }), true, 'customer-pinned → traces via the APPLICANT (#308)');
-  eq(probe({ customerID: [t.supplierID] }), true, 'customer-pinned → traces via the SUPPLIER (sv106 comprehensive)');
-  for (const [label, cid] of [['customer', t.customerID], ['applicant', t.applicantID], ['supplier', t.supplierID]]) {
-    const bs = branchesOf(cid);
-    if (bs.length) eq(probe({ branchID: [bs[0]] }), true, `branch-pinned → traces via the ${label}'s branch`);
+  // sv108 conceptual fix: a supplier must not impose requirements on a
+  // request it must itself resolve — supplier-pinned requirements are
+  // fully IGNORED by the ticket
+  eq(String(t.supplierID) !== String(t.customerID)
+    && String(t.supplierID) !== String(t.applicantID), true,
+  'probe precondition: the supplier is a distinct party');
+  eq(probe({ customerID: [t.supplierID] }), false,
+    'supplier-pinned requirement NEVER inherits (sv108 — the supplier answers, it does not impose)');
+  eq(probe({ branchID: [String(t.branchID)] }), true,
+    'branch-pinned → traces via the ticket\'s OUTPUT branch (the input below Applicant)');
+  const foreignBr = data.getEntity('Branches').find((b) => String(b.branchID) !== String(t.branchID)
+    && [t.customerID, t.supplierID].some((cid) => branchesOf(cid).includes(String(b.branchID))));
+  if (foreignBr) {
+    eq(probe({ branchID: [String(foreignBr.branchID)] }), false,
+      'a branch reachable only through Customer/Supplier registrations does NOT trace (sv108)');
   }
   if (served.length) eq(probe({ regionID: [served[0]] }), true, 'region-pinned → traces via the unit\'s served regions (#230)');
   if (branchRegions.length) {
     eq(probe({ regionID: [branchRegions[0]] }), true,
-      'region-pinned → traces via a related BRANCH\'s region (sv106 comprehensive)');
+      'region-pinned → traces via the OUTPUT branch\'s region');
   }
   eq(probe({ scopeID: [asList(psRow.scopeID)[0]] }), true, 'scope-pinned → traces via an admitted product scope');
   eq(probe({ productGroupID: [asList(psRow.productGroupID)[0]] }), true, 'pg-pinned → traces via an admitted product scope');

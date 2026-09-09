@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 107,
+    "schemaVersion": 108,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -3810,7 +3810,7 @@
               "name": "branchID",
               "type": "FK",
               "rule": "FK → Branches (display: branchName)",
-              "notes": "multivalued — branches this requirement applies to; a DECLARED key constrains, an undeclared one does not (sv106 refinement — a requirement defined only for a branch binds every ticket related to it). ACTIVE dimension since issue #353 (stored-but-inert before): matchRequirements gates ticket inheritance on the ticket's branch CONTEXT — the PROJECT's branch ∪ the branches where the ticket's parties — customer, applicant AND supplier (sv106) — are registered (Branches.customerID; widened at sv105/sv106 — Rafael's rule: a branch-pinned requirement binds the tickets whose parties belong to it; an empty union skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet — a full-dimension set buckets as global, #366 display posture). Form multicheck since #366.",
+              "notes": "multivalued — branches this requirement applies to; a DECLARED key constrains, an undeclared one does not (sv106 refinement — a requirement defined only for a branch binds every ticket related to it). ACTIVE dimension since issue #353: matchRequirements gates ticket inheritance on the ticket's OUTPUT branch — the stored Tickets.branchID chosen below the Applicant (sv108, Rafael's conceptual fix; supersedes the sv105/sv106 party-branch union: a branch-pinned requirement applies exactly to the branch receiving the ticket's output; blank input skips the dimension — lenient posture), the Forecast Scopes rollup carries the forecastID.slaID.branchID leg, and the Procedures wizard facets the requirement options by it (Branches Requirements facet — a full-dimension set buckets as global, #366 display posture). Form multicheck since #366.",
               "table-display": true,
               "subitem-display": true,
               "constraints": "FK"
@@ -3980,7 +3980,7 @@
                   "select": "shadcn-select"
                 },
                 "attribute": "branchID",
-                "tooltip": "Branches this requirement applies to — leave empty to not constrain by branch; a declared branch binds the tickets whose project, customer, applicant or supplier belongs to it",
+                "tooltip": "Branches this requirement applies to — leave empty to not constrain by branch; a declared branch binds the tickets whose OUTPUT Branch (chosen below the Applicant) matches it (sv108)",
                 "step": "Applicability",
                 "check": "Business Unit IS NOT NULL",
                 "field-rule": "Allow multiple values; filtered by registryUnitID selected"
@@ -5403,6 +5403,15 @@
               "constraints": "FK"
             },
             {
+              "name": "branchID",
+              "type": "FK",
+              "rule": "FK → Branches (display: branchName)",
+              "notes": "The branch that RECEIVES the ticket's output (sv108, Rafael's conceptual fix) — chosen below the Applicant, options = the branches where the APPLICANT is registered (Branches.customerID, generic stored-key cascade). THE branch context of requirement inheritance: branch-pinned requirements apply exactly to this branch — the sv105/sv106 union (project ∪ customer/applicant/supplier branches) is superseded, and the SUPPLIER never feeds inheritance (a supplier must not impose requirements on a request it must itself resolve). Nullable — blank = the branch dimension is skipped",
+              "table-display": true,
+              "subitem-display": false,
+              "constraints": "FK"
+            },
+            {
               "name": "customerID",
               "type": "FK",
               "rule": "FK → Customers (display: customerName)",
@@ -5532,7 +5541,7 @@
               "name": "requirementName",
               "type": "mirror",
               "rule": "computed: INHERITED-REQUIREMENTS(eventID) (display: requirementName)",
-              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID), the ticket's parties — customer, applicant AND supplier trace the customer dimension (sv106 comprehensive rule) — their branch context (project branch ∪ the parties' registered branches) and the region traces (the unit's served regions ∪ the context branches' regions). Requirement keys: a DECLARED dimension constrains, an undeclared one does not (sv106 refinement — the sv99 strict reading was reverted; the #364 doctrine stays on the coverage sets). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. A new aligned requirement surfaces on existing tickets automatically — but a requirement registered AFTER a dimension's 'all' snapshot needs the revisit the doctrine mandates.",
+              "notes": "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID), the ticket's inheritance parties — customer AND applicant, the #308 pair (the SUPPLIER is deliberately EXCLUDED since sv108: a supplier must not impose requirements on a request it must itself resolve) — the OUTPUT branch (the stored Tickets.branchID, sv108) and the region traces (the unit's served regions ∪ the output branch's region). Requirement keys: a DECLARED dimension constrains, an undeclared one does not (sv106 refinement — the sv99 strict reading was reverted; the #364 doctrine stays on the coverage sets). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. A new aligned requirement surfaces on existing tickets automatically — but a requirement registered AFTER a dimension's 'all' snapshot needs the revisit the doctrine mandates.",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -5665,6 +5674,16 @@
                 "step": "Parties",
                 "check": null,
                 "field-rule": null
+              },
+              "Branch": {
+                "field-type": {
+                  "select": "shadcn-select"
+                },
+                "attribute": "branchID",
+                "tooltip": "The Applicant's branch that will receive the ticket's output — branch-pinned requirements apply exactly to this branch (leave empty to skip the branch dimension)",
+                "step": "Parties",
+                "check": "Applicant IS NOT NULL",
+                "field-rule": "filtered by Applicant selected"
               },
               "Customer": {
                 "field-type": {

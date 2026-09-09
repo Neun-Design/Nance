@@ -1641,6 +1641,20 @@ class Builder:
             # tools/migrate_requirement_registry_unit.py)
             own = as_list(r.get('businessUnitID'))
             r['registryUnitID'] = own[0] if own else None
+        # sv108 ticket output branch: the first branch where the APPLICANT
+        # is registered (the exact rule of
+        # tools/migrate_ticket_output_branch.py); null cohort preserved
+        branches_rows = self.rows('Branches')
+        def first_branch_of(cid):
+            if cid in (None, ''):
+                return None
+            for b in branches_rows:
+                if str(cid) in [str(x) for x in as_list(b.get('customerID'))]:
+                    return b['branchID']
+            return None
+        for t in self.rows('Tickets'):
+            if t.get('branchID') in (None, ''):
+                t['branchID'] = first_branch_of(t.get('applicantID'))
         all_reqs = [r['requirementID'] for r in self.rows('Requirements')
                     if str(r.get('isActive') or 'Active') != 'Inactive']
         customers = self.rows('Customers')

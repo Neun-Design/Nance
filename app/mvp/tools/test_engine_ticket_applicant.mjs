@@ -45,7 +45,9 @@ console.log('== form: Applicant before Customer ==');
   const keys = Object.keys(f);
   eq(f.Applicant.attribute, 'applicantID', 'Applicant binds applicantID');
   eq(keys.indexOf('Applicant') - keys.indexOf('Business Unit'), 1, 'Applicant follows Business Unit');
-  eq(keys.indexOf('Customer') - keys.indexOf('Applicant'), 1, 'Customer follows Applicant (issue order)');
+  eq(keys.indexOf('Branch') - keys.indexOf('Applicant'), 1,
+    'the OUTPUT Branch sits right below the Applicant (sv108)');
+  eq(keys.indexOf('Customer') - keys.indexOf('Branch'), 1, 'Customer follows the Branch');
   eq(f.Applicant['field-rule'], null,
     'no field-rule — the Internal filter rides the attribute rule');
   const opt = forms.optionsForAttr('Tickets', 'applicantID', catalog['Tickets'].byName['applicantID'].rule);
