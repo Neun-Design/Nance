@@ -2690,16 +2690,20 @@ defined only for a scope binds every ticket whose admitted product scopes carry 
 <p>Since 2026-09-08 the form is a <strong>three-step wizard</strong> (the same chevron-step drawer as
 <a href="../procedures/">Procedures</a> and <a href="../../workspace/tickets/">Tickets</a>):</p>
 <p><strong>Step 1 — Registry:</strong> Name, Description, Type (create new types inline with the "+"
-button); <strong>Selectable on Tickets</strong> (2026-09-08) — Yes makes this requirement an offerable
+button); <strong>Business Unit</strong> (2026-09-08) — the unit you are registering the requirement
+under: a pre-RBAC <em>filter</em> that narrows every Applicability option and <strong>does not
+constrain the inheritance</strong> (declare unit applicability on step 2 if intended);
+<strong>Selectable on Tickets</strong> (2026-09-08) — Yes makes this requirement an offerable
 <strong>Constraint</strong> on the <a href="../../workspace/tickets/">Tickets</a> Request step for tickets of
 its business unit(s): picked constraints filter the ticket's Product Scope options to
 the scopes that answer for them; the automatic inheritance below is not affected
 either way.</p>
 <p><strong>Step 2 — Applicability</strong> — the system's longest cascade gets its own screen, with the
-rule written on it: <em>the dimensions you declare constrain; an empty dimension does not</em>. Region →
-<code>Business Unit *</code> (unlocks after at least one Region is selected, 2026-08-27;
-<strong>mandatory</strong> since 2026-09-08 — every requirement declares the unit(s) it belongs to,
-the pre-RBAC rule) → Branch / Customer / Scope / Product Group / <strong>Product Scope</strong> —
+rule written on it: <em>the dimensions you declare constrain; an empty dimension does not</em>.
+Every option is filtered by the Registry unit: <strong>Region</strong> (the unit's served regions —
+a unit can exist in several regions) → <strong>Business Units</strong> (optional — offers exactly
+the Registry unit; tick it to constrain the inheritance to that unit, leave it empty
+for a cross-unit requirement) → Branch / Customer / Scope / Product Group / <strong>Product Scope</strong> —
 Branch and Customer are multi-selects since 2026-09-08. The <strong>Product Scope</strong> picker
 (2026-08-28) targets the requirement at specific
 <a href="../../portfolio/product-scopes/">Product Scope</a> combinations directly — options show
