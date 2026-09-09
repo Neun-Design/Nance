@@ -8,11 +8,11 @@ purpose: "Requirements — what it is, when to register one, and its key fields"
 
 **What it is:** the regulatory/design/commercial limits that bind scopes and product groups
 (e.g. "ANVISA RDC 611 Compliance") — moved here from Portfolio (2026-08-12). Applicability is
-multi-dimensional: region, unit, branch, customer, scope, product group — and **every
-dimension is an explicit selection (2026-09-08)**: to apply to all, select every value
-(today's list). An item registered later — a new region, customer, scope — is **not**
-silently covered: the requirement must be revisited, the deliberate review quality
-management demands. An empty dimension keeps the requirement out of every inheritance.
+multi-dimensional: region, unit, branch, customer, scope, product group — and **the
+dimensions you declare constrain the inheritance; a dimension left empty does not
+constrain** (2026-09-08 refinement): a requirement defined only for a branch binds
+every ticket related to that branch (project, customer, applicant or supplier), one
+defined only for a scope binds every ticket whose admitted product scopes carry it.
 **Register when:** after Scopes and Product Groups (Portfolio module).
 
 Since 2026-09-08 the form is a **three-step wizard** (the same chevron-step drawer as
@@ -26,7 +26,7 @@ the scopes that answer for them; the automatic inheritance below is not affected
 either way.
 
 **Step 2 — Applicability** — the system's longest cascade gets its own screen, with the
-rule written on it: *select all values to apply to all of today's list*. Region →
+rule written on it: *the dimensions you declare constrain; an empty dimension does not*. Region →
 `Business Unit *` (unlocks after at least one Region is selected, 2026-08-27;
 **mandatory** since 2026-09-08 — every requirement declares the unit(s) it belongs to,
 the pre-RBAC rule) → Branch / Customer / Scope / Product Group / **Product Scope** —

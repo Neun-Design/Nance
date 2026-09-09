@@ -88,7 +88,11 @@ console.log('== tickets inherit live (Q1 AND semantics) ==');
   eq(got.includes('RQ-TC'), false, "another unit's requirement — out");
   eq(got.includes('RQ-TD'), true, 'full-wildcard requirement applies to all (Q1)');
   eq(got.includes('RQ-TE'), false, 'Inactive requirement never inherits');
-  eq(got.includes('RQ-TF'), false, 'customer-specific requirement skips a customer-less ticket');
+  // sv106 refinement: a blank CONTEXT side skips its dimension uniformly —
+  // a customer-less ticket no longer blocks customer-pinned requirements
+  // (the customer key constrains only when the ticket HAS parties)
+  eq(got.includes('RQ-TF'), true,
+    'customer-pinned requirement inherits into a customer-less ticket (blank context skips, sv106)');
   eq(got.includes('RQ-TH'), true, 'second packaged scope admits its requirement');
   const withCust = resolve.ticketRequirements({ ...t, customerID: 'FC01' });
   eq([withCust.includes('RQ-TF'), withCust.includes('RQ-TG')], [true, false],

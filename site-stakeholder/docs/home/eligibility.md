@@ -20,11 +20,13 @@ is **eligible** for the task when all three checks hold:
 
 1. **Requirement coverage** — the procedure's declared requirement set covers **every**
    requirement the ticket inherits (region, unit, branch, customer, scope, product
-   group and product scope, AND-matched). Applicability is always an explicit
-   declaration (2026-09-08): nothing is covered by omission. The **branch** dimension
-   binds through the ticket's parties (2026-09-08): a requirement pinned to a branch
-   applies where the project sits in that branch **or** the ticket's customer or
-   applicant is registered under it.
+   group and product scope, AND-matched). On the requirement side, **the dimensions
+   you declare constrain the inheritance — a dimension left empty does not constrain**
+   (2026-09-08 refinement): a requirement defined only for a branch binds every ticket
+   related to that branch — through the project, the customer, the applicant **or the
+   supplier** — and one defined only for a scope binds every ticket whose admitted
+   product scopes carry it. (On the *coverage* side — the procedure's own requirement
+   set — nothing is covered by omission: an empty set covers nothing.)
 2. **Product scope** — the procedure must name at least one of the scopes the ticket
    admits through its contract chain.
 3. **Approved status** — only procedures with status **Approved** are considered
