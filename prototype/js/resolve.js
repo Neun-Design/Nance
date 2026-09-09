@@ -902,11 +902,14 @@ function servedRegionIds(unitIds) {
 // procedures, events, payloads, processes, handouts — where an empty set
 // covers nothing.) A blank CONTEXT side skips its dimension too (the
 // multiViaJoin posture, uniform across legs).
-function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId, branchId = null }) {
+function matchRequirements({ psRows, unitIds, regionIds, customerId, applicantId,
+  supplierId = null, branchId = null }) {
   const blank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
-  // the customer gate passes for EITHER inheritance party (issue #308): the
-  // project customer or the internal applicant opening the ticket.
-  const parties = [customerId, applicantId].filter((v) => v != null && v !== '');
+  // the customer gate passes for ANY party the ticket names (the sv106
+  // comprehensive-trace rule): the project customer, the internal applicant
+  // (#308 pair) or the SUPPLIER — all three are Customers the ticket
+  // relates to, so a customer-pinned requirement traces through any of them.
+  const parties = [customerId, applicantId, supplierId].filter((v) => v != null && v !== '');
   const branchCtx = asIds(branchId);
   const out = [];
   for (const r of getEntity('Requirements')) {
@@ -982,12 +985,23 @@ export function ticketRequirements(ticket) {
           && !branchIds.includes(String(b.branchID))) branchIds.push(String(b.branchID));
     }
   }
+  // region traces (sv106 comprehensive-trace rule): the unit's SERVED
+  // regions (#230) ∪ the regions of the branch context's branches — the
+  // branch owns the geography (#191), so a region-pinned requirement
+  // reaches every ticket related to a branch of that region
+  const regionIds = servedRegionIds(unitIds).slice();
+  for (const bid of branchIds) {
+    const b = getById('Branches', bid);
+    for (const rg of asIds(b && b.regionID)) {
+      if (!regionIds.map(String).includes(String(rg))) regionIds.push(rg);
+    }
+  }
   // (the #359 manual-union of addedRequirementID was RETIRED in the same
   // round's redefinition — the picks became the Constraints FILTER on the
   // Product Scope options, forms.js; inheritance is the only source again)
-  return matchRequirements({ psRows, unitIds, regionIds: servedRegionIds(unitIds),
+  return matchRequirements({ psRows, unitIds, regionIds,
     customerId: ticket.customerID ?? null, applicantId: ticket.applicantID ?? null,
-    branchId: branchIds });
+    supplierId: ticket.supplierID ?? null, branchId: branchIds });
 }
 
 // Requirements a competence certifies — via its procedures since the
