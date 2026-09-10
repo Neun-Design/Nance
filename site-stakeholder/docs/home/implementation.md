@@ -86,8 +86,8 @@ From there, additional process families follow the same pattern, at a pace your 
 **Agree on the discovery workshop date.** Everything else follows from what is found there.
 
 Before that conversation, the whole product is available to evaluate: the
-[public demo](https://bovarafa.github.io/EDQMS/app/) with sample data, and a blank instance at
-[/app/mvp/](https://bovarafa.github.io/EDQMS/app/mvp/) if you want to try modelling something
+[public demo](https://neun-design.github.io/Nance/app/) with sample data, and a blank instance at
+[/app/mvp/](https://neun-design.github.io/Nance/app/mvp/) if you want to try modelling something
 of your own first.
 
 ---

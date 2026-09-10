@@ -159,6 +159,6 @@ The entry point is not a contract. It is the
 your key users, from which everything else follows.
 
 Before that, you can install nothing, sign nothing, and still evaluate the whole product: the
-[public demo](https://bovarafa.github.io/EDQMS/app/) is the real application, and
+[public demo](https://neun-design.github.io/Nance/app/) is the real application, and
 [Start here](../start-here.md) walks you through modelling your own operation in a blank
 instance.

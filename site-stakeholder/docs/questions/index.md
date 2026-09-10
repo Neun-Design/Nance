@@ -176,7 +176,7 @@ tutor answering from *your* procedures — possible later.
 ## Where can I see it running?
 
 A live demo with sample data is published at
-[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login required.
+[neun-design.github.io/Nance/app/](https://neun-design.github.io/Nance/app/) — no login required.
 The demo shows **Vitalis Health Network**, a fictitious chain of diagnostic-imaging and
 clinical-analysis clinics (12 branches across Brazil and Argentina), so any visitor can
 navigate a fully populated system without industry background. The platform itself is

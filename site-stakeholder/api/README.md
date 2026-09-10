@@ -26,7 +26,7 @@ matches the repo state at deploy time:
 | Variable | Default | Purpose |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | — (required) | Anthropic API key. Locally read from `site-stakeholder/.env`; in hosting, set as a platform secret. |
-| `EDQMS_ALLOWED_ORIGINS` | `http://localhost:8000,http://127.0.0.1:8000,https://bovarafa.github.io` | Comma-separated CORS allowlist |
+| `EDQMS_ALLOWED_ORIGINS` | `http://localhost:8000,http://127.0.0.1:8000,https://neun-design.github.io` | Comma-separated CORS allowlist |
 | `EDQMS_RATE_LIMIT_REQUESTS` | `20` | Requests allowed per client per window |
 | `EDQMS_RATE_LIMIT_WINDOW_SECONDS` | `300` | Rate-limit window size |
 
@@ -48,7 +48,7 @@ uvicorn api.server:app --port 8001
 The production service `edqms-chat-api` is already running from the `render.yaml`
 blueprint at the repo root. To recreate it (new account or fork):
 
-1. In Render: **New → Blueprint**, connect the `BOVArafa/EDQMS` repo. It creates
+1. In Render: **New → Blueprint**, connect the `Neun-Design/Nance` repo. It creates
    the `edqms-chat-api` web service (free plan, Python 3.12).
 2. Set the `ANTHROPIC_API_KEY` secret when prompted (the blueprint marks it
    `sync: false`, so it is never committed).

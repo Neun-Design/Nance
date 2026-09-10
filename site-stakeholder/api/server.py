@@ -22,7 +22,7 @@ DEMO_DOMAIN_DIR = _ROOT / "prototype" / "tools" / "seed"
 
 # Comma-separated list; overridable so a fork or a new host can allow its own origin.
 _DEFAULT_ORIGINS = (
-    "http://localhost:8000,http://127.0.0.1:8000,https://bovarafa.github.io"
+    "http://localhost:8000,http://127.0.0.1:8000,https://neun-design.github.io"
 )
 ALLOWED_ORIGINS = [
     origin.strip()

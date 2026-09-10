@@ -40,4 +40,4 @@ rsync -a --delete --exclude '.git' "$STAGE"/ "$WT"/
     git push origin gh-pages
   fi
 )
-echo "== done: https://bovarafa.github.io/EDQMS/ (docs) · /app/ (prototype) · /app/mvp/ (MVP walkthrough) =="
+echo "== done: https://neun-design.github.io/Nance/ (docs) · /app/ (prototype) · /app/mvp/ (MVP walkthrough) =="
