@@ -53,7 +53,7 @@ from a blank QMS, for continuity/usability testing:
   the session lands on Organization instead of Overview. KPI **cards** and **report
   charts** are hidden on every tab — stakeholders see only the record tables and forms.
 
-Hosted: `https://bovarafa.github.io/EDQMS/app/mvp/` (published by `deploy_pages.sh`)
+Hosted: `https://neun-design.github.io/Nance/app/mvp/` (published by `deploy_pages.sh`)
 
 ## What's inside
 

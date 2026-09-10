@@ -62,10 +62,10 @@ the most self-explanatory dataset to walk through.
 Workspace — one connected model, described module by module in the tabs above.
 
 **Try it yourself.** A public demo runs at
-[bovarafa.github.io/EDQMS/app/](https://bovarafa.github.io/EDQMS/app/) — no login required.
+[neun-design.github.io/Nance/app/](https://neun-design.github.io/Nance/app/) — no login required.
 The header reads **Vitalis Governance Portal** and carries a **DEMO DATA · VITALIS** badge; an
 "About this demo" panel in the header explains the fictitious dataset. To model your own
-operation from a blank system, open [/app/mvp/](https://bovarafa.github.io/EDQMS/app/mvp/)
+operation from a blank system, open [/app/mvp/](https://neun-design.github.io/Nance/app/mvp/)
 instead and follow [Start here](start-here.md).
 
 ## Where to go next

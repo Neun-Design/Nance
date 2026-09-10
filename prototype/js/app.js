@@ -492,7 +492,7 @@ function render() {
 const GUIDE_BASE = location.pathname.includes('/app/mvp/')
   ? '../../'
   : location.pathname.includes('/app/')
-    ? '../' : 'https://bovarafa.github.io/EDQMS/';
+    ? '../' : 'https://neun-design.github.io/Nance/';
 const guideSlug = (s) => String(s).toLowerCase().replace(/\s+/g, '-');
 function guideLink(moduleName, tableName = null) {
   const a = document.createElement('a');
