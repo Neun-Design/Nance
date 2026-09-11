@@ -52,8 +52,7 @@ Follow it on the [How it works](home/how-it-works.md) page.
 
 ## Not a concept — live today
 
-**In implementation now.** The Power Transformer Repairs & Services business unit at Northwind
-Energy, with modules being configured together with its key users. The **public demo** shows a
+**In implementation now.** A large industrial enterprise's equipment repair & services unit, with modules being configured together with its key users. The **public demo** shows a
 fictitious clinic network — **Vitalis Health Network** — so any visitor can navigate a fully
 populated system without industry background. The model is sector-agnostic; the demo is simply
 the most self-explanatory dataset to walk through.
