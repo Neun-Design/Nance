@@ -118,7 +118,7 @@ edqms/
 │  └─ web/                # Next.js (App Router): UI shadcn + route handlers/tRPC + Auth.js
 ├─ packages/
 │  ├─ engine/             # motor de metadados em TS (model, resolve, queries) + testes Vitest
-│  ├─ ui/                 # componentes shadcn compartilhados + tema/tokens Northwind Energy
+│  ├─ ui/                 # componentes shadcn compartilhados + tema/tokens nance
 │  └─ db/                 # schema Prisma, migrações, seed a partir do mockup
 ├─ spec/
 │  └─ datamodel.json      # a especificação canônica (fonte da verdade)
@@ -185,7 +185,7 @@ Toda a infra é descrita como código (**Bicep** ou Terraform) e publicada por *
 | Protótipo (hoje) | MVP (alvo) |
 |---|---|
 | SPA vanilla ES modules, sem build | Next.js + React + TypeScript, build/CI |
-| Tokens CSS do Northwind Energy DS | Tema Tailwind com os mesmos tokens; modo escuro padrão |
+| Tokens CSS do nance Design System | Tema Tailwind com os mesmos tokens; modo escuro padrão |
 | ECharts | shadcn charts (Recharts); ECharts como exceção |
 | Sem autenticação (acesso aberto) | Auth.js: e-mail OTP/magic link, domínio `@northwind-energy.com` |
 | `data.js` em memória (JSON) | PostgreSQL (Prisma) + seed do mockup |

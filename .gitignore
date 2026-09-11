@@ -34,3 +34,6 @@ client-data/
 # Internal source material — kept locally, never in the public repo
 # (client/consulting docs, wireframes, duplicate mock data). See de-Northwind plan.
 sourceFiles/
+
+# Original consulting deliverables — kept locally, never in the public repo (de-Northwind plan)
+site-stakeholder/_archive/

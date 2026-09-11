@@ -47,7 +47,7 @@
 ## Assumptions
 Tools used:
 - Business Modeling to find Bottlenecks
-- Case Type Scopes (https://neundesign.sharepoint.com/:x:/s/Northwind-Offer/IQCzlcOeMTMVRovyhENj1PPqAd7u7reAMTL6KjP6u5kIgJY?e=zKp5ww)
+- Case Type Scopes
 
 ## Workshop
 - event storming
