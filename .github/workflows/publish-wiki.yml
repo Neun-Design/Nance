@@ -1,0 +1,90 @@
+# .github/workflows/publish-wiki.yml
+#
+# Publica a documentação de contribuidores no GitHub Wiki (ADR-0005).
+# Fonte da verdade: docs/wiki/ neste repositório. Este workflow espelha
+# docs/wiki/ -> https://github.com/Neun-Design/Nance.wiki.git a cada push
+# na branch principal que toque docs/wiki/, e também sob demanda.
+#
+# PRÉ-REQUISITOS (uma vez):
+#   1. Repositório: Settings > Features > marque "Wikis".
+#   2. Aba "Wiki" > "Create the first page" > salve (inicializa o .wiki.git;
+#      sem essa primeira página, o clone/push falha — limitação do GitHub).
+#   3. Crie um Personal Access Token com permissão de escrita no repositório
+#      (classic: escopo "repo"; fine-grained: acesso a Neun-Design/Nance com
+#      Contents = Read and write) e salve-o em
+#      Settings > Secrets and variables > Actions > New repository secret
+#      com o nome:  WIKI_TOKEN
+#      Observação: o GITHUB_TOKEN embutido NÃO consegue dar push no wiki, por
+#      isso o PAT é necessário.
+#
+# Alternativa: se preferir não manter este script, há actions de marketplace
+# equivalentes (ex.: Andrew-Chen-Wang/github-wiki-action). Optamos pela versão
+# em git puro por transparência e para evitar dependência de terceiros.
+ 
+
+name: Publish Wiki
+ 
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/wiki/**"
+      - ".github/workflows/publish-wiki.yml"
+  workflow_dispatch: {}
+ 
+# Evita publicações concorrentes pisando umas nas outras.
+concurrency:
+  group: publish-wiki
+  cancel-in-progress: true
+ 
+permissions:
+  contents: read
+ 
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+ 
+      - name: Espelhar docs/wiki -> GitHub Wiki
+        env:
+          WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
+          WIKI_REPO: Neun-Design/Nance.wiki.git
+          SRC_DIR: docs/wiki
+        run: |
+          set -euo pipefail
+ 
+          if [ -z "${WIKI_TOKEN:-}" ]; then
+            echo "::error::Secret WIKI_TOKEN ausente. Veja o cabeçalho deste arquivo."
+            exit 1
+          fi
+          if [ ! -d "${SRC_DIR}" ]; then
+            echo "::error::Pasta ${SRC_DIR} não encontrada na raiz do repositório."
+            exit 1
+          fi
+ 
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+ 
+          workdir="$(mktemp -d)"
+          # A primeira página precisa existir (ver pré-requisitos) para o clone funcionar.
+          git clone --depth 1 \
+            "https://x-access-token:${WIKI_TOKEN}@github.com/${WIKI_REPO}" \
+            "${workdir}/wiki"
+ 
+          # Descobre a branch padrão do wiki (historicamente 'master').
+          wiki_branch="$(git -C "${workdir}/wiki" rev-parse --abbrev-ref HEAD)"
+ 
+          # Espelho exato do conteúdo (preserva _Sidebar.md/_Footer.md; nunca toca .git).
+          rsync -av --delete --exclude='.git' "${SRC_DIR}/" "${workdir}/wiki/"
+ 
+          cd "${workdir}/wiki"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "docs(wiki): sync de docs/wiki @ ${GITHUB_SHA:0:7}"
+            git push origin "HEAD:${wiki_branch}"
+            echo "Wiki publicado (branch ${wiki_branch})."
+          else
+            echo "Sem mudanças para publicar."
+          fi
