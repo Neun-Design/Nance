@@ -1,5 +1,5 @@
 /* EDQMS Prototype — layout & components.
-   All colours/spacing/type reference the Northwind Energy --se-* tokens only. */
+   All colours/spacing/type reference the nance Design System tokens (via the --se-* compatibility layer in assets/tokens/nance-tokens.css). */
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; }
