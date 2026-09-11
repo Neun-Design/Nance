@@ -12,7 +12,7 @@
 
 "type: data-model":
   - changed-files:
-    - any-glob-to-any-file: "sourceFiles/**"
+    - any-glob-to-any-file: "prototype/data/**"
 
 "type: chore":
   - changed-files:
@@ -22,7 +22,6 @@
   - changed-files:
     - any-glob-to-any-file:
       - "prototype/**"
-      - "sourceFiles/**"
       - ".github/**"
 
 "audience: stakeholder":

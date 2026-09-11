@@ -1,6 +1,6 @@
 # Render Blueprint for the EDQMS chatbot API (site-stakeholder/api/server.py).
-# The whole repo is cloned on deploy, so the server finds CLAUDE.md,
-# sourceFiles/*.md and site-stakeholder/docs/**/*.md at their usual paths.
+# The whole repo is cloned on deploy, so the server finds
+# site-stakeholder/docs/**/*.md at its usual path.
 # Deploy guide: site-stakeholder/api/README.md
 services:
   - type: web
@@ -14,7 +14,6 @@ services:
     buildFilter:
       paths:
         - site-stakeholder/**
-        - sourceFiles/**
         - CLAUDE.md
         - prototype/tools/seed/** # demo domain pack embedded in the prompt
     envVars:
