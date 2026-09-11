@@ -13,13 +13,11 @@ on:
     branches: [main]
     paths:
       - 'prototype/**'
-      - 'sourceFiles/developer/mockup_data_prototype.json'
       - '.github/workflows/test-battery.yml'
   pull_request:
     branches: [main]
     paths:
       - 'prototype/**'
-      - 'sourceFiles/developer/mockup_data_prototype.json'
       - '.github/workflows/test-battery.yml'
 
 jobs:
