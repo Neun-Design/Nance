@@ -10,5 +10,5 @@
 
 ---
 
-**Decisões (ADR log)**
-Ver `docs/adr/` no repositório.
+**Decisions (ADR log)**
+See `docs/adr/` in the repository.

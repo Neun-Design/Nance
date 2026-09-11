@@ -1,33 +1,33 @@
 # Glossary
 
-Termos do domínio e da arquitetura do EDQMS. Útil especialmente para quem chega de UX/design ou de fora do backend. Os conceitos de renderização derivam do *datamodel* — ver [[Working with the Datamodel]].
+Domain and architecture terms for EDQMS. Especially useful for those arriving from UX/design or from outside the backend. The rendering concepts derive from the *datamodel* — see [[Working with the Datamodel]].
 
-## Domínio e telas
+## Domain and screens
 
-- **EDQMS** — Engineering Data Quality Management System; o Global Engineering Portal.
-- **Module** — uma entrada do menu lateral (Customers, Operation, Inventory/Portfolio, Workload, Control, Talent). Ordenado por `sidebar-position`.
-- **Dashboard / Tab** — uma tela dentro de um módulo. Renderiza, de cima para baixo: cards → tabela de dados → reports.
-- **Overview** — dashboard especial montado automaticamente a partir de cards e reports marcados com `overview-display: true`.
-- **Card** — um KPI acima da tabela (valor principal, tendência, detalhe), posicionado por coordenada de grid `Card R-C`.
-- **Report** — um gráfico abaixo da tabela; seu tipo e regra vêm do datamodel.
-- **Subitem table** — tabela-filha expansível por linha (a seta/chevron), filtrada pelos filhos daquela linha.
+- **EDQMS** — Engineering Data Quality Management System; the Global Engineering Portal.
+- **Module** — a sidebar entry (Customers, Operation, Inventory/Portfolio, Workload, Control, Talent). Ordered by `sidebar-position`.
+- **Dashboard / Tab** — a screen inside a module. It renders, top to bottom: cards → data table → reports.
+- **Overview** — a special dashboard assembled automatically from cards and reports marked `overview-display: true`.
+- **Card** — a KPI above the table (main value, trend, detail), positioned by the grid coordinate `Card R-C`.
+- **Report** — a chart below the table; its type and rule come from the datamodel.
+- **Subitem table** — a per-row expandable child table (the chevron/arrow), filtered to that row's children.
 
-## Datamodel e motor
+## Datamodel and engine
 
-- **Datamodel** — a especificação canônica do sistema. Na v1, escrita em TypeScript (config-as-code) e compilada para `datamodel.json`.
-- **Model / View / Behavior** — as três camadas da spec: forma dos dados / layout / comportamento (ver [[Working with the Datamodel]]).
-- **Engine (motor)** — o código (TS, agnóstico de framework) que interpreta a spec e resolve valores em tempo de execução.
-- **Attribute** — uma coluna/campo de uma entidade, com `type`, `rule` e restrições.
-- **FK (foreign key)** — referência a outra entidade; exibe o *nome* do alvo, nunca o id cru.
-- **Rollup** — valor derivado que agrega registros filhos (não armazenado; recalculado).
-- **Mirror** — valor espelhado de registros relacionados (não armazenado).
-- **Computed** — valor calculado por expressão/caminho (não armazenado).
-- **Derive, don't repeat** — princípio: a View é deduzida do Model; instâncias declaram só exceções.
+- **Datamodel** — the canonical specification of the system. In v1, written in TypeScript (config-as-code) and compiled to `datamodel.json`.
+- **Model / View / Behavior** — the three layers of the spec: data shape / layout / behavior (see [[Working with the Datamodel]]).
+- **Engine** — the code (TS, framework-agnostic) that interprets the spec and resolves values at runtime.
+- **Attribute** — a column/field of an entity, with `type`, `rule`, and constraints.
+- **FK (foreign key)** — a reference to another entity; displays the target's *name*, never the raw id.
+- **Rollup** — a derived value that aggregates child records (not stored; recomputed).
+- **Mirror** — a value mirrored from related records (not stored).
+- **Computed** — a value calculated by expression/path (not stored).
+- **Derive, don't repeat** — principle: the View is derived from the Model; instances declare only exceptions.
 
-## Dados e infraestrutura
+## Data and infrastructure
 
-- **Export contract** — o formato versionado do JSON exportado pelo app (`export_schema_version`), base da migração.
-- **ETL** — pipeline Extract/Validate/Transform/Load que carrega snapshots JSON no Postgres, de forma idempotente (ver [[Data and Migration Pipeline]]).
-- **Idempotente** — rodar a mesma carga N vezes resulta no mesmo estado, sem duplicar.
-- **ADR** — Architecture Decision Record; uma decisão registrada em `docs/adr/`.
-- **shadcn-vue** — a implementação para Vue dos componentes no estilo shadcn (o shadcn/ui original é React-only).
+- **Export contract** — the versioned format of the JSON exported by the app (`export_schema_version`), the basis of migration.
+- **ETL** — the Extract/Validate/Transform/Load pipeline that loads JSON snapshots into Postgres idempotently (see [[Data and Migration Pipeline]]).
+- **Idempotent** — running the same load N times results in the same state, with no duplication.
+- **ADR** — Architecture Decision Record; a decision recorded under `docs/adr/`.
+- **shadcn-vue** — the Vue implementation of the shadcn-style components (the original shadcn/ui is React-only).

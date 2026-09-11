@@ -1,42 +1,42 @@
 # Data and Migration Pipeline
 
-Como os dados entram no EDQMS e como o banco da v1 será populado a partir do que o cliente já usa hoje. As ferramentas de dados são **Python** e estão documentadas para que qualquer perfil (dev, UX, designer) entenda o pipeline e use suas próprias ferramentas de IA. Decisão de fundo: **ADR-0003**.
+How data enters EDQMS and how the v1 database will be populated from what the client already uses today. The data tooling is **Python** and is documented so that any role (dev, UX, designer) understands the pipeline and can use their own AI tools. Underlying decision: **ADR-0003**.
 
-## Contexto
+## Context
 
-O cliente já usa o MVP e sua base é salva como **JSON** (estrutura `módulo → entidade → linhas`). No lançamento da v1, esses dados vão para o **PostgreSQL**, cujo schema é **gerado da camada Model** do datamodel. Campos derivados (rollup/mirror/computed) **não** são armazenados — o motor os recalcula —, então a migração só carrega **campos base**.
+The client already uses the MVP and its database is saved as **JSON** (structure `module → entity → rows`). At the v1 launch, that data goes into **PostgreSQL**, whose schema is **generated from the datamodel's Model layer**. Derived fields (rollup/mirror/computed) are **not** stored — the engine recomputes them — so the migration only loads **base fields**.
 
-## Contrato de export (versionado)
+## Export contract (versioned)
 
-O JSON exportado carrega metadados: `export_schema_version`, data/hora, versão do app e versão do datamodel que o gerou. **Congelar esse formato agora** é o que torna migráveis os dados acumulados daqui até o lançamento. Cada versão de export tem um adaptador correspondente no estágio de *Extract*.
+The exported JSON carries metadata: `export_schema_version`, timestamp, app version, and the datamodel version that produced it. **Freezing this format now** is what makes the data accumulated from now until launch migratable. Each export version has a matching adapter in the *Extract* stage.
 
-## O ETL em quatro estágios
+## The ETL in four stages
 
-Os scripts vivem em `tools/etl/`.
+The scripts live in `tools/etl/`.
 
-1. **Extract** — lê um snapshot JSON e escolhe o adaptador pela `export_schema_version`.
-2. **Validate** — confere o snapshot contra o schema derivado do Model (o mesmo `zod`/JSON Schema da spec, exportado para Python). Falhas viram um **relatório legível**, sem tocar no banco.
-3. **Transform** — descarta campos derivados; mapeia multivalorados/arrays para JSONB ou tabelas de associação conforme o Model; normaliza tipos; preserva as PKs originais (estabilidade de identidade e integridade referencial).
-4. **Load** — insere em ordem topológica de FK (pais antes de filhos), numa **transação**, via **upsert idempotente** (`INSERT ... ON CONFLICT (pk) DO UPDATE`). Rodar o mesmo snapshot duas vezes produz o mesmo estado — sem duplicar.
+1. **Extract** — reads a JSON snapshot and picks the adapter by `export_schema_version`.
+2. **Validate** — checks the snapshot against the schema derived from the Model (the same `zod`/JSON Schema from the spec, exported to Python). Failures become a **readable report**, without touching the database.
+3. **Transform** — drops derived fields; maps multivalued/array fields to JSONB or association tables per the Model; normalizes types; preserves the original PKs (identity stability and referential integrity).
+4. **Load** — inserts in FK topological order (parents before children), in a **transaction**, via **idempotent upsert** (`INSERT ... ON CONFLICT (pk) DO UPDATE`). Running the same snapshot twice yields the same state — no duplication.
 
-## Modos de uso
+## Usage modes
 
 ```bash
-python -m tools.etl --snapshot export.json --dry-run   # valida e simula, não escreve
-python -m tools.etl --snapshot export.json --load      # executa de verdade
-python -m tools.etl --snapshot export.json --report    # resumo: linhas/entidade, rejeições, FKs órfãs
+python -m tools.etl --snapshot export.json --dry-run   # validates and simulates, no writes
+python -m tools.etl --snapshot export.json --load      # runs for real
+python -m tools.etl --snapshot export.json --report    # summary: rows/entity, rejections, orphan FKs
 ```
 
-Cada execução real fica registrada num **log de migração** (versão do snapshot, contagens, resultado).
+Each real run is recorded in a **migration log** (snapshot version, counts, result).
 
-## Cutover no lançamento
+## Cutover at launch
 
-Como o ETL é idempotente: congelar escritas no protótipo → exportar o snapshot final → `--dry-run` → `--load` → validar → apontar a v1 para o Postgres. Se algo falhar, corrige-se e recarrega-se o **mesmo** snapshot sem efeitos colaterais.
+Because the ETL is idempotent: freeze writes in the prototype → export the final snapshot → `--dry-run` → `--load` → validate → point v1 at Postgres. If anything fails, fix it and reload the **same** snapshot with no side effects.
 
-## Testes
+## Tests
 
-Em `tools/` com **pytest**, cobrindo idempotência (2× = mesmo estado), integridade referencial e round-trip (export do protótipo → ETL → consulta no Postgres bate com o esperado). Rode `pytest tools/`.
+Under `tools/` with **pytest**, covering idempotency (2× = same state), referential integrity, and round-trip (prototype export → ETL → query in Postgres matches expectations). Run `pytest tools/`.
 
-## Outras ferramentas de dados
+## Other data tooling
 
-Scripts herdados/relacionados de geração e validação de mockups também vivem em `tools/` e são documentados em `tools/README.md` (propósito, entradas, saídas, exemplo de execução). Se você criar um script novo, documente-o lá — é parte da política do **ADR-0004**.
+Related/legacy scripts for generating and validating mockups also live in `tools/` and are documented in `tools/README.md` (purpose, inputs, outputs, run example). If you create a new script, document it there — it is part of the **ADR-0004** policy.

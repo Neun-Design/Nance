@@ -1,49 +1,49 @@
 # Architecture Overview
 
-O EDQMS é uma aplicação **orientada a metadados**. Em vez de cada tela ser codificada à mão, uma **especificação** descreve o sistema e um **motor** a interpreta e renderiza genericamente. Entender esse fluxo é o pré-requisito para contribuir de forma produtiva.
+EDQMS is a **metadata-driven** application. Instead of each screen being hand-coded, a **specification** describes the system and an **engine** interprets it and renders it generically. Understanding this flow is the prerequisite to contributing productively.
 
-## O fluxo em uma frase
+## The flow in one sentence
 
-**Spec → Motor → (API + Renderer).** A especificação (o *datamodel*) diz *o que* existe; o motor resolve valores derivados, joins e queries; a API entrega o que a tela precisa; o renderer (Vue) desenha. Nenhuma lógica de domínio é duplicada no cliente.
+**Spec → Engine → (API + Renderer).** The specification (the *datamodel*) says *what* exists; the engine resolves derived values, joins, and queries; the API delivers what the screen needs; the renderer (Vue) draws it. No domain logic is duplicated on the client.
 
 ```mermaid
 flowchart LR
-    SPEC["packages/spec\n(datamodel config-as-code em TS)\nModel · View · Behavior"]
-    ENGINE["packages/engine\n(motor de metadados, TS puro)\nresolve joins, rollups, queries"]
-    API["apps/api\n(Express REST)\n+ auth OTP + motor"]
-    DB[("PostgreSQL\nschema gerado do Model")]
-    WEB["apps/web\n(Vue 3 + shadcn-vue)\nsó renderiza"]
+    SPEC["packages/spec\n(datamodel config-as-code in TS)\nModel · View · Behavior"]
+    ENGINE["packages/engine\n(metadata engine, pure TS)\nresolves joins, rollups, queries"]
+    API["apps/api\n(Express REST)\n+ OTP auth + engine"]
+    DB[("PostgreSQL\nschema generated from Model")]
+    WEB["apps/web\n(Vue 3 + shadcn-vue)\nrenders only"]
 
-    SPEC -->|compila p/ datamodel.json| ENGINE
-    SPEC -->|gera schema| DB
+    SPEC -->|compiles to datamodel.json| ENGINE
+    SPEC -->|generates schema| DB
     ENGINE --> API
     DB --- API
     API -->|REST /api/v1| WEB
 ```
 
-## Princípios
+## Principles
 
-**Especificação como fonte da verdade.** O `datamodel.json` deixa de ser escrito à mão e passa a ser *compilado* a partir da spec em TypeScript (ver [[Working with the Datamodel]] e ADR-0002). A mesma spec alimenta a UI, o schema do banco e a validação da migração.
+**Specification as the source of truth.** `datamodel.json` is no longer hand-written; it is *compiled* from the specification in TypeScript (see [[Working with the Datamodel]] and ADR-0002). The same spec feeds the UI, the database schema, and migration validation.
 
-**Computação no servidor.** O motor roda no backend. O cliente recebe apenas os dados que precisa e que o usuário pode ver — nada de baixar a base inteira para o navegador (como fazia o protótipo).
+**Server-side computation.** The engine runs on the backend. The client receives only the data it needs and that the user is allowed to see — no downloading the whole database into the browser (as the prototype did).
 
-**Núcleo agnóstico de framework.** `packages/engine` e `packages/spec` são TypeScript puro, sem Vue, Express ou Postgres. Isso mantém o custo de qualquer troca de framework baixo e permite testar o motor isoladamente.
+**Framework-agnostic core.** `packages/engine` and `packages/spec` are pure TypeScript, with no Vue, Express, or Postgres. This keeps the cost of any framework change low and lets the engine be tested in isolation.
 
-**Derivar, não repetir.** A maior parte da apresentação é *deduzida* do Model (um campo FK vira um select; um numérico entra na soma Σ). As telas declaram só exceções. É o que evita ter de editar N instâncias ao mudar um parâmetro.
+**Derive, don't repeat.** Most of the presentation is *derived* from the Model (an FK field becomes a select; a numeric field joins the Σ sum). Screens declare only exceptions. This is what avoids editing N instances when a parameter changes.
 
-## Stack (resumo)
+## Stack (summary)
 
-| Camada | Tecnologia | ADR |
+| Layer | Technology | ADR |
 |---|---|---|
 | Renderer | Vue 3 (Composition API, TS) + shadcn-vue + Tailwind | ADR-0001 |
 | API | Node + Express (REST `/api/v1`, OpenAPI) | ADR-0001 |
-| Motor / Spec | TypeScript (agnóstico de framework) | ADR-0002 |
-| Banco | PostgreSQL + Drizzle (schema gerado da spec) | ADR-0001 |
-| Autenticação | E-mail OTP/magic link, domínio `@northwind-energy.com` | ADR-0001 |
-| Dados/ETL | Python | ADR-0003 |
+| Engine / Spec | TypeScript (framework-agnostic) | ADR-0002 |
+| Database | PostgreSQL + Drizzle (schema generated from the spec) | ADR-0001 |
+| Authentication | Email OTP/magic link, `@northwind-energy.com` domain | ADR-0001 |
+| Data/ETL | Python | ADR-0003 |
 
-## Para se aprofundar
+## Going deeper
 
-- Como editar a especificação: [[Working with the Datamodel]]
-- Como os dados entram no sistema: [[Data and Migration Pipeline]]
-- As decisões e seus porquês: `docs/adr/` no repositório.
+- How to edit the specification: [[Working with the Datamodel]]
+- How data enters the system: [[Data and Migration Pipeline]]
+- The decisions and their rationale: `docs/adr/` in the repository.

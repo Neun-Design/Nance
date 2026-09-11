@@ -1,38 +1,38 @@
 # Contributing
 
-Obrigado por contribuir com o EDQMS. Esta página resume como trabalhamos. A política de fundo está no **ADR-0004**; o arquivo `CONTRIBUTING.md` no repositório é a versão normativa (esta página é a porta de entrada amigável).
+Thanks for contributing to EDQMS. This page summarizes how we work. The underlying policy is **ADR-0004**; the `CONTRIBUTING.md` file in the repository is the normative version (this page is the friendly entry point).
 
-## Fluxo de trabalho
+## Workflow
 
-1. Abra ou comente uma *issue* descrevendo o que pretende fazer.
-2. Crie um branch a partir do padrão do projeto (ex.: `feat/...`, `fix/...`, `docs/...`).
-3. Faça as mudanças com **testes** e **documentação** correspondentes.
-4. Rode `pnpm test` e `pytest tools/` — ambos verdes.
-5. Abra um PR seguindo o checklist abaixo.
+1. Open or comment on an *issue* describing what you intend to do.
+2. Create a branch following the project's convention (e.g. `feat/...`, `fix/...`, `docs/...`).
+3. Make the changes with matching **tests** and **documentation**.
+4. Run `pnpm test` and `pytest tools/` — both green.
+5. Open a PR following the checklist below.
 
-## Convenções
+## Conventions
 
 - **Conventional Commits** (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`…).
-- Mudou o **Model** do datamodel? Gere a migração de banco e rode `pnpm spec:build` (ver [[Working with the Datamodel]]).
-- Criou um **script** (Python ou Node)? Documente-o: docstring de cabeçalho + entrada em `tools/README.md` com comando e exemplo.
-- Mudou **documentação de contribuidor**? Edite os arquivos em `docs/wiki/` (não direto no wiki do GitHub) e abra PR — o wiki é publicado a partir de `docs/wiki/` (ver ADR-0005).
+- Changed the datamodel **Model**? Generate the database migration and run `pnpm spec:build` (see [[Working with the Datamodel]]).
+- Created a **script** (Python or Node)? Document it: header docstring + an entry in `tools/README.md` with the command and an example.
+- Changed **contributor documentation**? Edit the files in `docs/wiki/` (not directly in the GitHub wiki) and open a PR — the wiki is published from `docs/wiki/` (see ADR-0005).
 
-## Checklist de PR
+## PR checklist
 
-- [ ] Testes relevantes adicionados/atualizados e verdes (`pnpm test`, `pytest tools/`).
-- [ ] Documentação atualizada (wiki em `docs/wiki/`, `tools/README.md`, docstrings).
-- [ ] Se decisão de arquitetura mudou, um ADR foi adicionado em `docs/adr/`.
-- [ ] Commits no padrão Conventional Commits.
+- [ ] Relevant tests added/updated and green (`pnpm test`, `pytest tools/`).
+- [ ] Documentation updated (wiki in `docs/wiki/`, `tools/README.md`, docstrings).
+- [ ] If an architecture decision changed, an ADR was added under `docs/adr/`.
+- [ ] Commits follow Conventional Commits.
 
-## Contexto de IA compartilhado
+## Shared AI context
 
-Contribuidores usam ferramentas de IA diferentes (Claude Code, Cursor, Copilot, Fable, entre outras). Para todos partirem do mesmo entendimento:
+Contributors use different AI tools (Claude Code, Cursor, Copilot, Fable, among others). So that everyone starts from the same understanding:
 
-- **`.claude/`** no repositório traz *agents*, *skills* e *commands* para quem usa Claude Code; o **`CLAUDE.md`** na raiz descreve arquitetura, convenções e pontos de entrada. É descoberto automaticamente ao clonar.
-- **Documentação neutra** (este wiki e `docs/adr/`) é Markdown que qualquer assistente de IA consegue ingerir — é a fonte conceitual; o `.claude/` é a materialização dela para o Claude Code.
+- **`.claude/`** in the repository provides *agents*, *skills*, and *commands* for those using Claude Code; the **`CLAUDE.md`** at the root describes the architecture, conventions, and entry points. It is discovered automatically on clone.
+- **Neutral documentation** (this wiki and `docs/adr/`) is Markdown any AI assistant can ingest — it is the conceptual source; `.claude/` is its materialization for Claude Code.
 
-Ao contribuir com IA, alimente seu assistente com este wiki e o ADR log, e **revise a saída** — o padrão de qualidade (testes verdes, decisões respeitadas) é o mesmo, com ou sem IA.
+When contributing with AI, feed your assistant this wiki and the ADR log, and **review the output** — the quality bar (green tests, decisions respected) is the same, with or without AI.
 
-## Código de conduta e licença
+## Code of conduct and license
 
-Ver `CODE_OF_CONDUCT.md` e `LICENSE` no repositório.
+See `CODE_OF_CONDUCT.md` and `LICENSE` in the repository.

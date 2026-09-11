@@ -1,67 +1,67 @@
 # Working with the Datamodel
 
-Esta é a página mais importante para quem vai mexer no comportamento do EDQMS. O *datamodel* é a especificação que descreve o sistema; quase toda mudança de tela, campo ou regra acontece aqui — não em código de UI espalhado. A decisão de fundo está no **ADR-0002**.
+This is the most important page for anyone who will change EDQMS behavior. The *datamodel* is the specification that describes the system; almost every change to a screen, field, or rule happens here — not in UI code scattered around. The underlying decision is **ADR-0002**.
 
-## Config-as-code, não JSON à mão
+## Config-as-code, not hand-written JSON
 
-A especificação é escrita em **TypeScript** (em `packages/spec`) e **compilada** para um `datamodel.json` que o motor consome. Escrever em TS — e não em JSON puro — dá três coisas que o JSON não oferece: **reuso** (funções e composição), **tipos** (o compilador impede omitir ou grafar errado uma chave) e **comportamento como código** (funções, não frases em inglês).
+The specification is written in **TypeScript** (in `packages/spec`) and **compiled** to a `datamodel.json` that the engine consumes. Writing in TS — rather than plain JSON — gives three things JSON cannot: **reuse** (functions and composition), **types** (the compiler prevents omitting or misspelling a key), and **behavior as code** (functions, not English sentences).
 
-## As três camadas
+## The three layers
 
-**Model** — entidades, atributos, tipos e relações estruturadas (FK/rollup/mirror como objetos, não prosa). É a fonte da forma dos dados: alimenta o schema do Postgres e a validação da migração.
+**Model** — entities, attributes, types, and structured relations (FK/rollup/mirror as typed objects, not prose). It is the source of the data shape: it feeds the Postgres schema and migration validation.
 
-**View** — o layout por tela: colunas visíveis, grid de cards, passos do formulário, tipo de gráfico. Referencia campos do Model por id e é **composta a partir de presets**.
+**View** — the per-screen layout: visible columns, card grid, form steps, chart type. It references Model fields by id and is **composed from presets**.
 
-**Behavior** — cascatas (`check`), filtros de opções e as queries de cards/reports, como **funções**.
+**Behavior** — cascades (`check`), option filters, and the card/report queries, as **functions**.
 
-## Derivar, não repetir
+## Derive, don't repeat
 
-A regra de ouro: **não redeclare o que o Model já sabe.** Um formulário é "os campos do Model, menos estes, nestes passos, com estes overrides". Um atributo FK já rende um select cujas opções vêm da tabela-alvo; um numérico já entra na linha Σ. Você só escreve as exceções.
+The golden rule: **do not redeclare what the Model already knows.** A form is "the Model's fields, minus these, in these steps, with these overrides". An FK attribute already renders a select whose options come from the target table; a numeric one already joins the Σ row. You only write the exceptions.
 
 ```ts
-// presets definidos UMA vez
+// presets defined ONCE
 const fkSelect = (target, opts = {}) => ({
   component: "shadcn-vue:combobox",
-  source: target,        // opções/label derivam do Model
-  createNew: true,       // botão "+ criar novo" aninhado, por padrão
+  source: target,        // options/label derive from the Model
+  createNew: true,       // nested "+ create new" button, by default
   ...opts,
 });
 
-// um form é derivação + overrides
+// a form is derivation + overrides
 export const TicketForm = formFor(Ticket, {
   steps: ["SELECT TEMPLATE", "SCHEDULE"],
   fields: {
     taskTemplate: {
       step: "SELECT TEMPLATE",
-      check: (f) => f.ticket != null,             // cascata como função
-      options: (f) => tasksForTicket(f.ticket),   // filtro como função
+      check: (f) => f.ticket != null,             // cascade as a function
+      options: (f) => tasksForTicket(f.ticket),   // filter as a function
     },
   },
 });
 ```
 
-Consequência prática: **para adicionar um parâmetro a todos os campos de um tipo, você muda o preset (ou o `formFor`) em um lugar** — não cada instância.
+Practical consequence: **to add a parameter to every field of a type, you change the preset (or `formFor`) in one place** — not each instance.
 
-## Tarefas comuns
+## Common tasks
 
-**Adicionar um campo a uma entidade.** Declare o atributo no Model (nome, tipo, `rule` se for relação). Ele já aparece nas telas por derivação; ajuste a View só se quiser esconder/reordenar. Se for campo armazenado, gere a migração de banco (`pnpm db:generate`).
+**Add a field to an entity.** Declare the attribute in the Model (name, type, `rule` if it is a relation). It already shows up on screens by derivation; adjust the View only to hide/reorder. If it is a stored field, generate the database migration (`pnpm db:generate`).
 
-**Adicionar uma entidade nova.** Crie o arquivo de Model; adicione-a a um módulo na View; defina Behavior (cards/reports) se houver. Rode `pnpm spec:build` e os testes.
+**Add a new entity.** Create the Model file; add it to a module in the View; define Behavior (cards/reports) if any. Run `pnpm spec:build` and the tests.
 
-**Mudar uma regra de cascata.** Edite a função `check`/`options` no Behavior — com autocomplete e checagem de tipos, em vez de reescrever uma frase.
+**Change a cascade rule.** Edit the `check`/`options` function in Behavior — with autocomplete and type checking, instead of rewriting a sentence.
 
-**Alterar uma query de card/report.** Edite a função correspondente no Behavior; garanta o teste Vitest verde.
+**Change a card/report query.** Edit the corresponding function in Behavior; make sure the Vitest test is green.
 
-## Compilar e validar
+## Compile and validate
 
 ```bash
 pnpm spec:build     # spec (TS) -> datamodel.json
-pnpm test           # Vitest: motor + resolução + queries
-pnpm db:generate    # (quando mudou o Model) gera migração Drizzle
+pnpm test           # Vitest: engine + resolution + queries
+pnpm db:generate    # (when the Model changed) generates a Drizzle migration
 ```
 
-A spec é validada por tipos e por um schema `zod` no build (ex.: toda tabela tem exatamente uma PK; todo FK aponta para entidade existente). Erros que antes viravam bugs silenciosos de *drift* passam a falhar o build.
+The spec is validated by types and by a `zod` schema at build time (e.g. every table has exactly one PK; every FK points to an existing entity). Errors that used to become silent *drift* bugs now fail the build.
 
-## Referência
+## Reference
 
-Decisão completa e alternativas descartadas (inclusive por que **não** usamos Lua nem JSON puro): **ADR-0002** em `docs/adr/`.
+Full decision and discarded alternatives (including why we do **not** use Lua or plain JSON): **ADR-0002** under `docs/adr/`.

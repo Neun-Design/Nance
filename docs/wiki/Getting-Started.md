@@ -1,72 +1,72 @@
 # Getting Started
 
-Guia para colocar o EDQMS rodando na sua máquina. Se algum passo falhar, abra uma *issue* — corrigir este guia é uma contribuição válida.
+Guide to get EDQMS running on your machine. If any step fails, open an *issue* — fixing this guide is a valid contribution.
 
-## Pré-requisitos
+## Prerequisites
 
-O projeto é poliglota: a aplicação é TypeScript (Vue/Express/Node) e as ferramentas de dados são Python. Você vai precisar de:
+The project is polyglot: the application is TypeScript (Vue/Express/Node) and the data tooling is Python. You will need:
 
-- **Node.js** (LTS atual) e **pnpm** — gerenciador de pacotes do monorepo.
-- **Python 3.11+** — scripts de dados, ETL e validação (ver [[Data and Migration Pipeline]]).
-- **PostgreSQL** — banco da aplicação (local via Docker é suficiente para desenvolver).
+- **Node.js** (current LTS) and **pnpm** — the monorepo package manager.
+- **Python 3.11+** — data, ETL, and validation scripts (see [[Data and Migration Pipeline]]).
+- **PostgreSQL** — the application database (local via Docker is enough for development).
 - **Git**.
 
-## Layout do monorepo
+## Monorepo layout
 
 ```
 edqms/
 ├─ apps/
-│  ├─ web/     # Vue 3 + shadcn-vue (o renderer / SPA)
-│  └─ api/     # Express + Node (REST + motor + autenticação)
+│  ├─ web/     # Vue 3 + shadcn-vue (the renderer / SPA)
+│  └─ api/     # Express + Node (REST + engine + authentication)
 ├─ packages/
-│  ├─ engine/  # motor de metadados em TS (agnóstico de framework)
-│  ├─ spec/    # datamodel config-as-code → JSON compilado
-│  └─ db/      # schema Drizzle (gerado da spec) + migrações
-├─ tools/      # scripts Python: parse de dados, ETL, validação
-├─ docs/       # documentação (adr/ e wiki/)
-└─ .claude/    # contexto de IA compartilhado
+│  ├─ engine/  # metadata engine in TS (framework-agnostic)
+│  ├─ spec/    # datamodel config-as-code → compiled JSON
+│  └─ db/      # Drizzle schema (generated from the spec) + migrations
+├─ tools/      # Python scripts: data parsing, ETL, validation
+├─ docs/       # documentation (adr/ and wiki/)
+└─ .claude/    # shared AI context
 ```
 
-Por que separado assim: o **núcleo** (`packages/engine` e `packages/spec`) é TypeScript puro, **sem dependência de framework**, então roda e é testado sem subir Vue nem Postgres. Só as cascas `apps/web` e `apps/api` conhecem a tecnologia concreta.
+Why it is split this way: the **core** (`packages/engine` and `packages/spec`) is pure TypeScript, **with no framework dependency**, so it runs and is tested without spinning up Vue or Postgres. Only the `apps/web` and `apps/api` shells know about the concrete technology.
 
-## Passo a passo
+## Step by step
 
 ```bash
-# 1. Clonar e instalar
-git clone <url-do-repo>
+# 1. Clone and install
+git clone <repo-url>
 cd edqms
 pnpm install
 
-# 2. Subir um Postgres local (exemplo com Docker)
+# 2. Start a local Postgres (example with Docker)
 docker run --name edqms-db -e POSTGRES_PASSWORD=dev -p 5432:5432 -d postgres
 
-# 3. Configurar variáveis de ambiente
-cp .env.example .env        # ajuste DATABASE_URL, credenciais de e-mail, etc.
+# 3. Configure environment variables
+cp .env.example .env        # adjust DATABASE_URL, email credentials, etc.
 
-# 4. Compilar a spec e gerar/migrar o schema
+# 4. Build the spec and generate/apply the schema
 pnpm spec:build             # datamodel config-as-code -> datamodel.json
-pnpm db:migrate             # aplica as migrações Drizzle no Postgres
+pnpm db:migrate             # applies the Drizzle migrations to Postgres
 
-# 5. (Opcional) Semear dados de exemplo
+# 5. (Optional) Seed sample data
 pnpm db:seed
 
-# 6. Rodar em desenvolvimento
-pnpm dev                    # sobe apps/web e apps/api juntos
+# 6. Run in development
+pnpm dev                    # starts apps/web and apps/api together
 ```
 
-Abra o endereço que o `apps/web` imprime no console. A API responde em `/api/v1`.
+Open the address that `apps/web` prints in the console. The API answers at `/api/v1`.
 
-## Rodando os testes
+## Running the tests
 
 ```bash
-pnpm test          # Vitest: motor (engine) e camadas TS
-pytest tools/      # testes das ferramentas de dados/ETL em Python
+pnpm test          # Vitest: engine and TS layers
+pytest tools/      # Python data/ETL tests
 ```
 
-Mantenha ambos verdes antes de abrir um PR (ver [[Contributing]]).
+Keep both green before opening a PR (see [[Contributing]]).
 
-## Trabalhando com dados
+## Working with data
 
-Para experimentar a migração de um snapshot JSON sem tocar no banco, use o modo *dry-run* do ETL — detalhes em [[Data and Migration Pipeline]].
+To try migrating a JSON snapshot without touching the database, use the ETL *dry-run* mode — details in [[Data and Migration Pipeline]].
 
-> Os comandos `pnpm ...` acima são o padrão-alvo do monorepo v1. Se algum script ainda não existir no seu checkout, confira `package.json` e `tools/README.md`, e sinta-se livre para abrir um PR padronizando.
+> The `pnpm ...` commands above are the target standard for the v1 monorepo. If a script does not exist yet in your checkout, check `package.json` and `tools/README.md`, and feel free to open a PR standardizing it.
