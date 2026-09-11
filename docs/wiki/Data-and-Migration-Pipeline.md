@@ -1,6 +1,6 @@
 # Data and Migration Pipeline
 
-How data enters EDQMS and how the v1 database will be populated from what the client already uses today. The data tooling is **Python** and is documented so that any role (dev, UX, designer) understands the pipeline and can use their own AI tools. Underlying decision: **ADR-0003**.
+How data enters nance.it and how the v1 database will be populated from what the client already uses today. The data tooling is **Python** and is documented so that any role (dev, UX, designer) understands the pipeline and can use their own AI tools. Underlying decision: **ADR-0003**.
 
 ## Context
 

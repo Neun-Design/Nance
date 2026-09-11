@@ -1,6 +1,6 @@
 # Working with the Datamodel
 
-This is the most important page for anyone who will change EDQMS behavior. The *datamodel* is the specification that describes the system; almost every change to a screen, field, or rule happens here — not in UI code scattered around. The underlying decision is **ADR-0002**.
+This is the most important page for anyone who will change how nance.it behaves. The *datamodel* is the specification that describes the system; almost every change to a screen, field, or rule happens here — not in UI code scattered around. The underlying decision is **ADR-0002**.
 
 ## Config-as-code, not hand-written JSON
 

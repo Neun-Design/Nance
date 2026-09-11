@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to EDQMS. This page summarizes how we work. The underlying policy is **ADR-0004**; the `CONTRIBUTING.md` file in the repository is the normative version (this page is the friendly entry point).
+Thanks for contributing to nance.it. This page summarizes how we work. The underlying policy is **ADR-0004**; the `CONTRIBUTING.md` file in the repository is the normative version (this page is the friendly entry point).
 
 ## Workflow
 

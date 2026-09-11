@@ -1,11 +1,16 @@
 # Glossary
 
-Domain and architecture terms for EDQMS. Especially useful for those arriving from UX/design or from outside the backend. The rendering concepts derive from the *datamodel* — see [[Working with the Datamodel]].
+Domain and architecture terms for **nance.it**. Especially useful for those arriving from UX/design or from outside the backend. The rendering concepts derive from the *datamodel* — see [[Working with the Datamodel]].
+
+## Platform and domain
+
+- **nance.it** — the platform (from *governance* — govern·nance.it). A **knowledge-driven governance** system where quality and governance obligations are *executed*, not just documented, generating audit evidence as a by-product of daily work.
+- **EDQMS** — the **quality-management engine** of nance.it (modules Organization, Portfolio, Operation). It governs how the organization, its portfolio, and its operations are structured and controlled.
+- **Knowledge management** — nance.it's other half: connecting **Workload** (task execution) with **Talent** (user competencies), so obligations are matched to the people competent to execute them.
 
 ## Domain and screens
 
-- **EDQMS** — Engineering Data Quality Management System; the Global Engineering Portal.
-- **Module** — a sidebar entry (Customers, Operation, Inventory/Portfolio, Workload, Control, Talent). Ordered by `sidebar-position`.
+- **Module** — a sidebar entry. The quality-management modules (**Organization**, **Portfolio**, **Operation**) form the EDQMS engine; **Workload** and **Talent** add the knowledge dimension. Ordered by `sidebar-position`.
 - **Dashboard / Tab** — a screen inside a module. It renders, top to bottom: cards → data table → reports.
 - **Overview** — a special dashboard assembled automatically from cards and reports marked `overview-display: true`.
 - **Card** — a KPI above the table (main value, trend, detail), positioned by the grid coordinate `Card R-C`.

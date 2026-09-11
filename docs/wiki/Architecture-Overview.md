@@ -1,6 +1,6 @@
 # Architecture Overview
 
-EDQMS is a **metadata-driven** application. Instead of each screen being hand-coded, a **specification** describes the system and an **engine** interprets it and renders it generically. Understanding this flow is the prerequisite to contributing productively.
+**nance.it** is a **metadata-driven** application. Instead of each screen being hand-coded, a **specification** describes the system and an **engine** interprets it and renders it generically. (For what nance.it *is* — a knowledge-driven governance platform whose quality-management engine is EDQMS — see [[Home]].) Understanding this flow is the prerequisite to contributing productively.
 
 ## The flow in one sentence
 
@@ -10,7 +10,7 @@ EDQMS is a **metadata-driven** application. Instead of each screen being hand-co
 flowchart LR
     SPEC["packages/spec\n(datamodel config-as-code in TS)\nModel · View · Behavior"]
     ENGINE["packages/engine\n(metadata engine, pure TS)\nresolves joins, rollups, queries"]
-    API["apps/api\n(Express REST)\n+ OTP auth + engine"]
+    API["apps/api\n(Express REST)\n+ pluggable auth + engine"]
     DB[("PostgreSQL\nschema generated from Model")]
     WEB["apps/web\n(Vue 3 + shadcn-vue)\nrenders only"]
 
@@ -39,7 +39,7 @@ flowchart LR
 | API | Node + Express (REST `/api/v1`, OpenAPI) | ADR-0001 |
 | Engine / Spec | TypeScript (framework-agnostic) | ADR-0002 |
 | Database | PostgreSQL + Drizzle (schema generated from the spec) | ADR-0001 |
-| Authentication | Email OTP/magic link, `@northwind-energy.com` domain | ADR-0001 |
+| Authentication | Pluggable — email OTP/magic link by default; each deployment configures its own | ADR-0001 |
 | Data/ETL | Python | ADR-0003 |
 
 ## Going deeper

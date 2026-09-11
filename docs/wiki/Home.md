@@ -1,12 +1,19 @@
-# EDQMS — Developer Wiki
+# nance.it — Developer Wiki
 
-Welcome to the documentation for **developers and contributors** of EDQMS (Global Engineering Portal). This wiki is the starting point for anyone who will **write code, design the interface, or work with the project's data** — it is separate and distinct from the stakeholder documentation, which covers the product from a business perspective.
+Welcome to the documentation for **developers and contributors** of **nance.it**. This wiki is the starting point for anyone who will **write code, design the interface, or work with the project's data** — it is separate and distinct from the stakeholder documentation, which covers the product from a business perspective.
 
-> **Open source** project. Contributions are welcome already at this stage. If this is your first time here, start with **[[Getting Started]]**.
+> **Open source** project (Apache-2.0). Contributions are welcome already at this stage. If this is your first time here, start with **[[Getting Started]]**.
 
-## What EDQMS is
+## What nance.it is
 
-EDQMS is a metadata-driven engineering portal: a **specification** (the *datamodel*) describes modules, tables, cards, charts, forms, and filters, and an **engine** interprets that specification and renders the application generically. Understanding this concept is the key to contributing — see **[[Architecture Overview]]** and **[[Working with the Datamodel]]**.
+**nance.it** (from *governance* — govern·**nance.it**) is a **knowledge-driven governance** platform: an event-driven system where quality and governance obligations are *executed*, not just documented, producing audit evidence as a by-product of daily operations.
+
+It is built from two connected halves:
+
+- **EDQMS — the quality-management engine.** It governs how the organization is structured and how work is controlled, through the **Organization**, **Portfolio**, and **Operation** modules.
+- **Knowledge management.** Achieved by connecting **task execution (Workload)** with **user competencies (Talent)** — so governance is driven by what people actually know and do: who is competent to execute each obligation, and whether they did.
+
+Under the hood, every screen is metadata-driven: a **specification** (the *datamodel*) describes modules, tables, cards, charts, forms, and filters, and an **engine** interprets that specification and renders the application generically. Understanding this is the key to contributing — see **[[Architecture Overview]]** and **[[Working with the Datamodel]]**.
 
 ## Documentation map
 

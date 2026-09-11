@@ -1,6 +1,6 @@
-# Architecture Decision Records (ADR) — EDQMS
+# Architecture Decision Records (ADR) — nance.it
 
-This directory records the **architecture decisions** for EDQMS (Global Engineering Portal). Each ADR documents *one* decision: the context that motivated it, the decision taken, the consequences, and the discarded alternatives. ADRs are **immutable once accepted** — when a decision changes, a new ADR is created that *supersedes* the previous one, preserving the history.
+This directory records the **architecture decisions** for **nance.it** (its quality-management engine, EDQMS, and the surrounding platform). Each ADR documents *one* decision: the context that motivated it, the decision taken, the consequences, and the discarded alternatives. ADRs are **immutable once accepted** — when a decision changes, a new ADR is created that *supersedes* the previous one, preserving the history.
 
 The purpose of this log is twofold. First, traceability: any contributor (or AI tool) understands *why* the project is the way it is without commit archaeology. Second, it serves as shared context in an **open source** project where developers, UX, and designers use different AI tools — the ADRs are the source of truth everyone feeds into their assistants.
 

@@ -8,7 +8,7 @@
 
 ## Context
 
-EDQMS v1 will be **open source**, and external contribution matters already at this stage. The project is **polyglot**: the application in TypeScript (Vue/Express/Node — ADR-0001), the specification in compiled TypeScript (ADR-0002), and data/ETL/validation tooling in **Python** (ADR-0003). Contributors — developers, UX, and designers — will use **different AI tools** (Claude Code, Cursor, Copilot, Fable, among others) and need to start from the **same understanding** of the project so their contributions are coherent.
+nance.it v1 will be **open source**, and external contribution matters already at this stage. The project is **polyglot**: the application in TypeScript (Vue/Express/Node — ADR-0001), the specification in compiled TypeScript (ADR-0002), and data/ETL/validation tooling in **Python** (ADR-0003). Contributors — developers, UX, and designers — will use **different AI tools** (Claude Code, Cursor, Copilot, Fable, among others) and need to start from the **same understanding** of the project so their contributions are coherent.
 
 There is also a specific request: to materialize the Claude Code development context (skills, agents, and related documentation) so that any contributor uses the same environment. The initial idea was *gists*; this ADR decides how to handle this sustainably.
 

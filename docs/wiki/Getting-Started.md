@@ -1,6 +1,6 @@
 # Getting Started
 
-Guide to get EDQMS running on your machine. If any step fails, open an *issue* — fixing this guide is a valid contribution.
+Guide to get nance.it running on your machine. If any step fails, open an *issue* — fixing this guide is a valid contribution.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ The project is polyglot: the application is TypeScript (Vue/Express/Node) and th
 ## Monorepo layout
 
 ```
-edqms/
+nance/
 ├─ apps/
 │  ├─ web/     # Vue 3 + shadcn-vue (the renderer / SPA)
 │  └─ api/     # Express + Node (REST + engine + authentication)
@@ -34,11 +34,11 @@ Why it is split this way: the **core** (`packages/engine` and `packages/spec`) i
 ```bash
 # 1. Clone and install
 git clone <repo-url>
-cd edqms
+cd nance
 pnpm install
 
 # 2. Start a local Postgres (example with Docker)
-docker run --name edqms-db -e POSTGRES_PASSWORD=dev -p 5432:5432 -d postgres
+docker run --name nance-db -e POSTGRES_PASSWORD=dev -p 5432:5432 -d postgres
 
 # 3. Configure environment variables
 cp .env.example .env        # adjust DATABASE_URL, email credentials, etc.
