@@ -27,3 +27,6 @@ sourceFiles/*.mp4
 # Client session snapshots (offline-database workflow — confidential, OneDrive only)
 client-data/
 **/edqms_blank_*.json
+
+# Internal working outputs — never commit (may reference removed/internal material)
+**/Claude outputs/
