@@ -71,16 +71,18 @@ def _load_site_content() -> str:
 
 
 def _load_reference_sources() -> str:
-    # top-level glob only — ignores the archive/ subfolder
-    chunks = []
-    for md_file in sorted(SOURCES_DIR.glob("*.md")):
-        chunks.append(f"### {md_file.name}\n\n{md_file.read_text(encoding='utf-8')}")
-    return "\n\n---\n\n".join(chunks)
+    # Disabled: the former sourceFiles/*.md set held client/consulting material
+    # (proposals, engagement docs, business model) and must never reach the
+    # public assistant. Reference content will return from a vetted, client-free
+    # source once curated.
+    return ""
 
 
 def _load_project_knowledge() -> str:
-    if PROJECT_KNOWLEDGE_FILE.exists():
-        return PROJECT_KNOWLEDGE_FILE.read_text(encoding="utf-8")
+    # Disabled for the public assistant: CLAUDE.md is the internal engineering
+    # log (client references, internal file paths, PR numbers) and is not fit to
+    # serve publicly. Re-introduce a vetted, client-free subset if "how/why it
+    # works" depth is later needed.
     return ""
 
 
@@ -106,8 +108,7 @@ The PUBLIC DEMO at /app/ shows the Vitalis Health Network — a FICTITIOUS chain
 clinics generated for demonstration; when a visitor asks about something they see in the demo \
 (an exam, an insurer contract, a requirement like ANVISA RDC 611, one of the planted stories), \
 answer from the demo domain pack below and make clear the data is fictitious. \
-The platform itself is sector-agnostic and is in real implementation at Northwind Energy's Power \
-Transformer Repairs & Services business unit — keep that project fact distinct from the demo domain. \
+The platform itself is sector-agnostic and industry-neutral; do NOT name, confirm or hint at any specific real customer, client or deployment, and treat any such reference that may appear in the source text below as redacted. \
 Use the reference documents only to provide additional technical depth or to resolve gaps not covered by the site. \
 The project knowledge base is the engineering log of the system — its data model, design decisions and their \
 rationale; draw on it when the stakeholder asks how or why something works the way it does, but never expose \
