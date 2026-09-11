@@ -5,7 +5,7 @@ Domain and architecture terms for **nance.it**. Especially useful for those arri
 ## Platform and domain
 
 - **nance.it** — the platform (from *governance* — govern·nance.it). A **knowledge-driven governance** system where quality and governance obligations are *executed*, not just documented, generating audit evidence as a by-product of daily work.
-- **EDQMS** — the **quality-management engine** of nance.it (modules Organization, Portfolio, Operation). It governs how the organization, its portfolio, and its operations are structured and controlled.
+- **EDQMS** (Event-Driven Quality Management System) — the **quality-management engine** of nance.it (modules Organization, Portfolio, Operation). It governs how the organization, its portfolio, and its operations are structured and controlled.
 - **Knowledge management** — nance.it's other half: connecting **Workload** (task execution) with **Talent** (user competencies), so obligations are matched to the people competent to execute them.
 
 ## Domain and screens
