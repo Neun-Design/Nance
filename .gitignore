@@ -28,6 +28,9 @@ sourceFiles/*.mp4
 client-data/
 **/edqms_blank_*.json
 
+# Internal working outputs — never commit (may reference removed/internal material)
+**/Claude outputs/
+
 # Internal source material — kept locally, never in the public repo
 # (client/consulting docs, wireframes, duplicate mock data). See de-Northwind plan.
 sourceFiles/

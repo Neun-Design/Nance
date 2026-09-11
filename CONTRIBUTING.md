@@ -1,6 +1,6 @@
-# Contributing to EDQMS
+# Contributing to nance.it
 
-EDQMS welcomes contributions from developers, project managers, documentation writers,
+nance.it welcomes contributions from developers, project managers, documentation writers,
 and stakeholders. This guide explains how to collaborate without stepping on each other.
 
 ---
@@ -139,7 +139,7 @@ For a PR that's already open on GitHub:
 ```
 
 This runs parallel review agents that check code correctness, design-token compliance
-(`--se-*` only), ISO 9001:2015 alignment (via `CLAUDE.md`), and security. Results appear
+(project design tokens only), ISO 9001:2015 alignment (via `CLAUDE.md`), and security. Results appear
 as a structured report in the terminal. Requires Claude Code CLI.
 
 ---

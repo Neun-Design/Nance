@@ -1,8 +1,8 @@
-# EDQMS — Event Driven Quality Management System
+# nance.it — Project Context (EDQMS = the Event-Driven Quality Management engine)
 
 ## Project Overview
 
-EDQMS is an Event Driven Quality Management System fully aligned with **ISO 9001:2015**. Its central thesis is that quality management should be simultaneously reactive and proactive — driven by Events occurring within business operations rather than by periodic, calendar-based audits alone.
+nance.it is a knowledge-driven governance platform. Its quality-management engine, EDQMS (Event-Driven Quality Management System), is fully aligned with **ISO 9001:2015**. Its central thesis is that quality management should be simultaneously reactive and proactive — driven by Events occurring within business operations rather than by periodic, calendar-based audits alone.
 
 **Reference sources:**
 - ISO/FDIS 9001:2015(E) — normative standard (all "shall" requirements)
@@ -62,7 +62,7 @@ Implemented in `prototype/data/datamodel.json` + `prototype/tools/migrate_requir
 The prototype's module map is now: `Organization` (1) · `Portfolio` (2) · `CRM` (3) · `Talent` (4) · `Operation` (5) · `Workspace` (6, renamed from `Workload` on 2026-07-30) · `Control` (7).
 
 - **Organization module** — `Business Segments` (LPT/MPT/DT/SG registry replacing the old `businessSegment` enum) → `Business Units` → `Departments` (ids `DPT01…`, matched by legacy Capacity/Performance refs) → `Squads` (moved from Talent; `departmentID` FK, owner picked among the department's People).
-- **CRM module** — the former `Customers` module; the `Factories` table is renamed **`Customers`** (`factoryID/Name` → `customerID/Name`): internal factories and final Northwind Energy clients are one entity, classified by `businessUnitID` (now **multivalued**). ~~Segment is read-only, derived from the Unit — decision Q4~~ **Q4 reversed 2026-07-30:** `businessSegmentID` is a stored, user-selected multivalued FK. **Cascade inverted same day (PR #96):** Segment (multivalued) is picked *first*; Unit is gated on it (`check: "Segment IS NOT NULL"`) and filtered to the selected segments' units (`field-rule: "filtered by Segment selected"`).
+- **CRM module** — the former `Customers` module; the `Factories` table is renamed **`Customers`** (`factoryID/Name` → `customerID/Name`): internal factories and final external clients are one entity, classified by `businessUnitID` (now **multivalued**). ~~Segment is read-only, derived from the Unit — decision Q4~~ **Q4 reversed 2026-07-30:** `businessSegmentID` is a stored, user-selected multivalued FK. **Cascade inverted same day (PR #96):** Segment (multivalued) is picked *first*; Unit is gated on it (`check: "Segment IS NOT NULL"`) and filtered to the selected segments' units (`field-rule: "filtered by Segment selected"`).
 - **Issues** (Portfolio) — registry typed `Opportunity | Risk`; `Scopes.scopeOpportunity` is an FK to Issues. Since 2026-07-30 the `issueType='Opportunity'` filter is dropped — **all** Issues are offered, grouped by `issueType` in the form.
 - ~~**Customer-aware chain**~~ **Superseded 2026-08-04 (Procedures doctrine):** Workflows and Tasks are applicability-agnostic — `Workflows.customerID[]`/`productScopeID[]` and the 5-key `requirements` chain were removed; the requirement set lives on `Procedures.requirementID[]` (empty = applies to all, Q1) and `Tasks.requirementName` derives via the task's procedures. The Jobs Task select degrades gracefully to every task (`tasksForJob` keeps its lenient wildcard path for legacy snapshots); staffing selectivity lives in `certified-responsible` via Competence → Procedures. Competence stays customer-agnostic (Q5).
 
