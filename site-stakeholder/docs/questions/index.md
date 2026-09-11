@@ -180,6 +180,5 @@ A live demo with sample data is published at
 The demo shows **Vitalis Health Network**, a fictitious chain of diagnostic-imaging and
 clinical-analysis clinics (12 branches across Brazil and Argentina), so any visitor can
 navigate a fully populated system without industry background. The platform itself is
-sector-agnostic: it is in implementation at Northwind Energy's Power Transformer Repairs &
-Services business unit. The previous transformer dataset is preserved under the git tag
+sector-agnostic: it is in implementation at a large industrial enterprise's equipment repair & services unit. The previous transformer dataset is preserved under the git tag
 `demo-transformers-v1`.

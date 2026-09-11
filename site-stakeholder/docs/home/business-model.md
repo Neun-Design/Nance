@@ -87,8 +87,7 @@ one business unit, one process family. It covers installation, seeding the data 
 integrating with your identity and document infrastructure, and training the internal roles
 that will own the system afterwards (the Broker and Quality Manager functions).
 
-This is the [7-week playbook](implementation.md), already proven in the Power Transformer
-Repairs & Services business unit at Northwind Energy.
+This is the [7-week playbook](implementation.md), already proven in a large industrial enterprise's equipment repair & services unit.
 
 ### Support plans
 
