@@ -38,7 +38,7 @@ const performance = entity("Performance", "Query view (Control module) — no ne
   attr("plannedHours", "DECIMAL", { notes: "DERIVED by tools/derive_control.py (issue #246): Σ Jobs.plannedExecutionTime of the group's Done jobs in the month — the flat invented 516 h/month is gone (A3)", show: [true, true] }),
   attr("realExecutionTime", "DECIMAL", { notes: "DERIVED by tools/derive_control.py (issue #246): Σ Jobs.realExecutionTime of the group's Done jobs in the month", show: [true, true] }),
   attr("efficiency", "DECIMAL", { rel: computed(null), notes: "Value in %" }),
-  attr("variance", "DECIMAL", { rel: computed("variance of realExecutionTime per job"), notes: "DERIVED by tools/derive_control.py (issue #246): population variance of the group's per-job real hours" }),
+  attr("variance", "DECIMAL", { notes: "DERIVED by tools/derive_control.py (issue #246): population variance of the group's per-job real hours" }),
   attr("reportedAt", "DATETIME", { show: [true, true] }),
   attr("reportedBy", "FK", { rel: fk("People", { display: "userName" }), constraints: ["FK"], show: [true, true] }),
   attr("performanceOwner", "FK", { rel: fk("People", { display: "userName" }), notes: "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))", constraints: ["FK"], show: [false, false] }),
@@ -216,8 +216,4 @@ export const control = defineModule("Control", 7, [
     tableFilters: null,
     subitemTables: null,
   }),
-], {
-  suppress: {
-    "Performance.variance": "#417: computed target \"variance of realExecutionTime per job\" is not an entity (malformed rule?)"
-  },
-});
+]);

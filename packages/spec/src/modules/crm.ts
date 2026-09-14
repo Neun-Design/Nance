@@ -47,7 +47,7 @@ const forecasts = entity("Forecasts", "A Forecast (ISO §6.1) groups a set of Fo
   attr("businessUnitName", "mirror", { rel: mirror("SLA", "slaID", { display: "businessUnitName" }), notes: "Business Unit of the contract (the SLA stores it single-valued — sharper than the customer's multivalued units, issue #241) — groups the Forecast select on the Forecast Scopes form", show: [false, false] }),
   attr("forecastPeriod", "ENUM", { rel: enumOf("Annual", "Quarter", "Month"), notes: "Granularity of the period", constraints: ["NOT NULL"], show: [true, true] }),
   attr("periodStart", "DATETIME", { notes: "Depends on forecastPeriod condition (month/quarter/annual)" }),
-  attr("periodFinish", "DATETIME", { rel: computed("add periodType month quantity to startDate to find periodFinish"), notes: ["if periodType = annual and periodStart = Mar/2026, than periodFinish = Mar/2027","if periodType = quarter and periodStart = Mar/2026, than periodFinish = Jun/2026","if periodType = month and periodStart = Mar/2026, than periodFinish = Mar/2026"], show: [false, false] }),
+  attr("periodFinish", "DATETIME", { notes: ["if periodType = annual and periodStart = Mar/2026, than periodFinish = Mar/2027","if periodType = quarter and periodStart = Mar/2026, than periodFinish = Jun/2026","if periodType = month and periodStart = Mar/2026, than periodFinish = Mar/2026"], show: [false, false] }),
   attr("periodBusinessDays", "INT", { rel: computed(null), notes: ["if periodType = annual and periodStart = Mar/2026, than periodBusinessDays=254","if periodType = quarter and periodStart = Mar/2026, than periodBusinessDays=85","if periodType = month and periodStart = Mar/2026, than periodBusinessDays=22"], show: [true, true] }),
   attr("periodFrame", "VARCHAR", { rel: {"kind":"format","srcField":"periodStart","pattern":"YYYY-MonthName"}, notes: "Month label of periodStart, e.g. 2025-June", show: [true, true] }),
   attr("weeklyUsageQuota", "INT", { rel: computed(null), notes: "IF periodType='month', than periodFrame=periodStart", show: [true, true] }),
@@ -65,8 +65,8 @@ const forecastScopes = entity("Forecast Scopes", "The atomic unit of a Forecast 
   attr("forecastScopeRegistry", "VARCHAR", { notes: "Registry code, e.g. \"FSR-2025-0001\" (nullable)", show: [false, false] }),
   attr("businessUnitID", "FK", { rel: fk("Business Units", { display: "businessUnitName" }), notes: "Form filter — narrows the Forecast options (pre-RBAC filter input, issue #346). Seeds: the forecast's SLA's unit (tools/migrate_prerbac_batch.py).", constraints: ["FK"], show: [false, false] }),
   attr("forecastID", "FK", { rel: fk("Forecasts", { concat: [{"field":"customerTitle"},{"lit":" | "},{"field":"periodFrame"}] }), notes: "Parent forecast", constraints: ["FK","NOT NULL"], show: [false, false] }),
-  attr("customerTitle", "mirror", { rel: rollup("forecastID"), show: [true, true] }),
-  attr("periodFrame", "mirror", { rel: rollup("forecastID"), show: [true, true] }),
+  attr("customerTitle", "mirror", { rel: mirror("Forecasts", "forecastID", { display: "customerTitle" }), notes: "Customer of the parent forecast (#417: was rollup → forecastID, a field, not a table — the column rendered blank). Report-A filter.", show: [true, true] }),
+  attr("periodFrame", "mirror", { rel: mirror("Forecasts", "forecastID", { display: "periodFrame" }), notes: "Period label of the parent forecast (#417: was rollup → forecastID — the column rendered blank). Report-A filter.", show: [true, true] }),
   attr("eventID", "FK", { rel: fk("Events", { display: "eventTitle" }), notes: "Event that triggers the Process; determines the task list", constraints: ["FK"], show: [true, true] }),
   attr("productScopeID", "FK", { rel: fk("Product Scopes", { display: "productScopeName" }), notes: "The portfolio anchor (issue #242) — the same Event × Product Scope unit the SLA's Payloads dispatch. Options: the product scopes packaged by the forecast's SLA payloads for the chosen event (since issue #367 an unpackaged payload contributes nothing — the wildcard widening survives only on pre-sv100 snapshots). Scope and product group derive from it on save.", constraints: ["FK","NOT NULL"], show: [true, true] }),
   attr("scopeID", "FK", { rel: fk("Scopes", { display: "scopeName" }), notes: "Derived on save from the Product Scope since issue #242 (stored — the requirement chain traverses it); no form field", constraints: ["FK","NOT NULL"], show: [true, true] }),
@@ -78,7 +78,7 @@ const forecastScopes = entity("Forecast Scopes", "The atomic unit of a Forecast 
   attr("functionID", "FK", { rel: fk("Functions", { display: "functionName" }), notes: "The function this demand line projects hours for (issue #242 — was the free-string functionName, the aggregation key of Capacity::Report-A; D6 doctrine kills the name join). Options: the functions of the tasks chained by the chosen event.", constraints: ["FK"], show: [false, false] }),
   attr("functionName", "mirror", { rel: mirror("Functions", "functionID", { display: "functionName" }), notes: "Display twin of functionID (issue #242)", show: [false, false] }),
   attr("estimatedHours", "DECIMAL", { rel: {"kind":"sum","childAttr":"taskID","field":"executionTime","multiplierField":"forecastScopeQuantity"}, notes: "Hours of the chained tasks × the projected quantity (issue #242 — quantity finally multiplies; tasks derive their time from Procedures). Stored values are re-stamped by the migration to the same equation.", show: [true, true] }),
-  attr("region", "VARCHAR", { rel: {"kind":"mirror","target":"DISTINCT","via":null,"viaList":null,"display":null,"concat":null,"filter":null}, notes: "Region of the customer that owns the parent forecast (via forecastID → Customers.regionID → Regions). Used by Report-B.", show: [false, false] }),
+  attr("region", "VARCHAR", { notes: "Not derivable today: Customers no longer carries a region (geography moved to Branches: Customers.branchID → Branches.regionID); the former DISTINCT rule referenced Customers.regionName and a Report-B that no longer exists. Stored, always empty, hidden — removal candidate (#424).", show: [false, false] }),
   attr("forecastScopeQuantity", "INT", { notes: "amount of forecast scope to be used to calculate estimatedHours", show: [true, true] }),
   attr("consumption", "rollup", { rel: rollup("Tickets", "forecastScopeID"), notes: "How many tickets ran against this demand line (issue #243 — a real COUNT at last; the stored invented values were dropped by the migration)" }),
   attr("remaining", "mirror", { rel: {"kind":"diff","minuend":"forecastScopeQuantity","subtrahend":"consumption"}, notes: "Forecast balance (issue #243) — a number the user can check by counting the linked tickets", show: [true, true] }),
@@ -275,11 +275,4 @@ export const crm = defineModule("CRM", 3, [
     cards: null,
     tableFilters: true,
   }),
-], {
-  suppress: {
-    "Forecasts.periodFinish": "#417: computed target \"add periodType month quantity to startDate to find periodFinish\" is not an entity (malformed rule?)",
-    "Forecast Scopes.customerTitle": "#417: rollup target \"forecastID\" is not an entity",
-    "Forecast Scopes.periodFrame": "#417: rollup target \"forecastID\" is not an entity",
-    "Forecast Scopes.region": "#417: mirror target \"DISTINCT\" is not an entity"
-  },
-});
+]);

@@ -30,8 +30,8 @@ const tickets = entity("Tickets", "A Ticket is a project-linked work item captur
   attr("products", "VARCHAR", { rel: {"kind":"mirror","target":"Product Scopes","via":null,"viaList":null,"display":"productName","concat":null,"filter":null}, notes: "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py" }),
   attr("scopes", "VARCHAR", { rel: {"kind":"mirror","target":"Product Scopes","via":null,"viaList":null,"display":"scopeName","concat":null,"filter":null}, notes: "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py" }),
   attr("requirementName", "mirror", { rel: {"kind":"inheritedreqs","srcField":"eventID","display":"requirementName"}, notes: "Live-derived (issue #226 — replaces the #192 stored snapshot): Active requirements AND-matched against the ticket's admitted payload chain — event → payloads under the customer's ACTIVE SLAs (lenient, productScopesForTicket posture) → product scopes (∩ the ticket's productScopeID when set) — plus the ticket's businessUnitID, that unit's served regions (Business Units.regionID), the ticket's inheritance parties — customer AND applicant, the #308 pair (the SUPPLIER is deliberately EXCLUDED since sv108: a supplier must not impose requirements on a request it must itself resolve) — the OUTPUT branch (the stored Tickets.branchID, sv108) and the region traces (the unit's served regions ∪ the output branch's region). Requirement keys: a DECLARED dimension constrains, an undeclared one does not (sv106 refinement — the sv99 strict reading was reverted; the #364 doctrine stays on the coverage sets). Deliberate divergence from the #192 seed: the unit gate reads the TICKET's unit, not ps.businessUnitID. A new aligned requirement surfaces on existing tickets automatically — but a requirement registered AFTER a dimension's 'all' snapshot needs the revisit the doctrine mandates. Deliberate-selection rule (sv109): with ≥1 Constraint picked, offered-but-unpicked selectables leave the set (zero picks = no decision).", show: [false, false] }),
-  attr("taskID", "rollup", { rel: rollup("Tasks", "scopeID"), show: [false, false] }),
-  attr("ticketExecutionTime", "INT", { rel: computed("taskID executionTime") }),
+  attr("taskID", "rollup", { notes: "Superseded: the old 3-key rollup (scopeID, productName, customerID) references fields Tasks no longer stores; ticket→task dispatch lives in the TICKET-PROCEDURE / INHERITED-REQUIREMENTS rules. Derived, never populated, hidden — removal candidate (#424).", show: [false, false] }),
+  attr("ticketExecutionTime", "INT", { notes: "Stored execution time seeded from the task (#417: the former rule was seed documentation, not an engine rule)" }),
   attr("ticketOwner", "VARCHAR", { rel: userInput(), constraints: ["FK"] }),
   attr("ticketStatus", "ENUM", { rel: enumOf("Open", "InProgress", "Resolved", "Escalated", "Closed"), show: [true, true] }),
   attr("targetDate", "DATETIME", { notes: "When the ticket should be resolved", show: [true, true] }),
@@ -42,18 +42,18 @@ const tickets = entity("Tickets", "A Ticket is a project-linked work item captur
 
 const projects = entity("Projects", "A project (contract or campaign) with customer, owner and status. Groups tickets and provides estimated vs. executed time roll-ups (ISO §8.3 / §8.4).", [
   attr("projectID", "INT", { notes: "Displayed as project number, e.g. \"0034\"", constraints: ["PK"], show: [false, false] }),
-  attr("projectRegistryID", "VARCHAR", { notes: "user input", constraints: ["PK"], show: [true, true] }),
+  attr("projectRegistryID", "VARCHAR", { notes: "Human registry code (PRJ-2026-001); projectID is the key. Displayed by Tickets.projectID (#417: was a second PK)", constraints: ["NOT NULL"], show: [true, true] }),
   attr("projectName", "VARCHAR", { notes: "Name of the project", show: [true, true] }),
   attr("businessUnitID", "FK", { rel: fk("Business Units", { display: "businessUnitName" }), notes: "single valued — anchors the Customer/SLA cascade (issue #192); seeded from the project's customer", constraints: ["FK","NOT NULL"], show: [false, false] }),
   attr("customerID", "FK", { rel: fk("Customers", { display: "customerName" }), notes: "Name of the final/external client", constraints: ["FK","NOT NULL"], show: [true, true] }),
   attr("customerName", "mirror", { rel: mirror("Customers", "customerID", { display: "customerName" }), notes: "Merged with the former Client field — resolved from customerID; kept for downstream mirrors (Tickets, Jobs)", show: [false, false] }),
-  attr("products", "rollup", { rel: rollup("Products", "Tickets", { display: "productName" }), notes: "Products linked through tickets; multivalued", show: [false, false] }),
+  attr("products", "rollup", { notes: "Products linked through tickets — intended chain Projects → Tickets → Products has no field (Tickets stores no productID). Derived, never populated, hidden — removal candidate (#424).", show: [false, false] }),
   attr("projectOwner", "FK", { rel: fk("People", { display: "userName" }), constraints: ["FK"], show: [true, true] }),
   attr("projectStatus", "ENUM", { rel: enumOf("In Progress", "Planning", "On Hold", "Closed"), show: [true, true] }),
   attr("ticketID", "rollup", { rel: rollup("Tickets", "projectID"), notes: "All tickets belonging to this project", show: [false, false] }),
   attr("jobID", "VARCHAR", { rel: {"kind":"mirror","target":"Tickets","via":null,"viaList":null,"display":"jobs","concat":null,"filter":null}, notes: "Via projectID", show: [true, true] }),
-  attr("estimatedTime", "DECIMAL", { rel: computed("SUM"), notes: "From Tickets via ticketID", show: [true, true] }),
-  attr("executionTime", "DECIMAL", { rel: computed("SUM"), notes: "From Jobs via ticketID", show: [true, true] }),
+  attr("estimatedTime", "DECIMAL", { notes: "Stored planner estimate (seeded). Tickets carry no estimate field, so it cannot be summed live (#417)", show: [true, true] }),
+  attr("executionTime", "DECIMAL", { notes: "Stored (seeded). A live SUM(ticketID.ticketExecutionTime) is possible but would change the shown numbers — kept stored by decision (#417)", show: [true, true] }),
 ]);
 
 const jobs = entity("Jobs", "A Job is a concrete execution record assigning a person/role to a Ticket to perform a piece of work, tracking planned and actual dates, dependencies and status. Jobs are the primary source of actual usage data for the Control module (ISO §7.1.2).", [
@@ -66,7 +66,7 @@ const jobs = entity("Jobs", "A Job is a concrete execution record assigning a pe
   attr("projectName", "VARCHAR", { rel: mirror("Projects", "projectID", { display: "projectName" }), notes: "From ticket ID", show: [true, true] }),
   attr("customerID", "mirror", { rel: mirror("Projects", "projectID", { display: "customerName" }), notes: "From ticket ID", show: [true, true] }),
   attr("taskID", "FK", { rel: fk("Tasks", { display: "taskName" }), notes: "Stored task template (issue #243 — the value must be stable on the record, it anchors plannedExecutionTime; the old 3-key rollup collapsed to 6 tasks on the empty ticket scopes, A2). Options filtered by tasksForJob(ticket) in the form.", constraints: ["FK"] }),
-  attr("jobName", "VARCHAR", { rel: computed("via taskID display taskName", { via: "taskID" }), show: [false, true] }),
+  attr("jobName", "mirror", { rel: mirror("Tasks", "taskID", { display: "taskName" }), notes: "Task name of the job (#417: was a malformed rule; the stored copies equal Tasks.taskName and are now inert)", show: [false, true] }),
   attr("userID", "FK", { rel: fk("People", { display: "userName" }), notes: "Filtered by the roleID of the selected task template", constraints: ["FK"], show: [true, true] }),
   attr("roleID", "mirror", { rel: mirror("People", "userID", { display: "roleID" }), notes: "The allocated person's role (issue #244, A8 — a job has no role of its own: the old stored copy matched People in 0/187 rows and was dropped)", show: [true, true] }),
   attr("deliveryDate", "DATETIME", { notes: "Planned delivery date (A13 unswap — the notes were inverted)", show: [true, true] }),
@@ -75,9 +75,9 @@ const jobs = entity("Jobs", "A Job is a concrete execution record assigning a pe
   attr("realStartDate", "DATETIME", { notes: "Actual start date" }),
   attr("realEndDate", "DATETIME", { notes: "Actual end date" }),
   attr("realExecutionTime", "DECIMAL", { rel: computed(null), notes: "Stored when the job transitions to Done: elapsed minus Stoped buffer" }),
-  attr("jobBufferExecution", "DECIMAL", { rel: computed("accumulates elapsed time whenever jobStatus leaves Stoped"), notes: "Decimal hours the job sat in Stoped; subtracted from realExecutionTime" }),
+  attr("jobBufferExecution", "DECIMAL", { notes: "Decimal hours the job sat in Stoped; subtracted from realExecutionTime" }),
   attr("stoppedAt", "DATETIME", { notes: "Bookkeeping: timestamp of the last transition INTO Stoped", show: [false, false] }),
-  attr("customerName", "VARCHAR", { rel: computed("projectID related to ticketID"), show: [true, true] }),
+  attr("customerName", "VARCHAR", { notes: "Stored copy of the job's project customer (#417: the former rule was an English sentence). Kept STORED because Jobs::Report-A (queries.js) groups by the raw row key — making it a mirror needs that report to resolve through the engine. Duplicates customerID's mirror — removal candidate once the report is fixed (#424).", show: [true, true] }),
   attr("squadName", "VARCHAR", { rel: computed("People") }),
   attr("predecessorJobID", "FK", { rel: fk("Jobs", { display: "jobName" }), notes: "Self-FK, nullable (issue #244, A6 — the predecesorJob residue in forms.js finally has an attribute): the job that must run before this one. Options: jobs of the same ticket.", constraints: ["FK"], show: [false, true] }),
   attr("dependencyType", "ENUM", { rel: enumOf("start-to-finish", "start-to-start", "finish-to-start", "finish-to-finish"), notes: "How this job depends on its predecessor — reuses the Workflows.indentationRule enum (issue #244)", show: [false, true] }),
@@ -289,16 +289,4 @@ export const workspace = defineModule("Workspace", 6, [
     tableFilters: true,
     subitemTables: [],
   }),
-], {
-  suppress: {
-    "Tickets.taskID": "#417: rollup via \"scopeID\" is a field of neither Tickets nor Tasks",
-    "Tickets.ticketExecutionTime": "#417: computed target \"taskID executionTime\" is not an entity (malformed rule?)",
-    "Projects": "#417: expected exactly one PK, found 2 (projectID, projectRegistryID)",
-    "Projects.products": "#417: rollup via \"Tickets\" is a field of neither Projects nor Products",
-    "Projects.estimatedTime": "#417: computed target \"SUM\" is not an entity (malformed rule?)",
-    "Projects.executionTime": "#417: computed target \"SUM\" is not an entity (malformed rule?)",
-    "Jobs.jobName": "#417: computed target \"via taskID display taskName\" is not an entity (malformed rule?)",
-    "Jobs.jobBufferExecution": "#417: computed target \"accumulates elapsed time whenever jobStatus leaves Stoped\" is not an entity (malformed rule?)",
-    "Jobs.customerName": "#417: computed target \"projectID related to ticketID\" is not an entity (malformed rule?)"
-  },
-});
+]);

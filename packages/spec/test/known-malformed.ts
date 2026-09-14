@@ -6,10 +6,8 @@
  * must be empty by the cutover.
  */
 export const KNOWN_MALFORMED: Record<string, string> = {
-  // intent: mirror → Tasks (via: taskID) (display: taskName). Since P3-C the
-  // artifact carries the canonical rendering of its (nonsense) parse; the
-  // Model still holds the broken relation, suppressed in workspace.ts → #417.
-  "Workspace/Jobs.jobName": "computed: via taskID display taskName",
+  // Empty since #417 (Workspace/Jobs.jobName became mirror → Tasks (via: taskID) (display: taskName)).
+  // Keep the mechanism: a future malformed rule is allow-listed here with its fix issue, never silently.
 };
 
 /** Attribute-index form of the same entries, for whole-table diffs: "<Module>/<Table>.attributes[i].rule". */
