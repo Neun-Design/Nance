@@ -18,7 +18,7 @@ const roles = entity("Roles", "Organisational role belonging to a Function and e
   attr("departmentID", "FK", { rel: fk("Departments", { display: "departmentName" }), notes: "multivalued — departments where this role is exercised (issue #328); options = the departments of the selected function's business units (generic shared-unit join Functions.businessUnitID × Departments.businessUnitID). The businessUnitName grouping was dropped in #334 — with the Business Unit now a USER decision on this form, the offered departments all belong to the chosen unit and the group header was redundant.", constraints: ["FK"], show: [true, true] }),
   attr("quantity", "INT", { rel: computed(null), notes: "Number of headcount allocated to this role", show: [true, true] }),
   attr("competenceID", "rollup", { rel: rollup("Competence", "roleID", { display: "competenceName" }), show: [false, false] }),
-  attr("taskName", "rollup", { rel: {"kind":"mirror","target":"taskName from competenceID column","via":null,"viaList":null,"display":null,"concat":null,"filter":null}, show: [false, false] }),
+  attr("taskName", "rollup", { rel: rollup("Competence", "roleID", { display: "taskName" }), notes: "Task names of the role's competences — the engine resolves taskName through Competence.taskID → Tasks (#414: was an English sentence)", show: [false, false] }),
   attr("people", "rollup", { rel: rollup("People", "roleID"), notes: "People currently holding this role", show: [false, false] }),
   attr("squadID", "VARCHAR", { rel: rollup("People", "roleID", { display: "squadName" }), notes: "Squads of the people currently holding this role", show: [true, true] }),
   attr("roleOwner", "FK", { rel: fk("People", { display: "userName" }), notes: "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))", constraints: ["FK"], show: [false, false] }),
@@ -105,7 +105,7 @@ const competence = entity("Competence", "Competence profile mapping skills to ro
   attr("procedureID", "FK", { rel: fk("Procedures", { display: "procedureRegistry" }), notes: "multivalued — the procedure GROUP this competence certifies (1:many since issue #284, reverting the #231 1:1; group restricted to the competence's TASK — the picker filters by Task). The quality manager's requirement decision lives on the Procedure; the competence inherits the UNION of its procedures' sets (since issue #364 an empty-set procedure contributes nothing — the #284 wildcard decision is superseded). Since issue #368 a competence with NO procedure link is INERT on sv101+ data (covers nothing, not exercisable — nothing to exercise; frozen stored-requirement rows keep the old tolerance). Deliberately nullable: the legacy developer copy predates the Procedures chain — the engine gates close the hole instead of a NOT NULL.", constraints: ["FK"], show: [true, true] }),
   attr("requirementID", "mirror", { rel: computed("Procedures", { via: "procedureID", display: "requirementName" }), notes: "Derived — requirements certified through the linked procedure GROUP: the UNION of the procedures' sets (1:many since issue #284; a procedure with an empty set applies to all, Q1 — one wildcard procedure in the group certifies everything). Doctrine (issue #231, kept in #284): a requirement NEVER enters a competence automatically — the quality manager decides on the Procedure (its Requirements picker already offers the context-aligned options), and the competence inherits the procedures' sets. Legacy stored requirementID still honoured as fallback when no procedure is linked." }),
   attr("competenceName", "mirror", { rel: concat("[taskName]", {"lit":" for "}, "[scopeName]", {"lit":" of "}, "[productGroupName]", {"lit":" applied to "}, "[{requirementTypeName: requirementName}]"), notes: "Rendered from the CONCAT rule at display time (not stored)" }),
-  attr("channelName", "mirror", { rel: computed("list of channelName of every input and output handout of the linked procedures") }),
+  attr("channelName", "mirror", { notes: "Derived, not yet computable: the channel names of every input and output handout of the linked procedures — a 3-hop chain (Competence → Procedures → Handouts → Channels) the engine cannot derive in one rule. Hidden until an engine feature computes it (#414). Kept as type mirror (derived) so the validator does not expect a stored value.", show: [false, false] }),
   attr("resources", "VARCHAR", { notes: "Training resource/modality, e.g. e-learning (nullable)", show: [false, false] }),
   attr("competenceOwner", "FK", { rel: fk("People", { display: "userName" }), notes: "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))", constraints: ["FK"], show: [false, false] }),
 ]);
@@ -315,9 +315,4 @@ export const talent = defineModule("Talent", 4, [
       "people"
     ],
   }),
-], {
-  suppress: {
-    "Roles.taskName": "#414: mirror target \"taskName from competenceID column\" is not an entity",
-    "Competence.channelName": "#414: computed target \"list of channelName of every input and output handout of the linked procedures\" is not an entity (malformed rule?)"
-  },
-});
+]);
