@@ -18,25 +18,27 @@ npm test            # Vitest: equivalence + merge semantics
 npm run typecheck
 ```
 
-## How the incremental migration works
+## How the build works (since the cutover)
 
-The compiled artifact is a **merge**: modules already authored in the spec (`MIGRATED` in
-`src/index.ts`) win; every other module is **passed through** from the committed JSON.
-So the artifact is always complete and the prototype runs at every step.
+Every module is authored in `src/modules/<module>.ts`; `_meta` (incl. `schemaVersion`) lives in
+`src/meta.ts`; `MODULE_ORDER` in `src/index.ts` fixes the artifact's module order. `spec:build`
+validates the modules (the build gate) and writes the artifact. There is no passthrough: the
+JSON is output only.
 
-| Module state | Where you edit it | Guarded by |
+| What | Where you edit it | Guarded by |
 |---|---|---|
-| **All seven modules (migrated)** | `src/modules/<module>.ts`, then `npm run build` | CI: `build` + `git diff --exit-code` rejects hand edits to the JSON; the build gate fails on unsuppressed Model errors |
+| Any module | `src/modules/<module>.ts`, then `npm run build` | CI: `build` + `git diff --exit-code` rejects hand edits to the JSON; the build gate fails on unsuppressed Model errors |
+| `schemaVersion`, conventions | `src/meta.ts` | bump on every change to modules/tables/attributes/rules |
 
-## Authoring a module (Phase 3)
+## Authoring
 
 ```bash
-git checkout main -- prototype/data/datamodel.json   # scaffold from the pre-migration JSON
-npm run scaffold-module -- <ModuleName> --issue <N>   # writes src/modules/<module>.ts
-# register it in AUTHORED (src/index.ts), then:
 npm run build && npm run diff && npm test
 (cd ../../prototype && for t in tools/test_*.mjs; do node "$t" >/dev/null || echo "FAIL $t"; done; python3 tools/validate_mockup.py)
 ```
+
+`npm run scaffold-module -- <ModuleName> --issue <N>` bootstraps a module file from a JSON module
+(it was how every Phase 3 slice started; it can still draft a module from a JSON sketch).
 
 `src/authoring.ts` is the vocabulary: `entity(...)`, `attr(name, type, { rel, notes, constraints, show })`,
 relation builders `fk / mirror / rollup / computed / concat / enumOf / userInput`, `formFor(...)`,
@@ -50,12 +52,8 @@ canonical forms were chosen to match all three (and the dominant authored spelli
 assertion that demanded a synonym contradicted by another test now reads the rule the way
 `forms.js` does. The **engine battery is the final oracle** for every slice.
 
-A migration slice is accepted when `npm run diff` reports no differences for its modules
-**and** the engine test battery (`prototype/tools/test_*.mjs` + `validate_mockup.py`) is green.
-The passthrough is removed at the cutover, when the artifact becomes 100 % compiled.
-
-`_meta.schemaVersion` keeps its convention: bump it in any PR that changes
-modules/tables/attributes/rules — the scaffold does not.
+A change is done when `npm run diff` reports no differences, `npm test` is green **and** the
+engine test battery (`prototype/tools/test_*.mjs` + `validate_mockup.py`) is green.
 
 ## The Model layer (`src/model/`)
 
@@ -118,8 +116,9 @@ engine noticing.
 - Phase 3-A: **Organization + Portfolio are compiled from TypeScript** (semantically identical to the
   hand-written modules; 2 inherited Portfolio errors suppressed → #412).
 - Phase 3-B: **Operation + Talent compiled from TypeScript** (3 inherited errors suppressed → #414).
-- Phase 3-C: **CRM + Workspace + Control compiled** (14 inherited errors suppressed → #417). **Every
-  module is now authored in TypeScript**; the passthrough carries nothing.
-- Next: P4-A cutover — remove the passthrough, make the drift guard the rule, update the wiki.
+- Phase 3-C: **CRM + Workspace + Control compiled** (14 inherited errors suppressed → #417).
+- Phase 4-A (cutover): **done** — no passthrough; `_meta` and module order authored; the JSON is
+  output only. Remaining debt: the suppressed errors (#412, #414, #417), to be fixed with
+  `schemaVersion` bumps.
 
 Plan and decisions: `docs/adr/0002-datamodel-config-as-code.md`, wiki *Working with the Datamodel*.

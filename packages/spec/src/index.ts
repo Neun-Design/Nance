@@ -3,17 +3,17 @@
  *
  * Entry point used by `scripts/build.ts` and `scripts/diff.ts`.
  *
- *   spec (TypeScript)  ──compile──▶  prototype/data/datamodel.json  ──▶  prototype engine (unchanged)
+ *   src/modules/*.ts (TypeScript)  ──compile──▶  prototype/data/datamodel.json  ──▶  prototype engine (unchanged)
  *
- * Modules listed in AUTHORED are compiled from TypeScript; the rest pass
- * through from the committed JSON until their slice lands. Each slice is
- * accepted only when `spec:diff` is empty for those modules and the engine
- * test battery is green.
+ * Since the cutover (P4-A) every module is compiled from the spec; the
+ * artifact is a generated, committed file guarded by CI (`spec:build` +
+ * `git diff --exit-code`). Never hand-edit it.
  */
 
 import { compile, serialize } from "./compile.js";
-import { loadPassthrough } from "./passthrough.js";
-import { migratedFrom } from "./build.js";
+import { loadArtifact } from "./passthrough.js";
+import { compiledModules } from "./build.js";
+import { META } from "./meta.js";
 import type { AuthoredModule } from "./authoring.js";
 import { organization } from "./modules/organization.js";
 import { portfolio } from "./modules/portfolio.js";
@@ -22,37 +22,26 @@ import { talent } from "./modules/talent.js";
 import { crm } from "./modules/crm.js";
 import { workspace } from "./modules/workspace.js";
 import { control } from "./modules/control.js";
-import type { DatamodelArtifact, MigratedModules } from "./types.js";
+import type { DatamodelArtifact, ModuleName } from "./types.js";
 
-/**
- * Modules authored in the spec (Phase 3, one slice at a time). Each is
- * validated at build time (see build.ts); the compiled module replaces its
- * passthrough copy in the artifact.
- *
- *   P3-A  Organization, Portfolio
- *   P3-B  Operation, Talent
- *   P3-C  CRM, Workspace, Control      — every module is now compiled; the
- *         cutover (P4-A) removes the passthrough.
- */
+/** The seven modules, authored in TypeScript. */
 export const AUTHORED: AuthoredModule[] = [organization, portfolio, operation, talent, crm, workspace, control];
 
-/** The migrated map `compile()` merges — validated; throws SpecBuildError on drift. */
-export function migrated(passthrough: DatamodelArtifact = loadPassthrough()): MigratedModules {
-  return migratedFrom(AUTHORED, passthrough);
-}
+/** Module order in the artifact — the order the prototype declares them (byte-stable output). */
+export const MODULE_ORDER: readonly ModuleName[] = ["Organization", "CRM", "Operation", "Portfolio", "Workspace", "Control", "Talent"];
 
-/** Build the artifact: authored modules from the spec + passthrough for the rest. */
+/** Build the artifact from the spec: validated modules + `_meta`, in MODULE_ORDER. */
 export function buildArtifact(): DatamodelArtifact {
-  const passthrough = loadPassthrough();
-  return compile(passthrough, migrated(passthrough));
+  return compile(META, compiledModules(AUTHORED), MODULE_ORDER);
 }
 
-export { compile, serialize, loadPassthrough };
+export { compile, serialize, loadArtifact, META };
+export { loadPassthrough } from "./passthrough.js";
 export * from "./model/index.js";
 export * from "./behavior/index.js";
 export * from "./view/index.js";
 export { semanticEqual, diffPaths } from "./semantic.js";
 export * from "./authoring.js";
-export { SpecBuildError, unsuppressedErrors, migratedFrom } from "./build.js";
+export { SpecBuildError, unsuppressedErrors, compiledModules } from "./build.js";
 export { ARTIFACT_PATH } from "./passthrough.js";
 export type * from "./types.js";

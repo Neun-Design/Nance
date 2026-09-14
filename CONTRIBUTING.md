@@ -144,6 +144,21 @@ as a structured report in the terminal. Requires Claude Code CLI.
 
 ---
 
+## Changing the datamodel
+
+The datamodel is **config-as-code** (ADR-0002): authored in TypeScript under `packages/spec/src/modules/` and compiled to `prototype/data/datamodel.json`. The JSON is a generated artifact — **never edit it by hand**; the CI `spec` job rebuilds it and fails on drift.
+
+```bash
+cd packages/spec
+npm ci && npm run build && npm run diff && npm test
+```
+
+- Edit the module file (`organization.ts`, `crm.ts`, …); bump `schemaVersion` in `src/meta.ts` when modules/tables/attributes/rules change; commit the rebuilt JSON with your change.
+- `spec:build` fails on Model errors (one PK per entity, relation targets that exist, …) unless they are listed in the module's `suppress` with a fix issue. Do not add new suppressions to hide new errors.
+- Then run the engine battery and the validator (`prototype/tools/test_*.mjs`, `validate_mockup.py`) — they are the final oracle.
+
+Full guide: wiki *Working with the Datamodel*.
+
 ## Running the prototype locally
 
 ```bash

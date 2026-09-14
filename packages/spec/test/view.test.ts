@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { compile, loadPassthrough, serialize } from "../src/index.js";
-import type { Json, JsonObject, MigratedModules, ModuleName } from "../src/index.js";
+import { META, MODULE_ORDER, compile, loadArtifact, serialize } from "../src/index.js";
+import type { Json, JsonObject, ModuleArtifact, ModuleName } from "../src/index.js";
 import { liftTable } from "../src/model/lift.js";
 import { diffPaths } from "../src/semantic.js";
 import { defaultWidgetFor, emitWidget, parseWidget } from "../src/view/widget.js";
@@ -11,13 +11,13 @@ import { isKnownMalformedPath } from "./known-malformed.js";
 
 /** Attribute name at index i of a table — to map diff paths back to the allowlist. */
 const attrNameAt = (module: string, table: string, i: number): string | undefined => {
-  const t = ((loadPassthrough().modules as JsonObject)[module] as JsonObject | undefined)?.["tables"] as JsonObject | undefined;
+  const t = ((loadArtifact().modules as JsonObject)[module] as JsonObject | undefined)?.["tables"] as JsonObject | undefined;
   const attrs = (t?.[table] as JsonObject | undefined)?.["attributes"] as JsonObject[] | undefined;
   return attrs?.[i]?.["name"] as string | undefined;
 };
 const notKnownMalformed = (paths: string[]) => paths.filter((p) => !isKnownMalformedPath(p, attrNameAt));
 
-const ART = loadPassthrough();
+const ART = loadArtifact();
 const MODULES = ART.modules as JsonObject;
 const MODULE_NAMES = Object.keys(MODULES) as ModuleName[];
 
@@ -82,16 +82,15 @@ describe("whole-table and whole-module equivalence — the proof Phase 3 can sta
     }
   });
 
-  it("compile() with every module migrated ≡ the passthrough artifact (semantically)", () => {
-    const migrated: MigratedModules = {};
-    for (const name of MODULE_NAMES) migrated[name] = emitModule(liftModule(name, MODULES[name] as JsonObject));
-    const all = compile(ART, migrated);
+  it("compile() from lifted modules ≡ the committed artifact (semantically)", () => {
+    const modules = {} as Record<ModuleName, ModuleArtifact>;
+    for (const name of MODULE_NAMES) modules[name] = emitModule(liftModule(name, MODULES[name] as JsonObject));
+    const all = compile(META, modules, MODULE_ORDER);
     const out: string[] = [];
     diffPaths(ART as unknown as Json, all as unknown as Json, "$", out, 20);
     const residual = out.filter((p) => !isKnownMalformedPath(p.replace(/^\$\.modules\.([^.]+)\.tables\./, "$1/"), attrNameAt));
     expect(residual).toEqual([]);
-    // and it still serializes to a valid, complete artifact
-    expect(Object.keys(JSON.parse(serialize(all)).modules)).toEqual(MODULE_NAMES);
+    expect(Object.keys(JSON.parse(serialize(all)).modules)).toEqual([...MODULE_ORDER]);
   });
 });
 

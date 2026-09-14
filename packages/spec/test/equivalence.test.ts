@@ -3,82 +3,52 @@ import { describe, expect, it } from "vitest";
 import {
   ARTIFACT_PATH,
   AUTHORED,
-  migrated,
+  META,
+  MODULE_ORDER,
   buildArtifact,
   compile,
-  loadPassthrough,
+  loadArtifact,
   serialize,
 } from "../src/index.js";
-import type { DatamodelArtifact, ModuleArtifact } from "../src/index.js";
+import type { ModuleArtifact, ModuleName } from "../src/index.js";
 
-const EXPECTED_MODULES = [
-  "Organization",
-  "CRM",
-  "Operation",
-  "Portfolio",
-  "Workspace",
-  "Control",
-  "Talent",
-] as const;
-
-describe("equivalence with the committed artifact", () => {
+describe("the committed artifact is exactly what the spec builds", () => {
   it("spec:build reproduces prototype/data/datamodel.json byte for byte", () => {
-    const committed = readFileSync(ARTIFACT_PATH, "utf8");
-    expect(serialize(buildArtifact())).toBe(committed);
+    expect(serialize(buildArtifact())).toBe(readFileSync(ARTIFACT_PATH, "utf8"));
   });
 
-  it("covers all seven modules, in the prototype's order", () => {
-    const names = Object.keys(buildArtifact().modules);
-    expect(names).toEqual([...EXPECTED_MODULES]);
+  it("all seven modules are authored, and the artifact lists them in the prototype's order", () => {
+    expect(new Set(AUTHORED.map((m) => m.name))).toEqual(new Set(MODULE_ORDER));
+    expect(Object.keys(buildArtifact().modules)).toEqual([...MODULE_ORDER]);
+    expect(Object.keys(loadArtifact().modules)).toEqual([...MODULE_ORDER]);
   });
 
-  it("Phase 3: the authored modules are the ones compile() merges; the rest pass through", () => {
-    expect(AUTHORED.map((m) => m.name)).toEqual(["Organization", "Portfolio", "Operation", "Talent", "CRM", "Workspace", "Control"]);
-    expect(Object.keys(migrated())).toEqual(["Organization", "Portfolio", "Operation", "Talent", "CRM", "Workspace", "Control"]);
-  });
-
-  it("keeps _meta and the schemaVersion convention untouched", () => {
+  it("_meta comes from the spec and keeps the schemaVersion convention", () => {
     const meta = buildArtifact()._meta;
+    expect(meta).toEqual(META);
     expect(typeof meta["schemaVersion"]).toBe("number");
-    expect(meta).toEqual(loadPassthrough()._meta);
   });
 });
 
-describe("compile() merge semantics", () => {
-  const mod = (tag: string): ModuleArtifact => ({
-    "sidebar-position": 1,
-    tables: { [tag]: { pk: `${tag}ID` } },
+describe("compile() assembles from the spec alone", () => {
+  const mod = (tag: string): ModuleArtifact => ({ "sidebar-position": 1, tables: { [tag]: { pk: `${tag}ID` } } });
+  const modules = { Organization: mod("org"), CRM: mod("crm"), Talent: mod("tal") } as Record<ModuleName, ModuleArtifact>;
+
+  it("module order follows the declared order, not the map", () => {
+    const out = compile({ schemaVersion: 1 }, modules, ["Talent", "Organization", "CRM"]);
+    expect(Object.keys(out.modules)).toEqual(["Talent", "Organization", "CRM"]);
+    expect(out._meta).toEqual({ schemaVersion: 1 });
   });
 
-  const passthrough: DatamodelArtifact = {
-    _meta: { schemaVersion: 1 },
-    modules: { Organization: mod("org"), CRM: mod("crm"), Talent: mod("tal") },
-  };
-
-  it("a migrated module replaces its passthrough counterpart (spec wins)", () => {
-    const out = compile(passthrough, { CRM: mod("crm-from-spec") });
-    expect(out.modules.CRM).toEqual(mod("crm-from-spec"));
-    expect(out.modules.Organization).toEqual(mod("org"));
-  });
-
-  it("module order follows the passthrough, not the migrated map", () => {
-    const out = compile(passthrough, { Talent: mod("t2"), Organization: mod("o2") });
-    expect(Object.keys(out.modules)).toEqual(["Organization", "CRM", "Talent"]);
-  });
-
-  it("a module authored only in the spec is appended at the end", () => {
-    const out = compile(passthrough, { Control: mod("ctl") });
-    expect(Object.keys(out.modules)).toEqual([
-      "Organization",
-      "CRM",
-      "Talent",
-      "Control",
-    ]);
+  it("a module in the order but not authored, or authored but not ordered, is an error", () => {
+    expect(() => compile({}, modules, ["Organization", "Workspace"])).toThrow(/not authored/);
+    expect(() => compile({}, modules, ["Organization", "CRM"])).toThrow(/missing from MODULE_ORDER/);
   });
 
   it("does not mutate its inputs", () => {
-    const snapshot = JSON.stringify(passthrough);
-    compile(passthrough, { CRM: mod("x") });
-    expect(JSON.stringify(passthrough)).toBe(snapshot);
+    const meta = { schemaVersion: 1 };
+    const snapshot = JSON.stringify([meta, modules]);
+    compile(meta, modules, ["Organization", "CRM", "Talent"]);
+    expect(JSON.stringify([meta, modules])).toBe(snapshot);
   });
 });

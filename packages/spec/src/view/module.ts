@@ -2,9 +2,9 @@
  * A module authored in the spec, and its emit into the artifact shape
  * `{ "sidebar-position": n, tables: { <Table>: … } }`.
  *
- * `liftModule` decodes a hand-written module into the same TypeScript shape
- * — the starting point of every Phase 3 slice — and `emitModule` is what a
- * migrated module registers in `MIGRATED` (src/index.ts).
+ * `liftModule` decodes a JSON module into the same TypeScript shape (used by
+ * the tests and by `spec:scaffold-module`); `emitModule` is what the build
+ * writes for every authored module.
  */
 
 import type { JsonObject } from "../types.js";

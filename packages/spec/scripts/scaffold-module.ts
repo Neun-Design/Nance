@@ -1,8 +1,9 @@
 /**
  * spec:scaffold-module <ModuleName> [--issue N]
  *
- * Generates src/modules/<module>.ts from the hand-written JSON: the starting
- * point of a migration slice. Forms are written with formFor (derived widgets
+ * Bootstraps src/modules/<module>.ts from a JSON module (the committed
+ * artifact by default). It was the starting point of every Phase 3 slice;
+ * after the cutover it remains a way to draft a module from a JSON sketch. Forms are written with formFor (derived widgets
  * omitted), relations with the typed builders, everything else as literals.
  * The file is hand-maintained from then on. Model errors the JSON already has
  * are pre-listed in `suppress` (tied to --issue) so the build stays green
@@ -11,7 +12,7 @@
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadPassthrough } from "../src/index.js";
+import { loadArtifact } from "../src/index.js";
 import type { Json, JsonObject, ModuleName } from "../src/index.js";
 import { liftModule } from "../src/view/module.js";
 import { validateModel } from "../src/model/invariants.js";
@@ -28,7 +29,7 @@ if (!moduleName) { console.error("usage: spec:scaffold-module <ModuleName> [--is
 const issueFlag = rest.indexOf("--issue");
 const issue = issueFlag >= 0 ? `#${rest[issueFlag + 1]}` : "#TBD";
 
-const art = loadPassthrough();
+const art = loadArtifact();
 const mod = liftModule(moduleName, (art.modules as JsonObject)[moduleName] as JsonObject);
 
 // ---------- helpers ----------

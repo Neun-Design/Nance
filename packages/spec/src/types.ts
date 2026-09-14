@@ -44,9 +44,4 @@ export interface DatamodelArtifact extends JsonObject {
   modules: { [name in ModuleName]?: ModuleArtifact } & JsonObject;
 }
 
-/**
- * A module authored in the spec (TypeScript). Once a module has an entry
- * here it is the source of truth for that module and the passthrough copy
- * is ignored. Empty in Phase 1; filled slice by slice in Phase 3.
- */
-export type MigratedModules = Partial<Record<ModuleName, ModuleArtifact>>;
+

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { KNOWN_MALFORMED } from "./known-malformed.js";
-import { loadPassthrough } from "../src/index.js";
+import { loadArtifact } from "../src/index.js";
 import type { JsonObject } from "../src/index.js";
 import {
   emitAttribute,
@@ -15,7 +15,7 @@ import {
 /** Every attribute of the current datamodel, with its address. */
 function allAttributes(): { where: string; attr: JsonObject }[] {
   const out: { where: string; attr: JsonObject }[] = [];
-  const modules = loadPassthrough().modules as JsonObject;
+  const modules = loadArtifact().modules as JsonObject;
   for (const [mn, m] of Object.entries(modules)) {
     const tables = (m as JsonObject)["tables"] as JsonObject;
     for (const [tn, t] of Object.entries(tables)) {
@@ -52,7 +52,7 @@ describe("Model layer over the real datamodel (498 attributes)", () => {
   });
 
   it("every known-malformed rule is flagged as an error by the invariants", () => {
-    const lifted = liftAll(loadPassthrough().modules as JsonObject);
+    const lifted = liftAll(loadArtifact().modules as JsonObject);
     const modules = [...lifted].map(([name, tables]) => ({ name, entities: tables.map((t) => t.entity) }));
     const errors = validateModel(modules).filter((f) => f.severity === "error");
     for (const where of Object.keys(KNOWN_MALFORMED)) {
@@ -86,7 +86,7 @@ describe("Model layer over the real datamodel (498 attributes)", () => {
   });
 
   it("liftAll walks all 7 modules / 42 tables and keeps the View keys aside", () => {
-    const lifted = liftAll(loadPassthrough().modules as JsonObject);
+    const lifted = liftAll(loadArtifact().modules as JsonObject);
     expect([...lifted.keys()]).toEqual(["Organization", "CRM", "Operation", "Portfolio", "Workspace", "Control", "Talent"]);
     const tables = [...lifted.values()].flat();
     expect(tables.length).toBe(42);
