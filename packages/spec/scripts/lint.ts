@@ -5,15 +5,21 @@
  */
 import { loadPassthrough } from "../src/index.js";
 import { hasErrors, liftAll, validateModel, type Finding, type ModelModule } from "../src/model/index.js";
+import { liftModule, lintForms } from "../src/view/index.js";
+import type { JsonObject, ModuleName } from "../src/index.js";
 
 const strict = process.argv.includes("--strict");
-const lifted = liftAll(loadPassthrough().modules);
+const lifted = liftAll(loadPassthrough().modules as JsonObject);
 const modules: ModelModule[] = [...lifted].map(([name, tables]) => ({
   name,
   entities: tables.map((t) => t.entity),
 }));
 
-const findings = validateModel(modules);
+const passthrough = loadPassthrough();
+const formFindings = (Object.keys(passthrough.modules) as ModuleName[]).flatMap((name) =>
+  lintForms(name, liftModule(name, passthrough.modules[name] as JsonObject).tables),
+);
+const findings = [...validateModel(modules), ...formFindings];
 const errors = findings.filter((f) => f.severity === "error");
 const warns = findings.filter((f) => f.severity === "warn");
 
