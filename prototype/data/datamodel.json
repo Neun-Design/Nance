@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "schemaVersion": 113,
+    "schemaVersion": 114,
     "convention": "bump schemaVersion by 1 in every PR that changes modules/tables/attributes/rules; blank-mode snapshots stamp it and the app warns on import mismatch (v3-review D9)",
     "form-steps-convention": "ANY form may adopt the wizard UI introduced by the Procedures drawer (issue #353) — the engine is fully generic, adoption is pure datamodel authoring: (1) set form.steps to an object of step titles, each { \"step-order\": <int, unique>, \"step-description\": <helper text or null> }; (2) give every field a \"step\" naming one of those titles EXACTLY (a mismatched title silently lands the field in the always-visible host — validate_mockup.py §1d fails on it; a null step is legal and renders on every step, warned). The drawer then shows the chevron step strip, one step at a time, and Previous/Cancel/Next with Save on the last step; all fields build up front, so cross-step cascades/gates keep firing and save collects every control (NOT NULL validation runs on Save, not on Next). steps: null = single flat form (the default everywhere else). Optional companion, independent of the wizard: per-entity faceted controls. (The \"Apply to all\" field-rule token was RETIRED by issue #364 — applicability is an explicit pick; the user selects every value to apply to all.)"
   },
@@ -1497,7 +1497,7 @@
             {
               "name": "periodFinish",
               "type": "DATETIME",
-              "rule": "computed → add periodType month quantity to startDate to find periodFinish",
+              "rule": null,
               "notes": [
                 "if periodType = annual and periodStart = Mar/2026, than periodFinish = Mar/2027",
                 "if periodType = quarter and periodStart = Mar/2026, than periodFinish = Jun/2026",
@@ -1757,8 +1757,8 @@
             {
               "name": "customerTitle",
               "type": "mirror",
-              "rule": "rollup → forecastID",
-              "notes": null,
+              "rule": "mirror → Forecasts (via: forecastID) (display: customerTitle)",
+              "notes": "Customer of the parent forecast (#417: was rollup → forecastID, a field, not a table — the column rendered blank). Report-A filter.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -1766,8 +1766,8 @@
             {
               "name": "periodFrame",
               "type": "mirror",
-              "rule": "rollup → forecastID",
-              "notes": null,
+              "rule": "mirror → Forecasts (via: forecastID) (display: periodFrame)",
+              "notes": "Period label of the parent forecast (#417: was rollup → forecastID — the column rendered blank). Report-A filter.",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -1874,8 +1874,8 @@
             {
               "name": "region",
               "type": "VARCHAR",
-              "rule": "mirror → DISTINCT",
-              "notes": "Region of the customer that owns the parent forecast (via forecastID → Customers.regionID → Regions). Used by Report-B.",
+              "rule": null,
+              "notes": "Not derivable today: Customers no longer carries a region (geography moved to Branches: Customers.branchID → Branches.regionID); the former DISTINCT rule referenced Customers.regionName and a Report-B that no longer exists. Stored, always empty, hidden — removal candidate (#424).",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -5549,8 +5549,8 @@
             {
               "name": "taskID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: scopeID)",
-              "notes": null,
+              "rule": null,
+              "notes": "Superseded: the old 3-key rollup (scopeID, productName, customerID) references fields Tasks no longer stores; ticket→task dispatch lives in the TICKET-PROCEDURE / INHERITED-REQUIREMENTS rules. Derived, never populated, hidden — removal candidate (#424).",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -5558,8 +5558,8 @@
             {
               "name": "ticketExecutionTime",
               "type": "INT",
-              "rule": "computed → taskID executionTime",
-              "notes": null,
+              "rule": null,
+              "notes": "Stored execution time seeded from the task (#417: the former rule was seed documentation, not an engine rule)",
               "table-display": true,
               "subitem-display": false,
               "constraints": null
@@ -5846,10 +5846,10 @@
               "name": "projectRegistryID",
               "type": "VARCHAR",
               "rule": null,
-              "notes": "user input",
+              "notes": "Human registry code (PRJ-2026-001); projectID is the key. Displayed by Tickets.projectID (#417: was a second PK)",
               "table-display": true,
               "subitem-display": true,
-              "constraints": "PK"
+              "constraints": "NOT NULL"
             },
             {
               "name": "projectName",
@@ -5890,8 +5890,8 @@
             {
               "name": "products",
               "type": "rollup",
-              "rule": "rollup → Products (via: Tickets) (display: productName)",
-              "notes": "Products linked through tickets; multivalued",
+              "rule": null,
+              "notes": "Products linked through tickets — intended chain Projects → Tickets → Products has no field (Tickets stores no productID). Derived, never populated, hidden — removal candidate (#424).",
               "table-display": false,
               "subitem-display": false,
               "constraints": null
@@ -5935,8 +5935,8 @@
             {
               "name": "estimatedTime",
               "type": "DECIMAL",
-              "rule": "computed → SUM",
-              "notes": "From Tickets via ticketID",
+              "rule": null,
+              "notes": "Stored planner estimate (seeded). Tickets carry no estimate field, so it cannot be summed live (#417)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -5944,8 +5944,8 @@
             {
               "name": "executionTime",
               "type": "DECIMAL",
-              "rule": "computed → SUM",
-              "notes": "From Jobs via ticketID",
+              "rule": null,
+              "notes": "Stored (seeded). A live SUM(ticketID.ticketExecutionTime) is possible but would change the shown numbers — kept stored by decision (#417)",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6120,9 +6120,9 @@
             },
             {
               "name": "jobName",
-              "type": "VARCHAR",
-              "rule": "computed → via taskID display taskName (via: taskID)",
-              "notes": null,
+              "type": "mirror",
+              "rule": "mirror → Tasks (via: taskID) (display: taskName)",
+              "notes": "Task name of the job (#417: was a malformed rule; the stored copies equal Tasks.taskName and are now inert)",
               "table-display": false,
               "subitem-display": true,
               "constraints": null
@@ -6202,7 +6202,7 @@
             {
               "name": "jobBufferExecution",
               "type": "DECIMAL",
-              "rule": "computed → accumulates elapsed time whenever jobStatus leaves Stoped",
+              "rule": null,
               "notes": "Decimal hours the job sat in Stoped; subtracted from realExecutionTime",
               "table-display": true,
               "subitem-display": false,
@@ -6220,8 +6220,8 @@
             {
               "name": "customerName",
               "type": "VARCHAR",
-              "rule": "computed → projectID related to ticketID",
-              "notes": null,
+              "rule": null,
+              "notes": "Stored copy of the job's project customer (#417: the former rule was an English sentence). Kept STORED because Jobs::Report-A (queries.js) groups by the raw row key — making it a mirror needs that report to resolve through the engine. Duplicates customerID's mirror — removal candidate once the report is fixed (#424).",
               "table-display": true,
               "subitem-display": true,
               "constraints": null
@@ -6751,7 +6751,7 @@
             {
               "name": "variance",
               "type": "DECIMAL",
-              "rule": "computed → variance of realExecutionTime per job",
+              "rule": null,
               "notes": "DERIVED by tools/derive_control.py (issue #246): population variance of the group's per-job real hours",
               "table-display": true,
               "subitem-display": false,

@@ -14,19 +14,23 @@ describe("build gate — unsuppressed Model errors fail spec:build", () => {
     expect(unsuppressedErrors(AUTHORED)).toEqual([]);
     expect(Object.keys(compiledModules(AUTHORED)).sort()).toEqual(AUTHORED.map((m) => m.name).sort());
     for (const m of AUTHORED) for (const v of Object.values(m.suppress)) expect(v).toMatch(/^#\d+: /);
-    // the debt only shrinks (settled: #412 → Portfolio has none left)
-    expect(Object.keys(portfolio.suppress)).toEqual([]);
-    const total = AUTHORED.reduce((n, m) => n + Object.keys(m.suppress).length, 0);
-    expect(total).toBeLessThanOrEqual(17);
   });
 
-  it("removing a suppression surfaces the error and fails the build", () => {
-    const unsuppressed = { ...workspace, suppress: {} };
+  it("the debt is settled: no module carries a suppression", () => {
+    for (const m of AUTHORED) expect(m.suppress, m.name).toEqual({});
+  });
+
+  it("a suppression must name its fix issue, and only hides the error it names", () => {
+    const broken = structuredClone(workspace);
+    const jobs = broken.tables.find((t) => t.entity.name === "Jobs")!;
+    const f = jobs.entity.fields.find((x) => x.name === "jobName")!;
+    f.relation = { kind: "mirror", target: "Taks", via: "taskID", viaList: null, display: "taskName", concat: null, filter: null }; // typo
     const rest = AUTHORED.filter((m) => m.name !== "Workspace");
-    const errors = unsuppressedErrors([...rest, unsuppressed]);
-    expect(errors.length).toBe(Object.keys(workspace.suppress).length);
-    expect(errors.every((e) => `${e.entity}${e.field ? `.${e.field}` : ""}` in workspace.suppress)).toBe(true);
-    expect(() => compiledModules([...rest, unsuppressed])).toThrow(SpecBuildError);
+    expect(unsuppressedErrors([...rest, broken]).map((e) => `${e.entity}.${e.field}`)).toEqual(["Jobs.jobName"]);
+    expect(() => compiledModules([...rest, broken])).toThrow(SpecBuildError);
+    const suppressed = { ...broken, suppress: { "Jobs.jobName": "#999: known typo, fix pending" } };
+    expect(unsuppressedErrors([...rest, suppressed])).toEqual([]);
+    expect(() => compiledModules([...rest, suppressed])).not.toThrow();
   });
 
   it("a fresh drift bug in an authored module fails the build", () => {
