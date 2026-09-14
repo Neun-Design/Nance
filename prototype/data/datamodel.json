@@ -2105,7 +2105,7 @@
             {
               "name": "workflowID",
               "type": "VARCHAR",
-              "rule": "rollup: Workflows (via: processID; display: activityName)",
+              "rule": "rollup → Workflows (via: processID) (display: activityName)",
               "notes": "Options filtered by matching processID",
               "table-display": true,
               "subitem-display": true,
@@ -2114,7 +2114,7 @@
             {
               "name": "actionID",
               "type": "VARCHAR",
-              "rule": "computed: lookup Actions via activityID (display: actionName)",
+              "rule": "computed → Actions (via: activityID) (display: actionName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -2168,7 +2168,7 @@
             {
               "name": "competenceID",
               "type": "VARCHAR",
-              "rule": "rollup -> Competence via: taskID -> functionID (display: competenceName)",
+              "rule": "rollup → Competence (via: taskID) (display: competenceName)",
               "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
@@ -2207,7 +2207,7 @@
             {
               "name": "roles",
               "type": "VARCHAR",
-              "rule": "computed: taskID → Competence.roleID (display: roleName)",
+              "rule": "computed → taskID (display: roleName)",
               "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
@@ -2245,7 +2245,7 @@
             {
               "name": "taskName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(activityName, '-',actionName)",
+              "rule": "computed: CONCAT(activityName,'-',actionName)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -2309,7 +2309,7 @@
               },
               "Process": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "processID",
                 "tooltip": "Processes of the selected Event and Department",
@@ -2319,17 +2319,17 @@
               },
               "Activity": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "workflowID",
                 "tooltip": null,
                 "step": null,
                 "check": "Process IS NOT NULL",
-                "field-rule": "The Activity options will be filtered by the process selected"
+                "field-rule": "filtered by process selected"
               },
               "Action": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "actionID",
                 "tooltip": null,
@@ -2339,7 +2339,7 @@
               },
               "Predecessor Task": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "predecessorTask",
                 "tooltip": "Task of the SAME process executed before this one — the task outline number (taskIndentationID) derives from the workflow step and this chain. Leave empty for the first task; every task link is start-to-finish (issue #302).",
@@ -2471,7 +2471,7 @@
             {
               "name": "processStatus",
               "type": "ENUM",
-              "rule": "enum: Active/Draft/Deprecated",
+              "rule": "enum: ['Active', 'Draft', 'Deprecated']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -2498,7 +2498,7 @@
             {
               "name": "activities",
               "type": "rollup",
-              "rule": "rollup → Workflows via: processID (display: activityName)",
+              "rule": "rollup → Workflows (via: processID) (display: activityName)",
               "notes": "Activities of this process, reached through its workflow steps",
               "table-display": false,
               "subitem-display": false,
@@ -2516,7 +2516,7 @@
             {
               "name": "productName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"products\")",
+              "rule": "mirror → Tasks (display: products)",
               "notes": "From tasks rollup, for report filtering",
               "table-display": true,
               "subitem-display": false,
@@ -2534,7 +2534,7 @@
             {
               "name": "scopeName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"scopes\")",
+              "rule": "mirror → Tasks (display: scopes)",
               "notes": "From tasks rollup, for report filtering",
               "table-display": true,
               "subitem-display": false,
@@ -2630,7 +2630,7 @@
               },
               "Owner": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "processOwner",
                 "tooltip": null,
@@ -2711,7 +2711,7 @@
             {
               "name": "actionID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: activityID; display: actionName)",
+              "rule": "rollup → Tasks (via: activityID) (display: actionName)",
               "notes": "All actions derived from this Activity",
               "table-display": false,
               "subitem-display": false,
@@ -2776,7 +2776,7 @@
             {
               "name": "workflowName",
               "type": "VARCHAR",
-              "rule": "computed: CONCAT(activityName, processName)",
+              "rule": "computed: CONCAT(activityName,processName)",
               "notes": "Not a user input",
               "table-display": false,
               "subitem-display": false,
@@ -2857,7 +2857,7 @@
             {
               "name": "inputs",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"taskInput\")",
+              "rule": "mirror → Tasks (display: taskInput)",
               "notes": "Determined by taskID",
               "table-display": true,
               "subitem-display": false,
@@ -2866,7 +2866,7 @@
             {
               "name": "outputs",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"taskOutput\")",
+              "rule": "mirror → Tasks (display: taskOutput)",
               "notes": "Determined by taskID",
               "table-display": true,
               "subitem-display": false,
@@ -2989,7 +2989,7 @@
             {
               "name": "activityID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"activityName\")",
+              "rule": "mirror → Tasks (display: activityName)",
               "notes": "From taskID rollup; allows filtering by activity",
               "table-display": false,
               "subitem-display": false,
@@ -2998,7 +2998,7 @@
             {
               "name": "workflowID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tasks\".\"workflowID\")",
+              "rule": "mirror → Tasks (display: workflowID)",
               "notes": "From taskID rollup; allows filtering by workflow (activity + process)",
               "table-display": false,
               "subitem-display": false,
@@ -3126,7 +3126,7 @@
             {
               "name": "processID",
               "type": "mirror",
-              "rule": "mirror: Tasks (display: processID)",
+              "rule": "mirror → Tasks (display: processID)",
               "notes": "Chain inherited from the task(s) referencing this handout",
               "table-display": false,
               "subitem-display": false,
@@ -3135,7 +3135,7 @@
             {
               "name": "workflowID",
               "type": "mirror",
-              "rule": "mirror: Tasks (display: workflowID)",
+              "rule": "mirror → Tasks (display: workflowID)",
               "notes": "Chain inherited from the task(s) referencing this handout",
               "table-display": false,
               "subitem-display": false,
@@ -3144,7 +3144,7 @@
             {
               "name": "actionID",
               "type": "mirror",
-              "rule": "mirror: Tasks (display: actionID)",
+              "rule": "mirror → Tasks (display: actionID)",
               "notes": "Chain inherited from the task(s) referencing this handout",
               "table-display": false,
               "subitem-display": false,
@@ -3205,7 +3205,7 @@
               },
               "Departments": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "departmentID",
                 "tooltip": "Departments this handout serves — the Procedures Inputs/Outputs pickers narrow to them; select every department to offer it everywhere (issue #368; an empty list offers it nowhere)",
@@ -3286,7 +3286,7 @@
             {
               "name": "channelStatus",
               "type": "ENUM",
-              "rule": "enum: Active/Inactive",
+              "rule": "enum: ['Active', 'Inactive']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -3663,7 +3663,7 @@
               },
               "Requirements": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "requirementID",
                 "tooltip": "Requirements under which this procedure applies — the Unit-wide universe (issue #304), faceted by what pins each requirement (issue #353): Product Scopes / Customers / Branches / Business Unit, most-specific facet wins. Customer facet narrows to the selected Branches' customers. Select every requirement to apply to all of today's list (issue #364 — a requirement registered later requires revisiting each procedure; an empty set covers nothing)",
@@ -3676,7 +3676,7 @@
               },
               "Inputs": {
                 "field-type": {
-                  "Combobox": "shadcn-combobox"
+                  "combobox": "shadcn-combobox"
                 },
                 "attribute": "taskInput",
                 "tooltip": "Handouts admitted for the selected Department (issue #353 — the department carries the unit transitively; a handout with no department is offered everywhere)",
@@ -3686,7 +3686,7 @@
               },
               "Customer Inputs": {
                 "field-type": {
-                  "Combobox": "shadcn-combobox"
+                  "combobox": "shadcn-combobox"
                 },
                 "attribute": "customerInputID",
                 "tooltip": "Select which of the chosen Inputs must be provided by the customer upon ticket creation — the decision is made here, per procedure (issue #324); tick each customer-provided input explicitly (issue #364)",
@@ -3696,7 +3696,7 @@
               },
               "Outputs": {
                 "field-type": {
-                  "Combobox": "shadcn-combobox"
+                  "combobox": "shadcn-combobox"
                 },
                 "attribute": "taskOutput",
                 "tooltip": "Handouts admitted for the selected Department (issue #353 — the department carries the unit transitively; a handout with no department is offered everywhere)",
@@ -6943,7 +6943,7 @@
             {
               "name": "quantity",
               "type": "INT",
-              "rule": "computed",
+              "rule": "computed → ",
               "notes": "Number of headcount allocated to this role",
               "table-display": true,
               "subitem-display": true,
@@ -6952,7 +6952,7 @@
             {
               "name": "competenceID",
               "type": "rollup",
-              "rule": "rollup → Competence (via: roleID) display: competenceName",
+              "rule": "rollup → Competence (via: roleID) (display: competenceName)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -6979,7 +6979,7 @@
             {
               "name": "squadID",
               "type": "VARCHAR",
-              "rule": "rollup → People via: roleID (display: squadName)",
+              "rule": "rollup → People (via: roleID) (display: squadName)",
               "notes": "Squads of the people currently holding this role",
               "table-display": true,
               "subitem-display": true,
@@ -7051,7 +7051,7 @@
               },
               "Departments": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "departmentID",
                 "tooltip": "Departments where this role is exercised — offered from the selected function's business units",
@@ -7108,7 +7108,7 @@
             {
               "name": "competences",
               "type": "rollup",
-              "rule": "rollup → Competence (via: skillLevelID) display: competenceTitle",
+              "rule": "rollup → Competence (via: skillLevelID) (display: competenceTitle)",
               "notes": "Competences requiring this skill level — the role ↔ skill level link is indirect since issue #328 (the competence defines the role + skill level pair)",
               "table-display": false,
               "subitem-display": false,
@@ -7209,7 +7209,7 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitName)",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": true,
@@ -7325,7 +7325,7 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitName)",
               "notes": "Business unit this person belongs to",
               "table-display": false,
               "subitem-display": false,
@@ -7433,7 +7433,7 @@
             {
               "name": "onboardID",
               "type": "VARCHAR",
-              "rule": "computed: Onboarding via userID",
+              "rule": "computed → Onboarding (via: userID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -7442,7 +7442,7 @@
             {
               "name": "roleID",
               "type": "rollup",
-              "rule": "mirror → Roles via: functionID (display: roleName)",
+              "rule": "mirror → Roles (via: functionID) (display: roleName)",
               "notes": "Role(s) held by this person, resolved from the person's function (Roles.functionID). Onboards did not carry a resolvable role, which rendered skill-level codes.",
               "table-display": true,
               "subitem-display": false,
@@ -7514,7 +7514,7 @@
               },
               "Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": null,
@@ -7645,7 +7645,7 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -7654,7 +7654,7 @@
             {
               "name": "functionID",
               "type": "VARCHAR",
-              "rule": "rollup: Functions via businessUnitID (display: functionID)",
+              "rule": "rollup → Functions (via: businessUnitID) (display: functionID)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -7663,7 +7663,7 @@
             {
               "name": "roleID",
               "type": "mirror",
-              "rule": "rollup: Roles via functionID (display: roleName)",
+              "rule": "rollup → Roles (via: functionID) (display: roleName)",
               "notes": "Role resolved from the onboarding's function (Roles.functionID); display: roleName via the Roles table which owns that field.",
               "table-display": true,
               "subitem-display": false,
@@ -7672,7 +7672,7 @@
             {
               "name": "userID",
               "type": "INT",
-              "rule": "rollup → People via:businessUnitID (display: userName)",
+              "rule": "rollup → People (via: businessUnitID) (display: userName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -7681,7 +7681,7 @@
             {
               "name": "levelRank",
               "type": "ENUM",
-              "rule": "enum: [1, 2, 3]",
+              "rule": "enum: ['1', '2', '3']",
               "notes": "Ordering key (1 = lowest)",
               "table-display": true,
               "subitem-display": true,
@@ -7708,7 +7708,7 @@
             {
               "name": "scopeName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via competenceID",
+              "rule": "computed → Competence (via: competenceID)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -7717,7 +7717,7 @@
             {
               "name": "productName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via competenceID",
+              "rule": "computed → Competence (via: competenceID)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -7726,7 +7726,7 @@
             {
               "name": "productSpecName",
               "type": "mirror",
-              "rule": "computed: Competence via competenceID",
+              "rule": "computed → Competence (via: competenceID)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -7735,7 +7735,7 @@
             {
               "name": "resources",
               "type": "VARCHAR",
-              "rule": "computed: Competence via roleID",
+              "rule": "computed → Competence (via: roleID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -7744,7 +7744,7 @@
             {
               "name": "requirementName",
               "type": "VARCHAR",
-              "rule": "computed: Competence via competenceID (display: FOREACH([{requirementTypeName: requirementName}]))",
+              "rule": "computed → Competence (via: competenceID)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -7795,7 +7795,7 @@
               },
               "Department": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "departmentID",
                 "tooltip": null,
@@ -7815,7 +7815,7 @@
               },
               "Talent": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "userID",
                 "tooltip": null,
@@ -7835,7 +7835,7 @@
               },
               "Competence": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "competenceID",
                 "tooltip": "Competences of the selected Department (via their event) matching the chosen Role",
@@ -7983,7 +7983,7 @@
             {
               "name": "levelRank",
               "type": "ENUM",
-              "rule": "enum: [1, 2, 3]",
+              "rule": "enum: ['1', '2', '3']",
               "notes": "Step of the professional INSIDE the competence's skill level (Rafael, 03/08): rank 1 = a newly promoted/hired professional at that level may hold the competence; holding rank 3 on every competence of a skill level signals readiness to move up a level (promotion automation: issue #149)",
               "table-display": true,
               "subitem-display": true,
@@ -8037,7 +8037,7 @@
             {
               "name": "productSpecName",
               "type": "mirror",
-              "rule": "computed: Product Specs via productSpecID (display: specName)",
+              "rule": "computed → Product Specs (via: productSpecID) (display: specName)",
               "notes": null,
               "table-display": false,
               "subitem-display": true,
@@ -8073,7 +8073,7 @@
             {
               "name": "channelName",
               "type": "mirror",
-              "rule": "computed: list of channelName of every input and output handout of the linked procedures",
+              "rule": "computed → list of channelName of every input and output handout of the linked procedures",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -8184,7 +8184,7 @@
               },
               "Procedure": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "procedureID",
                 "tooltip": "The procedures of the selected task that this competence certifies (group, 1:many — the union of their requirement sets is inherited)",
