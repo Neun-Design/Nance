@@ -1408,7 +1408,7 @@ class Builder:
                 job = {'jobID': f'J{n:03d}', 'projectID': tkt['projectID'],
                        'ticketID': tkt['ticketID'],
                        'projectName': projects[tkt['projectID']]['projectName'],
-                       'taskID': task['taskID'], 'jobName': task['taskName'],
+                       'taskID': task['taskID'],  # jobName derives (mirror → Tasks.taskName, #417)
                        'userID': user,
                        'deliveryDate': (start + timedelta(days=3)).isoformat(),
                        'startDate': start.isoformat(),
