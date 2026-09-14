@@ -9,12 +9,23 @@
 import { readFileSync } from "node:fs";
 import { ARTIFACT_PATH, buildArtifact } from "../src/index.js";
 import { moduleNames } from "../src/compile.js";
+import { parseRule } from "../src/model/relation.js";
 import type { DatamodelArtifact, Json } from "../src/index.js";
 
 const MAX_PATHS = 25;
 
 function isObject(v: Json): v is { [k: string]: Json } {
   return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+/**
+ * Two `rule` strings are the same rule when the engine parses them to the
+ * same object — a migrated module renders the canonical spelling, and that
+ * must not count as a difference.
+ */
+function sameRule(a: Json, b: Json): boolean {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  return JSON.stringify(parseRule(a)) === JSON.stringify(parseRule(b));
 }
 
 /** Collect the JSON paths where `a` and `b` differ (first MAX_PATHS). */
@@ -38,7 +49,9 @@ function diffPaths(a: Json, b: Json, path: string, out: string[]): void {
     }
     return;
   }
-  if (JSON.stringify(a) !== JSON.stringify(b)) out.push(path);
+  if (JSON.stringify(a) === JSON.stringify(b)) return;
+  if (path.endsWith(".rule") && sameRule(a, b)) return; // canonical spelling, same rule
+  out.push(path);
 }
 
 const committed = JSON.parse(readFileSync(ARTIFACT_PATH, "utf8")) as Json;
