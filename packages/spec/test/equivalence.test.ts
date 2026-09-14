@@ -2,7 +2,8 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   ARTIFACT_PATH,
-  MIGRATED,
+  AUTHORED,
+  migrated,
   buildArtifact,
   compile,
   loadPassthrough,
@@ -31,8 +32,9 @@ describe("equivalence with the committed artifact", () => {
     expect(names).toEqual([...EXPECTED_MODULES]);
   });
 
-  it("Phase 1: nothing is migrated yet — everything is passthrough", () => {
-    expect(Object.keys(MIGRATED)).toEqual([]);
+  it("Phase 3: the authored modules are the ones compile() merges; the rest pass through", () => {
+    expect(AUTHORED.map((m) => m.name)).toEqual(["Organization", "Portfolio"]);
+    expect(Object.keys(migrated())).toEqual(["Organization", "Portfolio"]);
   });
 
   it("keeps _meta and the schemaVersion convention untouched", () => {

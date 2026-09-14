@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { loadPassthrough } from "../src/index.js";
 import type { Json, JsonObject } from "../src/index.js";
 import { parseCheck, renderCheck, requires, requiresValue } from "../src/behavior/check.js";
-import { filteredBy, groupedBy, multivalued, parseFieldRule, renderFieldRule } from "../src/behavior/fieldRule.js";
+import { emitFieldRule, filteredBy, groupedBy, multivalued, parseFieldRule, renderFieldRule } from "../src/behavior/fieldRule.js";
 
 /** Every form field and report-filter field in the datamodel. */
 function allFormFields(): { where: string; f: JsonObject }[] {
@@ -71,8 +71,8 @@ describe("field-rule — option filters as objects (engine grammar)", () => {
       if (residual.length) residuals.push(`${where}: ${residual.join(" | ")}`);
       if (!rule) continue;
       parsed++;
-      // the law includes `note`: ignored text survives the round trip verbatim
-      expect(parseFieldRule(renderFieldRule(rule)).rule, where).toEqual(rule);
+      // the law includes `note` (ignored text survives verbatim) and `list` (shape preserved)
+      expect(parseFieldRule(emitFieldRule(rule)).rule, where).toEqual(rule);
     }
     expect(parsed).toBeGreaterThanOrEqual(100);
     // Informational: text the engine ignores (a migration must decide what to do with it).
@@ -81,12 +81,13 @@ describe("field-rule — option filters as objects (engine grammar)", () => {
   });
 
   it("arrays are read like the engine (joined with '; ')", () => {
-    expect(parseFieldRule(["multivalued", "filtered by Unit selected"]).rule).toEqual({ multi: true, filteredBy: "Unit" });
+    expect(parseFieldRule(["multivalued", "filtered by Unit selected"]).rule).toEqual({ list: true, multi: true, filteredBy: "Unit" });
+    expect(emitFieldRule({ list: true, multi: true, filteredBy: "Unit" })).toEqual(["Allow multiple values", "filtered by Unit selected"]);
   });
 
   it("builders compose and render canonically (enum last)", () => {
     const r = filteredBy("Business Unit", multivalued(groupedBy("functionName", { enum: ["A", "B"] })));
-    expect(renderFieldRule(r)).toBe("Allow multiple values; filtered by Business Unit selected; SelectLabel = functionName; enum: A, B");
+    expect(renderFieldRule(r)).toBe("Allow multiple values; SelectLabel = functionName; filtered by Business Unit selected; enum: A, B");
     expect(parseFieldRule(renderFieldRule(r)).rule).toEqual(r);
   });
 });

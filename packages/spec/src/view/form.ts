@@ -12,7 +12,7 @@
 import type { Json, JsonObject } from "../types.js";
 import type { Entity } from "../model/types.js";
 import { parseCheck, renderCheck, type Check } from "../behavior/check.js";
-import { parseFieldRule, renderFieldRule, type FieldRule } from "../behavior/fieldRule.js";
+import { emitFieldRule, parseFieldRule, type FieldRule } from "../behavior/fieldRule.js";
 import { defaultWidgetFor, emitWidget, parseWidget, widget as mkWidget, type Widget } from "./widget.js";
 
 export interface FormField {
@@ -86,7 +86,7 @@ export function emitFormField(f: FormField, opts: { report?: boolean } = {}): Js
   if (opts.report) out["default"] = f.default ?? null;
   else out["step"] = f.step;
   out["check"] = f.check ? renderCheck(f.check) : null;
-  out["field-rule"] = f.rule ? renderFieldRule(f.rule) : null;
+  out["field-rule"] = f.rule ? emitFieldRule(f.rule) : null;
   return out;
 }
 
