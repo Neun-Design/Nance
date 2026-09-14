@@ -37,17 +37,26 @@ Vitalis lets you explore the platform end to end — dashboards, competencies, S
 
 ## Tech stack
 
-Vue 3 + shadcn-vue (frontend) · Node + Express REST API (backend) · PostgreSQL + Drizzle · a framework-agnostic TypeScript engine · Python data/ETL tooling. Rationale in [ADR-0001](docs/adr/0001-v1-technology-stack.md).
+**Today (the MVP):** a static, vanilla-JavaScript single-page app (`prototype/`) — no build step, no backend — rendered from a datamodel authored in **TypeScript** (`packages/spec/`, [ADR-0002](docs/adr/0002-datamodel-config-as-code.md)) and compiled to `prototype/data/datamodel.json`; **Python** tooling for the demo dataset (seed, validator, migrations); MkDocs for the Guide. Data lives in the browser session and in exported JSON snapshots.
 
-Authentication is **pluggable**: the reference build ships email OTP/magic link, and every deployment configures its own identity provider and access rules (domain allowlist, SSO, OIDC, …). Nothing is tied to a specific organization.
+**Decided for v1 ([ADR-0001](docs/adr/0001-v1-technology-stack.md), not built yet):** Vue 3 + shadcn-vue (frontend) · Node + Express REST API (backend) · PostgreSQL + Drizzle · the engine as a framework-agnostic TypeScript package · a Python ETL that loads today's JSON snapshots into Postgres ([ADR-0003](docs/adr/0003-json-to-postgres-migration.md)).
+
+Authentication in v1 is **pluggable**: the reference build ships email OTP/magic link, and every deployment configures its own identity provider and access rules (domain allowlist, SSO, OIDC, …). Nothing is tied to a specific organization.
 
 ## Status
 
-nance.it is moving from an interactive prototype to a cloud v1. The prototype validated the metadata-driven engine end to end; v1 re-implements it on the stack above with real persistence and pluggable auth.
+nance.it is an **MVP moving toward a cloud v1**. The prototype validated the metadata-driven engine end to end and is still evolving (screens, datamodel, demo data); the datamodel already lives as config-as-code, placed where the v1 monorepo expects it. v1 re-implements the engine on the stack above with real persistence and pluggable auth.
 
 ## Getting started
 
-Developers: start with **[Getting Started](https://github.com/Neun-Design/Nance/wiki/Getting-Started)** in the wiki.
+```bash
+git clone git@github.com:Neun-Design/Nance.git
+cd Nance/prototype && python3 -m http.server 8080      # open http://localhost:8080  (add ?data=empty for blank mode)
+# in another terminal — the datamodel spec (Node 22+):
+cd Nance/packages/spec && npm ci && npm run build && npm test
+```
+
+Developers: continue with **[Getting Started](https://github.com/Neun-Design/Nance/wiki/Getting-Started)** in the wiki — it covers the repository layout, the test battery and the shape of a first PR.
 
 ## Documentation
 
@@ -61,7 +70,7 @@ nance.it is **100% open source** under **Apache-2.0** — no proprietary tier, n
 
 ## Contributing
 
-Contributions are welcome already at this stage. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and the wiki, keep tests green (`pnpm test`, `pytest tools/`), and open a PR. Architecture changes should be accompanied by an ADR under [`docs/adr/`](docs/adr/).
+Contributions are welcome already at this stage. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and the wiki, keep the engine battery, `validate_mockup.py` and the spec tests green (commands in [Getting Started](https://github.com/Neun-Design/Nance/wiki/Getting-Started)), and open a PR. Architecture changes should be accompanied by an ADR under [`docs/adr/`](docs/adr/).
 
 ## License
 
