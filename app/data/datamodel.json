@@ -1025,7 +1025,7 @@
             {
               "name": "businessSegmentID",
               "type": "FK",
-              "rule": "FK -> Business Segments (display: businessSegmentName)",
+              "rule": "FK → Business Segments (display: businessSegmentName)",
               "notes": "multivalued — user-selected (reverts decision Q4, 2026-07-30)",
               "table-display": true,
               "subitem-display": true,
@@ -1034,7 +1034,7 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitName)",
               "notes": "multivalued — user-selected, filtered by the chosen segments (PR #96 cascade)",
               "table-display": true,
               "subitem-display": true,
@@ -1079,7 +1079,7 @@
             {
               "name": "scopeName",
               "type": "mirror",
-              "rule": "mirror: Forecast Scopes (via: forecastID)",
+              "rule": "mirror → Forecast Scopes (via: forecastID)",
               "notes": "All forecast records belonging to this customer",
               "table-display": false,
               "subitem-display": false,
@@ -1134,7 +1134,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "multivalued"
+                "field-rule": "Allow multiple values"
               },
               "Unit": {
                 "field-type": {
@@ -1168,7 +1168,7 @@
               },
               "Branch": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "branchID",
                 "tooltip": "Branches this customer is registered at — a branch may serve several customers; saving updates only this customer's own links on the Branch records",
@@ -1176,8 +1176,8 @@
                 "check": "Unit IS NOT NULL",
                 "field-rule": [
                   "Allow multiple values",
-                  "filtered by businessUnitID selected",
-                  "SelectLabel = businessUnitName"
+                  "SelectLabel = businessUnitName",
+                  "filtered by businessUnitID selected"
                 ]
               },
               "Active": {
@@ -1337,7 +1337,7 @@
               },
               "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": "The unit providing the service",
@@ -1357,7 +1357,7 @@
               },
               "Supplier": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "supplierID",
                 "tooltip": "The Supplier inside the branch selected",
@@ -1461,7 +1461,7 @@
             {
               "name": "customerTitle",
               "type": "mirror",
-              "rule": "mirror → Customers via: customerID (display: customerName)",
+              "rule": "mirror → Customers (via: customerID) (display: customerName)",
               "notes": "Customer of the contract (resolves customerName — the CONCAT customerTitle left Customers with the geography attrs, issue #191)",
               "table-display": true,
               "subitem-display": false,
@@ -1470,7 +1470,7 @@
             {
               "name": "businessUnitName",
               "type": "mirror",
-              "rule": "mirror: SLA via: slaID (display: businessUnitName)",
+              "rule": "mirror → SLA (via: slaID) (display: businessUnitName)",
               "notes": "Business Unit of the contract (the SLA stores it single-valued — sharper than the customer's multivalued units, issue #241) — groups the Forecast select on the Forecast Scopes form",
               "table-display": false,
               "subitem-display": false,
@@ -1479,7 +1479,7 @@
             {
               "name": "forecastPeriod",
               "type": "ENUM",
-              "rule": "enum: Annual/Quarter/Month",
+              "rule": "enum: ['Annual', 'Quarter', 'Month']",
               "notes": "Granularity of the period",
               "table-display": true,
               "subitem-display": true,
@@ -1497,7 +1497,7 @@
             {
               "name": "periodFinish",
               "type": "DATETIME",
-              "rule": "computed: add periodType month quantity to startDate to find periodFinish ",
+              "rule": "computed → add periodType month quantity to startDate to find periodFinish",
               "notes": [
                 "if periodType = annual and periodStart = Mar/2026, than periodFinish = Mar/2027",
                 "if periodType = quarter and periodStart = Mar/2026, than periodFinish = Jun/2026",
@@ -1510,7 +1510,7 @@
             {
               "name": "periodBusinessDays",
               "type": "INT",
-              "rule": "computed: business days between periodStart and periodFinish. Apply USA business days calendar for this prototype",
+              "rule": "computed → ",
               "notes": [
                 "if periodType = annual and periodStart = Mar/2026, than periodBusinessDays=254",
                 "if periodType = quarter and periodStart = Mar/2026, than periodBusinessDays=85",
@@ -1532,7 +1532,7 @@
             {
               "name": "weeklyUsageQuota",
               "type": "INT",
-              "rule": "computed: divide 'totalEstimatedHours' by the number of weeks in 'periodFrame'",
+              "rule": "computed → ",
               "notes": "IF periodType='month', than periodFrame=periodStart",
               "table-display": true,
               "subitem-display": true,
@@ -1550,7 +1550,7 @@
             {
               "name": "scopeName",
               "type": "mirror",
-              "rule": "mirror: Forecast Scopes (via: forecastScopeID)",
+              "rule": "mirror → Forecast Scopes (via: forecastScopeID)",
               "notes": "All child Forecast Scope records belonging to this forecast",
               "table-display": false,
               "subitem-display": false,
@@ -1568,7 +1568,7 @@
             {
               "name": "status",
               "type": "ENUM",
-              "rule": "enum: Draft/Submitted/Approved/Archived/",
+              "rule": "enum: ['Draft', 'Submitted', 'Approved', 'Archived']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -1664,7 +1664,7 @@
               },
               "SLA": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "slaID",
                 "tooltip": "The contract this forecast projects volume for — customer derives from it",
@@ -1748,7 +1748,7 @@
             {
               "name": "forecastID",
               "type": "FK",
-              "rule": "FK → Forecasts (display: CONCAT(customerTitle,' | ', periodFrame))",
+              "rule": "FK → Forecasts (display: CONCAT(customerTitle,' | ',periodFrame))",
               "notes": "Parent forecast",
               "table-display": false,
               "subitem-display": false,
@@ -1829,7 +1829,7 @@
             {
               "name": "processID",
               "type": "VARCHAR",
-              "rule": "computed: Events → Trigger → Processes (display: processName)",
+              "rule": "computed → Events (display: processName)",
               "notes": "Process triggered by the selected Event",
               "table-display": false,
               "subitem-display": false,
@@ -1856,7 +1856,7 @@
             {
               "name": "functionName",
               "type": "mirror",
-              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "rule": "mirror → Functions (via: functionID) (display: functionName)",
               "notes": "Display twin of functionID (issue #242)",
               "table-display": false,
               "subitem-display": false,
@@ -1874,7 +1874,7 @@
             {
               "name": "region",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Forecasts\".\"customerID\" → \"Customers\".\"regionName\")",
+              "rule": "mirror → DISTINCT",
               "notes": "Region of the customer that owns the parent forecast (via forecastID → Customers.regionID → Regions). Used by Report-B.",
               "table-display": false,
               "subitem-display": false,
@@ -1978,7 +1978,7 @@
               },
               "Forecast": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "forecastID",
                 "tooltip": null,
@@ -1991,7 +1991,7 @@
               },
               "Event": {
                 "field-type": {
-                  "Select": "shadcn-select"
+                  "select": "shadcn-select"
                 },
                 "attribute": "eventID",
                 "tooltip": "Events covered by the forecast's contract (SLA payloads)",
@@ -2001,7 +2001,7 @@
               },
               "Product Scope": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "productScopeID",
                 "tooltip": "Product scopes packaged by the contract's payloads for this event — scope and product group derive from it",
@@ -2024,7 +2024,7 @@
               },
               "Notes": {
                 "field-type": {
-                  "Field": "shadcn-Textarea"
+                  "field": "shadcn-Textarea"
                 },
                 "attribute": "notes",
                 "tooltip": null,
@@ -2034,7 +2034,7 @@
               },
               "Quantity": {
                 "field-type": {
-                  "Input": "shadcn-Input"
+                  "input": "shadcn-Input"
                 },
                 "attribute": "forecastScopeQuantity",
                 "tooltip": null,
@@ -5423,7 +5423,7 @@
             {
               "name": "customerName",
               "type": "mirror",
-              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "rule": "mirror → Customers (via: customerID) (display: customerName)",
               "notes": "Display/report mirror of the linked customer (same pattern as Projects)",
               "table-display": false,
               "subitem-display": false,
@@ -5504,7 +5504,7 @@
             {
               "name": "processID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Processes\".\"processName\")",
+              "rule": "mirror → Processes (display: processName)",
               "notes": "Via eventID and productScopeID (issue #214): stored snapshot of process ids — the event's processes narrowed by the chosen product scope (a process with an empty productScopeID list covers every scope; no scope chosen = all of the event's processes, Q1). Re-seeded by migrate_ticket_scope_round.py, derived on save for UI-created tickets (applyDerivedUnits in forms.js). Drives the Processes/Tasks subitem tabs (via: processID); display resolves id → processName.",
               "table-display": false,
               "subitem-display": false,
@@ -5522,7 +5522,7 @@
             {
               "name": "products",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Product Scopes\".\"productName\")",
+              "rule": "mirror → Product Scopes (display: productName)",
               "notes": "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
@@ -5531,7 +5531,7 @@
             {
               "name": "scopes",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Product Scopes\".\"scopeName\")",
+              "rule": "mirror → Product Scopes (display: scopeName)",
               "notes": "Via the event's payloads (Payload.productScopeID) — stored snapshot re-seeded by migrate_workspace_activation.py",
               "table-display": true,
               "subitem-display": false,
@@ -5549,7 +5549,7 @@
             {
               "name": "taskID",
               "type": "rollup",
-              "rule": "rollup → Tasks (via: scopeID, productName, customerID)",
+              "rule": "rollup → Tasks (via: scopeID)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -5558,7 +5558,7 @@
             {
               "name": "ticketExecutionTime",
               "type": "INT",
-              "rule": "computed: from taskID executionTime",
+              "rule": "computed → taskID executionTime",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -5576,7 +5576,7 @@
             {
               "name": "ticketStatus",
               "type": "ENUM",
-              "rule": "enum: Open/InProgress/Resolved/Escalated/Closed",
+              "rule": "enum: ['Open', 'InProgress', 'Resolved', 'Escalated', 'Closed']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -5657,7 +5657,7 @@
             "fields": {
               "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": "Unit receiving the ticket — filters the customers",
@@ -5707,7 +5707,7 @@
               },
               "Supplier": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "supplierID",
                 "tooltip": "The party responsible for resolving the issue — any customer of the unit; the supplying side of the contract basis: the ticket's events and scopes follow the SLAs where the Applicant buys from this supplier; leave empty to skip the supplier dimension",
@@ -5872,7 +5872,7 @@
             {
               "name": "customerID",
               "type": "FK",
-              "rule": "FK -> Customers (display: customerName)",
+              "rule": "FK → Customers (display: customerName)",
               "notes": "Name of the final/external client",
               "table-display": true,
               "subitem-display": true,
@@ -5881,7 +5881,7 @@
             {
               "name": "customerName",
               "type": "mirror",
-              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "rule": "mirror → Customers (via: customerID) (display: customerName)",
               "notes": "Merged with the former Client field — resolved from customerID; kept for downstream mirrors (Tickets, Jobs)",
               "table-display": false,
               "subitem-display": false,
@@ -5908,7 +5908,7 @@
             {
               "name": "projectStatus",
               "type": "ENUM",
-              "rule": "enum: In Progress/Planning/On Hold/Closed",
+              "rule": "enum: ['In Progress', 'Planning', 'On Hold', 'Closed']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -5926,7 +5926,7 @@
             {
               "name": "jobID",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"jobs\")",
+              "rule": "mirror → Tickets (display: jobs)",
               "notes": "Via projectID",
               "table-display": true,
               "subitem-display": true,
@@ -5935,7 +5935,7 @@
             {
               "name": "estimatedTime",
               "type": "DECIMAL",
-              "rule": "computed: SUM(Tasks.estimatedTime grouped by ticketID)",
+              "rule": "computed → SUM",
               "notes": "From Tickets via ticketID",
               "table-display": true,
               "subitem-display": true,
@@ -5944,7 +5944,7 @@
             {
               "name": "executionTime",
               "type": "DECIMAL",
-              "rule": "computed: SUM(Jobs.realExecutionTime grouped by ticketID)",
+              "rule": "computed → SUM",
               "notes": "From Jobs via ticketID",
               "table-display": true,
               "subitem-display": true,
@@ -5986,7 +5986,7 @@
               },
               "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": "Unit executing the project — filters the customers",
@@ -6006,7 +6006,7 @@
               },
               "Owner": {
                 "field-type": {
-                  "SelectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "projectOwner",
                 "tooltip": null,
@@ -6076,7 +6076,7 @@
             {
               "name": "scopeID",
               "type": "rollup",
-              "rule": "rollup → Product Scopes via: ticketID (display: scopeName)",
+              "rule": "rollup → Product Scopes (via: ticketID) (display: scopeName)",
               "notes": "Scope of the ticket's product scope",
               "table-display": true,
               "subitem-display": false,
@@ -6085,7 +6085,7 @@
             {
               "name": "productGroupID",
               "type": "rollup",
-              "rule": "rollup → Product Scopes via: ticketID (display: productGroupName)",
+              "rule": "rollup → Product Scopes (via: ticketID) (display: productGroupName)",
               "notes": "Product group of the ticket's product scope",
               "table-display": true,
               "subitem-display": false,
@@ -6094,7 +6094,7 @@
             {
               "name": "projectName",
               "type": "VARCHAR",
-              "rule": "mirror: Projects via: projectID (display: projectName)",
+              "rule": "mirror → Projects (via: projectID) (display: projectName)",
               "notes": "From ticket ID",
               "table-display": true,
               "subitem-display": true,
@@ -6103,7 +6103,7 @@
             {
               "name": "customerID",
               "type": "mirror",
-              "rule": "mirror: Projects via: projectID (display: customerName)",
+              "rule": "mirror → Projects (via: projectID) (display: customerName)",
               "notes": "From ticket ID",
               "table-display": true,
               "subitem-display": true,
@@ -6121,7 +6121,7 @@
             {
               "name": "jobName",
               "type": "VARCHAR",
-              "rule": "computed: via taskID display taskName",
+              "rule": "computed → via taskID display taskName (via: taskID)",
               "notes": null,
               "table-display": false,
               "subitem-display": true,
@@ -6139,7 +6139,7 @@
             {
               "name": "roleID",
               "type": "mirror",
-              "rule": "mirror: People via: userID (display: roleID)",
+              "rule": "mirror → People (via: userID) (display: roleID)",
               "notes": "The allocated person's role (issue #244, A8 — a job has no role of its own: the old stored copy matched People in 0/187 rows and was dropped)",
               "table-display": true,
               "subitem-display": true,
@@ -6166,7 +6166,7 @@
             {
               "name": "plannedExecutionTime",
               "type": "DECIMAL",
-              "rule": "computed: frozen from SUM of the task's Procedures.executionTime at planning time",
+              "rule": "computed → ",
               "notes": "Stamped on save from the chosen task's procedures (issue #244, A9) — the plan Performance measures must have existed",
               "table-display": true,
               "subitem-display": true,
@@ -6193,7 +6193,7 @@
             {
               "name": "realExecutionTime",
               "type": "DECIMAL",
-              "rule": "computed: (realEndDate − realStartDate) − jobBufferExecution (DECIMAL hours)",
+              "rule": "computed → ",
               "notes": "Stored when the job transitions to Done: elapsed minus Stoped buffer",
               "table-display": true,
               "subitem-display": false,
@@ -6202,7 +6202,7 @@
             {
               "name": "jobBufferExecution",
               "type": "DECIMAL",
-              "rule": "computed: accumulates elapsed time whenever jobStatus leaves Stoped",
+              "rule": "computed → accumulates elapsed time whenever jobStatus leaves Stoped",
               "notes": "Decimal hours the job sat in Stoped; subtracted from realExecutionTime",
               "table-display": true,
               "subitem-display": false,
@@ -6220,7 +6220,7 @@
             {
               "name": "customerName",
               "type": "VARCHAR",
-              "rule": "computed: from projectID related to ticketID",
+              "rule": "computed → projectID related to ticketID",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -6229,7 +6229,7 @@
             {
               "name": "squadName",
               "type": "VARCHAR",
-              "rule": "computed: from People (squad) related to userID",
+              "rule": "computed → People",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -6256,7 +6256,7 @@
             {
               "name": "jobStatus",
               "type": "ENUM",
-              "rule": "enum: Queued/Active/Done/Stoped",
+              "rule": "enum: ['Queued', 'Active', 'Done', 'Stoped']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -6464,7 +6464,7 @@
             {
               "name": "functionName",
               "type": "mirror",
-              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "rule": "mirror → Functions (via: functionID) (display: functionName)",
               "notes": "Display twin of functionID (issue #246). Used by Report-A/B filters.",
               "table-display": true,
               "subitem-display": true,
@@ -6473,7 +6473,7 @@
             {
               "name": "periodType",
               "type": "ENUM",
-              "rule": "enum: Annual/Quarter/Month",
+              "rule": "enum: ['Annual', 'Quarter', 'Month']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -6545,7 +6545,7 @@
             {
               "name": "utilization",
               "type": "DECIMAL",
-              "rule": "computed: (estimatedHours / availableHours) × 100",
+              "rule": "computed → ",
               "notes": "Displayed as %",
               "table-display": true,
               "subitem-display": true,
@@ -6617,6 +6617,7 @@
               }
             }
           },
+          "form": false,
           "cards": {
             "Card 1-1": {
               "overview-display": true,
@@ -6641,8 +6642,7 @@
             }
           },
           "table-filters": null,
-          "subitem-tables": null,
-          "form": false
+          "subitem-tables": null
         },
         "Performance": {
           "visibility": "show",
@@ -6670,7 +6670,7 @@
             {
               "name": "functionName",
               "type": "mirror",
-              "rule": "mirror: Functions via: functionID (display: functionName)",
+              "rule": "mirror → Functions (via: functionID) (display: functionName)",
               "notes": "Display twin of functionID (issue #246). Used by Report-A/B filters and series.",
               "table-display": true,
               "subitem-display": true,
@@ -6688,7 +6688,7 @@
             {
               "name": "customerName",
               "type": "mirror",
-              "rule": "mirror: Customers via: customerID (display: customerName)",
+              "rule": "mirror → Customers (via: customerID) (display: customerName)",
               "notes": "Display twin of customerID (issue #246). Used by Report-A/B filters.",
               "table-display": true,
               "subitem-display": true,
@@ -6697,7 +6697,7 @@
             {
               "name": "periodType",
               "type": "ENUM",
-              "rule": "enum: Annual/Quarter/Month",
+              "rule": "enum: ['Annual', 'Quarter', 'Month']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -6742,7 +6742,7 @@
             {
               "name": "efficiency",
               "type": "DECIMAL",
-              "rule": "computed: ((plannedHours/realExecutionTime)-1)*100",
+              "rule": "computed → ",
               "notes": "Value in %",
               "table-display": true,
               "subitem-display": false,
@@ -6751,7 +6751,7 @@
             {
               "name": "variance",
               "type": "DECIMAL",
-              "rule": "computed: variance of realExecutionTime per job",
+              "rule": "computed → variance of realExecutionTime per job",
               "notes": "DERIVED by tools/derive_control.py (issue #246): population variance of the group's per-job real hours",
               "table-display": true,
               "subitem-display": false,
