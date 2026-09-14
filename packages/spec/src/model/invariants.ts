@@ -3,8 +3,8 @@
  *
  * Two levels, on purpose:
  *  - `error`  — violates what the engine needs or what the ADR mandates
- *               (one PK, relations that resolve). Fails the build for a
- *               migrated module.
+ *               (one PK, relations that resolve). Fails the build unless
+ *               suppressed with its fix issue.
  *  - `warn`   — naming conventions (#177) the current data does not fully
  *               meet yet. Reported by `spec:lint`; promoted to `error` per
  *               module as the migration slices fix them.

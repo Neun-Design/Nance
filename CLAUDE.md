@@ -87,7 +87,7 @@ Engine tests: `prototype/tools/test_engine_indentation.mjs`.
 
 Engine tests: `prototype/tools/test_engine_regions.mjs`.
 
-> **Source of truth:** `prototype/data/datamodel.json` is the canonical schema. `sourceFiles/developer/datamodel.json` is a legacy design reference kept for the wireframe era — it received the Factories attribute rename but not the Organization/CRM restructure, and is **not** consumed by the prototype.
+> **Source of truth (ADR-0002, since the P4-A cutover):** the datamodel is authored in TypeScript — `packages/spec/src/modules/*.ts` (one file per module) plus `packages/spec/src/meta.ts` (`schemaVersion`) — and compiled to `prototype/data/datamodel.json`, which the engine consumes. **The JSON is a generated, committed artifact: never edit it by hand** — CI rebuilds it and fails on drift. Change the module file, bump `schemaVersion`, run `cd packages/spec && npm run build`, and commit both. See the wiki page *Working with the Datamodel*.
 
 ### 2. Operations Chain (ISO 9001:2015 §4.4)
 Models the QMS process hierarchy at four levels of decomposition.

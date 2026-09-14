@@ -73,3 +73,12 @@ export const TicketForm = formFor(Ticket, {
 **Stay in JSON with presets + `$ref` + JSON Schema.** Solves part of DRY (data reuse) and locks down drift via validation, but does not solve behavior-as-prose and is uncomfortable to author by hand (no types, no functions, no comments). It remains the lower-effort path if the team rejects the build step.
 
 **Lua (or another embedded DSL).** Correctly recognizes the need for a real language in configuration (functions, composition). Discarded for introducing an additional runtime and language into an all-JS/TS stack, with an FFI boundary and loss of type integration — cost with no gain over what TypeScript already offers natively.
+
+## Implementation notes
+
+*2026-09-14 — implemented for the current MVP (P1 → P4-A).* `packages/spec` authors all seven modules in TypeScript and compiles `prototype/data/datamodel.json`; the artifact is generated, committed and drift-guarded in CI. Relations are typed objects defined as the exact output of the engine's own `parseRule` (imported, not re-implemented), with `renderRule` proven round-trip over every attribute. Invariants run at build time; the debt inherited from the hand-written JSON is carried as explicit, issue-linked suppressions (#412, #414, #417) that must reach zero.
+
+**Scope of the Behavior layer in this phase.** The decision above wants cascades and option filters as *executable functions*. Because the prototype engine still interprets `rule` / `check` / `field-rule` as text, the Behavior layer currently compiles typed builders to that grammar — types, reuse and build-time validation are in place; the executable-function form is deferred to the v1 engine (ADR-0001), which will consume the same Model and View.
+
+**What the migration taught.** The artifact has three consumers — the engine's parsers, `validate_mockup.py`'s own regexes, and the engine test battery — and canonical text had to satisfy all three. Canonicalizing to `FK → …` and `rollup → … (via: x)` made the validator check 178 FKs and several rollups it used to skip silently; one battery assertion that depended on a synonym's spelling now reads the rule the way the engine does.
+

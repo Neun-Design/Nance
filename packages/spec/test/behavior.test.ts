@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loadPassthrough } from "../src/index.js";
+import { loadArtifact } from "../src/index.js";
 import type { Json, JsonObject } from "../src/index.js";
 import { parseCheck, renderCheck, requires, requiresValue } from "../src/behavior/check.js";
 import { emitFieldRule, filteredBy, groupedBy, multivalued, parseFieldRule, renderFieldRule } from "../src/behavior/fieldRule.js";
@@ -7,7 +7,7 @@ import { emitFieldRule, filteredBy, groupedBy, multivalued, parseFieldRule, rend
 /** Every form field and report-filter field in the datamodel. */
 function allFormFields(): { where: string; f: JsonObject }[] {
   const out: { where: string; f: JsonObject }[] = [];
-  const modules = loadPassthrough().modules as JsonObject;
+  const modules = loadArtifact().modules as JsonObject;
   for (const [mn, m] of Object.entries(modules)) {
     for (const [tn, t] of Object.entries((m as JsonObject)["tables"] as JsonObject)) {
       const table = t as JsonObject;
