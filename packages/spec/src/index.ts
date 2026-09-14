@@ -19,6 +19,9 @@ import { organization } from "./modules/organization.js";
 import { portfolio } from "./modules/portfolio.js";
 import { operation } from "./modules/operation.js";
 import { talent } from "./modules/talent.js";
+import { crm } from "./modules/crm.js";
+import { workspace } from "./modules/workspace.js";
+import { control } from "./modules/control.js";
 import type { DatamodelArtifact, MigratedModules } from "./types.js";
 
 /**
@@ -28,9 +31,10 @@ import type { DatamodelArtifact, MigratedModules } from "./types.js";
  *
  *   P3-A  Organization, Portfolio
  *   P3-B  Operation, Talent
- *   P3-C  CRM, Workspace, Control      (next; then the cutover removes the passthrough)
+ *   P3-C  CRM, Workspace, Control      — every module is now compiled; the
+ *         cutover (P4-A) removes the passthrough.
  */
-export const AUTHORED: AuthoredModule[] = [organization, portfolio, operation, talent];
+export const AUTHORED: AuthoredModule[] = [organization, portfolio, operation, talent, crm, workspace, control];
 
 /** The migrated map `compile()` merges — validated; throws SpecBuildError on drift. */
 export function migrated(passthrough: DatamodelArtifact = loadPassthrough()): MigratedModules {

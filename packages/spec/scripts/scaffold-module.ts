@@ -34,7 +34,10 @@ const mod = liftModule(moduleName, (art.modules as JsonObject)[moduleName] as Js
 // ---------- helpers ----------
 const S = (v: unknown) => JSON.stringify(v);
 const J = (v: Json, indent: string) => JSON.stringify(v, null, 2).split("\n").join(`\n${indent}`);
-const camel = (s: string) => s.replace(/[^A-Za-z0-9]+(.)?/g, (_, c: string) => (c ? c.toUpperCase() : "")).replace(/^./, (c) => c.toLowerCase());
+const camel = (s: string) =>
+  s === s.toUpperCase()
+    ? s.toLowerCase() // "CRM" → "crm", not "cRM"
+    : s.replace(/[^A-Za-z0-9]+(.)?/g, (_, c: string) => (c ? c.toUpperCase() : "")).replace(/^./, (c) => c.toLowerCase());
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 const opts = (pairs: [string, string | undefined][]) => {
   const kept = pairs.filter((p): p is [string, string] => p[1] !== undefined);
