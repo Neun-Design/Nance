@@ -1,0 +1,25 @@
+{
+  "name": "@nance/spec",
+  "version": "0.1.0",
+  "private": true,
+  "description": "nance.it datamodel as config-as-code (ADR-0002): authored in TypeScript, compiled to prototype/data/datamodel.json",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "diff": "tsx scripts/diff.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.24.0"
+  }
+}

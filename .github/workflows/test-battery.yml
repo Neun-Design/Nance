@@ -13,15 +13,45 @@ on:
     branches: [main]
     paths:
       - 'prototype/**'
+      - 'packages/spec/**'
       - '.github/workflows/test-battery.yml'
   pull_request:
     branches: [main]
     paths:
       - 'prototype/**'
+      - 'packages/spec/**'
       - '.github/workflows/test-battery.yml'
 
 jobs:
+  # ADR-0002: the datamodel is compiled from packages/spec. This job is the
+  # drift guard — the committed prototype/data/datamodel.json must equal the
+  # spec's output, so hand edits to a migrated module (or a stale build) fail
+  # here before the engine battery runs against the artifact.
+  spec:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/spec
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/spec/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Spec tests (equivalence + merge semantics)
+        run: npm test
+      - name: Build datamodel.json from the spec
+        run: npm run build
+      - name: Drift guard — committed artifact must equal the spec output
+        run: git diff --exit-code -- ../../prototype/data/datamodel.json
+
   battery:
+    needs: spec
     runs-on: ubuntu-latest
     defaults:
       run:
