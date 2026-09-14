@@ -13,18 +13,22 @@ It is built from two connected halves:
 - **EDQMS — the quality-management engine.** It governs how the organization is structured and how work is controlled, through the **Organization**, **Portfolio**, and **Operation** modules.
 - **Knowledge management.** Achieved by connecting **task execution (Workload)** with **user competencies (Talent)** — so governance is driven by what people actually know and do: who is competent to execute each obligation, and whether they did.
 
-Under the hood, every screen is metadata-driven: a **specification** (the *datamodel*) describes modules, tables, cards, charts, forms, and filters, and an **engine** interprets that specification and renders the application generically. Understanding this is the key to contributing — see **[[Architecture Overview]]** and **[[Working with the Datamodel]]**.
+Under the hood, every screen is metadata-driven: a **specification** (the *datamodel*, authored in TypeScript in `packages/spec` and compiled to `datamodel.json`) describes modules, tables, cards, charts, forms, and filters, and an **engine** (today the vanilla-JS prototype in `prototype/js/`) interprets that specification and renders the application generically. Understanding this is the key to contributing — see **[[Architecture Overview]]** and **[[Working with the Datamodel]]**.
+
+> **What you will find in the code today.** The current version is the **MVP**: the static prototype under `prototype/` plus the datamodel spec under `packages/spec/`. The v1 stack (Vue, Express, PostgreSQL — ADR-0001) is decided but not built; each page below says what exists now and what is still a plan.
 
 ## Documentation map
 
 | Page | Purpose |
 |---|---|
-| [[Getting Started]] | Prerequisites, clone, install, run app/API/tests/ETL. |
-| [[Architecture Overview]] | Big picture: spec → engine → renderer/API, stack and principles. |
-| [[Working with the Datamodel]] | How the datamodel works (config-as-code) and how to add fields/entities. |
-| [[Data and Migration Pipeline]] | Export format, JSON→Postgres ETL, and Python data tooling. |
-| [[Contributing]] | Workflow, conventions, PRs, and shared AI context. |
-| [[Glossary]] | Domain terms (module, dashboard, card, report, rollup, mirror, subitem…). |
+| [[Getting Started]] | Prerequisites, repository layout, run the prototype, the spec, the test battery, the Guide; the shape of a first PR. |
+| [[Architecture Overview]] | Big picture: spec → artifact → engine → screens today, principles, and the v1 target. |
+| [[Working with the Datamodel]] | The three layers, the authoring API, compile/diff/test, how to add fields, entities and forms. |
+| [[Data and Migration Pipeline]] | The two JSON files, blank mode and snapshots, the Python tooling (seed, validator, migrations), and the v1 ETL plan. |
+| [[Contributing]] | Workflow, conventions, the PR checklist, and shared AI context. |
+| [[Glossary]] | Domain and engine terms (module, card, report, stored vs derived, rollup, mirror, schemaVersion, seed, snapshot…). |
+
+Two reference documents live next to the code rather than here: **`prototype/DATAMODEL_GUIDE.md`** (the exact keys of the artifact and what each renderer consumes) and **`packages/spec/README.md`** (the spec package's layers, build and authoring API).
 
 ## Where decisions live
 

@@ -38,7 +38,7 @@ Runs a structured code review of the current branch against `main`.
    | **Design tokens** | CSS must only use the nance design tokens — `--n-*` from `prototype/assets/tokens/nance-tokens.css` (the legacy `--se-*` names are compatibility aliases mapped to them). No raw hex, RGB, or Tailwind color utilities. |
    | **No console.log** | Scan JS/TS files for stray `console.log` calls (build/CLI scripts under `packages/*/scripts/` may print to stdout by design). |
    | **Prototype correctness** | If `prototype/` changed: data keys, chart config, drawer/form structure. |
-   | **Data model integrity** | If the datamodel changed — `packages/spec/` for modules already migrated to config-as-code (ADR-0002), `prototype/data/datamodel.json` for the rest: every entity must have `*Owner` FK → User/Role; PK naming (`entityNameID`); relationships consistent across modules; `_meta.schemaVersion` bumped; and the compiled `datamodel.json` committed (the CI `spec` job's drift guard fails otherwise). Never hand-edit a migrated module in the JSON. |
+   | **Data model integrity** | If the datamodel changed — always in `packages/spec/` (config-as-code, ADR-0002; every module is migrated since the cutover): every entity must have `*Owner` FK → User/Role; PK naming (`entityNameID`); relationships consistent across modules; `_meta.schemaVersion` bumped; and the compiled `datamodel.json` committed (the CI `spec` job's drift guard fails otherwise). Never hand-edit the JSON. |
    | **Security** | No hardcoded credentials, no `eval`, no `innerHTML` with unescaped user data. |
 
 4. **Output a structured report:**
@@ -313,7 +313,7 @@ Scopes: `prototype` · `docs` · `data` · `ci` · `infra` · `spec` (ADR-0002) 
 
 **Datamodel (ADR-0002) rules:**
 - The datamodel is config-as-code in `packages/spec`, compiled to `prototype/data/datamodel.json`.
-- A module *already migrated* to the spec is edited **only** in `packages/spec` (then `npm run build` there); a module *not yet migrated* is still edited in the JSON. The CI `spec` job rejects hand edits to migrated modules (drift guard).
+- Every module is edited **only** in `packages/spec/src/modules/` (then `npm run build` there); the JSON is a generated artifact. The CI `spec` job rejects hand edits (drift guard). A change to stored data needs a `prototype/tools/migrate_<slug>.py` and a seed update (wiki *Data and Migration Pipeline*).
 - Any PR that changes modules/tables/attributes/rules bumps `_meta.schemaVersion` by 1 and commits the rebuilt `datamodel.json`.
 
 **PR title (Conventional Commits):**

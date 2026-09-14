@@ -1,42 +1,58 @@
 # Data and Migration Pipeline
 
-How data enters nance.it and how the v1 database will be populated from what the client already uses today. The data tooling is **Python** and is documented so that any role (dev, UX, designer) understands the pipeline and can use their own AI tools. Underlying decision: **ADR-0003**.
+How data lives in the **current MVP**, which Python tools maintain it, and what happens to the data when the datamodel changes. The v1 plan (JSON → PostgreSQL, **ADR-0003**) is summarized at the end — it is decided, not built.
 
-## Context
+## Today — the two JSON files
 
-The client already uses the MVP and its database is saved as **JSON** (structure `module → entity → rows`). At the v1 launch, that data goes into **PostgreSQL**, whose schema is **generated from the datamodel's Model layer**. Derived fields (rollup/mirror/computed) are **not** stored — the engine recomputes them — so the migration only loads **base fields**.
+Everything the prototype shows comes from `prototype/data/`:
 
-## Export contract (versioned)
+| File | What it is | Who writes it |
+|---|---|---|
+| `datamodel.json` | The **schema**: modules, tables, attributes, rules, forms, cards, reports. `_meta.schemaVersion` identifies the schema (114 at the time of writing). | **Generated** from `packages/spec` — never by hand (see [[Working with the Datamodel]]). |
+| `mockup_data_prototype.json` | The **Vitalis demo dataset**: `module → entity → rows`, plus `_meta` (`schemaVersion`, `anchorDate`, `domain`, `organization`). | The seed generator, then one `migrate_*.py` per schema change. |
+| `countries.json` | A system registry (loaded in every mode, never user-edited). | Static. |
 
-The exported JSON carries metadata: `export_schema_version`, timestamp, app version, and the datamodel version that produced it. **Freezing this format now** is what makes the data accumulated from now until launch migratable. Each export version has a matching adapter in the *Extract* stage.
+Two rules hold the pair together:
 
-## The ETL in four stages
+- **Only stored attributes are persisted.** `rollup`, `mirror` and `computed` attributes are derived by the engine at render time; a stored copy of a derived value is a bug (the validator reports it as an "extra non-canonical field").
+- **Dates are anchored.** The seed stamps `_meta.anchorDate`; on load the engine shifts every date forward by the whole months elapsed since the anchor, so "the last 12 months" always end in the current month and the demo never ages.
 
-The scripts live in `tools/etl/`.
+## Blank mode and snapshots
 
-1. **Extract** — reads a JSON snapshot and picks the adapter by `export_schema_version`.
-2. **Validate** — checks the snapshot against the schema derived from the Model (the same `zod`/JSON Schema from the spec, exported to Python). Failures become a **readable report**, without touching the database.
-3. **Transform** — drops derived fields; maps multivalued/array fields to JSONB or association tables per the Model; normalizes types; preserves the original PKs (identity stability and referential integrity).
-4. **Load** — inserts in FK topological order (parents before children), in a **transaction**, via **idempotent upsert** (`INSERT ... ON CONFLICT (pk) DO UPDATE`). Running the same snapshot twice yields the same state — no duplication.
+Opening the app with `?data=empty` (locally) or under `/app/mvp/` (published) boots every table **empty**. Records created there persist in the browser's `localStorage`; `?reset=1` wipes them. The header offers **Export / Import** (any browser) and **Save / Save As** to a real file (Chromium, File System Access API):
 
-## Usage modes
-
-```bash
-python -m tools.etl --snapshot export.json --dry-run   # validates and simulates, no writes
-python -m tools.etl --snapshot export.json --load      # runs for real
-python -m tools.etl --snapshot export.json --report    # summary: rows/entity, rejections, orphan FKs
+```json
+{ "_meta": { "app": "EDQMS prototype", "kind": "blank-snapshot", "schemaVersion": 114, "exportedAt": "…" },
+  "Blank": { "Regions": [ … ], "Business Units": [ … ], … } }
 ```
 
-Each real run is recorded in a **migration log** (snapshot version, counts, result).
+On import the app compares the file's `schemaVersion` with its own and **warns on mismatch**; tables it does not catalogue are skipped and reported. There is no automatic upgrader for user snapshots — if a schema change breaks old snapshots, the migration script below is the tool to bring them forward.
 
-## Cutover at launch
+## The Python tooling (`prototype/tools/`)
 
-Because the ETL is idempotent: freeze writes in the prototype → export the final snapshot → `--dry-run` → `--load` → validate → point v1 at Postgres. If anything fails, fix it and reload the **same** snapshot with no side effects.
+Every script documents itself in its header docstring (open the file, or `python3 <script> --help` where it takes arguments). Run them **from `prototype/`**. `pip install pyyaml` first.
 
-## Tests
+| Script | Purpose | Run |
+|---|---|---|
+| `validate_mockup.py` | The **parity contract** between schema and data: stored attributes present on every row and nothing else, FKs resolvable, rollup coverage, report/card data sufficiency, Control tables equal to their derivation. Exit 1 on failure. | `python3 tools/validate_mockup.py` |
+| `seed/build_seed.py` | **Deterministic, catalogue-driven generator** of the demo dataset from `seed/domains/clinic.yaml` (Vitalis). Every produced row is checked against the stored-attribute contract; any divergence raises. Output: `seed/out/mockup_clinic.json` (`--out` to change). | `python3 tools/seed/build_seed.py --domain clinic --strict-narrative` |
+| `seed/test_seed_pipeline.py` | Proof that two builds are byte-identical and that a stored attribute without a seed rule fails loudly. | `python3 tools/seed/test_seed_pipeline.py` |
+| `derive_control.py` | **Capacity** and **Performance** (Control module) are outputs, never inputs: recomputed from People, Forecast Scopes and Jobs. Used by the seed and by the validator. | imported, not run directly |
+| `migrate_<slug>.py` | **One script per schema change** that touches stored data: deterministic, idempotent, stamps `_meta.schemaVersion`. The history of the dataset is the list of these files. | `python3 tools/migrate_<slug>.py` |
+| `generate_mockup.py` | The generator that predates `seed/`; kept for history. New data goes through the seed. | — |
+| `test_*.mjs` | The **engine battery** (Node, 84 proofs) — reads the artifact and the dataset like the app does. | `for t in tools/test_*.mjs; do node "$t"; done` |
 
-Under `tools/` with **pytest**, covering idempotency (2× = same state), referential integrity, and round-trip (prototype export → ETL → query in Postgres matches expectations). Run `pytest tools/`.
+## The loop — when the datamodel changes
 
-## Other data tooling
+A datamodel change is only done when the data still satisfies the contract:
 
-Related/legacy scripts for generating and validating mockups also live in `tools/` and are documented in `tools/README.md` (purpose, inputs, outputs, run example). If you create a new script, document it there — it is part of the **ADR-0004** policy.
+1. Edit `packages/spec/src/modules/<module>.ts`, bump `schemaVersion` in `src/meta.ts`, `npm run build` ([[Working with the Datamodel]]).
+2. **Did a stored attribute appear, disappear, or change type/meaning?** Write `prototype/tools/migrate_<slug>.py` — deterministic, idempotent (re-running on an already-migrated file changes nothing), stamping the new `schemaVersion` into `_meta`. Pattern to copy: `migrate_jobs_derived_copies.py` (drops a stored copy that became a mirror). Keep the file format (`indent=1, ensure_ascii=False`) so the diff shows only the rows you touched.
+3. Update `seed/build_seed.py` (and `domains/clinic.yaml` if the domain vocabulary changed) so a fresh seed also satisfies the new contract.
+4. `python3 tools/validate_mockup.py` and the battery must be green. The validator has its **own** regexes over the rule text (`FK → Entity`, `rollup → Entity (via: field)`), so it is a third reader of the artifact, next to the engine and the tests.
+
+If your change is only derived (a rollup, a new report), no migration is needed — but the validator still checks that the relation resolves in the data.
+
+## Tomorrow — v1 (ADR-0003, not built)
+
+At the v1 launch the accumulated JSON goes into **PostgreSQL**, whose schema is generated from the spec's Model layer. ADR-0003 decides a **versioned export contract** (the snapshot `_meta` above is its seed) and an idempotent Python **ETL** in four stages — Extract (adapter per export version) → Validate (against the Model) → Transform (drop derived fields, map multivalued fields) → Load (FK order, one transaction, `INSERT … ON CONFLICT DO UPDATE`). Because it is idempotent, cutover is: freeze the prototype → export → `--dry-run` → `--load` → verify. None of `tools/etl/` exists yet; when it lands, this section becomes the "Today".

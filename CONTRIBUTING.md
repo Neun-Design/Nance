@@ -19,7 +19,7 @@ blocked.
 | Data model | `data/<slug>` | Architects, developers |
 | Tooling / CI | `chore/<slug>` | Developers |
 
-**Scope tokens for `feat/` and `fix/`:** `prototype` · `docs` · `data` · `ci` · `infra`
+**Scope tokens for `feat/` and `fix/`:** `prototype` · `spec` (the config-as-code datamodel, `packages/spec`) · `docs` · `data` · `ci` · `infra` — reserved for v1 (ADR-0001): `engine` · `db` · `api` · `web`
 
 Examples:
 ```
