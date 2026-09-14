@@ -5,29 +5,40 @@
  *
  *   spec (TypeScript)  ──compile──▶  prototype/data/datamodel.json  ──▶  prototype engine (unchanged)
  *
- * Phase 1: everything is passthrough — the build reproduces the committed
- * artifact exactly and proves the harness. Migration slices (Phase 3) add
- * modules to `MIGRATED` one group at a time; each slice is accepted only when
- * `spec:diff` is empty for those modules and the engine test battery is green.
+ * Modules listed in AUTHORED are compiled from TypeScript; the rest pass
+ * through from the committed JSON until their slice lands. Each slice is
+ * accepted only when `spec:diff` is empty for those modules and the engine
+ * test battery is green.
  */
 
 import { compile, serialize } from "./compile.js";
 import { loadPassthrough } from "./passthrough.js";
+import { migratedFrom } from "./build.js";
+import type { AuthoredModule } from "./authoring.js";
+import { organization } from "./modules/organization.js";
+import { portfolio } from "./modules/portfolio.js";
 import type { DatamodelArtifact, MigratedModules } from "./types.js";
 
 /**
- * Modules authored in the spec. Empty in Phase 1.
+ * Modules authored in the spec (Phase 3, one slice at a time). Each is
+ * validated at build time (see build.ts); the compiled module replaces its
+ * passthrough copy in the artifact.
  *
- * Phase 3 will register them here, e.g.
- *   Organization: organizationModule,
- *   Portfolio: portfolioModule,
- * making the spec the source of truth for those modules.
+ *   P3-A  Organization, Portfolio
+ *   P3-B  Operation, Talent            (next)
+ *   P3-C  CRM, Workspace, Control      (then the cutover removes the passthrough)
  */
-export const MIGRATED: MigratedModules = {};
+export const AUTHORED: AuthoredModule[] = [organization, portfolio];
 
-/** Build the artifact: migrated modules from the spec + passthrough for the rest. */
+/** The migrated map `compile()` merges — validated; throws SpecBuildError on drift. */
+export function migrated(passthrough: DatamodelArtifact = loadPassthrough()): MigratedModules {
+  return migratedFrom(AUTHORED, passthrough);
+}
+
+/** Build the artifact: authored modules from the spec + passthrough for the rest. */
 export function buildArtifact(): DatamodelArtifact {
-  return compile(loadPassthrough(), MIGRATED);
+  const passthrough = loadPassthrough();
+  return compile(passthrough, migrated(passthrough));
 }
 
 export { compile, serialize, loadPassthrough };
@@ -35,5 +46,7 @@ export * from "./model/index.js";
 export * from "./behavior/index.js";
 export * from "./view/index.js";
 export { semanticEqual, diffPaths } from "./semantic.js";
+export * from "./authoring.js";
+export { SpecBuildError, unsuppressedErrors, migratedFrom } from "./build.js";
 export { ARTIFACT_PATH } from "./passthrough.js";
 export type * from "./types.js";

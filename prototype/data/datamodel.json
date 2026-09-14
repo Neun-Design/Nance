@@ -34,7 +34,7 @@
             {
               "name": "businessSegmentID",
               "type": "FK",
-              "rule": "FK -> Business Segments (display: businessSegmentCode)",
+              "rule": "FK → Business Segments (display: businessSegmentCode)",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
@@ -43,7 +43,7 @@
             {
               "name": "regionID",
               "type": "FK",
-              "rule": "FK -> Regions (display: regionName)",
+              "rule": "FK → Regions (display: regionName)",
               "notes": "multivalued",
               "table-display": true,
               "subitem-display": false,
@@ -52,7 +52,7 @@
             {
               "name": "businessSegmentName",
               "type": "mirror",
-              "rule": "mirror: Business Segments via: businessSegmentID",
+              "rule": "mirror → Business Segments (via: businessSegmentID)",
               "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
@@ -79,7 +79,7 @@
             {
               "name": "qualityManager",
               "type": "FK",
-              "rule": "FK -> People (display: userName)",
+              "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -88,7 +88,7 @@
             {
               "name": "operationalManager",
               "type": "FK",
-              "rule": "FK -> People (display: userName)",
+              "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -117,7 +117,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "multivalued"
+                "field-rule": "Allow multiple values"
               },
               "Name": {
                 "field-type": {
@@ -141,7 +141,7 @@
               },
               "Quality Manager": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "qualityManager",
                 "tooltip": null,
@@ -151,7 +151,7 @@
               },
               "Operational Manager": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "operationalManager",
                 "tooltip": null,
@@ -293,7 +293,7 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitName)",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -311,7 +311,7 @@
             {
               "name": "departmentManager",
               "type": "FK",
-              "rule": "FK -> People (display: userName)",
+              "rule": "FK → People (display: userName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -320,7 +320,7 @@
             {
               "name": "businessUnitName",
               "type": "mirror",
-              "rule": "mirror: Business Units via: businessUnitID (display: businessUnitName)",
+              "rule": "mirror → Business Units (via: businessUnitID) (display: businessUnitName)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -333,7 +333,7 @@
             "fields": {
               "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": null,
@@ -363,7 +363,7 @@
               },
               "Manager": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "departmentManager",
                 "tooltip": null,
@@ -406,7 +406,7 @@
             {
               "name": "squadType",
               "type": "ENUM",
-              "rule": "enum: outsource/internal",
+              "rule": "enum: ['outsource', 'internal']",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -424,7 +424,7 @@
             {
               "name": "departmentID",
               "type": "FK",
-              "rule": "FK -> Departments (display: departmentName)",
+              "rule": "FK → Departments (display: departmentName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -465,7 +465,7 @@
               },
               "Department": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "departmentID",
                 "tooltip": null,
@@ -566,7 +566,7 @@
             {
               "name": "continent",
               "type": "mirror",
-              "rule": "mirror: Countries via: countryName (display: continent)",
+              "rule": "mirror → Countries (via: countryName) (display: continent)",
               "notes": "Derived — distinct continents of the selected countries (the Continent input was removed 2026-08-03; a region spanning several continents lists them all)",
               "table-display": true,
               "subitem-display": false,
@@ -705,7 +705,7 @@
             {
               "name": "businessUnitTitle",
               "type": "mirror",
-              "rule": "mirror: Business Units via:businessUnitID",
+              "rule": "mirror → Business Units (via: businessUnitID)",
               "notes": "unitName-segmentName; hidden by default (the Unit column covers it)",
               "table-display": false,
               "subitem-display": false,
@@ -757,7 +757,7 @@
               },
               "Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": null,
@@ -784,11 +784,8 @@
           ]
         },
         "Branches": {
-          "description": "Physical branches (sites/units) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
           "dashboard-order": 7,
-          "subitem-tables": [
-            "Departments (via: departmentID)"
-          ],
+          "description": "Physical branches (sites/units) of the organisation — segment, unit, region and country aware (stakeholder round 2026-08-01)",
           "attributes": [
             {
               "name": "branchID",
@@ -892,7 +889,7 @@
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "multivalued"
+                "field-rule": "Allow multiple values"
               },
               "Unit": {
                 "field-type": {
@@ -965,12 +962,14 @@
                 "field-rule": "SelectLabel = functionName"
               }
             }
-          }
+          },
+          "subitem-tables": [
+            "Departments (via: departmentID)"
+          ]
         },
         "Countries": {
-          "description": "System registry of countries per continent — predefined in data/countries.json, never user-registered; feeds the Branches Country picker",
           "dashboard-order": 0,
-          "subitem-tables": null,
+          "description": "System registry of countries per continent — predefined in data/countries.json, never user-registered; feeds the Branches Country picker",
           "attributes": [
             {
               "name": "countryName",
@@ -992,6 +991,7 @@
             }
           ],
           "form": null,
+          "subitem-tables": null,
           "system-registry": true
         }
       }
@@ -4182,7 +4182,7 @@
             {
               "name": "productGroupName",
               "type": "mirror",
-              "rule": "rollup → Product Groups via: productGroupID",
+              "rule": "rollup → Product Groups (via: productGroupID)",
               "notes": "e.g., \"AA\"",
               "table-display": true,
               "subitem-display": true,
@@ -4200,7 +4200,7 @@
             {
               "name": "productSpecName",
               "type": "rollup",
-              "rule": "rollup → Product Groups via: productGroupID (display: specsSummary)",
+              "rule": "rollup → Product Groups (via: productGroupID) (display: specsSummary)",
               "notes": "multivalued — SPECS summary of the linked Product Group (specValues map)",
               "table-display": true,
               "subitem-display": true,
@@ -4227,7 +4227,7 @@
             {
               "name": "businessSegment",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Product Groups\".\"businessSegment\")",
+              "rule": "mirror → Product Groups (display: businessSegment)",
               "notes": null,
               "table-display": true,
               "subitem-display": false,
@@ -4237,11 +4237,11 @@
               "name": "productScopeRequirements",
               "type": "mirror",
               "rule": "computed: PS-REQUIREMENTS(productScopeID) (display: requirementName)",
+              "display-name": "REQUIREMENTS",
               "notes": "Comprehensive requirement set (issue #288, legs inverted by #294, unit leg removed by #296): requirements NAMING this product scope ∪ those EXPLICITLY connected to the row's scope ∪ its product group — THREE connection legs only. A requirement sharing the row's businessUnitID or regionID does NOT attach through those dimensions (unit/region act purely as exclusion gates on the derived legs; unit-wide inheritance lives on the ticket/forecast chains). Still no wildcard: blank keys attach nowhere (#288 decision), and since issue #366 a MATERIALIZED full-dimension set reads the same way (namesFullDimension — 'names everything today' is global, not a specific pin; the globals-stay-out display survives the sv99 materialization). Derived legs skip Inactive requirements. Drives the REQUIREMENTS column, the Requirements subitem tab and the Procedures picker.",
               "table-display": true,
               "subitem-display": true,
-              "constraints": null,
-              "display-name": "REQUIREMENTS"
+              "constraints": null
             },
             {
               "name": "isActive",
@@ -4296,13 +4296,13 @@
               },
               "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": null,
                 "step": null,
                 "check": null,
-                "field-rule": "SelectLabel == businessSegmentName"
+                "field-rule": "SelectLabel = businessSegmentName"
               },
               "Product Group": {
                 "field-type": {
@@ -4312,17 +4312,17 @@
                 "tooltip": null,
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "Filtered by the businessUnitID selected"
+                "field-rule": "filtered by businessUnitID selected"
               },
               "Scope": {
                 "field-type": {
-                  "ComboboxGroups": "shadcn-combobox"
+                  "comboboxgroups": "shadcn-combobox"
                 },
                 "attribute": "scopeID",
                 "tooltip": null,
                 "step": null,
                 "check": "Business Unit IS NOT NULL",
-                "field-rule": "Filtered by the businessUnitID selected"
+                "field-rule": "filtered by businessUnitID selected"
               },
               "Active": {
                 "field-type": {
@@ -4391,7 +4391,7 @@
             {
               "name": "scopeOpportunity",
               "type": "FK",
-              "rule": "FK: Issues (display: issueName)",
+              "rule": "FK → Issues (display: issueName)",
               "notes": "Opportunity tags; multivalued; form input HIDDEN since issue #174 — the Issue/Opportunity concept confuses stakeholders and awaits reframing in the decision workflow; stored values and the Issues rollup stay intact",
               "table-display": true,
               "subitem-display": true,
@@ -4409,7 +4409,7 @@
             {
               "name": "productScopeID",
               "type": "rollup",
-              "rule": "computed: list productScopeID from Product Scopes where scopeID matches",
+              "rule": "computed → list productScopeID from Product Scopes where scopeID matches",
               "notes": null,
               "table-display": false,
               "subitem-display": false,
@@ -4564,7 +4564,7 @@
               },
               "Owner": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "productOwner",
                 "tooltip": null,
@@ -4603,7 +4603,7 @@
             {
               "name": "specInputType",
               "type": "ENUM",
-              "rule": "enum: Number/Text/Choice/List/Checkbox",
+              "rule": "enum: ['Number', 'Text', 'Choice', 'List', 'Checkbox']",
               "notes": "Controls the input rendered for this spec in the Product Group form — Number (decimal), Text (string), Choice (single pick from Allowed Values), List (multiple picks, stored semicolon-separated), Checkbox (boolean, shown Yes/No). Issue #205 relabel of INT/DECIMAL/String/List",
               "table-display": true,
               "subitem-display": false,
@@ -4743,7 +4743,7 @@
             {
               "name": "productGroupName",
               "type": "mirror",
-              "rule": "computed: Products via: productID (display: productName)",
+              "rule": "computed → Products (via: productID) (display: productName)",
               "notes": "Derived — the selected products’ names, joined (issue #176: the legacy \"CONCAT(productName from productID)\" spelling was unparseable and the stored mockup copy went stale with 2+ products, so the name is now always derived)",
               "table-display": false,
               "subitem-display": false,
@@ -4761,7 +4761,7 @@
             {
               "name": "businessSegmentName",
               "type": "mirror",
-              "rule": "mirror: Business Units via: businessUnitID (display: businessSegmentName)",
+              "rule": "mirror → Business Units (via: businessUnitID) (display: businessSegmentName)",
               "notes": "Derived — segment(s) of the chosen unit; available via Customize Columns",
               "table-display": false,
               "subitem-display": false,
@@ -4770,7 +4770,7 @@
             {
               "name": "productID",
               "type": "FK",
-              "rule": "FK -> Product (display: productName)",
+              "rule": "FK → Product (display: productName)",
               "notes": "multivalued — a product group can apply to several products; the group’s specs then serve all of them (issue #176). Spec fields offered in the form are the UNION of the selected products’ specs",
               "table-display": true,
               "subitem-display": true,
@@ -4787,9 +4787,9 @@
             },
             {
               "name": "specsSummary",
-              "display-name": "SPECS",
               "type": "computed",
               "rule": "computed: MAP(specValues → Product Specs display: specName)",
+              "display-name": "SPECS",
               "notes": "Renders the specValues map as 'name: value' pairs — hidden by default since issue #161 (the specs expand as a subitem table); still drives the FK CONCAT displays elsewhere",
               "table-display": false,
               "subitem-display": true,
@@ -4847,7 +4847,7 @@
                 "tooltip": "Spec attributes of the selected Product",
                 "step": null,
                 "check": "Product IS NOT NULL",
-                "field-rule": "specs of the Product selected"
+                "field-rule": "specs of Product selected"
               }
             }
           },
@@ -4858,11 +4858,8 @@
           ]
         },
         "Classes": {
-          "description": "Scope classification registry (stakeholder round 2026-08-01) — each class ties scopes to the Issue it addresses",
           "dashboard-order": 1,
-          "subitem-tables": [
-            "Scopes"
-          ],
+          "description": "Scope classification registry (stakeholder round 2026-08-01) — each class ties scopes to the Issue it addresses",
           "attributes": [
             {
               "name": "scopeClassID",
@@ -4935,7 +4932,10 @@
                 "field-rule": "Allow multiple values"
               }
             }
-          }
+          },
+          "subitem-tables": [
+            "Scopes"
+          ]
         },
         "Events": {
           "visibility": "show",
@@ -4972,7 +4972,7 @@
             {
               "name": "businessUnitID",
               "type": "FK",
-              "rule": "FK -> Business Units (display: businessUnitName)",
+              "rule": "FK → Business Units (display: businessUnitName)",
               "notes": null,
               "table-display": true,
               "subitem-display": true,
@@ -5026,7 +5026,7 @@
             {
               "name": "processID",
               "type": "rollup",
-              "rule": "rollup → Processes (via: eventID) display: processName",
+              "rule": "rollup → Processes (via: eventID) (display: processName)",
               "notes": "multivalued",
               "table-display": false,
               "subitem-display": false,
@@ -5071,7 +5071,7 @@
             {
               "name": "customerName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"customerName\")",
+              "rule": "mirror → Tickets (display: customerName)",
               "notes": "From ticketID rollup",
               "table-display": true,
               "subitem-display": true,
@@ -5080,7 +5080,7 @@
             {
               "name": "productName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"products\")",
+              "rule": "mirror → Tickets (display: products)",
               "notes": "From ticketID rollup",
               "table-display": true,
               "subitem-display": true,
@@ -5089,7 +5089,7 @@
             {
               "name": "scopeName",
               "type": "VARCHAR",
-              "rule": "mirror: DISTINCT(\"Tickets\".\"scopes\")",
+              "rule": "mirror → Tickets (display: scopes)",
               "notes": "From ticketID rollup",
               "table-display": true,
               "subitem-display": true,
@@ -5299,7 +5299,7 @@
               },
               "Business Unit": {
                 "field-type": {
-                  "selectGroups": "shadcn-select"
+                  "selectgroups": "shadcn-select"
                 },
                 "attribute": "businessUnitID",
                 "tooltip": "Unit whose events this payload dispatches",

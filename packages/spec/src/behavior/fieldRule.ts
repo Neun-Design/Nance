@@ -37,6 +37,13 @@ export interface FieldRule {
    * Reported by `spec:lint`; a migration may move it to `tooltip`.
    */
   note?: string;
+  /**
+   * The JSON carries this rule as a list of clauses (20 of 127 do). The
+   * engine joins lists with "; ", so the shape is cosmetic — but tests and
+   * authors rely on it, so it is preserved: `emitFieldRule` writes one clause
+   * per element.
+   */
+  list?: true;
 }
 
 // The engine's regexes, verbatim.
@@ -68,6 +75,7 @@ export function parseFieldRule(raw: unknown): ParsedFieldRule {
   const txt = fieldRuleText(raw).trim();
   if (!txt) return { rule: null, residual: [] };
   const r: FieldRule = {};
+  if (Array.isArray(raw)) r.list = true;
   let m: RegExpMatchArray | null;
 
   if (RX.disabled.test(txt)) r.disabled = true;
@@ -94,20 +102,34 @@ export function parseFieldRule(raw: unknown): ParsedFieldRule {
   return { rule: Object.keys(r).length ? r : null, residual };
 }
 
-/** Canonical text, one clause per "; ", enum last (its regex runs to end of line). */
-export function renderFieldRule(r: FieldRule): string {
+/**
+ * Canonical clauses. Order follows the authored convention in the datamodel
+ * (modifiers first, then "filtered by"); `note` before `enum`, whose regex
+ * runs to the end of the line.
+ */
+export function fieldRuleClauses(r: FieldRule): string[] {
   const parts: string[] = [];
   if (r.disabled) parts.push("disabled");
   if (r.multi) parts.push("Allow multiple values");
-  if (r.filteredBy) parts.push(`filtered by ${r.filteredBy} selected`);
   if (r.groupBy) parts.push(`SelectLabel = ${r.groupBy}`);
   if (r.whereCurrentMonth) parts.push(`WHERE ${r.whereCurrentMonth} >= current month`);
   if (r.onlyActive) parts.push("only Active");
   if (r.specsOf) parts.push(`specs of ${r.specsOf} selected`);
   if (r.default) parts.push(`default: ${r.default}`);
-  if (r.note) parts.push(r.note); // before enum: the enum regex runs to end of line
+  if (r.filteredBy) parts.push(`filtered by ${r.filteredBy} selected`);
+  if (r.note) parts.push(r.note);
   if (r.enum) parts.push(`enum: ${r.enum.join(", ")}`);
-  return parts.join("; ");
+  return parts;
+}
+
+/** Canonical text, one clause per "; ". */
+export function renderFieldRule(r: FieldRule): string {
+  return fieldRuleClauses(r).join("; ");
+}
+
+/** The JSON value: a list of clauses when authored as a list, else the joined text. */
+export function emitFieldRule(r: FieldRule): string | string[] {
+  return r.list ? fieldRuleClauses(r) : renderFieldRule(r);
 }
 
 /** Builders for authoring. */

@@ -26,8 +26,30 @@ So the artifact is always complete and the prototype runs at every step.
 
 | Module state | Where you edit it | Guarded by |
 |---|---|---|
-| Not migrated yet | `prototype/data/datamodel.json`, as today | — |
-| Migrated | the spec (then `npm run build`) | CI: `build` + `git diff --exit-code` rejects hand edits to the JSON |
+| Not migrated yet (CRM, Operation, Workspace, Control, Talent) | `prototype/data/datamodel.json`, as today | — |
+| **Migrated (Organization, Portfolio)** | `src/modules/<module>.ts`, then `npm run build` | CI: `build` + `git diff --exit-code` rejects hand edits to the JSON; the build gate fails on unsuppressed Model errors |
+
+## Authoring a module (Phase 3)
+
+```bash
+git checkout main -- prototype/data/datamodel.json   # scaffold from the pre-migration JSON
+npm run scaffold-module -- <ModuleName> --issue <N>   # writes src/modules/<module>.ts
+# register it in AUTHORED (src/index.ts), then:
+npm run build && npm run diff && npm test
+(cd ../../prototype && for t in tools/test_*.mjs; do node "$t" >/dev/null || echo "FAIL $t"; done; python3 tools/validate_mockup.py)
+```
+
+`src/authoring.ts` is the vocabulary: `entity(...)`, `attr(name, type, { rel, notes, constraints, show })`,
+relation builders `fk / mirror / rollup / computed / concat / enumOf / userInput`, `formFor(...)`,
+`table(def, view)`, `defineModule(name, sidebarPosition, tables, { suppress })`. Model errors the JSON
+already carried are listed in `suppress` with their fix issue; `spec:build` fails on any other error.
+
+**Three consumers read the artifact — canonical text must satisfy all of them.** The engine's
+`parseRule`/form regexes are tolerant; `validate_mockup.py` has its own Python regexes (it needs
+`FK → …` and `rollup → … (via: x)`); and the engine battery sometimes asserts literal text. The
+canonical forms were chosen to match all three (and the dominant authored spelling), and one test
+assertion that demanded a synonym contradicted by another test now reads the rule the way
+`forms.js` does. The **engine battery is the final oracle** for every slice.
 
 A migration slice is accepted when `npm run diff` reports no differences for its modules
 **and** the engine test battery (`prototype/tools/test_*.mjs` + `validate_mockup.py`) is green.
@@ -94,6 +116,8 @@ engine noticing.
 - Phase 2-A (Model layer): done — lift → emit reproduces all 498 attributes; `spec:lint`
   reports the drift to fix slice by slice.
 - Phase 2-B (View + Behavior): done — whole-module equivalence proven for all 7 modules.
-- Next: Phase 3 — migrate the modules, `scope: mvp` first (Organization + Portfolio).
+- Phase 3-A: **Organization + Portfolio are compiled from TypeScript** (semantically identical to the
+  hand-written modules; 2 inherited Portfolio errors suppressed → #412).
+- Next: P3-B (Operation + Talent), P3-C (CRM + Workspace + Control), then the cutover.
 
 Plan and decisions: `docs/adr/0002-datamodel-config-as-code.md`, wiki *Working with the Datamodel*.
