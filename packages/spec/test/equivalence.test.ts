@@ -33,8 +33,8 @@ describe("equivalence with the committed artifact", () => {
   });
 
   it("Phase 3: the authored modules are the ones compile() merges; the rest pass through", () => {
-    expect(AUTHORED.map((m) => m.name)).toEqual(["Organization", "Portfolio"]);
-    expect(Object.keys(migrated())).toEqual(["Organization", "Portfolio"]);
+    expect(AUTHORED.map((m) => m.name)).toEqual(["Organization", "Portfolio", "Operation", "Talent"]);
+    expect(Object.keys(migrated())).toEqual(["Organization", "Portfolio", "Operation", "Talent"]);
   });
 
   it("keeps _meta and the schemaVersion convention untouched", () => {
