@@ -36,9 +36,38 @@ The passthrough is removed at the cutover, when the artifact becomes 100 % compi
 `_meta.schemaVersion` keeps its convention: bump it in any PR that changes
 modules/tables/attributes/rules — the scaffold does not.
 
+## The Model layer (`src/model/`)
+
+Entities, fields, storage types and **relations as typed objects, not prose** (ADR-0002).
+
+- `relation.ts` — `Relation` is *exactly* the output of the engine's own `parseRule`
+  (`prototype/js/model.js`, imported — single source of truth): `fk | mirror | rollup |
+  computed | enum`, the special computed functions (`steporder`, `sum`, `map`, …) and
+  `userInput`. `renderRule()` prints one canonical spelling; the law
+  `parseRule(renderRule(parseRule(r))) ≡ parseRule(r)` is proven by test over every
+  attribute of the current datamodel, so normalizing the drifted spellings is
+  behavior-preserving.
+- `types.ts` — `Field`, `Entity`, `StorageType`, `Constraint`; `FieldDisplay` is the View
+  overlay (`table-display` / `subitem-display`) supplied when emitting.
+- `lift.ts` — hand-written JSON → Model (View keys handed back untouched).
+- `emit.ts` — Model + display overlay → the engine's attribute node, canonical key order.
+- `invariants.ts` — zod shape + model-wide checks. **Errors** (fail the build for a migrated
+  module): one PK per entity, relation targets exist, `via` not dead text, enums non-empty,
+  no duplicate/misspelled keys. **Warnings** (#177 naming, ownership, `FK` constraint).
+
+```bash
+npm run lint            # migration-debt inventory of the current datamodel (add --strict to fail on errors)
+```
+
+`spec:diff` treats two `rule` strings as equal when the engine parses them to the same
+object, so a migrated module's canonical spelling is not reported as a difference.
+
 ## Status
 
-Phase 1 (scaffold): 100 % passthrough — `spec:build` reproduces the committed file byte for byte.
-Next: the Model layer (types + invariants), then View + Behavior (presets, `formFor`), then the
-module slices. Plan and decisions: `docs/adr/0002-datamodel-config-as-code.md`, wiki
-*Working with the Datamodel*.
+- Phase 1 (scaffold): 100 % passthrough — `spec:build` reproduces the committed file byte for byte.
+- Phase 2-A (Model layer): done — lift → emit reproduces all 498 attributes (382 already
+  byte-canonical, the rest differ only in rule spelling / key order); `spec:lint` reports the
+  drift to fix slice by slice.
+- Next: P2-B View + Behavior (presets, `formFor`, builders), then the module slices.
+
+Plan and decisions: `docs/adr/0002-datamodel-config-as-code.md`, wiki *Working with the Datamodel*.
