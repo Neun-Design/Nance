@@ -11,7 +11,7 @@ packages/spec (TypeScript)  ──spec:build──▶  prototype/data/datamodel.
 
 ```bash
 cd packages/spec
-npm ci              # if your shell sets NODE_ENV=production, use: npm ci --include=dev
+npm ci              # devDependencies always install here (.npmrc include=dev) — even if NODE_ENV=production is set in the environment running the command
 npm run build       # compile → prototype/data/datamodel.json (idempotent, byte-stable)
 npm run diff        # semantic diff: spec output vs the committed file (exit 1 if different)
 npm test            # Vitest: equivalence + merge semantics
