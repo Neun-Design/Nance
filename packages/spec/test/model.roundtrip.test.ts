@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { KNOWN_MALFORMED } from "./known-malformed.js";
 import { loadPassthrough } from "../src/index.js";
 import type { JsonObject } from "../src/index.js";
 import {
@@ -36,18 +37,6 @@ describe("Model layer over the real datamodel (498 attributes)", () => {
   it("covers every attribute", () => {
     expect(ATTRS.length).toBe(498);
   });
-
-  /**
-   * Rules the hand-written JSON got wrong. The engine still "parses" them, but
-   * into an artifact (e.g. a target that is prose), so no canonical spelling
-   * can reproduce that artifact — nor should it. Each one is reported by
-   * `validateModel` as an error and gets fixed in its Phase 3 slice; this list
-   * must shrink to empty by the cutover.
-   */
-  const KNOWN_MALFORMED: Record<string, string> = {
-    // intent: mirror → Tasks (via: taskID) (display: taskName)
-    "Workspace/Jobs.jobName": "computed: via taskID display taskName",
-  };
 
   it("round-trip law: parseRule(renderRule(parseRule(r))) ≡ parseRule(r), for every well-formed rule", () => {
     const failures: Record<string, string> = {};

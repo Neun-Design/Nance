@@ -62,12 +62,38 @@ npm run lint            # migration-debt inventory of the current datamodel (add
 `spec:diff` treats two `rule` strings as equal when the engine parses them to the same
 object, so a migrated module's canonical spelling is not reported as a difference.
 
+## The View and Behavior layers (`src/view/`, `src/behavior/`)
+
+- **Widget** (`field-type`) — the engine reads only the *first key, lowercased*; the value is a
+  component hint. `defaultWidgetFor(field)` derives the control from the Model (fk / enum /
+  BOOLEAN → `select`, DATE → `date picker`, JSON → `dynamic-specs`, else `input`).
+- **Check** (`check`) — `{kind:'notNull', deps} | {kind:'equals', dep, values}`; builders
+  `requires(...)`, `requiresValue(...)`.
+- **FieldRule** (`field-rule`) — the engine's `;`-separated clauses as an object (`filteredBy`,
+  `multi`, `groupBy`, `enum`, `disabled`, `whereCurrentMonth`, `onlyActive`, `specsOf`,
+  `default`); text the engine ignores is kept verbatim in `note` and reported by lint.
+- **`formFor(entity, { steps?, fields })`** — *derive, don't repeat*: every field binds to a
+  Model attribute (checked at build time), gets its control derived unless overridden, and
+  states only its exceptions (tooltip, step, check, rule).
+- **`emitTable` / `emitModule`** — the full node in canonical key order; `liftModule` decodes a
+  hand-written module into the same TypeScript shape (the starting point of every slice).
+  `cards`, `reports`, `subitem-tables` stay validated data (their prose is hand-mapped inside
+  the engine; an executable form belongs to the v1 engine).
+- **`src/semantic.ts`** — "same to the engine": rules / checks / field-rules by parse
+  equivalence, widgets by key, subitem entries by the engine's `normalizeSubitem`. Shared by
+  `spec:diff` and the tests.
+
+Proven on the current datamodel: whole-table lift → emit is semantically equal for all 42
+tables, whole-module for all 7, and `compile()` with every module migrated equals the
+passthrough artifact — so a module can be authored in TypeScript and swapped in without the
+engine noticing.
+
 ## Status
 
 - Phase 1 (scaffold): 100 % passthrough — `spec:build` reproduces the committed file byte for byte.
-- Phase 2-A (Model layer): done — lift → emit reproduces all 498 attributes (382 already
-  byte-canonical, the rest differ only in rule spelling / key order); `spec:lint` reports the
-  drift to fix slice by slice.
-- Next: P2-B View + Behavior (presets, `formFor`, builders), then the module slices.
+- Phase 2-A (Model layer): done — lift → emit reproduces all 498 attributes; `spec:lint`
+  reports the drift to fix slice by slice.
+- Phase 2-B (View + Behavior): done — whole-module equivalence proven for all 7 modules.
+- Next: Phase 3 — migrate the modules, `scope: mvp` first (Organization + Portfolio).
 
 Plan and decisions: `docs/adr/0002-datamodel-config-as-code.md`, wiki *Working with the Datamodel*.

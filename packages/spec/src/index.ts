@@ -31,5 +31,9 @@ export function buildArtifact(): DatamodelArtifact {
 }
 
 export { compile, serialize, loadPassthrough };
+export * from "./model/index.js";
+export * from "./behavior/index.js";
+export * from "./view/index.js";
+export { semanticEqual, diffPaths } from "./semantic.js";
 export { ARTIFACT_PATH } from "./passthrough.js";
 export type * from "./types.js";
