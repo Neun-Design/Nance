@@ -46,7 +46,9 @@ console.log('== #168: segment & unit are multivalued ==');
 console.log('== #168: Segment -> Unit cascade (Customers pattern, PR #96) ==');
 {
   const f = catalog['Branches'].form.fields;
-  eq(f.Segment['field-rule'], 'multivalued', 'Segment select is multi');
+  // read it the way forms.js does (/allow multiple|multivalued/i), not by spelling:
+  // the spec (ADR-0002) compiles field-rules to a canonical text
+  eq(/allow multiple|multivalued/i.test(String(f.Segment['field-rule'])), true, 'Segment select is multi');
   eq(f.Unit.check, 'Segment IS NOT NULL', 'Unit gated on Segment');
   eq(f.Unit['field-rule'], 'filtered by Segment selected', 'Unit filtered by the selected segments');
 }
