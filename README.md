@@ -19,6 +19,22 @@ nance.it is built from two connected halves:
 
 nance.it is **metadata-driven**: a single specification (the *datamodel*) describes modules, tables, cards, charts, forms, and filters, and an engine renders the whole application generically. Adding or changing a screen is a change to the spec, not scattered UI code. See the **[developer wiki](https://github.com/Neun-Design/Nance/wiki)** and the **[Architecture Decision Records](docs/adr/)** for the full picture.
 
+## Try it live
+
+nance.it runs in your browser — no install, no login. Three things are published as GitHub Pages:
+
+- **[The Guide](https://neun-design.github.io/Nance/)** — a plain-language walkthrough of the platform's concepts and each module (Organization, Portfolio, CRM/SLAs, Talent, Operation, Workspace). Start here to understand *what* nance.it governs and *how* the pieces connect; new visitors should read the **[Start here](https://neun-design.github.io/Nance/start-here/)** page first.
+- **[The demo app](https://neun-design.github.io/Nance/app/)** — the full application, pre-loaded with the **Vitalis** demo dataset (below). Navigate a completely populated governance portal to see how modules, cards, reports, and workflows behave with realistic data.
+- **[The blank MVP](https://neun-design.github.io/Nance/app/mvp/)** — the same application, empty. Use it to model your own operation from scratch, following the **[Start here](https://neun-design.github.io/Nance/start-here/)** guide.
+
+### The Vitalis demo
+
+Governance only makes sense once there is something to govern — an organization, a portfolio, people, operations, and a history of work. Reproducing all of that by hand just to evaluate the platform is a lot of effort, so the demo app ships with it already in place.
+
+**Vitalis Health Network** is a fictitious chain of diagnostic-imaging and clinical-analysis clinics across Brazil and Argentina. Its Clinical Operations & Quality division standardizes how every exam is performed, certifies who may perform it, forecasts demand per insurer contract, and measures what was actually consumed — the same governance loop nance.it models for any sector. Every clinic, person, contract, and ticket is invented for demonstration; the header carries a **DEMO DATA · Vitalis** badge and an "About this demo" panel.
+
+Vitalis lets you explore the platform end to end — dashboards, competencies, SLAs, forecasts, audit trails — **without creating a single record yourself**. The model is sector-agnostic (it was born in an industrial-engineering division); clinics are simply the most self-explanatory dataset to walk through. When you want to see the empty starting point instead, open the [blank MVP](https://neun-design.github.io/Nance/app/mvp/).
+
 ## Tech stack
 
 Vue 3 + shadcn-vue (frontend) · Node + Express REST API (backend) · PostgreSQL + Drizzle · a framework-agnostic TypeScript engine · Python data/ETL tooling. Rationale in [ADR-0001](docs/adr/0001-v1-technology-stack.md).
