@@ -8,23 +8,25 @@ import { crm } from "../src/modules/crm.js";
 import { workspace } from "../src/modules/workspace.js";
 import { control } from "../src/modules/control.js";
 
-const others = [organization, operation, talent, crm, workspace, control];
 
 describe("build gate — unsuppressed Model errors fail spec:build", () => {
   it("the authored modules build (their carried-over errors are suppressed with an issue)", () => {
     expect(unsuppressedErrors(AUTHORED)).toEqual([]);
     expect(Object.keys(compiledModules(AUTHORED)).sort()).toEqual(AUTHORED.map((m) => m.name).sort());
     for (const m of AUTHORED) for (const v of Object.values(m.suppress)) expect(v).toMatch(/^#\d+: /);
-    expect(Object.keys(portfolio.suppress).length).toBe(2); // #412
-    expect(Object.keys(operation.suppress).length + Object.keys(talent.suppress).length).toBe(3); // #414
-    expect(Object.keys(crm.suppress).length + Object.keys(workspace.suppress).length + Object.keys(control.suppress).length).toBe(14); // #417
+    // the debt only shrinks (settled: #412 → Portfolio has none left)
+    expect(Object.keys(portfolio.suppress)).toEqual([]);
+    const total = AUTHORED.reduce((n, m) => n + Object.keys(m.suppress).length, 0);
+    expect(total).toBeLessThanOrEqual(17);
   });
 
   it("removing a suppression surfaces the error and fails the build", () => {
-    const unsuppressed = { ...portfolio, suppress: {} };
-    const errors = unsuppressedErrors([...others, unsuppressed]);
-    expect(errors.map((e) => `${e.entity}.${e.field}`).sort()).toEqual(["Product Groups.productID", "Scopes.productScopeID"]);
-    expect(() => compiledModules([...others, unsuppressed])).toThrow(SpecBuildError);
+    const unsuppressed = { ...workspace, suppress: {} };
+    const rest = AUTHORED.filter((m) => m.name !== "Workspace");
+    const errors = unsuppressedErrors([...rest, unsuppressed]);
+    expect(errors.length).toBe(Object.keys(workspace.suppress).length);
+    expect(errors.every((e) => `${e.entity}${e.field ? `.${e.field}` : ""}` in workspace.suppress)).toBe(true);
+    expect(() => compiledModules([...rest, unsuppressed])).toThrow(SpecBuildError);
   });
 
   it("a fresh drift bug in an authored module fails the build", () => {

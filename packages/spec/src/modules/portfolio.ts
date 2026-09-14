@@ -34,7 +34,7 @@ const scopes = entity("Scopes", "Defines the work scope boundaries applicable to
   attr("scopeDescription", "TEXT", { notes: "nullable — what activities the scope involves, so users understand it before applying it (issue #181)", show: [false, false] }),
   attr("scopeOpportunity", "FK", { rel: fk("Issues", { display: "issueName" }), notes: "Opportunity tags; multivalued; form input HIDDEN since issue #174 — the Issue/Opportunity concept confuses stakeholders and awaits reframing in the decision workflow; stored values and the Issues rollup stay intact", show: [true, true] }),
   attr("scopeClassID", "FK", { rel: fk("Classes", { display: "scopeClassName" }), notes: "multivalued" }),
-  attr("productScopeID", "rollup", { rel: computed("list productScopeID from Product Scopes where scopeID matches"), show: [false, false] }),
+  attr("productScopeID", "rollup", { rel: rollup("Product Scopes", "scopeID"), notes: "Product scopes of this scope (#412: was an English sentence the engine could not execute)", show: [false, false] }),
   attr("scopeOwner", "FK", { rel: fk("People", { display: "userName" }), notes: "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))", constraints: ["FK"], show: [false, false] }),
   attr("businessUnitID", "FK", { rel: fk("Business Units", { display: "businessUnitName" }), notes: "multivalued", constraints: ["FK","NOT NULL"] }),
 ]);
@@ -63,7 +63,7 @@ const productGroups = entity("Product Groups", "Higher-level commercial grouping
   attr("productGroupName", "mirror", { rel: computed("Products", { via: "productID", display: "productName" }), notes: "Derived — the selected products’ names, joined (issue #176: the legacy \"CONCAT(productName from productID)\" spelling was unparseable and the stored mockup copy went stale with 2+ products, so the name is now always derived)", show: [false, false] }),
   attr("businessUnitID", "FK", { rel: fk("Business Units", { display: "businessUnitName" }), notes: "Unit this product group belongs to (2026-08-03 — replaces the former hard-coded segment enum)", show: [true, true] }),
   attr("businessSegmentName", "mirror", { rel: mirror("Business Units", "businessUnitID", { display: "businessSegmentName" }), notes: "Derived — segment(s) of the chosen unit; available via Customize Columns", show: [false, false] }),
-  attr("productID", "FK", { rel: fk("Product", { display: "productName" }), notes: "multivalued — a product group can apply to several products; the group’s specs then serve all of them (issue #176). Spec fields offered in the form are the UNION of the selected products’ specs", constraints: ["NOT NULL"], show: [true, true] }),
+  attr("productID", "FK", { rel: fk("Products", { display: "productName" }), notes: "multivalued — a product group can apply to several products; the group’s specs then serve all of them (issue #176). Spec fields offered in the form are the UNION of the selected products’ specs", constraints: ["NOT NULL"], show: [true, true] }),
   attr("specValues", "JSON", { notes: "Object map productSpecID → value, filled by the dynamic spec fields in the form. Never displayed raw.", show: [false, false] }),
   attr("specsSummary", "computed", { rel: {"kind":"map","srcField":"specValues","target":"Product Specs","display":"specName"}, notes: "Renders the specValues map as 'name: value' pairs — hidden by default since issue #161 (the specs expand as a subitem table); still drives the FK CONCAT displays elsewhere", displayName: "SPECS", show: [false, true] }),
   attr("productGroupOwner", "FK", { rel: fk("People", { display: "userName" }), notes: "Accountability owner (ISO 9001:2015 §5.3, §6.2.2(c))", constraints: ["FK"], show: [false, false] }),
@@ -276,9 +276,4 @@ export const portfolio = defineModule("Portfolio", 2, [
     tableFilters: true,
     subitemTables: null,
   }),
-], {
-  suppress: {
-    "Scopes.productScopeID": "#412: computed target \"list productScopeID from Product Scopes where scopeID matches\" is not an entity (malformed rule?)",
-    "Product Groups.productID": "#412: fk target \"Product\" is not an entity"
-  },
-});
+]);
