@@ -46,7 +46,9 @@ describe("Model layer over the real datamodel (498 attributes)", () => {
       const again = parseRule(renderRule(original));
       if (JSON.stringify(again) !== JSON.stringify(original)) failures[where] = String(attr["rule"]);
     }
-    expect(failures).toEqual(KNOWN_MALFORMED);
+    // Only known-malformed rules may fail; once a module is compiled its malformed
+    // spelling is gone from the artifact, so the set shrinks towards empty.
+    for (const where of Object.keys(failures)) expect(where in KNOWN_MALFORMED, `${where}: ${failures[where]}`).toBe(true);
   });
 
   it("every known-malformed rule is flagged as an error by the invariants", () => {

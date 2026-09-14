@@ -6,7 +6,9 @@
  * must be empty by the cutover.
  */
 export const KNOWN_MALFORMED: Record<string, string> = {
-  // intent: mirror → Tasks (via: taskID) (display: taskName)
+  // intent: mirror → Tasks (via: taskID) (display: taskName). Since P3-C the
+  // artifact carries the canonical rendering of its (nonsense) parse; the
+  // Model still holds the broken relation, suppressed in workspace.ts → #417.
   "Workspace/Jobs.jobName": "computed: via taskID display taskName",
 };
 

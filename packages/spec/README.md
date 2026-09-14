@@ -26,8 +26,7 @@ So the artifact is always complete and the prototype runs at every step.
 
 | Module state | Where you edit it | Guarded by |
 |---|---|---|
-| Not migrated yet (CRM, Workspace, Control) | `prototype/data/datamodel.json`, as today | — |
-| **Migrated (Organization, Portfolio, Operation, Talent)** | `src/modules/<module>.ts`, then `npm run build` | CI: `build` + `git diff --exit-code` rejects hand edits to the JSON; the build gate fails on unsuppressed Model errors |
+| **All seven modules (migrated)** | `src/modules/<module>.ts`, then `npm run build` | CI: `build` + `git diff --exit-code` rejects hand edits to the JSON; the build gate fails on unsuppressed Model errors |
 
 ## Authoring a module (Phase 3)
 
@@ -119,6 +118,8 @@ engine noticing.
 - Phase 3-A: **Organization + Portfolio are compiled from TypeScript** (semantically identical to the
   hand-written modules; 2 inherited Portfolio errors suppressed → #412).
 - Phase 3-B: **Operation + Talent compiled from TypeScript** (3 inherited errors suppressed → #414).
-- Next: P3-C (CRM + Workspace + Control), then the cutover removes the passthrough.
+- Phase 3-C: **CRM + Workspace + Control compiled** (14 inherited errors suppressed → #417). **Every
+  module is now authored in TypeScript**; the passthrough carries nothing.
+- Next: P4-A cutover — remove the passthrough, make the drift guard the rule, update the wiki.
 
 Plan and decisions: `docs/adr/0002-datamodel-config-as-code.md`, wiki *Working with the Datamodel*.
