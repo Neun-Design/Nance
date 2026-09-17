@@ -1606,14 +1606,23 @@ function specOptions(entity, attrName, ruleText) {
 export const BOOLEAN_OPTIONS = [{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }];
 export const booleanFromSelect = (v) =>
   (v == null || v === '' ? null : v === true || v === 'true');
-// "default: Yes|No" field-rule — the boolean select's preselected option on
-// NEW records (issue #220, Customers.Active): a soft-delete flag should start
-// Yes. Returns the option-value spelling; edit prefill overwrites it with the
-// stored value. Fields without the rule keep starting at the placeholder
-// (defaulting isCertified would be a semantic claim).
+// "default: <value>" field-rule — the select's preselected option on NEW
+// records; edit prefill overwrites it with the stored value, and fields
+// without the rule keep starting at the placeholder. Two consumers: boolean
+// selects take Yes|No (issue #220, Customers.Active — a soft-delete flag
+// should start Yes; defaulting isCertified would be a semantic claim), and
+// ENUM selects take any member of the enum (Tickets.ticketStatus starts
+// "To Do"). The value runs to the next ";" so enum members may carry spaces.
+export const fieldDefault = (ruleText) => {
+  const m = String(ruleText || '').match(/default:\s*([^;]+?)\s*(?:;|$)/i);
+  return m ? m[1] : null;
+};
+// Boolean variant: returns the option-value spelling ('true'/'false') for the
+// Yes/true/No/false spellings only — a non-boolean default (e.g. "To Do")
+// never reaches a BOOLEAN select.
 export const booleanDefault = (ruleText) => {
-  const m = String(ruleText || '').match(/default:\s*(yes|true|no|false)\b/i);
-  return m ? String(/^(yes|true)$/i.test(m[1])) : null;
+  const v = fieldDefault(ruleText);
+  return v != null && /^(yes|true|no|false)$/i.test(v) ? String(/^(yes|true)$/i.test(v)) : null;
 };
 
 // grouped variant for checkbox pickers: interleave {header} rows per the
@@ -1813,6 +1822,13 @@ function buildSpecFields(entity, spec, form, ctx, skip, record, addNew = null) {
       } else {
         node = document.createElement('select'); node.className = 'form-input';
         fillOptions(node, options, groupField, target, undefined);
+        // "default: <value>" on an ENUM select (the #220 boolean posture
+        // generalized): preselect on NEW records only, and only when the
+        // value names an offered option — an out-of-enum default is ignored.
+        if (!record && ((getCatalog(entity) || {}).byName || {})[attrName]?.type === 'ENUM') {
+          const dflt = fieldDefault(ruleText);
+          if (dflt != null && options.some((o) => String(o.value) === dflt)) node.value = dflt;
+        }
         get = () => node.value;
       }
       // cascade: "filtered by <A> [+ <B>…] selected" — ANDs option filtering

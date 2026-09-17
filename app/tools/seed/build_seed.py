@@ -1157,7 +1157,8 @@ class Builder:
         tickets, n = [], 0
         target = d['tickets']['count']
         link_rate = d['tickets']['linkedToForecastRate']
-        statuses = (['Resolved'] * 6 + ['InProgress'] * 2 + ['Open'] * 2)
+        # sv115 enum spellings (Open → To Do, Resolved → Done; same mix)
+        statuses = (['Done'] * 6 + ['InProgress'] * 2 + ['To Do'] * 2)
         line_cursor = {}
         consumption = {}
         while n < target:
@@ -1225,7 +1226,7 @@ class Builder:
                             'targetDate': (created + timedelta(days=14)).isoformat(),
                             'ticketCreatedAt': created.isoformat(),
                             'ticketClosedAt': (created + timedelta(days=10)).isoformat()
-                            if status == 'Resolved' else None})
+                            if status == 'Done' else None})
         # applicant — the INTERNAL customer opening the ticket (issue #308,
         # sv69): null cohort at list index i % 3 == 0 (no-applicant path
         # stays demoed, #272 posture), else the first Internal customer

@@ -359,9 +359,13 @@ attribute whose `notes` contain `multivalued` renders as a multi-select even wit
 options** and commits a real boolean (issue #218 — `BOOLEAN_OPTIONS`/`booleanFromSelect`
 in `forms.js`): the distinct-from-data fallback offers nothing on a blank dataset, and a
 string `"true"` would never pass the strict certified gates (`isCertified === true`).
-A boolean field-rule may carry **`default: Yes|No`** (issue #220, Customers.Active):
-the option is preselected on NEW records only — edit prefill overwrites it with the
-stored value, and fields without the rule keep starting at the placeholder.
+A select field-rule may carry **`default: <value>`**: the option is preselected on
+NEW records only — edit prefill overwrites it with the stored value, and fields
+without the rule keep starting at the placeholder. Boolean selects take `Yes|No`
+(issue #220, Customers.Active); ENUM selects take any member of the enum, spaces
+allowed — the value runs to the next `;` (sv115, the Tickets Status field defaults
+`To Do`), and a value naming no offered option is ignored
+(`fieldDefault`/`booleanDefault` in `forms.js`).
 A select field-rule may carry **`only Active`** (issue #288, the Product Scopes
 Requirements picker): options whose target record is soft-deleted are dropped —
 `isActive` spelled as the ENUM `Active|Inactive` or the #218 boolean, blank counting
