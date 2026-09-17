@@ -33,7 +33,7 @@ const tickets = entity("Tickets", "A Ticket is a project-linked work item captur
   attr("taskID", "rollup", { notes: "Superseded: the old 3-key rollup (scopeID, productName, customerID) references fields Tasks no longer stores; ticket→task dispatch lives in the TICKET-PROCEDURE / INHERITED-REQUIREMENTS rules. Derived, never populated, hidden — removal candidate (#424).", show: [false, false] }),
   attr("ticketExecutionTime", "INT", { notes: "Stored execution time seeded from the task (#417: the former rule was seed documentation, not an engine rule)" }),
   attr("ticketOwner", "VARCHAR", { rel: userInput(), constraints: ["FK"] }),
-  attr("ticketStatus", "ENUM", { rel: enumOf("Open", "InProgress", "Resolved", "Escalated", "Closed"), show: [true, true] }),
+  attr("ticketStatus", "ENUM", { rel: enumOf("To Do", "InProgress", "Done", "Escalated", "Closed", "On Hold"), show: [true, true] }),
   attr("targetDate", "DATETIME", { notes: "When the ticket should be resolved", show: [true, true] }),
   attr("ticketCreatedAt", "DATETIME", { show: [false, false] }),
   attr("ticketClosedAt", "DATETIME", { notes: "nullable", show: [false, false] }),
@@ -136,7 +136,7 @@ export const workspace = defineModule("Workspace", 6, [
         "Product Scope": { attribute: "productScopeID", tooltip: "Only product scopes co-packaged with the chosen event in a payload of the Applicant → Supplier contracts — narrowed to the scopes answering for the selected Constraints (issue #359); the resolved payload and contract are stored on save", step: "Request", check: requires("Event"), rule: { filteredBy: "Event + Applicant + Supplier + Branch + Constraints" } },
         "Details": { attribute: "ticketDescription", step: "Details" },
         "Target Date": { attribute: "targetDate", widget: {"key":"date","hint":"shadcn-date picker"}, step: "Details" },
-        "Status": { attribute: "ticketStatus", step: "Details" },
+        "Status": { attribute: "ticketStatus", step: "Details", rule: {default: "To Do"} },
       },
     }),
     cards: {

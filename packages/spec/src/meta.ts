@@ -9,7 +9,7 @@
 
 import type { JsonObject } from "./types.js";
 
-export const SCHEMA_VERSION = 114;
+export const SCHEMA_VERSION = 115;
 
 export const META: JsonObject = {
   schemaVersion: SCHEMA_VERSION,

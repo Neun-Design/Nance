@@ -29,8 +29,14 @@ export interface FieldRule {
   onlyActive?: boolean;
   /** "specs of <X>". */
   specsOf?: string;
-  /** "default: Yes|No" — boolean select preselection on new records. */
-  default?: "Yes" | "No";
+  /**
+   * "default: <value>" — the select's preselection on NEW records (edit
+   * prefill wins). Boolean selects take Yes|No (issue #220); ENUM selects
+   * take any member of the enum, spaces allowed (Tickets.ticketStatus
+   * defaults "To Do"). Yes/true and No/false spellings normalize to Yes/No;
+   * any other value is preserved verbatim.
+   */
+  default?: string;
   /**
    * Text the engine ignores (no clause regex matches it), kept verbatim so
    * authored intent survives the round trip — e.g. "jobs of the same ticket".
@@ -56,7 +62,7 @@ const RX = {
   filteredBy: /filtered by (?:the )?([A-Za-z .+&,]+?)(?: selected| field|$)/i,
   onlyActive: /only active/i,
   specsOf: /specs of (?:the )?([A-Za-z ]+?)(?: selected| field|$)/i,
-  default: /default:\s*(yes|true|no|false)\b/i,
+  default: /default:\s*([^;]+?)\s*(?:;|$)/i,
 };
 
 export interface ParsedFieldRule {
@@ -89,7 +95,10 @@ export function parseFieldRule(raw: unknown): ParsedFieldRule {
   if ((m = txt.match(RX.filteredBy))) r.filteredBy = m[1]!.trim();
   if (RX.onlyActive.test(txt)) r.onlyActive = true;
   if ((m = txt.match(RX.specsOf))) r.specsOf = m[1]!.trim();
-  if ((m = txt.match(RX.default))) r.default = /^(yes|true)$/i.test(m[1]!) ? "Yes" : "No";
+  if ((m = txt.match(RX.default))) {
+    const v = m[1]!;
+    r.default = /^(yes|true)$/i.test(v) ? "Yes" : /^(no|false)$/i.test(v) ? "No" : v;
+  }
 
   // Residual: split on ";" and keep the segments no clause regex matches.
   const residual = txt

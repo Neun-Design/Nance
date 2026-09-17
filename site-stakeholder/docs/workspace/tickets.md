@@ -47,7 +47,9 @@ offered ones you did **not** pick leave the ticket's inherited requirements — 
 them and decided against; leaving the input empty means no decision, and the automatic
 inheritance stays intact.
 
-**Step 3 — Details:** description, Target date, Status. On save the app **resolves and
+**Step 3 — Details:** description, Target date, Status — a new ticket's Status opens
+preselected **To Do** (you can still change it before saving; the full lifecycle is
+To Do / InProgress / Done / Escalated / Closed / On Hold). On save the app **resolves and
 stores the ticket's payload(s) and governing SLA(s)** from the step-2 pair — the
 Payload and SLA columns show the ticket's own dispatch context (a pair sold under two
 contracts lists both), nothing else to select. The **Forecast Scope** link is no
