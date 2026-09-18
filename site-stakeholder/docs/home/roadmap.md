@@ -30,7 +30,7 @@ organisation tries to model something real and finds the model will not hold it.
 The Requirements architecture is the clearest example. It grew multi-dimensional
 applicability — region, business unit, customer, scope, product group — because a large industrial enterprise's equipment repair & services unit needed to express obligations that varied
 along all of those axes at once. That capability now exists for every adopter, including ones
-whose requirements are far simpler — in the public demo, for instance, ANVISA RDC 611
+whose requirements are far simpler — in the [public demo](https://neun-design.github.io/Nance/app/#/4/1), for instance, ANVISA RDC 611
 Compliance applies only to the Brazilian regions, while HealthFirst Insurance's reporting
 template applies only to that insurer's contracts.
 
@@ -53,17 +53,26 @@ not pay for most of what you receive.
 
 ## What is on the roadmap now
 
-The platform is honest about its stage. Several capabilities that a mature governance system
-needs are **funded roadmap items rather than shipped features**, and it is better that you
-read that here than discover it in a workshop:
+The roadmap is organised as five public milestones on the
+[issue tracker](https://github.com/Neun-Design/Nance/milestones), each with a dated target
+and a costed backlog. The plan assumes one dedicated full-stack developer at 30 hours per
+week — which is exactly why sponsored hours move dates — and the
+[project board](https://github.com/orgs/Neun-Design/projects/1) carries the live,
+issue-by-issue schedule.
 
-- **Immutable audit log** — evidence is captured today, but tamper-evident retention is still
-  being built
-- **Temporal versioning** — the ability to reconstruct what the model looked like on a given
-  past date
-- **Role-based access control** — beyond the current ownership model
-- **The Quality module** — a nonconformity flow that investigates deviations and elevates them
-  automatically to [Issues](../control/issues.md), plus a KPI builder for the dashboards
+| Milestone | Target | What it delivers |
+|-----------|--------|------------------|
+| [A0 — MVP Completion](https://github.com/Neun-Design/Nance/milestone/6) | Dec 2026 | All seven modules usable in the MVP: forecasting, execution tracking, issue management (opportunities and risks), the KPI builder and the Overview screen |
+| [A1 — Web App (Beta)](https://github.com/Neun-Design/Nance/milestone/2) | Jul 2027 | The production web application: real database, role-based access control, company setup, and migration of the data accumulated in the MVP |
+| [A2 — Cloud-Native](https://github.com/Neun-Design/Nance/milestone/7) | Aug 2027 | Self-hosting for enterprise clients — container, Ansible and CI/CD paths, with versioned releases and safe upgrades |
+| [C1 — API & Integrations](https://github.com/Neun-Design/Nance/milestone/8) | Oct 2027 | A public REST API and webhooks, so planning tools such as MS Planner and monday.com consume the model instead of copying it |
+| [B1 — AI-Readiness](https://github.com/Neun-Design/Nance/milestone/9) | Jan 2028 | The agents described under [AI readiness](ai-readiness.md), operating on the governed graph — always proposing, never silently deciding |
+
+Two capabilities a mature governance system needs are **not yet scheduled**, and it is better
+that you read that here than discover it in a workshop: an **immutable audit log**
+(tamper-evident retention of the evidence that is already captured) and **temporal
+versioning** (reconstructing what the model looked like on a given past date). They are
+candidates for sponsorship, not silent assumptions.
 
 Governance claims will not outrun the product on this site. Where something is planned rather
 than present, it is labelled as planned.
