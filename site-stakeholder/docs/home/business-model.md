@@ -47,7 +47,7 @@ because a better platform makes that work easier for everyone, including future 
 
 ## 3. What Apache 2.0 means in practice
 
-The entire codebase is licensed **Apache 2.0**. For your IT and legal organisations that means:
+The [entire codebase](https://github.com/Neun-Design/Nance) is licensed **Apache 2.0**. For your IT and legal organisations that means:
 
 - **Your legal review is short.** Apache 2.0 is one of the most widely accepted permissive
   licences in enterprise software. It carries an **explicit patent grant**.
