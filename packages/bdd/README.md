@@ -73,11 +73,24 @@ CI runs both in the `bdd` job of `.github/workflows/test-battery.yml`.
 - **BDD only READS `prototype/`** — never rebuild `datamodel.json` from here
   (the CI drift guard owns that), never edit the mockup copies.
 
-## Adding a feature
+## Adding a feature — the BDD-first sequencing law
 
-1. Pick the module folder by where the decision bites.
-2. Reuse steps from `common.steps.mjs` before writing new ones; new step
-   files are named after the feature folder they serve.
-3. Tag with `@module-<name>` + `@issue-NNN` (+ `@doctrine`/`@report`/`@api`).
-4. If the rule needs data the clinic mockup can't show, raise it in the issue
-   — seed changes belong to the seed builder round, not to fixtures here.
+Features and fixtures come FIRST; step-definitions and code only after the
+Gherkin is validated (Rafael's rule, issue #473 round — enforced by the
+`bdd-workflow` skill in `.claude/skills/`):
+
+1. **Evaluate** — every new discussion/improvement/issue answers: does this
+   change observable behavior? If yes, plan the `.feature` + fixture in the
+   issue ("BDD impact" section).
+2. **Author** — write the `.feature` (module folder by where the decision
+   bites) and its fixtures, tagged `@wip` so runs stay green while steps
+   don't exist yet. Tag with `@module-<name>` + `@issue-NNN`
+   (+ `@doctrine`/`@report`/`@api`). No step-definitions in this phase.
+3. **Validate** — the Gherkin is the agreed specification; it gets approved
+   before anything downstream starts.
+4. **Implement** — step-definitions (reuse `common.steps.mjs` first; new step
+   files are named after the feature folder they serve), drop `@wip`, go
+   green, then the implementation itself.
+
+If the rule needs data the clinic mockup can't show, raise it in the issue —
+seed changes belong to the seed builder round, not to fixtures here.
