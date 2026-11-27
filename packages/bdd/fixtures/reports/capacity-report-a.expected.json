@@ -1,0 +1,7 @@
+{
+  "report": "Capacity::Report-A",
+  "minSchemaVersion": 115,
+  "type": "multibar",
+  "series": ["Available", "Allocated"],
+  "categoriesAreLabelsOf": "Functions"
+}
