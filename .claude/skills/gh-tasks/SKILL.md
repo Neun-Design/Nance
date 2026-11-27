@@ -161,7 +161,7 @@ Creates or updates a GitHub Pull Request for the current branch.
 
 2. Validate the branch name against the convention:
    - `feat/<scope>/<slug>` · `fix/<scope>/<slug>` · `docs/<audience>/<slug>` · `design/<slug>` · `data/<slug>` · `chore/<slug>`
-   - Valid scopes for `feat/`/`fix/`: `prototype`, `docs`, `data`, `ci`, `infra`, `spec` (the config-as-code datamodel, ADR-0002); reserved for v1 (ADR-0001): `engine`, `db`, `api`, `web`
+   - Valid scopes for `feat/`/`fix/`: `prototype`, `docs`, `data`, `ci`, `infra`, `spec` (the config-as-code datamodel, ADR-0002), `bdd` (the Gherkin feature layer, `packages/bdd`); reserved for v1 (ADR-0001): `engine`, `db`, `api`, `web`
    - If invalid, warn and ask for confirmation before proceeding.
 
 3. Determine the PR template:
@@ -309,7 +309,7 @@ gh pr list --state open --draft --json number,title,headRefName,url
 feat/<scope>/<slug>    fix/<scope>/<slug>    docs/<audience>/<slug>
 design/<slug>          data/<slug>           chore/<slug>
 ```
-Scopes: `prototype` · `docs` · `data` · `ci` · `infra` · `spec` (ADR-0002) — reserved for v1: `engine` · `db` · `api` · `web`
+Scopes: `prototype` · `docs` · `data` · `ci` · `infra` · `spec` (ADR-0002) · `bdd` (`packages/bdd`) — reserved for v1: `engine` · `db` · `api` · `web`
 
 **Datamodel (ADR-0002) rules:**
 - The datamodel is config-as-code in `packages/spec`, compiled to `prototype/data/datamodel.json`.

@@ -14,12 +14,16 @@ on:
     paths:
       - 'prototype/**'
       - 'packages/spec/**'
+      - 'packages/bdd/**'
+      - 'site-stakeholder/api/**'
       - '.github/workflows/test-battery.yml'
   pull_request:
     branches: [main]
     paths:
       - 'prototype/**'
       - 'packages/spec/**'
+      - 'packages/bdd/**'
+      - 'site-stakeholder/api/**'
       - '.github/workflows/test-battery.yml'
 
 jobs:
@@ -81,3 +85,49 @@ jobs:
           test "$fails" -eq 0
       - name: Mockup parity validator
         run: python3 tools/validate_mockup.py
+
+  # BDD layer (issue #473): Gherkin features per module in packages/bdd.
+  # Engine scenarios import the prototype engine headless (same fetch-mock
+  # pattern as the proof battery); @api scenarios hit a locally-booted chat
+  # API. The dummy ANTHROPIC_API_KEY is safe: every @api scenario exercises
+  # only the paths that fail BEFORE the Anthropic client is called.
+  bdd:
+    needs: spec
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/bdd
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/bdd/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: npm ci
+      - name: Engine + report scenarios
+        run: npm run test:engine
+      - name: Install chat API dependencies
+        run: pip install fastapi uvicorn anthropic python-dotenv
+      - name: Boot chat API (dummy key, tight rate limit)
+        run: |
+          ANTHROPIC_API_KEY=dummy \
+          EDQMS_RATE_LIMIT_REQUESTS=5 \
+          EDQMS_RATE_LIMIT_WINDOW_SECONDS=60 \
+            python3 -m uvicorn server:app --app-dir ../../site-stakeholder/api --port 8777 \
+            > /tmp/uvicorn.log 2>&1 &
+          echo $! > /tmp/uvicorn.pid
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8777/healthz > /dev/null && exit 0
+            sleep 1
+          done
+          echo "::error::chat API never came up"; cat /tmp/uvicorn.log; exit 1
+      - name: API contract scenarios
+        run: npm run test:api
+      - name: Teardown chat API
+        if: always()
+        run: kill "$(cat /tmp/uvicorn.pid)" 2>/dev/null || true
