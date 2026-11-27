@@ -9,23 +9,30 @@ Feature: Ask AI chat API contract — non-LLM paths
   Background:
     Given the chat API is reachable
 
+  @smoke
   Scenario: Health check
     When I GET "/healthz"
     Then the response status is 200
     And the response JSON field "status" is "ok"
 
+  @smoke
   Scenario: An empty conversation is rejected
     When I POST the fixture "api/chat-empty.json" to "/api/chat"
     Then the response status is 400
 
+  @smoke
   Scenario: A conversation with too many messages is rejected
     When I POST the fixture "api/chat-too-many-messages.json" to "/api/chat"
     Then the response status is 413
 
+  @smoke
   Scenario: An oversized conversation is rejected
     When I POST the fixture "api/chat-oversize.json" to "/api/chat"
     Then the response status is 413
 
+  # NOT @smoke — never run against production: it would consume the real
+  # rate budget, and the Render proxy (--proxy-headers) overwrites the
+  # X-Forwarded-For isolation this scenario relies on.
   Scenario: Requests beyond the rate limit are rejected
     When I exhaust the rate limit with invalid requests
     Then the next request is rejected with status 429

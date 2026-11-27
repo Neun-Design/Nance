@@ -10,7 +10,9 @@
   "scripts": {
     "test": "cucumber-js",
     "test:engine": "cucumber-js --tags 'not @api'",
-    "test:api": "cucumber-js --tags '@api'"
+    "test:api": "cucumber-js --tags '@api'",
+    "test:smoke": "cucumber-js --tags '@api and @smoke'",
+    "wip-audit": "node scripts/wip-audit.mjs"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.2.0"

@@ -1,0 +1,53 @@
+name: Smoke Chat API
+
+# Post-deploy contract smoke (issue #475): whenever a push to main can
+# trigger a Render redeploy of the chat API (paths mirror render.yaml's
+# buildFilter), run the @smoke subset of the BDD API contract against the
+# LIVE service. The weekly schedule doubles as a hibernation check — the
+# free dyno spins down when idle and must wake on demand.
+#
+# Honesty note: a green /healthz does not prove the NEW build is live
+# (Render replaces the service after its own build); the smoke asserts
+# "the live service honors the contract", which is version-stable. The
+# 429 rate-limit scenario is deliberately NOT tagged @smoke — production
+# budget is real and --proxy-headers defeats the X-Forwarded-For isolation.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site-stakeholder/**'
+      - 'CLAUDE.md'
+      - 'prototype/tools/seed/**'
+  schedule:
+    - cron: '30 6 * * 1' # weekly Monday — the hibernating free dyno must wake
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/bdd
+    env:
+      BDD_API_URL: https://edqms-chat-api.onrender.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/bdd/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Wait for the live API (Render build + cold start)
+        run: |
+          # pushes race the Render build — give it a head start, then poll
+          if [ "${{ github.event_name }}" = "push" ]; then sleep 90; fi
+          for i in $(seq 1 48); do
+            curl -sf --max-time 15 "$BDD_API_URL/healthz" > /dev/null && exit 0
+            sleep 10
+          done
+          echo "::error::chat API never answered at $BDD_API_URL"; exit 1
+      - name: Smoke the live contract
+        run: npm run test:smoke
