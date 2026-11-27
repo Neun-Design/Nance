@@ -17,14 +17,19 @@ on:
       - 'packages/bdd/**'
       - 'site-stakeholder/api/**'
       - '.github/workflows/test-battery.yml'
+  # No path filter on PRs (issue #475): spec/battery/bdd are REQUIRED checks
+  # under the main ruleset — a filtered-out workflow would leave them
+  # "expected" forever and block every docs-only merge. The full run costs
+  # about a minute.
   pull_request:
     branches: [main]
-    paths:
-      - 'prototype/**'
-      - 'packages/spec/**'
-      - 'packages/bdd/**'
-      - 'site-stakeholder/api/**'
-      - '.github/workflows/test-battery.yml'
+  # Time-rot watch (issue #475): the anchor-shift breakage class (#306) bites
+  # on month rollovers with ZERO commits — scheduled runs catch it before a
+  # PR stumbles into it.
+  schedule:
+    - cron: '0 6 * * 1' # weekly, Monday 06:00 UTC
+    - cron: '0 6 1 * *' # day 1 of each month — rollover day
+  workflow_dispatch:
 
 jobs:
   # ADR-0002: the datamodel is compiled from packages/spec. This job is the
@@ -110,7 +115,12 @@ jobs:
       - name: Install
         run: npm ci
       - name: Engine + report scenarios
-        run: npm run test:engine
+        run: |
+          mkdir -p reports
+          npx cucumber-js --profile ci --tags 'not @api' | tee /tmp/bdd-engine.log
+          { echo '### BDD engine scenarios'; grep -E '^[0-9]+ (scenario|step)' /tmp/bdd-engine.log; echo; } >> "$GITHUB_STEP_SUMMARY"
+      - name: '@wip inventory — every pending spec names its issue (BDD-first law)'
+        run: npm run wip-audit
       - name: Install chat API dependencies
         run: pip install fastapi uvicorn anthropic python-dotenv
       - name: Boot chat API (dummy key, tight rate limit)
@@ -127,7 +137,43 @@ jobs:
           done
           echo "::error::chat API never came up"; cat /tmp/uvicorn.log; exit 1
       - name: API contract scenarios
-        run: npm run test:api
+        run: |
+          npx cucumber-js --tags '@api' \
+            --format junit:reports/junit-api.xml --format html:reports/cucumber-api.html \
+            | tee /tmp/bdd-api.log
+          { echo '### BDD API scenarios'; grep -E '^[0-9]+ (scenario|step)' /tmp/bdd-api.log; echo; } >> "$GITHUB_STEP_SUMMARY"
       - name: Teardown chat API
         if: always()
         run: kill "$(cat /tmp/uvicorn.pid)" 2>/dev/null || true
+      - name: Upload cucumber reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-reports
+          path: packages/bdd/reports/
+          if-no-files-found: ignore
+
+  # Scheduled failures need a signal beyond the workflow e-mail — the
+  # time-rot class (#306) hits main with no PR in flight. One open triage
+  # issue aggregates repeats.
+  report-failure:
+    needs: [spec, battery, bdd]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: File (or bump) the triage issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Scheduled battery failure — time-rot watch"
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+            --search "\"$title\" in:title" --json number -q '.[0].number')
+          body="Scheduled run failed on $(date -u +%F): $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body "$body"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$body" \
+              --label "type: bug,status: triage,audience: dev"
+          fi
